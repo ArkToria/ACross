@@ -1,0 +1,190 @@
+title = "ACross Configuration Example"
+config_version = "0.1.0"
+
+# https://toml.io/en/v1.0.0
+toml_version = "1.0.0"
+
+[interface]
+# ["en_US", "zh_CN"]
+language = "en_US"
+
+    [interface.theme]
+    # ["default-light", "dark", "nord-dark"]
+    theme = "default-light"
+
+    # include *.toml from directory
+    include_dir = "$HOME/.local/share/across/themes/"
+
+[update]
+auto_update = false
+check_update = true
+# ["stable", "develop"]
+update_channel = "stable"
+update_from_proxy = true
+
+[database]
+db_path = "$HOME/.local/share/across/across.db"
+db_backend = "sqlite3"
+
+    [database.auth]
+    enable = false
+    username = ""
+    password = ""
+    address = ""
+    port = 3000
+
+[core]
+core_path = "/usr/bin/v2ray"
+assets_path = "/usr/share/v2ray/"
+# ["none", "debug", "info", "warning", "error"]
+log_level = "warning"
+log_lines = 500
+
+    [core.api]
+    enable = true
+    port = 15491
+
+[inbound]
+    [inbound.socks]
+    enable = true
+    listen = "127.0.0.1"
+    port = 1090
+    udp = false
+    ip = ""
+    user_level = 0
+
+        [inbound.socks.auth]
+        username = "" # leave blank to disable
+        password = ""
+
+    [inbound.http]
+    enable = true
+    listen = "127.0.0.1"
+    port = 8889
+    allow_transparent = false
+    timeout = 0
+    user_level = 0
+
+        [inbound.http.auth]
+        username = "" # leave blank to disable
+        password = ""
+
+[latency]
+# ["tcping", "icmp"]
+method = "tcping"
+url = "https://www.google.com"
+
+    [latency.tcping]
+    user_agent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36"
+
+[[themes]]
+name = "default-light"
+
+    [themes.tray]
+    # ["line", "block"]
+    stylish = "line"
+    # ["light", "dark", "colorful"]
+    color = "light"
+
+    [themes.banner]
+    # if disable, that use `background_color` as default
+    enable = false
+    # qrc source or image file url
+    background_image = "qrc:/icons/card_background.jpg"
+    background_opacity = 0.9
+
+    [themes.colors]
+    text_color = "#2f2f2f"
+    background_color = "#fafafa"
+    highlight_color = "#6397c7"
+    highlight_text_color = "#fefefe"
+    warn_color = "#ff716a"
+    warn_text_color = "#fefefe"
+    shadow_color = "#29000000"
+    border_color = "#27707070"
+    deep_color = "#f2f2f2"
+    deep_text_color = "#3f3f3f"
+    style_color = "#94cbff"
+    style_text_color = "#fefefe"
+
+    [themes.border]
+    radius = 8
+    width = 1
+
+    [themes.item]
+    spacing = 8
+
+    [themes.icon]
+    style = "light"
+
+[[themes]]
+name = "dark"
+
+    [themes.tray]
+    stylish = "line"
+    color = "light"
+
+    [themes.banner]
+    enable = false
+    background_image = "qrc:/icons/card_background.jpg"
+    background_opacity = 0.9
+
+    [themes.colors]
+    text_color = "#c3c3c3"
+    background_color = "#252525"
+    highlight_color = "#415f79"
+    highlight_text_color = "#eceff4"
+    warn_color = "#7f616a"
+    warn_text_color = "#ffffff"
+    shadow_color = "#29000000"
+    border_color = "#3381a1c1"
+    deep_color = "#1f1f1f"
+    deep_text_color = "#ffffff"
+    style_color = "#66854e"
+    style_text_color = "#ffffff"
+
+    [themes.border]
+    radius = 8
+    width = 1
+
+    [themes.item]
+    spacing = 8
+
+    [themes.icon]
+    style = "dark"
+
+[[themes]]
+name = "nord-dark"
+
+    [themes.tray]
+    stylish = "line"
+    color = "light"
+
+    [themes.banner]
+    enable = false
+    background_image = "qrc:/icons/card_background.jpg"
+    background_opacity = 0.9
+
+    [themes.colors]
+    text_color = "#f3f3f3"
+    background_color = "#3b4252"
+    highlight_color = "#5e81ac"
+    highlight_text_color = "#eceff4"
+    warn_color = "#bf616a"
+    warn_text_color = "#ffffff"
+    shadow_color = "#29000000"
+    border_color = "#3381a1c1"
+    deep_color = "#2e3440"
+    deep_text_color = "#ffffff"
+    style_color = "#bbde5e"
+    style_text_color = "#ffffff"
+
+    [themes.border]
+    radius = 8
+    width = 1
+
+    [themes.item]
+    spacing = 8
+
+    [themes.icon]
+    style = "dark"

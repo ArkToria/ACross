@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Version=0.1.0
+Name=ACross
+GenericName=V2Ray GUI Client
+Comment=The next GUI client for v2ray core
+Keywords=Internet;VPN;Proxy;v2ray;Qt;
+Icon=org.qv2ray.across
+Exec=across -qwindowicon org.qv2ray.across %U
+Terminal=false
+Categories=Proxy;Network;Qt;

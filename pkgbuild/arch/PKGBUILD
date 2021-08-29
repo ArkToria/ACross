@@ -1,0 +1,49 @@
+# Maintainer: DuckSoft <realducksoft@gmail.com>
+pkgname=across-dev-git
+_pkgname=across
+pkgver=0.1.0.r156.eb75cd9
+pkgrel=1
+pkgdesc="
+The next GUI client for v2ray core (Development Branch)"
+arch=('x86_64')
+url='https://github.com/Qv2ray/ACross'
+license=('GPL3')
+depends=('hicolor-icon-theme' 'qt5-base' 'qt5-svg' 'qt5-quickcontrols2'
+    'qt5-graphicaleffects' 'qt5-imageformats' 'curl' 'fmt' 'grpc' 'jsoncpp'
+    'libsodium' 'protobuf' 'spdlog' 'sqlite' 'zxing-cpp')
+
+optdepends=('v2ray: use system v2ray core.')
+
+makedepends=('git' 'cmake' 'ninja')
+# 'across-dev-git::git+https://github.com/qv2ray/ACross.git'
+
+source=('across-dev-git::git+https://across.qv2ray.net/git/ACross/ACross.git')
+
+sha512sums=('SKIP')
+
+pkgver() {
+    cd "${srcdir}/${pkgname}/"
+    printf "%s.r%s.%s" $(cat ./misc/VERSION) $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
+}
+
+prepare() {
+    cd "${srcdir}/${pkgname}/"
+    git submodule update --init --recursive
+}
+
+build() {
+    cd "${srcdir}/${pkgname}/"
+
+    mkdir -p build && cd build
+    cmake .. \
+        -DCMAKE_INSTALL_PREFIX=${pkgdir}/usr \
+        -DCMAKE_BUILD_TYPE=Release \
+        -GNinja
+    ninja
+}
+
+package() {
+    cd "${srcdir}/${pkgname}"
+    ninja -C "build" install
+}
+

@@ -1,0 +1,96 @@
+import QtQuick 2.0
+import QtQuick.Controls 2.12
+
+Button {
+    id: button
+    implicitWidth: 72
+    implicitHeight: 32
+
+    property string basicState: "NormalState"
+    property int backgroundRadius: acrossConfig.borderRadius
+    property string basicColor: acrossConfig.highlightColor
+
+    state: basicState
+
+    states: [
+        State {
+            name: "NormalState"
+            PropertyChanges {
+                target: background
+                color: basicColor
+            }
+        },
+        State {
+            name: "WarnState"
+            PropertyChanges {
+                target: button
+                basicColor: acrossConfig.warnColor
+            }
+        },
+        State {
+            name: "HoverState"
+            PropertyChanges {
+                target: background
+                color: Qt.lighter(basicColor, 1.2)
+            }
+        },
+        State {
+            name: "ClickState"
+            PropertyChanges {
+                target: background
+                color: Qt.lighter(basicColor, 0.9)
+            }
+        }
+    ]
+
+    contentItem: Text {
+        text: parent.text
+        anchors.fill: parent
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        color: acrossConfig.highlightTextColor
+    }
+
+    background: Rectangle {
+        id: background
+
+        color: basicColor
+        radius: backgroundRadius
+    }
+
+    MouseArea {
+        hoverEnabled: true
+        anchors.fill: button
+
+        onEntered: {
+            button.state = "HoverState"
+        }
+
+        onExited: {
+            button.state = basicState
+        }
+
+        onClicked: {
+            button.clicked()
+        }
+
+        onPressed: {
+            button.state = "ClickState"
+        }
+
+        onReleased: {
+            if (containsMouse) {
+                button.state = "HoverState"
+            } else {
+                button.state = basicState
+            }
+        }
+    }
+}
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
+
