@@ -1,6 +1,6 @@
 [submodule "3rdpart/tomlplusplus"]
 	path = 3rdpart/tomlplusplus
-	url = git@github.com:marzer/tomlplusplus.git
+	url = https://github.com/marzer/tomlplusplus.git
 [submodule "3rdpart/magic_enum"]
 	path = 3rdpart/magic_enum
-	url = git@github.com:Neargye/magic_enum.git
+	url = https://github.com/Neargye/magic_enum.git
