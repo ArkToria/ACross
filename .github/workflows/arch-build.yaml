@@ -24,7 +24,15 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: ArkToria Build Arch Package
+        id: pkgbuild
         uses: ArkToria/arch-pkgbuild-builder@v1.22
         with:
           target: 'pkgbuild'
           pkgname: 'pkgbuild/arch/across-dev-git'
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: 'pkgbuild/arch/across-dev-git/*-x86_64.pkg.tar.zst'
+          tag: ${{ github.ref }}

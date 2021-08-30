@@ -1,11 +1,11 @@
 # Maintainer: DuckSoft <realducksoft@gmail.com>
 pkgname=across-dev-git
 _pkgname=across
-pkgver=0.1.0.r12.e651bd9
-pkgrel=2
+pkgver=0.1.0.r30.5b550d9
+pkgrel=1
 pkgdesc="The next GUI client for v2ray core (Development Branch)"
 arch=('x86_64')
-url='https://github.com/ACross/ACross'
+url='https://github.com/ArkToria/ACross'
 license=('GPL3')
 depends=('hicolor-icon-theme' 'qt5-base' 'qt5-svg' 'qt5-quickcontrols2' 'qt5-translations'
     'qt5-tools' 'qt5-graphicaleffects' 'qt5-imageformats' 'curl' 'fmt' 'grpc' 'jsoncpp'
@@ -15,7 +15,7 @@ optdepends=('v2ray: use system v2ray core.')
 
 makedepends=('git' 'cmake' 'ninja' 'gcc' 'gtest')
 
-source=('across-dev-git::git+https://github.com/ACross/ACross.git')
+source=('across-dev-git::git+https://github.com/ArkToria/ACross.git')
 
 sha512sums=('SKIP')
 
