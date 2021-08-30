@@ -440,7 +440,8 @@ ConfigTools::loadConfigPath(const QString& file_path)
       config_file.close();
       config_path = temp_config;
 
-      p_logger->info("Generate new config on: {}", temp_config.toStdString());
+      p_logger->info("Generate new config on: {}",
+                     config_path.toStdString().c_str());
     }
   } while (false);
 
