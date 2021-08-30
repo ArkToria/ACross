@@ -36,8 +36,7 @@ DBTools::reload()
     p_logger->error("Failed to load database on path");
     return;
   } else {
-    p_logger->info("Open database on path: {}",
-                   db_config.path.toStdString().c_str());
+    p_logger->info("Open database on path: {}", db_config.path.toStdString());
   }
 
   int result = sqlite3_open(db_config.path.toStdString().c_str(), &m_db);
@@ -268,7 +267,7 @@ DBTools::insert(NodeInfo& node)
                   "(Name, GroupName, GroupID, Protocol, Address, Port, "
                   "Password, Raw, CreatedAt, ModifiedAt) "
                   "VALUES(?,?,?,?,?,?,?,?,?,?)" },
-                node.group.toStdString().c_str());
+                node.group.toStdString());
 
   do {
     result = sqlite3_prepare_v2(m_db, insert_str.c_str(), -1, &stmt, nullptr);
