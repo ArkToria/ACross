@@ -23,11 +23,8 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Build Arch Package Action
-        uses: ArkToria/archlinux-package-action@v1.0.6
+      - name: ArkToria Build Arch Package
+        uses: ArkToria/arch-pkgbuild-builder@v1.19
         with:
-          path: 'pkgbuild/arch/across-dev-git'
-          cleanBuild: true
-          updpkgsums: false
-          srcinfo: false
-          namcap: true
+          target: 'pkgbuild'
+          pkgname: 'pkgbuild/arch/across-dev-git'
