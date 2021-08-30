@@ -27,6 +27,6 @@ jobs:
         uses: datakrama/archlinux-package-action@v1.0.3
         with:
           path: 'pkgbuild/arch/across-dev-git'
-          updpkgsums: true
-          srcinfo: true
+          updpkgsums: false
+          srcinfo: false
           namcap: true
