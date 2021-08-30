@@ -548,7 +548,8 @@ signals:
 
 private:
   std::shared_ptr<LogTools> p_logger;
-  QString m_config_path = "./across.toml";
+  const QString m_config_name = "across.toml";
+  QString m_config_path = "./" + m_config_name;
   QString m_api_result_text = "";
   toml::v2::table m_config;
 

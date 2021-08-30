@@ -410,19 +410,23 @@ ConfigTools::loadConfigPath(const QString& file_path)
     auto env_path = m_envs.getInfo().ACROSS_CONFIG_PATH;
     if (!env_path.isEmpty()) {
       config_path = env_path;
-      break;
+
+      if (isFileExist(config_path)) {
+        break;
+      }
     }
 
-    if (isFileExist(config_path)) {
-      break;
-    }
-
-    QString xdg_path = m_envs.get("XDG_CONFIG_HOME") + "/across/across.toml";
-    if (isFileExist(xdg_path)) {
-      config_path = xdg_path;
+    QDir xdg_path(m_envs.get("XDG_CONFIG_HOME") + "/across/");
+    auto temp_config = xdg_path.filePath(m_config_name);
+    if (isFileExist(temp_config)) {
+      config_path = temp_config;
       break;
     } else {
-      QFile config_file(xdg_path);
+      if (!xdg_path.exists()) {
+        xdg_path.mkdir(xdg_path.path());
+      }
+
+      QFile config_file(temp_config);
       if (!config_file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         break;
       }
@@ -434,9 +438,9 @@ ConfigTools::loadConfigPath(const QString& file_path)
 
       config_file.write(example_config.readAll());
       config_file.close();
-      config_path = xdg_path;
+      config_path = temp_config;
 
-      p_logger->info("Generate new config on: {}", xdg_path.toStdString());
+      p_logger->info("Generate new config on: {}", temp_config.toStdString());
     }
   } while (false);
 
