@@ -48,7 +48,7 @@
         <location filename="../src/views/setting/ApplicationItem.qml" line="16"/>
         <location filename="../src/views/setting/ApplicationItem.qml" line="28"/>
         <source>Select Database Path</source>
-        <translation>选择数据库</translation>
+        <translation>选择数据库路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="42"/>
@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/views/help/ChangeLog.qml" line="17"/>
         <source>Release News</source>
-        <translation>新版特性</translation>
+        <translation>发布新闻</translation>
     </message>
 </context>
 <context>
@@ -117,7 +117,7 @@
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="16"/>
         <source>Select V2ray Core Path</source>
-        <translation>选择内核路径</translation>
+        <translation>选择 V2ray 内核路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="27"/>
@@ -137,7 +137,7 @@
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="57"/>
         <source>Enter V2ray Core Executable Path Here</source>
-        <translation>输入内核路径</translation>
+        <translation>在此输入内核可执行文件路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="62"/>
@@ -148,12 +148,12 @@
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="75"/>
         <source>Assets path</source>
-        <translation>Assets 目录</translation>
+        <translation>Assets 路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="80"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
-        <translation>选择 geosite 文件所在目录</translation>
+        <translation>输入 GeoIP 和 GeoSite 所在文件目录</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="99"/>
@@ -237,12 +237,12 @@
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="44"/>
         <source>Name</source>
-        <translation>名称</translation>
+        <translation>名字</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="52"/>
         <source>Enter the unique group name</source>
-        <translation>输入唯一的组名称</translation>
+        <translation>输入唯一的组名</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="62"/>
@@ -272,7 +272,7 @@
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="140"/>
         <source>From Paste</source>
-        <translation>粘贴链接</translation>
+        <translation>粘贴</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="177"/>
@@ -344,7 +344,7 @@
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="25"/>
         <source>Confirm to remove group from database</source>
-        <translation>确认从数据库中删除组</translation>
+        <translation>确认从数据库中移除组</translation>
     </message>
 </context>
 <context>
@@ -518,7 +518,7 @@
     <message>
         <location filename="../src/views/home/RawOutboundSetting.qml" line="21"/>
         <source>Import From Raw Outbound</source>
-        <translation>导入 Outbound 配置</translation>
+        <translation>从 Raw Outbound 导入</translation>
     </message>
     <message>
         <location filename="../src/views/home/RawOutboundSetting.qml" line="35"/>
