@@ -9,7 +9,7 @@ createApplication(int& argc, char** argv)
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
   QApplication::setOrganizationName("qv2ray");
-  QApplication::setApplicationName(Application::applicationName());
+  QApplication::setApplicationName(APP_NAME);
   QApplication::setOrganizationDomain("qv2ray.org");
   QApplication::setApplicationDisplayName("ACross - V2ray Client");
   QApplication::setWindowIcon(QIcon::fromTheme("org.qv2ray.across"));
@@ -21,18 +21,21 @@ createApplication(int& argc, char** argv)
 Application::Application(int& argc, char** argv)
   : p_app(createApplication(argc, argv))
 {
+  // initial global logger thread pool
   spdlog::init_thread_pool(m_queue_size, m_thread_nums);
-
   m_thread_pool = spdlog::thread_pool();
 
+  // create self logger for Application
   p_logger = std::make_shared<LogTools>(m_thread_pool, "app");
 
   setupQmlRegisterTypes();
 
   setupQmlContextProperties();
 
+  // initial translator and read interface language from config
   setupTranslator(acrossConfig.currentLanguage());
 
+  // dynamic change display language
   connect(&acrossConfig,
           &across::setting::ConfigTools::currentLanguageChanged,
           this,
@@ -123,10 +126,4 @@ Application::setupQmlContextProperties()
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossGroups"),
                                              &acrossGroups);
   m_engine.load(url);
-}
-
-const QString
-Application::applicationName()
-{
-  return QString(APP_NAME);
 }

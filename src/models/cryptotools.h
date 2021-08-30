@@ -19,10 +19,6 @@ class CryptoTools {
 public:
     static int initAndCheck();
 
-    static std::optional<std::string> base64Encode(const std::string& data, int variant = sodium_base64_VARIANT_ORIGINAL);
-
-    static std::optional<std::string> base64Decode(const std::string& data, int variant = sodium_base64_VARIANT_ORIGINAL);
-
     static std::optional<QByteArray> aes256gcmEncode(const QByteArray& data, const QByteArray& password);
 
     static std::optional<QByteArray> aes256gcmDecode(const QByteArray& data, const QByteArray& password);

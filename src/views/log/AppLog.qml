@@ -5,7 +5,7 @@ import QtQuick.Controls 2.12
 import "../components"
 
 CardBox {
-    implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
+    implicitWidth: 680
     implicitHeight: 300
 
     ColumnLayout {

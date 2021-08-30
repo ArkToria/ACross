@@ -23,40 +23,6 @@ int CryptoTools::initAndCheck()
     return result;
 }
 
-std::optional<std::string> CryptoTools::base64Encode(const std::string& data, int variant)
-{
-    quint64 bf64_size = sodium_base64_encoded_len(data.length(), variant);
-
-    std::unique_ptr<char> p_buffer(new char[bf64_size]);
-
-    std::string result = sodium_bin2base64(p_buffer.get(), bf64_size,
-                                           reinterpret_cast<const unsigned char*>(data.c_str()),
-                                           data.length(), variant);
-
-    return result;
-}
-
-std::optional<std::string> CryptoTools::base64Decode(const std::string& data, int variant)
-{
-    size_t bin_max_len = sodium_base64_encoded_len(data.length(), variant);
-
-    std::unique_ptr<unsigned char> p_buffer(new unsigned char[bin_max_len]);
-
-    size_t bin_len;
-
-    int rc = sodium_base642bin(p_buffer.get(), bin_max_len,
-                               data.data(), data.length(),
-                               "\n\r ", &bin_len, nullptr, variant);
-
-    if (rc != 0) {
-        return {};
-    }
-
-    std::string result =  reinterpret_cast<const char*>(p_buffer.get());
-
-    return result;
-}
-
 bool CryptoTools::detectEntropyQuality()
 {
     int fd, c;

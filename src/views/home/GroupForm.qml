@@ -26,7 +26,7 @@ Popup {
     background: CardBox {}
 
     contentItem: ColumnLayout {
-        spacing: 16
+        spacing: acrossConfig.itemSpacing
 
         Label {
             Layout.fillWidth: true
@@ -73,6 +73,7 @@ Popup {
                 }
             }
 
+
             RowLayout {
                 visible: fromSubscriptionSwitcher.checked
 
@@ -86,10 +87,6 @@ Popup {
                 DropDownBox {
                     id: subscriptionType
                     model: ["SIP008", "Base64", "JSON"]
-
-                    onEditTextChanged: {
-                        console.log(currentValue)
-                    }
                 }
 
                 Item {
@@ -110,6 +107,7 @@ Popup {
                     to: 31
                 }
             }
+
 
             RowLayout {
                 visible: fromSubscriptionSwitcher.checked

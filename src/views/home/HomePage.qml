@@ -8,6 +8,7 @@ Item {
     implicitHeight: 720
 
     SplitView {
+        id: splitView
         anchors.fill: parent
 
         orientation: Qt.Horizontal
@@ -29,7 +30,6 @@ Item {
             border.width:1
 
             GroupListPanel {
-                id: groupListPanel
                 anchors.fill: parent
                 anchors.margins: 1
             }

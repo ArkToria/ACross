@@ -44,13 +44,8 @@ public:
 
     void setupQmlContextProperties();
 
-public:
-    static const QString applicationName();
-
-signals:
-
-private:
-    const QString m_application_name = "ACross";
+  private:
+    const QString m_application_name = APP_NAME;
     QMap<int, QString> m_args;
     int m_thread_nums = 1;
     int m_queue_size = 8192;
@@ -63,7 +58,7 @@ private:
     across::NodeList acrossNodes;
     across::GroupList acrossGroups;
 
-    QApplication *p_app = nullptr;
+    QApplication* p_app = nullptr;
     QTranslator m_translator;
     QQmlApplicationEngine m_engine;
     std::shared_ptr<LogTools> p_logger;

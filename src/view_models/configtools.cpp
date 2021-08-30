@@ -345,9 +345,11 @@ bool
 ConfigTools::init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
                   QString file_path)
 {
+  bool result = false;
+
+  // initial config logger
   p_logger = std::make_shared<LogTools>(thread_pool, "setting");
 
-  bool result = false;
   QString config_path = loadConfigPath(file_path);
 
   do {
@@ -422,6 +424,7 @@ ConfigTools::loadConfigPath(const QString& file_path)
       config_path = temp_config;
       break;
     } else {
+      // create directory and example config file
       if (!xdg_path.exists()) {
         xdg_path.mkdir(xdg_path.path());
       }
