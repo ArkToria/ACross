@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build Arch Package Action
-        uses: ArkToria/archlinux-package-action@v1.0.4
+        uses: ArkToria/archlinux-package-action@v1.0.5
         with:
           path: '$GITHUB_WORKSPACE/pkgbuild/arch/across-dev-git'
           cleanBuild: true
