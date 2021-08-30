@@ -1,6 +1,6 @@
 pkgbase = across-dev-git
 	pkgdesc = The next GUI client for v2ray core (Development Branch)
-	pkgver = 0.1.0.r13.f73d174
+	pkgver = 0.1.0.r12.e651bd9
 	pkgrel = 1
 	url = https://github.com/Qv2ray/ACross
 	arch = x86_64

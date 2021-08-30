@@ -23,8 +23,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Arch Linux PKGBUILD builder action
-        uses: 2m/arch-pkgbuild-builder@v1.18
+      - name: Arch Linux's package action
+        uses: datakrama/archlinux-package-action@v1.0.3
         with:
-          target: 'pkgbuild'
-          pkgname: 'pkgbuild/arch/across-dev-git'
+          path: 'pkgbuild/arch/across-dev-git'
+          updpkgsums: true
+          srcinfo: true
+          namcap: true
