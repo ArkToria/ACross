@@ -15,9 +15,8 @@ depends=('hicolor-icon-theme' 'qt5-base' 'qt5-svg' 'qt5-quickcontrols2'
 optdepends=('v2ray: use system v2ray core.')
 
 makedepends=('git' 'cmake' 'ninja')
-# 'across-dev-git::git+https://github.com/qv2ray/ACross.git'
 
-source=('across-dev-git::git+https://across.qv2ray.net/git/ACross/ACross.git')
+source=('across-dev-git::git+https://github.com/qv2ray/ACross.git')
 
 sha512sums=('SKIP')
 
