@@ -529,7 +529,7 @@ ConfigTools::loadDBConfig()
     auto temp = m_config["database"]["db_path"].value<std::string>();
     if (!temp.has_value()) {
       p_logger->warn("Failed to get the db_path, use default path `{}`",
-                     m_db.path.toStdString());
+                     m_db.path.toStdString().c_str());
       result = isFileExist(m_db.path);
       break;
     }
