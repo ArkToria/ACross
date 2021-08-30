@@ -1,7 +1,5 @@
 # ACross [Experiment][Read-only Mirror]
 
-> Notice: ACross can use **only** for learning Qt and related development of CPlusPlus. As an experimental software product, it complies with the local regulations and users should pay all risks and responsibilities.
-
 ![preview_banner](misc/design/banner.png)
 
 
