@@ -27,7 +27,7 @@ jobs:
         uses: ArkToria/archlinux-package-action@v1.0.4
         with:
           path: '$GITHUB_WORKSPACE/pkgbuild/arch/across-dev-git'
-          clean_build: true
+          cleanBuild: true
           updpkgsums: false
           srcinfo: false
           namcap: true
