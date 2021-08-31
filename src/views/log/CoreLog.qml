@@ -23,12 +23,10 @@ CardBox {
 
         Flickable {
             id: flickable
-            anchors.fill: parent
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
             TextArea.flickable: TextAreaBox {
-                Layout.fillHeight: true
-                Layout.fillWidth: true
-
                 color: acrossConfig.deepTextColor
                 text: acrossLog.coreLog
                 font.family: "Mono"
