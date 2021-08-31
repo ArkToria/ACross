@@ -188,14 +188,14 @@ CardBox {
 
                 ButtonBox {
                     implicitWidth: 96
-                    text: "Report Bugs"
+                    text: qsTr("Report Bugs")
                     basicColor: acrossConfig.warnColor
                     basicState: "warnState"
                 }
 
                 ButtonBox {
                     implicitWidth: 96
-                    text: "Check Update"
+                    text: qsTr("Check Update")
                 }
             }
         }

@@ -107,6 +107,7 @@ set(PROJECT_SOURCES
     src/models/dbustools.cpp
     src/models/coretools.cpp
     ${QRC_FILES}
+    ${ACROSS_QM_FILES}
     ${API_PROTO_SOURCE}
     ${API_GRPC_SOURCE}
     )

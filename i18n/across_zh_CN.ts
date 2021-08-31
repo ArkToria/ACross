@@ -33,6 +33,16 @@
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
+    <message>
+        <location filename="../src/views/help/About.qml" line="191"/>
+        <source>Report Bugs</source>
+        <translation>报告问题</translation>
+    </message>
+    <message>
+        <location filename="../src/views/help/About.qml" line="198"/>
+        <source>Check Update</source>
+        <translation>检查更新</translation>
+    </message>
 </context>
 <context>
     <name>AppLog</name>
@@ -250,37 +260,37 @@
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="82"/>
+        <location filename="../src/views/home/GroupForm.qml" line="83"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="102"/>
+        <location filename="../src/views/home/GroupForm.qml" line="99"/>
         <source>Cycle (days)</source>
         <translation>更新周期</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="120"/>
+        <location filename="../src/views/home/GroupForm.qml" line="118"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="128"/>
+        <location filename="../src/views/home/GroupForm.qml" line="126"/>
         <source>Enter the unique subscription url</source>
         <translation>输入订阅链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="140"/>
+        <location filename="../src/views/home/GroupForm.qml" line="138"/>
         <source>From Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="177"/>
+        <location filename="../src/views/home/GroupForm.qml" line="175"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="193"/>
+        <location filename="../src/views/home/GroupForm.qml" line="191"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
