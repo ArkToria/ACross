@@ -62,6 +62,7 @@ set(PROJECT_HEADERS
     src/view_models/rawoutboundformmodel.h
     src/view_models/urlschemeformmodel.h
     src/view_models/buildinfo.h.in
+    src/view_models/logview.h
     src/models/apitools.h
     src/models/cryptotools.h
     src/models/dbtools.h
@@ -93,6 +94,7 @@ set(PROJECT_SOURCES
     src/view_models/vmessformmodel.cpp
     src/view_models/rawoutboundformmodel.cpp
     src/view_models/urlschemeformmodel.cpp
+    src/view_models/logview.cpp
     src/models/apitools.cpp
     src/models/cryptotools.cpp
     src/models/dbtools.cpp

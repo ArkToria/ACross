@@ -12,6 +12,7 @@
 
 #include "models/dbtools.h"
 #include "models/envtools.h"
+#include "view_models/logview.h"
 #include "view_models/configtools.h"
 #include "view_models/grouplist.h"
 #include "view_models/groupmodel.h"
@@ -50,6 +51,7 @@ public:
     int m_queue_size = 8192;
 
     across::EnvTools acrossEnvs;
+    across::LogView acrossLog;
     across::setting::ConfigTools acrossConfig;
     across::DBTools acrossDB;
     across::core::CoreTools acrossCore;

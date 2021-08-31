@@ -2,6 +2,7 @@
 #define CORETOOLS_H
 
 #include "../view_models/configtools.h"
+#include "../view_models/logview.h"
 #include <QByteArray>
 #include <QObject>
 #include <QProcess>
@@ -19,7 +20,8 @@ public:
 
     ~CoreTools();
 
-    bool init(const across::setting::Core& core_info);
+    bool init(const across::setting::Core& core_info,
+              across::LogView& log_view);
 
     void setConfig(const QString& stdin_str);
 
@@ -31,16 +33,17 @@ public:
 
     bool isRunning();
 
-public slots:
-    void onReadData();
-
+  public slots:
     void setIsRunning(bool value);
 
-signals:
+    void onReadData();
+
+  signals:
     void isRunningChanged();
 
-private:
+  private:
     across::setting::Core m_core;
+    across::LogView* p_log_view;
     QProcess* p_process;
     QString m_config;
     bool m_running = false;

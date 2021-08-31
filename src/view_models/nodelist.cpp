@@ -231,10 +231,18 @@ NodeList::setCurrentNode(int id, int index)
     };
 
     Json::Value root;
+
+#ifdef QT_DEBUG
+    {
+      root["log"]["loglevel"] = "debug";
+    }
+#endif
+
     {
       InboundSettings inbound_settings = p_config->getInboundConfig();
       inbound_settings.setObject(root);
     }
+
     {
       p_json->setData(m_current_node.raw.toStdString());
 
@@ -250,6 +258,7 @@ NodeList::setCurrentNode(int id, int index)
     writer->write(root, &file);
     file.close();
 #endif
+
     p_core->setConfig(root.toStyledString());
     p_core->run();
   } while (false);

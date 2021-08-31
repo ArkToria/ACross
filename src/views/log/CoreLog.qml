@@ -21,12 +21,23 @@ CardBox {
             color: acrossConfig.textColor
         }
 
-        TextAreaBox {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
+        Flickable {
+            id: flickable
+            anchors.fill: parent
 
-            placeholderText: "v2ray core logging ..."
-            color: acrossConfig.deepTextColor
+            TextArea.flickable: TextAreaBox {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+
+                color: acrossConfig.deepTextColor
+                text: acrossLog.coreLog
+                font.family: "Mono"
+                wrapMode: Text.NoWrap
+                placeholderText: "v2ray core logging ..."
+            }
+
+            ScrollBar.vertical: ScrollBar {}
+            ScrollBar.horizontal: ScrollBar {}
         }
     }
 }
