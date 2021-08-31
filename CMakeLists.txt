@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ##############################
 
 ######### PRE_BUILD #########
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/buildinfo.cmake")
 #############################
 
 project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
@@ -61,7 +61,7 @@ set(PROJECT_HEADERS
     src/view_models/vmessformmodel.h
     src/view_models/rawoutboundformmodel.h
     src/view_models/urlschemeformmodel.h
-    src/models/version.h.in
+    src/view_models/buildinfo.h.in
     src/models/apitools.h
     src/models/cryptotools.h
     src/models/dbtools.h

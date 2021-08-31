@@ -10,7 +10,6 @@
 #include <QStringLiteral>
 #include <QQmlApplicationEngine>
 
-#include "version_config.h"
 #include "models/dbtools.h"
 #include "models/envtools.h"
 #include "view_models/configtools.h"

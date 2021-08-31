@@ -60,7 +60,7 @@ CardBox {
                 }
 
                 Label {
-                    text: "Github Nightly Build"
+                    text: acrossConfig.buildInfo
                     color: acrossConfig.textColor
                 }
             }
@@ -75,7 +75,7 @@ CardBox {
                 }
 
                 Label {
-                    text: "Arch Linux [x86_64]"
+                    text: acrossConfig.extraInfo
                     color: acrossConfig.textColor
                 }
             }
@@ -90,7 +90,7 @@ CardBox {
                 }
 
                 Label {
-                    text: "Thu 26 Aug 2021 09:15:59 AM CST"
+                    text: acrossConfig.buildTime
                     color: acrossConfig.textColor
                 }
             }
@@ -111,7 +111,7 @@ CardBox {
                     width: urlLabel.contentWidth
                     height: urlLabel.contentHeight
 
-                    property string urlText: "https://across.qv2ray.net/git/ACross/ACross/"
+                    property string urlText: acrossConfig.sourceCodeURL
 
                     Label {
                         id: urlLabel

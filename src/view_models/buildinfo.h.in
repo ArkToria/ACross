@@ -1,0 +1,39 @@
+#ifndef VERSION_H_IN
+#define VERSION_H_IN
+
+#include <QString>
+#include <QSysInfo>
+#include <QDateTime>
+#include <fmt/format.h>
+
+namespace across {
+    inline static const QString getVersion() {
+        QString version("@GUI_VERSION@");
+
+        return version;
+    }
+
+    inline static const QString getBuildInfo() {
+        QString buildInfo("@BUILD_INFO@");
+        return buildInfo;
+    }
+
+    inline static const QString getExtraInfo() {
+        QSysInfo sys_info;
+        std::string info = fmt::format("OS: {} | Kernel Version: {}", sys_info.productType().toStdString(),
+                                       sys_info.kernelVersion().toStdString());
+        return QString().fromStdString(info);
+    }
+
+    inline static const QString getBuildTime() {
+        QDateTime time = QDateTime::currentDateTimeUtc();
+        return time.toString();
+    }
+
+    inline static const QString getSourceCodeUrl() {
+        QString url = "https://github.com/ArkToria/ACross";
+        return url;
+    }
+}
+
+#endif // VERSION_H_IN
