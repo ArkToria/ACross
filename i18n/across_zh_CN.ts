@@ -66,39 +66,48 @@
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="92"/>
+        <source>Log Output</source>
+        <translation>日志输出</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="105"/>
+        <source>Log Level</source>
+        <translation>日志等级</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="122"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="59"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="128"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="64"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="133"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="71"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="140"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="84"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="101"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="70"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="133"/>
         <source>Save Config</source>
-        <translation>保存配置</translation>
+        <translation type="vanished">保存配置</translation>
     </message>
 </context>
 <context>
@@ -176,24 +185,32 @@
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="134"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="137"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="140"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="143"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="169"/>
-        <source>Check Core</source>
-        <translation>检测内核</translation>
+        <location filename="../src/views/setting/CoreItem.qml" line="165"/>
+        <source>Core Info</source>
+        <translation>内核信息</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="178"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="179"/>
+        <source>Check</source>
+        <translation>检查</translation>
+    </message>
+    <message>
+        <source>Check Core</source>
+        <translation type="vanished">检测内核</translation>
+    </message>
+    <message>
         <source>Save Config</source>
-        <translation>保存配置</translation>
+        <translation type="vanished">保存配置</translation>
     </message>
 </context>
 <context>
@@ -365,47 +382,45 @@
         <translation>入站监听</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="30"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="32"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="66"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="68"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="91"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="195"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="94"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="201"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="112"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="215"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="116"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="223"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="133"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="236"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="138"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="245"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="170"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="175"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="275"/>
         <source>Reset</source>
-        <translation>重置</translation>
+        <translation type="vanished">重置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="286"/>
         <source>Save Config</source>
-        <translation>保存配置</translation>
+        <translation type="vanished">保存配置</translation>
     </message>
 </context>
 <context>

@@ -114,9 +114,12 @@ Item {
             }
 
             TextFieldBox {
-                placeholderText: acrossConfig.apiPort
                 Layout.fillWidth: true
+
+                placeholderText: acrossConfig.apiPort
                 readOnly: apiSwitch.checked ? false : true
+                inputMethodHints: Qt.ImhDigitsOnly
+
                 onFocusChanged: {
                     acrossConfig.apiPort = text
                 }
@@ -156,6 +159,13 @@ Item {
 
             property int buttonWidth: 96
 
+            Label {
+                Layout.preferredWidth: textBoxWidth
+
+                text: qsTr("Core Info")
+                color: acrossConfig.textColor
+            }
+
             TextFieldBox {
                 id: core_info
                 Layout.fillWidth: true
@@ -166,20 +176,10 @@ Item {
             }
 
             ButtonBox {
-                text: qsTr("Check Core")
-                implicitWidth: parent.buttonWidth
+                text: qsTr("Check")
 
                 onClicked: {
                     core_info.text = acrossConfig.coreInfo
-                }
-            }
-
-            ButtonBox {
-                text: qsTr("Save Config")
-                implicitWidth: parent.buttonWidth
-
-                onClicked: {
-                    acrossConfig.saveConfig()
                 }
             }
         }

@@ -36,12 +36,81 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-        spacing: acrossConfig.itemSpacing
+        spacing: spacingWidth
 
         Label {
             text: qsTr("Application Setting")
             font.pixelSize: 24
             color: acrossConfig.textColor
+        }
+
+        RowLayout {
+            spacing: spacingWidth
+
+            Label {
+                Layout.preferredWidth: textBoxWidth
+
+                text: qsTr("Language")
+                color: acrossConfig.textColor
+            }
+
+            DropDownBox {
+                Layout.fillWidth: true
+
+                model: ["current", "en_US", "zh_CN"]
+
+                onEditTextChanged: {
+                    acrossConfig.currentLanguage = editText
+                }
+            }
+
+            Label {
+                Layout.preferredWidth: textBoxWidth
+
+                text: qsTr("Theme")
+                horizontalAlignment: Text.AlignLeft
+                color: acrossConfig.textColor
+            }
+
+            DropDownBox {
+                Layout.fillWidth: true
+
+                model: ["current", "default-light", "dark", "nord-dark"]
+
+                onEditTextChanged: {
+                    acrossConfig.currentTheme = editText
+                }
+            }
+        }
+
+        RowLayout {
+            spacing: spacingWidth
+
+            Label {
+                Layout.preferredWidth: textBoxWidth
+
+                text: qsTr("Log Output")
+                color: acrossConfig.textColor
+            }
+
+            DropDownBox {
+                Layout.fillWidth: true
+
+                model: ["stdout", "file", "both"]
+            }
+
+            Label {
+                Layout.preferredWidth: textBoxWidth
+
+                text: qsTr("Log Level")
+                color: acrossConfig.textColor
+            }
+
+            DropDownBox {
+                Layout.fillWidth: true
+
+                model: ["debug", "info", "warn", "error", "none"]
+            }
         }
 
         RowLayout {
@@ -75,70 +144,15 @@ Item {
             }
         }
 
-        RowLayout {
-            spacing: spacingWidth
-
-            Label {
-                Layout.preferredWidth: textBoxWidth
-
-                text: qsTr("Language")
-                color: acrossConfig.textColor
-            }
-
-            DropDownBox {
-                Layout.fillWidth: true
-
-                model: ["current", "en_US", "zh_CN"]
-
-                onEditTextChanged: {
-                    acrossConfig.currentLanguage = editText
-                }
-            }
-
-            Label {
-                Layout.preferredWidth: textBoxWidth
-
-                text: qsTr("Theme")
-                color: acrossConfig.textColor
-            }
-
-            DropDownBox {
-                Layout.fillWidth: true
-
-                model: ["current", "default-light", "dark", "nord-dark"]
-
-                onEditTextChanged: {
-                    acrossConfig.currentTheme = editText
-                }
-            }
-        }
-
         Item {
             Layout.fillHeight: true
         }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            spacing: spacingWidth
-
-            property int buttonWidth: 96
-
-            Item {
-                Layout.fillWidth: true
-            }
-
-            ButtonBox {
-                text: qsTr("Save Config")
-                implicitWidth: parent.buttonWidth
-
-                onClicked: {
-                    acrossConfig.saveConfig()
-
-                    acrossGroups.reloadItems(true)
-                }
-            }
-        }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
+

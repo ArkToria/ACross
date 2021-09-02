@@ -7,7 +7,7 @@ import "../components"
 Item {
     anchors.margins: spacingWidth
 
-    property int textBoxWidth: 64
+    property int textBoxWidth: 72
     property int spacingWidth: acrossConfig.itemSpacing * 2
 
     ColumnLayout {
@@ -27,6 +27,8 @@ Item {
             spacing: spacingWidth
 
             Label {
+                Layout.preferredWidth: textBoxWidth
+
                 text: qsTr("Address")
                 color: acrossConfig.textColor
             }
@@ -84,6 +86,7 @@ Item {
 
                 RowLayout {
                     implicitWidth: parent.width
+                    spacing: spacingWidth
 
                     Label {
                         Layout.preferredWidth: textBoxWidth
@@ -105,6 +108,7 @@ Item {
 
                 RowLayout {
                     implicitWidth: parent.width
+                    spacing: spacingWidth
 
                     Label {
                         Layout.preferredWidth: textBoxWidth
@@ -126,6 +130,7 @@ Item {
 
                 RowLayout {
                     implicitWidth: parent.width
+                    spacing: spacingWidth
 
                     Label {
                         Layout.preferredWidth: textBoxWidth
@@ -188,6 +193,7 @@ Item {
 
                 RowLayout {
                     implicitWidth: parent.width
+                    spacing: spacingWidth
 
                     Label {
                         Layout.preferredWidth: textBoxWidth
@@ -209,6 +215,8 @@ Item {
                 RowLayout {
                     implicitWidth: parent.width
 
+                    spacing: spacingWidth
+
                     Label {
                         Layout.preferredWidth: textBoxWidth
 
@@ -229,6 +237,7 @@ Item {
 
                 RowLayout {
                     implicitWidth: parent.width
+                    spacing: spacingWidth
 
                     Label {
                         Layout.preferredWidth: textBoxWidth
@@ -269,26 +278,6 @@ Item {
 
             Item {
                 Layout.fillWidth: true
-            }
-
-            ButtonBox {
-                text: qsTr("Reset")
-                implicitWidth: parent.buttonWidth
-
-                basicState: "WarnState"
-                basicColor: acrossConfig.warnColor
-                onClicked: {
-                    acrossConfig.freshInbound()
-                }
-            }
-
-            ButtonBox {
-                text: qsTr("Save Config")
-                implicitWidth: parent.buttonWidth
-
-                onClicked: {
-                    acrossConfig.saveConfig()
-                }
             }
         }
     }
