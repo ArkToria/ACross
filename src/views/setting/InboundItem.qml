@@ -35,11 +35,11 @@ Item {
 
             TextFieldBox {
                 Layout.fillWidth: true
+
                 placeholderText: acrossConfig.inboundAddress
                 text: acrossConfig.inboundAddress
-                color: acrossConfig.textColor
 
-                onEditingFinished: {
+                onTextEdited: {
                     var result = acrossConfig.testAndSetAddr(text)
                     if (result) {
                         color = acrossConfig.textColor
@@ -99,8 +99,10 @@ Item {
                         Layout.fillWidth: true
 
                         text: acrossConfig.socksPort
+                        inputMethodHints: Qt.ImhDigitsOnly
                         readOnly: socksSwitch.checked ? false : true
-                        onEditingFinished: {
+
+                        onTextEdited: {
                             acrossConfig.socksPort = text
                         }
                     }
@@ -122,7 +124,8 @@ Item {
 
                         text: acrossConfig.socksUsername
                         readOnly: socksSwitch.checked ? false : true
-                        onEditingFinished: {
+
+                        onTextChanged: {
                             acrossConfig.socksUsername = text
                         }
                     }
@@ -153,7 +156,7 @@ Item {
                             }
                         }
 
-                        onEditingFinished: {
+                        onTextChanged: {
                             acrossConfig.socksPassword = text
                         }
                     }
@@ -206,7 +209,8 @@ Item {
                         Layout.fillWidth: true
                         text: acrossConfig.httpPort
                         readOnly: httpSwitch.checked ? false : true
-                        onEditingFinished: {
+
+                        onTextChanged: {
                             acrossConfig.httpPort = text
                         }
                     }
@@ -229,7 +233,8 @@ Item {
 
                         text: acrossConfig.httpUsername
                         readOnly: httpSwitch.checked ? false : true
-                        onEditingFinished: {
+
+                        onTextChanged: {
                             acrossConfig.httpUsername = text
                         }
                     }
@@ -260,7 +265,7 @@ Item {
                             }
                         }
 
-                        onEditingFinished: {
+                        onTextChanged: {
                             acrossConfig.httpPassword = text
                         }
                     }

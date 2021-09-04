@@ -78,7 +78,9 @@ Item {
                 model: ["current", "default-light", "dark", "nord-dark"]
 
                 onEditTextChanged: {
-                    acrossConfig.currentTheme = editText
+                    if (editText !== "current") {
+                        acrossConfig.currentTheme = editText
+                    }
                 }
             }
         }

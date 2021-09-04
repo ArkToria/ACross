@@ -16,6 +16,7 @@ Switch {
         color: acrossConfig.deepColor
 
         Rectangle {
+            id: background
             x: control.checked ? parent.width - width : 0
             width: parent.height
             height: parent.height

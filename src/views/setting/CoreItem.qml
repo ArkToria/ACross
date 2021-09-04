@@ -17,6 +17,8 @@ Item {
         selectFolder: false
         selectExisting: true
         selectMultiple: false
+        nameFilters: ["Select v2ray core (v2ray*)", "All files (*)"]
+
         onAccepted: {
             acrossConfig.corePath = fileUrl
         }
@@ -28,6 +30,7 @@ Item {
         selectFolder: true
         selectExisting: true
         selectMultiple: false
+
         onAccepted: {
             acrossConfig.assetsPath = fileUrl
         }
@@ -92,69 +95,6 @@ Item {
         RowLayout {
             spacing: spacingWidth
             Layout.fillWidth: true
-
-            Label {
-                Layout.preferredWidth: textBoxWidth
-
-                text: qsTr("Enable API")
-                color: acrossConfig.textColor
-            }
-
-            SwitchBox {
-                id: apiSwitch
-                checked: acrossConfig.apiEnable
-                onCheckedChanged: {
-                    acrossConfig.apiEnable = checked
-                }
-            }
-
-            Label {
-                text: qsTr("API Port")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                Layout.fillWidth: true
-
-                placeholderText: acrossConfig.apiPort
-                readOnly: apiSwitch.checked ? false : true
-                inputMethodHints: Qt.ImhDigitsOnly
-
-                onFocusChanged: {
-                    acrossConfig.apiPort = text
-                }
-                onAccepted: {
-                    acrossConfig.apiPort = text
-                }
-            }
-
-            Label {
-                id: testResult
-                visible: false
-            }
-
-            ButtonBox {
-                text: qsTr("Test")
-                enabled: apiSwitch.checked
-                onClicked: {
-                    var stats = acrossConfig.testApi()
-
-                    if (stats && acrossConfig.apiResultText === "") {
-                        testResult.text = qsTr("Success")
-                        testResult.color = acrossConfig.styleColor
-                    } else {
-                        testResult.text = acrossConfig.apiResultText
-                        testResult.color = acrossConfig.warnColor
-                    }
-
-                    testResult.visible = true
-                }
-            }
-        }
-
-        RowLayout {
-            spacing: spacingWidth
-            Layout.fillWidth: true
             Layout.fillHeight: true
 
             property int buttonWidth: 96
@@ -180,6 +120,75 @@ Item {
 
                 onClicked: {
                     core_info.text = acrossConfig.coreInfo
+                }
+            }
+        }
+
+        RowLayout {
+            spacing: spacingWidth
+            Layout.fillWidth: true
+
+            Label {
+                Layout.preferredWidth: textBoxWidth
+
+                text: qsTr("Enable API")
+                color: acrossConfig.textColor
+            }
+
+            SwitchBox {
+                id: apiSwitch
+                checked: acrossConfig.apiEnable
+                onCheckedChanged: {
+                    acrossConfig.apiEnable = checked
+                }
+            }
+
+            Label {
+                text: qsTr("API Port")
+                color: acrossConfig.textColor
+            }
+
+            TextFieldBox {
+                id: apiPortText
+                Layout.preferredWidth: textBoxWidth
+
+                placeholderText: acrossConfig.apiPort
+                readOnly: apiSwitch.checked ? false : true
+                inputMethodHints: Qt.ImhDigitsOnly
+
+                onTextEdited: {
+                    acrossConfig.apiPort = text
+                }
+            }
+
+            Label {
+                text: qsTr("Test Result")
+                color: acrossConfig.textColor
+            }
+
+            TextFieldBox {
+                id: testResult
+                Layout.fillWidth: true
+            }
+
+            ButtonBox {
+                text: qsTr("Test")
+                enabled: apiSwitch.checked
+                onClicked: {
+                    // sync input information
+                    acrossConfig.apiPort = apiPortText.text
+
+                    var stats = acrossConfig.testApi()
+
+                    if (stats && acrossConfig.apiResultText === "") {
+                        testResult.text = qsTr("Success")
+                        testResult.color = acrossConfig.styleColor
+                    } else {
+                        testResult.text = acrossConfig.apiResultText
+                        testResult.color = acrossConfig.warnColor
+                    }
+
+                    testResult.visible = true
                 }
             }
         }

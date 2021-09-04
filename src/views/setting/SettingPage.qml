@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.12
 import "../components"
 
 Item {
+    id: settingPage
     implicitWidth: 840
     implicitHeight: 720
 
@@ -44,7 +45,7 @@ Item {
 
             CardBox {
                 implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
-                implicitHeight: 240
+                implicitHeight: 220
 
                 ApplicationItem {
                     anchors.fill: parent

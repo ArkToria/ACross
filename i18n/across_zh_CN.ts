@@ -66,32 +66,32 @@
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="92"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="94"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="105"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="107"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="122"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="124"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="128"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="130"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="133"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="135"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="140"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="142"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>
@@ -139,78 +139,83 @@
         <translation>选择 V2ray 内核路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="27"/>
+        <source>All files (*)</source>
+        <translation type="vanished">所有文件</translation>
+    </message>
+    <message>
+        <source>Select v2ray core (v2ray*)</source>
+        <translation type="vanished">选择 v2ray 内核</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/CoreItem.qml" line="29"/>
         <source>Select Assets Directory</source>
         <translation>选择 Assets 目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="41"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="44"/>
         <source>Core Configuration</source>
         <translation>内核配置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="52"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="55"/>
         <source>Core path</source>
         <translation>内核路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="57"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="60"/>
         <source>Enter V2ray Core Executable Path Here</source>
         <translation>在此输入内核可执行文件路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="62"/>
-        <location filename="../src/views/setting/CoreItem.qml" line="85"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="65"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="88"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="75"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="78"/>
         <source>Assets path</source>
         <translation>Assets 路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="80"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="83"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
         <translation>输入 GeoIP 和 GeoSite 所在文件目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="99"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="134"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="112"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="147"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="137"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="165"/>
+        <source>Test Result</source>
+        <translation>测试结果</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/CoreItem.qml" line="175"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="143"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="184"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="165"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="105"/>
         <source>Core Info</source>
         <translation>内核信息</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="179"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="119"/>
         <source>Check</source>
         <translation>检查</translation>
-    </message>
-    <message>
-        <source>Check Core</source>
-        <translation type="vanished">检测内核</translation>
-    </message>
-    <message>
-        <source>Save Config</source>
-        <translation type="vanished">保存配置</translation>
     </message>
 </context>
 <context>
@@ -393,24 +398,24 @@
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="94"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="201"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="204"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="116"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="223"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="118"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="227"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="138"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="245"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="141"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="250"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="175"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="178"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
