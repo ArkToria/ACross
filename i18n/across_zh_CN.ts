@@ -139,14 +139,6 @@
         <translation>选择 V2ray 内核路径</translation>
     </message>
     <message>
-        <source>All files (*)</source>
-        <translation type="vanished">所有文件</translation>
-    </message>
-    <message>
-        <source>Select v2ray core (v2ray*)</source>
-        <translation type="vanished">选择 v2ray 内核</translation>
-    </message>
-    <message>
         <location filename="../src/views/setting/CoreItem.qml" line="29"/>
         <source>Select Assets Directory</source>
         <translation>选择 Assets 目录</translation>
@@ -518,10 +510,6 @@
         <translation>编辑</translation>
     </message>
     <message>
-        <source>Copy URL</source>
-        <translation type="vanished">复制链接</translation>
-    </message>
-    <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="63"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
@@ -539,7 +527,7 @@
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="53"/>
         <source>Share Config</source>
-        <translation type="unfinished"></translation>
+        <translation>分享配置</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="78"/>
@@ -552,17 +540,17 @@
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="16"/>
         <source>Share Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>分享配置</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="59"/>
         <source>Share Format</source>
-        <translation type="unfinished"></translation>
+        <translation>分享格式</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="73"/>
         <source>Copy URL</source>
-        <translation type="unfinished">复制链接</translation>
+        <translation>复制链接</translation>
     </message>
 </context>
 <context>
