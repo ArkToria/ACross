@@ -10,9 +10,9 @@ import "../components/"
 Window {
     id: nodeFormPopWindow
     width: 680
-    height: 500
+    height: 300
     minimumWidth: 680
-    minimumHeight: 450
+    minimumHeight: 300
     title: qsTr("Create New Configuration")
 
     flags: Qt.WindowStaysOnTopHint

@@ -80,5 +80,6 @@
         <file>src/views/log/AppLog.qml</file>
         <file>misc/icons/dark/search.svg</file>
         <file>misc/icons/light/search.svg</file>
+        <file>src/views/home/NodeShareForm.qml</file>
     </qresource>
 </RCC>

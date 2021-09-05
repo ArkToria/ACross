@@ -5,6 +5,7 @@ import QtGraphicalEffects 1.0
 import "../components"
 
 Menu {
+    id: nodeItemPopMenu
     topPadding: 8
     bottomPadding: 8
 
@@ -37,9 +38,24 @@ Menu {
     }
 
     Action {
-        text: qsTr("Copy URL")
-        onTriggered: {
+        text: qsTr("Set as default")
+    }
 
+    MenuSeparator {
+        background: Rectangle {
+            height: 1
+            color: acrossConfig.deepColor
+        }
+    }
+
+    Action {
+        id: shareConfigAction
+        text: qsTr("Share Config")
+        onTriggered: {
+            var component = Qt.createComponent(
+                        "qrc:/src/views/home/NodeShareForm.qml")
+            var window = component.createObject(shareConfigAction)
+            window.show()
         }
     }
 
@@ -56,10 +72,6 @@ Menu {
             height: 1
             color: acrossConfig.deepColor
         }
-    }
-
-    Action {
-        text: qsTr("Set as default")
     }
 
     Action {

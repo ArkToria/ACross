@@ -513,34 +513,56 @@
 <context>
     <name>NodeItemPopMenu</name>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="33"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="34"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="40"/>
         <source>Copy URL</source>
-        <translation>复制链接</translation>
+        <translation type="vanished">复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="47"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="63"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="51"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="67"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="62"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="41"/>
         <source>Set as default</source>
         <translation>设置为默认</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="66"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="53"/>
+        <source>Share Config</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="78"/>
         <source>Delete</source>
         <translation>删除</translation>
+    </message>
+</context>
+<context>
+    <name>NodeShareForm</name>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="16"/>
+        <source>Share Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="59"/>
+        <source>Share Format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="73"/>
+        <source>Copy URL</source>
+        <translation type="unfinished">复制链接</translation>
     </message>
 </context>
 <context>
