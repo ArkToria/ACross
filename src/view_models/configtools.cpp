@@ -1046,6 +1046,19 @@ ConfigTools::setAssetsPath(const QUrl& val)
 }
 
 void
+ConfigTools::setLogLevel(const QString& log_level)
+{
+  if (log_level == m_core.log_level) {
+    return;
+  }
+
+  m_core.log_level = log_level;
+
+  emit configChanged();
+  emit logLevelChanged();
+}
+
+void
 ConfigTools::setApiEnable(bool val)
 {
   if (val == m_core.api.enable) {
@@ -1451,6 +1464,12 @@ QString
 ConfigTools::assetsPath()
 {
   return m_core.assets_path;
+}
+
+QString
+ConfigTools::logLevel()
+{
+  return m_core.log_level;
 }
 
 QString

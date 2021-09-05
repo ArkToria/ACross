@@ -24,6 +24,7 @@ struct LogObject {
     std::string error_log_path = "";
 
     void setLogLevel(LogLevel level);
+    void setObject(Json::Value& root);
     Json::Value toObject();
 
 private:

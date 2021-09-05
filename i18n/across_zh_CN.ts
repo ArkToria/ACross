@@ -76,22 +76,22 @@
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="124"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="132"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="130"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="138"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="135"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="143"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="142"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="150"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>

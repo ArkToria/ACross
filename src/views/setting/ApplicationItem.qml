@@ -111,7 +111,15 @@ Item {
             DropDownBox {
                 Layout.fillWidth: true
 
-                model: ["debug", "info", "warn", "error", "none"]
+                displayText: acrossConfig.logLevel
+
+                model: ["current", "debug", "info", "warn", "error", "none"]
+
+                onEditTextChanged: {
+                    if (editText !== "current") {
+                        acrossConfig.logLevel = editText
+                    }
+                }
             }
         }
 

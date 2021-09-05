@@ -232,11 +232,14 @@ NodeList::setCurrentNode(int id, int index)
 
     Json::Value root;
 
-#ifdef QT_DEBUG
     {
-      root["log"]["loglevel"] = "debug";
+      LogObject log_object;
+      if (auto level = magic_enum::enum_cast<LogObject::LogLevel>(
+            p_config->logLevel().toStdString())) {
+        log_object.setLogLevel(level.value());
+        log_object.setObject(root);
+      }
     }
-#endif
 
     {
       InboundSettings inbound_settings = p_config->getInboundConfig();

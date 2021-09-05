@@ -79,7 +79,13 @@ Json::Value SIP008::toObject(int index)
 
 void LogObject::setLogLevel(LogLevel level)
 {
-    this->log_level = magic_enum::enum_name(level);
+  this->log_level = magic_enum::enum_name(level);
+}
+
+void
+LogObject::setObject(Json::Value& root)
+{
+  root["log"]["loglevel"] = this->log_level;
 }
 
 Json::Value LogObject::toObject()
