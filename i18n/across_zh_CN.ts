@@ -66,32 +66,32 @@
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="94"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="96"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="107"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="109"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="132"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="133"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="138"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="139"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="143"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="144"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="150"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="151"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>
@@ -101,7 +101,7 @@
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="70"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="71"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>

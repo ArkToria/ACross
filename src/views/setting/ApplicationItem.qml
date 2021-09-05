@@ -57,6 +57,7 @@ Item {
             DropDownBox {
                 Layout.fillWidth: true
 
+                displayText: acrossConfig.currentLanguage
                 model: ["current", "en_US", "zh_CN"]
 
                 onEditTextChanged: {
@@ -75,6 +76,7 @@ Item {
             DropDownBox {
                 Layout.fillWidth: true
 
+                displayText: acrossConfig.currentTheme
                 model: ["current", "default-light", "dark", "nord-dark"]
 
                 onEditTextChanged: {
@@ -112,7 +114,6 @@ Item {
                 Layout.fillWidth: true
 
                 displayText: acrossConfig.logLevel
-
                 model: ["current", "debug", "info", "warn", "error", "none"]
 
                 onEditTextChanged: {
