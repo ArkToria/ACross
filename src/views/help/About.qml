@@ -206,7 +206,7 @@ CardBox {
                 }
 
                 ButtonBox {
-                    text: qsTr("Check Updateeeeeeeee")
+                    text: qsTr("Check Update")
                 }
             }
         }

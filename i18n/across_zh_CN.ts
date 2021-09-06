@@ -40,12 +40,8 @@
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="209"/>
-        <source>Check Updateeeeeeeee</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Check Update</source>
-        <translation type="vanished">检查更新</translation>
+        <translation>检查更新</translation>
     </message>
 </context>
 <context>
