@@ -580,7 +580,7 @@
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="151"/>
         <source>Copy</source>
-        <translation>复制复制</translation>
+        <translation type="unfinished">复制</translation>
     </message>
 </context>
 <context>
