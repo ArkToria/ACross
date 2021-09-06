@@ -4,8 +4,10 @@ import QtQuick.Controls 2.12
 TextArea {
     color: acrossConfig.deepTextColor
 
+    property string backgroundColor: acrossConfig.deepColor
+
     background: Rectangle {
-        color: acrossConfig.deepColor
+        color: backgroundColor
         radius: acrossConfig.borderRadius
     }
 }

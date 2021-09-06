@@ -34,12 +34,12 @@ CardBox {
                 color: acrossConfig.textColor
             }
 
-            Row {
+            RowLayout {
                 Layout.fillWidth: true
                 spacing: acrossConfig.itemSpacing
 
                 Label {
-                    width: infoList.textBoxWidth
+                    Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Version")
                     color: acrossConfig.textColor
                 }
@@ -49,12 +49,13 @@ CardBox {
                     color: acrossConfig.highlightColor
                 }
             }
-            Row {
+
+            RowLayout {
                 Layout.fillWidth: true
                 spacing: acrossConfig.itemSpacing
 
                 Label {
-                    width: infoList.textBoxWidth
+                    Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Build Info")
                     color: acrossConfig.textColor
                 }
@@ -64,28 +65,13 @@ CardBox {
                     color: acrossConfig.textColor
                 }
             }
-            Row {
-                Layout.fillWidth: true
-                spacing: acrossConfig.itemSpacing
-                clip: true
 
-                Label {
-                    width: infoList.textBoxWidth
-                    text: qsTr("Extra Info")
-                    color: acrossConfig.textColor
-                }
-
-                Label {
-                    text: acrossConfig.extraInfo
-                    color: acrossConfig.textColor
-                }
-            }
-            Row {
+            RowLayout {
                 Layout.fillWidth: true
                 spacing: acrossConfig.itemSpacing
 
                 Label {
-                    width: infoList.textBoxWidth
+                    Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Build Time")
                     color: acrossConfig.textColor
                 }
@@ -95,12 +81,13 @@ CardBox {
                     color: acrossConfig.textColor
                 }
             }
-            Row {
+
+            RowLayout {
                 Layout.fillWidth: true
                 spacing: acrossConfig.itemSpacing
 
                 Label {
-                    width: infoList.textBoxWidth
+                    Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Source Code")
                     color: acrossConfig.textColor
                 }
@@ -138,12 +125,13 @@ CardBox {
                     }
                 }
             }
-            Row {
+
+            RowLayout {
                 Layout.fillWidth: true
                 spacing: acrossConfig.itemSpacing
 
                 Label {
-                    width: infoList.textBoxWidth
+                    Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Licenses")
                     color: acrossConfig.textColor
                 }
@@ -181,11 +169,31 @@ CardBox {
                     }
                 }
             }
+
+            RowLayout {
+                Layout.fillWidth: true
+                spacing: acrossConfig.itemSpacing
+
+                Label {
+                    id: extraInfoText
+                    Layout.preferredWidth: infoList.textBoxWidth
+                    text: qsTr("Extra Info")
+                    color: acrossConfig.textColor
+                }
+
+                TextAreaBox {
+                    Layout.fillWidth: true
+                    text: acrossConfig.extraInfo
+                    color: acrossConfig.textColor
+                    readOnly: true
+                }
+            }
+
             Row {
                 layoutDirection: Qt.RightToLeft
                 Layout.fillWidth: true
 
-                spacing: acrossConfig.itemSpacing * 2
+                spacing: acrossConfig.itemSpacing
 
                 ButtonBox {
                     implicitWidth: 96

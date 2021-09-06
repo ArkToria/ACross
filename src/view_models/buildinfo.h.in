@@ -26,13 +26,14 @@ namespace across {
       QSysInfo sys_info;
       QScreen* screen = QGuiApplication::screens().at(0);
 
-      std::string info =
-        fmt::format("OS: {} | Kernel: {} | Platform: {} | Screen: {}x{}",
-                    sys_info.productType().toStdString(),
-                    sys_info.kernelVersion().toStdString(),
-                    QGuiApplication::platformName().toStdString(),
-                    screen->size().rwidth(),
-                    screen->size().rheight());
+      std::string info = fmt::format(
+        "OS: {} | Kernel: {} | Platform: {} | Screen: {}x{} | DPI: {}",
+        sys_info.productType().toStdString(),
+        sys_info.kernelVersion().toStdString(),
+        QGuiApplication::platformName().toStdString(),
+        screen->size().rwidth(),
+        screen->size().rheight(),
+        screen->logicalDotsPerInch());
 
       return QString().fromStdString(info);
     }

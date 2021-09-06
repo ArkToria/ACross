@@ -22,6 +22,7 @@ Item {
         anchors.margins: acrossConfig.itemSpacing
 
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         clip: true
 
         Column {

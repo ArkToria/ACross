@@ -9,37 +9,37 @@
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="58"/>
+        <location filename="../src/views/help/About.qml" line="59"/>
         <source>Build Info</source>
         <translation>构建信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="74"/>
+        <location filename="../src/views/help/About.qml" line="180"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="89"/>
+        <location filename="../src/views/help/About.qml" line="75"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="104"/>
+        <location filename="../src/views/help/About.qml" line="91"/>
         <source>Source Code</source>
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="147"/>
+        <location filename="../src/views/help/About.qml" line="135"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="192"/>
+        <location filename="../src/views/help/About.qml" line="200"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="199"/>
+        <location filename="../src/views/help/About.qml" line="207"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
