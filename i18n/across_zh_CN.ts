@@ -34,14 +34,18 @@
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="204"/>
+        <location filename="../src/views/help/About.qml" line="203"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="211"/>
+        <location filename="../src/views/help/About.qml" line="209"/>
+        <source>Check Updateeeeeeeee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Check Update</source>
-        <translation>检查更新</translation>
+        <translation type="vanished">检查更新</translation>
     </message>
 </context>
 <context>

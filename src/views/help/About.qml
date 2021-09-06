@@ -200,15 +200,13 @@ CardBox {
                 spacing: acrossConfig.itemSpacing
 
                 ButtonBox {
-                    implicitWidth: 96
                     text: qsTr("Report Bugs")
                     basicColor: acrossConfig.warnColor
                     basicState: "warnState"
                 }
 
                 ButtonBox {
-                    implicitWidth: 96
-                    text: qsTr("Check Update")
+                    text: qsTr("Check Updateeeeeeeee")
                 }
             }
         }
