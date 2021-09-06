@@ -3,7 +3,8 @@ import QtQuick.Controls 2.12
 
 Button {
     id: button
-    implicitWidth: 72
+    implicitWidth: contentText.contentWidth < 72 ? 72 : contentText.contentWidth
+                                                   + acrossConfig.itemSpacing * 2
     implicitHeight: 32
 
     property string basicState: "NormalState"
@@ -44,6 +45,7 @@ Button {
     ]
 
     contentItem: Text {
+        id: contentText
         text: parent.text
         anchors.fill: parent
         horizontalAlignment: Text.AlignHCenter

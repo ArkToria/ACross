@@ -14,32 +14,32 @@
         <translation>构建信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="73"/>
+        <location filename="../src/views/help/About.qml" line="74"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="88"/>
+        <location filename="../src/views/help/About.qml" line="89"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="103"/>
+        <location filename="../src/views/help/About.qml" line="104"/>
         <source>Source Code</source>
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="146"/>
+        <location filename="../src/views/help/About.qml" line="147"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="191"/>
+        <location filename="../src/views/help/About.qml" line="192"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="198"/>
+        <location filename="../src/views/help/About.qml" line="199"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>

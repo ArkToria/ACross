@@ -1,9 +1,11 @@
 #ifndef VERSION_H_IN
 #define VERSION_H_IN
 
+#include <QDateTime>
+#include <QGuiApplication>
+#include <QScreen>
 #include <QString>
 #include <QSysInfo>
-#include <QDateTime>
 #include <fmt/format.h>
 
 namespace across {
@@ -18,11 +20,21 @@ namespace across {
         return buildInfo;
     }
 
-    inline static const QString getExtraInfo() {
-        QSysInfo sys_info;
-        std::string info = fmt::format("OS: {} | Kernel Version: {}", sys_info.productType().toStdString(),
-                                       sys_info.kernelVersion().toStdString());
-        return QString().fromStdString(info);
+    inline static const QString
+    getExtraInfo()
+    {
+      QSysInfo sys_info;
+      QScreen* screen = QGuiApplication::screens().at(0);
+
+      std::string info =
+        fmt::format("OS: {} | Kernel: {} | Platform: {} | Screen: {}x{}",
+                    sys_info.productType().toStdString(),
+                    sys_info.kernelVersion().toStdString(),
+                    QGuiApplication::platformName().toStdString(),
+                    screen->size().rwidth(),
+                    screen->size().rheight());
+
+      return QString().fromStdString(info);
     }
 
     inline static const QString getBuildTime() {

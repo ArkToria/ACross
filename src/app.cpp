@@ -28,6 +28,9 @@ Application::Application(int& argc, char** argv)
   // create self logger for Application
   p_logger = std::make_shared<LogTools>(m_thread_pool, "app");
 
+  // setup font family
+  p_app->setFont(QFont("Noto Sans", 10));
+
   setupQmlRegisterTypes();
 
   setupQmlContextProperties();

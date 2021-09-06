@@ -67,6 +67,7 @@ CardBox {
             Row {
                 Layout.fillWidth: true
                 spacing: acrossConfig.itemSpacing
+                clip: true
 
                 Label {
                     width: infoList.textBoxWidth

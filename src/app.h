@@ -1,14 +1,15 @@
 #ifndef APP_H
 #define APP_H
 
-#include <QUrl>
+#include <QApplication>
+#include <QFont>
 #include <QIcon>
 #include <QObject>
-#include <QTranslator>
-#include <QQmlContext>
-#include <QApplication>
-#include <QStringLiteral>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QStringLiteral>
+#include <QTranslator>
+#include <QUrl>
 
 #include "models/dbtools.h"
 #include "models/envtools.h"

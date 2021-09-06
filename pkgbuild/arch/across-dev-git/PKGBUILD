@@ -1,7 +1,7 @@
 # Maintainer: DuckSoft <realducksoft@gmail.com>
 pkgname=across-dev-git
 _pkgname=across
-pkgver=0.1.0.r30.5b550d9
+pkgver=0.1.0.r50.7db69b9
 pkgrel=1
 pkgdesc="The next GUI client for v2ray core (Development Branch)"
 arch=('x86_64')
@@ -11,7 +11,8 @@ depends=('hicolor-icon-theme' 'qt5-base' 'qt5-svg' 'qt5-quickcontrols2' 'qt5-tra
     'qt5-tools' 'qt5-graphicaleffects' 'qt5-imageformats' 'curl' 'fmt' 'grpc' 'jsoncpp'
     'libsodium' 'protobuf' 'spdlog' 'sqlite' 'zxing-cpp')
 
-optdepends=('v2ray: use system v2ray core.')
+optdepends=('v2ray: use system v2ray core.'
+    'noto-fonts: default display fonts')
 
 makedepends=('git' 'cmake' 'ninja' 'gcc' 'gtest')
 
