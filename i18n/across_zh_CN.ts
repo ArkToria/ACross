@@ -4,42 +4,42 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../src/views/help/About.qml" line="43"/>
+        <location filename="../src/views/help/About.qml" line="45"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="59"/>
+        <location filename="../src/views/help/About.qml" line="61"/>
         <source>Build Info</source>
         <translation>构建信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="180"/>
+        <location filename="../src/views/help/About.qml" line="182"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="75"/>
+        <location filename="../src/views/help/About.qml" line="77"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="91"/>
+        <location filename="../src/views/help/About.qml" line="93"/>
         <source>Source Code</source>
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="135"/>
+        <location filename="../src/views/help/About.qml" line="137"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="203"/>
+        <location filename="../src/views/help/About.qml" line="205"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="209"/>
+        <location filename="../src/views/help/About.qml" line="211"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>

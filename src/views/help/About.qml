@@ -6,7 +6,7 @@ import "../components"
 
 CardBox {
     implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
-    implicitHeight: 320
+    implicitHeight: 330
 
     RowLayout {
         anchors.fill: parent
@@ -22,6 +22,8 @@ CardBox {
         ColumnLayout {
             id: infoList
             Layout.fillWidth: true
+            Layout.fillHeight: true
+
             spacing: acrossConfig.itemSpacing
 
             property int textBoxWidth: 72
