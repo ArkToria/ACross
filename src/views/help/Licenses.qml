@@ -27,21 +27,17 @@ CardBox {
 
             model: ListModel {
                 ListElement {
-                    key: "Maintainer"
-                    value: "Copyright (C) 2019-2021 Qv2ray Development Group"
-                }
-                ListElement {
                     key: "Qt"
                     value: "Copyright (C) 2020 The Qt Company Ltd and other contributors. Under the GNU (L)GPL"
                 }
                 ListElement {
                     key: "Icons"
-                    value: "Copyright (C) ALIMAMA MUX, powered by alimama THX. source: www.iconfont.cn cid=19238"
+                    value: "Google Material Icons. Apache licenses 2.0"
                 }
             }
 
             delegate: Label {
-                text: key + ": " + value
+                text: key + " - " + value
                 color: acrossConfig.textColor
             }
         }

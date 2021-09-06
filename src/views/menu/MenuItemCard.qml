@@ -7,7 +7,7 @@ import "../components"
 Item {
     id: menuItemCard
     implicitWidth: 120
-    implicitHeight: 80
+    implicitHeight: 86
 
     state: menuItemCard.ListView.isCurrentItem ? "CurrentState" : "NormalState"
 
@@ -49,7 +49,7 @@ Item {
 
                 source: "qrc:/misc/icons/" + acrossConfig.iconStyle + iconSource
                 sourceWidth: 32
-                sourceHeight: 32
+                sourceHeight: sourceWidth
             }
 
             Label {

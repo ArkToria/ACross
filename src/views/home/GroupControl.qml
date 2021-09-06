@@ -31,7 +31,7 @@ Item {
                 anchors.centerIn: parent
 
                 SVGBox {
-                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/append.svg"
+                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/add_circle.svg"
                     sourceWidth: 22
                     sourceHeight: 22
                 }
@@ -112,7 +112,7 @@ Item {
                 anchors.centerIn: parent
 
                 SVGBox {
-                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/qrcode.svg"
+                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/qr_code.svg"
                     sourceWidth: 22
                     sourceHeight: 22
                 }
@@ -135,45 +135,6 @@ Item {
 
                 onExited: {
                     parent.color = "transparent"
-                }
-            }
-        }
-
-        CardBox {
-            implicitHeight: 32
-            implicitWidth: 80
-            layer.enabled: false
-            color: "transparent"
-
-            RowLayout {
-                anchors.centerIn: parent
-
-                SVGBox {
-                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/select.svg"
-                    sourceWidth: 22
-                    sourceHeight: 22
-                }
-
-                Label {
-                    text: qsTr("Select")
-                    color: acrossConfig.textColor
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-
-                onEntered: {
-                    parent.color = acrossConfig.backgroundColor
-                }
-
-                onExited: {
-                    parent.color = "transparent"
-                }
-
-                onClicked: {
-
                 }
             }
         }
@@ -246,10 +207,6 @@ Item {
                     parent.color = "transparent"
                 }
             }
-        }
-
-        Item {
-            Layout.fillWidth: true
         }
     }
 }

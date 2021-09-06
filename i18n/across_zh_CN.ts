@@ -236,17 +236,16 @@
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="158"/>
         <source>Select</source>
-        <translation>选择</translation>
+        <translation type="vanished">选择</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="197"/>
+        <location filename="../src/views/home/GroupControl.qml" line="158"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="232"/>
+        <location filename="../src/views/home/GroupControl.qml" line="193"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -580,7 +579,7 @@
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="151"/>
         <source>Copy</source>
-        <translation type="unfinished">复制</translation>
+        <translation>复制</translation>
     </message>
 </context>
 <context>

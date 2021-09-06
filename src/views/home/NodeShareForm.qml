@@ -43,9 +43,9 @@ Window {
                     SVGBox {
                         anchors.centerIn: parent
 
-                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/qrcode.svg"
-                        sourceWidth: 256
-                        sourceHeight: 256
+                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/repo_qr_code.svg"
+                        sourceWidth: parent.implicitWidth / 1.2
+                        sourceHeight: sourceWidth
                     }
                 }
 

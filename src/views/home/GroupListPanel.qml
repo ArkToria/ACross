@@ -68,7 +68,7 @@ Item {
         implicitHeight: 56
         z: 1
 
-        basicColor: acrossConfig.styleColor
+        basicColor: Qt.lighter(acrossConfig.highlightColor, 1.4)
         backgroundRadius: width / 2
         layer.enabled: true
         layer.effect: DropShadow {
@@ -82,9 +82,9 @@ Item {
         SVGBox {
             anchors.centerIn: parent
 
-            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/add-select.svg"
-            sourceWidth: 32
-            sourceHeight: 32
+            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/add.svg"
+            sourceWidth: 36
+            sourceHeight: sourceWidth
         }
 
         onClicked: {

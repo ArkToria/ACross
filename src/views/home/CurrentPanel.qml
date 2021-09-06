@@ -116,7 +116,7 @@ Item {
                         anchors.horizontalCenter: parent.horizontalCenter
                         source: "qrc:/misc/icons/" + acrossConfig.iconStyle
                                 + (acrossCore.isRunning ? "/stop.svg" : "/play.svg")
-                        sourceWidth: 28
+                        sourceWidth: 48
                         sourceHeight: sourceWidth
                     }
 

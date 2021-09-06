@@ -1,7 +1,5 @@
 # ACross [Experiment][Read-only Mirror]
 
-![preview_banner](misc/design/banner.png)
-
 ## Dependences
 
 - Sync the git submodule at first creation

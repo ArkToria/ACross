@@ -44,24 +44,14 @@
         <file>misc/design/logo.svg</file>
         <file>misc/icons/light/stop.svg</file>
         <file>misc/icons/light/setting.svg</file>
-        <file>misc/icons/light/select.svg</file>
-        <file>misc/icons/light/qrcode.svg</file>
-        <file>misc/icons/light/popMenu.svg</file>
         <file>misc/icons/light/play.svg</file>
         <file>misc/icons/light/menu.svg</file>
         <file>misc/icons/light/location.svg</file>
         <file>misc/icons/light/home.svg</file>
-        <file>misc/icons/light/help.svg</file>
         <file>misc/icons/light/copy.svg</file>
-        <file>misc/icons/light/append.svg</file>
-        <file>misc/icons/dark/qrcode.svg</file>
         <file>misc/icons/dark/copy.svg</file>
-        <file>misc/icons/dark/append.svg</file>
-        <file>misc/icons/dark/select.svg</file>
         <file>misc/icons/dark/location.svg</file>
         <file>misc/icons/dark/menu.svg</file>
-        <file>misc/icons/dark/popMenu.svg</file>
-        <file>misc/icons/dark/help.svg</file>
         <file>misc/icons/dark/setting.svg</file>
         <file>misc/icons/dark/home.svg</file>
         <file>misc/icons/dark/stop.svg</file>
@@ -70,8 +60,6 @@
         <file>src/views/help/Licenses.qml</file>
         <file>src/views/help/ChangeLog.qml</file>
         <file>src/views/menu/MenuModel.qml</file>
-        <file>misc/icons/dark/add-select.svg</file>
-        <file>misc/icons/light/add-select.svg</file>
         <file>misc/across_example.toml</file>
         <file>misc/icons/dark/log.svg</file>
         <file>misc/icons/light/log.svg</file>
@@ -81,5 +69,17 @@
         <file>misc/icons/dark/search.svg</file>
         <file>misc/icons/light/search.svg</file>
         <file>src/views/home/NodeShareForm.qml</file>
+        <file>misc/icons/dark/add_circle.svg</file>
+        <file>misc/icons/dark/add.svg</file>
+        <file>misc/icons/dark/more_vert.svg</file>
+        <file>misc/icons/dark/qr_code.svg</file>
+        <file>misc/icons/light/add_circle.svg</file>
+        <file>misc/icons/light/add.svg</file>
+        <file>misc/icons/light/more_vert.svg</file>
+        <file>misc/icons/light/qr_code.svg</file>
+        <file>misc/icons/light/help.svg</file>
+        <file>misc/icons/dark/help.svg</file>
+        <file>misc/icons/light/repo_qr_code.svg</file>
+        <file>misc/icons/dark/repo_qr_code.svg</file>
     </qresource>
 </RCC>

@@ -159,7 +159,7 @@ Item {
                     SVGBox {
                         anchors.fill: parent
 
-                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/popMenu.svg"
+                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/more_vert.svg"
                         sourceWidth: 24
                         sourceHeight: 24
                     }
