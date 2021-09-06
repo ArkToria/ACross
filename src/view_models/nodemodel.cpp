@@ -39,7 +39,9 @@ QVariant NodeModel::data(const QModelIndex& index, int role) const
     case ProtocolTypeRole:
         return magic_enum::enum_name(item.protocol).data();
     case AddressRole:
-        return item.address;
+      return item.address;
+    case PortRole:
+      return item.port;
     case PasswordRole:
         return item.password;
     case CreatedAtRole:
@@ -53,18 +55,19 @@ QVariant NodeModel::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> NodeModel::roleNames() const
 {
-    static const QHash<int, QByteArray> roles {
-        { IDRole, "id" },
-        { NameRole, "name" },
-        { GroupRole, "group" },
-        { AddressRole, "address" },
-        { PasswordRole, "password" },
-        { CreatedAtRole, "createdAt" },
-        { ModifiedAtRole, "modifiedAt" },
-        { ProtocolTypeRole, "protocol" },
-    };
+  static const QHash<int, QByteArray> roles{
+    { IDRole, "id" },
+    { NameRole, "name" },
+    { GroupRole, "group" },
+    { AddressRole, "address" },
+    { PortRole, "port" },
+    { PasswordRole, "password" },
+    { CreatedAtRole, "createdAt" },
+    { ModifiedAtRole, "modifiedAt" },
+    { ProtocolTypeRole, "protocol" },
+  };
 
-    return roles;
+  return roles;
 }
 
 NodeList* NodeModel::list() const

@@ -10,13 +10,15 @@ import "../components/"
 Window {
     id: nodeShareFormWindow
     width: 680
-    height: 360
+    height: 420
     minimumWidth: 680
-    minimumHeight: 360
+    minimumHeight: 420
     title: qsTr("Share Configuration")
 
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
+
+    property int textBoxWidth: 48
 
     Rectangle {
         id: background
@@ -54,22 +56,76 @@ Window {
                     spacing: acrossConfig.itemSpacing
 
                     Label {
-                        Layout.margins: acrossConfig.itemSpacing
-
-                        text: qsTr("Share Format")
+                        text: qsTr("Node Info")
                         color: acrossConfig.textColor
                         font.pixelSize: 18
                     }
 
-                    DropDownBox {
-                        Layout.fillWidth: true
+                    RowLayout {
+                        Label {
+                            Layout.preferredWidth: textBoxWidth
 
-                        model: ["sip008", "base64", "OOCv2"]
+                            text: qsTr("Name")
+                            color: acrossConfig.textColor
+                        }
+
+                        TextFieldBox {
+                            Layout.fillWidth: true
+
+                            text: name
+                            readOnly: true
+                        }
+                    }
+
+                    RowLayout {
+                        Label {
+                            Layout.preferredWidth: textBoxWidth
+
+                            text: qsTr("Address")
+                            color: acrossConfig.textColor
+                        }
+
+                        TextFieldBox {
+                            Layout.fillWidth: true
+
+                            text: address
+                            readOnly: true
+                        }
+                    }
+
+                    RowLayout {
+                        Label {
+                            Layout.preferredWidth: textBoxWidth
+
+                            text: qsTr("Port")
+                            color: acrossConfig.textColor
+                        }
+
+                        TextFieldBox {
+                            Layout.fillWidth: true
+
+                            text: port
+                            readOnly: true
+                        }
+                    }
+
+                    RowLayout {
+                        Label {
+                            Layout.preferredWidth: textBoxWidth
+
+                            text: qsTr("Password")
+                            color: acrossConfig.textColor
+                        }
+
+                        TextFieldBox {
+                            Layout.fillWidth: true
+
+                            text: password
+                            readOnly: true
+                        }
                     }
 
                     Label {
-                        Layout.margins: acrossConfig.itemSpacing
-
                         text: qsTr("Copy URL")
                         color: acrossConfig.textColor
                         font.pixelSize: 18
@@ -78,6 +134,22 @@ Window {
                     TextAreaBox {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
+                    }
+
+                    RowLayout {
+                        Layout.fillWidth: true
+
+                        Item {
+                            Layout.fillWidth: true
+                        }
+
+                        ButtonBox {
+                            text: qsTr("Save")
+                        }
+
+                        ButtonBox {
+                            text: qsTr("Copy")
+                        }
                     }
                 }
             }

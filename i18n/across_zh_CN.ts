@@ -544,13 +544,43 @@
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="59"/>
-        <source>Share Format</source>
-        <translation>分享格式</translation>
+        <source>Node Info</source>
+        <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="73"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="68"/>
+        <source>Name</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="84"/>
+        <source>Address</source>
+        <translation>地址</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="116"/>
+        <source>Password</source>
+        <translation>密码</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="100"/>
+        <source>Port</source>
+        <translation>端口</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="129"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="147"/>
+        <source>Save</source>
+        <translation>保存</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="151"/>
+        <source>Copy</source>
+        <translation>复制复制</translation>
     </message>
 </context>
 <context>
