@@ -422,7 +422,12 @@ ConfigTools::loadConfigPath(const QString& file_path)
       }
     }
 
-    QDir xdg_path(m_envs.get("XDG_CONFIG_HOME") + "/across/");
+    auto env_config_home = m_envs.get("XDG_CONFIG_HOME");
+    if (env_config_home.isEmpty()) {
+      env_config_home = m_envs.get("HOME").append("/.config");
+    }
+
+    QDir xdg_path(env_config_home + "/across/");
     auto temp_config = xdg_path.filePath(m_config_name);
     if (isFileExist(temp_config)) {
       config_path = temp_config;
