@@ -85,7 +85,7 @@ private:
     std::string m_name = "main";
     std::string m_filename = "across_log.txt";
     std::string m_path = "./logs/";
-    LogMode m_mode;
+    LogMode m_mode = STDOUT;
 
     int m_max_keep_file = 3;
     int m_max_log_size = 1024 * 1024 * 4;
