@@ -95,11 +95,20 @@ void GroupModel::setList(GroupList *list) {
         });
 
         connect(m_list, &GroupList::preItemRemoved, this, [&](int index) {
-            beginRemoveRows(QModelIndex(), index, index);
+          beginRemoveRows(QModelIndex(), index, index);
         });
 
         connect(m_list, &GroupList::postItemRemoved, this, [&] {
             endRemoveRows();
+        });
+
+        connect(m_list, &GroupList::preLastItemRemoved, this, [&]() {
+          int index = m_list->items().size();
+          beginRemoveRows(QModelIndex(), index, index);
+        });
+
+        connect(m_list, &GroupList::postLastItemRemoved, this, [&] {
+          endRemoveRows();
         });
     }
 

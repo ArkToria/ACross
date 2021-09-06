@@ -28,10 +28,10 @@ public:
 
     QVector<GroupInfo> items() const;
 
-    void insertSIP008(const std::stringstream& data_stream,
+    bool insertSIP008(const std::stringstream& data_stream,
                       const across::network::CURLTools::DownloadTask& task);
 
-public slots:
+  public slots:
     void reloadItems(bool reopen_db = false);
 
     void appendItem(const QString& group_name, const QString& url,
@@ -54,7 +54,10 @@ signals:
     void preItemRemoved(int index);
     void postItemRemoved();
 
-private:
+    void preLastItemRemoved();
+    void postLastItemRemoved();
+
+  private:
     across::DBTools* p_db;
     across::NodeList* p_nodes;
     across::network::CURLTools* p_curl;
