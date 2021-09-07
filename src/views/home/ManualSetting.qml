@@ -14,15 +14,13 @@ Item {
         anchors.margins: acrossConfig.itemSpacing
         spacing: 0
 
-        RowLayout {
+        GridLayout {
+            columns:2
+            rowSpacing: acrossConfig.itemSpacing
             Layout.fillWidth: true
             Layout.margins: acrossConfig.itemSpacing
 
-            spacing: acrossConfig.itemSpacing
-
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Name")
                 color: acrossConfig.textColor
             }
@@ -34,59 +32,42 @@ Item {
                     nodeFormModel.name = text
                 }
             }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Address")
                 color: acrossConfig.textColor
             }
 
-            TextFieldBox {
-                Layout.fillWidth: true
+            RowLayout{
+                TextFieldBox {
+                    Layout.fillWidth: true
 
-                onEditingFinished: {
-                    nodeFormModel.address = text
+                    onEditingFinished: {
+                        nodeFormModel.address = text
+                    }
+                }
+
+                Label {
+                    text: qsTr("Port")
+                    color: acrossConfig.textColor
+                }
+
+                TextFieldBox {
+
+                    placeholderText: nodeFormModel.port
+                    validator: IntValidator {
+                        bottom: 0
+                        top: 65535
+                    }
+                    focus: true
+
+                    onEditingFinished: {
+                        nodeFormModel.port = text
+                    }
                 }
             }
 
             Label {
-                text: qsTr("Port")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                Layout.preferredWidth: textBoxWidth
-
-                placeholderText: nodeFormModel.port
-                validator: IntValidator {
-                    bottom: 0
-                    top: 65535
-                }
-                focus: true
-
-                onEditingFinished: {
-                    nodeFormModel.port = text
-                }
-            }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
-
-            Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Password")
                 color: acrossConfig.textColor
             }
@@ -98,17 +79,8 @@ Item {
                     nodeFormModel.password = text
                 }
             }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Protocol")
                 color: acrossConfig.textColor
             }

@@ -85,6 +85,7 @@ Item {
 
                 GridLayout {
                     columns:2
+                    rowSpacing: acrossConfig.itemSpacing
                     implicitWidth: parent.width
                     //spacing: spacingWidth
 
@@ -184,6 +185,7 @@ Item {
 
                 GridLayout {
                     columns:2
+                    rowSpacing: acrossConfig.itemSpacing
                     implicitWidth: parent.width
 
                     Label {

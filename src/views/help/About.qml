@@ -41,6 +41,7 @@ CardBox {
 
             GridLayout {
                 columns: 2
+                rowSpacing: acrossConfig.itemSpacing
                 Layout.fillWidth: true
                 //spacing: acrossConfig.itemSpacing
 

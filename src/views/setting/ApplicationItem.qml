@@ -46,6 +46,7 @@ Item {
 
         GridLayout {
             columns:4
+            rowSpacing: acrossConfig.itemSpacing
 
             Label {
                 text: qsTr("Language")

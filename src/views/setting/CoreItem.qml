@@ -48,6 +48,7 @@ Item {
 
         GridLayout {
             columns:3
+            rowSpacing: acrossConfig.itemSpacing
 
             Label {
 
