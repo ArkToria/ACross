@@ -46,11 +46,10 @@ Item {
             color: acrossConfig.textColor
         }
 
-        RowLayout {
-            spacing: spacingWidth
+        GridLayout {
+            columns:3
 
             Label {
-                Layout.preferredWidth: textBoxWidth
 
                 text: qsTr("Core path")
                 color: acrossConfig.textColor
@@ -67,13 +66,8 @@ Item {
                     coreFileDialog.open()
                 }
             }
-        }
-
-        RowLayout {
-            spacing: spacingWidth
 
             Label {
-                Layout.preferredWidth: textBoxWidth
 
                 text: qsTr("Assets path")
                 color: acrossConfig.textColor
@@ -90,17 +84,9 @@ Item {
                     assetsFileDialog.open()
                 }
             }
-        }
-
-        RowLayout {
-            spacing: spacingWidth
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
             property int buttonWidth: 96
 
             Label {
-                Layout.preferredWidth: textBoxWidth
 
                 text: qsTr("Core Info")
                 color: acrossConfig.textColor
@@ -129,7 +115,7 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                Layout.preferredWidth: textBoxWidth
+                //Layout.preferredWidth: textBoxWidth
 
                 text: qsTr("Enable API")
                 color: acrossConfig.textColor

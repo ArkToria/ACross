@@ -27,8 +27,6 @@ Item {
             spacing: spacingWidth
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Address")
                 color: acrossConfig.textColor
             }
@@ -56,7 +54,8 @@ Item {
             spacing: spacingWidth
 
             ColumnLayout {
-                Layout.fillWidth: true
+                Layout.preferredWidth: (parent.width-spacingWidth)/2
+                //Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 spacing: spacingWidth
@@ -84,12 +83,13 @@ Item {
                     }
                 }
 
-                RowLayout {
+                GridLayout {
+                    columns:2
                     implicitWidth: parent.width
-                    spacing: spacingWidth
+                    //spacing: spacingWidth
 
                     Label {
-                        Layout.preferredWidth: textBoxWidth
+                        //Layout.preferredWidth: textBoxWidth
 
                         text: qsTr("Port")
                         color: acrossConfig.textColor
@@ -106,14 +106,9 @@ Item {
                             acrossConfig.socksPort = text
                         }
                     }
-                }
-
-                RowLayout {
-                    implicitWidth: parent.width
-                    spacing: spacingWidth
 
                     Label {
-                        Layout.preferredWidth: textBoxWidth
+                        //Layout.preferredWidth: textBoxWidth
 
                         text: qsTr("Username")
                         color: acrossConfig.textColor
@@ -129,14 +124,9 @@ Item {
                             acrossConfig.socksUsername = text
                         }
                     }
-                }
-
-                RowLayout {
-                    implicitWidth: parent.width
-                    spacing: spacingWidth
 
                     Label {
-                        Layout.preferredWidth: textBoxWidth
+                        //Layout.preferredWidth: textBoxWidth
 
                         text: qsTr("Password")
                         color: acrossConfig.textColor
@@ -164,7 +154,7 @@ Item {
             }
 
             ColumnLayout {
-                Layout.fillWidth: true
+                Layout.preferredWidth: (parent.width-spacingWidth)/2
                 Layout.fillHeight: true
 
                 spacing: spacingWidth
@@ -173,8 +163,6 @@ Item {
                     implicitWidth: parent.width
 
                     Label {
-                        Layout.preferredWidth: textBoxWidth
-
                         text: qsTr("HTTP")
                         font.pixelSize: 18
                         color: acrossConfig.textColor
@@ -194,13 +182,11 @@ Item {
                     }
                 }
 
-                RowLayout {
+                GridLayout {
+                    columns:2
                     implicitWidth: parent.width
-                    spacing: spacingWidth
 
                     Label {
-                        Layout.preferredWidth: textBoxWidth
-
                         text: qsTr("Port")
                         color: acrossConfig.textColor
                     }
@@ -214,16 +200,8 @@ Item {
                             acrossConfig.httpPort = text
                         }
                     }
-                }
-
-                RowLayout {
-                    implicitWidth: parent.width
-
-                    spacing: spacingWidth
 
                     Label {
-                        Layout.preferredWidth: textBoxWidth
-
                         text: qsTr("Username")
                         color: acrossConfig.textColor
                     }
@@ -238,15 +216,8 @@ Item {
                             acrossConfig.httpUsername = text
                         }
                     }
-                }
-
-                RowLayout {
-                    implicitWidth: parent.width
-                    spacing: spacingWidth
 
                     Label {
-                        Layout.preferredWidth: textBoxWidth
-
                         text: qsTr("Password")
                         color: acrossConfig.textColor
                     }

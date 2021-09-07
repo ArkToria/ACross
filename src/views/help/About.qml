@@ -6,10 +6,13 @@ import "../components"
 
 CardBox {
     implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
-    implicitHeight: 330
+    implicitHeight: aboutContent.height + acrossConfig.itemSpacing * 8
 
     RowLayout {
-        anchors.fill: parent
+        id:aboutContent
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
         anchors.margins: acrossConfig.itemSpacing * 4
         spacing: acrossConfig.itemSpacing * 4
 
@@ -26,7 +29,7 @@ CardBox {
 
             spacing: acrossConfig.itemSpacing
 
-            property int textBoxWidth: 72
+            //property int textBoxWidth: 72
             property int textPointSize: 16
 
             Label {
@@ -36,12 +39,13 @@ CardBox {
                 color: acrossConfig.textColor
             }
 
-            RowLayout {
+            GridLayout {
+                columns: 2
                 Layout.fillWidth: true
-                spacing: acrossConfig.itemSpacing
+                //spacing: acrossConfig.itemSpacing
 
                 Label {
-                    Layout.preferredWidth: infoList.textBoxWidth
+                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Version")
                     color: acrossConfig.textColor
                 }
@@ -50,14 +54,9 @@ CardBox {
                     text: acrossConfig.guiVersion
                     color: acrossConfig.highlightColor
                 }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: acrossConfig.itemSpacing
 
                 Label {
-                    Layout.preferredWidth: infoList.textBoxWidth
+                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Build Info")
                     color: acrossConfig.textColor
                 }
@@ -66,14 +65,9 @@ CardBox {
                     text: acrossConfig.buildInfo
                     color: acrossConfig.textColor
                 }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: acrossConfig.itemSpacing
 
                 Label {
-                    Layout.preferredWidth: infoList.textBoxWidth
+                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Build Time")
                     color: acrossConfig.textColor
                 }
@@ -82,14 +76,9 @@ CardBox {
                     text: acrossConfig.buildTime
                     color: acrossConfig.textColor
                 }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: acrossConfig.itemSpacing
 
                 Label {
-                    Layout.preferredWidth: infoList.textBoxWidth
+                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Source Code")
                     color: acrossConfig.textColor
                 }
@@ -126,14 +115,9 @@ CardBox {
                         onClicked: Qt.openUrlExternally(sourceCodeField.urlText)
                     }
                 }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: acrossConfig.itemSpacing
 
                 Label {
-                    Layout.preferredWidth: infoList.textBoxWidth
+                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Licenses")
                     color: acrossConfig.textColor
                 }
@@ -170,15 +154,10 @@ CardBox {
                         onClicked: Qt.openUrlExternally(licenseField.urlText)
                     }
                 }
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: acrossConfig.itemSpacing
 
                 Label {
                     id: extraInfoText
-                    Layout.preferredWidth: infoList.textBoxWidth
+                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Extra Info")
                     color: acrossConfig.textColor
                 }
@@ -191,10 +170,12 @@ CardBox {
                 }
             }
 
+
             Item {
                 Layout.fillHeight: true
             }
 
+            
             Row {
                 layoutDirection: Qt.RightToLeft
                 Layout.fillWidth: true

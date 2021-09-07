@@ -44,12 +44,10 @@ Item {
             color: acrossConfig.textColor
         }
 
-        RowLayout {
-            spacing: spacingWidth
+        GridLayout {
+            columns:4
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Language")
                 color: acrossConfig.textColor
             }
@@ -66,8 +64,6 @@ Item {
             }
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Theme")
                 horizontalAlignment: Text.AlignLeft
                 color: acrossConfig.textColor
@@ -85,14 +81,8 @@ Item {
                     }
                 }
             }
-        }
-
-        RowLayout {
-            spacing: spacingWidth
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Log Output")
                 color: acrossConfig.textColor
             }
@@ -104,8 +94,6 @@ Item {
             }
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Log Level")
                 color: acrossConfig.textColor
             }
@@ -128,8 +116,6 @@ Item {
             spacing: spacingWidth
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("DB Path")
                 color: acrossConfig.textColor
             }
