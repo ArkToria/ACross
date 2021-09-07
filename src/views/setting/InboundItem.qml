@@ -70,7 +70,6 @@ Item {
 
                 SwitchBox {
                     id: socksSwitch
-                    Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                     checked: acrossConfig.socksEnable
                     onCheckedChanged: {
                         acrossConfig.socksEnable = checked
@@ -164,7 +163,6 @@ Item {
 
                 SwitchBox {
                     id: httpSwitch
-
                     checked: acrossConfig.httpEnable
                     onCheckedChanged: {
                         acrossConfig.httpEnable = checked
