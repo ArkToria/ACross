@@ -175,27 +175,27 @@
         <translation>输入 GeoIP 和 GeoSite 所在文件目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="118"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="113"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="131"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="129"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="148"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="146"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="158"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="157"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="167"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="166"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
@@ -644,7 +644,7 @@
 <context>
     <name>URLSchemeSetting</name>
     <message>
-        <location filename="../src/views/home/URLSchemeSetting.qml" line="22"/>
+        <location filename="../src/views/home/URLSchemeSetting.qml" line="21"/>
         <source>Import From URL</source>
         <translation>从链接导入</translation>
     </message>

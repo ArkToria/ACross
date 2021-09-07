@@ -108,50 +108,49 @@ Item {
                     core_info.text = acrossConfig.coreInfo
                 }
             }
-        }
-
-        RowLayout {
-            spacing: spacingWidth
-            Layout.fillWidth: true
 
             Label {
                 text: qsTr("Enable API")
                 color: acrossConfig.textColor
             }
 
-            SwitchBox {
-                id: apiSwitch
-                checked: acrossConfig.apiEnable
-                onCheckedChanged: {
-                    acrossConfig.apiEnable = checked
-                }
-            }
-
-            Label {
-                text: qsTr("API Port")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                id: apiPortText
-
-                placeholderText: acrossConfig.apiPort
-                readOnly: apiSwitch.checked ? false : true
-                inputMethodHints: Qt.ImhDigitsOnly
-
-                onTextEdited: {
-                    acrossConfig.apiPort = text
-                }
-            }
-
-            Label {
-                text: qsTr("Test Result")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                id: testResult
+            RowLayout {
+                spacing: spacingWidth
                 Layout.fillWidth: true
+                SwitchBox {
+                    id: apiSwitch
+                    checked: acrossConfig.apiEnable
+                    onCheckedChanged: {
+                        acrossConfig.apiEnable = checked
+                    }
+                }
+
+                Label {
+                    text: qsTr("API Port")
+                    color: acrossConfig.textColor
+                }
+
+                TextFieldBox {
+                    id: apiPortText
+
+                    placeholderText: acrossConfig.apiPort
+                    readOnly: apiSwitch.checked ? false : true
+                    inputMethodHints: Qt.ImhDigitsOnly
+
+                    onTextEdited: {
+                        acrossConfig.apiPort = text
+                    }
+                }
+
+                Label {
+                    text: qsTr("Test Result")
+                    color: acrossConfig.textColor
+                }
+
+                TextFieldBox {
+                    id: testResult
+                    Layout.fillWidth: true
+                }
             }
 
             ButtonBox {
