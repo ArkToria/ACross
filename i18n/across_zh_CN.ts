@@ -175,27 +175,27 @@
         <translation>输入 GeoIP 和 GeoSite 所在文件目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="113"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="114"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="129"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="130"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="146"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="147"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="157"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="158"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="166"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="167"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
@@ -395,13 +395,13 @@
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="100"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="191"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="192"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="117"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="208"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="209"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>

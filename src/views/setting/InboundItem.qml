@@ -171,15 +171,10 @@ Item {
                     }
                 }
 
-                GridLayout {
-                    columns:2
-                    rowSpacing: spacingWidth
-                    implicitWidth: parent.width
-
-                    Label {
-                        text: qsTr("Port")
-                        color: acrossConfig.textColor
-                    }
+                Label {
+                    text: qsTr("Port")
+                    color: acrossConfig.textColor
+                }
 
                 TextFieldBox {
                     Layout.fillWidth: true
@@ -192,6 +187,7 @@ Item {
                         acrossConfig.httpPort = text
                     }
                 }
+
                 Label {
                     text: qsTr("Username")
                     color: acrossConfig.textColor
