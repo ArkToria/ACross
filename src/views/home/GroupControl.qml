@@ -22,12 +22,13 @@ Item {
 
         CardBox {
             id: appendNodeButton
-            implicitHeight: 32
-            implicitWidth: 80
+            implicitHeight: groupContorlCreate.height
+            implicitWidth: groupContorlCreate.width
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
+                id:groupContorlCreate
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -66,12 +67,13 @@ Item {
         }
 
         CardBox {
-            implicitHeight: 32
-            implicitWidth: 80
+            implicitHeight: groupContorlCopy.height
+            implicitWidth: groupContorlCopy.width
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
+                id:groupContorlCopy
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -103,12 +105,13 @@ Item {
         }
 
         CardBox {
-            implicitHeight: 32
-            implicitWidth: 80
+            implicitHeight: groupContorlQRCode.height
+            implicitWidth: groupContorlQRCode.width
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
+                id:groupContorlQRCode
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -140,12 +143,13 @@ Item {
         }
 
         CardBox {
-            implicitHeight: 32
-            implicitWidth: 80
+            implicitHeight: groupContorlSearch.height
+            implicitWidth: groupContorlSearch.width
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
+                id:groupContorlSearch
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -175,12 +179,13 @@ Item {
         }
 
         CardBox {
-            implicitHeight: 32
-            implicitWidth: 80
+            implicitHeight: groupContorlLocate.height
+            implicitWidth: groupContorlLocate.width
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
+                id:groupContorlLocate
                 anchors.centerIn: parent
 
                 SVGBox {

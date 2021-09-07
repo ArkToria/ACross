@@ -29,7 +29,6 @@ CardBox {
 
             spacing: acrossConfig.itemSpacing
 
-            //property int textBoxWidth: 72
             property int textPointSize: 16
 
             Label {
@@ -43,10 +42,8 @@ CardBox {
                 columns: 2
                 rowSpacing: acrossConfig.itemSpacing
                 Layout.fillWidth: true
-                //spacing: acrossConfig.itemSpacing
 
                 Label {
-                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Version")
                     color: acrossConfig.textColor
                 }
@@ -57,7 +54,6 @@ CardBox {
                 }
 
                 Label {
-                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Build Info")
                     color: acrossConfig.textColor
                 }
@@ -68,7 +64,6 @@ CardBox {
                 }
 
                 Label {
-                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Build Time")
                     color: acrossConfig.textColor
                 }
@@ -79,7 +74,6 @@ CardBox {
                 }
 
                 Label {
-                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Source Code")
                     color: acrossConfig.textColor
                 }
@@ -118,7 +112,6 @@ CardBox {
                 }
 
                 Label {
-                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Licenses")
                     color: acrossConfig.textColor
                 }
@@ -158,7 +151,6 @@ CardBox {
 
                 Label {
                     id: extraInfoText
-                    //Layout.preferredWidth: infoList.textBoxWidth
                     text: qsTr("Extra Info")
                     color: acrossConfig.textColor
                 }

@@ -12,7 +12,6 @@ Popup {
     x: Math.round((mainWindow.width - width) / 2 - mainPanel.width)
     y: Math.round((mainWindow.height - height) / 2)
 
-    property int textBoxWidth: 80
     property int spacingWidth: 16
 
     modal: true
@@ -39,8 +38,6 @@ Popup {
 
         RowLayout {
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Name")
                 color: acrossConfig.textColor
             }
@@ -73,48 +70,41 @@ Popup {
                 }
             }
 
-            RowLayout {
+            GridLayout {
+                columns:2
                 visible: fromSubscriptionSwitcher.checked
 
                 Label {
-                    Layout.preferredWidth: textBoxWidth
-
                     text: qsTr("Type")
                     color: acrossConfig.textColor
                 }
 
-                DropDownBox {
-                    id: subscriptionType
+                RowLayout{
+                    DropDownBox {
+                        id: subscriptionType
 
-                    // defined at dbtools.h SubscriptionType enum class
-                    model: ["SIP008", "Base64", "JSON"]
-                }
+                        // defined at dbtools.h SubscriptionType enum class
+                        model: ["SIP008", "Base64", "JSON"]
+                    }
 
-                Item {
-                    Layout.fillWidth: true
+                    Item {
+                        Layout.fillWidth: true
+                    }
+
+                    Label {
+                        text: qsTr("Cycle (days)")
+                        color: acrossConfig.textColor
+                    }
+
+                    NumBox {
+                        id: subscriptionCycleTime
+                        value: 15
+                        from: 1
+                        to: 31
+                    }
                 }
 
                 Label {
-                    Layout.preferredWidth: textBoxWidth
-
-                    text: qsTr("Cycle (days)")
-                    color: acrossConfig.textColor
-                }
-
-                NumBox {
-                    id: subscriptionCycleTime
-                    value: 15
-                    from: 1
-                    to: 31
-                }
-            }
-
-            RowLayout {
-                visible: fromSubscriptionSwitcher.checked
-
-                Label {
-                    Layout.preferredWidth: textBoxWidth
-
                     text: qsTr("Address")
                     color: acrossConfig.textColor
                 }

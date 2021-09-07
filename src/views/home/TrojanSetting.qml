@@ -8,8 +8,6 @@ Item {
     implicitWidth: 720
     implicitHeight: 260
 
-    property int textBoxWidth: 72
-
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing
@@ -23,15 +21,14 @@ Item {
             color: acrossConfig.textColor
         }
 
-        RowLayout {
+        GridLayout {
             Layout.fillWidth: true
             Layout.margins: acrossConfig.itemSpacing
 
-            spacing: acrossConfig.itemSpacing
+            columns:2
+            rowSpacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Host")
                 color: acrossConfig.textColor
             }
@@ -40,17 +37,8 @@ Item {
                 id: serverNameText
                 Layout.fillWidth: true
             }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Network")
                 color: acrossConfig.textColor
             }
@@ -61,17 +49,8 @@ Item {
 
                 model: ["tcp"]
             }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Security")
                 color: acrossConfig.textColor
             }
@@ -82,17 +61,8 @@ Item {
 
                 model: ["tls", "none"]
             }
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("ALPN")
                 color: acrossConfig.textColor
             }

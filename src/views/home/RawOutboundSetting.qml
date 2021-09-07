@@ -8,7 +8,6 @@ Item {
     implicitWidth: 720
     implicitHeight: 300
 
-    property int textBoxWidth: 72
 
     ColumnLayout {
         anchors.fill: parent
@@ -30,8 +29,6 @@ Item {
             spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Name")
                 color: acrossConfig.textColor
             }

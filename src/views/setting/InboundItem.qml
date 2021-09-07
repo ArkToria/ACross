@@ -7,7 +7,6 @@ import "../components"
 Item {
     anchors.margins: spacingWidth
 
-    property int textBoxWidth: 72
     property int spacingWidth: acrossConfig.itemSpacing * 2
 
     ColumnLayout {
@@ -55,7 +54,6 @@ Item {
 
             ColumnLayout {
                 Layout.preferredWidth: (parent.width-spacingWidth)/2
-                //Layout.fillWidth: true
                 Layout.fillHeight: true
 
                 spacing: spacingWidth
@@ -85,12 +83,10 @@ Item {
 
                 GridLayout {
                     columns:2
-                    rowSpacing: acrossConfig.itemSpacing
+                    rowSpacing: spacingWidth
                     implicitWidth: parent.width
-                    //spacing: spacingWidth
 
                     Label {
-                        //Layout.preferredWidth: textBoxWidth
 
                         text: qsTr("Port")
                         color: acrossConfig.textColor
@@ -109,8 +105,6 @@ Item {
                     }
 
                     Label {
-                        //Layout.preferredWidth: textBoxWidth
-
                         text: qsTr("Username")
                         color: acrossConfig.textColor
                     }
@@ -127,8 +121,6 @@ Item {
                     }
 
                     Label {
-                        //Layout.preferredWidth: textBoxWidth
-
                         text: qsTr("Password")
                         color: acrossConfig.textColor
                     }

@@ -8,8 +8,6 @@ Item {
     implicitWidth: 680
     implicitHeight: 160
 
-    property int textBoxWidth: 72
-
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing
@@ -30,8 +28,6 @@ Item {
             spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Security")
                 color: acrossConfig.textColor
             }
@@ -51,8 +47,6 @@ Item {
             spacing: acrossConfig.itemSpacing
 
             Label {
-                Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("IVCheck")
                 color: acrossConfig.textColor
             }

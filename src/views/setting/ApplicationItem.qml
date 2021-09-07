@@ -8,7 +8,6 @@ import "../components"
 Item {
     anchors.margins: spacingWidth
 
-    property int textBoxWidth: 72
     property int spacingWidth: acrossConfig.itemSpacing * 2
 
     FileDialog {

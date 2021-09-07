@@ -18,7 +18,6 @@ Window {
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
-    property int textBoxWidth: 48
 
     Rectangle {
         id: background
@@ -61,10 +60,10 @@ Window {
                         font.pixelSize: 18
                     }
 
-                    RowLayout {
-                        Label {
-                            Layout.preferredWidth: textBoxWidth
+                    GridLayout {
+                        columns:2
 
+                        Label {
                             text: qsTr("Name")
                             color: acrossConfig.textColor
                         }
@@ -75,12 +74,8 @@ Window {
                             text: name
                             readOnly: true
                         }
-                    }
 
-                    RowLayout {
                         Label {
-                            Layout.preferredWidth: textBoxWidth
-
                             text: qsTr("Address")
                             color: acrossConfig.textColor
                         }
@@ -91,12 +86,8 @@ Window {
                             text: address
                             readOnly: true
                         }
-                    }
 
-                    RowLayout {
                         Label {
-                            Layout.preferredWidth: textBoxWidth
-
                             text: qsTr("Port")
                             color: acrossConfig.textColor
                         }
@@ -107,12 +98,8 @@ Window {
                             text: port
                             readOnly: true
                         }
-                    }
-
-                    RowLayout {
+                        
                         Label {
-                            Layout.preferredWidth: textBoxWidth
-
                             text: qsTr("Password")
                             color: acrossConfig.textColor
                         }

@@ -4,42 +4,42 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../src/views/help/About.qml" line="50"/>
+        <location filename="../src/views/help/About.qml" line="47"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="61"/>
+        <location filename="../src/views/help/About.qml" line="57"/>
         <source>Build Info</source>
         <translation>构建信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="162"/>
+        <location filename="../src/views/help/About.qml" line="154"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="72"/>
+        <location filename="../src/views/help/About.qml" line="67"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="83"/>
+        <location filename="../src/views/help/About.qml" line="77"/>
         <source>Source Code</source>
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="122"/>
+        <location filename="../src/views/help/About.qml" line="115"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="187"/>
+        <location filename="../src/views/help/About.qml" line="179"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="193"/>
+        <location filename="../src/views/help/About.qml" line="185"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
@@ -55,53 +55,53 @@
 <context>
     <name>ApplicationItem</name>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="16"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="28"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="15"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="27"/>
         <source>Select Database Path</source>
         <translation>选择数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="42"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="41"/>
         <source>Application Setting</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="86"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="98"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="97"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="120"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="119"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="126"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="125"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="131"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="130"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="138"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="137"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="52"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="51"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="68"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="67"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
@@ -134,78 +134,78 @@
 <context>
     <name>CoreItem</name>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="16"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="15"/>
         <source>Select V2ray Core Path</source>
         <translation>选择 V2ray 内核路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="29"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="28"/>
         <source>Select Assets Directory</source>
         <translation>选择 Assets 目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="44"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="43"/>
         <source>Core Configuration</source>
         <translation>内核配置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="55"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="54"/>
         <source>Core path</source>
         <translation>内核路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="60"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="59"/>
         <source>Enter V2ray Core Executable Path Here</source>
         <translation>在此输入内核可执行文件路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="65"/>
-        <location filename="../src/views/setting/CoreItem.qml" line="83"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="64"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="82"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="73"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="72"/>
         <source>Assets path</source>
         <translation>Assets 路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="78"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="77"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
         <translation>输入 GeoIP 和 GeoSite 所在文件目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="121"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="118"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="134"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="131"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="152"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="148"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="162"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="158"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="171"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="167"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="92"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="91"/>
         <source>Core Info</source>
         <translation>内核信息</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="106"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="105"/>
         <source>Check</source>
         <translation>检查</translation>
     </message>
@@ -221,17 +221,17 @@
 <context>
     <name>GroupControl</name>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="40"/>
+        <location filename="../src/views/home/GroupControl.qml" line="41"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="84"/>
+        <location filename="../src/views/home/GroupControl.qml" line="86"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="121"/>
+        <location filename="../src/views/home/GroupControl.qml" line="124"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
@@ -240,12 +240,12 @@
         <translation type="vanished">选择</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="158"/>
+        <location filename="../src/views/home/GroupControl.qml" line="162"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="193"/>
+        <location filename="../src/views/home/GroupControl.qml" line="198"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -253,57 +253,57 @@
 <context>
     <name>GroupForm</name>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="35"/>
+        <location filename="../src/views/home/GroupForm.qml" line="34"/>
         <source>Create a new group</source>
         <translation>创建新组</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="44"/>
+        <location filename="../src/views/home/GroupForm.qml" line="41"/>
         <source>Name</source>
         <translation>名字</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="52"/>
+        <location filename="../src/views/home/GroupForm.qml" line="49"/>
         <source>Enter the unique group name</source>
         <translation>输入唯一的组名</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="62"/>
+        <location filename="../src/views/home/GroupForm.qml" line="59"/>
         <source>Subscription</source>
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="82"/>
+        <location filename="../src/views/home/GroupForm.qml" line="78"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="100"/>
+        <location filename="../src/views/home/GroupForm.qml" line="95"/>
         <source>Cycle (days)</source>
         <translation>更新周期</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="118"/>
+        <location filename="../src/views/home/GroupForm.qml" line="108"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="126"/>
+        <location filename="../src/views/home/GroupForm.qml" line="116"/>
         <source>Enter the unique subscription url</source>
         <translation>输入订阅链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="138"/>
+        <location filename="../src/views/home/GroupForm.qml" line="128"/>
         <source>From Paste</source>
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="175"/>
+        <location filename="../src/views/home/GroupForm.qml" line="165"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="191"/>
+        <location filename="../src/views/home/GroupForm.qml" line="181"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -373,40 +373,40 @@
 <context>
     <name>InboundItem</name>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="19"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="18"/>
         <source>Inbound Listening</source>
         <translation>入站监听</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="30"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="29"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="67"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="65"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="95"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="192"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="91"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="184"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="114"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="207"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="108"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="199"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="132"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="223"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="124"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="215"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="167"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="159"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
@@ -486,17 +486,17 @@
         <translation>创建新配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="95"/>
+        <location filename="../src/views/home/NodeForm.qml" line="93"/>
         <source>Outbound</source>
         <translation>出站设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="176"/>
+        <location filename="../src/views/home/NodeForm.qml" line="173"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="185"/>
+        <location filename="../src/views/home/NodeForm.qml" line="182"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -542,42 +542,42 @@
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="59"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="58"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="68"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="67"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="84"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="79"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="116"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="103"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="100"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="91"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="129"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="116"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="147"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="134"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="151"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="138"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
@@ -585,12 +585,12 @@
 <context>
     <name>RawOutboundSetting</name>
     <message>
-        <location filename="../src/views/home/RawOutboundSetting.qml" line="21"/>
+        <location filename="../src/views/home/RawOutboundSetting.qml" line="20"/>
         <source>Import From Raw Outbound</source>
         <translation>从 Raw Outbound 导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/RawOutboundSetting.qml" line="35"/>
+        <location filename="../src/views/home/RawOutboundSetting.qml" line="32"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
@@ -598,17 +598,17 @@
 <context>
     <name>ShadowsocksSetting</name>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="21"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="19"/>
         <source>Shadowsocks Setting</source>
         <translation>Shadowsocks 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="35"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="31"/>
         <source>Security</source>
         <translation>安全</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="56"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="50"/>
         <source>IVCheck</source>
         <translation>IV 检查</translation>
     </message>
@@ -616,27 +616,27 @@
 <context>
     <name>TrojanSetting</name>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="21"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="19"/>
         <source>Trojan Setting</source>
         <translation>Trojan 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="35"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="32"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="54"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="42"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="75"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="54"/>
         <source>Security</source>
         <translation>安全</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="96"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="66"/>
         <source>ALPN</source>
         <translation>ALPN</translation>
     </message>

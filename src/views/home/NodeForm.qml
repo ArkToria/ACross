@@ -18,8 +18,6 @@ Window {
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
-    property int textBoxWidth: 72
-
     ShadowsocksFormModel {
         id: shadowsocksFormModel
     }

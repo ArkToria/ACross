@@ -8,7 +8,6 @@ import "../components"
 Item {
     anchors.margins: spacingWidth
 
-    property int textBoxWidth: 72
     property int spacingWidth: acrossConfig.itemSpacing * 2
 
     FileDialog {
@@ -116,8 +115,6 @@ Item {
             Layout.fillWidth: true
 
             Label {
-                //Layout.preferredWidth: textBoxWidth
-
                 text: qsTr("Enable API")
                 color: acrossConfig.textColor
             }
@@ -137,7 +134,6 @@ Item {
 
             TextFieldBox {
                 id: apiPortText
-                Layout.preferredWidth: textBoxWidth
 
                 placeholderText: acrossConfig.apiPort
                 readOnly: apiSwitch.checked ? false : true
