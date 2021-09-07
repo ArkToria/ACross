@@ -383,30 +383,30 @@
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="62"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="49"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="81"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="173"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="86"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="104"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="99"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="190"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="121"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="138"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="116"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="207"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="155"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="180"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="155"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="67"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
