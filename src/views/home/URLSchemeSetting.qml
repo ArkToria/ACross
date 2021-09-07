@@ -9,7 +9,6 @@ Item {
     implicitWidth: 720
     implicitHeight: 160
 
-    property int textBoxWidth: 72
 
     ColumnLayout {
         anchors.fill: parent
