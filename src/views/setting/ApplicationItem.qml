@@ -44,8 +44,9 @@ Item {
         }
 
         GridLayout {
-            columns:4
+            columns: 4
             rowSpacing: acrossConfig.itemSpacing
+            columnSpacing: acrossConfig.itemSpacing
 
             Label {
                 text: qsTr("Language")
@@ -110,33 +111,36 @@ Item {
                     }
                 }
             }
-        }
-
-        RowLayout {
-            spacing: spacingWidth
 
             Label {
                 text: qsTr("DB Path")
                 color: acrossConfig.textColor
             }
 
-            TextFieldBox {
-                placeholderText: acrossConfig.dbPath
-                                 === "" ? qsTr("Enter Database Path Here") : acrossConfig.dbPath
-                Layout.fillWidth: true
-            }
+            RowLayout {
+                Layout.columnSpan: 3
 
-            ButtonBox {
-                text: qsTr("Open File")
-                onClicked: {
-                    dbFileDialog.open()
+                spacing: acrossConfig.itemSpacing
+
+                TextFieldBox {
+                    Layout.fillWidth: true
+
+                    placeholderText: acrossConfig.dbPath
+                                     === "" ? qsTr("Enter Database Path Here") : acrossConfig.dbPath
                 }
-            }
 
-            ButtonBox {
-                text: qsTr("Folder")
-                onClicked: {
-                    dbFileDirDialog.open()
+                ButtonBox {
+                    text: qsTr("Open File")
+                    onClicked: {
+                        dbFileDialog.open()
+                    }
+                }
+
+                ButtonBox {
+                    text: qsTr("Folder")
+                    onClicked: {
+                        dbFileDirDialog.open()
+                    }
                 }
             }
         }
