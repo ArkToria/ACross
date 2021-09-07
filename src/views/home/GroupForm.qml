@@ -73,7 +73,6 @@ Popup {
                 }
             }
 
-
             RowLayout {
                 visible: fromSubscriptionSwitcher.checked
 
@@ -86,6 +85,8 @@ Popup {
 
                 DropDownBox {
                     id: subscriptionType
+
+                    // defined at dbtools.h SubscriptionType enum class
                     model: ["SIP008", "Base64", "JSON"]
                 }
 
@@ -107,7 +108,6 @@ Popup {
                     to: 31
                 }
             }
-
 
             RowLayout {
                 visible: fromSubscriptionSwitcher.checked

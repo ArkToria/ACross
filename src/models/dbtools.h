@@ -12,12 +12,12 @@
 #include "magic_enum.hpp"
 
 namespace across {
-enum SubscriptionType : uint
+enum SubscriptionType : int
 {
-  none = 0,
-  sip008,
+  sip008 = 0,
   base64,
   jsonraw,
+  none
 };
 
 enum EntryType

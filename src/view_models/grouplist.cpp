@@ -102,6 +102,39 @@ GroupList::insertSIP008(const std::stringstream& data_stream,
   return true;
 }
 
+bool
+GroupList::insertBase64(const std::stringstream& data_stream,
+                        const network::CURLTools::DownloadTask& task)
+{
+  bool result = false;
+
+  if (p_db == nullptr) {
+    return result;
+  }
+
+  QString decode_data = QByteArray::fromBase64(data_stream.str().c_str());
+
+  for (auto& item : decode_data.split("\n")) {
+    if (item.isEmpty()) {
+      break;
+    }
+
+    NodeInfo node;
+    node.group = QString().fromStdString(task.name);
+    node.group_id = task.group_id;
+
+    result = SerializeTools::decodeOutboundFromURL(node, item);
+
+    if (!result) {
+      break;
+    } else {
+      p_db->insert(node);
+    }
+  }
+
+  return result;
+}
+
 void
 GroupList::appendItem(const QString& group_name,
                       const QString& url,
@@ -132,22 +165,33 @@ GroupList::appendItem(const QString& group_name,
 
       // TODO: rewrite parse checker
       if (result == SQLITE_OK) {
-        if (!this->insertSIP008(data_stream, task)) {
-          emit preLastItemRemoved();
+        bool rc = false;
+        switch (item.type) {
+          case sip008:
+            rc = this->insertSIP008(data_stream, task);
+            break;
+          case base64:
+            rc = this->insertBase64(data_stream, task);
+          default:
+            break;
+        }
 
+        reloadItems();
+
+        // failed to parse
+        if (!rc) {
+          emit preLastItemRemoved();
           p_db->removeGroupFromName(task.name);
           m_items.removeLast();
-          reloadItems();
-
           emit postLastItemRemoved();
         }
+
+        emit postItemAppended();
       }
     });
 
     p_curl->download(task, &data_stream);
   }
-
-  emit postItemAppended();
 }
 
 void

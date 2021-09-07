@@ -47,6 +47,122 @@ SerializeTools::sip008Parser(const std::stringstream& data_stream)
   return sip008;
 }
 
+bool
+SerializeTools::decodeOutboundFromURL(NodeInfo& node, const QString& raw_url)
+{
+  bool result = false;
+
+  do {
+    QUrl url(raw_url);
+    auto scheme = magic_enum::enum_cast<SchemeType>(url.scheme().toStdString());
+
+    if (!scheme.has_value()) {
+      break;
+    }
+
+    switch (scheme.value()) {
+      case SchemeType::ss:
+        result = SerializeTools::setShadowsocksOutboundFromURL(node, url);
+        break;
+      case SchemeType::vmess:
+        result = SerializeTools::setVMessOutboundFromBase64(
+          node, raw_url.toStdString());
+        break;
+      case SchemeType::trojan:
+        result = SerializeTools::setTrojanOutboundFromURL(node, url);
+        break;
+      default:
+        break;
+    }
+  } while (false);
+
+  return result;
+}
+
+bool
+SerializeTools::setShadowsocksOutboundFromURL(NodeInfo& node, const QUrl& url)
+{
+  bool result = false;
+
+  do {
+    auto sip008_server = SerializeTools::sip002Decode(url);
+    if (!sip008_server.has_value()) {
+      break;
+    }
+
+    ShadowsocksObject::OutboundSettingObject outbound_setting;
+    outbound_setting.fromSIP008Server(sip008_server.value());
+
+    OutboundObject outbound_object;
+    outbound_object.appendShadowsocksObject(outbound_setting);
+
+    node.protocol = across::EntryType::shadowsocks;
+    node.name = QString().fromStdString(sip008_server->remarks);
+    node.address = QString().fromStdString(outbound_setting.address);
+    node.port = outbound_setting.port;
+    node.password = QString().fromStdString(outbound_setting.password);
+    node.raw =
+      QString().fromStdString(outbound_object.toObject().toStyledString());
+
+    result = true;
+  } while (false);
+
+  return result;
+}
+
+bool
+SerializeTools::setVMessOutboundFromBase64(NodeInfo& node,
+                                           const std::string& data)
+{
+  bool result = false;
+
+  do {
+    auto vmess_meta = SerializeTools::vmessBase64Decode(data);
+    if (!vmess_meta.has_value()) {
+      break;
+    }
+    auto outbound_object = vmess_meta->outbound_object;
+
+    node.protocol = across::EntryType::vmess;
+    node.name = QString().fromStdString(vmess_meta->name);
+    node.address = QString().fromStdString(vmess_meta->address);
+    node.port = vmess_meta->port;
+    node.password = QString().fromStdString(vmess_meta->password);
+    node.raw =
+      QString().fromStdString(outbound_object.toObject().toStyledString());
+
+    result = true;
+  } while (false);
+
+  return result;
+}
+
+bool
+SerializeTools::setTrojanOutboundFromURL(NodeInfo& node, const QUrl& url)
+{
+  bool result = false;
+
+  do {
+    auto trojan_meta = SerializeTools::trojanDecode(url);
+    if (!trojan_meta.has_value()) {
+      break;
+    }
+    auto outbound_object = trojan_meta->outbound_object;
+
+    node.protocol = across::EntryType::trojan;
+    node.name = QString().fromStdString(trojan_meta->name);
+    node.address = QString().fromStdString(trojan_meta->address);
+    node.port = trojan_meta->port;
+    node.password = QString().fromStdString(trojan_meta->password);
+    node.raw =
+      QString().fromStdString(outbound_object.toObject().toStyledString());
+
+    result = true;
+  } while (false);
+
+  return result;
+}
+
 std::optional<SIP008::Server>
 SerializeTools::sip002Decode(const QUrl& url)
 {

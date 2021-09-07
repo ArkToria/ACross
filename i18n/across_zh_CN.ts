@@ -273,12 +273,12 @@
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="83"/>
+        <location filename="../src/views/home/GroupForm.qml" line="82"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="99"/>
+        <location filename="../src/views/home/GroupForm.qml" line="100"/>
         <source>Cycle (days)</source>
         <translation>更新周期</translation>
     </message>

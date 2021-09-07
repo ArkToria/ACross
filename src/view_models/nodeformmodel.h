@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include "sodium.h"
-#include "magic_enum.hpp"
 
 #include "nodelist.h"
 #include "vmessformmodel.h"
@@ -107,7 +106,7 @@ signals:
 
     void urlSchemeChanged();
 
-private:
+  private:
     QString m_name = "";
     QString m_address = "";
     int m_port = 443;
@@ -126,9 +125,6 @@ private:
     bool setVMessOutboud(NodeInfo& node);
     bool setRawOutbound(NodeInfo& node);
     bool decodeOutboundFromURL(NodeInfo& node);
-    bool setShadowsocksOutboundFromURL(NodeInfo& node, const QUrl& url);
-    bool setVMessOutboundFromBase64(NodeInfo &node, const std::string& data);
-    bool setTrojanOutboundFromURL(NodeInfo& node, const QUrl& url);
 };
 }
 
