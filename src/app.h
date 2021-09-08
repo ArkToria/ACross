@@ -42,7 +42,7 @@ public:
 
   void setRootContext();
 
-  void setTranslator(const QString& lang = "en_US");
+  void setTranslator(const QString& lang = "current");
 
   void registerModels();
 

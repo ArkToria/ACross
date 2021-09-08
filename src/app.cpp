@@ -11,8 +11,14 @@ Application::Application(int& argc, char** argv)
   p_thread_pool = spdlog::thread_pool();
 
   registerModels();
-  setTranslator();
   setRootContext();
+  setTranslator(acrossConfig.currentLanguage());
+
+  // dynamic change display language
+  connect(&acrossConfig,
+          &across::setting::ConfigTools::currentLanguageChanged,
+          this,
+          [&](QString lang) { setTranslator(lang); });
 }
 
 Application::~Application() {}
