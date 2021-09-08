@@ -1,7 +1,10 @@
 #include "app.h"
 
-int main(int argc, char *argv[]) {
-    across::Application app(argc, argv);
+int
+main(int argc, char* argv[])
+{
+  //    across::Application app(argc, argv);
+  across::Application app(argc, argv);
 
-    return app.run();
+  return app.run();
 }
