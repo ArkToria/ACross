@@ -298,12 +298,12 @@
         <translation>粘贴</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="165"/>
+        <location filename="../src/views/home/GroupForm.qml" line="166"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="181"/>
+        <location filename="../src/views/home/GroupForm.qml" line="183"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

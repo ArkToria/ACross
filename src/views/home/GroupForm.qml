@@ -71,7 +71,7 @@ Popup {
             }
 
             GridLayout {
-                columns:2
+                columns: 2
                 visible: fromSubscriptionSwitcher.checked
 
                 Label {
@@ -79,7 +79,7 @@ Popup {
                     color: acrossConfig.textColor
                 }
 
-                RowLayout{
+                RowLayout {
                     DropDownBox {
                         id: subscriptionType
 
@@ -136,6 +136,7 @@ Popup {
                 Layout.fillHeight: true
 
                 TextArea {
+                    id: pasteItemText
                     implicitHeight: 72
 
                     placeholderText: "ss://\n" + "vmess://\n" + "v2ray json config"
@@ -170,7 +171,8 @@ Popup {
                                                 subscriptionType.currentIndex,
                                                 subscriptionCycleTime.value)
                     } else {
-                        acrossGroups.appendItem(groupName.text)
+                        acrossGroups.appendItem(groupName.text,
+                                                pasteItemText.text)
                     }
 
                     popWindow.close()

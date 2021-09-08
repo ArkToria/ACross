@@ -43,7 +43,7 @@ public slots:
                   int type,
                   int cycle_time);
 
-  void appendItem(const QString& group_name);
+  void appendItem(const QString& group_name, const QString& node_items);
 
   void removeItem(int index);
 
