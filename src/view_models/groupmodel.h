@@ -6,48 +6,51 @@
 #include <QDateTime>
 
 namespace across {
-class GroupModel : public QAbstractListModel {
-    Q_OBJECT
-    Q_PROPERTY(GroupList* list READ list WRITE setList NOTIFY listChanged)
+class GroupModel : public QAbstractListModel
+{
+  Q_OBJECT
+  Q_PROPERTY(GroupList* list READ list WRITE setList NOTIFY listChanged)
 public:
-    explicit GroupModel(QObject* parent = nullptr);
+  explicit GroupModel(QObject* parent = nullptr);
 
-    enum GroupRoles {
-        GroupIDRole = Qt::UserRole,
-        NameRole,
-        IsSubscriptionRole,
-        TypeRole,
-        UrlRole,
-        CycleTimeRole,
-        CreatedAtRole,
-        ModifiedAtRole,
-        ItemsRole,
-    };
+  enum GroupRoles
+  {
+    GroupIDRole = Qt::UserRole,
+    NameRole,
+    IsSubscriptionRole,
+    TypeRole,
+    UrlRole,
+    CycleTimeRole,
+    CreatedAtRole,
+    ModifiedAtRole,
+    ItemsRole,
+  };
 
-    Q_ENUM(GroupRoles);
+  Q_ENUM(GroupRoles);
 
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+  int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 
-    QVariant data(const QModelIndex& index,
-        int role = Qt::DisplayRole) const override;
+  QVariant data(const QModelIndex& index,
+                int role = Qt::DisplayRole) const override;
 
-    bool setData(const QModelIndex& index, const QVariant& value,
-        int role = Qt::EditRole) override;
+  bool setData(const QModelIndex& index,
+               const QVariant& value,
+               int role = Qt::EditRole) override;
 
-    virtual QHash<int, QByteArray> roleNames() const override;
+  virtual QHash<int, QByteArray> roleNames() const override;
 
-    GroupList* list() const;
+  GroupList* list() const;
 
 public slots:
-    void setList(GroupList* list);
+  void setList(GroupList* list);
 
 signals:
-    void listChanged();
+  void listChanged();
 
-    void nodeListChanged();
+  void nodeListChanged();
 
 private:
-    GroupList* m_list;
+  GroupList* m_list;
 };
 }
 

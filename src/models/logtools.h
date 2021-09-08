@@ -11,84 +11,88 @@
 
 namespace across {
 
-enum LogMode {
-    STDOUT,
-    FILE,
-    STDOUT_AND_FILE,
+enum LogMode
+{
+  STDOUT,
+  FILE,
+  STDOUT_AND_FILE,
 };
 
-class LogTools {
+class LogTools
+{
 public:
-    explicit LogTools();
+  explicit LogTools();
 
-    explicit LogTools(std::shared_ptr<spdlog::details::thread_pool> thread_pool, const std::string& name, LogMode mode = LogMode::STDOUT);
+  explicit LogTools(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
+                    const std::string& name,
+                    LogMode mode = LogMode::STDOUT);
 
-    void init(std::shared_ptr<spdlog::details::thread_pool> thread_pool);
+  void init(std::shared_ptr<spdlog::details::thread_pool> thread_pool);
 
-    void setLoggerName(const std::string& name);
+  void setLoggerName(const std::string& name);
 
-    void setFileName(const std::string& name);
+  void setFileName(const std::string& name);
 
-    void setPath(const std::string& path);
+  void setPath(const std::string& path);
 
-    void setLogMode(LogMode mode);
+  void setLogMode(LogMode mode);
 
-    void setMaxKeepFile(int num);
+  void setMaxKeepFile(int num);
 
-    void setThreadNums(int num);
+  void setThreadNums(int num);
 
-    void setMaxLogSize(int size);
+  void setMaxLogSize(int size);
 
-    void setQueueSize(int size);
+  void setQueueSize(int size);
 
-    std::shared_ptr<spdlog::async_logger> getLogger();
+  std::shared_ptr<spdlog::async_logger> getLogger();
 
-    template <typename... Args>
-    inline void trace(fmt::format_string<Args...> fmt, Args&&... args)
-    {
-        p_logger->trace(fmt, std::forward<Args>(args)...);
-    }
+  template<typename... Args>
+  inline void trace(fmt::format_string<Args...> fmt, Args&&... args)
+  {
+    p_logger->trace(fmt, std::forward<Args>(args)...);
+  }
 
-    template <typename... Args>
-    inline void debug(fmt::format_string<Args...> fmt, Args&&... args)
-    {
-        p_logger->debug(fmt, std::forward<Args>(args)...);
-    }
+  template<typename... Args>
+  inline void debug(fmt::format_string<Args...> fmt, Args&&... args)
+  {
+    p_logger->debug(fmt, std::forward<Args>(args)...);
+  }
 
-    template <typename... Args>
-    inline void info(fmt::format_string<Args...> fmt, Args&&... args)
-    {
-        p_logger->info(fmt, std::forward<Args>(args)...);
-    }
+  template<typename... Args>
+  inline void info(fmt::format_string<Args...> fmt, Args&&... args)
+  {
+    p_logger->info(fmt, std::forward<Args>(args)...);
+  }
 
-    template <typename... Args>
-    inline void warn(fmt::format_string<Args...> fmt, Args&&... args)
-    {
-        p_logger->warn(fmt, std::forward<Args>(args)...);
-    }
+  template<typename... Args>
+  inline void warn(fmt::format_string<Args...> fmt, Args&&... args)
+  {
+    p_logger->warn(fmt, std::forward<Args>(args)...);
+  }
 
-    template <typename... Args>
-    inline void error(fmt::format_string<Args...> fmt, Args&&... args)
-    {
-        p_logger->error(fmt, std::forward<Args>(args)...);
-    }
+  template<typename... Args>
+  inline void error(fmt::format_string<Args...> fmt, Args&&... args)
+  {
+    p_logger->error(fmt, std::forward<Args>(args)...);
+  }
 
-    template <typename... Args>
-    inline void critical(fmt::format_string<Args...> fmt, Args&&... args)
-    {
-        p_logger->critical(fmt, std::forward<Args>(args)...);
-    }
+  template<typename... Args>
+  inline void critical(fmt::format_string<Args...> fmt, Args&&... args)
+  {
+    p_logger->critical(fmt, std::forward<Args>(args)...);
+  }
 
 private:
-    std::shared_ptr<spdlog::async_logger> p_logger;
+  std::shared_ptr<spdlog::async_logger> p_logger;
 
-    std::string m_name = "main";
-    std::string m_filename = "across_log.txt";
-    std::string m_path = "./logs/";
-    LogMode m_mode = STDOUT;
+  std::string m_name = "main";
+  std::string m_filename = "across_log.txt";
+  std::string m_path = "./logs/";
+  LogMode m_mode = STDOUT;
 
-    int m_max_keep_file = 3;
-    int m_max_log_size = 1024 * 1024 * 4;
+  int m_max_keep_file = 3;
+  int m_max_log_size = 1024 * 1024 * 4;
 };
 };
 

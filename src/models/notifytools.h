@@ -11,12 +11,13 @@
 
 namespace across {
 namespace utils {
-class NotifyTools : public QObject {
-    Q_OBJECT
+class NotifyTools : public QObject
+{
+  Q_OBJECT
 public:
-    explicit NotifyTools(QObject* parent = nullptr);
+  explicit NotifyTools(QObject* parent = nullptr);
 
-    void send(const QString& msg, const QString& summary = "");
+  void send(const QString& msg, const QString& summary = "");
 signals:
 };
 }

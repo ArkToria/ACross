@@ -2,67 +2,73 @@
 
 using namespace across;
 
-TrojanFormModel::TrojanFormModel(QObject* parent)
+TrojanFormModel::TrojanFormModel(QObject* parent) {}
+
+const QString&
+TrojanFormModel::serverName() const
 {
+  return m_serverName;
 }
 
-const QString& TrojanFormModel::serverName() const
+void
+TrojanFormModel::setServerName(const QString& newServerName)
 {
-    return m_serverName;
+  if (m_serverName == newServerName) {
+    return;
+  }
+
+  m_serverName = newServerName;
+
+  emit serverNameChanged();
 }
 
-void TrojanFormModel::setServerName(const QString& newServerName)
+const QString&
+TrojanFormModel::network() const
 {
-    if (m_serverName == newServerName) {
-        return;
-    }
-
-    m_serverName = newServerName;
-
-    emit serverNameChanged();
+  return m_network;
 }
 
-const QString& TrojanFormModel::network() const
+void
+TrojanFormModel::setNetwork(const QString& newNetwork)
 {
-    return m_network;
+  if (m_network == newNetwork) {
+    return;
+  }
+
+  m_network = newNetwork;
+
+  emit networkChanged();
 }
 
-void TrojanFormModel::setNetwork(const QString& newNetwork)
+const QString&
+TrojanFormModel::security() const
 {
-    if (m_network == newNetwork) {
-        return;
-    }
-
-    m_network = newNetwork;
-
-    emit networkChanged();
+  return m_security;
 }
 
-const QString& TrojanFormModel::security() const
+void
+TrojanFormModel::setSecurity(const QString& newSecurity)
 {
-    return m_security;
+  if (m_security == newSecurity)
+    return;
+  m_security = newSecurity;
+  emit securityChanged();
 }
 
-void TrojanFormModel::setSecurity(const QString& newSecurity)
+const QString&
+TrojanFormModel::alpn() const
 {
-    if (m_security == newSecurity)
-        return;
-    m_security = newSecurity;
-    emit securityChanged();
+  return m_alpn;
 }
 
-const QString& TrojanFormModel::alpn() const
+void
+TrojanFormModel::setAlpn(const QString& newAlpn)
 {
-    return m_alpn;
-}
+  if (m_alpn == newAlpn) {
+    return;
+  }
 
-void TrojanFormModel::setAlpn(const QString& newAlpn)
-{
-    if (m_alpn == newAlpn) {
-        return;
-    }
+  m_alpn = newAlpn;
 
-    m_alpn = newAlpn;
-
-    emit alpnChanged();
+  emit alpnChanged();
 }

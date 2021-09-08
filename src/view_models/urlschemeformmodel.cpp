@@ -2,22 +2,23 @@
 
 using namespace across;
 
-URLSchemeFormModel::URLSchemeFormModel(QObject *parent) : QObject(parent)
-{
+URLSchemeFormModel::URLSchemeFormModel(QObject* parent)
+  : QObject(parent)
+{}
 
+const QString&
+URLSchemeFormModel::urlScheme() const
+{
+  return m_urlScheme;
 }
 
-const QString &URLSchemeFormModel::urlScheme() const
+void
+URLSchemeFormModel::setURLScheme(const QString& newUrlScheme)
 {
-    return m_urlScheme;
-}
+  if (m_urlScheme == newUrlScheme)
+    return;
 
-void URLSchemeFormModel::setURLScheme(const QString &newUrlScheme)
-{
-    if (m_urlScheme == newUrlScheme)
-        return;
+  m_urlScheme = newUrlScheme;
 
-    m_urlScheme = newUrlScheme;
-
-    emit urlSchemeChanged();
+  emit urlSchemeChanged();
 }

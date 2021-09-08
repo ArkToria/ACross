@@ -21,18 +21,19 @@ using v2ray::core::app::stats::command::SysStatsResponse;
 
 namespace across {
 namespace core {
-class APITools {
+class APITools
+{
 public:
-    explicit APITools(std::shared_ptr<Channel> channel);
+  explicit APITools(std::shared_ptr<Channel> channel);
 
-    explicit APITools(uint port);
+  explicit APITools(uint port);
 
-    std::pair<bool, std::string> isOk() const;
+  std::pair<bool, std::string> isOk() const;
 
 private:
-    std::unique_ptr<StatsService::Stub> p_stub;
+  std::unique_ptr<StatsService::Stub> p_stub;
 
-    std::string ipv4_local_address = "127.0.0.1:";
+  std::string ipv4_local_address = "127.0.0.1:";
 };
 }
 }

@@ -2,10 +2,9 @@
 
 using namespace across;
 
-LogView::LogView(QObject *parent) : QObject(parent)
-{
-  
-}
+LogView::LogView(QObject* parent)
+  : QObject(parent)
+{}
 
 void
 LogView::clean()
@@ -13,7 +12,8 @@ LogView::clean()
   this->m_coreLog.clear();
 }
 
-void LogView::push(const QString &msg)
+void
+LogView::push(const QString& msg)
 {
   this->m_coreLog.append(msg);
 
@@ -23,7 +23,7 @@ void LogView::push(const QString &msg)
 const QString&
 LogView::coreLog() const
 {
-    return m_coreLog;
+  return m_coreLog;
 }
 
 void

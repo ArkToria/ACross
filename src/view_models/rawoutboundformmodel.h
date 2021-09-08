@@ -5,21 +5,21 @@
 namespace across {
 class RawOutboundFormModel : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(QString rawText READ rawText WRITE setRawText NOTIFY rawTextChanged)
-    QString m_rawText;
+  Q_OBJECT
+  Q_PROPERTY(
+    QString rawText READ rawText WRITE setRawText NOTIFY rawTextChanged)
+  QString m_rawText;
 
 public:
-    explicit RawOutboundFormModel(QObject *parent = nullptr);
+  explicit RawOutboundFormModel(QObject* parent = nullptr);
 
-    const QString &rawText() const;
-    void setRawText(const QString &newRawText);
+  const QString& rawText() const;
+  void setRawText(const QString& newRawText);
 
 signals:
 
-    void rawTextChanged();
+  void rawTextChanged();
 };
 }
-
 
 #endif // RAWOUTBOUNDFORMMODEL_H

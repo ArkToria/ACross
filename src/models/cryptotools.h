@@ -6,8 +6,8 @@
 #include <fcntl.h>
 #include <linux/random.h>
 #include <memory>
-#include <sodium.h>
 #include <optional>
+#include <sodium.h>
 #include <sys/ioctl.h>
 #include <unistd.h>
 
@@ -15,15 +15,18 @@
 
 namespace across {
 namespace utils {
-class CryptoTools {
+class CryptoTools
+{
 public:
-    static int initAndCheck();
+  static int initAndCheck();
 
-    static std::optional<QByteArray> aes256gcmEncode(const QByteArray& data, const QByteArray& password);
+  static std::optional<QByteArray> aes256gcmEncode(const QByteArray& data,
+                                                   const QByteArray& password);
 
-    static std::optional<QByteArray> aes256gcmDecode(const QByteArray& data, const QByteArray& password);
+  static std::optional<QByteArray> aes256gcmDecode(const QByteArray& data,
+                                                   const QByteArray& password);
 
-    static bool detectEntropyQuality();
+  static bool detectEntropyQuality();
 };
 }
 }

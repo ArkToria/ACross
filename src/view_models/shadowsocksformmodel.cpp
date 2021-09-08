@@ -2,33 +2,36 @@
 
 using namespace across;
 
-ShadowsocksFormModel::ShadowsocksFormModel(QObject *parent) : QObject(parent)
-{
+ShadowsocksFormModel::ShadowsocksFormModel(QObject* parent)
+  : QObject(parent)
+{}
 
+const QString&
+ShadowsocksFormModel::security() const
+{
+  return m_security;
 }
 
-const QString &ShadowsocksFormModel::security() const
+void
+ShadowsocksFormModel::setSecurity(const QString& newSecurity)
 {
-    return m_security;
+  if (m_security == newSecurity)
+    return;
+  m_security = newSecurity;
+  emit securityChanged();
 }
 
-void ShadowsocksFormModel::setSecurity(const QString &newSecurity)
+bool
+ShadowsocksFormModel::ivCheck() const
 {
-    if (m_security == newSecurity)
-        return;
-    m_security = newSecurity;
-    emit securityChanged();
+  return m_ivCheck;
 }
 
-bool ShadowsocksFormModel::ivCheck() const
+void
+ShadowsocksFormModel::setIvCheck(bool newIvCheck)
 {
-    return m_ivCheck;
-}
-
-void ShadowsocksFormModel::setIvCheck(bool newIvCheck)
-{
-    if (m_ivCheck == newIvCheck)
-        return;
-    m_ivCheck = newIvCheck;
-    emit ivCheckChanged();
+  if (m_ivCheck == newIvCheck)
+    return;
+  m_ivCheck = newIvCheck;
+  emit ivCheckChanged();
 }

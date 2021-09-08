@@ -2,92 +2,102 @@
 
 using namespace across;
 
-VMessFormModel::VMessFormModel(QObject *parent) : QObject(parent)
-{
+VMessFormModel::VMessFormModel(QObject* parent)
+  : QObject(parent)
+{}
 
+QString
+VMessFormModel::alterID() const
+{
+  return m_alterID;
 }
 
-QString VMessFormModel::alterID() const
+void
+VMessFormModel::setAlterID(const QString& newAlterID)
 {
-    return m_alterID;
+  if (m_alterID == newAlterID)
+    return;
+  m_alterID = newAlterID;
+  emit alterIDChanged();
 }
 
-void VMessFormModel::setAlterID(const QString &newAlterID)
+const QString&
+VMessFormModel::security() const
 {
-    if (m_alterID == newAlterID)
-        return;
-    m_alterID = newAlterID;
-    emit alterIDChanged();
+  return m_secutiry;
 }
 
-const QString &VMessFormModel::security() const
+void
+VMessFormModel::setSecutiry(const QString& newSecutiry)
 {
-    return m_secutiry;
+  if (m_secutiry == newSecutiry)
+    return;
+  m_secutiry = newSecutiry;
+  emit secutiryChanged();
 }
 
-void VMessFormModel::setSecutiry(const QString &newSecutiry)
+const QString&
+VMessFormModel::network() const
 {
-    if (m_secutiry == newSecutiry)
-        return;
-    m_secutiry = newSecutiry;
-    emit secutiryChanged();
+  return m_network;
 }
 
-const QString &VMessFormModel::network() const
+void
+VMessFormModel::setNetwork(const QString& newNetwork)
 {
-    return m_network;
+  if (m_network == newNetwork)
+    return;
+  m_network = newNetwork;
+  emit networkChanged();
 }
 
-void VMessFormModel::setNetwork(const QString &newNetwork)
+const QString&
+VMessFormModel::host() const
 {
-    if (m_network == newNetwork)
-        return;
-    m_network = newNetwork;
-    emit networkChanged();
+  return m_host;
 }
 
-const QString &VMessFormModel::host() const
+void
+VMessFormModel::setHost(const QString& newHost)
 {
-    return m_host;
+  if (m_host == newHost)
+    return;
+
+  m_host = newHost;
+
+  emit hostChanged();
 }
 
-void VMessFormModel::setHost(const QString &newHost)
+const QString&
+VMessFormModel::path() const
 {
-    if (m_host == newHost)
-        return;
-
-    m_host = newHost;
-
-    emit hostChanged();
+  return m_path;
 }
 
-const QString &VMessFormModel::path() const
+void
+VMessFormModel::setPath(const QString& newPath)
 {
-    return m_path;
+  if (m_path == newPath)
+    return;
+
+  m_path = newPath;
+
+  emit pathChanged();
 }
 
-void VMessFormModel::setPath(const QString &newPath)
+bool
+VMessFormModel::tlsEnable() const
 {
-    if (m_path == newPath)
-        return;
-
-    m_path = newPath;
-
-    emit pathChanged();
+  return m_tlsEnable;
 }
 
-
-bool VMessFormModel::tlsEnable() const
+void
+VMessFormModel::setTlsEnable(bool newTlsEnable)
 {
-    return m_tlsEnable;
-}
+  if (m_tlsEnable == newTlsEnable)
+    return;
 
-void VMessFormModel::setTlsEnable(bool newTlsEnable)
-{
-    if (m_tlsEnable == newTlsEnable)
-        return;
+  m_tlsEnable = newTlsEnable;
 
-    m_tlsEnable = newTlsEnable;
-
-    emit tlsEnableChanged();
+  emit tlsEnableChanged();
 }

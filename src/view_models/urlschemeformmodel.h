@@ -6,18 +6,19 @@
 namespace across {
 class URLSchemeFormModel : public QObject
 {
-    Q_OBJECT
-    Q_PROPERTY(QString urlScheme READ urlScheme WRITE setURLScheme NOTIFY urlSchemeChanged)
-    QString m_urlScheme;
+  Q_OBJECT
+  Q_PROPERTY(
+    QString urlScheme READ urlScheme WRITE setURLScheme NOTIFY urlSchemeChanged)
+  QString m_urlScheme;
 
 public:
-    explicit URLSchemeFormModel(QObject *parent = nullptr);
+  explicit URLSchemeFormModel(QObject* parent = nullptr);
 
-    const QString &urlScheme() const;
-    void setURLScheme(const QString &newUrlScheme);
+  const QString& urlScheme() const;
+  void setURLScheme(const QString& newUrlScheme);
 
 signals:
-    void urlSchemeChanged();
+  void urlSchemeChanged();
 };
 }
 

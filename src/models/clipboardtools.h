@@ -9,14 +9,15 @@
 namespace across {
 namespace utils {
 
-class ClipboardTools : public QObject {
-    Q_OBJECT
+class ClipboardTools : public QObject
+{
+  Q_OBJECT
 public:
-    explicit ClipboardTools(QObject* parent = nullptr);
+  explicit ClipboardTools(QObject* parent = nullptr);
 
-    void add(const QString& msg);
+  void add(const QString& msg);
 
-    void add(const QImage& img);
+  void add(const QImage& img);
 };
 }
 }
