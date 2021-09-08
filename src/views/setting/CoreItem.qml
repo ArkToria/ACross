@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
@@ -33,143 +33,139 @@ Item {
         }
     }
 
-    ColumnLayout {
+    GridLayout {
         anchors.fill: parent
-        spacing: acrossConfig.itemSpacing
+        columns: 3
+        rowSpacing: acrossConfig.itemSpacing
+        columnSpacing: acrossConfig.itemSpacing
 
         Label {
+            Layout.columnSpan: 3
             text: qsTr("Core Configuration")
             font.pixelSize: 24
             color: acrossConfig.textColor
         }
 
-        GridLayout {
-            columns: 3
-            rowSpacing: acrossConfig.itemSpacing
-            columnSpacing: acrossConfig.itemSpacing
+        Label {
+            text: qsTr("Core path")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            placeholderText: acrossConfig.corePath === "" ? qsTr("Enter V2ray Core Executable Path Here") : acrossConfig.corePath
+            Layout.fillWidth: true
+        }
+
+        ButtonBox {
+            text: qsTr("Select")
+            onClicked: {
+                coreFileDialog.open()
+            }
+        }
+
+        Label {
+
+            text: qsTr("Assets path")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            placeholderText: acrossConfig.assetsPath === "" ? qsTr("Enter GeoIP and GeoSite Directory Here") : acrossConfig.assetsPath
+            Layout.fillWidth: true
+        }
+
+        ButtonBox {
+            text: qsTr("Select")
+            onClicked: {
+                assetsFileDialog.open()
+            }
+        }
+
+        Label {
+
+            text: qsTr("Core Info")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            id: core_info
+            Layout.fillWidth: true
+
+            text: acrossConfig.coreInfo
+            readOnly: true
+            color: acrossConfig.textColor
+        }
+
+        ButtonBox {
+            text: qsTr("Check")
+
+            onClicked: {
+                core_info.text = acrossConfig.coreInfo
+            }
+        }
+
+        Label {
+            text: qsTr("Enable API")
+            color: acrossConfig.textColor
+        }
+
+        RowLayout {
+            spacing: acrossConfig.itemSpacing
+            Layout.fillWidth: true
+            SwitchBox {
+                id: apiSwitch
+                checked: acrossConfig.apiEnable
+                onCheckedChanged: {
+                    acrossConfig.apiEnable = checked
+                }
+            }
 
             Label {
-
-                text: qsTr("Core path")
+                text: qsTr("API Port")
                 color: acrossConfig.textColor
             }
 
             TextFieldBox {
-                placeholderText: acrossConfig.corePath === "" ? qsTr("Enter V2ray Core Executable Path Here") : acrossConfig.corePath
-                Layout.fillWidth: true
-            }
+                id: apiPortText
 
-            ButtonBox {
-                text: qsTr("Select")
-                onClicked: {
-                    coreFileDialog.open()
+                placeholderText: acrossConfig.apiPort
+                readOnly: apiSwitch.checked ? false : true
+                inputMethodHints: Qt.ImhDigitsOnly
+
+                onTextEdited: {
+                    acrossConfig.apiPort = text
                 }
             }
 
             Label {
-
-                text: qsTr("Assets path")
+                text: qsTr("Test Result")
                 color: acrossConfig.textColor
             }
 
             TextFieldBox {
-                placeholderText: acrossConfig.assetsPath === "" ? qsTr("Enter GeoIP and GeoSite Directory Here") : acrossConfig.assetsPath
+                id: testResult
                 Layout.fillWidth: true
             }
+        }
 
-            ButtonBox {
-                text: qsTr("Select")
-                onClicked: {
-                    assetsFileDialog.open()
-                }
-            }
+        ButtonBox {
+            text: qsTr("Test")
+            enabled: apiSwitch.checked
+            onClicked: {
+                // sync input information
+                acrossConfig.apiPort = apiPortText.text
 
-            Label {
+                var stats = acrossConfig.testApi()
 
-                text: qsTr("Core Info")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                id: core_info
-                Layout.fillWidth: true
-
-                text: acrossConfig.coreInfo
-                readOnly: true
-                color: acrossConfig.textColor
-            }
-
-            ButtonBox {
-                text: qsTr("Check")
-
-                onClicked: {
-                    core_info.text = acrossConfig.coreInfo
-                }
-            }
-
-            Label {
-                text: qsTr("Enable API")
-                color: acrossConfig.textColor
-            }
-
-            RowLayout {
-                spacing: spacingWidth
-                Layout.fillWidth: true
-                SwitchBox {
-                    id: apiSwitch
-                    checked: acrossConfig.apiEnable
-                    onCheckedChanged: {
-                        acrossConfig.apiEnable = checked
-                    }
+                if (stats && acrossConfig.apiResultText === "") {
+                    testResult.text = qsTr("Success")
+                    testResult.color = acrossConfig.styleColor
+                } else {
+                    testResult.text = acrossConfig.apiResultText
+                    testResult.color = acrossConfig.warnColor
                 }
 
-                Label {
-                    text: qsTr("API Port")
-                    color: acrossConfig.textColor
-                }
-
-                TextFieldBox {
-                    id: apiPortText
-
-                    placeholderText: acrossConfig.apiPort
-                    readOnly: apiSwitch.checked ? false : true
-                    inputMethodHints: Qt.ImhDigitsOnly
-
-                    onTextEdited: {
-                        acrossConfig.apiPort = text
-                    }
-                }
-
-                Label {
-                    text: qsTr("Test Result")
-                    color: acrossConfig.textColor
-                }
-
-                TextFieldBox {
-                    id: testResult
-                    Layout.fillWidth: true
-                }
-            }
-
-            ButtonBox {
-                text: qsTr("Test")
-                enabled: apiSwitch.checked
-                onClicked: {
-                    // sync input information
-                    acrossConfig.apiPort = apiPortText.text
-
-                    var stats = acrossConfig.testApi()
-
-                    if (stats && acrossConfig.apiResultText === "") {
-                        testResult.text = qsTr("Success")
-                        testResult.color = acrossConfig.styleColor
-                    } else {
-                        testResult.text = acrossConfig.apiResultText
-                        testResult.color = acrossConfig.warnColor
-                    }
-
-                    testResult.visible = true
-                }
+                testResult.visible = true
             }
         }
     }
