@@ -154,8 +154,6 @@ GroupList::appendItem(const QString& group_name,
   if (result == SQLITE_OK) {
     item.id = p_db->getLastID();
 
-    m_items.append(item);
-
     std::stringstream data_stream;
     across::network::CURLTools::DownloadTask task(
       item.name.toStdString(), item.url.toStdString(), item.id);
@@ -182,7 +180,6 @@ GroupList::appendItem(const QString& group_name,
         if (!rc) {
           emit preLastItemRemoved();
           p_db->removeGroupFromName(task.name);
-          m_items.removeLast();
           emit postLastItemRemoved();
         }
 
@@ -195,19 +192,51 @@ GroupList::appendItem(const QString& group_name,
 }
 
 void
-GroupList::appendItem(const QString& group_name)
+GroupList::appendItem(const QString& group_name, const QString& node_items)
 {
   emit preItemAppended();
 
-  GroupInfo item;
-  item.id = m_items.size() + 1;
-  item.name = group_name;
+  GroupInfo group;
+  group.id = m_items.size() + 1;
+  group.name = group_name;
+  group.isSubscription = false;
 
-  auto result = p_db->insert(item);
+  int result = 0;
 
-  if (result == SQLITE_OK) {
-    m_items.append(item);
-  }
+  do {
+    result = p_db->insert(group);
+    if (result != SQLITE_OK) {
+      break;
+    }
+
+    group.id = p_db->getLastID();
+
+    if (p_db->createNodesTable(group.name.toStdString()) != SQLITE_OK) {
+      break;
+    }
+
+    for (auto& item : node_items.split("\n")) {
+      if (item.isEmpty()) {
+        break;
+      }
+
+      NodeInfo node;
+      node.group = group.name;
+      node.group_id = group.id;
+
+      result = SerializeTools::decodeOutboundFromURL(node, item);
+
+      if (!result) {
+        emit preLastItemRemoved();
+        p_db->removeGroupFromName(group.name.toStdString());
+        emit postLastItemRemoved();
+        break;
+      } else {
+        p_db->insert(node);
+        reloadItems();
+      }
+    }
+  } while (false);
 
   emit postItemAppended();
 }
