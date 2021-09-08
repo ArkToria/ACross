@@ -166,6 +166,6 @@ add_subdirectory(tests)
 ######## INSTALL ########
 #########################
 install(TARGETS across RUNTIME DESTINATION bin)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/org.qv2ray.across.desktop DESTINATION share/applications)
+install(FILES ${CMAKE_SOURCE_DIR}/misc/org.arktoria.across.desktop DESTINATION share/applications)
 install(FILES ${CMAKE_SOURCE_DIR}/misc/across_example.toml DESTINATION share/across/)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/design/logo.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.qv2ray.across.svg)
+install(FILES ${CMAKE_SOURCE_DIR}/misc/design/logo.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.svg)

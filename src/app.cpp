@@ -6,14 +6,6 @@ using namespace across::core;
 Application::Application(int& argc, char** argv)
   : QGuiApplication(argc, argv)
 {
-  QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-  QGuiApplication::setOrganizationName("arktoria");
-  QGuiApplication::setApplicationName(APP_NAME);
-  QGuiApplication::setOrganizationDomain("arktoria.org");
-  QGuiApplication::setApplicationDisplayName("ACross - V2ray Client");
-  QGuiApplication::setWindowIcon(QIcon::fromTheme("org.arktoria.across"));
-  QGuiApplication::setFont(QFont("Noto Sans", 10));
 
   spdlog::init_thread_pool(m_queue_size, m_thread_nums);
   p_thread_pool = spdlog::thread_pool();
