@@ -49,7 +49,6 @@ set(QRC_FILES
 set(PROJECT_HEADERS
     src/app.h
     src/view_models/configtools.h
-    src/view_models/colors.h
     src/view_models/grouplist.h
     src/view_models/groupmodel.h
     src/view_models/nodelist.h
@@ -83,7 +82,6 @@ set(PROJECT_SOURCES
     src/main.cpp
     src/app.cpp
     src/view_models/configtools.cpp
-    src/view_models/colors.cpp
     src/view_models/grouplist.cpp
     src/view_models/groupmodel.cpp
     src/view_models/nodelist.cpp
