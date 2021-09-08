@@ -9,9 +9,14 @@ Menu {
     topPadding: 8
     bottomPadding: 8
 
+    property real menuWidth: 168
+
     background: CardBox {
         id: popMenuBackground
         color: acrossConfig.backgroundColor
+
+        implicitWidth: menuWidth
+
         border.width: 1
         border.color: acrossConfig.deepColor
     }
@@ -25,7 +30,7 @@ Menu {
         }
 
         background: Rectangle {
-            implicitWidth: 168
+            implicitWidth: menuWidth
             color: menuItem.highlighted ? acrossConfig.highlightColor : "transparent"
         }
     }
