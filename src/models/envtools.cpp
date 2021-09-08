@@ -1,8 +1,8 @@
 #include "envtools.h"
 
-using namespace ::across;
+using namespace across;
 
-EnvTools::EnvTools(QObject* parent)
+EnvTools::EnvTools()
 {
     m_info = {
         get("ACROSS_CONFIG_PATH"),

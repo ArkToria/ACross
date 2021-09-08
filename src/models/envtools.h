@@ -25,14 +25,14 @@ struct SystemEnvs {
     }
 };
 
-class EnvTools : public QObject {
-    Q_OBJECT
+class EnvTools
+{
 public:
-    explicit EnvTools(QObject* parent = nullptr);
+  explicit EnvTools();
 
-    QString get(const QString& key);
+  QString get(const QString& key);
 
-    SystemEnvs getInfo();
+  SystemEnvs getInfo();
 
 private:
     static QString getEnvs(const QProcessEnvironment& envs, const QString& key);

@@ -51,7 +51,6 @@ private:
   int m_queue_size = 8192;
   std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
 
-  across::EnvTools acrossEnvs;
   across::LogView acrossLog;
   across::setting::ConfigTools acrossConfig;
   across::DBTools acrossDB;

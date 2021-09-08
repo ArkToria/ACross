@@ -54,8 +54,6 @@ Application::setRootContext()
     },
     Qt::QueuedConnection);
 
-  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossEnvs"),
-                                             &acrossEnvs);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
                                              &acrossConfig);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCore"),
