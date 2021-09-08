@@ -6,9 +6,7 @@ import QtQuick.Controls 2.12
 import "../components"
 
 Item {
-    anchors.margins: spacingWidth
-
-    property int spacingWidth: acrossConfig.itemSpacing * 2
+    anchors.margins: acrossConfig.itemSpacing * 2
 
     FileDialog {
         id: coreFileDialog
@@ -85,7 +83,6 @@ Item {
                     assetsFileDialog.open()
                 }
             }
-            property int buttonWidth: 96
 
             Label {
 
