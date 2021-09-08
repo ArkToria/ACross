@@ -632,8 +632,8 @@ void
 DBTools::close()
 {
   if (m_db != nullptr) {
-    emit destroy();
     sqlite3_close(m_db);
     m_db = nullptr;
+    emit destroy();
   }
 }

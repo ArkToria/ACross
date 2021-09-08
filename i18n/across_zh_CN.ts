@@ -61,22 +61,22 @@
         <translation>选择数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="41"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="47"/>
         <source>Application Setting</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="98"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="102"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="116"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="121"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
@@ -86,22 +86,22 @@
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="133"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="135"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="140"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="144"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="52"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="73"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="68"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
@@ -154,58 +154,58 @@
         <translation>内核路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="55"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="58"/>
         <source>Enter V2ray Core Executable Path Here</source>
         <translation>在此输入内核可执行文件路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="60"/>
-        <location filename="../src/views/setting/CoreItem.qml" line="78"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="62"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="82"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="68"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="70"/>
         <source>Assets path</source>
         <translation>Assets 路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="73"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="78"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
         <translation>输入 GeoIP 和 GeoSite 所在文件目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="108"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="112"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="124"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="125"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="141"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="145"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="152"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="157"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="161"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="168"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="86"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="89"/>
         <source>Core Info</source>
         <translation>内核信息</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="100"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="104"/>
         <source>Check</source>
         <translation>检查</translation>
     </message>

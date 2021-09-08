@@ -47,12 +47,9 @@ Application::Application(int& argc, char** argv)
 
 Application::~Application()
 {
-  acrossDB.close();
-
   // TODO: find out the reason cause gdb SIG32 nostop
   if (p_app != nullptr) {
     p_app->deleteLater();
-    p_app = nullptr;
   }
 }
 
