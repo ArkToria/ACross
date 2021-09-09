@@ -8,8 +8,10 @@ CardBox {
     implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
     implicitHeight: aboutContent.height + acrossConfig.itemSpacing * 8
 
+    property bool isDev: false
+
     RowLayout {
-        id:aboutContent
+        id: aboutContent
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.top: parent.top
@@ -17,9 +19,22 @@ CardBox {
         spacing: acrossConfig.itemSpacing * 4
 
         SVGBox {
+            id: logoImage
             sourceWidth: 128
             sourceHeight: 128
             source: getLogo(acrossConfig.iconStyle)
+
+            MouseArea {
+                anchors.fill: parent
+                onDoubleClicked: {
+                    if (!isDev) {
+                        logoImage.source = getLogo("dev")
+                    } else {
+                        logoImage.source = getLogo(acrossConfig.iconStyle)
+                    }
+                    isDev = !isDev
+                }
+            }
         }
 
         ColumnLayout {
@@ -163,12 +178,10 @@ CardBox {
                 }
             }
 
-
             Item {
                 Layout.fillHeight: true
             }
 
-            
             Row {
                 layoutDirection: Qt.RightToLeft
                 Layout.fillWidth: true

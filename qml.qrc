@@ -81,5 +81,6 @@
         <file>misc/icons/dark/help.svg</file>
         <file>misc/icons/light/repo_qr_code.svg</file>
         <file>misc/icons/dark/repo_qr_code.svg</file>
+        <file>misc/design/lines.svg</file>
     </qresource>
 </RCC>

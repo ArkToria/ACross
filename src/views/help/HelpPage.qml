@@ -9,6 +9,10 @@ Item {
     implicitHeight: 720
 
     function getLogo(style) {
+        if (style === "dev") {
+            return "qrc:/misc/design/lines.svg"
+        }
+
         if (style === "light") {
             return "qrc:/misc/design/logo_pure.svg"
         } else {
