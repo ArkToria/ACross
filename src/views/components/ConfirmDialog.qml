@@ -8,6 +8,9 @@ Dialog {
     modal: true
     implicitWidth: 320
     implicitHeight: 160
+    contentHeight:implicitHeight
+    contentWidth:implicitWidth
+    
     x: Math.round((mainWindow.width - width) / 2 - mainPanel.width)
     y: Math.round((mainWindow.height - height) / 2)
 
