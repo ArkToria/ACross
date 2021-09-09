@@ -4,7 +4,7 @@ using namespace across;
 using namespace across::core;
 
 Application::Application(int& argc, char** argv)
-  : QGuiApplication(argc, argv)
+  : QApplication(argc, argv)
 {
 
   spdlog::init_thread_pool(m_queue_size, m_thread_nums);

@@ -3,14 +3,14 @@
 int
 main(int argc, char* argv[])
 {
-  QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QGuiApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-  QGuiApplication::setOrganizationName("arktoria");
-  QGuiApplication::setApplicationName(APP_NAME);
-  QGuiApplication::setOrganizationDomain("arktoria.org");
-  QGuiApplication::setApplicationDisplayName("V2ray Client");
-  QGuiApplication::setWindowIcon(QIcon::fromTheme("org.arktoria.across"));
-  QGuiApplication::setFont(QFont("Noto Sans", 10));
+  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+  QApplication::setOrganizationName("arktoria");
+  QApplication::setApplicationName(APP_NAME);
+  QApplication::setOrganizationDomain("arktoria.org");
+  QApplication::setApplicationDisplayName("V2ray Client");
+  QApplication::setWindowIcon(QIcon::fromTheme("org.arktoria.across"));
+  QApplication::setFont(QFont("Noto Sans", 10));
 
   across::Application app(argc, argv);
 

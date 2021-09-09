@@ -3,8 +3,8 @@
 
 #include "spdlog/async.h"
 #include "spdlog/spdlog.h"
+#include <QApplication>
 #include <QFont>
-#include <QGuiApplication>
 #include <QIcon>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -30,7 +30,7 @@
 namespace across {
 #define APP_NAME "ACross"
 
-class Application : public QGuiApplication
+class Application : public QApplication
 {
   Q_OBJECT
 public:
