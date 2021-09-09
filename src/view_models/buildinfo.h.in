@@ -43,9 +43,22 @@ namespace across {
         return time.toString();
     }
 
-    inline static const QString getSourceCodeUrl() {
-        QString url = "https://github.com/ArkToria/ACross";
-        return url;
+    inline static const QString
+    getSourceCodeURL()
+    {
+      return QString("https://github.com/ArkToria/ACross");
+    }
+
+    inline static const QString
+    getReportURL()
+    {
+      return QString("https://github.com/ArkToria/ACross/issues");
+    }
+
+    inline static const QString
+    getLicenseURL()
+    {
+      return QString("https://www.gnu.org/licenses/gpl-3.0.html");
     }
 }
 
