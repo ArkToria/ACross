@@ -37,10 +37,12 @@ Menu {
     Action {
         text: qsTr("Edit")
         onTriggered: {
+
         }
     }
 
     Action {
+        enabled: isSubscription
         text: qsTr("Copy URL")
         onTriggered: {
             acrossGroups.copyUrlToClipboard(index)

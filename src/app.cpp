@@ -78,9 +78,10 @@ Application::setTranslator(const QString& lang)
   if (QFile(file_path).exists()) {
     if (m_translator.load(file_path)) {
       this->installTranslator(&m_translator);
-      m_engine.retranslate();
     }
   }
+
+  m_engine.retranslate();
 }
 
 void
