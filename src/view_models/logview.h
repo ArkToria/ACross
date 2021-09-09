@@ -1,6 +1,11 @@
 #ifndef LOGVIEW_H
 #define LOGVIEW_H
 
+#include "configtools.h"
+
+#include "fmt/format.h"
+
+#include <QMap>
 #include <QObject>
 #include <QStringList>
 
@@ -14,11 +19,15 @@ class LogView : public QObject
 public:
   explicit LogView(QObject* parent = nullptr);
 
+  void init(across::setting::ConfigTools& config);
+
   void clean();
 
   void push(const QString& msg);
 
   const QString& coreLog() const;
+
+  void styleFomatter(QString& msg);
 
 public slots:
   void setCoreLog(const QString& newCoreLog);
@@ -28,6 +37,8 @@ signals:
 
 private:
   QString m_coreLog;
+
+  QMap<QString, QString> colors_map;
 };
 }
 

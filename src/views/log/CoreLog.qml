@@ -27,11 +27,16 @@ CardBox {
             Layout.fillHeight: true
 
             TextArea.flickable: TextAreaBox {
-                color: acrossConfig.deepTextColor
                 text: acrossLog.coreLog
-                font.family: "Mono"
-                wrapMode: Text.NoWrap
                 placeholderText: "v2ray core logging ..."
+
+                color: acrossConfig.deepTextColor
+                selectedTextColor: acrossConfig.highlightTextColor
+                selectionColor: acrossConfig.highlightColor
+
+                font.family: "Mono"
+                textFormat: TextEdit.RichText
+                wrapMode: Text.NoWrap
             }
 
             ScrollBar.vertical: ScrollBar {}
