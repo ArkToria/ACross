@@ -170,11 +170,17 @@ CardBox {
                     color: acrossConfig.textColor
                 }
 
-                TextAreaBox {
+                ScrollView {
                     Layout.fillWidth: true
-                    text: acrossConfig.extraInfo
-                    color: acrossConfig.textColor
-                    readOnly: true
+
+                    TextAreaBox {
+                        text: acrossConfig.extraInfo
+                        color: acrossConfig.textColor
+                        readOnly: true
+                        selectByMouse: true
+                        selectedTextColor: acrossConfig.highlightTextColor
+                        selectionColor: acrossConfig.highlightColor
+                    }
                 }
             }
 

@@ -34,12 +34,12 @@
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="192"/>
+        <location filename="../src/views/help/About.qml" line="198"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="198"/>
+        <location filename="../src/views/help/About.qml" line="204"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
