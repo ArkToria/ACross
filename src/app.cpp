@@ -68,15 +68,17 @@ Application::setRootContext()
 void
 Application::setTranslator(const QString& lang)
 {
-  this->removeTranslator(&m_translator);
+  if (!m_translator.isEmpty()) {
+    this->removeTranslator(&m_translator);
+  }
 
   const QString baseName = m_app_name.toLower() + "_" + QLocale(lang).name();
-
   auto file_path = ":/" + baseName + ".qm";
 
   if (QFile(file_path).exists()) {
     if (m_translator.load(file_path)) {
       this->installTranslator(&m_translator);
+      m_engine.retranslate();
     }
   }
 }

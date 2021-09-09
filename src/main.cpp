@@ -8,7 +8,7 @@ main(int argc, char* argv[])
   QGuiApplication::setOrganizationName("arktoria");
   QGuiApplication::setApplicationName(APP_NAME);
   QGuiApplication::setOrganizationDomain("arktoria.org");
-  QGuiApplication::setApplicationDisplayName("ACross - V2ray Client");
+  QGuiApplication::setApplicationDisplayName("V2ray Client");
   QGuiApplication::setWindowIcon(QIcon::fromTheme("org.arktoria.across"));
   QGuiApplication::setFont(QFont("Noto Sans", 10));
 
