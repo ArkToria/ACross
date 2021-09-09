@@ -22,6 +22,7 @@ Menu {
 
     delegate: MenuItem {
         id: menuItem
+        visible: enabled
 
         contentItem: Text {
             text: menuItem.text
@@ -43,7 +44,9 @@ Menu {
 
     Action {
         enabled: isSubscription
+
         text: qsTr("Copy URL")
+
         onTriggered: {
             acrossGroups.copyUrlToClipboard(index)
         }
@@ -65,6 +68,8 @@ Menu {
     }
 
     Action {
+        enabled: isSubscription
+
         text: qsTr("Update")
     }
 
