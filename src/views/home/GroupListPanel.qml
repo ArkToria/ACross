@@ -19,7 +19,7 @@ Item {
         id: updateGroupForm
     }
 
-    ConfirmDialog {
+    RemoveConfirmDialog {
         id: removeConfirmDialog
         headerText: qsTr("Warning")
         contentText: qsTr("Confirm to remove group from database")

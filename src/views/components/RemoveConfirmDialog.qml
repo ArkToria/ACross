@@ -8,9 +8,8 @@ Dialog {
     modal: true
     implicitWidth: 320
     implicitHeight: 160
-    contentHeight:implicitHeight
-    contentWidth:implicitWidth
-    
+    contentWidth: implicitWidth
+    contentHeight: implicitHeight
     x: Math.round((mainWindow.width - width) / 2 - mainPanel.width)
     y: Math.round((mainWindow.height - height) / 2)
 
@@ -35,14 +34,12 @@ Dialog {
         rootDialog.reject()
     }
 
-    header: RowLayout {
+    header: Rectangle {
         Label {
             text: headerText
-            Layout.margins: 16
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
             color: acrossConfig.textColor
             font.pixelSize: 18
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 
@@ -52,14 +49,14 @@ Dialog {
     }
 
     footer: RowLayout {
-        spacing: 16
+        spacing: acrossConfig.itemSpacing * 2
 
         Item {
             Layout.fillWidth: true
         }
 
         ButtonBox {
-            text: qsTr("Accept")
+            text: qsTr("Remove")
 
             basicState: "WarnState"
             basicColor: acrossConfig.warnColor

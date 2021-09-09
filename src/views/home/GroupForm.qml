@@ -8,9 +8,9 @@ import "../components"
 Popup {
     id: popWindow
     implicitWidth: 480
-    implicitHeight: 360
-    contentHeight:implicitHeight
-    contentWidth:implicitWidth
+    implicitHeight: 300
+    contentHeight: implicitHeight
+    contentWidth: implicitWidth
     x: Math.round((mainWindow.width - width) / 2 - mainPanel.width)
     y: Math.round((mainWindow.height - height) / 2)
 
@@ -26,138 +26,139 @@ Popup {
 
     background: CardBox {}
 
-    contentItem: ColumnLayout {
-        spacing: acrossConfig.itemSpacing
+    contentItem: GridLayout {
+        rowSpacing: acrossConfig.itemSpacing
+        columnSpacing: acrossConfig.itemSpacing
+        columns: 4
 
         Label {
             Layout.fillWidth: true
-            horizontalAlignment: Text.AlignHCenter
+            Layout.columnSpan: 4
 
             text: qsTr("Create a new group")
             font.pixelSize: 18
             color: acrossConfig.textColor
         }
 
-        RowLayout {
-            Label {
-                text: qsTr("Name")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                id: groupName
-                Layout.fillWidth: true
-
-                placeholderText: qsTr("Enter the unique group name")
-            }
+        Label {
+            text: qsTr("Name")
+            color: acrossConfig.textColor
         }
 
-        ColumnLayout {
-            id: fromSubscriptionItem
-            spacing: 16
+        TextFieldBox {
+            id: groupName
+            Layout.columnSpan: 3
+            Layout.fillWidth: true
 
-            RowLayout {
-                Label {
-                    text: qsTr("Subscription")
-                    color: acrossConfig.textColor
-                    font.pixelSize: 18
-                }
-
-                Item {
-                    Layout.fillWidth: true
-                }
-
-                SwitchBox {
-                    id: fromSubscriptionSwitcher
-                }
-            }
-
-            GridLayout {
-                columns: 2
-                visible: fromSubscriptionSwitcher.checked
-
-                Label {
-                    text: qsTr("Type")
-                    color: acrossConfig.textColor
-                }
-
-                RowLayout {
-                    DropDownBox {
-                        id: subscriptionType
-
-                        // defined at dbtools.h SubscriptionType enum class
-                        model: ["SIP008", "Base64", "JSON"]
-                    }
-
-                    Item {
-                        Layout.fillWidth: true
-                    }
-
-                    Label {
-                        text: qsTr("Cycle (days)")
-                        color: acrossConfig.textColor
-                    }
-
-                    NumBox {
-                        id: subscriptionCycleTime
-                        value: 15
-                        from: 1
-                        to: 31
-                    }
-                }
-
-                Label {
-                    text: qsTr("Address")
-                    color: acrossConfig.textColor
-                }
-
-                TextFieldBox {
-                    id: subscriptionUrl
-                    Layout.fillWidth: true
-
-                    placeholderText: qsTr("Enter the unique subscription url")
-                }
-            }
+            placeholderText: qsTr("Enter the unique group name")
         }
 
-        ColumnLayout {
-            id: fromPasteItem
-            spacing: 16
-            visible: !fromSubscriptionSwitcher.checked
-
-            RowLayout {
-                Label {
-                    text: qsTr("From Paste")
-                    color: acrossConfig.textColor
-                    font.pixelSize: 18
-                }
-            }
-
-            ScrollView {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                TextArea {
-                    id: pasteItemText
-                    implicitHeight: 72
-
-                    placeholderText: "ss://\n" + "vmess://\n" + "v2ray json config"
-                    color: acrossConfig.deepTextColor
-                    wrapMode: Text.NoWrap
-
-                    background: CardBox {
-                        color: acrossConfig.deepColor
-                        layer.enabled: false
-                    }
-                }
-            }
+        Label {
+            text: qsTr("Subscription")
+            color: acrossConfig.textColor
+            font.pixelSize: 18
         }
 
         Item {
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+        }
+
+        SwitchBox {
+            id: fromSubscriptionSwitcher
+            Layout.alignment: Qt.AlignRight
+        }
+
+        Label {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+            visible: !fromSubscriptionSwitcher.checked
+
+            text: qsTr("From Paste")
+            color: acrossConfig.textColor
+            font.pixelSize: 18
+        }
+
+        ScrollView {
+            Layout.fillWidth: true
             Layout.fillHeight: true
+            Layout.columnSpan: 4
+
+            visible: !fromSubscriptionSwitcher.checked
+
+            TextArea {
+                id: pasteItemText
+                implicitHeight: 72
+
+                placeholderText: "ss://\n" + "vmess://\n" + "v2ray json config"
+                color: acrossConfig.deepTextColor
+                wrapMode: Text.NoWrap
+
+                background: CardBox {
+                    color: acrossConfig.deepColor
+                    layer.enabled: false
+                }
+            }
+        }
+
+        Label {
+            visible: fromSubscriptionSwitcher.checked
+            text: qsTr("Type")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            id: subscriptionType
+            Layout.fillWidth: true
+            visible: fromSubscriptionSwitcher.checked
+
+            // defined at dbtools.h SubscriptionType enum class
+            model: ["SIP008", "Base64", "JSON"]
+        }
+
+        Label {
+            visible: fromSubscriptionSwitcher.checked
+
+            text: qsTr("Cycle (days)")
+            color: acrossConfig.textColor
+        }
+
+        NumBox {
+            id: subscriptionCycleTime
+            Layout.fillWidth: true
+            visible: fromSubscriptionSwitcher.checked
+
+            value: 15
+            from: 1
+            to: 31
+        }
+
+        Label {
+            visible: fromSubscriptionSwitcher.checked
+
+            text: qsTr("Address")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            id: subscriptionUrl
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+            visible: fromSubscriptionSwitcher.checked
+
+            placeholderText: qsTr("Enter the unique subscription url")
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            Layout.columnSpan: 4
         }
 
         RowLayout {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+
             spacing: acrossConfig.itemSpacing * 2
 
             Item {
@@ -166,6 +167,7 @@ Popup {
 
             ButtonBox {
                 text: qsTr("Accept")
+
                 onClicked: {
                     if (fromSubscriptionSwitcher.checked) {
                         acrossGroups.appendItem(groupName.text,
@@ -191,10 +193,3 @@ Popup {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;formeditorZoom:0.66;height:480;width:640}
-}
-##^##*/
-

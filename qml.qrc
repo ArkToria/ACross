@@ -28,7 +28,7 @@
         <file>src/views/home/GroupForm.qml</file>
         <file>src/views/components/DropDownBox.qml</file>
         <file>src/views/components/NumBox.qml</file>
-        <file>src/views/components/ConfirmDialog.qml</file>
+        <file>src/views/components/RemoveConfirmDialog.qml</file>
         <file>misc/command.proto</file>
         <file>src/views/home/NodeForm.qml</file>
         <file>src/views/home/TrojanSetting.qml</file>
