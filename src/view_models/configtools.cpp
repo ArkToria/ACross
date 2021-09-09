@@ -1553,5 +1553,17 @@ ConfigTools::buildTime()
 QString
 ConfigTools::sourceCodeURL()
 {
-  return getSourceCodeUrl();
+  return getSourceCodeURL();
+}
+
+QString
+ConfigTools::reportURL()
+{
+  return getReportURL();
+}
+
+QString
+ConfigTools::licenseURL()
+{
+  return getLicenseURL();
 }

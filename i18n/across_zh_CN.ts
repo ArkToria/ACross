@@ -39,7 +39,7 @@
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="204"/>
+        <location filename="../src/views/help/About.qml" line="205"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>

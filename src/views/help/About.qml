@@ -138,7 +138,7 @@ CardBox {
                     width: licenseLabel.contentWidth
                     height: licenseLabel.contentHeight
 
-                    property string urlText: "https://www.gnu.org/licenses/gpl-3.0.html"
+                    property string urlText: acrossConfig.licenseURL
 
                     Label {
                         id: licenseLabel
@@ -200,6 +200,7 @@ CardBox {
                     text: qsTr("Report Bugs")
                     basicColor: acrossConfig.warnColor
                     basicState: "warnState"
+                    onClicked: Qt.openUrlExternally(acrossConfig.reportURL)
                 }
 
                 ButtonBox {

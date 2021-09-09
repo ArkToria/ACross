@@ -286,6 +286,11 @@ class ConfigTools : public QObject
   Q_PROPERTY(QString buildTime READ buildTime CONSTANT)
 
   Q_PROPERTY(QString sourceCodeURL READ sourceCodeURL CONSTANT)
+
+  Q_PROPERTY(QString reportURL READ reportURL CONSTANT)
+
+  Q_PROPERTY(QString licenseURL READ licenseURL CONSTANT)
+
 public:
   explicit ConfigTools(QObject* parent = nullptr);
 
@@ -423,6 +428,10 @@ public:
   QString buildTime();
 
   QString sourceCodeURL();
+
+  QString reportURL();
+
+  QString licenseURL();
 
 public slots:
   void setDBPath(const QString& db_path, bool init = false);
