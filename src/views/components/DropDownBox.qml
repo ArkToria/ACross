@@ -10,6 +10,9 @@ ComboBox {
     property int controlHeight: 8
 
     contentItem: Text {
+        anchors.left: parent.left
+        anchors.leftMargin: acrossConfig.itemSpacing
+
         text: comboBox.displayText
         color: acrossConfig.deepTextColor
         verticalAlignment: Text.AlignVCenter
@@ -48,7 +51,8 @@ ComboBox {
             ctx.lineTo(width, 0)
             ctx.lineTo(Math.round(width / 2), height)
             ctx.closePath()
-            ctx.fillStyle = comboBox.pressed ? acrossConfig.backgroundColor : acrossConfig.highlightColor
+            ctx.fillStyle
+                    = comboBox.pressed ? acrossConfig.backgroundColor : acrossConfig.highlightColor
             ctx.fill()
         }
     }
@@ -65,7 +69,7 @@ ComboBox {
             clip: true
             model: comboBox.delegateModel
             currentIndex: comboBox.highlightedIndex
-            ScrollIndicator.vertical: ScrollIndicator { }
+            ScrollIndicator.vertical: ScrollIndicator {}
 
             highlight: Rectangle {
                 color: acrossConfig.highlightColor
