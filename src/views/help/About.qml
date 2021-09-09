@@ -174,6 +174,8 @@ CardBox {
                     Layout.fillWidth: true
 
                     TextAreaBox {
+                        implicitWidth: parent.width
+                        implicitHeight: parent.height
                         text: acrossConfig.extraInfo
                         color: acrossConfig.textColor
                         readOnly: true
