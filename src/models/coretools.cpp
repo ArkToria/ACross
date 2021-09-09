@@ -60,11 +60,14 @@ CoreTools::run()
     return -1;
   }
 
-  if (m_running || p_process == nullptr) {
-    this->stop();
-
+  if (p_process == nullptr) {
     p_process = new QProcess();
+
+    p_process->setProcessChannelMode(QProcess::MergedChannels);
+    connect(
+     p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
   }
+  if (m_running) this->stop();
 
   if (p_log_view != nullptr) {
     p_log_view->clean();

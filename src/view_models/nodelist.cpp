@@ -263,6 +263,7 @@ NodeList::setCurrentNode(int id, int index)
 #endif
 
     p_core->setConfig(root.toStyledString());
+    //if(p_core->isRunning()) p_core->stop();
     p_core->run();
   } while (false);
 }
