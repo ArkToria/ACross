@@ -73,6 +73,31 @@ Window {
             }
         }
     }
+
+    function toggleVisibilty(){
+        if(mainWindow.visible === false){
+            mainWindow.show()
+        } else{
+            mainWindow.hide()
+        }
+    }
+    Connections {
+        target: acrossTray
+        function onSignalShow() {
+            toggleVisibilty()
+        }
+        function onSignalQuit() {
+            Qt.quit()
+        }
+        function onSignalIconActivated() {
+            toggleVisibilty()
+        }
+        
+    }
+
+    onVisibilityChanged:{
+        acrossTray.toggleVisibilitySetText(mainWindow.visible)
+    }
 }
 
 /*##^##

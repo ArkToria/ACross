@@ -43,6 +43,8 @@ Application::setRootContext()
   acrossNodes.init(p_thread_pool, acrossDB, acrossConfig, acrossCore);
   acrossGroups.init(p_thread_pool, acrossDB, acrossCurl, acrossNodes);
 
+  acrossTray.init(acrossConfig);
+
   const QUrl url(QStringLiteral("qrc:/src/views/main.qml"));
   QObject::connect(
     &m_engine,
@@ -64,6 +66,8 @@ Application::setRootContext()
                                              &acrossGroups);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLog"),
                                              &acrossLog);
+  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
+                                             &acrossTray);
   m_engine.load(url);
 }
 

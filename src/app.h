@@ -26,6 +26,7 @@
 #include "view_models/trojanformmodel.h"
 #include "view_models/urlschemeformmodel.h"
 #include "view_models/vmessformmodel.h"
+#include "view_models/systemtray.h"
 
 namespace across {
 #define APP_NAME "ACross"
@@ -58,6 +59,7 @@ private:
   across::network::CURLTools acrossCurl;
   across::NodeList acrossNodes;
   across::GroupList acrossGroups;
+  across::SystemTray acrossTray;
 
   const QString m_app_name = APP_NAME;
   QTranslator m_translator;

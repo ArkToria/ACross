@@ -684,6 +684,25 @@
     </message>
 </context>
 <context>
+    <name>across::SystemTray</name>
+    <message>
+        <location filename="../src/view_models/systemtray.cpp" line="18"/>
+        <location filename="../src/view_models/systemtray.cpp" line="47"/>
+        <source>Show</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/systemtray.cpp" line="19"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/systemtray.cpp" line="49"/>
+        <source>Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <location filename="../src/views/main.qml" line="17"/>
