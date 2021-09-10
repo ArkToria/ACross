@@ -36,6 +36,7 @@ Application::setRootContext()
   acrossDB.init(p_thread_pool, acrossConfig);
 
   acrossLog.init(acrossConfig);
+  //  acrossLogList.init(acrossConfig);
 
   auto core_config = acrossConfig.getCore();
   acrossCore.init(core_config, acrossLog);
@@ -68,6 +69,8 @@ Application::setRootContext()
                                              &acrossLog);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              &acrossTray);
+  //  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogList"),
+  //                                             &acrossLogList);
   m_engine.load(url);
 }
 
@@ -104,4 +107,5 @@ Application::registerModels()
     APP_NAME, 1, 0, "RawOutboundFormModel");
   qmlRegisterType<across::URLSchemeFormModel>(
     APP_NAME, 1, 0, "URLSchemeFormModel");
+  //  qmlRegisterType<across::LogModel>(APP_NAME, 1, 0, "LogModel");
 }

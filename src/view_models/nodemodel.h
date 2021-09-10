@@ -39,7 +39,7 @@ public:
 
   NodeList* list() const;
 
-  void connectItemsReset();
+  void connectItems();
 
 public slots:
   void setList(NodeList* list);

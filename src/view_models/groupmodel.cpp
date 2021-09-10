@@ -4,17 +4,17 @@ using namespace across;
 
 GroupModel::GroupModel(QObject* parent)
   : QAbstractListModel(parent)
-  , m_list(nullptr)
+  , p_list(nullptr)
 {}
 
 int
 GroupModel::rowCount(const QModelIndex& parent) const
 {
-  if (parent.isValid() || !m_list)
+  if (parent.isValid() || !p_list)
     return 0;
 
-  if (m_list != nullptr) {
-    return m_list->items().size();
+  if (p_list != nullptr) {
+    return p_list->items().size();
   } else {
     return 0;
   }
@@ -23,11 +23,11 @@ GroupModel::rowCount(const QModelIndex& parent) const
 QVariant
 GroupModel::data(const QModelIndex& index, int role) const
 {
-  if (!index.isValid() || !m_list || index.row() >= rowCount()) {
+  if (!index.isValid() || !p_list || index.row() >= rowCount()) {
     return QVariant();
   }
 
-  const GroupInfo item = m_list->items().at(index.row());
+  const GroupInfo item = p_list->items().at(index.row());
 
   switch (role) {
     case GroupIDRole:
@@ -73,7 +73,7 @@ GroupModel::roleNames() const
 GroupList*
 GroupModel::list() const
 {
-  return m_list;
+  return p_list;
 }
 
 void
@@ -85,38 +85,38 @@ GroupModel::setList(GroupList* list)
 
   beginResetModel();
 
-  if (m_list) {
-    m_list->disconnect(this);
+  if (p_list) {
+    p_list->disconnect(this);
   }
 
-  m_list = list;
+  p_list = list;
 
-  if (m_list) {
-    connect(m_list, &GroupList::preItemAppended, this, [&] {
-      const int index = m_list->items().size();
+  if (p_list) {
+    connect(p_list, &GroupList::preItemAppended, this, [&] {
+      const int index = p_list->items().size();
 
       beginInsertRows(QModelIndex(), index, index);
     });
 
-    connect(m_list, &GroupList::postItemAppended, this, [&] {
+    connect(p_list, &GroupList::postItemAppended, this, [&] {
       // TODO: reset current index to the last one
       endInsertRows();
     });
 
-    connect(m_list, &GroupList::preItemRemoved, this, [&](int index) {
+    connect(p_list, &GroupList::preItemRemoved, this, [&](int index) {
       beginRemoveRows(QModelIndex(), index, index);
     });
 
     connect(
-      m_list, &GroupList::postItemRemoved, this, [&] { endRemoveRows(); });
+      p_list, &GroupList::postItemRemoved, this, [&] { endRemoveRows(); });
 
-    connect(m_list, &GroupList::preLastItemRemoved, this, [&]() {
-      int index = m_list->items().size();
+    connect(p_list, &GroupList::preLastItemRemoved, this, [&]() {
+      int index = p_list->items().size();
       beginRemoveRows(QModelIndex(), index, index);
     });
 
     connect(
-      m_list, &GroupList::postLastItemRemoved, this, [&] { endRemoveRows(); });
+      p_list, &GroupList::postLastItemRemoved, this, [&] { endRemoveRows(); });
   }
 
   endResetModel();
@@ -125,11 +125,11 @@ GroupModel::setList(GroupList* list)
 bool
 GroupModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-  if (m_list == nullptr) {
+  if (p_list == nullptr) {
     return false;
   }
 
-  GroupInfo item = m_list->items().at(index.row());
+  GroupInfo item = p_list->items().at(index.row());
 
   switch (role) {
     case NameRole:

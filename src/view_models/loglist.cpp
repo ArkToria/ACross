@@ -1,15 +1,17 @@
-#include "logview.h"
+#include "loglist.h"
 
 using namespace across;
 
-LogView::LogView(QObject* parent)
+LogList::LogList(QObject* parent)
   : QObject(parent)
-{}
+{
+  
+}
 
-LogView::~LogView() {}
+LogList::~LogList() {}
 
 void
-LogView::init(setting::ConfigTools& config)
+LogList::init(setting::ConfigTools& config)
 {
   colors_map = { { "Info", config.styleColor() },
                  { "Warning", config.warnColor() },
@@ -28,45 +30,69 @@ LogView::init(setting::ConfigTools& config)
 }
 
 void
-LogView::clean()
+LogList::clean()
 {
-  m_core_logs.clear();
+  emit preItemsReset();
+
   p_core_cache->clear();
+
+  emit postItemsReset();
 }
 
 void
-LogView::append(const QString& msg)
+LogList::append(const QString& msg)
 {
-  auto temp = msg;
-
-  styleFomatter(temp);
-
-  p_core_cache->append(temp);
-
-  emit coreLogChanged();
-}
-
-QString&
-LogView::coreLog()
-{
-  if (!m_core_logs.isEmpty()) {
-    m_core_logs.clear();
+  while (p_core_cache->isFull()) {
+    remove();
   }
 
-  // very slow!
-  if (!p_core_cache->isEmpty()) {
-    for (auto iter = p_core_cache->firstIndex();
-         iter != p_core_cache->lastIndex();
-         ++iter) {
-      m_core_logs.append(p_core_cache->at(iter));
-    }
-  }
+  emit preItemAppended();
 
-  return m_core_logs;
+  p_core_cache->append(msg);
+
+  emit postItemAppended();
 }
 
 void
-LogView::styleFomatter(QString& msg)
+LogList::remove()
+{
+  emit preFirstItemRemoved();
+
+  p_core_cache->removeFirst();
+
+  emit postFirstItemRemoved();
+}
+
+QPair<int, QString>
+LogList::getLastItem()
+{
+  return { p_core_cache->lastIndex(), p_core_cache->last() };
+}
+
+QPair<int, QString>
+LogList::getFirstItem()
+{
+  return { p_core_cache->firstIndex(), p_core_cache->first() };
+}
+
+QString
+LogList::getItem(int index)
+{
+  if (index >= p_core_cache->size()) {
+    return {};
+  }
+
+  return p_core_cache->at(index);
+}
+
+size_t
+LogList::getSize()
+{
+  return p_core_cache->size();
+}
+
+void
+LogList::styleFomatter(QString& msg)
 {
   for (auto iter = colors_map.begin(); iter != colors_map.end(); ++iter) {
     auto replace_str = fmt::format("<span style='color: {}'>{}</span>",
@@ -80,7 +106,7 @@ LogView::styleFomatter(QString& msg)
 }
 
 void
-LogView::doDeleteLater(QContiguousCache<QString>* obj)
+LogList::doDeleteLater(QContiguousCache<QString>* obj)
 {
   obj->clear();
 }

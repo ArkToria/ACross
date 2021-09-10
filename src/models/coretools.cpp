@@ -37,6 +37,25 @@ CoreTools::init(const Core& core_info, LogView& log_view)
   return true;
 }
 
+// bool
+// CoreTools::init(const setting::Core& core_info, LogList& log_list)
+//{
+//  if (core_info.core_path.isEmpty()) {
+//    return false;
+//  }
+
+//  m_core = core_info;
+
+//  p_log_list = &log_list;
+
+//  p_process->setProcessChannelMode(QProcess::MergedChannels);
+
+//  connect(
+//    p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
+
+//  return true;
+//}
+
 void
 CoreTools::setConfig(const QString& stdin_str)
 {
@@ -67,11 +86,16 @@ CoreTools::run()
     connect(
      p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
   }
-  if (m_running) this->stop();
+  if (m_running)
+    this->stop();
 
   if (p_log_view != nullptr) {
     p_log_view->clean();
   }
+
+  //  if (p_log_list != nullptr) {
+  //    p_log_list->clean();
+  //  }
 
   p_process->start(
     m_core.core_path, {}, QIODevice::ReadWrite | QIODevice::Text);
@@ -135,7 +159,7 @@ CoreTools::onReadData()
 {
   auto data = p_process->readAllStandardOutput();
 
-  qDebug() << data;
+  //  p_log_list->append(data);
 
-  p_log_view->push(data);
+  p_log_view->append(data);
 }

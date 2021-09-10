@@ -17,6 +17,8 @@
 #include "view_models/configtools.h"
 #include "view_models/grouplist.h"
 #include "view_models/groupmodel.h"
+//#include "view_models/loglist.h"
+//#include "view_models/logmodel.h"
 #include "view_models/logview.h"
 #include "view_models/nodeformmodel.h"
 #include "view_models/nodelist.h"
@@ -53,6 +55,7 @@ private:
   std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
 
   across::LogView acrossLog;
+  //  across::LogList acrossLogList;
   across::setting::ConfigTools acrossConfig;
   across::DBTools acrossDB;
   across::core::CoreTools acrossCore;

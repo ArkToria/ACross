@@ -20,6 +20,10 @@ Item {
             Layout.fillHeight: true
         }
 
+        //        CoreLogList {
+        //            Layout.fillWidth: true
+        //            Layout.fillHeight: true
+        //        }
         AppLog {
             Layout.fillWidth: true
             Layout.fillHeight: true

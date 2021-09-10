@@ -82,5 +82,6 @@
         <file>misc/icons/light/repo_qr_code.svg</file>
         <file>misc/icons/dark/repo_qr_code.svg</file>
         <file>misc/design/lines.svg</file>
+        <file>src/views/log/CoreLogList.qml</file>
     </qresource>
 </RCC>

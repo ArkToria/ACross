@@ -26,7 +26,7 @@ public:
 
   void clean();
 
-  void push(const QString& msg);
+  void append(const QString& msg);
 
   QString& coreLog();
 

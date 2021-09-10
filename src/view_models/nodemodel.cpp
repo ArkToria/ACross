@@ -79,7 +79,7 @@ NodeModel::list() const
 }
 
 void
-NodeModel::connectItemsReset()
+NodeModel::connectItems()
 {
   connect(p_list, &NodeList::preItemsReset, this, [&]() {
     m_old_rows = p_list->items().size();
@@ -117,7 +117,7 @@ NodeModel::setList(NodeList* list)
   p_list = list;
 
   if (p_list) {
-    connectItemsReset();
+    connectItems();
   }
 
   emit listChanged();

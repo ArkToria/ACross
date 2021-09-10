@@ -50,7 +50,7 @@ signals:
   void nodeListChanged();
 
 private:
-  GroupList* m_list;
+  GroupList* p_list;
 };
 }
 
