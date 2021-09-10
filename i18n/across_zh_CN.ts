@@ -694,18 +694,18 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="18"/>
-        <location filename="../src/view_models/systemtray.cpp" line="47"/>
+        <location filename="../src/view_models/systemtray.cpp" line="28"/>
+        <location filename="../src/view_models/systemtray.cpp" line="59"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="19"/>
+        <location filename="../src/view_models/systemtray.cpp" line="29"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="49"/>
+        <location filename="../src/view_models/systemtray.cpp" line="61"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
