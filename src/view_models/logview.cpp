@@ -6,6 +6,8 @@ LogView::LogView(QObject* parent)
   : QObject(parent)
 {}
 
+LogView::~LogView() {}
+
 void
 LogView::init(setting::ConfigTools& config)
 {
@@ -13,29 +15,53 @@ LogView::init(setting::ConfigTools& config)
                  { "Warning", config.warnColor() },
                  { "Error", config.warnColor() },
                  { "accepted", config.highlightColor() } };
+
+  p_core_cache = QSharedPointer<QContiguousCache<QString>>(
+    new QContiguousCache<QString>, doDeleteLater);
+
+  p_core_cache->setCapacity(config.logLines() - 1);
+
+  connect(&config,
+          &across::setting::ConfigTools::logLinesChanged,
+          this,
+          [&](int max_lines) { p_core_cache->setCapacity(max_lines - 1); });
 }
 
 void
 LogView::clean()
 {
-  // TODO: use string list to impliment
-  this->m_coreLog.clear();
+  m_core_logs.clear();
+  p_core_cache->clear();
 }
 
 void
 LogView::push(const QString& msg)
 {
   auto temp = msg;
+
   styleFomatter(temp);
-  this->m_coreLog.append(temp);
+
+  p_core_cache->append(temp);
 
   emit coreLogChanged();
 }
 
-const QString&
-LogView::coreLog() const
+QString&
+LogView::coreLog()
 {
-  return m_coreLog;
+  if (!m_core_logs.isEmpty()) {
+    m_core_logs.clear();
+  }
+
+  if (!p_core_cache->isEmpty()) {
+    for (auto iter = p_core_cache->firstIndex();
+         iter != p_core_cache->lastIndex();
+         ++iter) {
+      m_core_logs.append(p_core_cache->at(iter));
+    }
+  }
+
+  return m_core_logs;
 }
 
 void
@@ -53,7 +79,7 @@ LogView::styleFomatter(QString& msg)
 }
 
 void
-LogView::setCoreLog(const QString& newCoreLog)
+LogView::doDeleteLater(QContiguousCache<QString>* obj)
 {
-  // disable setting log from qml
+  obj->clear();
 }

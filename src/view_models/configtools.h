@@ -215,6 +215,8 @@ class ConfigTools : public QObject
   Q_PROPERTY(
     QString logLevel READ logLevel WRITE setLogLevel NOTIFY logLevelChanged)
   Q_PROPERTY(
+    int logLines READ logLines WRITE setLogLines NOTIFY logLinesChanged)
+  Q_PROPERTY(
     bool apiEnable READ apiEnable WRITE setApiEnable NOTIFY apiEnableChanged)
   Q_PROPERTY(
     QString apiPort READ apiPort WRITE setApiPort NOTIFY apiPortChanged)
@@ -358,6 +360,8 @@ public:
 
   QString logLevel();
 
+  int logLines();
+
   bool apiEnable();
 
   QString apiPort();
@@ -442,6 +446,8 @@ public slots:
 
   void setLogLevel(const QString& log_level);
 
+  void setLogLines(int log_lines);
+
   void setApiEnable(bool val);
 
   void setApiPort(QString& portStr);
@@ -512,6 +518,8 @@ signals:
   void assetsPathChanged();
 
   void logLevelChanged();
+
+  void logLinesChanged(int max_lines);
 
   void apiEnableChanged();
 

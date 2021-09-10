@@ -5,19 +5,22 @@
 
 #include "fmt/format.h"
 
+#include <QContiguousCache>
 #include <QMap>
 #include <QObject>
-#include <QStringList>
+#include <QSharedPointer>
+#include <QString>
 
 namespace across {
 class LogView : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(
-    QString coreLog READ coreLog WRITE setCoreLog NOTIFY coreLogChanged)
+  Q_PROPERTY(QString coreLog READ coreLog NOTIFY coreLogChanged)
 
 public:
   explicit LogView(QObject* parent = nullptr);
+
+  ~LogView();
 
   void init(across::setting::ConfigTools& config);
 
@@ -25,20 +28,19 @@ public:
 
   void push(const QString& msg);
 
-  const QString& coreLog() const;
+  QString& coreLog();
 
   void styleFomatter(QString& msg);
-
-public slots:
-  void setCoreLog(const QString& newCoreLog);
 
 signals:
   void coreLogChanged();
 
 private:
-  QString m_coreLog;
-
+  QString m_core_logs;
+  QSharedPointer<QContiguousCache<QString>> p_core_cache;
   QMap<QString, QString> colors_map;
+
+  static void doDeleteLater(QContiguousCache<QString>* obj);
 };
 }
 

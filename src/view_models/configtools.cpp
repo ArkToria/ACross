@@ -1064,6 +1064,19 @@ ConfigTools::setLogLevel(const QString& log_level)
 }
 
 void
+ConfigTools::setLogLines(int log_lines)
+{
+  if (log_lines == m_core.log_lines) {
+    return;
+  }
+
+  m_core.log_lines = log_lines;
+
+  emit configChanged();
+  emit logLinesChanged(m_core.log_lines);
+}
+
+void
 ConfigTools::setApiEnable(bool val)
 {
   if (val == m_core.api.enable) {
@@ -1475,6 +1488,12 @@ QString
 ConfigTools::logLevel()
 {
   return m_core.log_level;
+}
+
+int
+ConfigTools::logLines()
+{
+  return m_core.log_lines;
 }
 
 QString

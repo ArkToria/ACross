@@ -66,32 +66,44 @@
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="102"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="109"/>
+        <source>Max Lines</source>
+        <translation>最大行数</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="121"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="139"/>
+        <source>Log File</source>
+        <translation>日志文件</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="162"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="129"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="171"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="135"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="144"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="155"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="186"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>

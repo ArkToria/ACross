@@ -87,18 +87,6 @@ Item {
         }
 
         Label {
-            text: qsTr("Log Output")
-            color: acrossConfig.textColor
-        }
-
-        DropDownBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            model: ["stdout", "file", "both"]
-        }
-
-        Label {
             text: qsTr("Log Level")
             color: acrossConfig.textColor
         }
@@ -118,9 +106,63 @@ Item {
         }
 
         Label {
+            text: qsTr("Max Lines")
+            color: acrossConfig.textColor
+        }
+
+        NumBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+
+            value: acrossConfig.logLines
+            from: 1
+            to: 100000
+
+            onValueModified: {
+                acrossConfig.logLines = value
+            }
+        }
+
+        Label {
+            text: qsTr("Log Output")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+
+            model: ["stdout", "file", "both"]
+        }
+
+        Label {
+            text: qsTr("Log File")
+            color: acrossConfig.textColor
+        }
+
+        ButtonBox {
+            Layout.fillWidth: true
+
+            text: qsTr("Open File")
+            onClicked: {
+                dbFileDialog.open()
+            }
+        }
+
+        ButtonBox {
+            Layout.fillWidth: true
+
+            text: qsTr("Folder")
+            onClicked: {
+
+            }
+        }
+
+        Label {
             text: qsTr("DB Path")
             color: acrossConfig.textColor
         }
+
         TextFieldBox {
             Layout.fillWidth: true
             Layout.columnSpan: 3

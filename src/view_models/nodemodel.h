@@ -1,7 +1,9 @@
 #ifndef NODEMODEL_H
 #define NODEMODEL_H
 
+#include "fmt/format.h"
 #include "magic_enum.hpp"
+
 #include "nodelist.h"
 
 #include <QAbstractListModel>
@@ -46,7 +48,7 @@ signals:
   void listChanged();
 
 private:
-  NodeList* m_list;
+  NodeList* p_list;
   int m_old_rows;
 };
 }

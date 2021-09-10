@@ -4,16 +4,16 @@ using namespace across;
 
 NodeModel::NodeModel(QObject* parent)
   : QAbstractListModel(parent)
-  , m_list(nullptr)
+  , p_list(nullptr)
 {}
 
 int
 NodeModel::rowCount(const QModelIndex& parent) const
 {
-  if (parent.isValid() || !m_list)
+  if (parent.isValid() || !p_list)
     return 0;
 
-  return m_list->items().size();
+  return p_list->items().size();
 }
 
 QVariant
@@ -21,13 +21,13 @@ NodeModel::data(const QModelIndex& index, int role) const
 {
   const QString dateTimeFormat("mm/dd/yyyy hh:mm:ss");
 
-  if (!index.isValid() || !m_list) {
+  if (!index.isValid() || !p_list) {
     return QVariant();
   }
 
   Q_ASSERT(index.model() == this);
 
-  const NodeInfo item = m_list->items().at(index.row());
+  const NodeInfo item = p_list->items().at(index.row());
 
   switch (role) {
     case IDRole:
@@ -75,18 +75,18 @@ NodeModel::roleNames() const
 NodeList*
 NodeModel::list() const
 {
-  return m_list;
+  return p_list;
 }
 
 void
 NodeModel::connectItemsReset()
 {
-  connect(m_list, &NodeList::preItemsReset, this, [&]() {
-    m_old_rows = m_list->items().size();
+  connect(p_list, &NodeList::preItemsReset, this, [&]() {
+    m_old_rows = p_list->items().size();
   });
 
-  connect(m_list, &NodeList::postItemsReset, this, [&]() {
-    int index = m_list->items().size();
+  connect(p_list, &NodeList::postItemsReset, this, [&]() {
+    int index = p_list->items().size();
 
     QModelIndex topLeft = createIndex(0, 0);
     QModelIndex bottomRight = createIndex(index, 0);
@@ -110,13 +110,13 @@ NodeModel::setList(NodeList* list)
 {
   beginResetModel();
 
-  if (m_list) {
-    m_list->disconnect(this);
+  if (p_list) {
+    p_list->disconnect(this);
   }
 
-  m_list = list;
+  p_list = list;
 
-  if (m_list) {
+  if (p_list) {
     connectItemsReset();
   }
 
