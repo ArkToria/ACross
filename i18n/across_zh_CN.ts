@@ -98,12 +98,12 @@
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="192"/>
         <source>Enable Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>开启托盘</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="210"/>
         <source>Close to Minimize</source>
-        <translation type="unfinished"></translation>
+        <translation>标题栏关闭按钮最小化</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
