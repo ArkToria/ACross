@@ -96,6 +96,16 @@
         <translation>输入数据库路径</translation>
     </message>
     <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="192"/>
+        <source>Enable Tray Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="210"/>
+        <source>Close to Minimize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
         <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
         <source>Open File</source>

@@ -188,6 +188,42 @@ Item {
                 dbFileDirDialog.open()
             }
         }
+        Label {
+            text: qsTr("Enable Tray Icon")
+            font.pixelSize: 18
+            color: acrossConfig.textColor
+        }
+
+        SwitchBox {
+            id: enableTrayIcon
+
+            Layout.columnSpan: 2
+            Layout.alignment: Qt.AlignRight
+
+            checked: acrossConfig.trayEnable
+            onCheckedChanged: {
+                acrossConfig.trayEnable = checked
+            }
+        }
+
+        Label {
+            text: qsTr("Close to Minimize")
+            font.pixelSize: 18
+            color: acrossConfig.textColor
+        }
+
+        SwitchBox {
+            id: enableCloseMinimize
+
+            Layout.columnSpan: 2
+            Layout.alignment: Qt.AlignRight
+
+            checked: acrossConfig.closeMinimize
+            onCheckedChanged: {
+                acrossConfig.closeMinimize = checked
+            }
+        }
+ 
     }
 }
 
