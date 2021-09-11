@@ -15,7 +15,7 @@ Switch {
         color: control.checked ? acrossConfig.highlightColor : acrossConfig.deepColor
 
         Rectangle {
-            id: background
+            id: handleBackground
             x: control.checked ? parent.width - width : 0
             width: parent.height
             height: parent.height
@@ -29,7 +29,7 @@ Switch {
                 radius: 3
                 samples: 11
                 color: acrossConfig.shadowColor
-                source: cardBackground
+                source: handleBackground
             }
         }
     }
