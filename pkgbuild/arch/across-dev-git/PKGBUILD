@@ -1,7 +1,7 @@
 # Maintainer: DuckSoft <realducksoft@gmail.com>
 pkgname=across-dev-git
 _pkgname=across
-pkgver=0.1.0.r114.4c7369c
+pkgver=0.1.0.r116.d67df10
 pkgrel=1
 pkgdesc="The next GUI client for v2ray core (Development Branch)"
 arch=('x86_64')
@@ -16,7 +16,7 @@ optdepends=('v2ray: use system v2ray core.'
 
 makedepends=('git' 'cmake' 'ninja' 'gcc' 'gtest')
 
-source=('across-dev-git::git+https://github.com/ArkToria/ACross.git#branch=tray_icon_test')
+source=('across-dev-git::git+https://github.com/ArkToria/ACross.git')
 
 sha512sums=('SKIP')
 
