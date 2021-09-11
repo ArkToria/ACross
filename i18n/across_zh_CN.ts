@@ -694,18 +694,33 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="28"/>
-        <location filename="../src/view_models/systemtray.cpp" line="59"/>
+        <location filename="../src/view_models/systemtray.cpp" line="27"/>
+        <location filename="../src/view_models/systemtray.cpp" line="71"/>
         <source>Show</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/view_models/systemtray.cpp" line="28"/>
+        <source>Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/view_models/systemtray.cpp" line="29"/>
+        <source>Disconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/systemtray.cpp" line="30"/>
+        <source>Reconnect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/systemtray.cpp" line="31"/>
         <source>Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="61"/>
+        <location filename="../src/view_models/systemtray.cpp" line="73"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>

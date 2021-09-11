@@ -47,6 +47,9 @@ private:
     QMenu *rootMenu = new QMenu();
 
     DECL_ACTION(rootMenu, actionToggleVisibility);
+    DECL_ACTION(rootMenu, actionStart);
+    DECL_ACTION(rootMenu, actionStop);
+    DECL_ACTION(rootMenu, actionRestart);
     DECL_ACTION(rootMenu, actionQuit);
 };
 }

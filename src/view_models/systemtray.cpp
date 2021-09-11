@@ -21,17 +21,31 @@ void SystemTray::init(across::setting::ConfigTools& config,
     disconnectedIcon= acrossIconDisconnected;
 
     trayIcon->setToolTip("Across "+p_config->guiVersion());
-    trayIcon->setIcon(QIcon::fromTheme("org.arktoria.across"));
     onRunningChanged();
     trayIcon->show();
 
     actionToggleVisibility->setText(tr("Show"));
+    actionStart->setText(tr("Connect"));
+    actionStop->setText(tr("Disconnect"));
+    actionRestart->setText(tr("Reconnect"));
     actionQuit->setText(tr("Quit"));
 
+    actionToggleVisibility->setIcon(this->trayIcon->icon());
+
     connect(actionToggleVisibility, &QAction::triggered, this, &SystemTray::signalShow);
+    /*
+    connect(actionStart, &QAction::triggered,[this] {p_core->run();});
+    connect(actionStop, &QAction::triggered,[this] {p_core->stop();});
+    connect(actionRestart, &QAction::triggered,[this] {p_core->stop();p_core->run();});
+    */
     connect(actionQuit, &QAction::triggered, this, &SystemTray::signalQuit);
 
     rootMenu->addAction(actionToggleVisibility);
+    rootMenu->addSeparator();
+    rootMenu->addAction(actionStart);
+    rootMenu->addAction(actionStop);
+    rootMenu->addAction(actionRestart);
+    rootMenu->addSeparator();
     rootMenu->addAction(actionQuit);
 
     trayIcon->setContextMenu(rootMenu);
@@ -65,7 +79,11 @@ void SystemTray::toggleVisibilitySetText(bool vis){
 void SystemTray::onRunningChanged(){
     if(p_core->isRunning()){
         trayIcon->setIcon(connectedIcon);
+        actionStart->setEnabled(false);
+        actionStop->setEnabled(true);
     }else {
         trayIcon->setIcon(disconnectedIcon);
+        actionStart->setEnabled(true);
+        actionStop->setEnabled(false);
     }
 }
