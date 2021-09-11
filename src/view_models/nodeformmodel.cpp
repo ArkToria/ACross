@@ -197,7 +197,7 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node)
   outbound_object.setTransportStreamObject(outbound_stream);
 
   node.raw =
-    QString().fromStdString(outbound_object.toObject().toStyledString());
+    QString::fromStdString(outbound_object.toObject().toStyledString());
 
   return true;
 }
@@ -220,7 +220,7 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node)
   outbound_object.appendShadowsocksObject(outbound_setting);
 
   node.raw =
-    QString().fromStdString(outbound_object.toObject().toStyledString());
+    QString::fromStdString(outbound_object.toObject().toStyledString());
 
   return true;
 }
@@ -269,7 +269,7 @@ NodeFormModel::setVMessOutboud(NodeInfo& node)
   outbound_object.setTransportStreamObject(outbound_stream);
 
   node.raw =
-    QString().fromStdString(outbound_object.toObject().toStyledString());
+    QString::fromStdString(outbound_object.toObject().toStyledString());
 
   return true;
 }

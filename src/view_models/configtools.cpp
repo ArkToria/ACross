@@ -7,7 +7,7 @@ using namespace across::config;
 void
 Interface::Language::fromNodeView(toml::v2::node_view<toml::node> language)
 {
-  this->language = QString().fromStdString(*language.value<std::string>());
+  this->language = QString::fromStdString(*language.value<std::string>());
 }
 
 void
@@ -19,9 +19,9 @@ Interface::Language::toNodeView(const toml::v2::node_view<toml::node>& language)
 void
 Interface::Theme::fromNodeView(toml::v2::node_view<toml::node> theme)
 {
-  this->theme = QString().fromStdString(*theme["theme"].value<std::string>());
+  this->theme = QString::fromStdString(*theme["theme"].value<std::string>());
   this->include_dir =
-    QString().fromStdString(*theme["include_dir"].value<std::string>());
+    QString::fromStdString(*theme["include_dir"].value<std::string>());
 }
 
 void
@@ -52,7 +52,7 @@ Update::fromNodeView(toml::v2::node_view<toml::node> update)
   this->check_update = *update["check_update"].value<bool>();
   this->update_from_proxy = *update["update_from_proxy"].value<bool>();
   this->update_channel =
-    QString().fromStdString(*update["update_channel"].value<std::string>());
+    QString::fromStdString(*update["update_channel"].value<std::string>());
 }
 
 void
@@ -68,9 +68,9 @@ void
 DataBase::fromNodeView(toml::v2::node_view<toml::node> database)
 {
   this->path =
-    QString().fromStdString(*database["db_path"].value<std::string>());
+    QString::fromStdString(*database["db_path"].value<std::string>());
   this->backend =
-    QString().fromStdString(*database["db_backend"].value<std::string>());
+    QString::fromStdString(*database["db_backend"].value<std::string>());
 
   auto _enable_auth = database["auth"]["enable"].value<bool>();
   if (_enable_auth.has_value() && _enable_auth.value() == true) {
@@ -78,11 +78,11 @@ DataBase::fromNodeView(toml::v2::node_view<toml::node> database)
 
     auto _auth = database["auth"];
     this->auth.username =
-      QString().fromStdString(*_auth["username"].value<std::string>());
+      QString::fromStdString(*_auth["username"].value<std::string>());
     this->auth.password =
-      QString().fromStdString(*_auth["password"].value<std::string>());
+      QString::fromStdString(*_auth["password"].value<std::string>());
     this->auth.address =
-      QString().fromStdString(*_auth["address"].value<std::string>());
+      QString::fromStdString(*_auth["address"].value<std::string>());
 
     auto _port = database["auth"]["port"].value<uint>();
     if (_port.has_value()) {
@@ -112,11 +112,11 @@ void
 Core::fromNodeView(toml::v2::node_view<toml::node> core)
 {
   this->core_path =
-    QString().fromStdString(*core["core_path"].value<std::string>());
+    QString::fromStdString(*core["core_path"].value<std::string>());
   this->assets_path =
-    QString().fromStdString(*core["assets_path"].value<std::string>());
+    QString::fromStdString(*core["assets_path"].value<std::string>());
   this->log_level =
-    QString().fromStdString(*core["log_level"].value<std::string>());
+    QString::fromStdString(*core["log_level"].value<std::string>());
 
   auto _log_lines = core["log_lines"].value<int>();
   if (_log_lines.has_value()) {
@@ -149,28 +149,28 @@ void
 Theme::Colors::fromNodeView(toml::v2::node_view<toml::node> colors_node)
 {
   this->text_color =
-    QString().fromStdString(*colors_node["text_color"].value<std::string>());
-  this->background_color = QString().fromStdString(
+    QString::fromStdString(*colors_node["text_color"].value<std::string>());
+  this->background_color = QString::fromStdString(
     *colors_node["background_color"].value<std::string>());
-  this->highlight_color = QString().fromStdString(
+  this->highlight_color = QString::fromStdString(
     *colors_node["highlight_color"].value<std::string>());
-  this->highlight_text_color = QString().fromStdString(
+  this->highlight_text_color = QString::fromStdString(
     *colors_node["highlight_text_color"].value<std::string>());
   this->warn_color =
-    QString().fromStdString(*colors_node["warn_color"].value<std::string>());
-  this->warn_text_color = QString().fromStdString(
+    QString::fromStdString(*colors_node["warn_color"].value<std::string>());
+  this->warn_text_color = QString::fromStdString(
     *colors_node["warn_text_color"].value<std::string>());
   this->shadow_color =
-    QString().fromStdString(*colors_node["shadow_color"].value<std::string>());
+    QString::fromStdString(*colors_node["shadow_color"].value<std::string>());
   this->border_color =
-    QString().fromStdString(*colors_node["border_color"].value<std::string>());
+    QString::fromStdString(*colors_node["border_color"].value<std::string>());
   this->deep_color =
-    QString().fromStdString(*colors_node["deep_color"].value<std::string>());
-  this->deep_text_color = QString().fromStdString(
+    QString::fromStdString(*colors_node["deep_color"].value<std::string>());
+  this->deep_text_color = QString::fromStdString(
     *colors_node["deep_text_color"].value<std::string>());
   this->style_color =
-    QString().fromStdString(*colors_node["style_color"].value<std::string>());
-  this->style_text_color = QString().fromStdString(
+    QString::fromStdString(*colors_node["style_color"].value<std::string>());
+  this->style_text_color = QString::fromStdString(
     *colors_node["style_text_color"].value<std::string>());
 }
 
@@ -181,17 +181,17 @@ InboundSettings::SOCKS::fromNodeView(toml::v2::node_view<toml::node> socks)
 
   if (enable) {
     this->listen =
-      QString().fromStdString(*socks["listen"].value<std::string>());
+      QString::fromStdString(*socks["listen"].value<std::string>());
     this->port = *socks["port"].value<uint>();
 
     this->udp = *socks["udp"].value<bool>();
-    this->ip = QString().fromStdString(*socks["ip"].value<std::string>());
+    this->ip = QString::fromStdString(*socks["ip"].value<std::string>());
     this->user_level = *socks["user_level"].value<int>();
 
     this->username =
-      QString().fromStdString(*socks["auth"]["username"].value<std::string>());
+      QString::fromStdString(*socks["auth"]["username"].value<std::string>());
     this->password =
-      QString().fromStdString(*socks["auth"]["password"].value<std::string>());
+      QString::fromStdString(*socks["auth"]["password"].value<std::string>());
   }
 }
 
@@ -245,8 +245,7 @@ InboundSettings::HTTP::fromNodeView(toml::v2::node_view<toml::node> http)
   enable = *http["enable"].value<bool>();
 
   if (enable) {
-    this->listen =
-      QString().fromStdString(*http["listen"].value<std::string>());
+    this->listen = QString::fromStdString(*http["listen"].value<std::string>());
     this->port = *http["port"].value<uint>();
 
     this->allow_transparent = *http["allow_transparent"].value<bool>();
@@ -254,9 +253,9 @@ InboundSettings::HTTP::fromNodeView(toml::v2::node_view<toml::node> http)
     this->user_level = *http["user_level"].value<int>();
 
     this->username =
-      QString().fromStdString(*http["auth"]["username"].value<std::string>());
+      QString::fromStdString(*http["auth"]["username"].value<std::string>());
     this->password =
-      QString().fromStdString(*http["auth"]["password"].value<std::string>());
+      QString::fromStdString(*http["auth"]["password"].value<std::string>());
   }
 }
 
@@ -546,7 +545,7 @@ ConfigTools::loadDBConfig()
     }
 
     if (temp != m_db.path.toStdString()) {
-      setDBPath(QString().fromStdString(temp.value()), true);
+      setDBPath(QString::fromStdString(temp.value()), true);
     }
 
     result = true;
@@ -571,14 +570,22 @@ ConfigTools::loadThemeConfig()
       auto temp = themes[i]["name"].value<std::string>();
 
       if (temp.has_value()) {
-        auto temp_name = QString().fromStdString(temp.value());
+        auto temp_name = QString::fromStdString(temp.value());
 
         if (m_interface.theme.theme == temp_name) {
           m_theme.name = temp_name;
+
+          m_theme.tray.stylish = QString::fromStdString(
+            *themes[i]["tray"]["stylish"].value<std::string>());
+          m_theme.tray.color = QString::fromStdString(
+            *themes[i]["tray"]["color"].value<std::string>());
+
           m_theme.border.radius = *themes[i]["border"]["radius"].value<int>();
           m_theme.border.width = *themes[i]["border"]["width"].value<int>();
+
           m_theme.item.spacing = *themes[i]["item"]["spacing"].value<int>();
-          m_theme.icon.style = QString().fromStdString(
+
+          m_theme.icon.style = QString::fromStdString(
             *themes[i]["icon"]["style"].value<std::string>());
 
           m_theme.colors.fromNodeView(themes[i]["colors"]);
@@ -677,7 +684,7 @@ ConfigTools::getConfigVersion()
   QString config_version;
   auto temp = m_config["config_version"].value<std::string>();
   if (temp.has_value()) {
-    config_version = QString().fromStdString(temp.value());
+    config_version = QString::fromStdString(temp.value());
   }
 
   return config_version;
@@ -687,7 +694,7 @@ QString
 ConfigTools::getConfigTomlVersion()
 {
   auto toml_version =
-    QString().fromStdString(*m_config["toml_version"].value<std::string>());
+    QString::fromStdString(*m_config["toml_version"].value<std::string>());
 
   return toml_version;
 }
@@ -695,7 +702,7 @@ ConfigTools::getConfigTomlVersion()
 QString
 ConfigTools::getLanguage()
 {
-  auto language = QString().fromStdString(
+  auto language = QString::fromStdString(
     *m_config["interface"]["language"].value<std::string>());
 
   return language;
@@ -736,7 +743,7 @@ ConfigTools::testApi()
     if (stats) {
       m_api_result_text = "";
     } else {
-      m_api_result_text = QString().fromStdString(err);
+      m_api_result_text = QString::fromStdString(err);
     }
 
     result = stats;
@@ -832,7 +839,7 @@ ConfigTools::setDBPath(const QString& db_path, bool init)
   if (temp_path.startsWith("$")) {
     wordexp_t p;
     wordexp(db_path.toStdString().c_str(), &p, 0);
-    temp_path = QString().fromStdString(*p.we_wordv);
+    temp_path = QString::fromStdString(*p.we_wordv);
     wordfree(&p);
   }
 #endif
@@ -940,6 +947,18 @@ ConfigTools::styleTextColor()
   return m_theme.colors.style_text_color;
 }
 
+QString
+ConfigTools::trayStylish()
+{
+  return m_theme.tray.stylish;
+}
+
+QString
+ConfigTools::trayColor()
+{
+  return m_theme.tray.color;
+}
+
 int
 ConfigTools::borderRadius()
 {
@@ -979,7 +998,7 @@ ConfigTools::socksEnable()
 QString
 ConfigTools::socksPort()
 {
-  return QString().fromStdString(std::to_string(m_inbound.socks.port));
+  return QString::fromStdString(std::to_string(m_inbound.socks.port));
 }
 
 QString
@@ -1003,7 +1022,7 @@ ConfigTools::httpEnable()
 QString
 ConfigTools::httpPort()
 {
-  return QString().fromStdString(std::to_string(m_inbound.http.port));
+  return QString::fromStdString(std::to_string(m_inbound.http.port));
 }
 
 QString
@@ -1253,6 +1272,28 @@ ConfigTools::setStyleTextColor(const QString& val)
 }
 
 void
+ConfigTools::setTrayStylish(const QString& val)
+{
+  if (val == m_theme.tray.stylish) {
+    return;
+  }
+
+  m_theme.tray.stylish = val;
+  emit trayStylishChanged();
+}
+
+void
+ConfigTools::setTrayColor(const QString& val)
+{
+  if (val == m_theme.tray.color) {
+    return;
+  }
+
+  m_theme.tray.color = val;
+  emit trayColorChanged();
+}
+
+void
 ConfigTools::setBorderRadius(int radius)
 {
   if (radius == m_theme.border.radius) {
@@ -1311,6 +1352,10 @@ ConfigTools::setCurrentTheme(const QString& newCurrentTheme)
 
     emit configChanged();
     emit currentThemeChanged();
+    emit trayColorChanged();
+    emit trayStylishChanged();
+    emit borderColorChanged();
+    emit borderRadiusChanged();
   }
 }
 
@@ -1517,7 +1562,7 @@ ConfigTools::apiEnable()
 QString
 ConfigTools::apiPort()
 {
-  return QString().fromStdString(std::to_string(m_core.api.port));
+  return QString::fromStdString(std::to_string(m_core.api.port));
 }
 
 QString

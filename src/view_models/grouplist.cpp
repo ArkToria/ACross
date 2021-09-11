@@ -84,14 +84,14 @@ GroupList::insertSIP008(const std::stringstream& data_stream,
 
     if (p_db != nullptr) {
       NodeInfo node{ 0,
-                     QString().fromStdString(server.remarks),
-                     QString().fromStdString(task.name),
+                     QString::fromStdString(server.remarks),
+                     QString::fromStdString(task.name),
                      task.group_id,
                      across::EntryType::shadowsocks,
-                     QString().fromStdString(server.server),
+                     QString::fromStdString(server.server),
                      server.server_port,
-                     QString().fromStdString(server.password),
-                     QString().fromStdString(
+                     QString::fromStdString(server.password),
+                     QString::fromStdString(
                        outbound_object.toObject().toStyledString()) };
 
       p_db->insert(node);
@@ -120,7 +120,7 @@ GroupList::insertBase64(const std::stringstream& data_stream,
     }
 
     NodeInfo node;
-    node.group = QString().fromStdString(task.name);
+    node.group = QString::fromStdString(task.name);
     node.group_id = task.group_id;
 
     result = SerializeTools::decodeOutboundFromURL(node, item);
@@ -289,7 +289,7 @@ GroupList::copyUrlToClipboard(int index)
 
   clipboard_tools.add(item.url);
 
-  QString summary = QString().fromStdString(
+  QString summary = QString::fromStdString(
     fmt::format("Copy Group {} url to clipboard", item.name.toStdString()));
 
   notify_tools.send(item.url, summary);

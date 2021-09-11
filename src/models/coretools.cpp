@@ -48,7 +48,7 @@ CoreTools::setConfig(const QString& stdin_str)
 void
 CoreTools::setConfig(const std::string& stdin_str)
 {
-  auto config = QString().fromStdString(stdin_str);
+  auto config = QString::fromStdString(stdin_str);
 
   setConfig(config);
 }

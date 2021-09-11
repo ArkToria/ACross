@@ -35,7 +35,7 @@ namespace across {
         screen->size().rheight(),
         screen->logicalDotsPerInch());
 
-      return QString().fromStdString(info);
+      return QString::fromStdString(info);
     }
 
     inline static const QString getBuildTime() {

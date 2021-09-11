@@ -97,12 +97,12 @@ SerializeTools::setShadowsocksOutboundFromURL(NodeInfo& node, const QUrl& url)
     outbound_object.appendShadowsocksObject(outbound_setting);
 
     node.protocol = across::EntryType::shadowsocks;
-    node.name = QString().fromStdString(sip008_server->remarks);
-    node.address = QString().fromStdString(outbound_setting.address);
+    node.name = QString::fromStdString(sip008_server->remarks);
+    node.address = QString::fromStdString(outbound_setting.address);
     node.port = outbound_setting.port;
-    node.password = QString().fromStdString(outbound_setting.password);
+    node.password = QString::fromStdString(outbound_setting.password);
     node.raw =
-      QString().fromStdString(outbound_object.toObject().toStyledString());
+      QString::fromStdString(outbound_object.toObject().toStyledString());
 
     result = true;
   } while (false);
@@ -124,12 +124,12 @@ SerializeTools::setVMessOutboundFromBase64(NodeInfo& node,
     auto outbound_object = vmess_meta->outbound_object;
 
     node.protocol = across::EntryType::vmess;
-    node.name = QString().fromStdString(vmess_meta->name);
-    node.address = QString().fromStdString(vmess_meta->address);
+    node.name = QString::fromStdString(vmess_meta->name);
+    node.address = QString::fromStdString(vmess_meta->address);
     node.port = vmess_meta->port;
-    node.password = QString().fromStdString(vmess_meta->password);
+    node.password = QString::fromStdString(vmess_meta->password);
     node.raw =
-      QString().fromStdString(outbound_object.toObject().toStyledString());
+      QString::fromStdString(outbound_object.toObject().toStyledString());
 
     result = true;
   } while (false);
@@ -150,12 +150,12 @@ SerializeTools::setTrojanOutboundFromURL(NodeInfo& node, const QUrl& url)
     auto outbound_object = trojan_meta->outbound_object;
 
     node.protocol = across::EntryType::trojan;
-    node.name = QString().fromStdString(trojan_meta->name);
-    node.address = QString().fromStdString(trojan_meta->address);
+    node.name = QString::fromStdString(trojan_meta->name);
+    node.address = QString::fromStdString(trojan_meta->address);
     node.port = trojan_meta->port;
-    node.password = QString().fromStdString(trojan_meta->password);
+    node.password = QString::fromStdString(trojan_meta->password);
     node.raw =
-      QString().fromStdString(outbound_object.toObject().toStyledString());
+      QString::fromStdString(outbound_object.toObject().toStyledString());
 
     result = true;
   } while (false);
@@ -252,7 +252,7 @@ std::optional<URLMetaObject>
 SerializeTools::vmessBase64Decode(const std::string& data)
 {
   do {
-    QString info = QString().fromStdString(data).split("://").takeLast();
+    QString info = QString::fromStdString(data).split("://").takeLast();
     if (info.isEmpty()) {
       break;
     }

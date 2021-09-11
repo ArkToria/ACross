@@ -82,7 +82,7 @@ name = "default-light"
 
     [themes.tray]
     # ["line", "block"]
-    stylish = "line"
+    stylish = "block"
     # ["light", "dark", "colorful"]
     color = "light"
 
@@ -121,8 +121,8 @@ name = "default-light"
 name = "dark"
 
     [themes.tray]
-    stylish = "line"
-    color = "light"
+    stylish = "block"
+    color = "dark"
 
     [themes.banner]
     enable = false
@@ -157,8 +157,8 @@ name = "dark"
 name = "nord-dark"
 
     [themes.tray]
-    stylish = "line"
-    color = "light"
+    stylish = "block"
+    color = "dark"
 
     [themes.banner]
     enable = false

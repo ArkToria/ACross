@@ -43,10 +43,7 @@ Application::setRootContext()
   acrossNodes.init(p_thread_pool, acrossDB, acrossConfig, acrossCore);
   acrossGroups.init(p_thread_pool, acrossDB, acrossCurl, acrossNodes);
 
-  acrossTray.init(acrossConfig,
-                  acrossCore,
-                  QIcon::fromTheme("org.arktoria.across"),
-                  QIcon::fromTheme("org.arktoria.across"));
+  acrossTray.init(acrossConfig, acrossCore);
 
   const QUrl url(QStringLiteral("qrc:/src/views/main.qml"));
   QObject::connect(
