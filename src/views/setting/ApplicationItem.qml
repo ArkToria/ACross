@@ -57,29 +57,12 @@ Item {
         SwitchBox {
             id: enableTrayIcon
 
-            Layout.columnSpan: 2
+            Layout.columnSpan: 5
             Layout.alignment: Qt.AlignRight
 
             checked: acrossConfig.enableTray
             onCheckedChanged: {
                 acrossConfig.enableTray = checked
-            }
-        }
-
-        Label {
-            text: qsTr("Close to Minimize")
-            color: acrossConfig.textColor
-        }
-
-        SwitchBox {
-            id: enableCloseMinimize
-
-            Layout.columnSpan: 2
-            Layout.alignment: Qt.AlignRight
-
-            checked: acrossConfig.closeToMinimize
-            onCheckedChanged: {
-                acrossConfig.closeToMinimize = checked
             }
         }
 

@@ -99,7 +99,7 @@ Window {
         acrossTray.toggleVisibilitySetText(mainWindow.visible)
     }
     onClosing: {
-        if(acrossConfig.closeToMinimize){
+        if(acrossConfig.enableTray){
             mainWindow.hide()
         }else{
             Qt.quit()

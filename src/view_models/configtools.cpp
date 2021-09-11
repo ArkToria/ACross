@@ -35,14 +35,12 @@ void
 Interface::Tray::fromNodeView(toml::v2::node_view<toml::node> tray)
 {
   this->enable = *tray["enable"].value<bool>();
-  this->close_to_minimize = *tray["close_to_minimize"].value<bool>();
 }
 
 void
 Interface::Tray::toNodeView(const toml::v2::node_view<toml::node>& tray)
 {
   *tray["enable"].as_boolean() = this->enable;
-  *tray["close_to_minimize"].as_boolean() = this->close_to_minimize;
 }
 
 void
@@ -1605,12 +1603,6 @@ ConfigTools::enableTray()
   return m_interface.tray.enable;
 }
 
-bool
-ConfigTools::closeToMinimize()
-{
-  return m_interface.tray.close_to_minimize;
-}
-
 void
 ConfigTools::setCurrentLanguage(const QString& newCurrentLanguage)
 {
@@ -1637,18 +1629,6 @@ ConfigTools::setEnableTray(bool val)
   emit enableTrayChanged();
 }
 
-void
-ConfigTools::setCloseToMinimize(bool val)
-{
-  if (m_interface.tray.close_to_minimize == val) {
-    return;
-  }
-
-  m_interface.tray.close_to_minimize = val;
-
-  emit configChanged();
-  emit closeToMinimizeChanged();
-}
 
 QString
 ConfigTools::buildInfo()

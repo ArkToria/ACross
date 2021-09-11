@@ -45,7 +45,6 @@ struct Interface
   struct Tray
   {
     bool enable = false;
-    bool close_to_minimize = false;
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> tray);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& tray);
@@ -295,8 +294,6 @@ class ConfigTools : public QObject
                setCurrentLanguage NOTIFY currentLanguageChanged)
   Q_PROPERTY(bool enableTray READ enableTray WRITE setEnableTray NOTIFY
                enableTrayChanged)
-  Q_PROPERTY(bool closeToMinimize READ closeToMinimize WRITE setCloseToMinimize
-               NOTIFY closeToMinimizeChanged)
   // help page
   Q_PROPERTY(QString buildInfo READ buildInfo CONSTANT)
 
@@ -447,8 +444,6 @@ public:
 
   bool enableTray();
 
-  bool closeToMinimize();
-
   // help page
   QString buildInfo();
 
@@ -537,8 +532,6 @@ public slots:
 
   void setEnableTray(bool val);
 
-  void setCloseToMinimize(bool val);
-
 signals:
   void dbPathChanged();
 
@@ -619,8 +612,6 @@ signals:
   void currentLanguageChanged(const QString& lang);
 
   void enableTrayChanged();
-
-  void closeToMinimizeChanged();
 
   void buildInfoChanged();
 
