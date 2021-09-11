@@ -695,34 +695,34 @@
     <name>across::SystemTray</name>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="27"/>
-        <location filename="../src/view_models/systemtray.cpp" line="71"/>
+        <location filename="../src/view_models/systemtray.cpp" line="73"/>
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>显示</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="28"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>连接</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="29"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>断开连接</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="30"/>
         <source>Reconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>重新连接</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="31"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="73"/>
+        <location filename="../src/view_models/systemtray.cpp" line="75"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏</translation>
     </message>
 </context>
 <context>
