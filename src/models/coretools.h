@@ -2,7 +2,6 @@
 #define CORETOOLS_H
 
 #include "../view_models/configtools.h"
-//#include "../view_models/loglist.h"
 #include "../view_models/logview.h"
 
 #include <QByteArray>

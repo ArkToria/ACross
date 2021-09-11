@@ -17,8 +17,6 @@
 #include "view_models/configtools.h"
 #include "view_models/grouplist.h"
 #include "view_models/groupmodel.h"
-//#include "view_models/loglist.h"
-//#include "view_models/logmodel.h"
 #include "view_models/logview.h"
 #include "view_models/nodeformmodel.h"
 #include "view_models/nodelist.h"
