@@ -25,11 +25,14 @@ SystemTray::init(ConfigTools& config, CoreTools& core_tools)
       loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
     });
 
+  connect(
+    p_config, &across::setting::ConfigTools::enableTrayChanged, this, &SystemTray::onEnableTrayChanged);
+
   loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
 
   trayIcon->setToolTip("Across " + p_config->guiVersion());
   onRunningChanged();
-  trayIcon->show();
+  onEnableTrayChanged();
 
   actionToggleVisibility->setText(tr("Show"));
   actionStart->setText(tr("Connect"));
@@ -37,7 +40,7 @@ SystemTray::init(ConfigTools& config, CoreTools& core_tools)
   actionRestart->setText(tr("Reconnect"));
   actionQuit->setText(tr("Quit"));
 
-  actionToggleVisibility->setIcon(this->trayIcon->icon());
+  actionToggleVisibility->setIcon(QIcon::fromTheme("org.arktoria.across"));
 
   connect(
     actionToggleVisibility, &QAction::triggered, this, &SystemTray::signalShow);
@@ -92,10 +95,6 @@ void SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
  
-void SystemTray::hideIconTray()
-{
-    trayIcon->hide();
-}
 void SystemTray::toggleVisibilitySetText(bool vis){
     if(vis==Visibility::Minimized){
         actionToggleVisibility->setText(tr("Show"));
@@ -121,4 +120,12 @@ void SystemTray::retranslate(){
     actionStop->setText(tr("Disconnect"));
     actionRestart->setText(tr("Reconnect"));
     actionQuit->setText(tr("Quit"));
+}
+
+void SystemTray::onEnableTrayChanged(){
+   if(p_config->enableTray()){
+     trayIcon->show();
+   }else{
+     trayIcon->hide();
+   }
 }

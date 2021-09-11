@@ -35,8 +35,8 @@ private slots:
     void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
 public slots:
-    void hideIconTray();
     void onRunningChanged();
+    void onEnableTrayChanged();
 
 private:
     QSystemTrayIcon *trayIcon;
