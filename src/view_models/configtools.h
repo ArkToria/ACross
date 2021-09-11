@@ -42,6 +42,15 @@ struct Interface
     void toNodeView(const toml::v2::node_view<toml::v2::node>& theme);
   } theme;
 
+  struct Tray
+  {
+    bool enable = false;
+    bool close_to_minimize = false;
+
+    void fromNodeView(toml::v2::node_view<toml::v2::node> tray);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& tray);
+  } tray;
+
   void fromNodeView(toml::v2::node_view<toml::v2::node> interface);
   void toNodeView(const toml::v2::node_view<toml::v2::node>& interface);
 };
@@ -284,6 +293,10 @@ class ConfigTools : public QObject
                currentThemeChanged)
   Q_PROPERTY(QString currentLanguage READ currentLanguage WRITE
                setCurrentLanguage NOTIFY currentLanguageChanged)
+  Q_PROPERTY(bool enableTray READ enableTray WRITE setEnableTray NOTIFY
+               enableTrayChanged)
+  Q_PROPERTY(bool closeToMinimize READ closeToMinimize WRITE setCloseToMinimize
+               NOTIFY closeToMinimizeChanged)
   // help page
   Q_PROPERTY(QString buildInfo READ buildInfo CONSTANT)
 
@@ -432,6 +445,10 @@ public:
 
   const QString& currentLanguage() const;
 
+  bool enableTray();
+
+  bool closeToMinimize();
+
   // help page
   QString buildInfo();
 
@@ -518,6 +535,10 @@ public slots:
 
   void setCurrentLanguage(const QString& newCurrentLanguage);
 
+  void setEnableTray(bool val);
+
+  void setCloseToMinimize(bool val);
+
 signals:
   void dbPathChanged();
 
@@ -596,6 +617,10 @@ signals:
   void currentThemeChanged();
 
   void currentLanguageChanged(const QString& lang);
+
+  void enableTrayChanged();
+
+  void closeToMinimizeChanged();
 
   void buildInfoChanged();
 

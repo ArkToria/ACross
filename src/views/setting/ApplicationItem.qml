@@ -60,9 +60,9 @@ Item {
             Layout.columnSpan: 2
             Layout.alignment: Qt.AlignRight
 
-            checked: acrossConfig.trayEnable
+            checked: acrossConfig.enableTray
             onCheckedChanged: {
-                acrossConfig.trayEnable = checked
+                acrossConfig.enableTray = checked
             }
         }
 
@@ -77,9 +77,9 @@ Item {
             Layout.columnSpan: 2
             Layout.alignment: Qt.AlignRight
 
-            checked: acrossConfig.closeMinimize
+            checked: acrossConfig.closeToMinimize
             onCheckedChanged: {
-                acrossConfig.closeMinimize = checked
+                acrossConfig.closeToMinimize = checked
             }
         }
 

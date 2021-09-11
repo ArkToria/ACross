@@ -32,10 +32,25 @@ Interface::Theme::toNodeView(const toml::v2::node_view<toml::node>& theme)
 }
 
 void
+Interface::Tray::fromNodeView(toml::v2::node_view<toml::node> tray)
+{
+  this->enable = *tray["enable"].value<bool>();
+  this->close_to_minimize = *tray["close_to_minimize"].value<bool>();
+}
+
+void
+Interface::Tray::toNodeView(const toml::v2::node_view<toml::node>& tray)
+{
+  *tray["enable"].as_boolean() = this->enable;
+  *tray["close_to_minimize"].as_boolean() = this->close_to_minimize;
+}
+
+void
 Interface::fromNodeView(toml::v2::node_view<toml::node> interface)
 {
   this->language.fromNodeView(interface["language"]);
   this->theme.fromNodeView(interface["theme"]);
+  this->tray.fromNodeView(interface["tray"]);
 }
 
 void
@@ -43,6 +58,7 @@ Interface::toNodeView(const toml::v2::node_view<toml::node>& interface)
 {
   this->language.toNodeView(interface["language"]);
   this->theme.toNodeView(interface["theme"]);
+  this->tray.toNodeView(interface["tray"]);
 }
 
 void
@@ -1583,6 +1599,18 @@ ConfigTools::currentLanguage() const
   return m_interface.language.language;
 }
 
+bool
+ConfigTools::enableTray()
+{
+  return m_interface.tray.enable;
+}
+
+bool
+ConfigTools::closeToMinimize()
+{
+  return m_interface.tray.close_to_minimize;
+}
+
 void
 ConfigTools::setCurrentLanguage(const QString& newCurrentLanguage)
 {
@@ -1594,6 +1622,32 @@ ConfigTools::setCurrentLanguage(const QString& newCurrentLanguage)
 
   emit configChanged();
   emit currentLanguageChanged(m_interface.language.language);
+}
+
+void
+ConfigTools::setEnableTray(bool val)
+{
+  if (m_interface.tray.enable == val) {
+    return;
+  }
+
+  m_interface.tray.enable = val;
+
+  emit configChanged();
+  emit enableTrayChanged();
+}
+
+void
+ConfigTools::setCloseToMinimize(bool val)
+{
+  if (m_interface.tray.close_to_minimize == val) {
+    return;
+  }
+
+  m_interface.tray.close_to_minimize = val;
+
+  emit configChanged();
+  emit closeToMinimizeChanged();
 }
 
 QString
