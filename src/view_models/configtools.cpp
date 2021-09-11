@@ -1352,6 +1352,10 @@ ConfigTools::setCurrentTheme(const QString& newCurrentTheme)
 
     emit configChanged();
     emit currentThemeChanged();
+    emit trayColorChanged();
+    emit trayStylishChanged();
+    emit borderColorChanged();
+    emit borderRadiusChanged();
   }
 }
 

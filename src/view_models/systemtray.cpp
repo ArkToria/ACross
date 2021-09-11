@@ -77,6 +77,8 @@ SystemTray::loadTrayIcons(const QString& stylish, const QString& color)
     connectedIcon = QIcon::fromTheme("org.arktoria.across.dark.running.svg");
     disconnectedIcon = QIcon::fromTheme("org.arktoria.across.dark.stop.svg");
   }
+
+  onRunningChanged();
 }
 
 void SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)

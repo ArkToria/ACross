@@ -1,7 +1,7 @@
 # Maintainer: DuckSoft <realducksoft@gmail.com>
 pkgname=across-dev-git
 _pkgname=across
-pkgver=0.1.0.r113.890e173
+pkgver=0.1.0.r114.4c7369c
 pkgrel=1
 pkgdesc="The next GUI client for v2ray core (Development Branch)"
 arch=('x86_64')
