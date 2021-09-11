@@ -1,7 +1,6 @@
-import QtQuick 2.0
-
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtGraphicalEffects 1.0
 
 Switch {
     id: control
@@ -13,7 +12,7 @@ Switch {
         x: control.leftPadding
         y: parent.height / 2 - height / 2
         radius: parent.height / 2
-        color: acrossConfig.deepColor
+        color: control.checked ? acrossConfig.highlightColor : acrossConfig.deepColor
 
         Rectangle {
             id: background
@@ -21,7 +20,17 @@ Switch {
             width: parent.height
             height: parent.height
             radius: parent.height / 2
-            color: control.checked ? acrossConfig.styleColor : acrossConfig.highlightColor
+            color: acrossConfig.highlightTextColor
+
+            layer.enabled: true
+            layer.effect: DropShadow {
+                horizontalOffset: 1
+                verticalOffset: 1
+                radius: 3
+                samples: 11
+                color: acrossConfig.shadowColor
+                source: cardBackground
+            }
         }
     }
 }
