@@ -3,13 +3,14 @@
 
 using namespace across;
 using namespace across::core;
+using namespace across::setting;
 
 SystemTray::SystemTray(QObject *parent): QObject(parent){
     trayIcon = new QSystemTrayIcon();
 
 }
 
-void SystemTray::init(across::setting::ConfigTools& config,
+void SystemTray::init(ConfigTools& config,
                     CoreTools& core_tools,
                     const QIcon &acrossIconConnected,
                     const QIcon &acrossIconDisconnected){
@@ -30,6 +31,8 @@ void SystemTray::init(across::setting::ConfigTools& config,
     actionRestart->setText(tr("Reconnect"));
     actionQuit->setText(tr("Quit"));
 
+    //connect(p_config,&ConfigTools::currentLanguageChanged,this, &SystemTray::onLanguageChanged);
+
     actionToggleVisibility->setIcon(this->trayIcon->icon());
 
     connect(actionToggleVisibility, &QAction::triggered, this, &SystemTray::signalShow);
@@ -39,6 +42,7 @@ void SystemTray::init(across::setting::ConfigTools& config,
     connect(actionRestart, &QAction::triggered,[this] {p_core->stop();p_core->run();});
     */
     connect(actionQuit, &QAction::triggered, this, &SystemTray::signalQuit);
+
 
     rootMenu->addAction(actionToggleVisibility);
     rootMenu->addSeparator();
@@ -51,7 +55,7 @@ void SystemTray::init(across::setting::ConfigTools& config,
     trayIcon->setContextMenu(rootMenu);
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
-    connect(p_core,SIGNAL(isRunningChanged()),this,SLOT(onRunningChanged()));
+    connect(p_core,&CoreTools::isRunningChanged,this,&SystemTray::onRunningChanged);
 }
 void SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
@@ -86,4 +90,11 @@ void SystemTray::onRunningChanged(){
         actionStart->setEnabled(true);
         actionStop->setEnabled(false);
     }
+}
+void SystemTray::retranslate(){
+    actionToggleVisibility->setText(tr("Show"));
+    actionStart->setText(tr("Connect"));
+    actionStop->setText(tr("Disconnect"));
+    actionRestart->setText(tr("Reconnect"));
+    actionQuit->setText(tr("Quit"));
 }

@@ -22,6 +22,7 @@ public:
             const QIcon &acrossIconConnected,
             const QIcon &acrossIconDisconnected);
     Q_INVOKABLE void toggleVisibilitySetText(bool vis);
+    void retranslate();
 
 signals:
     void signalIconActivated();

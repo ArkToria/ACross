@@ -91,6 +91,8 @@ Application::setTranslator(const QString& lang)
   }
 
   m_engine.retranslate();
+  
+  acrossTray.retranslate();
 }
 
 void
