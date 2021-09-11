@@ -21,7 +21,7 @@ Switch {
             width: parent.height
             height: parent.height
             radius: parent.height / 2
-            color: acrossConfig.highlightColor
+            color: control.checked ? acrossConfig.styleColor : acrossConfig.highlightColor
         }
     }
 }

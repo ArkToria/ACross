@@ -66,64 +66,64 @@
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="161"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="109"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="143"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="124"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="139"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="173"/>
         <source>Log File</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="162"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="196"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="171"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="205"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="192"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
         <source>Enable Tray Icon</source>
-        <translation>开启托盘</translation>
+        <translation>启用托盘</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="210"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="70"/>
         <source>Close to Minimize</source>
-        <translation>标题栏关闭按钮最小化</translation>
+        <translation>关闭到最小化</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="180"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="211"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="155"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="186"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="189"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="220"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="73"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="107"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
