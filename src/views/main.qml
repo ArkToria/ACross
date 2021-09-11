@@ -74,13 +74,14 @@ Window {
         }
     }
 
-    function toggleVisibilty(){
-        if(mainWindow.visible === false){
+    function toggleVisibilty() {
+        if (mainWindow.visible === false) {
             mainWindow.show()
-        } else{
+        } else {
             mainWindow.hide()
         }
     }
+
     Connections {
         target: acrossTray
         function onSignalShow() {
@@ -92,10 +93,9 @@ Window {
         function onSignalIconActivated() {
             toggleVisibilty()
         }
-        
     }
 
-    onVisibilityChanged:{
+    onVisibilityChanged: {
         acrossTray.toggleVisibilitySetText(mainWindow.visible)
     }
 }

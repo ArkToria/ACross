@@ -37,25 +37,6 @@ CoreTools::init(const Core& core_info, LogView& log_view)
   return true;
 }
 
-// bool
-// CoreTools::init(const setting::Core& core_info, LogList& log_list)
-//{
-//  if (core_info.core_path.isEmpty()) {
-//    return false;
-//  }
-
-//  m_core = core_info;
-
-//  p_log_list = &log_list;
-
-//  p_process->setProcessChannelMode(QProcess::MergedChannels);
-
-//  connect(
-//    p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
-
-//  return true;
-//}
-
 void
 CoreTools::setConfig(const QString& stdin_str)
 {

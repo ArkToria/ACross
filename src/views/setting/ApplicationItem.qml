@@ -118,7 +118,7 @@ Item {
             from: 1
             to: 100000
 
-            onValueModified: {
+            onFocusChanged: {
                 acrossConfig.logLines = value
             }
         }

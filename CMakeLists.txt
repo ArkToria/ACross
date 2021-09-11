@@ -62,8 +62,6 @@ set(PROJECT_HEADERS
     src/view_models/buildinfo.h.in
     src/view_models/logview.h
     src/view_models/systemtray.h
-#    src/view_models/loglist.h
-#    src/view_models/logmodel.h
     src/models/apitools.h
     src/models/cryptotools.h
     src/models/dbtools.h
@@ -97,8 +95,6 @@ set(PROJECT_SOURCES
     src/view_models/urlschemeformmodel.cpp
     src/view_models/logview.cpp
     src/view_models/systemtray.cpp
-#     src/view_models/loglist.cpp
-#     src/view_models/logmodel.cpp
     src/models/apitools.cpp
     src/models/cryptotools.cpp
     src/models/dbtools.cpp

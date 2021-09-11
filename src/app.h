@@ -25,10 +25,10 @@
 #include "view_models/nodemodel.h"
 #include "view_models/rawoutboundformmodel.h"
 #include "view_models/shadowsocksformmodel.h"
+#include "view_models/systemtray.h"
 #include "view_models/trojanformmodel.h"
 #include "view_models/urlschemeformmodel.h"
 #include "view_models/vmessformmodel.h"
-#include "view_models/systemtray.h"
 
 namespace across {
 #define APP_NAME "ACross"
@@ -55,7 +55,6 @@ private:
   std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
 
   across::LogView acrossLog;
-  //  across::LogList acrossLogList;
   across::setting::ConfigTools acrossConfig;
   across::DBTools acrossDB;
   across::core::CoreTools acrossCore;

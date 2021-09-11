@@ -26,9 +26,6 @@ public:
 
   bool init(const across::setting::Core& core_info, across::LogView& log_view);
 
-  //  bool init(const across::setting::Core& core_info, across::LogList&
-  //  log_list);
-
   void setConfig(const QString& stdin_str);
 
   void setConfig(const std::string& stdin_str);
@@ -50,7 +47,6 @@ signals:
 private:
   across::setting::Core m_core;
   across::LogView* p_log_view;
-  //  across::LogList* p_log_list;
   QProcess* p_process;
   QString m_config;
   bool m_running = false;

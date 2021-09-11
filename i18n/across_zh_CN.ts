@@ -214,14 +214,6 @@
     </message>
 </context>
 <context>
-    <name>CoreLogList</name>
-    <message>
-        <location filename="../src/views/log/CoreLogList.qml" line="20"/>
-        <source>Core Log</source>
-        <translation>内核日志</translation>
-    </message>
-</context>
-<context>
     <name>GroupControl</name>
     <message>
         <location filename="../src/views/home/GroupControl.qml" line="41"/>
