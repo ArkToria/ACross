@@ -16,11 +16,11 @@ public:
         Minimized=false,
         Visible=true
     };
-    explicit SystemTray(QObject *parent =0);
+    explicit SystemTray(QObject* parent = 0);
+
     void init(across::setting::ConfigTools& config,
-            across::core::CoreTools& core_tools,
-            const QIcon &acrossIconConnected,
-            const QIcon &acrossIconDisconnected);
+              across::core::CoreTools& core_tools);
+
     Q_INVOKABLE void toggleVisibilitySetText(bool vis);
     void retranslate();
 

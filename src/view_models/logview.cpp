@@ -73,7 +73,7 @@ LogView::styleFomatter(QString& msg)
                                    iter.value().toStdString(),
                                    iter.key().toStdString());
 
-    msg.replace(iter.key(), QString().fromStdString(replace_str));
+    msg.replace(iter.key(), QString::fromStdString(replace_str));
   }
 
   msg.replace("\n", "<br/>");

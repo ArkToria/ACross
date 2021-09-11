@@ -268,6 +268,10 @@ class ConfigTools : public QObject
                styleColorChanged)
   Q_PROPERTY(QString styleTextColor READ styleTextColor WRITE setStyleTextColor
                NOTIFY styleTextColorChanged)
+  Q_PROPERTY(QString trayStylish READ trayStylish WRITE setTrayStylish NOTIFY
+               trayStylishChanged)
+  Q_PROPERTY(
+    QString trayColor READ trayColor WRITE setTrayColor NOTIFY trayColorChanged)
   Q_PROPERTY(int borderRadius READ borderRadius WRITE setBorderRadius NOTIFY
                borderRadiusChanged)
   Q_PROPERTY(int borderWidth READ borderWidth WRITE setBorderWidth NOTIFY
@@ -412,6 +416,10 @@ public:
 
   QString styleTextColor();
 
+  QString trayStylish();
+
+  QString trayColor();
+
   int borderRadius();
 
   int borderWidth();
@@ -494,6 +502,10 @@ public slots:
 
   void setStyleTextColor(const QString& val);
 
+  void setTrayStylish(const QString& val);
+
+  void setTrayColor(const QString& val);
+
   void setBorderRadius(int radius);
 
   void setBorderWidth(int width);
@@ -568,6 +580,10 @@ signals:
   void styleColorChanged();
 
   void styleTextColorChanged();
+
+  void trayStylishChanged();
+
+  void trayColorChanged();
 
   void borderRadiusChanged();
 
