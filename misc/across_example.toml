@@ -15,6 +15,10 @@ language = "en_US"
     # include *.toml from directory
     include_dir = "$HOME/.local/share/across/themes/"
 
+    [interface.tray]
+    enable = false
+    close_to_minimize = false
+
 [update]
 auto_update = false
 check_update = true
