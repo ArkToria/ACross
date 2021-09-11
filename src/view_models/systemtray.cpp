@@ -7,7 +7,6 @@ using namespace across::setting;
 
 SystemTray::SystemTray(QObject *parent): QObject(parent){
     trayIcon = new QSystemTrayIcon();
-
 }
 
 void
@@ -16,13 +15,17 @@ SystemTray::init(ConfigTools& config, CoreTools& core_tools)
   p_config = &config;
   p_core = &core_tools;
 
-  if (p_config->trayColor() == "light") {
-    connectedIcon = QIcon::fromTheme("org.arktoria.across.light.running.svg");
-    disconnectedIcon = QIcon::fromTheme("org.arktoria.across.light.stop.svg");
-  } else {
-    connectedIcon = QIcon::fromTheme("org.arktoria.across.dark.running.svg");
-    disconnectedIcon = QIcon::fromTheme("org.arktoria.across.dark.stop.svg");
-  }
+  connect(
+    p_config, &across::setting::ConfigTools::trayColorChanged, this, [&]() {
+      loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
+    });
+
+  connect(
+    p_config, &across::setting::ConfigTools::trayStylishChanged, this, [&]() {
+      loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
+    });
+
+  loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
 
   trayIcon->setToolTip("Across " + p_config->guiVersion());
   onRunningChanged();
@@ -33,9 +36,6 @@ SystemTray::init(ConfigTools& config, CoreTools& core_tools)
   actionStop->setText(tr("Disconnect"));
   actionRestart->setText(tr("Reconnect"));
   actionQuit->setText(tr("Quit"));
-
-  // connect(p_config,&ConfigTools::currentLanguageChanged,this,
-  // &SystemTray::onLanguageChanged);
 
   actionToggleVisibility->setIcon(this->trayIcon->icon());
 
@@ -66,6 +66,19 @@ SystemTray::init(ConfigTools& config, CoreTools& core_tools)
   connect(
     p_core, &CoreTools::isRunningChanged, this, &SystemTray::onRunningChanged);
 }
+
+void
+SystemTray::loadTrayIcons(const QString& stylish, const QString& color)
+{
+  if (p_config->trayColor() == "light") {
+    connectedIcon = QIcon::fromTheme("org.arktoria.across.light.running.svg");
+    disconnectedIcon = QIcon::fromTheme("org.arktoria.across.light.stop.svg");
+  } else {
+    connectedIcon = QIcon::fromTheme("org.arktoria.across.dark.running.svg");
+    disconnectedIcon = QIcon::fromTheme("org.arktoria.across.dark.stop.svg");
+  }
+}
+
 void SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
     switch (reason){

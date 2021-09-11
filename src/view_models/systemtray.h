@@ -21,6 +21,8 @@ public:
     void init(across::setting::ConfigTools& config,
               across::core::CoreTools& core_tools);
 
+    void loadTrayIcons(const QString& stylish = "", const QString& color = "");
+
     Q_INVOKABLE void toggleVisibilitySetText(bool vis);
     void retranslate();
 
