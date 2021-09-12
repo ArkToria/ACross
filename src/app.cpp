@@ -37,8 +37,7 @@ Application::setRootContext()
 
   acrossLog.init(acrossConfig);
 
-  auto core_config = acrossConfig.getCore();
-  acrossCore.init(core_config, acrossLog);
+  acrossCore.init(acrossConfig, acrossLog);
 
   acrossNodes.init(p_thread_pool, acrossDB, acrossConfig, acrossCore);
   acrossGroups.init(p_thread_pool, acrossDB, acrossCurl, acrossNodes);

@@ -19,17 +19,41 @@ CoreTools::~CoreTools()
 }
 
 bool
-CoreTools::init(const Core& core_info, LogView& log_view)
+CoreTools::init(across::setting::ConfigTools& config, LogView& log_view)
 {
-  if (core_info.core_path.isEmpty()) {
-    return false;
-  }
+  p_config = &config;
 
-  m_core = core_info;
+  auto setCore = [&]() { m_core = p_config->getCore(); };
+
+  auto setEnv = [&]() {
+    QFileInfo db_path = p_config->dbPath();
+    QString config_dir = db_path.dir().absolutePath();
+
+    if (!config_dir.isEmpty()) {
+      if (m_env.contains("V2RAY_LOCATION_CONFIG")) {
+        m_env.clear();
+      }
+
+      m_env.insert("V2RAY_LOCATION_CONFIG", config_dir);
+    }
+  };
+
+  setCore();
+
+  setEnv();
 
   p_log_view = &log_view;
 
   p_process->setProcessChannelMode(QProcess::MergedChannels);
+
+  connect(p_config,
+          &across::setting::ConfigTools::coreInfoChanged,
+          this,
+          [=]() { setCore(); });
+
+  connect(p_config, &across::setting::ConfigTools::dbPathChanged, this, [=]() {
+    setEnv();
+  });
 
   connect(
     p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
@@ -74,9 +98,7 @@ CoreTools::run()
     p_log_view->clean();
   }
 
-  //  if (p_log_list != nullptr) {
-  //    p_log_list->clean();
-  //  }
+  p_process->setProcessEnvironment(m_env);
 
   p_process->start(
     m_core.core_path, {}, QIODevice::ReadWrite | QIODevice::Text);

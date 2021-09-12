@@ -7,6 +7,7 @@
 #include <QByteArray>
 #include <QObject>
 #include <QProcess>
+#include <QProcessEnvironment>
 #include <QRegExp>
 #include <QString>
 #include <QStringList>
@@ -23,7 +24,7 @@ public:
 
   ~CoreTools();
 
-  bool init(const across::setting::Core& core_info, across::LogView& log_view);
+  bool init(across::setting::ConfigTools& config, across::LogView& log_view);
 
   void setConfig(const QString& stdin_str);
 
@@ -44,11 +45,16 @@ signals:
   void isRunningChanged();
 
 private:
-  across::setting::Core m_core;
+  across::setting::ConfigTools* p_config;
   across::LogView* p_log_view;
-  QProcess* p_process;
+
+  across::setting::Core m_core;
+
   QString m_config;
   bool m_running = false;
+
+  QProcess* p_process;
+  QProcessEnvironment m_env;
 };
 }
 }
