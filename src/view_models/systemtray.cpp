@@ -40,16 +40,18 @@ SystemTray::init(ConfigTools& config, CoreTools& core_tools)
   actionRestart->setText(tr("Reconnect"));
   actionQuit->setText(tr("Quit"));
 
+  actionStart->setEnabled(false);
+  actionStop->setEnabled(false);
+  actionRestart->setEnabled(false);
+
   actionToggleVisibility->setIcon(QIcon::fromTheme("org.arktoria.across"));
 
   connect(
     actionToggleVisibility, &QAction::triggered, this, &SystemTray::signalShow);
-  /*
   connect(actionStart, &QAction::triggered,[this] {p_core->run();});
   connect(actionStop, &QAction::triggered,[this] {p_core->stop();});
   connect(actionRestart, &QAction::triggered,[this]
   {p_core->stop();p_core->run();});
-  */
   connect(actionQuit, &QAction::triggered, this, &SystemTray::signalQuit);
 
   rootMenu->addAction(actionToggleVisibility);
@@ -113,6 +115,7 @@ void SystemTray::onRunningChanged(){
         actionStart->setEnabled(true);
         actionStop->setEnabled(false);
     }
+    actionRestart->setEnabled(true);
 }
 void SystemTray::retranslate(){
     actionToggleVisibility->setText(tr("Show"));
