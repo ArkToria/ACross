@@ -66,32 +66,37 @@
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="144"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="164"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="126"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="107"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="73"/>
+        <source>Set UserAgent</source>
+        <translation>设置 UserAgent</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="156"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="176"/>
         <source>Log File</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="179"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="199"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="188"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="208"/>
         <source>Enter Database Path Here</source>
         <translation>输入数据库路径</translation>
     </message>
@@ -105,24 +110,24 @@
         <translation type="vanished">关闭到最小化</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="163"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="194"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="183"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="214"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="172"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="203"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="192"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="223"/>
         <source>Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="110"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="70"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
@@ -695,9 +700,9 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="288"/>
+        <location filename="../src/view_models/grouplist.cpp" line="295"/>
         <source>Copy [%1] URL to clipboard</source>
-        <translation type="unfinished">复制 [%1] 链接到剪贴板</translation>
+        <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
 </context>
 <context>

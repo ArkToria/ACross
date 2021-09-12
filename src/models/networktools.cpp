@@ -223,7 +223,8 @@ CURLTools::writeToDataCallback(void* contents,
 
 CURLTools::DownloadTask::DownloadTask(const std::string& name,
                                       const std::string& url,
-                                      int64_t group_id)
+                                      int64_t group_id,
+                                      const std::string& user_agent)
 {
   if (url.empty()) {
     return;
@@ -235,6 +236,7 @@ CURLTools::DownloadTask::DownloadTask(const std::string& name,
     this->name = name;
   }
 
+  // TODO: rewrite by QUrl
   auto split_lambda = [](std::string_view strv,
                          std::string delims) -> std::vector<std::string_view> {
     std::vector<std::string_view> output;
@@ -259,10 +261,11 @@ CURLTools::DownloadTask::DownloadTask(const std::string& name,
   };
 
   this->filename = split_lambda(url, "/").back();
-
   this->handle = createEasyHandle();
-
   this->group_id = group_id;
+  if (!user_agent.empty()) {
+    this->user_agent = user_agent;
+  }
 }
 
 CURLTools::EasyHandle

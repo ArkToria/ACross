@@ -54,15 +54,35 @@ Item {
             color: acrossConfig.textColor
         }
 
+        Item {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+        }
+
         SwitchBox {
             id: enableTrayIcon
-
-            Layout.columnSpan: 5
             Layout.alignment: Qt.AlignRight
 
             checked: acrossConfig.enableTray
             onCheckedChanged: {
                 acrossConfig.enableTray = checked
+            }
+        }
+
+        Label {
+            text: qsTr("Set UserAgent")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            id: userAgentText
+            Layout.fillWidth: true
+            Layout.columnSpan: 5
+
+            placeholderText: acrossConfig.networkUserAgent
+
+            onTextChanged: {
+                acrossConfig.networkUserAgent = text
             }
         }
 

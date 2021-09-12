@@ -3,6 +3,7 @@
 using namespace across;
 using namespace across::utils;
 using namespace across::config;
+using namespace across::setting;
 
 GroupList::GroupList(QObject* parent) {}
 
@@ -10,7 +11,8 @@ void
 GroupList::init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
                 DBTools& db,
                 network::CURLTools& curl_tools,
-                NodeList& node_list)
+                NodeList& node_list,
+                ConfigTools& config)
 {
   p_logger = std::make_shared<LogTools>(thread_pool, "group_list");
 
@@ -31,6 +33,8 @@ GroupList::init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
   if (p_nodes == nullptr) {
     p_logger->error("Failed to get the nodes");
   }
+
+  p_config = &config;
 
   reloadItems();
 }
@@ -156,7 +160,10 @@ GroupList::appendItem(const QString& group_name,
 
     std::stringstream data_stream;
     across::network::CURLTools::DownloadTask task(
-      item.name.toStdString(), item.url.toStdString(), item.id);
+      item.name.toStdString(),
+      item.url.toStdString(),
+      item.id,
+      p_config->networkUserAgent().toStdString());
 
     connect(p_curl, &across::network::CURLTools::downloadFinished, [&]() {
       auto result = p_db->createNodesTable(item.name.toStdString());

@@ -1713,9 +1713,8 @@ ConfigTools::setCurrentLanguage(const QString& newCurrentLanguage)
 void
 ConfigTools::setEnableTray(bool val)
 {
-  if (m_interface.tray.enable == val) {
+  if (m_interface.tray.enable == val)
     return;
-  }
 
   m_interface.tray.enable = val;
 
@@ -1725,15 +1724,39 @@ ConfigTools::setEnableTray(bool val)
 
 void
 ConfigTools::setNetworkTestMethod(const QString& val)
-{}
+{
+  if (m_network.test_method == val)
+    return;
+
+  m_network.test_method = val;
+
+  emit configChanged();
+  emit networkTestMethodChanged();
+}
 
 void
 ConfigTools::setNetworkTestURL(const QString& val)
-{}
+{
+  if (m_network.test_url == val)
+    return;
+
+  m_network.test_url = val;
+
+  emit configChanged();
+  emit networkTestURLChanged();
+}
 
 void
 ConfigTools::setNetworkUserAgent(const QString& val)
-{}
+{
+  if (m_network.user_agent == val)
+    return;
+
+  m_network.user_agent = val;
+
+  emit configChanged();
+  emit networkUserAgentChanged();
+}
 
 QString
 ConfigTools::buildInfo()

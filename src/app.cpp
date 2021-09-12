@@ -34,14 +34,11 @@ Application::setRootContext()
 {
   acrossConfig.init(p_thread_pool);
   acrossDB.init(p_thread_pool, acrossConfig);
-
   acrossLog.init(acrossConfig);
-
   acrossCore.init(acrossConfig, acrossLog);
-
   acrossNodes.init(p_thread_pool, acrossDB, acrossConfig, acrossCore);
-  acrossGroups.init(p_thread_pool, acrossDB, acrossCurl, acrossNodes);
-
+  acrossGroups.init(
+    p_thread_pool, acrossDB, acrossCurl, acrossNodes, acrossConfig);
   acrossTray.init(acrossConfig, acrossCore);
 
   const QUrl url(QStringLiteral("qrc:/src/views/main.qml"));

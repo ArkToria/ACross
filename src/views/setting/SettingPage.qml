@@ -45,7 +45,7 @@ Item {
 
             CardBox {
                 implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
-                implicitHeight: 280
+                implicitHeight: 320
 
                 ApplicationItem {
                     anchors.fill: parent

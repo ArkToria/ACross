@@ -13,6 +13,7 @@
 #include "../models/networktools.h"
 #include "../models/notifytools.h"
 #include "../models/serializetools.h"
+#include "configtools.h"
 #include "nodelist.h"
 
 namespace across {
@@ -25,7 +26,8 @@ public:
   void init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
             DBTools& db,
             across::network::CURLTools& curl_tools,
-            across::NodeList& node_list);
+            across::NodeList& node_list,
+            across::setting::ConfigTools& config);
 
   QVector<GroupInfo> items() const;
 
@@ -64,6 +66,7 @@ signals:
   void postLastItemRemoved();
 
 private:
+  across::setting::ConfigTools* p_config;
   across::DBTools* p_db;
   across::NodeList* p_nodes;
   across::network::CURLTools* p_curl;

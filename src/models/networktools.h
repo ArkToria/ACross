@@ -94,7 +94,8 @@ public:
 
     DownloadTask(const std::string& name,
                  const std::string& url,
-                 int64_t group_id);
+                 int64_t group_id,
+                 const std::string& user_agent = "");
   };
 
   CURLcode download(DownloadTask& task, std::stringstream* p_buf = nullptr);
