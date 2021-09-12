@@ -10,8 +10,8 @@ APITools::APITools(std::shared_ptr<grpc::Channel> channel)
 
 APITools::APITools(uint port)
 {
-  std::string addr = ipv4_local_address + std::to_string(port);
-  auto channel = grpc::CreateChannel(addr, grpc::InsecureChannelCredentials());
+  auto channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(port),
+                                     grpc::InsecureChannelCredentials());
 
   p_stub = StatsService::NewStub(channel);
 }

@@ -40,7 +40,6 @@ CryptoTools::detectEntropyQuality()
     }
 
     result = true;
-
   } while (false);
 
   (void)close(fd);

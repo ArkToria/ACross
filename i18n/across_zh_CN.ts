@@ -693,6 +693,14 @@
     </message>
 </context>
 <context>
+    <name>across::GroupList</name>
+    <message>
+        <location filename="../src/view_models/grouplist.cpp" line="288"/>
+        <source>Copy [%1] URL to clipboard</source>
+        <translation type="unfinished">复制 [%1] 链接到剪贴板</translation>
+    </message>
+</context>
+<context>
     <name>across::SystemTray</name>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="37"/>

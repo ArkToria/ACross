@@ -282,16 +282,10 @@ GroupList::setDisplayGroupID(int id)
 void
 GroupList::copyUrlToClipboard(int index)
 {
-  NotifyTools notify_tools;
-
   auto item = m_items.at(index);
 
-  QString summary = QString::fromStdString(
-    fmt::format("Copy Group {} url to clipboard", item.name.toStdString()));
+  NotifyTools().send(item.url,
+                     QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
 
-  notify_tools.send(item.url, summary);
-
-  ClipboardTools clipboard_tools;
-
-  clipboard_tools.add(item.url);
+  ClipboardTools().send(item.url);
 }

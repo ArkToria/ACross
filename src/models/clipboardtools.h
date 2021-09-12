@@ -1,23 +1,21 @@
 #ifndef CLIPBOARDTOOLS_H
 #define CLIPBOARDTOOLS_H
 
+#include <QApplication>
 #include <QClipboard>
-#include <QGuiApplication>
 #include <QImage>
-#include <memory>
 
 namespace across {
 namespace utils {
 
-class ClipboardTools : public QObject
+class ClipboardTools
 {
-  Q_OBJECT
 public:
-  explicit ClipboardTools(QObject* parent = nullptr);
+  ClipboardTools();
 
-  void add(const QString& msg);
+  void send(const QString& msg);
 
-  void add(const QImage& img);
+  void send(const QImage& img);
 };
 }
 }

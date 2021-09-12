@@ -2,20 +2,16 @@
 
 using namespace across::utils;
 
-ClipboardTools::ClipboardTools(QObject* parent) {}
+ClipboardTools::ClipboardTools() {}
 
 void
-ClipboardTools::add(const QString& msg)
+ClipboardTools::send(const QString& msg)
 {
-  auto* p_clipboard = QGuiApplication::clipboard();
-
-  p_clipboard->setText(msg);
+  QApplication::clipboard()->setText(msg);
 }
 
 void
-ClipboardTools::add(const QImage& img)
+ClipboardTools::send(const QImage& img)
 {
-  auto* p_clipboard = QGuiApplication::clipboard();
-
-  p_clipboard->setImage(img);
+  QApplication::clipboard()->setImage(img);
 }

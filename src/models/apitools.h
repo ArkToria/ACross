@@ -32,8 +32,6 @@ public:
 
 private:
   std::unique_ptr<StatsService::Stub> p_stub;
-
-  std::string ipv4_local_address = "127.0.0.1:";
 };
 }
 }
