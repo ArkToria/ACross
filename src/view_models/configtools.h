@@ -54,6 +54,17 @@ struct Interface
   void toNodeView(const toml::v2::node_view<toml::v2::node>& interface);
 };
 
+struct Network
+{
+  QString test_method = "tcping";
+  QString test_url = "https://www.google.com";
+  QString user_agent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 "
+                       "(KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36";
+
+  void fromNodeView(toml::v2::node_view<toml::v2::node> network);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& network);
+};
+
 struct Update
 {
   bool auto_update = false;
@@ -193,9 +204,7 @@ struct InboundSettings
     QString password; // Need to be encrypted
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> http);
-
     void toNodeView(const toml::v2::node_view<toml::v2::node>& http);
-
     across::config::InboundObject toInboundObject();
   } http;
 
@@ -294,17 +303,21 @@ class ConfigTools : public QObject
                setCurrentLanguage NOTIFY currentLanguageChanged)
   Q_PROPERTY(bool enableTray READ enableTray WRITE setEnableTray NOTIFY
                enableTrayChanged)
+
+  // network setting
+  Q_PROPERTY(QString networkTestMethod READ networkTestMethod WRITE
+               setNetworkTestMethod NOTIFY networkTestMethodChanged)
+  Q_PROPERTY(QString networkTestURL READ networkTestURL WRITE setNetworkTestURL
+               NOTIFY networkTestURLChanged)
+  Q_PROPERTY(QString networkUserAgent READ networkUserAgent WRITE
+               setNetworkUserAgent NOTIFY networkUserAgentChanged)
+
   // help page
   Q_PROPERTY(QString buildInfo READ buildInfo CONSTANT)
-
   Q_PROPERTY(QString extraInfo READ extraInfo CONSTANT)
-
   Q_PROPERTY(QString buildTime READ buildTime CONSTANT)
-
   Q_PROPERTY(QString sourceCodeURL READ sourceCodeURL CONSTANT)
-
   Q_PROPERTY(QString reportURL READ reportURL CONSTANT)
-
   Q_PROPERTY(QString licenseURL READ licenseURL CONSTANT)
 
 public:
@@ -318,41 +331,26 @@ public:
   toml::v2::table getConfig();
 
   Core getCore();
-
   bool loadInterfaceConfig();
-
   bool loadInterfaceTheme();
-
   bool loadInterfaceLanguage();
-
   bool loadUpdateConfig();
-
   bool loadDBConfig();
-
   bool loadThemeConfig();
-
   bool loadCoreConfig();
-
   bool loadInboundConfig();
+  bool loadNetworkConfig();
 
   InboundSettings getInboundConfig();
-
   DataBase getDBConfig();
 
   Q_INVOKABLE QString getConfigVersion();
-
   Q_INVOKABLE QString getConfigTomlVersion();
-
   Q_INVOKABLE QString getLanguage();
-
   Q_INVOKABLE void freshColors();
-
   Q_INVOKABLE bool testApi();
-
   Q_INVOKABLE bool testAndSetAddr(const QString& addr);
-
   Q_INVOKABLE void freshInbound();
-
   Q_INVOKABLE bool saveConfig(QString config_path = "");
 
   static bool isFileExist(QString file_path);
@@ -363,259 +361,155 @@ public:
 
   // core setting
   QString coreInfo();
-
   QString coreVersion();
-
   QString guiVersion();
-
   QString corePath();
-
   QString assetsPath();
-
   QString logLevel();
-
   int logLines();
-
   bool apiEnable();
-
   QString apiPort();
-
   QString apiResultText();
 
   // inbounds setting
   QString inboundAddress();
-
   bool socksEnable();
-
   QString socksPort();
-
   QString socksUsername();
-
   QString socksPassword();
-
   bool httpEnable();
-
   QString httpPort();
-
   QString httpUsername();
-
   QString httpPassword();
 
   // user interface setting
   QString textColor();
-
   QString backgroundColor();
-
   QString highlightColor();
-
   QString highlightTextColor();
-
   QString warnColor();
-
   QString warnTextColor();
-
   QString shadowColor();
-
   QString borderColor();
-
   QString deepColor();
-
   QString deepTextColor();
-
   QString styleColor();
-
   QString styleTextColor();
-
   QString trayStylish();
-
   QString trayColor();
-
   int borderRadius();
-
   int borderWidth();
-
   int itemSpacing();
-
   const QString& iconStyle() const;
-
   const QString& currentTheme() const;
-
   const QString& currentLanguage() const;
-
   bool enableTray();
+
+  // network setting
+  const QString& networkTestMethod() const;
+  const QString& networkTestURL() const;
+  const QString& networkUserAgent() const;
 
   // help page
   QString buildInfo();
-
   QString extraInfo();
-
   QString buildTime();
-
   QString sourceCodeURL();
-
   QString reportURL();
-
   QString licenseURL();
 
 public slots:
   void setDBPath(const QString& db_path, bool init = false);
-
   void setCorePath(const QUrl& val);
-
   void setAssetsPath(const QUrl& val);
-
   void setLogLevel(const QString& log_level);
-
   void setLogLines(int log_lines);
-
   void setApiEnable(bool val);
-
   void setApiPort(QString& portStr);
-
   void setInboundAddress(const QString& addr);
-
   void setSocksEnable(bool val);
-
   void setSocksPort(const QString& portStr);
-
   void setSocksUsername(const QString& name);
-
   void setSocksPassword(const QString& pass);
-
   void setHttpEnable(bool val);
-
   void setHttpPort(QString& portStr);
-
   void setHttpUsername(const QString& name);
-
   void setHttpPassword(const QString& pass);
-
   void setTextColor(const QString& val);
-
   void setBackgroundColor(const QString& val);
-
   void setHighlightColor(const QString& val);
-
   void setHighlightTextColor(const QString& val);
-
   void setWarnColor(const QString& val);
-
   void setWarnTextColor(const QString& val);
-
   void setShadowColor(const QString& val);
-
   void setBorderColor(const QString& val);
-
   void setDeepColor(const QString& val);
-
   void setDeepTextColor(const QString& val);
-
   void setStyleColor(const QString& val);
-
   void setStyleTextColor(const QString& val);
-
   void setTrayStylish(const QString& val);
-
   void setTrayColor(const QString& val);
-
   void setBorderRadius(int radius);
-
   void setBorderWidth(int width);
-
   void setItemSpacing(int spacing);
-
   void setIconStyle(const QString& newIconStyle);
-
   void setCurrentTheme(const QString& newCurrentTheme);
-
   void setCurrentLanguage(const QString& newCurrentLanguage);
-
   void setEnableTray(bool val);
+
+  // network setting
+  void setNetworkTestMethod(const QString& val);
+  void setNetworkTestURL(const QString& val);
+  void setNetworkUserAgent(const QString& val);
 
 signals:
   void dbPathChanged();
-
   void coreInfoChanged();
-
   void coreVersionChanged();
-
   void corePathChanged();
-
   void assetsPathChanged();
-
   void logLevelChanged();
-
   void logLinesChanged(int max_lines);
-
   void apiEnableChanged();
-
   void apiPortChanged();
-
   void apiResultTextChanged();
-
   void inboundAddressChanged();
-
   void socksEnableChanged();
-
   void socksPortChanged();
-
   void socksUsernameChanged();
-
   void socksPasswordChanged();
-
   void httpEnableChanged();
-
   void httpPortChanged();
-
   void httpUsernameChanged();
-
   void httpPasswordChanged();
-
   void textColorChanged();
-
   void backgroundColorChanged();
-
   void highlightColorChanged();
-
   void highlightTextColorChanged();
-
   void warnColorChanged();
-
   void warnTextColorChanged();
-
   void shadowColorChanged();
-
   void borderColorChanged();
-
   void deepColorChanged();
-
   void deepTextColorChanged();
-
   void styleColorChanged();
-
   void styleTextColorChanged();
-
   void trayStylishChanged();
-
   void trayColorChanged();
-
   void borderRadiusChanged();
-
   void borderWidthChanged();
-
   void itemSpacingChanged();
-
   void iconStyleChanged();
-
   void currentThemeChanged();
-
   void currentLanguageChanged(const QString& lang);
-
   void enableTrayChanged();
-
   void buildInfoChanged();
-
   void configChanged();
+
+  // network setting
+  void networkTestMethodChanged();
+  void networkTestURLChanged();
+  void networkUserAgentChanged();
 
 private:
   std::shared_ptr<LogTools> p_logger;
@@ -630,6 +524,7 @@ private:
   Theme m_theme;
   Update m_update;
   Interface m_interface;
+  Network m_network;
   InboundSettings m_inbound;
 };
 }

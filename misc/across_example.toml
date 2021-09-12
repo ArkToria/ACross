@@ -42,7 +42,7 @@ core_path = "/usr/bin/v2ray"
 assets_path = "/usr/share/v2ray/"
 # ["none", "debug", "info", "warning", "error"]
 log_level = "warning"
-log_lines = 500
+log_lines = 50
 
     [core.api]
     enable = true
@@ -73,13 +73,11 @@ log_lines = 500
         username = "" # leave blank to disable
         password = ""
 
-[latency]
+[network]
 # ["tcping", "icmp"]
-method = "tcping"
-url = "https://www.google.com"
-
-    [latency.tcping]
-    user_agent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36"
+test_method = "tcping"
+test_url = "https://www.google.com"
+user_agent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36"
 
 [[themes]]
 name = "default-light"

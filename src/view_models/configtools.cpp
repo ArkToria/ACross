@@ -7,7 +7,8 @@ using namespace across::config;
 void
 Interface::Language::fromNodeView(toml::v2::node_view<toml::node> language)
 {
-  this->language = QString::fromStdString(*language.value<std::string>());
+  if (auto temp = *language.value<std::string>(); !temp.empty())
+    this->language = QString::fromStdString(temp);
 }
 
 void
@@ -19,9 +20,11 @@ Interface::Language::toNodeView(const toml::v2::node_view<toml::node>& language)
 void
 Interface::Theme::fromNodeView(toml::v2::node_view<toml::node> theme)
 {
-  this->theme = QString::fromStdString(*theme["theme"].value<std::string>());
-  this->include_dir =
-    QString::fromStdString(*theme["include_dir"].value<std::string>());
+  if (auto temp = theme["theme"].value<std::string>(); temp.has_value())
+    this->theme = QString::fromStdString(temp.value());
+
+  if (auto temp = theme["include_dir"].value<std::string>(); temp.has_value())
+    this->include_dir = QString::fromStdString(temp.value());
 }
 
 void
@@ -34,7 +37,8 @@ Interface::Theme::toNodeView(const toml::v2::node_view<toml::node>& theme)
 void
 Interface::Tray::fromNodeView(toml::v2::node_view<toml::node> tray)
 {
-  this->enable = *tray["enable"].value<bool>();
+  if (auto temp = tray["enable"].value<bool>(); temp.has_value())
+    this->enable = temp.value();
 }
 
 void
@@ -60,13 +64,41 @@ Interface::toNodeView(const toml::v2::node_view<toml::node>& interface)
 }
 
 void
+Network::fromNodeView(toml::v2::node_view<toml::node> network)
+{
+  if (auto temp = network["test_method"].value<std::string>(); temp.has_value())
+    this->test_method = QString::fromStdString(temp.value());
+
+  if (auto temp = network["test_url"].value<std::string>(); temp.has_value())
+    this->test_url = QString::fromStdString(temp.value());
+
+  if (auto temp = network["user_agent"].value<std::string>(); temp.has_value())
+    this->user_agent = QString::fromStdString(temp.value());
+}
+
+void
+Network::toNodeView(const toml::v2::node_view<toml::node>& network)
+{
+  *network["test_method"].as_string() = this->test_method.toStdString();
+  *network["test_url"].as_string() = this->test_url.toStdString();
+  *network["user_agent"].as_string() = this->user_agent.toStdString();
+}
+
+void
 Update::fromNodeView(toml::v2::node_view<toml::node> update)
 {
-  this->auto_update = *update["auto_update"].value<bool>();
-  this->check_update = *update["check_update"].value<bool>();
-  this->update_from_proxy = *update["update_from_proxy"].value<bool>();
-  this->update_channel =
-    QString::fromStdString(*update["update_channel"].value<std::string>());
+  if (auto temp = update["auto_update"].value<bool>(); temp.has_value())
+    this->auto_update = temp.value();
+
+  if (auto temp = update["check_update"].value<bool>(); temp.has_value())
+    this->check_update = temp.value();
+
+  if (auto temp = update["update_from_proxy"].value<bool>(); temp.has_value())
+    this->update_from_proxy = temp.value();
+
+  if (auto temp = update["update_channel"].value<std::string>();
+      temp.has_value())
+    this->update_channel = QString::fromStdString(temp.value());
 }
 
 void
@@ -81,27 +113,32 @@ Update::toNodeView(const toml::v2::node_view<toml::node>& update)
 void
 DataBase::fromNodeView(toml::v2::node_view<toml::node> database)
 {
-  this->path =
-    QString::fromStdString(*database["db_path"].value<std::string>());
-  this->backend =
-    QString::fromStdString(*database["db_backend"].value<std::string>());
+  if (auto temp = database["db_path"].value<std::string>(); temp.has_value())
+    this->path = QString::fromStdString(temp.value());
 
-  auto _enable_auth = database["auth"]["enable"].value<bool>();
-  if (_enable_auth.has_value() && _enable_auth.value() == true) {
-    this->auth.enable = _enable_auth.value();
+  if (auto temp = database["db_backend"].value<std::string>(); temp.has_value())
+    this->backend = QString::fromStdString(temp.value());
 
-    auto _auth = database["auth"];
-    this->auth.username =
-      QString::fromStdString(*_auth["username"].value<std::string>());
-    this->auth.password =
-      QString::fromStdString(*_auth["password"].value<std::string>());
-    this->auth.address =
-      QString::fromStdString(*_auth["address"].value<std::string>());
+  if (auto temp = database["auth"]["enable"].value<bool>();
+      temp.has_value() && temp.value() == true) {
+    this->auth.enable = temp.value();
 
-    auto _port = database["auth"]["port"].value<uint>();
-    if (_port.has_value()) {
-      this->auth.port = _port.value();
-    }
+    auto auth = database["auth"];
+    if (auto auth_temp = auth["username"].value<std::string>();
+        auth_temp.has_value())
+      this->auth.username = QString::fromStdString(auth_temp.value());
+
+    if (auto auth_temp = auth["password"].value<std::string>();
+        auth_temp.has_value())
+      this->auth.password = QString::fromStdString(auth_temp.value());
+
+    if (auto auth_temp = auth["address"].value<std::string>();
+        auth_temp.has_value())
+      this->auth.address = QString::fromStdString(auth_temp.value());
+
+    if (auto auth_temp = database["auth"]["port"].value<uint>();
+        auth_temp.has_value())
+      this->auth.port = auth_temp.value();
   }
 }
 
@@ -125,25 +162,25 @@ DataBase::toNodeView(const toml::v2::node_view<toml::node>& database)
 void
 Core::fromNodeView(toml::v2::node_view<toml::node> core)
 {
-  this->core_path =
-    QString::fromStdString(*core["core_path"].value<std::string>());
-  this->assets_path =
-    QString::fromStdString(*core["assets_path"].value<std::string>());
-  this->log_level =
-    QString::fromStdString(*core["log_level"].value<std::string>());
+  if (auto temp = core["core_path"].value<std::string>(); temp.has_value())
+    this->core_path = QString::fromStdString(temp.value());
 
-  auto _log_lines = core["log_lines"].value<int>();
-  if (_log_lines.has_value()) {
-    this->log_lines = _log_lines.value();
-  }
+  if (auto temp = core["assets_path"].value<std::string>(); temp.has_value())
+    this->assets_path = QString::fromStdString(temp.value());
 
-  auto _api_enable = core["api"]["enable"].value<bool>();
-  if (_api_enable.has_value() && _api_enable.value() == true) {
-    this->api.enable = _log_lines.value();
+  if (auto temp = core["log_level"].value<std::string>(); temp.has_value())
+    this->log_level = QString::fromStdString(temp.value());
 
-    auto _api_port = core["api"]["port"].value<uint>();
-    if (_api_port.has_value()) {
-      this->api.port = _api_port.value();
+  if (auto temp = core["log_lines"].value<int>(); temp.has_value())
+    this->log_lines = temp.value();
+
+  if (auto temp = core["api"]["enable"].value<bool>();
+      temp.has_value() && temp.value() == true) {
+    this->api.enable = temp.value();
+
+    if (auto api_temp = core["api"]["port"].value<uint>();
+        api_temp.has_value()) {
+      this->api.port = api_temp.value();
     }
   }
 }
@@ -162,50 +199,87 @@ Core::toNodeView(const toml::v2::node_view<toml::node>& core)
 void
 Theme::Colors::fromNodeView(toml::v2::node_view<toml::node> colors_node)
 {
-  this->text_color =
-    QString::fromStdString(*colors_node["text_color"].value<std::string>());
-  this->background_color = QString::fromStdString(
-    *colors_node["background_color"].value<std::string>());
-  this->highlight_color = QString::fromStdString(
-    *colors_node["highlight_color"].value<std::string>());
-  this->highlight_text_color = QString::fromStdString(
-    *colors_node["highlight_text_color"].value<std::string>());
-  this->warn_color =
-    QString::fromStdString(*colors_node["warn_color"].value<std::string>());
-  this->warn_text_color = QString::fromStdString(
-    *colors_node["warn_text_color"].value<std::string>());
-  this->shadow_color =
-    QString::fromStdString(*colors_node["shadow_color"].value<std::string>());
-  this->border_color =
-    QString::fromStdString(*colors_node["border_color"].value<std::string>());
-  this->deep_color =
-    QString::fromStdString(*colors_node["deep_color"].value<std::string>());
-  this->deep_text_color = QString::fromStdString(
-    *colors_node["deep_text_color"].value<std::string>());
-  this->style_color =
-    QString::fromStdString(*colors_node["style_color"].value<std::string>());
-  this->style_text_color = QString::fromStdString(
-    *colors_node["style_text_color"].value<std::string>());
+  if (auto temp = colors_node["text_color"].value<std::string>();
+      temp.has_value())
+    this->text_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["background_color"].value<std::string>();
+      temp.has_value())
+    this->background_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["highlight_color"].value<std::string>();
+      temp.has_value())
+    this->highlight_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["highlight_text_color"].value<std::string>();
+      temp.has_value())
+    this->highlight_text_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["warn_color"].value<std::string>();
+      temp.has_value())
+    this->warn_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["warn_text_color"].value<std::string>();
+      temp.has_value())
+    this->warn_text_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["shadow_color"].value<std::string>();
+      temp.has_value())
+    this->shadow_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["border_color"].value<std::string>();
+      temp.has_value())
+    this->border_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["deep_color"].value<std::string>();
+      temp.has_value())
+    this->deep_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["deep_text_color"].value<std::string>();
+      temp.has_value())
+    this->deep_text_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["style_color"].value<std::string>();
+      temp.has_value())
+    this->style_color = QString::fromStdString(temp.value());
+
+  if (auto temp = colors_node["style_text_color"].value<std::string>();
+      temp.has_value())
+    this->style_text_color = QString::fromStdString(temp.value());
 }
 
 void
 InboundSettings::SOCKS::fromNodeView(toml::v2::node_view<toml::node> socks)
 {
-  enable = *socks["enable"].value<bool>();
+  if (auto temp = socks["enable"].value<bool>();
+      temp.has_value() && temp.value() == true) {
+    this->enable = temp.value();
 
-  if (enable) {
-    this->listen =
-      QString::fromStdString(*socks["listen"].value<std::string>());
-    this->port = *socks["port"].value<uint>();
+    if (auto socks_temp = socks["listen"].value<std::string>();
+        socks_temp.has_value())
+      this->listen = QString::fromStdString(socks_temp.value());
 
-    this->udp = *socks["udp"].value<bool>();
-    this->ip = QString::fromStdString(*socks["ip"].value<std::string>());
-    this->user_level = *socks["user_level"].value<int>();
+    if (auto socks_temp = socks["port"].value<uint>(); socks_temp.has_value())
+      this->port = socks_temp.value();
 
-    this->username =
-      QString::fromStdString(*socks["auth"]["username"].value<std::string>());
-    this->password =
-      QString::fromStdString(*socks["auth"]["password"].value<std::string>());
+    if (auto socks_temp = socks["udp"].value<bool>(); socks_temp.has_value())
+      this->udp = socks_temp.value();
+
+    if (auto socks_temp = socks["ip"].value<std::string>();
+        socks_temp.has_value())
+      this->ip = QString::fromStdString(socks_temp.value());
+
+    if (auto socks_temp = socks["user_level"].value<int>();
+        socks_temp.has_value())
+      this->user_level = socks_temp.value();
+
+    if (auto socks_temp = socks["auth"]["username"].value<std::string>();
+        socks_temp.has_value())
+      this->username = QString::fromStdString(socks_temp.value());
+
+    if (auto socks_temp = socks["auth"]["password"].value<std::string>();
+        socks_temp.has_value())
+      this->password = QString::fromStdString(socks_temp.value());
   }
 }
 
@@ -256,20 +330,34 @@ InboundSettings::SOCKS::toInboundObject()
 void
 InboundSettings::HTTP::fromNodeView(toml::v2::node_view<toml::node> http)
 {
-  enable = *http["enable"].value<bool>();
+  if (auto temp = http["enable"].value<bool>();
+      temp.has_value() && temp.value() == true) {
+    this->enable = temp.value();
 
-  if (enable) {
-    this->listen = QString::fromStdString(*http["listen"].value<std::string>());
-    this->port = *http["port"].value<uint>();
+    if (auto http_temp = http["listen"].value<std::string>();
+        http_temp.has_value())
+      this->listen = QString::fromStdString(http_temp.value());
 
-    this->allow_transparent = *http["allow_transparent"].value<bool>();
-    this->timeout = *http["timeout"].value<int>();
-    this->user_level = *http["user_level"].value<int>();
+    if (auto http_temp = http["port"].value<uint>(); http_temp.has_value())
+      this->port = http_temp.value();
 
-    this->username =
-      QString::fromStdString(*http["auth"]["username"].value<std::string>());
-    this->password =
-      QString::fromStdString(*http["auth"]["password"].value<std::string>());
+    if (auto http_temp = http["allow_transparent"].value<bool>();
+        http_temp.has_value())
+      this->allow_transparent = http_temp.value();
+
+    if (auto http_temp = http["timeout"].value<int>(); http_temp.has_value())
+      this->timeout = http_temp.value();
+
+    if (auto http_temp = http["user_level"].value<int>(); http_temp.has_value())
+      this->user_level = http_temp.value();
+
+    if (auto http_temp = http["auth"]["username"].value<std::string>();
+        http_temp.has_value())
+      this->username = QString::fromStdString(http_temp.value());
+
+    if (auto http_temp = http["auth"]["password"].value<std::string>();
+        http_temp.has_value())
+      this->password = QString::fromStdString(http_temp.value());
   }
 }
 
@@ -511,19 +599,11 @@ ConfigTools::loadInterfaceTheme()
 bool
 ConfigTools::loadInterfaceLanguage()
 {
-  bool result = false;
+  if (m_config.empty())
+    return false;
 
-  do {
-    if (m_config.empty()) {
-      break;
-    }
-
-    m_interface.fromNodeView(m_config["interface"]["language"]);
-
-    result = true;
-  } while (false);
-
-  return result;
+  m_interface.fromNodeView(m_config["interface"]["language"]);
+  return true;
 }
 
 bool
@@ -547,73 +627,66 @@ ConfigTools::loadUpdateConfig()
 bool
 ConfigTools::loadDBConfig()
 {
-  bool result = false;
+  if (auto temp = m_config["database"]["db_path"].value<std::string>();
+      temp.has_value() && temp != m_db.path.toStdString()) {
+    setDBPath(QString::fromStdString(temp.value()), true);
 
-  do {
-    auto temp = m_config["database"]["db_path"].value<std::string>();
-    if (!temp.has_value()) {
-      p_logger->warn("Failed to get the db_path, use default path `{}`",
-                     m_db.path.toStdString());
-      result = isFileExist(m_db.path);
-      break;
-    }
+    return true;
+  } else {
+    p_logger->warn("Failed to get the db_path, use default path `{}`",
+                   m_db.path.toStdString());
+  }
 
-    if (temp != m_db.path.toStdString()) {
-      setDBPath(QString::fromStdString(temp.value()), true);
-    }
-
-    result = true;
-  } while (false);
-
-  return result;
+  return isFileExist(m_db.path);
 }
 
 bool
 ConfigTools::loadThemeConfig()
 {
-  bool result = false;
+  auto themes = m_config["themes"];
 
-  do {
-    auto themes = m_config["themes"];
-    if (!themes.is_array() || themes.as_array()->size() == 0) {
-      p_logger->error("No theme configuration");
-      break;
-    }
+  if (themes.as_array()->empty()) {
+    p_logger->error("No themes configuration");
+    return false;
+  }
 
-    for (int i = 0; i < themes.as_array()->size(); ++i) {
-      auto temp = themes[i]["name"].value<std::string>();
+  for (int i = 0; i < themes.as_array()->size(); ++i) {
+    if (auto temp = themes[i]["name"].value<std::string>(); temp.has_value()) {
+      if (auto temp_name = QString::fromStdString(temp.value());
+          m_interface.theme.theme == temp_name) {
+        m_theme.name = temp_name;
 
-      if (temp.has_value()) {
-        auto temp_name = QString::fromStdString(temp.value());
+        if (auto theme_temp = themes[i]["tray"]["stylish"].value<std::string>();
+            theme_temp.has_value())
+          m_theme.tray.stylish = QString::fromStdString(theme_temp.value());
 
-        if (m_interface.theme.theme == temp_name) {
-          m_theme.name = temp_name;
+        if (auto theme_temp = themes[i]["tray"]["color"].value<std::string>();
+            theme_temp.has_value())
+          m_theme.tray.color = QString::fromStdString(theme_temp.value());
 
-          m_theme.tray.stylish = QString::fromStdString(
-            *themes[i]["tray"]["stylish"].value<std::string>());
-          m_theme.tray.color = QString::fromStdString(
-            *themes[i]["tray"]["color"].value<std::string>());
+        if (auto theme_temp = themes[i]["border"]["radius"].value<int>();
+            theme_temp.has_value())
+          m_theme.border.radius = theme_temp.value();
 
-          m_theme.border.radius = *themes[i]["border"]["radius"].value<int>();
-          m_theme.border.width = *themes[i]["border"]["width"].value<int>();
+        if (auto theme_temp = themes[i]["border"]["width"].value<int>();
+            theme_temp.has_value())
+          m_theme.border.width = theme_temp.value();
 
-          m_theme.item.spacing = *themes[i]["item"]["spacing"].value<int>();
+        if (auto theme_temp = themes[i]["item"]["spacing"].value<int>();
+            theme_temp.has_value())
+          m_theme.item.spacing = theme_temp.value();
 
-          m_theme.icon.style = QString::fromStdString(
-            *themes[i]["icon"]["style"].value<std::string>());
+        if (auto theme_temp = themes[i]["icon"]["style"].value<std::string>();
+            theme_temp.has_value())
+          m_theme.icon.style = QString::fromStdString(theme_temp.value());
 
-          m_theme.colors.fromNodeView(themes[i]["colors"]);
-          result = true;
-          break;
-        }
-      } else {
-        p_logger->warn("Failed to load the theme: {}", std::to_string(i));
-        break;
+        m_theme.colors.fromNodeView(themes[i]["colors"]);
+        return true;
       }
     }
-  } while (false);
+  }
 
-  return result;
+  return false;
 }
 
 bool
@@ -666,18 +739,21 @@ ConfigTools::loadCoreConfig()
 bool
 ConfigTools::loadInboundConfig()
 {
-  bool result = false;
+  if (m_config.empty())
+    return false;
 
-  do {
-    if (m_config.empty()) {
-      break;
-    }
+  m_inbound.fromNodeView(m_config["inbound"]);
+  return true;
+}
 
-    m_inbound.fromNodeView(m_config["inbound"]);
-    result = true;
-  } while (false);
+bool
+ConfigTools::loadNetworkConfig()
+{
+  if (m_config.empty())
+    return false;
 
-  return result;
+  m_network.fromNodeView(m_config["network"]);
+  return true;
 }
 
 InboundSettings
@@ -695,13 +771,12 @@ ConfigTools::getDBConfig()
 QString
 ConfigTools::getConfigVersion()
 {
-  QString config_version;
-  auto temp = m_config["config_version"].value<std::string>();
-  if (temp.has_value()) {
-    config_version = QString::fromStdString(temp.value());
+  if (auto temp = m_config["config_version"].value<std::string>();
+      temp.has_value()) {
+    return QString::fromStdString(temp.value());
   }
 
-  return config_version;
+  return {};
 }
 
 QString
@@ -826,6 +901,7 @@ ConfigTools::saveConfig(QString config_path)
     m_db.toNodeView(m_config["database"]);
     m_core.toNodeView(m_config["core"]);
     m_inbound.toNodeView(m_config["inbound"]);
+    m_network.toNodeView(m_config["network"]);
     m_interface.toNodeView(m_config["interface"]);
 
     config.open(path.toStdString(), std::ios::out | std::ios::trunc);
@@ -1603,6 +1679,24 @@ ConfigTools::enableTray()
   return m_interface.tray.enable;
 }
 
+const QString&
+ConfigTools::networkTestMethod() const
+{
+  return m_network.test_method;
+}
+
+const QString&
+ConfigTools::networkTestURL() const
+{
+  return m_network.test_url;
+}
+
+const QString&
+ConfigTools::networkUserAgent() const
+{
+  return m_network.user_agent;
+}
+
 void
 ConfigTools::setCurrentLanguage(const QString& newCurrentLanguage)
 {
@@ -1629,6 +1723,17 @@ ConfigTools::setEnableTray(bool val)
   emit enableTrayChanged();
 }
 
+void
+ConfigTools::setNetworkTestMethod(const QString& val)
+{}
+
+void
+ConfigTools::setNetworkTestURL(const QString& val)
+{}
+
+void
+ConfigTools::setNetworkUserAgent(const QString& val)
+{}
 
 QString
 ConfigTools::buildInfo()
