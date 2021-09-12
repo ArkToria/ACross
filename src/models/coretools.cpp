@@ -25,22 +25,16 @@ CoreTools::init(across::setting::ConfigTools& config, LogView& log_view)
 
   auto setCore = [&]() { m_core = p_config->getCore(); };
 
-  auto setEnv = [&]() {
+  auto setWorkingDirectory = [&]() {
     QFileInfo db_path = p_config->dbPath();
     QString config_dir = db_path.dir().absolutePath();
 
-    if (!config_dir.isEmpty()) {
-      if (m_env.contains("V2RAY_LOCATION_CONFIG")) {
-        m_env.clear();
-      }
-
-      m_env.insert("V2RAY_LOCATION_CONFIG", config_dir);
-    }
+    p_process->setWorkingDirectory(config_dir);
   };
 
   setCore();
 
-  setEnv();
+  setWorkingDirectory();
 
   p_log_view = &log_view;
 
@@ -52,7 +46,7 @@ CoreTools::init(across::setting::ConfigTools& config, LogView& log_view)
           [=]() { setCore(); });
 
   connect(p_config, &across::setting::ConfigTools::dbPathChanged, this, [=]() {
-    setEnv();
+    setWorkingDirectory();
   });
 
   connect(
