@@ -11,11 +11,9 @@
 
 namespace across {
 namespace utils {
-
 class LogTools : public LogView
 {
 public:
-  LogTools();
   LogTools(LogView& view, const QString& name = "");
 
   template<typename... Args>

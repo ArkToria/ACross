@@ -50,7 +50,7 @@ private:
   int m_queue_size = 8192;
 
   LogView acrossAppLog;
-  LogView acrossCoreLog;
+  //  LogView acrossCoreLog;
   across::setting::ConfigTools acrossConfig;
   across::DBTools acrossDB;
   across::core::CoreTools acrossCore;

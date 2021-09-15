@@ -7,6 +7,8 @@ LogView::LogView(LogView* parent)
     p_logger = parent->raw();
     return;
   }
+
+  init();
 }
 
 LogView::~LogView() {}
@@ -21,17 +23,17 @@ LogView::init()
     std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
   spdlog::sink_ptr rotating_sink =
     std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
-      m_path.toStdString(), MAX_FILE_SIZE, MAX_LOG_FILES);
-
-  if (this->p_text_editor != nullptr) {
-    spdlog::sink_ptr qt_sink = std::make_shared<spdlog::sinks::qt_sink_mt>(
-      this->p_text_editor, "append");
-    sinks.emplace_back(qt_sink);
-  }
+      m_path, MAX_FILE_SIZE, MAX_LOG_FILES);
 
   sinks.emplace_back(stdout_sink);
   sinks.emplace_back(rotating_sink);
 
+  reloadSinks();
+}
+
+void
+LogView::reloadSinks()
+{
   p_logger = std::make_shared<spdlog::async_logger>(
     "app",
     sinks.begin(),
@@ -63,7 +65,13 @@ LogView::setTextEditor(QQuickItem* newTextEditor)
 
   p_text_editor = newTextEditor;
 
-  init();
+  spdlog::sink_ptr qt_sink =
+    std::make_shared<spdlog::sinks::qt_sink_mt>(this->p_text_editor, "append");
+
+  sinks.emplace_back(qt_sink);
+
+  reloadSinks();
+
   emit textEditorChanged(p_text_editor);
 }
 

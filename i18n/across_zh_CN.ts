@@ -743,7 +743,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/views/main.qml" line="17"/>
+        <location filename="../src/views/main.qml" line="21"/>
         <source>ACross</source>
         <translation type="unfinished"></translation>
     </message>

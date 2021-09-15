@@ -32,7 +32,6 @@ Application::run()
 void
 Application::setRootContext()
 {
-
   const QUrl url(QStringLiteral("qrc:/src/views/main.qml"));
   QObject::connect(
     &m_engine,
@@ -44,6 +43,10 @@ Application::setRootContext()
     },
     Qt::QueuedConnection);
 
+  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossAppLog"),
+                                             &acrossAppLog);
+  //  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCoreLog"),
+  //                                             &acrossCoreLog);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
                                              &acrossConfig);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCore"),
@@ -52,17 +55,13 @@ Application::setRootContext()
                                              &acrossNodes);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossGroups"),
                                              &acrossGroups);
-  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossAppLog"),
-                                             &acrossAppLog);
-  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCoreLog"),
-                                             &acrossCoreLog);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              &acrossTray);
   m_engine.load(url);
 
   acrossConfig.init(acrossAppLog);
   acrossDB.init(acrossAppLog, acrossConfig);
-  acrossCore.init(acrossCoreLog, acrossConfig);
+  acrossCore.init(acrossAppLog, acrossConfig);
   acrossNodes.init(acrossAppLog, acrossConfig, acrossCore, acrossDB);
   acrossGroups.init(
     acrossAppLog, acrossConfig, acrossDB, acrossNodes, acrossCurl);

@@ -60,11 +60,11 @@ CardBox {
                 wrapMode: Text.NoWrap
                 onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
 
-                onLineCountChanged: {
-                    if (lineCount > maxLines) {
-                        clear()
-                    }
-                }
+                //                onLineCountChanged: {
+                //                    if (lineCount > maxLines) {
+                //                        clear()
+                //                    }
+                //                }
             }
 
             Component.onCompleted: {

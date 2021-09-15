@@ -26,8 +26,8 @@ CardBox {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            contentWidth: appLogTextEdit.paintedWidth
-            contentHeight: appLogTextEdit.paintedHeight
+            contentWidth: coreLogTextEdit.paintedWidth
+            contentHeight: coreLogTextEdit.paintedHeight
             clip: true
 
             function ensureVisible(r) {
@@ -60,15 +60,15 @@ CardBox {
                 wrapMode: Text.NoWrap
                 onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
 
-                onLineCountChanged: {
-                    if (lineCount > maxLines) {
-                        clear()
-                    }
-                }
+                //                onLineCountChanged: {
+                //                    if (lineCount > maxLines) {
+                //                        clear()
+                //                    }
+                //                }
             }
 
             Component.onCompleted: {
-                acrossCoreLog.textEditor = coreLogTextEdit
+                acrossAppLog.textEditor = coreLogTextEdit
             }
         }
     }

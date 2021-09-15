@@ -70,7 +70,7 @@ Item {
             menuItemCard.state = "CurrentState"
 
             menuListView.currentIndex = index
-            pageLoader.source = source
+            pageLoader.currentIndex = index
         }
     }
 }

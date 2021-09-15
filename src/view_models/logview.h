@@ -1,19 +1,17 @@
 #ifndef LOGVIEW_H
 #define LOGVIEW_H
 
-#include "configtools.h"
-
 #include "fmt/format.h"
 #include "spdlog/async.h"
 #include "spdlog/sinks/qt_sinks.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
-#include <QMap>
 #include <QMetaProperty>
 #include <QObject>
-#include <QQuickTextDocument>
+#include <QQuickItem>
 #include <QString>
+#include <string>
 
 constexpr auto THREAD_NUMS = 2;
 constexpr auto QUEUE_SIZE = 8192;
@@ -33,6 +31,8 @@ public:
 
   void init();
 
+  void reloadSinks();
+
   void clean();
 
   std::shared_ptr<spdlog::async_logger> raw();
@@ -47,12 +47,8 @@ signals:
   void textEditorChanged(QQuickItem*);
 
 protected:
+  std::string m_path = "./logs/across.log";
   std::shared_ptr<spdlog::async_logger> p_logger;
-
-private:
-  QString m_path = "./across/logs/across_logs.txt";
-  QMap<QString, QString> colors_map;
-
   std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
   std::vector<spdlog::sink_ptr> sinks;
   QQuickItem* p_text_editor = nullptr;
