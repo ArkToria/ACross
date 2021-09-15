@@ -416,13 +416,8 @@ InboundSettings::fromNodeView(toml::v2::node_view<toml::node> inbound)
 void
 InboundSettings::toNodeView(const toml::v2::node_view<toml::node>& inbound)
 {
-  if (socks.enable) {
     socks.toNodeView(inbound["socks"]);
-  }
-
-  if (http.enable) {
     http.toNodeView(inbound["http"]);
-  }
 }
 
 void
