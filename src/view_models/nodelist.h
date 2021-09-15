@@ -4,7 +4,8 @@
 #include "../models/coretools.h"
 #include "../models/dbtools.h"
 #include "../models/jsontools.h"
-#include "../view_models/configtools.h"
+#include "configtools.h"
+#include "logtools.h"
 
 #include "magic_enum.hpp"
 #include <QObject>
@@ -13,7 +14,6 @@
 #include <QVariant>
 
 namespace across {
-
 class NodeList : public QObject
 {
   Q_OBJECT
@@ -38,10 +38,10 @@ class NodeList : public QObject
 public:
   explicit NodeList(QObject* parent = nullptr);
 
-  void init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-            DBTools& db,
+  void init(LogView& log_view,
             across::setting::ConfigTools& config_tools,
-            across::core::CoreTools& core_tools);
+            across::core::CoreTools& core_tools,
+            across::DBTools& db);
 
   QVector<NodeInfo> items();
 
@@ -99,7 +99,7 @@ signals:
 
 private:
   DBTools* p_db;
-  std::shared_ptr<LogTools> p_logger;
+  std::shared_ptr<across::utils::LogTools> p_logger;
   across::setting::ConfigTools* p_config;
   across::core::CoreTools* p_core;
   std::shared_ptr<across::config::JsonTools> p_json;

@@ -14,6 +14,7 @@
 #include "../models/notifytools.h"
 #include "../models/serializetools.h"
 #include "configtools.h"
+#include "logtools.h"
 #include "nodelist.h"
 
 namespace across {
@@ -23,11 +24,11 @@ class GroupList : public QObject
 public:
   explicit GroupList(QObject* parent = nullptr);
 
-  void init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-            DBTools& db,
-            across::network::CURLTools& curl_tools,
+  void init(LogView& log_view,
+            across::setting::ConfigTools& config,
+            across::DBTools& db,
             across::NodeList& node_list,
-            across::setting::ConfigTools& config);
+            across::network::CURLTools& curl_tools);
 
   QVector<GroupInfo> items() const;
 
@@ -70,10 +71,9 @@ private:
   across::DBTools* p_db;
   across::NodeList* p_nodes;
   across::network::CURLTools* p_curl;
-  std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
+  std::shared_ptr<across::utils::LogTools> p_logger;
 
   QVector<GroupInfo> m_items;
-  std::shared_ptr<LogTools> p_logger;
   int64_t m_current_group_id;
 };
 }

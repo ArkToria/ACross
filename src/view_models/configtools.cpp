@@ -3,6 +3,7 @@
 using namespace across::setting;
 using namespace across::core;
 using namespace across::config;
+using namespace across::utils;
 
 void
 Interface::Language::fromNodeView(toml::v2::node_view<toml::node> language)
@@ -443,13 +444,12 @@ InboundSettings::setObject(Json::Value& root)
 ConfigTools::ConfigTools(QObject* parent) {}
 
 bool
-ConfigTools::init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-                  QString file_path)
+ConfigTools::init(LogView& log_view, const QString& file_path)
 {
   bool result = false;
 
   // initial config logger
-  p_logger = std::make_shared<LogTools>(thread_pool, "setting");
+  p_logger = std::make_shared<LogTools>(log_view, "setting");
 
   QString config_path = loadConfigPath(file_path);
 

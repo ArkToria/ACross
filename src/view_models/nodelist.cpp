@@ -4,18 +4,19 @@ using namespace across;
 using namespace across::core;
 using namespace across::config;
 using namespace across::setting;
+using namespace across::utils;
 
 NodeList::NodeList(QObject* parent)
   : QObject(parent)
 {}
 
 void
-NodeList::init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-               DBTools& db,
-               ConfigTools& config_tools,
-               CoreTools& core_tools)
+NodeList::init(LogView& log_view,
+               across::setting::ConfigTools& config_tools,
+               across::core::CoreTools& core_tools,
+               across::DBTools& db)
 {
-  p_logger = std::make_shared<LogTools>(thread_pool, "node_list");
+  p_logger = std::make_shared<LogTools>(log_view, "node_list");
 
   p_json = std::make_shared<JsonTools>();
 

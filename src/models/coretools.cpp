@@ -2,6 +2,7 @@
 
 using namespace across::core;
 using namespace across::setting;
+using namespace across::utils;
 
 CoreTools::CoreTools(QObject* parent)
 {
@@ -19,7 +20,7 @@ CoreTools::~CoreTools()
 }
 
 bool
-CoreTools::init(across::setting::ConfigTools& config, LogView& log_view)
+CoreTools::init(LogView& log_view, ConfigTools& config)
 {
   p_config = &config;
 
@@ -36,7 +37,7 @@ CoreTools::init(across::setting::ConfigTools& config, LogView& log_view)
 
   setWorkingDirectory();
 
-  p_log_view = &log_view;
+  p_logger = std::make_shared<LogTools>(log_view, "core");
 
   p_process->setProcessChannelMode(QProcess::MergedChannels);
 
@@ -87,10 +88,6 @@ CoreTools::run()
   }
   if (m_running)
     this->stop();
-
-  if (p_log_view != nullptr) {
-    p_log_view->clean();
-  }
 
   p_process->setProcessEnvironment(m_env);
 
@@ -154,9 +151,13 @@ CoreTools::setIsRunning(bool value)
 void
 CoreTools::onReadData()
 {
-  auto data = p_process->readAllStandardOutput();
+  QString content = QString::fromUtf8(p_process->readAllStandardOutput());
 
-  //  p_log_list->append(data);
+  if (content.contains("[Warn]")) {
+    p_logger->warn("{}", content.toStdString());
 
-  p_log_view->append(data);
+    return;
+  }
+
+  p_logger->info("{}", content.toStdString());
 }

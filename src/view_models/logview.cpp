@@ -1,86 +1,74 @@
 #include "logview.h"
 
-using namespace across;
-
-LogView::LogView(QObject* parent)
+LogView::LogView(LogView* parent)
   : QObject(parent)
-{}
+{
+  if (parent != nullptr) {
+    p_logger = parent->raw();
+    return;
+  }
+}
 
 LogView::~LogView() {}
 
 void
-LogView::init(setting::ConfigTools& config)
+LogView::init()
 {
-  colors_map = { { "Info", config.styleColor() },
-                 { "Warning", config.warnColor() },
-                 { "Error", config.warnColor() },
-                 { "accepted", config.highlightColor() } };
+  spdlog::init_thread_pool(QUEUE_SIZE, THREAD_NUMS);
+  p_thread_pool = spdlog::thread_pool();
 
-  p_core_cache = QSharedPointer<QContiguousCache<QString>>(
-    new QContiguousCache<QString>, doDeleteLater);
+  spdlog::sink_ptr stdout_sink =
+    std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+  spdlog::sink_ptr rotating_sink =
+    std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
+      m_path.toStdString(), MAX_FILE_SIZE, MAX_LOG_FILES);
 
-  p_core_cache->setCapacity(config.logLines() - 1);
+  if (this->p_text_editor != nullptr) {
+    spdlog::sink_ptr qt_sink = std::make_shared<spdlog::sinks::qt_sink_mt>(
+      this->p_text_editor, "append");
+    sinks.emplace_back(qt_sink);
+  }
 
-  connect(&config,
-          &across::setting::ConfigTools::logLinesChanged,
-          this,
-          [&](int max_lines) { p_core_cache->setCapacity(max_lines - 1); });
+  sinks.emplace_back(stdout_sink);
+  sinks.emplace_back(rotating_sink);
+
+  p_logger = std::make_shared<spdlog::async_logger>(
+    "app",
+    sinks.begin(),
+    sinks.end(),
+    p_thread_pool,
+    spdlog::async_overflow_policy::block);
 }
 
 void
 LogView::clean()
 {
-  m_core_logs.clear();
-  p_core_cache->clear();
+  if (p_text_editor != nullptr) {
+    p_text_editor->metaObject()->invokeMethod(
+      p_text_editor, "clear", Qt::AutoConnection);
+  }
+}
+
+QQuickItem*
+LogView::textEditor() const
+{
+  return p_text_editor;
 }
 
 void
-LogView::append(const QString& msg)
+LogView::setTextEditor(QQuickItem* newTextEditor)
 {
-  auto temp = msg;
+  if (p_text_editor == newTextEditor)
+    return;
 
-  styleFomatter(temp);
+  p_text_editor = newTextEditor;
 
-  p_core_cache->append(temp);
-
-  emit coreLogChanged();
+  init();
+  emit textEditorChanged(p_text_editor);
 }
 
-QString&
-LogView::coreLog()
+std::shared_ptr<spdlog::async_logger>
+LogView::raw()
 {
-  if (!m_core_logs.isEmpty()) {
-    m_core_logs.clear();
-  }
-
-  // very slow!
-  if (!p_core_cache->isEmpty()) {
-    for (auto iter = p_core_cache->firstIndex();
-         iter != p_core_cache->lastIndex();
-         ++iter) {
-      m_core_logs.append(p_core_cache->at(iter));
-    }
-  }
-
-  return m_core_logs;
-}
-
-void
-LogView::styleFomatter(QString& msg)
-{
-  for (auto iter = colors_map.begin(); iter != colors_map.end(); ++iter) {
-    auto replace_str = fmt::format("<span style='color: {}'>{}</span>",
-                                   iter.value().toStdString(),
-                                   iter.key().toStdString());
-
-    msg.replace(iter.key(), QString::fromStdString(replace_str));
-  }
-
-  msg.replace("\n", "<br/>");
-}
-
-void
-LogView::doDeleteLater(QContiguousCache<QString>* obj)
-{
-  obj->clear();
+  return this->p_logger;
 }

@@ -11,8 +11,6 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 
-#include "logtools.h"
-
 namespace across {
 namespace utils {
 class CryptoTools

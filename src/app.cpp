@@ -2,13 +2,13 @@
 
 using namespace across;
 using namespace across::core;
+using namespace across::utils;
 
 Application::Application(int& argc, char** argv)
   : QApplication(argc, argv)
 {
 
   spdlog::init_thread_pool(m_queue_size, m_thread_nums);
-  p_thread_pool = spdlog::thread_pool();
 
   registerModels();
   setRootContext();
@@ -32,14 +32,6 @@ Application::run()
 void
 Application::setRootContext()
 {
-  acrossConfig.init(p_thread_pool);
-  acrossDB.init(p_thread_pool, acrossConfig);
-  acrossLog.init(acrossConfig);
-  acrossCore.init(acrossConfig, acrossLog);
-  acrossNodes.init(p_thread_pool, acrossDB, acrossConfig, acrossCore);
-  acrossGroups.init(
-    p_thread_pool, acrossDB, acrossCurl, acrossNodes, acrossConfig);
-  acrossTray.init(acrossConfig, acrossCore);
 
   const QUrl url(QStringLiteral("qrc:/src/views/main.qml"));
   QObject::connect(
@@ -60,11 +52,21 @@ Application::setRootContext()
                                              &acrossNodes);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossGroups"),
                                              &acrossGroups);
-  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLog"),
-                                             &acrossLog);
+  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossAppLog"),
+                                             &acrossAppLog);
+  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCoreLog"),
+                                             &acrossCoreLog);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              &acrossTray);
   m_engine.load(url);
+
+  acrossConfig.init(acrossAppLog);
+  acrossDB.init(acrossAppLog, acrossConfig);
+  acrossCore.init(acrossCoreLog, acrossConfig);
+  acrossNodes.init(acrossAppLog, acrossConfig, acrossCore, acrossDB);
+  acrossGroups.init(
+    acrossAppLog, acrossConfig, acrossDB, acrossNodes, acrossCurl);
+  acrossTray.init(acrossConfig, acrossCore);
 }
 
 void
@@ -84,7 +86,6 @@ Application::setTranslator(const QString& lang)
   }
 
   m_engine.retranslate();
-  
   acrossTray.retranslate();
 }
 
