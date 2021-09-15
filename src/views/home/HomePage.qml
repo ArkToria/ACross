@@ -3,7 +3,6 @@ import QtQuick.Controls 2.13
 import QtQuick.Layouts 1.12
 
 Item {
-    id: homePage
     implicitWidth: 840
     implicitHeight: 720
 
@@ -27,7 +26,7 @@ Item {
 
             color: acrossConfig.backgroundColor
             border.color: acrossConfig.deepColor
-            border.width:1
+            border.width: 1
 
             GroupListPanel {
                 anchors.fill: parent
@@ -71,3 +70,4 @@ Designer {
     D{i:0;autoSize:true;formeditorZoom:0.75;height:480;width:640}
 }
 ##^##*/
+

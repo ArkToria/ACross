@@ -1,8 +1,6 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
 
-#include "spdlog/async.h"
-#include "spdlog/spdlog.h"
 #include <QApplication>
 #include <QFont>
 #include <QIcon>
@@ -50,9 +48,8 @@ public:
 private:
   int m_thread_nums = 1;
   int m_queue_size = 8192;
-  std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
 
-  across::LogView acrossLog;
+  LogView acrossLogView;
   across::setting::ConfigTools acrossConfig;
   across::DBTools acrossDB;
   across::core::CoreTools acrossCore;

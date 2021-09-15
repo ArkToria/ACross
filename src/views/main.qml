@@ -1,13 +1,17 @@
 import QtQuick 2.15
-import QtQuick.Window 2.15
+import QtQuick.Window 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.12
 
 import ACross 1.0
 
 import "./menu"
+import "./log"
+import "./home"
+import "./setting"
+import "./help"
 
-Window {
+ApplicationWindow {
     id: mainWindow
     width: 960
     height: 720
@@ -65,11 +69,28 @@ Window {
             Layout.fillHeight: true
             color: acrossConfig.deepColor
 
-            Loader {
+            SwipeView {
                 id: pageLoader
                 anchors.fill: parent
 
-                source: menuModel.get(0).source
+                currentIndex: 0
+                orientation: Qt.Vertical
+
+                HomePage {
+                    id: homePage
+                }
+
+                LogPage {
+                    id: logPage
+                }
+
+                SettingPage {
+                    id: settingPage
+                }
+
+                HelpPage {
+                    id: helpPage
+                }
             }
         }
     }
@@ -98,10 +119,11 @@ Window {
     onVisibilityChanged: {
         acrossTray.toggleVisibilitySetText(mainWindow.visible)
     }
+
     onClosing: {
-        if(acrossConfig.enableTray){
+        if (acrossConfig.enableTray) {
             mainWindow.hide()
-        }else{
+        } else {
             Qt.quit()
         }
     }

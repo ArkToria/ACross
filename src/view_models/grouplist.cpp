@@ -8,15 +8,13 @@ using namespace across::setting;
 GroupList::GroupList(QObject* parent) {}
 
 void
-GroupList::init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-                DBTools& db,
-                network::CURLTools& curl_tools,
-                NodeList& node_list,
-                ConfigTools& config)
+GroupList::init(LogView& log_view,
+                across::setting::ConfigTools& config,
+                across::DBTools& db,
+                across::NodeList& node_list,
+                across::network::CURLTools& curl_tools)
 {
-  p_logger = std::make_shared<LogTools>(thread_pool, "group_list");
-
-  p_thread_pool = thread_pool;
+  p_logger = std::make_shared<LogTools>(log_view, "group_list");
 
   p_db = &db;
   if (p_db == nullptr) {

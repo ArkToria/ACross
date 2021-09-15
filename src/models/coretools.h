@@ -2,7 +2,7 @@
 #define CORETOOLS_H
 
 #include "../view_models/configtools.h"
-#include "../view_models/logview.h"
+#include "../view_models/logtools.h"
 
 #include <QByteArray>
 #include <QObject>
@@ -11,6 +11,7 @@
 #include <QRegExp>
 #include <QString>
 #include <QStringList>
+#include <memory>
 
 namespace across {
 namespace core {
@@ -24,7 +25,7 @@ public:
 
   ~CoreTools();
 
-  bool init(across::setting::ConfigTools& config, across::LogView& log_view);
+  bool init(LogView& log_view, across::setting::ConfigTools& config);
 
   void setConfig(const QString& stdin_str);
 
@@ -45,10 +46,9 @@ signals:
   void isRunningChanged();
 
 private:
-  across::setting::ConfigTools* p_config;
-  across::LogView* p_log_view;
-
   across::setting::Core m_core;
+  across::setting::ConfigTools* p_config;
+  std::shared_ptr<across::utils::LogTools> p_logger;
 
   QString m_config;
   bool m_running = false;

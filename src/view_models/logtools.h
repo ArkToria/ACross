@@ -1,51 +1,28 @@
 #ifndef LOGTOOLS_H
 #define LOGTOOLS_H
 
-#include <memory>
-#include <vector>
+#include "logview.h"
 
-#include "spdlog/async.h"
-#include "spdlog/sinks/rotating_file_sink.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
+#include <QString>
+
+#include "fmt/format.h"
+#include "spdlog/logger.h"
 #include "spdlog/spdlog.h"
 
 namespace across {
-
-enum LogMode
+namespace utils {
+enum LoggerEnum
 {
-  STDOUT,
-  FILE,
-  STDOUT_AND_FILE,
+  core,
+  app
 };
 
-class LogTools
+class LogTools : public LogView
 {
 public:
-  explicit LogTools();
-
-  explicit LogTools(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-                    const std::string& name,
-                    LogMode mode = LogMode::STDOUT);
-
-  void init(std::shared_ptr<spdlog::details::thread_pool> thread_pool);
-
-  void setLoggerName(const std::string& name);
-
-  void setFileName(const std::string& name);
-
-  void setPath(const std::string& path);
-
-  void setLogMode(LogMode mode);
-
-  void setMaxKeepFile(int num);
-
-  void setThreadNums(int num);
-
-  void setMaxLogSize(int size);
-
-  void setQueueSize(int size);
-
-  std::shared_ptr<spdlog::async_logger> getLogger();
+  LogTools(LogView& view,
+           const QString& name = "",
+           LoggerEnum log_enum = LoggerEnum::app);
 
   template<typename... Args>
   inline void trace(fmt::format_string<Args...> fmt, Args&&... args)
@@ -84,16 +61,8 @@ public:
   }
 
 private:
-  std::shared_ptr<spdlog::async_logger> p_logger;
-
-  std::string m_name = "main";
-  std::string m_filename = "across_log.txt";
-  std::string m_path = "./logs/";
-  LogMode m_mode = STDOUT;
-
-  int m_max_keep_file = 3;
-  int m_max_log_size = 1024 * 1024 * 4;
+  std::shared_ptr<spdlog::logger> p_logger;
 };
-};
-
+}
+}
 #endif // LOGTOOLS_H

@@ -1,14 +1,15 @@
 #ifndef DBTOOLS_H
 #define DBTOOLS_H
 
+#include "fmt/format.h"
+#include "sqlite3.h"
 #include <QDateTime>
 #include <QMap>
 #include <chrono>
-#include <fmt/core.h>
-#include <sqlite3.h>
 
 #include "../view_models/configtools.h"
-#include "logtools.h"
+#include "../view_models/logtools.h"
+
 #include "magic_enum.hpp"
 
 namespace across {
@@ -73,8 +74,7 @@ public:
 
   ~DBTools();
 
-  void init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-            across::setting::ConfigTools& config_tools);
+  void init(LogView& log_view, across::setting::ConfigTools& config);
 
   void reload();
 
@@ -118,7 +118,7 @@ private:
   std::vector<NodeInfo> listNodesInfo(const std::string& select_str);
 
 private:
-  std::shared_ptr<LogTools> p_logger;
+  std::shared_ptr<across::utils::LogTools> p_logger;
   across::setting::ConfigTools* p_config = nullptr;
   sqlite3* m_db = nullptr;
 };

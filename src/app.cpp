@@ -2,13 +2,13 @@
 
 using namespace across;
 using namespace across::core;
+using namespace across::utils;
 
 Application::Application(int& argc, char** argv)
   : QApplication(argc, argv)
 {
 
   spdlog::init_thread_pool(m_queue_size, m_thread_nums);
-  p_thread_pool = spdlog::thread_pool();
 
   registerModels();
   setRootContext();
@@ -32,15 +32,6 @@ Application::run()
 void
 Application::setRootContext()
 {
-  acrossConfig.init(p_thread_pool);
-  acrossDB.init(p_thread_pool, acrossConfig);
-  acrossLog.init(acrossConfig);
-  acrossCore.init(acrossConfig, acrossLog);
-  acrossNodes.init(p_thread_pool, acrossDB, acrossConfig, acrossCore);
-  acrossGroups.init(
-    p_thread_pool, acrossDB, acrossCurl, acrossNodes, acrossConfig);
-  acrossTray.init(acrossConfig, acrossCore);
-
   const QUrl url(QStringLiteral("qrc:/src/views/main.qml"));
   QObject::connect(
     &m_engine,
@@ -52,6 +43,8 @@ Application::setRootContext()
     },
     Qt::QueuedConnection);
 
+  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
+                                             &acrossLogView);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
                                              &acrossConfig);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCore"),
@@ -60,11 +53,17 @@ Application::setRootContext()
                                              &acrossNodes);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossGroups"),
                                              &acrossGroups);
-  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLog"),
-                                             &acrossLog);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              &acrossTray);
   m_engine.load(url);
+
+  acrossConfig.init(acrossLogView);
+  acrossDB.init(acrossLogView, acrossConfig);
+  acrossCore.init(acrossLogView, acrossConfig);
+  acrossNodes.init(acrossLogView, acrossConfig, acrossCore, acrossDB);
+  acrossGroups.init(
+    acrossLogView, acrossConfig, acrossDB, acrossNodes, acrossCurl);
+  acrossTray.init(acrossConfig, acrossCore);
 }
 
 void
@@ -84,7 +83,6 @@ Application::setTranslator(const QString& lang)
   }
 
   m_engine.retranslate();
-  
   acrossTray.retranslate();
 }
 

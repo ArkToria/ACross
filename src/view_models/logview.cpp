@@ -1,86 +1,128 @@
 #include "logview.h"
 
-using namespace across;
-
-LogView::LogView(QObject* parent)
+LogView::LogView(LogView* parent)
   : QObject(parent)
-{}
+{
+  if (parent != nullptr) {
+    p_app_logger = parent->raw().first;
+    p_core_logger = parent->raw().second;
+    return;
+  }
+
+  init();
+}
 
 LogView::~LogView() {}
 
 void
-LogView::init(setting::ConfigTools& config)
+LogView::init()
 {
-  colors_map = { { "Info", config.styleColor() },
-                 { "Warning", config.warnColor() },
-                 { "Error", config.warnColor() },
-                 { "accepted", config.highlightColor() } };
+  spdlog::init_thread_pool(QUEUE_SIZE, THREAD_NUMS);
+  p_thread_pool = spdlog::thread_pool();
 
-  p_core_cache = QSharedPointer<QContiguousCache<QString>>(
-    new QContiguousCache<QString>, doDeleteLater);
+  spdlog::sink_ptr stdout_sink =
+    std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+  spdlog::sink_ptr app_rotating_sink =
+    std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
+      m_app_log_path, MAX_FILE_SIZE, MAX_LOG_FILES);
+  spdlog::sink_ptr core_rotating_sink =
+    std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
+      m_core_log_path, MAX_FILE_SIZE, MAX_LOG_FILES);
 
-  p_core_cache->setCapacity(config.logLines() - 1);
+  app_sinks.emplace_back(stdout_sink);
+  app_sinks.emplace_back(app_rotating_sink);
 
-  connect(&config,
-          &across::setting::ConfigTools::logLinesChanged,
-          this,
-          [&](int max_lines) { p_core_cache->setCapacity(max_lines - 1); });
+  core_sinks.emplace_back(stdout_sink);
+  core_sinks.emplace_back(core_rotating_sink);
+
+  reloadSinks();
+}
+
+void
+LogView::reloadSinks()
+{
+  connect(this, &LogView::appLogItemChanged, this, [&]() {
+    p_app_logger = std::make_shared<spdlog::async_logger>(
+      "app",
+      app_sinks.begin(),
+      app_sinks.end(),
+      p_thread_pool,
+      spdlog::async_overflow_policy::block);
+    p_app_logger->info("app logger initialize...");
+  });
+
+  connect(this, &LogView::coreLogItemChanged, this, [&]() {
+    p_core_logger = std::make_shared<spdlog::async_logger>(
+      "core",
+      core_sinks.begin(),
+      core_sinks.end(),
+      p_thread_pool,
+      spdlog::async_overflow_policy::block);
+    p_core_logger->info("core logger initialize...");
+  });
 }
 
 void
 LogView::clean()
 {
-  m_core_logs.clear();
-  p_core_cache->clear();
+  if (p_app_text_editor != nullptr) {
+    p_app_text_editor->metaObject()->invokeMethod(
+      p_app_text_editor, "clear", Qt::AutoConnection);
+  }
+
+  if (p_core_text_editor != nullptr) {
+    p_core_text_editor->metaObject()->invokeMethod(
+      p_core_text_editor, "clear", Qt::AutoConnection);
+  }
+}
+
+QQuickItem*
+LogView::appLogItem() const
+{
+  return p_app_text_editor;
 }
 
 void
-LogView::append(const QString& msg)
+LogView::setAppLogItem(QQuickItem* newAppLogItem)
 {
-  auto temp = msg;
+  if (p_app_text_editor == newAppLogItem)
+    return;
 
-  styleFomatter(temp);
+  p_app_text_editor = newAppLogItem;
 
-  p_core_cache->append(temp);
+  spdlog::sink_ptr app_qt_sink = std::make_shared<spdlog::sinks::qt_sink_mt>(
+    this->p_app_text_editor, "append");
 
-  emit coreLogChanged();
+  app_sinks.emplace_back(app_qt_sink);
+
+  emit appLogItemChanged();
 }
 
-QString&
-LogView::coreLog()
+QQuickItem*
+LogView::coreLogItem() const
 {
-  if (!m_core_logs.isEmpty()) {
-    m_core_logs.clear();
-  }
-
-  // very slow!
-  if (!p_core_cache->isEmpty()) {
-    for (auto iter = p_core_cache->firstIndex();
-         iter != p_core_cache->lastIndex();
-         ++iter) {
-      m_core_logs.append(p_core_cache->at(iter));
-    }
-  }
-
-  return m_core_logs;
+  return p_core_text_editor;
 }
 
 void
-LogView::styleFomatter(QString& msg)
+LogView::setCoreLogItem(QQuickItem* newCoreLogItem)
 {
-  for (auto iter = colors_map.begin(); iter != colors_map.end(); ++iter) {
-    auto replace_str = fmt::format("<span style='color: {}'>{}</span>",
-                                   iter.value().toStdString(),
-                                   iter.key().toStdString());
+  if (p_core_text_editor == newCoreLogItem)
+    return;
 
-    msg.replace(iter.key(), QString::fromStdString(replace_str));
-  }
+  p_core_text_editor = newCoreLogItem;
 
-  msg.replace("\n", "<br/>");
+  spdlog::sink_ptr core_qt_sink = std::make_shared<spdlog::sinks::qt_sink_mt>(
+    this->p_core_text_editor, "append");
+
+  core_sinks.emplace_back(core_qt_sink);
+
+  emit coreLogItemChanged();
 }
 
-void
-LogView::doDeleteLater(QContiguousCache<QString>* obj)
+std::pair<std::shared_ptr<spdlog::async_logger>,
+          std::shared_ptr<spdlog::async_logger>>
+LogView::raw()
 {
-  obj->clear();
+  return { this->p_app_logger, this->p_core_logger };
 }

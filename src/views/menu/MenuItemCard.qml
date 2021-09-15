@@ -69,8 +69,8 @@ Item {
         onClicked: {
             menuItemCard.state = "CurrentState"
 
+            pageLoader.currentIndex = index
             menuListView.currentIndex = index
-            pageLoader.source = source
         }
     }
 }

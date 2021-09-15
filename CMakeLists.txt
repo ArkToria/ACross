@@ -38,7 +38,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/translations.cmake")
 ##################################
 
-######## SOURCES FILE ########
+######## SOURCE FILES ########
 include_directories(${CMAKE_BINARY_DIR}/generated/)
 
 set(QRC_FILES
@@ -48,6 +48,8 @@ set(QRC_FILES
 
 set(PROJECT_HEADERS
     src/app.h
+    src/view_models/logview.h
+    src/view_models/logtools.h
     src/view_models/configtools.h
     src/view_models/grouplist.h
     src/view_models/groupmodel.h
@@ -60,13 +62,11 @@ set(PROJECT_HEADERS
     src/view_models/rawoutboundformmodel.h
     src/view_models/urlschemeformmodel.h
     src/view_models/buildinfo.h.in
-    src/view_models/logview.h
     src/view_models/systemtray.h
     src/models/apitools.h
     src/models/cryptotools.h
     src/models/dbtools.h
     src/models/envtools.h
-    src/models/logtools.h
     src/models/qrcodetools.h
     src/models/networktools.h
     src/models/jsontools.h
@@ -82,6 +82,8 @@ set(PROJECT_HEADERS
 set(PROJECT_SOURCES
     src/main.cpp
     src/app.cpp
+    src/view_models/logview.cpp
+    src/view_models/logtools.cpp
     src/view_models/configtools.cpp
     src/view_models/grouplist.cpp
     src/view_models/groupmodel.cpp
@@ -93,13 +95,11 @@ set(PROJECT_SOURCES
     src/view_models/vmessformmodel.cpp
     src/view_models/rawoutboundformmodel.cpp
     src/view_models/urlschemeformmodel.cpp
-    src/view_models/logview.cpp
     src/view_models/systemtray.cpp
     src/models/apitools.cpp
     src/models/cryptotools.cpp
     src/models/dbtools.cpp
     src/models/envtools.cpp
-    src/models/logtools.cpp
     src/models/qrcodetools.cpp
     src/models/networktools.cpp
     src/models/jsontools.cpp

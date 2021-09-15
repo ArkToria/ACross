@@ -1,47 +1,71 @@
 #ifndef LOGVIEW_H
 #define LOGVIEW_H
 
-#include "configtools.h"
-
 #include "fmt/format.h"
+#include "spdlog/async.h"
+#include "spdlog/sinks/qt_sinks.h"
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
-#include <QContiguousCache>
-#include <QMap>
+#include <QMetaProperty>
 #include <QObject>
-#include <QSharedPointer>
+#include <QQuickItem>
 #include <QString>
+#include <string>
 
-namespace across {
+constexpr auto THREAD_NUMS = 2;
+constexpr auto QUEUE_SIZE = 8192;
+constexpr auto MAX_FILE_SIZE = 1024 * 1024 * 4;
+constexpr auto MAX_LOG_FILES = 2;
+
 class LogView : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(QString coreLog READ coreLog NOTIFY coreLogChanged)
 
+  Q_PROPERTY(QQuickItem* appLogItem READ appLogItem WRITE setAppLogItem NOTIFY
+               appLogItemChanged)
+  Q_PROPERTY(QQuickItem* coreLogItem READ coreLogItem WRITE setCoreLogItem
+               NOTIFY coreLogItemChanged)
 public:
-  explicit LogView(QObject* parent = nullptr);
+  explicit LogView(LogView* parent = nullptr);
 
   ~LogView();
 
-  void init(across::setting::ConfigTools& config);
+  void init();
+
+  void reloadSinks();
 
   void clean();
 
-  void append(const QString& msg);
+  std::pair<std::shared_ptr<spdlog::async_logger>,
+            std::shared_ptr<spdlog::async_logger>>
+  raw();
 
-  QString& coreLog();
+public:
+  QQuickItem* appLogItem() const;
 
-  void styleFomatter(QString& msg);
+  QQuickItem* coreLogItem() const;
+
+public slots:
+  void setAppLogItem(QQuickItem* newAppLogItem);
+
+  void setCoreLogItem(QQuickItem* newCoreLogItem);
 
 signals:
-  void coreLogChanged();
+  void appLogItemChanged();
 
-private:
-  QString m_core_logs;
-  QSharedPointer<QContiguousCache<QString>> p_core_cache;
-  QMap<QString, QString> colors_map;
+  void coreLogItemChanged();
 
-  static void doDeleteLater(QContiguousCache<QString>* obj);
+protected:
+  std::string m_app_log_path = "./logs/across.log";
+  std::string m_core_log_path = "./logs/core.log";
+  std::shared_ptr<spdlog::async_logger> p_app_logger;
+  std::shared_ptr<spdlog::async_logger> p_core_logger;
+  std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
+  std::vector<spdlog::sink_ptr> app_sinks;
+  std::vector<spdlog::sink_ptr> core_sinks;
+  QQuickItem* p_app_text_editor = nullptr;
+  QQuickItem* p_core_text_editor = nullptr;
 };
-}
 
 #endif // LOGVIEW_H

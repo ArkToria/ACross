@@ -2,6 +2,7 @@
 
 using namespace across;
 using namespace across::setting;
+using namespace across::utils;
 
 DBTools::DBTools(QObject* parent) {}
 
@@ -11,12 +12,11 @@ DBTools::~DBTools()
 }
 
 void
-DBTools::init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-              ConfigTools& config_tools)
+DBTools::init(LogView& log_view, ConfigTools& config)
 {
-  p_logger = std::make_shared<LogTools>(thread_pool, "database");
+  p_logger = std::make_shared<LogTools>(log_view, "database");
 
-  p_config = &config_tools;
+  p_config = &config;
 
   reload();
 }

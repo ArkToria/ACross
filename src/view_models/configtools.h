@@ -18,8 +18,8 @@
 #include "../models/apitools.h"
 #include "../models/envtools.h"
 #include "../models/jsontools.h"
-#include "../models/logtools.h"
 #include "buildinfo.h"
+#include "logtools.h"
 
 namespace across {
 namespace setting {
@@ -323,8 +323,7 @@ class ConfigTools : public QObject
 public:
   explicit ConfigTools(QObject* parent = nullptr);
 
-  bool init(std::shared_ptr<spdlog::details::thread_pool> thread_pool,
-            QString file_path = "");
+  bool init(LogView& log_view, const QString& file_path = "");
 
   QString loadConfigPath(const QString& file_path);
 
@@ -512,7 +511,7 @@ signals:
   void networkUserAgentChanged();
 
 private:
-  std::shared_ptr<LogTools> p_logger;
+  std::shared_ptr<across::utils::LogTools> p_logger;
   const QString m_config_name = "across.toml";
   QString m_config_path = "./" + m_config_name;
   QString m_api_result_text = "";
