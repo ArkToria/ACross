@@ -13,10 +13,6 @@ LogTools::LogTools(LogView& view, const QString& name, LoggerEnum l_enum)
       break;
     case LoggerEnum::core:
       if (p_core_logger != nullptr) {
-        if (name.isEmpty()) {
-          p_logger = p_core_logger->clone("core");
-          break;
-        }
         p_logger = p_core_logger->clone(name.toStdString());
       }
       break;

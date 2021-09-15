@@ -5,7 +5,7 @@ LogView::LogView(LogView* parent)
 {
   if (parent != nullptr) {
     p_app_logger = parent->raw().first;
-    p_core_logger = parent->raw().first;
+    p_core_logger = parent->raw().second;
     return;
   }
 
@@ -48,6 +48,7 @@ LogView::reloadSinks()
       app_sinks.end(),
       p_thread_pool,
       spdlog::async_overflow_policy::block);
+    p_app_logger->info("app logger initialize...");
   });
 
   connect(this, &LogView::coreLogItemChanged, this, [&]() {
@@ -57,6 +58,7 @@ LogView::reloadSinks()
       core_sinks.end(),
       p_thread_pool,
       spdlog::async_overflow_policy::block);
+    p_core_logger->info("core logger initialize...");
   });
 }
 
