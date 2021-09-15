@@ -22,8 +22,10 @@ class LogView : public QObject
 {
   Q_OBJECT
 
-  Q_PROPERTY(QQuickItem* textEditor READ textEditor WRITE setTextEditor NOTIFY
-               textEditorChanged)
+  Q_PROPERTY(QQuickItem* appLogItem READ appLogItem WRITE setAppLogItem NOTIFY
+               appLogItemChanged)
+  Q_PROPERTY(QQuickItem* coreLogItem READ coreLogItem WRITE setCoreLogItem
+               NOTIFY coreLogItemChanged)
 public:
   explicit LogView(LogView* parent = nullptr);
 
@@ -35,23 +37,35 @@ public:
 
   void clean();
 
-  std::shared_ptr<spdlog::async_logger> raw();
+  std::pair<std::shared_ptr<spdlog::async_logger>,
+            std::shared_ptr<spdlog::async_logger>>
+  raw();
 
 public:
-  QQuickItem* textEditor() const;
+  QQuickItem* appLogItem() const;
+
+  QQuickItem* coreLogItem() const;
 
 public slots:
-  void setTextEditor(QQuickItem* newTextEditor);
+  void setAppLogItem(QQuickItem* newAppLogItem);
+
+  void setCoreLogItem(QQuickItem* newCoreLogItem);
 
 signals:
-  void textEditorChanged(QQuickItem*);
+  void appLogItemChanged();
+
+  void coreLogItemChanged();
 
 protected:
-  std::string m_path = "./logs/across.log";
-  std::shared_ptr<spdlog::async_logger> p_logger;
+  std::string m_app_log_path = "./logs/across.log";
+  std::string m_core_log_path = "./logs/core.log";
+  std::shared_ptr<spdlog::async_logger> p_app_logger;
+  std::shared_ptr<spdlog::async_logger> p_core_logger;
   std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
-  std::vector<spdlog::sink_ptr> sinks;
-  QQuickItem* p_text_editor = nullptr;
+  std::vector<spdlog::sink_ptr> app_sinks;
+  std::vector<spdlog::sink_ptr> core_sinks;
+  QQuickItem* p_app_text_editor = nullptr;
+  QQuickItem* p_core_text_editor = nullptr;
 };
 
 #endif // LOGVIEW_H

@@ -68,7 +68,7 @@ CardBox {
             }
 
             Component.onCompleted: {
-                acrossAppLog.textEditor = appLogTextEdit
+                acrossLogView.appLogItem = appLogTextEdit
             }
         }
     }

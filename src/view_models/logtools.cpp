@@ -3,10 +3,24 @@
 using namespace across;
 using namespace across::utils;
 
-LogTools::LogTools(LogView& view, const QString& name)
+LogTools::LogTools(LogView& view, const QString& name, LoggerEnum l_enum)
   : LogView(&view)
 {
-  if (p_logger != nullptr) {
-    m_logger = p_logger->clone(name.toStdString());
+  switch (l_enum) {
+    case LoggerEnum::app:
+      if (p_app_logger != nullptr)
+        p_logger = p_app_logger->clone(name.toStdString());
+      break;
+    case LoggerEnum::core:
+      if (p_core_logger != nullptr) {
+        if (name.isEmpty()) {
+          p_logger = p_core_logger->clone("core");
+          break;
+        }
+        p_logger = p_core_logger->clone(name.toStdString());
+      }
+      break;
+    default:
+      break;
   }
 }

@@ -49,8 +49,7 @@ private:
   int m_thread_nums = 1;
   int m_queue_size = 8192;
 
-  LogView acrossAppLog;
-  //  LogView acrossCoreLog;
+  LogView acrossLogView;
   across::setting::ConfigTools acrossConfig;
   across::DBTools acrossDB;
   across::core::CoreTools acrossCore;

@@ -164,12 +164,12 @@
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="13"/>
         <source>Select V2Ray Core Path</source>
-        <translation type="unfinished">选择 V2Ray 核心路径 {2R?}</translation>
+        <translation>选择 V2Ray 核心路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="58"/>
         <source>Enter V2Ray Core Executable Path Here</source>
-        <translation type="unfinished">在此输入 V2Ray 核心可执行文件路径 {2R?}</translation>
+        <translation>在此输入 V2Ray 核心可执行文件路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="62"/>

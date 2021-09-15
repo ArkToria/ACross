@@ -43,10 +43,8 @@ Application::setRootContext()
     },
     Qt::QueuedConnection);
 
-  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossAppLog"),
-                                             &acrossAppLog);
-  //  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCoreLog"),
-  //                                             &acrossCoreLog);
+  m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
+                                             &acrossLogView);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
                                              &acrossConfig);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCore"),
@@ -59,12 +57,12 @@ Application::setRootContext()
                                              &acrossTray);
   m_engine.load(url);
 
-  acrossConfig.init(acrossAppLog);
-  acrossDB.init(acrossAppLog, acrossConfig);
-  acrossCore.init(acrossAppLog, acrossConfig);
-  acrossNodes.init(acrossAppLog, acrossConfig, acrossCore, acrossDB);
+  acrossConfig.init(acrossLogView);
+  acrossDB.init(acrossLogView, acrossConfig);
+  acrossCore.init(acrossLogView, acrossConfig);
+  acrossNodes.init(acrossLogView, acrossConfig, acrossCore, acrossDB);
   acrossGroups.init(
-    acrossAppLog, acrossConfig, acrossDB, acrossNodes, acrossCurl);
+    acrossLogView, acrossConfig, acrossDB, acrossNodes, acrossCurl);
   acrossTray.init(acrossConfig, acrossCore);
 }
 

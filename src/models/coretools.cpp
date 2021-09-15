@@ -37,7 +37,7 @@ CoreTools::init(LogView& log_view, ConfigTools& config)
 
   setWorkingDirectory();
 
-  p_logger = std::make_shared<LogTools>(log_view, "core");
+  p_logger = std::make_shared<LogTools>(log_view, "core", LoggerEnum::core);
 
   p_process->setProcessChannelMode(QProcess::MergedChannels);
 
@@ -152,6 +152,7 @@ void
 CoreTools::onReadData()
 {
   QString content = QString::fromUtf8(p_process->readAllStandardOutput());
+  content.append("</br>");
 
   if (content.contains("[Warn]")) {
     p_logger->warn("{}", content.toStdString());
