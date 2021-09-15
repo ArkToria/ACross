@@ -10,11 +10,11 @@ Item {
 
     FileDialog {
         id: coreFileDialog
-        title: qsTr("Select V2ray Core Path")
+        title: qsTr("Select V2Ray Core Path")
         selectFolder: false
         selectExisting: true
         selectMultiple: false
-        nameFilters: ["Select v2ray core (v2ray*)", "All files (*)"]
+        nameFilters: ["Select V2Ray core (v2ray*)", "All files (*)"]
 
         onAccepted: {
             acrossConfig.corePath = fileUrl
@@ -55,7 +55,7 @@ Item {
             Layout.fillWidth: true
             Layout.columnSpan: 7
 
-            placeholderText: acrossConfig.corePath === "" ? qsTr("Enter V2ray Core Executable Path Here") : acrossConfig.corePath
+            placeholderText: acrossConfig.corePath === "" ? qsTr("Enter V2Ray Core Executable Path Here") : acrossConfig.corePath
         }
 
         ButtonBox {
