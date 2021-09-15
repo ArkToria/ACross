@@ -152,11 +152,10 @@ void
 CoreTools::onReadData()
 {
   QString content = QString::fromUtf8(p_process->readAllStandardOutput());
-  content.append("<br/>");
 
-  if (content.contains("[Warn]")) {
+  if (content.contains("[Warning]")) {
+    content.replace("[Warning]", "");
     p_logger->warn("{}", content.toStdString());
-
     return;
   }
 

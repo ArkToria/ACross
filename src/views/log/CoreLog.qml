@@ -56,7 +56,6 @@ CardBox {
                 selectionColor: acrossConfig.highlightColor
 
                 font.family: "Mono"
-                textFormat: TextEdit.RichText
                 wrapMode: Text.NoWrap
                 onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
 
