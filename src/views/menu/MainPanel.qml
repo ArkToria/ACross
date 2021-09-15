@@ -50,6 +50,13 @@ Rectangle {
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
         }
+
+        Connections {
+            target: pageLoader
+            function onCurrentIndexChanged() {
+                menuListView.currentIndex = pageLoader.currentIndex
+            }
+        }
     }
 }
 

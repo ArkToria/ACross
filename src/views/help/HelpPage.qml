@@ -26,6 +26,7 @@ Item {
         anchors.margins: acrossConfig.itemSpacing
 
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
+        ScrollBar.vertical.interactive: true
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         clip: true
 

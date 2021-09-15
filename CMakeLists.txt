@@ -38,7 +38,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/translations.cmake")
 ##################################
 
-######## SOURCES FILE ########
+######## SOURCE FILES ########
 include_directories(${CMAKE_BINARY_DIR}/generated/)
 
 set(QRC_FILES

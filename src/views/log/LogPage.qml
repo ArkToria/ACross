@@ -4,7 +4,7 @@ import QtQuick.Controls 2.12
 
 import "../components"
 
-Page {
+Item {
     implicitWidth: 840
     implicitHeight: 720
 
