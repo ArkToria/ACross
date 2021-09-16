@@ -154,6 +154,7 @@ void
 CoreTools::onReadData()
 {
   QString content = QString::fromUtf8(p_process->readAllStandardOutput());
+  content.remove(QRegExp("(\\d+/?)*\\s(\\d+:?)*\\s")); // remove origin datetime
 
   if (content.contains("[Warning]")) {
     content.replace("[Warning]", "");
