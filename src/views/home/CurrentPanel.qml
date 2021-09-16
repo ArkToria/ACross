@@ -109,7 +109,8 @@ Item {
                     implicitHeight: width
 
                     radius: Math.round(width / 2)
-                    color: acrossCore.isRunning ? acrossConfig.warnColor : acrossConfig.styleColor
+                    property color basicColor: acrossCore.isRunning ? acrossConfig.warnColor : acrossConfig.styleColor
+                    color: basicColor
 
                     SVGBox {
                         anchors.verticalCenter: parent.verticalCenter
@@ -126,13 +127,11 @@ Item {
                         hoverEnabled: true
 
                         onEntered: {
-                            var currentColor = acrossCore.isRunning ? acrossConfig.warnColor : acrossConfig.styleColor
-                            stopButton.color = Qt.lighter(currentColor, 1.1)
+                            stopButton.color = Qt.binding(function() {return Qt.lighter(stopButton.basicColor, 1.1)})
                         }
 
                         onExited: {
-                            var currentColor = acrossCore.isRunning ? acrossConfig.warnColor : acrossConfig.styleColor
-                            stopButton.color = currentColor
+                            stopButton.color = Qt.binding(function() {return stopButton.basicColor})
                         }
 
                         onClicked: {
