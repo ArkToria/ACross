@@ -25,7 +25,8 @@ public:
 
   ~CoreTools();
 
-  bool init(LogView& log_view, across::setting::ConfigTools& config);
+  bool init(QSharedPointer<LogView> log_view,
+            QSharedPointer<across::setting::ConfigTools> config);
 
   void setConfig(const QString& stdin_str);
 
@@ -47,7 +48,7 @@ signals:
 
 private:
   across::setting::Core m_core;
-  across::setting::ConfigTools* p_config;
+  QSharedPointer<across::setting::ConfigTools> p_config;
   std::shared_ptr<across::utils::LogTools> p_logger;
 
   QString m_config;

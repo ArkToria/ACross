@@ -38,10 +38,10 @@ class NodeList : public QObject
 public:
   explicit NodeList(QObject* parent = nullptr);
 
-  void init(LogView& log_view,
-            across::setting::ConfigTools& config_tools,
-            across::core::CoreTools& core_tools,
-            across::DBTools& db);
+  void init(QSharedPointer<LogView> log_view,
+            QSharedPointer<across::setting::ConfigTools> config,
+            QSharedPointer<across::core::CoreTools> core,
+            QSharedPointer<across::DBTools> db);
 
   QVector<NodeInfo> items();
 
@@ -98,11 +98,11 @@ signals:
   void currentNodePortChanged();
 
 private:
-  DBTools* p_db;
   std::shared_ptr<across::utils::LogTools> p_logger;
-  across::setting::ConfigTools* p_config;
-  across::core::CoreTools* p_core;
   std::shared_ptr<across::config::JsonTools> p_json;
+  QSharedPointer<DBTools> p_db;
+  QSharedPointer<across::setting::ConfigTools> p_config;
+  QSharedPointer<across::core::CoreTools> p_core;
 
   QVector<NodeInfo> m_items;
   QMap<int, NodesInfo> m_all_items;

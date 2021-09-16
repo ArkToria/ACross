@@ -18,8 +18,8 @@ public:
     };
     explicit SystemTray(QObject* parent = 0);
 
-    void init(across::setting::ConfigTools& config,
-              across::core::CoreTools& core_tools);
+    void init(QSharedPointer<across::setting::ConfigTools> config,
+              QSharedPointer<across::core::CoreTools> core);
 
     void loadTrayIcons(const QString& stylish = "", const QString& color = "");
 
@@ -38,15 +38,14 @@ public slots:
     void onRunningChanged();
     void onEnableTrayChanged();
 
-private:
-    QSystemTrayIcon *trayIcon;
-    across::setting::ConfigTools* p_config;
-    across::core::CoreTools* p_core;
+  private:
+    QSharedPointer<QSystemTrayIcon> p_tray_icon;
+    QSharedPointer<across::setting::ConfigTools> p_config;
+    QSharedPointer<across::core::CoreTools> p_core;
     QIcon connectedIcon;
     QIcon disconnectedIcon;
 
-
-#define DECL_ACTION(parent, name) QAction *name = new QAction(parent)
+#define DECL_ACTION(parent, name) QAction* name = new QAction(parent)
     QMenu *rootMenu = new QMenu();
 
     DECL_ACTION(rootMenu, actionToggleVisibility);

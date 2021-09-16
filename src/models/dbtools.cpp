@@ -12,11 +12,12 @@ DBTools::~DBTools()
 }
 
 void
-DBTools::init(LogView& log_view, ConfigTools& config)
+DBTools::init(QSharedPointer<LogView> log_view,
+              QSharedPointer<ConfigTools> config)
 {
   p_logger = std::make_shared<LogTools>(log_view, "database");
 
-  p_config = &config;
+  p_config = config;
 
   reload();
 }

@@ -46,17 +46,14 @@ public:
   void registerModels();
 
 private:
-  int m_thread_nums = 1;
-  int m_queue_size = 8192;
-
-  LogView acrossLogView;
-  across::setting::ConfigTools acrossConfig;
-  across::DBTools acrossDB;
-  across::core::CoreTools acrossCore;
-  across::network::CURLTools acrossCurl;
-  across::NodeList acrossNodes;
-  across::GroupList acrossGroups;
-  across::SystemTray acrossTray;
+  QSharedPointer<LogView> p_logview;
+  QSharedPointer<across::setting::ConfigTools> p_config;
+  QSharedPointer<across::DBTools> p_db;
+  QSharedPointer<across::core::CoreTools> p_core;
+  QSharedPointer<across::network::CURLTools> p_curl;
+  QSharedPointer<across::NodeList> p_nodes;
+  QSharedPointer<across::GroupList> p_groups;
+  QSharedPointer<across::SystemTray> p_tray;
 
   const QString m_app_name = APP_NAME;
   QTranslator m_translator;

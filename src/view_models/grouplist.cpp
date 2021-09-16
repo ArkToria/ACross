@@ -8,31 +8,31 @@ using namespace across::setting;
 GroupList::GroupList(QObject* parent) {}
 
 void
-GroupList::init(LogView& log_view,
-                across::setting::ConfigTools& config,
-                across::DBTools& db,
-                across::NodeList& node_list,
-                across::network::CURLTools& curl_tools)
+GroupList::init(QSharedPointer<LogView> log_view,
+                QSharedPointer<across::setting::ConfigTools> config,
+                QSharedPointer<across::DBTools> db,
+                QSharedPointer<across::NodeList> nodes,
+                QSharedPointer<across::network::CURLTools> curl)
 {
+  p_config = config;
+
   p_logger = std::make_shared<LogTools>(log_view, "group_list");
 
-  p_db = &db;
+  p_db = db;
   if (p_db == nullptr) {
     p_logger->error("Failed to get the database");
     return;
   }
 
-  p_curl = &curl_tools;
+  p_curl = curl;
   if (p_curl == nullptr) {
     p_logger->warn("Failed to get the downloader");
   }
 
-  p_nodes = &node_list;
+  p_nodes = nodes;
   if (p_nodes == nullptr) {
     p_logger->error("Failed to get the nodes");
   }
-
-  p_config = &config;
 
   reloadItems();
 }
@@ -163,7 +163,7 @@ GroupList::appendItem(const QString& group_name,
       item.id,
       p_config->networkUserAgent().toStdString());
 
-    connect(p_curl, &across::network::CURLTools::downloadFinished, [&]() {
+    connect(p_curl.get(), &across::network::CURLTools::downloadFinished, [&]() {
       auto result = p_db->createNodesTable(item.name.toStdString());
 
       // TODO: rewrite parse checker
@@ -272,7 +272,7 @@ GroupList::upgradeItem(int index)
     across::network::CURLTools::DownloadTask task(
       item.name.toStdString(), item.url.toStdString(), item.id);
 
-    connect(p_curl, &across::network::CURLTools::downloadFinished, [&]() {
+    connect(p_curl.get(), &across::network::CURLTools::downloadFinished, [&]() {
 
     });
   }

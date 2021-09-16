@@ -11,20 +11,20 @@ NodeList::NodeList(QObject* parent)
 {}
 
 void
-NodeList::init(LogView& log_view,
-               across::setting::ConfigTools& config_tools,
-               across::core::CoreTools& core_tools,
-               across::DBTools& db)
+NodeList::init(QSharedPointer<LogView> log_view,
+               QSharedPointer<across::setting::ConfigTools> config,
+               QSharedPointer<CoreTools> core,
+               QSharedPointer<DBTools> db)
 {
   p_logger = std::make_shared<LogTools>(log_view, "node_list");
 
   p_json = std::make_shared<JsonTools>();
 
-  p_db = &db;
+  p_db = db;
 
-  p_config = &config_tools;
+  p_config = config;
 
-  p_core = &core_tools;
+  p_core = core;
 
   reloadItems();
 }

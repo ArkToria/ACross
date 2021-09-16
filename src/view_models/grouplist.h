@@ -24,11 +24,11 @@ class GroupList : public QObject
 public:
   explicit GroupList(QObject* parent = nullptr);
 
-  void init(LogView& log_view,
-            across::setting::ConfigTools& config,
-            across::DBTools& db,
-            across::NodeList& node_list,
-            across::network::CURLTools& curl_tools);
+  void init(QSharedPointer<LogView> log_view,
+            QSharedPointer<across::setting::ConfigTools> config,
+            QSharedPointer<across::DBTools> db,
+            QSharedPointer<across::NodeList> nodes,
+            QSharedPointer<across::network::CURLTools> curl);
 
   QVector<GroupInfo> items() const;
 
@@ -67,10 +67,10 @@ signals:
   void postLastItemRemoved();
 
 private:
-  across::setting::ConfigTools* p_config;
-  across::DBTools* p_db;
-  across::NodeList* p_nodes;
-  across::network::CURLTools* p_curl;
+  QSharedPointer<across::setting::ConfigTools> p_config;
+  QSharedPointer<across::DBTools> p_db;
+  QSharedPointer<across::NodeList> p_nodes;
+  QSharedPointer<across::network::CURLTools> p_curl;
   std::shared_ptr<across::utils::LogTools> p_logger;
 
   QVector<GroupInfo> m_items;

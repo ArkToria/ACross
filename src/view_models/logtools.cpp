@@ -3,8 +3,10 @@
 using namespace across;
 using namespace across::utils;
 
-LogTools::LogTools(LogView& view, const QString& name, LoggerEnum l_enum)
-  : LogView(&view)
+LogTools::LogTools(QSharedPointer<LogView> log_view,
+                   const QString& name,
+                   LoggerEnum l_enum)
+  : LogView(log_view.get())
 {
   switch (l_enum) {
     case LoggerEnum::app:

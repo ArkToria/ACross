@@ -323,7 +323,7 @@ class ConfigTools : public QObject
 public:
   explicit ConfigTools(QObject* parent = nullptr);
 
-  bool init(LogView& log_view, const QString& file_path = "");
+  bool init(QSharedPointer<LogView> logview, const QString& file_path = "");
 
   QString loadConfigPath(const QString& file_path);
 

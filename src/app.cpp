@@ -3,19 +3,27 @@
 using namespace across;
 using namespace across::core;
 using namespace across::utils;
+using namespace across::network;
+using namespace across::setting;
 
 Application::Application(int& argc, char** argv)
   : QApplication(argc, argv)
 {
-
-  spdlog::init_thread_pool(m_queue_size, m_thread_nums);
+  p_logview = QSharedPointer<LogView>(new LogView());
+  p_config = QSharedPointer<ConfigTools>(new ConfigTools(this));
+  p_db = QSharedPointer<DBTools>(new DBTools());
+  p_core = QSharedPointer<CoreTools>(new CoreTools());
+  p_curl = QSharedPointer<CURLTools>(new CURLTools);
+  p_nodes = QSharedPointer<NodeList>(new NodeList());
+  p_groups = QSharedPointer<GroupList>(new GroupList);
+  p_tray = QSharedPointer<SystemTray>(new SystemTray());
 
   registerModels();
   setRootContext();
-  setTranslator(acrossConfig.currentLanguage());
+  setTranslator(p_config->currentLanguage());
 
   // dynamic change display language
-  connect(&acrossConfig,
+  connect(p_config.get(),
           &across::setting::ConfigTools::currentLanguageChanged,
           this,
           [&](QString lang) { setTranslator(lang); });
@@ -44,26 +52,25 @@ Application::setRootContext()
     Qt::QueuedConnection);
 
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
-                                             &acrossLogView);
+                                             p_logview.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
-                                             &acrossConfig);
+                                             p_config.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCore"),
-                                             &acrossCore);
+                                             p_core.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossNodes"),
-                                             &acrossNodes);
+                                             p_nodes.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossGroups"),
-                                             &acrossGroups);
+                                             p_groups.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
-                                             &acrossTray);
+                                             p_tray.get());
   m_engine.load(url);
 
-  acrossConfig.init(acrossLogView);
-  acrossDB.init(acrossLogView, acrossConfig);
-  acrossCore.init(acrossLogView, acrossConfig);
-  acrossNodes.init(acrossLogView, acrossConfig, acrossCore, acrossDB);
-  acrossGroups.init(
-    acrossLogView, acrossConfig, acrossDB, acrossNodes, acrossCurl);
-  acrossTray.init(acrossConfig, acrossCore);
+  p_config->init(p_logview);
+  p_db->init(p_logview, p_config);
+  p_core->init(p_logview, p_config);
+  p_nodes->init(p_logview, p_config, p_core, p_db);
+  p_groups->init(p_logview, p_config, p_db, p_nodes, p_curl);
+  p_tray->init(p_config, p_core);
 }
 
 void
@@ -83,7 +90,7 @@ Application::setTranslator(const QString& lang)
   }
 
   m_engine.retranslate();
-  acrossTray.retranslate();
+  p_tray->retranslate();
 }
 
 void

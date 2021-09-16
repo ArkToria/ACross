@@ -5,32 +5,39 @@ using namespace across;
 using namespace across::core;
 using namespace across::setting;
 
-SystemTray::SystemTray(QObject *parent): QObject(parent){
-    trayIcon = new QSystemTrayIcon();
+SystemTray::SystemTray(QObject* parent)
+  : QObject(parent)
+{
+  p_tray_icon = QSharedPointer<QSystemTrayIcon>(new QSystemTrayIcon());
 }
 
 void
-SystemTray::init(ConfigTools& config, CoreTools& core_tools)
+SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
+                 QSharedPointer<across::core::CoreTools> core)
 {
-  p_config = &config;
-  p_core = &core_tools;
+  p_config = config;
+  p_core = core;
 
   connect(
-    p_config, &across::setting::ConfigTools::trayColorChanged, this, [&]() {
-      loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
-    });
+    p_config.get(),
+    &across::setting::ConfigTools::trayColorChanged,
+    this,
+    [&]() { loadTrayIcons(p_config->trayStylish(), p_config->trayColor()); });
 
   connect(
-    p_config, &across::setting::ConfigTools::trayStylishChanged, this, [&]() {
-      loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
-    });
+    p_config.get(),
+    &across::setting::ConfigTools::trayStylishChanged,
+    this,
+    [&]() { loadTrayIcons(p_config->trayStylish(), p_config->trayColor()); });
 
-  connect(
-    p_config, &across::setting::ConfigTools::enableTrayChanged, this, &SystemTray::onEnableTrayChanged);
+  connect(p_config.get(),
+          &across::setting::ConfigTools::enableTrayChanged,
+          this,
+          &SystemTray::onEnableTrayChanged);
 
   loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
 
-  trayIcon->setToolTip("Across " + p_config->guiVersion());
+  p_tray_icon->setToolTip("Across " + p_config->guiVersion());
   onRunningChanged();
   onEnableTrayChanged();
 
@@ -62,14 +69,16 @@ SystemTray::init(ConfigTools& config, CoreTools& core_tools)
   rootMenu->addSeparator();
   rootMenu->addAction(actionQuit);
 
-  trayIcon->setContextMenu(rootMenu);
-  connect(trayIcon,
+  p_tray_icon->setContextMenu(rootMenu);
+  connect(p_tray_icon.get(),
           SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
           this,
           SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
-  connect(
-    p_core, &CoreTools::isRunningChanged, this, &SystemTray::onRunningChanged);
+  connect(p_core.get(),
+          &CoreTools::isRunningChanged,
+          this,
+          &SystemTray::onRunningChanged);
 }
 
 void
@@ -106,15 +115,15 @@ void SystemTray::toggleVisibilitySetText(bool vis){
 }
 
 void SystemTray::onRunningChanged(){
-    if(p_core->isRunning()){
-        trayIcon->setIcon(connectedIcon);
-        actionStart->setEnabled(false);
-        actionStop->setEnabled(true);
-    }else {
-        trayIcon->setIcon(disconnectedIcon);
-        actionStart->setEnabled(true);
-        actionStop->setEnabled(false);
-    }
+  if (p_core->isRunning()) {
+    p_tray_icon->setIcon(connectedIcon);
+    actionStart->setEnabled(false);
+    actionStop->setEnabled(true);
+  } else {
+    p_tray_icon->setIcon(disconnectedIcon);
+    actionStart->setEnabled(true);
+    actionStop->setEnabled(false);
+  }
     actionRestart->setEnabled(true);
 }
 void SystemTray::retranslate(){
@@ -127,8 +136,8 @@ void SystemTray::retranslate(){
 
 void SystemTray::onEnableTrayChanged(){
    if(p_config->enableTray()){
-     trayIcon->show();
+     p_tray_icon->show();
    }else{
-     trayIcon->hide();
+     p_tray_icon->hide();
    }
 }

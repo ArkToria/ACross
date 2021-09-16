@@ -439,7 +439,7 @@ InboundSettings::setObject(Json::Value& root)
 ConfigTools::ConfigTools(QObject* parent) {}
 
 bool
-ConfigTools::init(LogView& log_view, const QString& file_path)
+ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
 {
   bool result = false;
 

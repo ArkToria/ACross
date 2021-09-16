@@ -74,7 +74,8 @@ public:
 
   ~DBTools();
 
-  void init(LogView& log_view, across::setting::ConfigTools& config);
+  void init(QSharedPointer<LogView> log_view,
+            QSharedPointer<across::setting::ConfigTools> config);
 
   void reload();
 
@@ -119,7 +120,7 @@ private:
 
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;
-  across::setting::ConfigTools* p_config = nullptr;
+  QSharedPointer<across::setting::ConfigTools> p_config = nullptr;
   sqlite3* m_db = nullptr;
 };
 }

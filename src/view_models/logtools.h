@@ -20,7 +20,7 @@ enum LoggerEnum
 class LogTools : public LogView
 {
 public:
-  LogTools(LogView& view,
+  LogTools(QSharedPointer<LogView> log_view,
            const QString& name = "",
            LoggerEnum log_enum = LoggerEnum::app);
 

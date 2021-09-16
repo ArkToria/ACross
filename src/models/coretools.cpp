@@ -20,9 +20,10 @@ CoreTools::~CoreTools()
 }
 
 bool
-CoreTools::init(LogView& log_view, ConfigTools& config)
+CoreTools::init(QSharedPointer<LogView> log_view,
+                QSharedPointer<ConfigTools> config)
 {
-  p_config = &config;
+  p_config = config;
 
   auto setCore = [&]() { m_core = p_config->getCore(); };
 
@@ -41,14 +42,15 @@ CoreTools::init(LogView& log_view, ConfigTools& config)
 
   p_process->setProcessChannelMode(QProcess::MergedChannels);
 
-  connect(p_config,
+  connect(p_config.get(),
           &across::setting::ConfigTools::coreInfoChanged,
           this,
           [=]() { setCore(); });
 
-  connect(p_config, &across::setting::ConfigTools::dbPathChanged, this, [=]() {
-    setWorkingDirectory();
-  });
+  connect(p_config.get(),
+          &across::setting::ConfigTools::dbPathChanged,
+          this,
+          [=]() { setWorkingDirectory(); });
 
   connect(
     p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
