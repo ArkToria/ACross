@@ -34,11 +34,17 @@ Item {
             id: column
             spacing: acrossConfig.itemSpacing
 
-            About {}
+            About {
+                width: scrollView.availableWidth
+            }
 
-            Licenses {}
+            Licenses {
+                width: scrollView.availableWidth
+            }
 
-            ChangeLog {}
+            ChangeLog {
+                width: scrollView.availableWidth
+            }
         }
     }
 }
