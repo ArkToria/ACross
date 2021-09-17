@@ -5,7 +5,9 @@ SpinBox {
     id: spinBox
     implicitWidth: 96
     implicitHeight: 36
-    rightPadding: 8
+
+    leftPadding: acrossConfig.itemSpacing
+    rightPadding: acrossConfig.itemSpacing
 
     property int controlSpacing: 1
     property int controlWidth: 10
