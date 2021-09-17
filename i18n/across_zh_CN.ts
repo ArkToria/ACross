@@ -4,17 +4,17 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../src/views/help/About.qml" line="62"/>
+        <location filename="../src/views/help/About.qml" line="56"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="72"/>
+        <location filename="../src/views/help/About.qml" line="68"/>
         <source>Build Info</source>
         <translation>构建信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="82"/>
+        <location filename="../src/views/help/About.qml" line="80"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
@@ -24,22 +24,22 @@
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="130"/>
+        <location filename="../src/views/help/About.qml" line="131"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="169"/>
+        <location filename="../src/views/help/About.qml" line="171"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="200"/>
+        <location filename="../src/views/help/About.qml" line="196"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="207"/>
+        <location filename="../src/views/help/About.qml" line="203"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
@@ -131,7 +131,7 @@
 <context>
     <name>ChangeLog</name>
     <message>
-        <location filename="../src/views/help/ChangeLog.qml" line="17"/>
+        <location filename="../src/views/help/ChangeLog.qml" line="16"/>
         <source>Release News</source>
         <translation>版本新闻</translation>
     </message>
@@ -320,7 +320,7 @@
 <context>
     <name>GroupItemCard</name>
     <message numerus="yes">
-        <location filename="../src/views/home/GroupItemCard.qml" line="111"/>
+        <location filename="../src/views/home/GroupItemCard.qml" line="110"/>
         <source>%n Items</source>
         <comment>item count of group</comment>
         <translation>
@@ -328,7 +328,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemCard.qml" line="120"/>
+        <location filename="../src/views/home/GroupItemCard.qml" line="119"/>
         <source>Updated: %1</source>
         <translation>更新于 %1</translation>
     </message>
@@ -423,7 +423,7 @@
 <context>
     <name>Licenses</name>
     <message>
-        <location filename="../src/views/help/Licenses.qml" line="17"/>
+        <location filename="../src/views/help/Licenses.qml" line="15"/>
         <source>Libraries and Licenses</source>
         <translation>依赖库和许可</translation>
     </message>
@@ -487,17 +487,17 @@
         <translation>创建新配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="93"/>
+        <location filename="../src/views/home/NodeForm.qml" line="90"/>
         <source>Outbound</source>
         <translation>出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="173"/>
+        <location filename="../src/views/home/NodeForm.qml" line="170"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="182"/>
+        <location filename="../src/views/home/NodeForm.qml" line="179"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -586,12 +586,12 @@
 <context>
     <name>RawOutboundSetting</name>
     <message>
-        <location filename="../src/views/home/RawOutboundSetting.qml" line="20"/>
+        <location filename="../src/views/home/RawOutboundSetting.qml" line="19"/>
         <source>Import From Raw Outbound</source>
         <translation>从原始 Outbound 导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/RawOutboundSetting.qml" line="32"/>
+        <location filename="../src/views/home/RawOutboundSetting.qml" line="31"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>

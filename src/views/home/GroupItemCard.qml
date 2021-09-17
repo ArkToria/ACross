@@ -87,7 +87,6 @@ Item {
 
                 color: acrossNodes.currentGroupID
                        === group_id ? acrossConfig.styleColor : "transparent"
-                visible: true
             }
 
             ColumnLayout {

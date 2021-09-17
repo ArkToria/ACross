@@ -62,9 +62,6 @@ Window {
             contentHeight: column.height
             clip: true
 
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-            ScrollBar.vertical.policy: ScrollBar.AlwaysOff
-
             Column {
                 id: column
                 width: scrollView.availableWidth

@@ -24,11 +24,17 @@ Rectangle {
 
         ListView {
             id: menuListView
+            clip: true
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            // disable scroll
-            interactive: false
+            onHeightChanged: {
+                if (menuListView.height <= mainWindow.minimumHeight) {
+                    interactive = true
+                } else {
+                    interactive = false
+                }
+            }
 
             // disable highlight animation
             highlightMoveDuration: 0

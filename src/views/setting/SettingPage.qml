@@ -13,8 +13,6 @@ Item {
         id: scrollView
         anchors.fill: parent
 
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
         clip: true
 
         Column {

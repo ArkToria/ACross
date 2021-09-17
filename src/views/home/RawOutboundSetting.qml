@@ -8,7 +8,6 @@ Item {
     implicitWidth: 720
     implicitHeight: 300
 
-
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing
@@ -44,9 +43,10 @@ Item {
             Layout.fillHeight: true
             Layout.margins: acrossConfig.itemSpacing
             clip: true
-
             TextAreaBox {
                 id: rawOutboundText
+                implicitWidth: parent.availableWidth
+                implicitHeight: parent.availableHeight
 
                 wrapMode: Text.NoWrap
             }

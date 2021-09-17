@@ -16,7 +16,7 @@ ApplicationWindow {
     width: 960
     height: 720
     minimumWidth: 960
-    minimumHeight: 720
+    minimumHeight: 520
     visible: true
     title: qsTr("ACross")
 

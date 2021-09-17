@@ -23,6 +23,7 @@ Item {
         cellHeight: 192
 
         delegate: NodeItemCard {
+            id: nodeItemCard
             clip: true
             implicitWidth: nodeGridView.cellWidth - acrossConfig.itemSpacing
             implicitHeight: nodeGridView.cellHeight - acrossConfig.itemSpacing
@@ -39,7 +40,6 @@ Item {
         ScrollBar.vertical: ScrollBar {
             policy: ScrollBar.AsNeeded
             smooth: true
-            width: acrossConfig.itemSpacing
         }
     }
 }

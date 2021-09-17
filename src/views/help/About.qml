@@ -5,18 +5,14 @@ import QtQuick.Controls 2.12
 import "../components"
 
 CardBox {
-    implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
-    implicitHeight: aboutContent.height + acrossConfig.itemSpacing * 8
-
+    implicitHeight: 320
     property bool isDev: false
 
     RowLayout {
         id: aboutContent
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.margins: acrossConfig.itemSpacing * 4
-        spacing: acrossConfig.itemSpacing * 4
+        anchors.fill: parent
+        anchors.margins: acrossConfig.itemSpacing * 2
+        spacing: acrossConfig.itemSpacing * 2
 
         SVGBox {
             id: logoImage
@@ -37,26 +33,24 @@ CardBox {
             }
         }
 
-        ColumnLayout {
-            id: infoList
-            Layout.fillWidth: true
+        Item {
             Layout.fillHeight: true
-
-            spacing: acrossConfig.itemSpacing
-
-            property int textPointSize: 16
-
-            Label {
-                text: "ACross"
-
-                font.pixelSize: 24
-                color: acrossConfig.textColor
-            }
+            Layout.fillWidth: true
 
             GridLayout {
+                anchors.fill: parent
+
                 columns: 2
                 rowSpacing: acrossConfig.itemSpacing
-                Layout.fillWidth: true
+
+                Label {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+
+                    text: "ACross"
+                    font.pixelSize: 24
+                    color: acrossConfig.textColor
+                }
 
                 Label {
                     text: qsTr("Version")
@@ -64,6 +58,8 @@ CardBox {
                 }
 
                 Label {
+                    Layout.fillWidth: true
+
                     text: acrossConfig.guiVersion
                     color: acrossConfig.highlightColor
                 }
@@ -74,6 +70,8 @@ CardBox {
                 }
 
                 Label {
+                    Layout.fillWidth: true
+
                     text: acrossConfig.buildInfo
                     color: acrossConfig.textColor
                 }
@@ -84,6 +82,8 @@ CardBox {
                 }
 
                 Label {
+                    Layout.fillWidth: true
+
                     text: acrossConfig.buildTime
                     color: acrossConfig.textColor
                 }
@@ -95,6 +95,7 @@ CardBox {
 
                 Rectangle {
                     id: sourceCodeField
+                    Layout.fillWidth: true
 
                     color: "transparent"
                     width: urlLabel.contentWidth
@@ -133,6 +134,7 @@ CardBox {
 
                 Rectangle {
                     id: licenseField
+                    Layout.fillWidth: true
 
                     color: "transparent"
                     width: licenseLabel.contentWidth
@@ -170,41 +172,36 @@ CardBox {
                     color: acrossConfig.textColor
                 }
 
-                ScrollView {
+                TextAreaBox {
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-                    TextAreaBox {
-                        implicitWidth: parent.width
-                        implicitHeight: parent.height
-                        text: acrossConfig.extraInfo
-                        color: acrossConfig.textColor
-                        readOnly: true
-                        selectByMouse: true
-                        selectedTextColor: acrossConfig.highlightTextColor
-                        selectionColor: acrossConfig.highlightColor
+                    text: acrossConfig.extraInfo
+                    color: acrossConfig.textColor
+                    wrapMode: Text.WrapAnywhere
+                    readOnly: true
+                    selectByMouse: true
+                    selectedTextColor: acrossConfig.highlightTextColor
+                    selectionColor: acrossConfig.highlightColor
+                }
+
+                Row {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+
+                    layoutDirection: Qt.RightToLeft
+                    spacing: acrossConfig.itemSpacing
+
+                    ButtonBox {
+                        text: qsTr("Report Bugs")
+                        basicColor: acrossConfig.warnColor
+                        basicState: "warnState"
+                        onClicked: Qt.openUrlExternally(acrossConfig.reportURL)
                     }
-                }
-            }
 
-            Item {
-                Layout.fillHeight: true
-            }
-
-            Row {
-                layoutDirection: Qt.RightToLeft
-                Layout.fillWidth: true
-
-                spacing: acrossConfig.itemSpacing
-
-                ButtonBox {
-                    text: qsTr("Report Bugs")
-                    basicColor: acrossConfig.warnColor
-                    basicState: "warnState"
-                    onClicked: Qt.openUrlExternally(acrossConfig.reportURL)
-                }
-
-                ButtonBox {
-                    text: qsTr("Check Update")
+                    ButtonBox {
+                        text: qsTr("Check Update")
+                    }
                 }
             }
         }

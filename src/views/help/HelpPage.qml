@@ -25,25 +25,24 @@ Item {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing
 
-        ScrollBar.vertical.policy: ScrollBar.AsNeeded
-        ScrollBar.vertical.interactive: true
-        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         clip: true
+        contentHeight: column.height
 
-        Column {
+        ColumnLayout {
             id: column
             spacing: acrossConfig.itemSpacing
+            implicitWidth: scrollView.availableWidth
 
             About {
-                width: scrollView.availableWidth
+                Layout.fillWidth: true
             }
 
             Licenses {
-                width: scrollView.availableWidth
+                Layout.fillWidth: true
             }
 
             ChangeLog {
-                width: scrollView.availableWidth
+                Layout.fillWidth: true
             }
         }
     }

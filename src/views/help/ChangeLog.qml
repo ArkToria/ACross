@@ -5,13 +5,12 @@ import QtQuick.Controls 2.12
 import "../components"
 
 CardBox {
-    implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
     implicitHeight: 260
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: acrossConfig.itemSpacing * 4
-        spacing: acrossConfig.itemSpacing * 4
+        anchors.margins: acrossConfig.itemSpacing * 2
+        spacing: acrossConfig.itemSpacing
 
         Label {
             text: qsTr("Release News")

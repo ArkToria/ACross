@@ -5,7 +5,6 @@ import QtQuick.Controls 2.12
 import "../components"
 
 Item {
-    id: nodeItemCard
     implicitWidth: 240
     implicitHeight: 192
 
