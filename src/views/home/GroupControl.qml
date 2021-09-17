@@ -28,7 +28,7 @@ Item {
             color: "transparent"
 
             RowLayout {
-                id:groupContorlCreate
+                id: groupContorlCreate
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -73,7 +73,7 @@ Item {
             color: "transparent"
 
             RowLayout {
-                id:groupContorlCopy
+                id: groupContorlCopy
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -111,7 +111,7 @@ Item {
             color: "transparent"
 
             RowLayout {
-                id:groupContorlQRCode
+                id: groupContorlQRCode
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -149,7 +149,7 @@ Item {
             color: "transparent"
 
             RowLayout {
-                id:groupContorlSearch
+                id: groupContorlSearch
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -185,7 +185,7 @@ Item {
             color: "transparent"
 
             RowLayout {
-                id:groupContorlLocate
+                id: groupContorlLocate
                 anchors.centerIn: parent
 
                 SVGBox {

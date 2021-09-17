@@ -175,12 +175,12 @@ Item {
         }
     }
 
-/*
+
+    /*
     NodeItemPopMenu {
         id: nodeItemPopMenu
     }
     */
-
     MouseArea {
         anchors.fill: background
 
@@ -205,9 +205,11 @@ Item {
 
         onClicked: {
             if (mouse.button == Qt.RightButton) {
-                var popMenuComponent = Qt.createComponent("qrc:/src/views/home/NodeItemPopMenu.qml")
-                if(popMenuComponent.status == Component.Ready) {
-                    var nodeItemPopMenu = popMenuComponent.createObject(parent);
+                var popMenuComponent = Qt.createComponent(
+                            "qrc:/src/views/home/NodeItemPopMenu.qml")
+
+                if (popMenuComponent.status === Component.Ready) {
+                    var nodeItemPopMenu = popMenuComponent.createObject(parent)
                     nodeItemPopMenu.popup()
                 }
             }

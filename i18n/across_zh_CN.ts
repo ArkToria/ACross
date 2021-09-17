@@ -239,22 +239,22 @@
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="86"/>
+        <location filename="../src/views/home/GroupControl.qml" line="87"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="124"/>
+        <location filename="../src/views/home/GroupControl.qml" line="125"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="162"/>
+        <location filename="../src/views/home/GroupControl.qml" line="163"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="198"/>
+        <location filename="../src/views/home/GroupControl.qml" line="199"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -487,17 +487,17 @@
         <translation>创建新配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="90"/>
+        <location filename="../src/views/home/NodeForm.qml" line="97"/>
         <source>Outbound</source>
         <translation>出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="170"/>
+        <location filename="../src/views/home/NodeForm.qml" line="177"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="179"/>
+        <location filename="../src/views/home/NodeForm.qml" line="186"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -505,32 +505,32 @@
 <context>
     <name>NodeItemPopMenu</name>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="39"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="46"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="46"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="53"/>
         <source>Set as default</source>
         <translation>设置为默认</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="58"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="65"/>
         <source>Share Config</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="68"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="75"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="72"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="79"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="83"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="90"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>

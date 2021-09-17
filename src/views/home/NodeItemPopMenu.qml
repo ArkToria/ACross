@@ -11,6 +11,13 @@ Menu {
 
     property real menuWidth: 168
 
+    onVisibleChanged: {
+        if (!visible) {
+            nodeItemPopMenu.close()
+            nodeItemPopMenu.destroy()
+        }
+    }
+
     background: CardBox {
         id: popMenuBackground
         color: acrossConfig.backgroundColor
