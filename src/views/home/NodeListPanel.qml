@@ -11,6 +11,22 @@ Item {
     implicitHeight: 480
 
     property Component nodeShareFormComponent:null
+    function openShareForm(name,address,port,password,url,qrcode) {
+        if (nodeShareFormComponent == null){
+            nodeShareFormComponent = Qt.createComponent("qrc:/src/views/home/NodeShareForm.qml")
+        }
+        if (nodeShareFormComponent.status === Component.Ready){
+            var window = nodeShareFormComponent.createObject(mainWindow,{
+                name:name,
+                address:address,
+                port:port,
+                password:password,
+                url:url,
+                qrcode:qrcode
+            })
+            window.show()
+        }
+    }
         
     GridView {
         id: nodeGridView
