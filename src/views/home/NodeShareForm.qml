@@ -24,6 +24,13 @@ Window {
     property string password
     property string url
     property string qrcode
+    
+    onVisibilityChanged: {
+        if(!visible){
+            nodeShareFormWindow.close()
+            nodeShareFormWindow.destroy()
+        }
+    }
 
     Rectangle {
         id: background

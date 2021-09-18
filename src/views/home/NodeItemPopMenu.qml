@@ -10,7 +10,13 @@ Menu {
     bottomPadding: 8
 
     property real menuWidth: 168
-    property int nodeID
+    onVisibleChanged: {
+        if (!visible) {
+            nodeItemPopMenu.close()
+            nodeItemPopMenu.destroy()
+        }
+    }
+
 
     background: CardBox {
         id: popMenuBackground
@@ -57,8 +63,23 @@ Menu {
     Action {
         id: shareConfigAction
         text: qsTr("Share Config")
+
         onTriggered: {
-            nodeShareForm.show()
+            if (nodeShareFormComponent == null){
+                nodeShareFormComponent = Qt.createComponent("qrc:/src/views/home/NodeShareForm.qml")
+            }
+            if (nodeShareFormComponent.status === Component.Ready){
+                var window = nodeShareFormComponent.createObject(mainWindow)
+
+                window.name = name
+                window.address = address
+                window.port = port
+                window.password = password
+                window.url = ""
+                window.qrcode = ""
+
+                window.show()
+            }
         }
     }
 

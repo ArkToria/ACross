@@ -171,18 +171,17 @@ Item {
                 nodeGridView.currentIndex = index
             }
         }
+        
+        property Component popMenuComponent:null
 
         onClicked: {
             if (mouse.button == Qt.RightButton) {
-                nodeShareForm.name = name
-                nodeShareForm.address = address
-                nodeShareForm.port = port
-                nodeShareForm.password = password
-                nodeShareForm.url = ""
-                nodeShareForm.qrcode = ""
-
-                nodeItemPopMenu.nodeID = id
-                nodeItemPopMenu.popup()
+                if (popMenuComponent == null){
+                    popMenuComponent = Qt.createComponent("qrc:/src/views/home/NodeItemPopMenu.qml")
+                }
+                if (popMenuComponent.status === Component.Ready) {
+                    popMenuComponent.createObject(nodeItemCard).popup()
+                }
             }
         }
     }
