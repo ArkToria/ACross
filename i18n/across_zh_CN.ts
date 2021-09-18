@@ -234,27 +234,27 @@
 <context>
     <name>GroupControl</name>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="45"/>
+        <location filename="../src/views/home/GroupControl.qml" line="43"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="87"/>
+        <location filename="../src/views/home/GroupControl.qml" line="90"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="125"/>
+        <location filename="../src/views/home/GroupControl.qml" line="128"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="163"/>
+        <location filename="../src/views/home/GroupControl.qml" line="166"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="199"/>
+        <location filename="../src/views/home/GroupControl.qml" line="202"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>

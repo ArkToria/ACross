@@ -10,9 +10,7 @@ Item {
     implicitHeight: 36
     implicitWidth: 648
 
-    NodeForm {
-        id: nodeform
-    }
+    property Component popMenuComponent:null
 
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
@@ -62,7 +60,12 @@ Item {
                 }
 
                 onClicked: {
-                    nodeform.show()
+                    if (popMenuComponent == null){
+                        popMenuComponent = Qt.createComponent("qrc:/src/views/home/NodeForm.qml")
+                    }
+                    if (popMenuComponent.status === Component.Ready){
+                        popMenuComponent.createObject(appendNodeButton).show()
+                    }
                 }
             }
         }
