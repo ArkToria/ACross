@@ -10,11 +10,9 @@ Menu {
     bottomPadding: 8
 
     property real menuWidth: 168
-    onVisibleChanged: {
-        if (!visible) {
-            nodeItemPopMenu.close()
-            nodeItemPopMenu.destroy()
-        }
+    onClosed: {
+        nodeItemPopMenu.close()
+        nodeItemPopMenu.destroy()
     }
 
 
@@ -65,21 +63,7 @@ Menu {
         text: qsTr("Share Config")
 
         onTriggered: {
-            if (nodeShareFormComponent == null){
-                nodeShareFormComponent = Qt.createComponent("qrc:/src/views/home/NodeShareForm.qml")
-            }
-            if (nodeShareFormComponent.status === Component.Ready){
-                var window = nodeShareFormComponent.createObject(mainWindow)
-
-                window.name = name
-                window.address = address
-                window.port = port
-                window.password = password
-                window.url = ""
-                window.qrcode = ""
-
-                window.show()
-            }
+            openShareForm(name,address,port,password,"","")
         }
     }
 
