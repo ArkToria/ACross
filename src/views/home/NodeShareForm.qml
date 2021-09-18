@@ -18,6 +18,12 @@ Window {
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
+    property string name
+    property string address
+    property int port
+    property string password
+    property string url
+    property string qrcode
 
     Rectangle {
         id: background
@@ -29,39 +35,45 @@ Window {
             anchors.fill: parent
             anchors.margins: acrossConfig.itemSpacing
 
-            Row {
+            RowLayout {
                 anchors.fill: parent
                 anchors.margins: acrossConfig.itemSpacing
 
                 Rectangle {
-                    implicitWidth: parent.width / 2
-                    implicitHeight: parent.height
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
                     color: "transparent"
 
                     SVGBox {
                         anchors.centerIn: parent
 
-                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/repo_qr_code.svg"
-                        sourceWidth: parent.implicitWidth / 1.2
+                        source: qrcode === "" ? "qrc:/misc/icons/" + acrossConfig.iconStyle
+                                                + "/repo_qr_code.svg" : qrcode
+                        sourceWidth: parent.width / 1.2
                         sourceHeight: sourceWidth
                     }
                 }
 
-                ColumnLayout {
-                    implicitWidth: parent.width / 2
-                    implicitHeight: parent.height
-
-                    spacing: acrossConfig.itemSpacing
-
-                    Label {
-                        text: qsTr("Node Info")
-                        color: acrossConfig.textColor
-                        font.pixelSize: 18
-                    }
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
                     GridLayout {
-                        columns:2
+                        anchors.fill: parent
+                        columns: 2
+
+                        columnSpacing: acrossConfig.itemSpacing
+                        rowSpacing: acrossConfig.itemSpacing
+
+                        Label {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 2
+
+                            text: qsTr("Node Info")
+                            color: acrossConfig.textColor
+                            font.pixelSize: 18
+                        }
 
                         Label {
                             text: qsTr("Name")
@@ -98,7 +110,7 @@ Window {
                             text: port
                             readOnly: true
                         }
-                        
+
                         Label {
                             text: qsTr("Password")
                             color: acrossConfig.textColor
@@ -110,32 +122,39 @@ Window {
                             text: password
                             readOnly: true
                         }
-                    }
 
-                    Label {
-                        text: qsTr("Copy URL")
-                        color: acrossConfig.textColor
-                        font.pixelSize: 18
-                    }
-
-                    TextAreaBox {
-                        Layout.fillWidth: true
-                        Layout.fillHeight: true
-                    }
-
-                    RowLayout {
-                        Layout.fillWidth: true
-
-                        Item {
+                        Label {
                             Layout.fillWidth: true
+                            Layout.columnSpan: 2
+
+                            text: qsTr("Copy URL")
+                            color: acrossConfig.textColor
+                            font.pixelSize: 18
                         }
 
-                        ButtonBox {
-                            text: qsTr("Save")
+                        TextAreaBox {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 2
+                            Layout.fillHeight: true
+
+                            text: url
                         }
 
-                        ButtonBox {
-                            text: qsTr("Copy")
+                        RowLayout {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 2
+
+                            Item {
+                                Layout.fillWidth: true
+                            }
+
+                            ButtonBox {
+                                text: qsTr("Save")
+                            }
+
+                            ButtonBox {
+                                text: qsTr("Copy")
+                            }
                         }
                     }
                 }

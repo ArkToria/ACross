@@ -10,13 +10,7 @@ Menu {
     bottomPadding: 8
 
     property real menuWidth: 168
-
-    onVisibleChanged: {
-        if (!visible) {
-            nodeItemPopMenu.close()
-            nodeItemPopMenu.destroy()
-        }
-    }
+    property int nodeID
 
     background: CardBox {
         id: popMenuBackground
@@ -64,10 +58,7 @@ Menu {
         id: shareConfigAction
         text: qsTr("Share Config")
         onTriggered: {
-            var component = Qt.createComponent(
-                        "qrc:/src/views/home/NodeShareForm.qml")
-            var window = component.createObject(shareConfigAction)
-            window.show()
+            nodeShareForm.show()
         }
     }
 
@@ -90,7 +81,7 @@ Menu {
         text: qsTr("Delete")
 
         onTriggered: {
-            acrossNodes.removeCurrentNode(id)
+            acrossNodes.removeCurrentNode(nodeID)
         }
     }
 }

@@ -10,9 +10,9 @@ import "../components/"
 Window {
     id: nodeFormPopWindow
     width: 680
-    height: 300
+    height: 310
     minimumWidth: 680
-    minimumHeight: 300
+    minimumHeight: 310
     title: qsTr("Create New Configuration")
 
     flags: Qt.WindowStaysOnTopHint
@@ -65,18 +65,16 @@ Window {
             id: scrollView
             anchors.fill: parent
             anchors.margins: acrossConfig.itemSpacing
-            contentWidth: column.width
             contentHeight: column.height
             clip: true
 
             Column {
                 id: column
-                width: scrollView.availableWidth
                 spacing: acrossConfig.itemSpacing
 
                 CardBox {
                     id: outboundSetting
-                    implicitWidth: column.width
+                    implicitWidth: scrollView.availableWidth
                     implicitHeight: 64
 
                     layer.enabled: false
@@ -151,7 +149,7 @@ Window {
                 }
 
                 CardBox {
-                    implicitWidth: column.width
+                    implicitWidth: scrollView.availableWidth
                     implicitHeight: streamSettingLoader.implicitHeight
 
                     layer.enabled: false
@@ -166,7 +164,7 @@ Window {
 
                 RowLayout {
                     spacing: acrossConfig.itemSpacing
-                    implicitWidth: column.width
+                    implicitWidth: scrollView.availableWidth
 
                     Item {
                         Layout.fillWidth: true
@@ -175,6 +173,7 @@ Window {
                     ButtonBox {
                         id: acceptFormButton
                         text: qsTr("Accept")
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked: {
                             streamSettingLoader.acceptAll()
                             nodeFormModel.accept()
@@ -184,6 +183,7 @@ Window {
 
                     ButtonBox {
                         text: qsTr("Cancel")
+                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
 
                         onClicked: {
                             nodeFormModel.cancel()

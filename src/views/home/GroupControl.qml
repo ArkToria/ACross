@@ -10,6 +10,10 @@ Item {
     implicitHeight: 36
     implicitWidth: 648
 
+    NodeForm {
+        id: nodeform
+    }
+
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
         anchors.rightMargin: acrossConfig.itemSpacing
@@ -58,10 +62,7 @@ Item {
                 }
 
                 onClicked: {
-                    var component = Qt.createComponent(
-                                "qrc:/src/views/home/NodeForm.qml")
-                    var window = component.createObject(appendNodeButton)
-                    window.show()
+                    nodeform.show()
                 }
             }
         }

@@ -5,6 +5,7 @@ import QtQuick.Controls 2.12
 import "../components"
 
 Item {
+    id: nodeItemCard
     implicitWidth: 240
     implicitHeight: 192
 
@@ -72,115 +73,83 @@ Item {
         anchors.fill: parent
         layer.enabled: false
 
-        RowLayout {
+        GridLayout {
             anchors.fill: parent
+            anchors.margins: acrossConfig.itemSpacing
+            columns: 2
+            rows: 4
+            clip: true
 
-            ColumnLayout {
-                Layout.margins: 16
+            Label {
+                id: nodeNameText
                 Layout.fillWidth: true
                 clip: true
 
-                Label {
-                    id: nodeNameText
-                    Layout.fillWidth: true
-                    clip: true
+                text: name
+                textFormat: Text.AutoText
+                wrapMode: Text.WrapAnywhere
+                elide: Text.ElideRight
+                maximumLineCount: 2
+                font.pixelSize: 16
+                color: acrossConfig.textColor
+            }
 
-                    text: name
-                    textFormat: Text.AutoText
-                    wrapMode: Text.WrapAnywhere
-                    elide: Text.ElideRight
-                    maximumLineCount: 2
-                    font.pixelSize: 16
-                    color: acrossConfig.textColor
-                }
+            Rectangle {
+                id: rectangle
+                Layout.fillHeight: true
+                Layout.rowSpan: 3
 
-                Item {
-                    Layout.fillHeight: true
-                }
+                color: "transparent"
+                Layout.alignment: Qt.AlignRight | Qt.AlignTop
 
-                Label {
-                    id: addressText
-                    Layout.fillWidth: true
+                SVGBox {
+                    anchors.top: parent.top
+                    anchors.right: parent.right
+                    anchors.topMargin: acrossConfig.itemSpacing
+                    anchors.rightMargin: acrossConfig.itemSpacing
 
-                    text: address
-                    font.pixelSize: 14
-                    color: acrossConfig.textColor
-                }
-
-                Label {
-                    id: protocolText
-                    Layout.fillWidth: true
-
-                    text: protocol
-                    font.pixelSize: 14
-                    color: acrossConfig.textColor
-                }
-
-                RowLayout {
-                    Layout.fillWidth: true
-
-                    Label {
-                        id: speedText
-                        text: "↑ 128 M ↓ 2.4 GB"
-                        font.pixelSize: 14
-                        color: acrossConfig.textColor
-                    }
-
-                    Item {
-                        Layout.fillWidth: true
-                    }
-
-                    Label {
-                        id: latencyText
-                        text: "32 ms"
-                        font.pixelSize: 14
-                        color: acrossConfig.styleColor
-                    }
+                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/more_vert.svg"
+                    sourceWidth: 24
+                    sourceHeight: 24
                 }
             }
 
-            Item {
-                Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                Layout.fillHeight: true
-                Layout.preferredWidth: 24
+            Label {
+                id: addressText
+                Layout.fillWidth: true
 
-                Rectangle {
-                    id: popMenuArea
-                    anchors.right: parent.right
-                    anchors.top: parent.top
-                    anchors.topMargin: 16
-                    anchors.rightMargin: 8
-                    implicitWidth: 24
-                    implicitHeight: 24
+                text: address
+                font.pixelSize: 14
+                color: acrossConfig.textColor
+            }
 
-                    color: "transparent"
+            Label {
+                id: protocolText
+                Layout.fillWidth: true
 
-                    SVGBox {
-                        anchors.fill: parent
+                text: protocol
+                font.pixelSize: 14
+                color: acrossConfig.textColor
+            }
 
-                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/more_vert.svg"
-                        sourceWidth: 24
-                        sourceHeight: 24
-                    }
-                }
+            Label {
+                id: speedText
+                Layout.fillWidth: true
 
-                MouseArea {
-                    anchors.fill: popMenuArea
+                text: "↑ 128 M ↓ 2.4 GB"
+                font.pixelSize: 14
+                color: acrossConfig.textColor
+            }
 
-                    onClicked: {
-
-                    }
-                }
+            Label {
+                id: latencyText
+                text: "32 ms"
+                font.pixelSize: 14
+                color: acrossConfig.styleColor
             }
         }
     }
 
-
-    /*
-    NodeItemPopMenu {
-        id: nodeItemPopMenu
-    }
-    */
     MouseArea {
         anchors.fill: background
 
@@ -205,13 +174,15 @@ Item {
 
         onClicked: {
             if (mouse.button == Qt.RightButton) {
-                var popMenuComponent = Qt.createComponent(
-                            "qrc:/src/views/home/NodeItemPopMenu.qml")
+                nodeShareForm.name = name
+                nodeShareForm.address = address
+                nodeShareForm.port = port
+                nodeShareForm.password = password
+                nodeShareForm.url = ""
+                nodeShareForm.qrcode = ""
 
-                if (popMenuComponent.status === Component.Ready) {
-                    var nodeItemPopMenu = popMenuComponent.createObject(parent)
-                    nodeItemPopMenu.popup()
-                }
+                nodeItemPopMenu.nodeID = id
+                nodeItemPopMenu.popup()
             }
         }
     }

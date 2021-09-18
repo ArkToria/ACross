@@ -10,6 +10,14 @@ Item {
     implicitWidth: 648
     implicitHeight: 480
 
+    NodeItemPopMenu {
+        id: nodeItemPopMenu
+    }
+
+    NodeShareForm {
+        id: nodeShareForm
+    }
+
     GridView {
         id: nodeGridView
         anchors.fill: parent
@@ -23,7 +31,6 @@ Item {
         cellHeight: 192
 
         delegate: NodeItemCard {
-            id: nodeItemCard
             clip: true
             implicitWidth: nodeGridView.cellWidth - acrossConfig.itemSpacing
             implicitHeight: nodeGridView.cellHeight - acrossConfig.itemSpacing
