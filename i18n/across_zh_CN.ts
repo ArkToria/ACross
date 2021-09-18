@@ -504,17 +504,17 @@
         <translation>创建新配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="88"/>
+        <location filename="../src/views/home/NodeForm.qml" line="95"/>
         <source>Outbound</source>
         <translation>出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="168"/>
+        <location filename="../src/views/home/NodeForm.qml" line="175"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="178"/>
+        <location filename="../src/views/home/NodeForm.qml" line="185"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

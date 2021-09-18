@@ -89,5 +89,6 @@
         <file>src/views/main/DarkBackground.qml</file>
         <file>src/views/help/LicenseListModels.qml</file>
         <file>src/views/components/URLBox.qml</file>
+        <file>src/views/log/LogBox.qml</file>
     </qresource>
 </RCC>
