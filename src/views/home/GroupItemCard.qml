@@ -123,15 +123,14 @@ Item {
             }
         }
 
-        GroupItemPopMenu {
-            id: groupItemPopMenu
-        }
 
         MouseArea {
             anchors.fill: background
 
             hoverEnabled: true
             acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+            property Component groupItemPopMenuComponent:null
 
             onEntered: {
                 groupItemCard.state
@@ -145,7 +144,12 @@ Item {
 
             onClicked: {
                 if (mouse.button == Qt.RightButton) {
-                    groupItemPopMenu.popup()
+                    if (groupItemPopMenuComponent == null){
+                        groupItemPopMenuComponent = Qt.createComponent("qrc:/src/views/home/GroupItemPopMenu.qml")
+                    }
+                    if (groupItemPopMenuComponent.status === Component.Ready){
+                        groupItemPopMenuComponent.createObject(parent).popup()
+                    }
                 }
 
                 if (mouse.button == Qt.LeftButton) {

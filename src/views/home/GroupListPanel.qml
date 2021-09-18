@@ -11,9 +11,6 @@ Item {
     implicitWidth: 312
     implicitHeight: 720
 
-    GroupForm {
-        id: appendGroupForm
-    }
 
     GroupForm {
         id: updateGroupForm
@@ -87,10 +84,17 @@ Item {
             sourceHeight: sourceWidth
         }
 
+        property Component appendGroupFormComponent:null
+
         onClicked: {
             mainComponent.state = "PopUpState"
 
-            appendGroupForm.open()
+            if (appendGroupFormComponent == null){
+                appendGroupFormComponent = Qt.createComponent("qrc:/src/views/home/GroupForm.qml")
+            }
+            if (appendGroupFormComponent.status === Component.Ready){
+                appendGroupFormComponent.createObject(groupListPanel).open()
+            }
         }
     }
 }

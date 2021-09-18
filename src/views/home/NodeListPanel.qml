@@ -10,14 +10,8 @@ Item {
     implicitWidth: 648
     implicitHeight: 480
 
-    NodeItemPopMenu {
-        id: nodeItemPopMenu
-    }
-
-    NodeShareForm {
-        id: nodeShareForm
-    }
-
+    property Component nodeShareFormComponent:null
+        
     GridView {
         id: nodeGridView
         anchors.fill: parent

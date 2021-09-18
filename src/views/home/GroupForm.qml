@@ -22,6 +22,7 @@ Popup {
 
     onClosed: {
         mainComponent.state = "NormalState"
+        popWindow.destroy()
     }
 
     background: CardBox {}
