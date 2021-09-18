@@ -88,7 +88,7 @@ Item {
         }
 
         onClicked: {
-            mainComponent.state = "PopUpState"
+            darkBackground.show()
 
             appendGroupForm.open()
         }

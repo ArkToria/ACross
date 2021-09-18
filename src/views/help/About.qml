@@ -5,30 +5,41 @@ import QtQuick.Controls 2.12
 import "../components"
 
 CardBox {
+    id: aboutItem
+    implicitWidth: 680
     implicitHeight: 320
     property bool isDev: false
 
     RowLayout {
-        id: aboutContent
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 2
         spacing: acrossConfig.itemSpacing * 2
 
-        SVGBox {
-            id: logoImage
-            sourceWidth: 128
-            sourceHeight: 128
-            source: getLogo(acrossConfig.iconStyle)
+        Item {
+            property int logoBasicSize: 128
 
-            MouseArea {
-                anchors.fill: parent
-                onDoubleClicked: {
-                    if (!isDev) {
-                        logoImage.source = getLogo("dev")
-                    } else {
-                        logoImage.source = getLogo(acrossConfig.iconStyle)
+            Layout.preferredWidth: logoBasicSize * 2
+            Layout.fillHeight: true
+
+            SVGBox {
+                id: logoImage
+                anchors.centerIn: parent
+
+                sourceWidth: parent.logoBasicSize
+                sourceHeight: parent.logoBasicSize
+                source: getLogo(acrossConfig.iconStyle)
+
+                MouseArea {
+                    anchors.fill: parent
+                    onDoubleClicked: {
+                        if (!isDev) {
+                            logoImage.source = getLogo("dev")
+                        } else {
+                            logoImage.source = getLogo(acrossConfig.iconStyle)
+                        }
+
+                        aboutItem.isDev = !aboutItem.isDev
                     }
-                    isDev = !isDev
                 }
             }
         }
@@ -93,38 +104,10 @@ CardBox {
                     color: acrossConfig.textColor
                 }
 
-                Rectangle {
-                    id: sourceCodeField
+                URLBox {
                     Layout.fillWidth: true
 
-                    color: "transparent"
-                    width: urlLabel.contentWidth
-                    height: urlLabel.contentHeight
-
-                    property string urlText: acrossConfig.sourceCodeURL
-
-                    Label {
-                        id: urlLabel
-                        text: parent.urlText
-                        color: acrossConfig.highlightColor
-                    }
-
-                    MouseArea {
-                        anchors.fill: sourceCodeField
-                        hoverEnabled: true
-
-                        onEntered: {
-                            sourceCodeField.color = acrossConfig.deepColor
-                            urlLabel.color = acrossConfig.deepTextColor
-                        }
-
-                        onExited: {
-                            sourceCodeField.color = "transparent"
-                            urlLabel.color = acrossConfig.highlightColor
-                        }
-
-                        onClicked: Qt.openUrlExternally(sourceCodeField.urlText)
-                    }
+                    urlText: acrossConfig.licenseURL
                 }
 
                 Label {
@@ -132,42 +115,13 @@ CardBox {
                     color: acrossConfig.textColor
                 }
 
-                Rectangle {
-                    id: licenseField
+                URLBox {
                     Layout.fillWidth: true
 
-                    color: "transparent"
-                    width: licenseLabel.contentWidth
-                    height: licenseLabel.contentHeight
-
-                    property string urlText: acrossConfig.licenseURL
-
-                    Label {
-                        id: licenseLabel
-                        text: "GPLv3"
-                        color: acrossConfig.highlightColor
-                    }
-
-                    MouseArea {
-                        anchors.fill: licenseField
-                        hoverEnabled: true
-
-                        onEntered: {
-                            licenseField.color = acrossConfig.deepColor
-                            licenseLabel.color = acrossConfig.deepTextColor
-                        }
-
-                        onExited: {
-                            licenseField.color = "transparent"
-                            licenseLabel.color = acrossConfig.highlightColor
-                        }
-
-                        onClicked: Qt.openUrlExternally(licenseField.urlText)
-                    }
+                    urlText: acrossConfig.sourceCodeURL
                 }
 
                 Label {
-                    id: extraInfoText
                     text: qsTr("Extra Info")
                     color: acrossConfig.textColor
                 }
@@ -185,17 +139,20 @@ CardBox {
                     selectionColor: acrossConfig.highlightColor
                 }
 
-                Row {
+                RowLayout {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
 
-                    layoutDirection: Qt.RightToLeft
                     spacing: acrossConfig.itemSpacing
+
+                    Item {
+                        Layout.fillWidth: true
+                    }
 
                     ButtonBox {
                         text: qsTr("Report Bugs")
                         basicColor: acrossConfig.warnColor
-                        basicState: "warnState"
+                        basicState: "WarnState"
                         onClicked: Qt.openUrlExternally(acrossConfig.reportURL)
                     }
 

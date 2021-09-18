@@ -21,7 +21,7 @@ Popup {
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
 
     onClosed: {
-        mainComponent.state = "NormalState"
+        darkBackground.close()
     }
 
     background: CardBox {}

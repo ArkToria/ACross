@@ -77,10 +77,8 @@ Menu {
         text: qsTr("Delete")
 
         onTriggered: {
-            mainComponent.state = "PopUpState"
-
+            darkBackground.show()
             removeConfirmDialog.index = index
-
             removeConfirmDialog.open()
         }
     }

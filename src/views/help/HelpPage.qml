@@ -31,7 +31,7 @@ Item {
         ColumnLayout {
             id: column
             spacing: acrossConfig.itemSpacing
-            implicitWidth: scrollView.availableWidth
+            width: scrollView.availableWidth
 
             About {
                 Layout.fillWidth: true

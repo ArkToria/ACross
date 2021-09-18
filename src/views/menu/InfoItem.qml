@@ -6,6 +6,7 @@ Item {
     implicitHeight: coreVersionText.contentHeight + guiVersionText.contentHeight
 
     ColumnLayout {
+        anchors.fill: parent
         anchors.centerIn: parent
 
         Label {
@@ -13,19 +14,16 @@ Item {
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
 
-            text: "Core" + " " + acrossConfig.coreVersion
-            font.pointSize: 12
-            color: acrossConfig.deepTextColor
+            text: qsTr("Core") + " " + acrossConfig.coreVersion
+            color: acrossConfig.textColor
         }
 
         Label {
             id: guiVersionText
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
-            text: "GUI" + " " + acrossConfig.guiVersion
-            font.pointSize: 12
-            color: acrossConfig.deepTextColor
+            text: qsTr("Client") + " " + acrossConfig.guiVersion
+            color: acrossConfig.textColor
         }
     }
 }
-

@@ -6,6 +6,9 @@ import "../components"
 
 CardBox {
     implicitHeight: 280
+
+    property int fontSize: 12
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 2
@@ -13,7 +16,7 @@ CardBox {
 
         Label {
             text: qsTr("Libraries and Licenses")
-            font.pixelSize: 18
+            font.pointSize: fontSize
             color: acrossConfig.textColor
         }
 
@@ -22,18 +25,7 @@ CardBox {
             Layout.fillWidth: true
 
             spacing: acrossConfig.itemSpacing
-
-            model: ListModel {
-                ListElement {
-                    key: "Qt"
-                    value: "Copyright (C) 2020 The Qt Company Ltd and other contributors. Under the GNU (L)GPL"
-                }
-                ListElement {
-                    key: "Icons"
-                    value: "Google Material Icons. Apache licenses 2.0"
-                }
-            }
-
+            model: LicenseListModels {}
             delegate: Label {
                 text: key + " - " + value
                 color: acrossConfig.textColor

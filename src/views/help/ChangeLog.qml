@@ -7,6 +7,8 @@ import "../components"
 CardBox {
     implicitHeight: 260
 
+    property int fontSize: 12
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 2
@@ -14,7 +16,7 @@ CardBox {
 
         Label {
             text: qsTr("Release News")
-            font.pixelSize: 18
+            font.pointSize: 12
             color: acrossConfig.textColor
         }
 
