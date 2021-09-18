@@ -18,13 +18,6 @@ Window {
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
-    onVisibleChanged: {
-        if (!visible) {
-            nodeFormPopWindow.close()
-            nodeFormPopWindow.destroy()
-        }
-    }
-
     ShadowsocksFormModel {
         id: shadowsocksFormModel
     }

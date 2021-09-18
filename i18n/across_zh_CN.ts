@@ -234,7 +234,7 @@
 <context>
     <name>GroupControl</name>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="41"/>
+        <location filename="../src/views/home/GroupControl.qml" line="45"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
@@ -487,17 +487,17 @@
         <translation>创建新配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="97"/>
+        <location filename="../src/views/home/NodeForm.qml" line="95"/>
         <source>Outbound</source>
         <translation>出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="177"/>
+        <location filename="../src/views/home/NodeForm.qml" line="175"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="186"/>
+        <location filename="../src/views/home/NodeForm.qml" line="185"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -505,32 +505,32 @@
 <context>
     <name>NodeItemPopMenu</name>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="46"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="40"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="53"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="47"/>
         <source>Set as default</source>
         <translation>设置为默认</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="65"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="59"/>
         <source>Share Config</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="75"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="66"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="79"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="70"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="90"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="81"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -543,42 +543,42 @@
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="58"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="73"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="67"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="79"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="79"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="91"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="91"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="103"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="103"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="115"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="116"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="130"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="134"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="152"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="138"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="156"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
