@@ -90,7 +90,7 @@ Item {
             darkBackground.show()
             if (appendGroupFormComponent == null) {
                 appendGroupFormComponent = Qt.createComponent(
-                            "GroupForm.qml")
+                            "qrc:/ACross/src/views/home/GroupForm.qml")
             }
             if (appendGroupFormComponent.status === Component.Ready) {
                 appendGroupFormComponent.createObject(groupListPanel).open()

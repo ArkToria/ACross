@@ -178,7 +178,7 @@ Item {
             if (mouse.button == Qt.RightButton) {
                 if (popMenuComponent == null) {
                     popMenuComponent = Qt.createComponent(
-                                "NodeItemPopMenu.qml")
+                                "qrc:/ACross/src/views/home/NodeItemPopMenu.qml")
                 }
                 if (popMenuComponent.status === Component.Ready) {
                     popMenuComponent.createObject(nodeItemCard).popup()

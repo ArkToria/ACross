@@ -145,7 +145,7 @@ Item {
                 if (mouse.button === Qt.RightButton) {
                     if (groupItemPopMenuComponent == null) {
                         groupItemPopMenuComponent = Qt.createComponent(
-                                    "GroupItemPopMenu.qml")
+                                    "qrc:/ACross/src/views/home/GroupItemPopMenu.qml")
                     }
                     if (groupItemPopMenuComponent.status === Component.Ready) {
                         groupItemPopMenuComponent.createObject(parent).popup()

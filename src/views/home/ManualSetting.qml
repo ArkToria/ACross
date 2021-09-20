@@ -95,13 +95,13 @@ Item {
 
                     switch (editText) {
                     case "vmess":
-                        streamSettingLoader.source = "qrc:/src/views/home/VMESSSetting.qml"
+                        streamSettingLoader.source = "qrc:/ACross/src/views/home/VMESSSetting.qml"
                         break
                     case "shadowsocks":
-                        streamSettingLoader.source = "qrc:/src/views/home/ShadowsocksSetting.qml"
+                        streamSettingLoader.source = "qrc:/ACross/src/views/home/ShadowsocksSetting.qml"
                         break
                     case "trojan":
-                        streamSettingLoader.source = "qrc:/src/views/home/TrojanSetting.qml"
+                        streamSettingLoader.source = "qrc:/ACross/src/views/home/TrojanSetting.qml"
                         break
                     default:
                         console.log("unknown protocol")

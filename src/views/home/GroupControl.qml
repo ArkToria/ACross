@@ -62,7 +62,7 @@ Item {
                 onClicked: {
                     if (popMenuComponent == null) {
                         popMenuComponent = Qt.createComponent(
-                                    "qrc:/src/views/home/NodeForm.qml")
+                                    "qrc:/ACross/src/views/home/NodeForm.qml")
                     }
                     if (popMenuComponent.status === Component.Ready) {
                         popMenuComponent.createObject(appendNodeButton).show()

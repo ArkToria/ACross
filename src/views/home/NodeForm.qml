@@ -112,17 +112,17 @@ Window {
                                         height += manualSetting.implicitHeight
                                         manualSetting.visible = true
                                         streamSettingLoader.source
-                                                = "qrc:/src/views/home/VMESSSetting.qml"
+                                                = "qrc:/ACross/src/views/home/VMESSSetting.qml"
                                         break
                                     case "outbound":
                                         nodeFormModel.protocol = "raw"
                                         streamSettingLoader.source
-                                                = "qrc:/src/views/home/RawOutboundSetting.qml"
+                                                = "qrc:/ACross/src/views/home/RawOutboundSetting.qml"
                                         break
                                     case "url":
                                         nodeFormModel.protocol = "scheme"
                                         streamSettingLoader.source
-                                                = "qrc:/src/views/home/URLSchemeSetting.qml"
+                                                = "qrc:/ACross/src/views/home/URLSchemeSetting.qml"
                                         break
                                     default:
                                         console.log("unknown setting")
