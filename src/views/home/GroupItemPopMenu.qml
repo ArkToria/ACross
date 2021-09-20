@@ -6,8 +6,8 @@ import ACross
 
 Menu {
     id: groupItemPopMenu
-    topPadding: 8
-    bottomPadding: 8
+    topPadding: acrossConfig.itemSpacing
+    bottomPadding: acrossConfig.itemSpacing
 
     property real menuWidth: 168
 
@@ -27,7 +27,9 @@ Menu {
 
     delegate: MenuItem {
         id: menuItem
+
         visible: enabled
+        height: visible ? implicitHeight : 0
 
         contentItem: Text {
             text: menuItem.text

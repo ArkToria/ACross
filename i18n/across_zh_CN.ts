@@ -336,32 +336,32 @@
 <context>
     <name>GroupItemPopMenu</name>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="44"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="46"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="53"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="55"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="61"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="63"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="67"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="78"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="80"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="82"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="84"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
