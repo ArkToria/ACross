@@ -146,6 +146,14 @@ target_link_libraries(across PRIVATE
     ZXing
     )
 
+qt_add_qml_module(across
+    URI "ACross"
+    VERSION 1.0
+    RESOURCE_PREFIX "/"
+    QML_FILES
+    ${QML_FILES}
+)
+
 qt_import_qml_plugins(across)
 qt_finalize_executable(across)
 

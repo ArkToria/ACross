@@ -332,13 +332,14 @@ DBTools::insert(NodeInfo& node)
       break;
     }
 
-    result = sqlite3_bind_int64(stmt, 9, node.created_time.toTime_t());
+    result = sqlite3_bind_int64(stmt, 9, node.created_time.toSecsSinceEpoch());
     if (result != SQLITE_OK) {
       p_logger->error("SQL bind created time error code: {}", result);
       break;
     }
 
-    result = sqlite3_bind_int64(stmt, 10, node.modified_time.toTime_t());
+    result =
+      sqlite3_bind_int64(stmt, 10, node.modified_time.toSecsSinceEpoch());
     if (result != SQLITE_OK) {
       p_logger->error("SQL bind modified time error code: {}", result);
       break;
@@ -418,13 +419,14 @@ DBTools::insert(GroupInfo& group)
       break;
     }
 
-    result = sqlite3_bind_int64(stmt, 6, group.created_time.toTime_t());
+    result = sqlite3_bind_int64(stmt, 6, group.created_time.toSecsSinceEpoch());
     if (result != SQLITE_OK) {
       p_logger->error("SQL bind group created time error code: {}", result);
       break;
     }
 
-    result = sqlite3_bind_int64(stmt, 7, group.modified_time.toTime_t());
+    result =
+      sqlite3_bind_int64(stmt, 7, group.modified_time.toSecsSinceEpoch());
     if (result != SQLITE_OK) {
       p_logger->error("SQL bind group modified time error code: {}", result);
       break;
@@ -542,9 +544,9 @@ DBTools::listGroupsInfo(const QString& select_str)
       group.url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
       group.cycle_time = sqlite3_column_int(stmt, 5);
       group.created_time =
-        QDateTime().fromTime_t(sqlite3_column_int64(stmt, 6));
+        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 6));
       group.modified_time =
-        QDateTime().fromTime_t(sqlite3_column_int64(stmt, 7));
+        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 7));
       group.items = listAllNodesInfo(group.name).size();
 
       groups.emplace_back(group);
@@ -600,9 +602,10 @@ DBTools::listNodesInfo(const QString& select_str)
       node.password =
         reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
       node.raw = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
-      node.created_time = QDateTime().fromTime_t(sqlite3_column_int64(stmt, 9));
+      node.created_time =
+        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 9));
       node.modified_time =
-        QDateTime().fromTime_t(sqlite3_column_int64(stmt, 10));
+        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 10));
 
       nodes.emplace_back(node);
     }

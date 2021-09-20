@@ -7,7 +7,7 @@
 #include <QFileInfo>
 #include <QHostAddress>
 #include <QObject>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSharedPointer>
 #include <QString>
 #include <QTextStream>

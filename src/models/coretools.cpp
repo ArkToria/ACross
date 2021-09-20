@@ -28,7 +28,7 @@ CoreTools::init(QSharedPointer<LogView> log_view,
   auto setCore = [&]() { m_core = p_config->getCore(); };
 
   auto setWorkingDirectory = [&]() {
-    QFileInfo db_path = p_config->dbPath();
+    QFileInfo db_path(p_config->dbPath());
     QString config_dir = db_path.dir().absolutePath();
 
     p_process->setWorkingDirectory(config_dir);
@@ -146,7 +146,8 @@ void
 CoreTools::onReadData()
 {
   QString content = QString::fromUtf8(p_process->readAllStandardOutput());
-  content.remove(QRegExp("(\\d+/?)*\\s(\\d+:?)*\\s")); // remove origin datetime
+  content.remove(
+    QRegularExpression("(\\d+/?)*\\s(\\d+:?)*\\s")); // remove origin datetime
 
   if (content.contains("[Warning]")) {
     content.replace("[Warning]", "");

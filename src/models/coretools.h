@@ -8,7 +8,7 @@
 #include <QObject>
 #include <QProcess>
 #include <QProcessEnvironment>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QString>
 #include <QStringList>
 #include <memory>

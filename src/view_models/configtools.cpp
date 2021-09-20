@@ -1594,7 +1594,8 @@ ConfigTools::coreVersion()
     return "not found";
   }
 
-  QString version = temp_info.split(QRegExp("\\s+"), Qt::SkipEmptyParts).at(1);
+  QString version =
+    temp_info.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts).at(1);
   if (!version.isEmpty()) {
     m_core.core_version = version;
   }
