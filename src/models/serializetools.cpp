@@ -5,10 +5,10 @@ using namespace across::config;
 SerializeTools::SerializeTools() {}
 
 std::optional<SIP008>
-SerializeTools::sip008Parser(const std::stringstream& data_stream)
+SerializeTools::sip008Parser(const std::string& data)
 {
   JsonTools json_tools;
-  if (!json_tools.setDataStream(data_stream)) {
+  if (!json_tools.setData(data)) {
     return {};
   }
 

@@ -171,13 +171,14 @@ Item {
                 nodeGridView.currentIndex = index
             }
         }
-        
-        property Component popMenuComponent:null
+
+        property Component popMenuComponent: null
 
         onClicked: {
             if (mouse.button == Qt.RightButton) {
-                if (popMenuComponent == null){
-                    popMenuComponent = Qt.createComponent("qrc:/src/views/home/NodeItemPopMenu.qml")
+                if (popMenuComponent == null) {
+                    popMenuComponent = Qt.createComponent(
+                                "qrc:/src/views/home/NodeItemPopMenu.qml")
                 }
                 if (popMenuComponent.status === Component.Ready) {
                     popMenuComponent.createObject(nodeItemCard).popup()

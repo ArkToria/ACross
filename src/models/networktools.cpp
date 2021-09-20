@@ -1,6 +1,5 @@
 #include "networktools.h"
 
-using namespace across::config;
 using namespace across::network;
 
 DNSTools::DNSTools(QObject* parent)
@@ -153,6 +152,116 @@ TCPPing::getLatency(const QString& addr, unsigned int port)
   return latency;
 }
 
+size_t
+CURLWorker::dataCallback(void* contents,
+                         size_t size,
+                         size_t nmemb,
+                         void* p_data)
+{
+  size_t real_size = size * nmemb;
+  auto stream = reinterpret_cast<std::stringstream*>(p_data);
+  stream->write(reinterpret_cast<const char*>(contents), real_size);
+  return real_size;
+}
+
+int
+CURLWorker::xferInfo(void* p,
+                     curl_off_t dltotal,
+                     curl_off_t dlnow,
+                     curl_off_t ultotal,
+                     curl_off_t ulnow)
+{
+  auto worker = static_cast<CURLWorker*>(p);
+
+  if (!qFuzzyCompare(dltotal, 0.0)) {
+    double result = (double)dlnow / dltotal;
+    worker->setProgress(result);
+  }
+
+  return 0;
+}
+
+void
+CURLWorker::run(const QString& url,
+                const QString& user_agent,
+                const QString& proxy)
+{
+  if (!isRunning()) {
+    setIsRunning(true);
+  } else {
+    return;
+  }
+
+  // create buffer
+  std::stringstream buffer;
+
+  // create handle
+  CURL* handle = curl_easy_init();
+
+  // download setting
+  curl_easy_setopt(handle, CURLOPT_URL, url.toStdString().c_str());
+  if (!user_agent.isEmpty()) {
+    curl_easy_setopt(
+      handle, CURLOPT_USERAGENT, user_agent.toStdString().c_str());
+  }
+  if (!proxy.isEmpty()) {
+    curl_easy_setopt(handle, CURLOPT_PROXY, proxy.toStdString().c_str());
+  }
+
+  // progress callback
+  curl_easy_setopt(handle, CURLOPT_XFERINFOFUNCTION, xferInfo);
+  curl_easy_setopt(handle, CURLOPT_XFERINFODATA, this);
+  curl_easy_setopt(handle, CURLOPT_NOPROGRESS, 0L);
+
+  // data callback
+  curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, dataCallback);
+  curl_easy_setopt(handle, CURLOPT_WRITEDATA, &buffer);
+
+  // execute
+  if (auto err = curl_easy_perform(handle); err == CURLE_OK) {
+    // notify finished
+    emit done(QString::fromStdString(buffer.str()));
+  } else {
+    emit done("");
+  }
+
+  // clean
+  curl_easy_cleanup(handle);
+  setIsRunning(false);
+}
+
+double
+CURLWorker::progress() const
+{
+  return m_progress;
+}
+
+void
+CURLWorker::setProgress(double newProgress)
+{
+  if (qFuzzyCompare(m_progress, newProgress))
+    return;
+  m_progress = newProgress;
+  emit progressChanged(m_progress);
+}
+
+bool
+CURLWorker::isRunning() const
+{
+  return m_isRunning;
+}
+
+void
+CURLWorker::setIsRunning(bool newIsRunning)
+{
+  if (m_isRunning == newIsRunning)
+    return;
+
+  m_isRunning = newIsRunning;
+
+  emit isRunningChanged(m_isRunning);
+}
+
 CURLTools::CURLTools(QObject* parent)
   : QObject(parent)
 {
@@ -161,117 +270,42 @@ CURLTools::CURLTools(QObject* parent)
 
 CURLTools::~CURLTools()
 {
+  // destroy pointer
+  p_thread->quit();
+  p_thread->wait();
+  p_thread->deleteLater();
+
+  delete p_thread;
+  p_thread = nullptr;
+
   curl_global_cleanup();
 }
 
 CURLcode
-CURLTools::download(DownloadTask& task, std::stringstream* p_buf)
+CURLTools::download(DownloadTask& task)
 {
-  auto err = CURLE_OK;
+  // create thread
+  p_thread = new QThread();
+  auto worker = new CURLWorker();
+  worker->moveToThread(p_thread);
 
-  curl_easy_setopt(task.handle.get(), CURLOPT_URL, task.url.c_str());
-  curl_easy_setopt(
-    task.handle.get(), CURLOPT_USERAGENT, task.user_agent.c_str());
+  // connect signals
+  connect(this, &CURLTools::operate, worker, &CURLWorker::run);
+  connect(p_thread, &QThread::finished, worker, &QObject::deleteLater);
+  connect(worker, &CURLWorker::done, this, &CURLTools::handleResult);
 
-  if (p_buf == nullptr) {
-    static std::ofstream file(task.filename, std::ios::binary);
-    curl_easy_setopt(
-      task.handle.get(), CURLOPT_WRITEFUNCTION, saveToFileCallback);
-    curl_easy_setopt(
-      task.handle.get(), CURLOPT_WRITEDATA, reinterpret_cast<void*>(&file));
-  } else {
-    curl_easy_setopt(
-      task.handle.get(), CURLOPT_WRITEFUNCTION, writeToDataCallback);
-    curl_easy_setopt(task.handle.get(), CURLOPT_WRITEDATA, p_buf);
-  }
+  // start thread process
+  p_thread->start();
+  emit operate(task.url,
+               task.user_agent,
+               task.proxy);
 
-  err = curl_easy_perform(task.handle.get());
-  if (err == CURLE_OK) {
-    emit downloadFinished();
-  }
-
-  return err;
+  // TODO: handle error
+  return CURLE_OK;
 }
 
-size_t
-CURLTools::saveToFileCallback(void* contents,
-                              size_t size,
-                              size_t nmemb,
-                              void* p_ofstream)
+void
+CURLTools::handleResult(const QString& content)
 {
-  size_t real_size = size * nmemb;
-  auto file = reinterpret_cast<std::ofstream*>(p_ofstream);
-  file->write(reinterpret_cast<const char*>(contents), real_size);
-
-  return real_size;
-}
-
-size_t
-CURLTools::writeToDataCallback(void* contents,
-                               size_t size,
-                               size_t nmemb,
-                               void* p_data)
-{
-  size_t real_size = size * nmemb;
-
-  auto stream = reinterpret_cast<std::stringstream*>(p_data);
-
-  stream->write(reinterpret_cast<const char*>(contents), real_size);
-
-  return real_size;
-}
-
-CURLTools::DownloadTask::DownloadTask(const std::string& name,
-                                      const std::string& url,
-                                      int64_t group_id,
-                                      const std::string& user_agent)
-{
-  if (url.empty()) {
-    return;
-  } else {
-    this->url = url;
-  }
-
-  if (!name.empty()) {
-    this->name = name;
-  }
-
-  // TODO: rewrite by QUrl
-  auto split_lambda = [](std::string_view strv,
-                         std::string delims) -> std::vector<std::string_view> {
-    std::vector<std::string_view> output;
-    size_t first = 0;
-
-    while (first < strv.size()) {
-      const auto second = strv.find_first_of(delims, first);
-
-      if (first != second) {
-        if (second == std::string_view::npos) {
-          output.emplace_back(strv.substr(first, strv.size() - first));
-          break;
-        } else {
-          output.emplace_back(strv.substr(first, second - first));
-        }
-      }
-
-      first = second + delims.size();
-    }
-
-    return output;
-  };
-
-  this->filename = split_lambda(url, "/").back();
-  this->handle = createEasyHandle();
-  this->group_id = group_id;
-  if (!user_agent.empty()) {
-    this->user_agent = user_agent;
-  }
-}
-
-CURLTools::EasyHandle
-CURLTools::createEasyHandle()
-{
-  auto easy_handle = EasyHandle(curl_easy_init(), curl_easy_cleanup);
-
-  return easy_handle;
+  emit downloadFinished(content);
 }

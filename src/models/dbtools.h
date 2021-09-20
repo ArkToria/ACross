@@ -60,7 +60,7 @@ struct GroupInfo
   bool isSubscription = false;
   SubscriptionType type = none;
   QString url = "";
-  uint cycle_time = 0;
+  int cycle_time = 0;
   QDateTime created_time = QDateTime::currentDateTime();
   QDateTime modified_time = QDateTime::currentDateTime();
   int items = 0;

@@ -433,6 +433,8 @@ DBTools::insert(GroupInfo& group)
       result = sqlite3_step(stmt);
       if (result != SQLITE_DONE) {
         p_logger->error("SQL group insert step error code: {}", result);
+      } else {
+        group.id = this->getLastID();
       }
     }
     sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
