@@ -4,15 +4,9 @@ set(TS_FILES
     ${TRANS_DIR}/across_zh_CN.ts
     )
 
-if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Linguist REQUIRED)
+find_package(Qt6 COMPONENTS LinguistTools REQUIRED)
 
-     qt_create_translation(ACROSS_QM_FILES "${CMAKE_SOURCE_DIR}/src" ${TS_FILES})
-else ()
-    find_package(Qt${QT_VERSION_MAJOR} COMPONENTS LinguistTools REQUIRED)
-
-     qt5_create_translation(ACROSS_QM_FILES "${CMAKE_SOURCE_DIR}/src" ${TS_FILES})
-endif ()
+qt_create_translation(ACROSS_QM_FILES "${CMAKE_SOURCE_DIR}/src" ${TS_FILES})
 
 configure_file(${TRANS_DIR}/i18n.qrc ${CMAKE_BINARY_DIR} COPYONLY)
 

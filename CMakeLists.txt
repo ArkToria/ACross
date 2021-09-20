@@ -19,8 +19,7 @@ project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake;")
 set(ACROSS_TOMLPLUSPLUS_PROVIDER "module")
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core Quick Widgets DBus REQUIRED)
-find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Core Quick Widgets DBus REQUIRED)
+find_package(Qt6 COMPONENTS Core Quick Widgets DBus Core5Compat REQUIRED)
 
 find_package(CURL REQUIRED)
 find_package(fmt CONFIG REQUIRED)
@@ -36,6 +35,7 @@ find_package(Threads REQUIRED)
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/protobuf.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/translations.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qml.cmake")
 ##################################
 
 ######## SOURCE FILES ########
@@ -116,28 +116,22 @@ set(PROJECT_SOURCES
 ##############################
 
 ######## COMPILE ########
+qt_add_executable(across
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
+    ${PROJECT_HEADERS}
+    )
 
-if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(across
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-        ${PROJECT_HEADERS}
-        )
-else ()
-    add_executable(across
-        ${PROJECT_SOURCES}
-        ${PROJECT_HEADERS}
-        )
-endif ()
 
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(across PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core
-    Qt${QT_VERSION_MAJOR}::Quick
-    Qt${QT_VERSION_MAJOR}::Widgets
-    Qt${QT_VERSION_MAJOR}::DBus
+    Qt6::Core
+    Qt6::Quick
+    Qt6::Widgets
+    Qt6::DBus
+    Qt6::Core5Compat
     CURL::libcurl
     fmt::fmt
     gRPC::grpc++
@@ -152,10 +146,8 @@ target_link_libraries(across PRIVATE
     ZXing
     )
 
-if (QT_VERSION_MAJOR EQUAL 6)
-    qt_import_qml_plugins(across)
-    qt_finalize_executable(across)
-endif ()
+qt_import_qml_plugins(across)
+qt_finalize_executable(across)
 
 ######## UNIT_TEST ########
 enable_testing()
