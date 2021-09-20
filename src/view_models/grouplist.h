@@ -30,13 +30,13 @@ public:
             QSharedPointer<across::NodeList> nodes,
             QSharedPointer<across::network::CURLTools> curl);
 
+  bool insert(GroupInfo& group_info, const QString& content);
+
+  bool insertSIP008(const GroupInfo& group_info, const QString& content);
+
+  bool insertBase64(const GroupInfo& group_info, const QString& content);
+
   QVector<GroupInfo> items() const;
-
-  bool insertSIP008(const std::stringstream& data_stream,
-                    const across::network::CURLTools::DownloadTask& task);
-
-  bool insertBase64(const std::stringstream& data_stream,
-                    const across::network::CURLTools::DownloadTask& task);
 
 public slots:
   void reloadItems(bool reopen_db = false);

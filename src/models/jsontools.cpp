@@ -19,18 +19,6 @@ JsonTools::setData(const std::string& data_str)
   return err;
 }
 
-bool
-JsonTools::setDataStream(const std::stringstream& data_stream)
-{
-  m_data = data_stream.str();
-
-  Json::String msg;
-
-  auto err = jsonParse(m_data, m_root, msg);
-
-  return err;
-}
-
 Json::Value
 JsonTools::getRoot()
 {

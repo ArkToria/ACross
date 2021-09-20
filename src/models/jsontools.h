@@ -506,8 +506,6 @@ public:
 
   bool setData(const std::string& data_str);
 
-  bool setDataStream(const std::stringstream& data_stream);
-
   Json::Value getRoot();
 
   static bool jsonParse(const std::string& raw_json,

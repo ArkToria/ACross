@@ -22,8 +22,7 @@ public:
   static std::optional<URLMetaObject> trojanDecode(const QUrl& url);
   static std::optional<URLMetaObject> vmessBase64Decode(
     const std::string& data);
-  static std::optional<SIP008> sip008Parser(
-    const std::stringstream& data_stream);
+  static std::optional<SIP008> sip008Parser(const std::string& data);
 
   static bool decodeOutboundFromURL(NodeInfo& node, const QString& raw_url);
   static bool setShadowsocksOutboundFromURL(NodeInfo& node, const QUrl& url);

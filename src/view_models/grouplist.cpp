@@ -4,6 +4,7 @@ using namespace across;
 using namespace across::utils;
 using namespace across::config;
 using namespace across::setting;
+using namespace across::network;
 
 GroupList::GroupList(QObject* parent) {}
 
@@ -37,6 +38,52 @@ GroupList::init(QSharedPointer<LogView> log_view,
   reloadItems();
 }
 
+bool
+GroupList::insert(GroupInfo& group_info, const QString& content)
+{
+  emit preItemAppended();
+
+  bool err = false;
+  do {
+    if (auto err = p_db->insert(group_info); err != SQLITE_OK) {
+      break;
+    }
+
+    if (auto err = p_db->createNodesTable(group_info.name.toStdString());
+        err != SQLITE_OK) {
+      p_logger->error("Failed to create table: {}",
+                      group_info.name.toStdString());
+      break;
+    }
+
+    bool result = false;
+    switch (group_info.type) {
+      case sip008:
+        result = this->insertSIP008(group_info, content);
+        break;
+      case base64:
+        result = this->insertBase64(group_info, content);
+        break;
+      default:
+        break;
+    }
+
+    if (!result) {
+      emit preLastItemRemoved();
+      p_db->removeGroupFromName(group_info.name.toStdString());
+      emit postLastItemRemoved();
+      break;
+    }
+
+    err = true;
+  } while (false);
+
+  reloadItems();
+  emit postItemAppended();
+
+  return err;
+}
+
 QVector<GroupInfo>
 GroupList::items() const
 {
@@ -68,10 +115,9 @@ GroupList::reloadItems(bool reopen_db)
 }
 
 bool
-GroupList::insertSIP008(const std::stringstream& data_stream,
-                        const network::CURLTools::DownloadTask& task)
+GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
 {
-  auto result = SerializeTools::sip008Parser(data_stream);
+  auto result = SerializeTools::sip008Parser(content.toStdString());
   if (!result.has_value()) {
     p_logger->error("Failed to parse download subscription");
     return false;
@@ -87,8 +133,8 @@ GroupList::insertSIP008(const std::stringstream& data_stream,
     if (p_db != nullptr) {
       NodeInfo node{ 0,
                      QString::fromStdString(server.remarks),
-                     QString::fromStdString(task.name),
-                     task.group_id,
+                     group_info.name,
+                     group_info.id,
                      across::EntryType::shadowsocks,
                      QString::fromStdString(server.server),
                      server.server_port,
@@ -105,8 +151,7 @@ GroupList::insertSIP008(const std::stringstream& data_stream,
 }
 
 bool
-GroupList::insertBase64(const std::stringstream& data_stream,
-                        const network::CURLTools::DownloadTask& task)
+GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
 {
   bool result = false;
 
@@ -114,7 +159,7 @@ GroupList::insertBase64(const std::stringstream& data_stream,
     return result;
   }
 
-  QString decode_data = QByteArray::fromBase64(data_stream.str().c_str());
+  QString decode_data = QByteArray::fromBase64(content.toUtf8());
 
   for (auto& item : decode_data.split("\n")) {
     if (item.isEmpty()) {
@@ -122,8 +167,8 @@ GroupList::insertBase64(const std::stringstream& data_stream,
     }
 
     NodeInfo node;
-    node.group = QString::fromStdString(task.name);
-    node.group_id = task.group_id;
+    node.group = group_info.name;
+    node.group_id = group_info.id;
 
     result = SerializeTools::decodeOutboundFromURL(node, item);
 
@@ -143,57 +188,24 @@ GroupList::appendItem(const QString& group_name,
                       int type,
                       int cycle_time)
 {
-  emit preItemAppended();
+  GroupInfo group_info = { .name = group_name,
+                           .isSubscription = true,
+                           .type =
+                             magic_enum::enum_value<SubscriptionType>(type),
+                           .url = url,
+                           .cycle_time = cycle_time };
 
-  GroupInfo item;
-  item.name = group_name.toLatin1();
-  item.isSubscription = true;
-  item.url = url;
-  item.type = magic_enum::enum_value<SubscriptionType>(type);
-  item.cycle_time = cycle_time;
+  DownloadTask task = { .url = group_info.url,
+                        .user_agent = p_config->networkUserAgent() };
 
-  auto result = p_db->insert(item);
-  if (result == SQLITE_OK) {
-    item.id = p_db->getLastID();
+  connect(p_curl.get(),
+          &across::network::CURLTools::downloadFinished,
+          [group_info, this](const QString& content) {
+            auto temp = group_info;
+            insert(temp, content);
+          });
 
-    std::stringstream data_stream;
-    across::network::CURLTools::DownloadTask task(
-      item.name.toStdString(),
-      item.url.toStdString(),
-      item.id,
-      p_config->networkUserAgent().toStdString());
-
-    connect(p_curl.get(), &across::network::CURLTools::downloadFinished, [&]() {
-      auto result = p_db->createNodesTable(item.name.toStdString());
-
-      // TODO: rewrite parse checker
-      if (result == SQLITE_OK) {
-        bool rc = false;
-        switch (item.type) {
-          case sip008:
-            rc = this->insertSIP008(data_stream, task);
-            break;
-          case base64:
-            rc = this->insertBase64(data_stream, task);
-          default:
-            break;
-        }
-
-        reloadItems();
-
-        // failed to parse
-        if (!rc) {
-          emit preLastItemRemoved();
-          p_db->removeGroupFromName(task.name);
-          emit postLastItemRemoved();
-        }
-
-        emit postItemAppended();
-      }
-    });
-
-    p_curl->download(task, &data_stream);
-  }
+  p_curl->download(task);
 }
 
 void
@@ -266,15 +278,14 @@ void
 GroupList::upgradeItem(int index)
 {
   auto item = m_items.at(index);
+
   if (item.isSubscription) {
-    std::stringstream data_stream;
+    //    auto data_stream = std::make_shared<std::stringstream>();
 
-    across::network::CURLTools::DownloadTask task(
-      item.name.toStdString(), item.url.toStdString(), item.id);
-
-    connect(p_curl.get(), &across::network::CURLTools::downloadFinished, [&]() {
-
-    });
+    //    connect(p_curl.get(), &across::network::CURLTools::downloadFinished,
+    //    [&]() {
+    //      auto result = p_db->createNodesTable(item.name.toStdString());
+    //    });
   }
 }
 
