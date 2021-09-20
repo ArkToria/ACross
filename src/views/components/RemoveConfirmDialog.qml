@@ -20,17 +20,16 @@ Dialog {
     background: CardBox {}
 
     onClosed: {
-        mainComponent.state = "NormalState"
+        darkBackground.close()
     }
 
     onAccepted: {
-        mainComponent.state = "NormalState"
-
+        darkBackground.close()
         acrossGroups.removeItem(index)
     }
 
     onFocusChanged: {
-        mainComponent.state = "NormalState"
+        darkBackground.close()
         rootDialog.reject()
     }
 

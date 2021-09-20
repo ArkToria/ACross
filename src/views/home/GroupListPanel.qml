@@ -87,7 +87,7 @@ Item {
         property Component appendGroupFormComponent:null
 
         onClicked: {
-            mainComponent.state = "PopUpState"
+            darkBackground.show()
 
             if (appendGroupFormComponent == null){
                 appendGroupFormComponent = Qt.createComponent("qrc:/src/views/home/GroupForm.qml")

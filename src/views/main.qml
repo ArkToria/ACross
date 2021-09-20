@@ -10,6 +10,7 @@ import "./log"
 import "./home"
 import "./setting"
 import "./help"
+import "./main"
 
 ApplicationWindow {
     id: mainWindow
@@ -20,53 +21,60 @@ ApplicationWindow {
     visible: true
     title: qsTr("ACross")
 
-    Rectangle {
-        id: popBackground
-        anchors.fill: parent
-        z: 1
+    onVisibilityChanged: {
+        acrossTray.toggleVisibilitySetText(mainWindow.visible)
+    }
 
-        color: "black"
-        opacity: 0.7
+    onClosing: {
+        if (acrossConfig.enableTray) {
+            mainWindow.hide()
+        } else {
+            Qt.quit()
+        }
+    }
+
+    function toggleVisibilty() {
+        if (mainWindow.visible === false) {
+            mainWindow.show()
+        } else {
+            mainWindow.hide()
+        }
+    }
+
+    Connections {
+        target: acrossTray
+        function onSignalShow() {
+            toggleVisibilty()
+        }
+        function onSignalQuit() {
+            Qt.quit()
+        }
+        function onSignalIconActivated() {
+            toggleVisibilty()
+        }
+    }
+
+    DarkBackground {
+        id: darkBackground
+        anchors.fill: parent
+
+        z: 1
     }
 
     RowLayout {
-        id: mainComponent
         anchors.fill: parent
         spacing: 0
-
-        state: "NormalState"
-
-        states: [
-            State {
-                name: "PopUpState"
-                PropertyChanges {
-                    target: popBackground
-                    visible: true
-                }
-            },
-            State {
-                name: "NormalState"
-                PropertyChanges {
-                    target: popBackground
-                    visible: false
-                }
-            }
-        ]
-
-        MenuModel {
-            id: menuModel
-        }
 
         MainPanel {
             id: mainPanel
             Layout.fillHeight: true
             Layout.preferredWidth: 120
-            z: 1
         }
 
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
+
             color: acrossConfig.deepColor
 
             SwipeView {
@@ -92,39 +100,6 @@ ApplicationWindow {
                     id: helpPage
                 }
             }
-        }
-    }
-
-    function toggleVisibilty() {
-        if (mainWindow.visible === false) {
-            mainWindow.show()
-        } else {
-            mainWindow.hide()
-        }
-    }
-
-    Connections {
-        target: acrossTray
-        function onSignalShow() {
-            toggleVisibilty()
-        }
-        function onSignalQuit() {
-            Qt.quit()
-        }
-        function onSignalIconActivated() {
-            toggleVisibilty()
-        }
-    }
-
-    onVisibilityChanged: {
-        acrossTray.toggleVisibilitySetText(mainWindow.visible)
-    }
-
-    onClosing: {
-        if (acrossConfig.enableTray) {
-            mainWindow.hide()
-        } else {
-            Qt.quit()
         }
     }
 }

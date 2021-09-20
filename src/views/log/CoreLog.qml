@@ -21,53 +21,9 @@ CardBox {
             color: acrossConfig.textColor
         }
 
-        Flickable {
-            id: flick
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-
-            contentWidth: coreLogTextEdit.paintedWidth
-            contentHeight: coreLogTextEdit.paintedHeight
-            clip: true
-
-            function ensureVisible(r) {
-                if (contentX >= r.x)
-                    contentX = r.x
-                else if (contentX + width <= r.x + r.width)
-                    contentX = r.x + r.width - width
-                if (contentY >= r.y)
-                    contentY = r.y
-                else if (contentY + height <= r.y + r.height)
-                    contentY = r.y + r.height - height
-            }
-
-            TextEdit {
-                id: coreLogTextEdit
-                width: flick.width
-
-                property int maxLines: 100
-
-                focus: true
-                readOnly: true
-                selectByMouse: true
-
-                color: acrossConfig.deepTextColor
-                selectedTextColor: acrossConfig.highlightTextColor
-                selectionColor: acrossConfig.highlightColor
-
-                font.family: "Mono"
-                wrapMode: Text.NoWrap
-                onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
-
-                //                onLineCountChanged: {
-                //                    if (lineCount > maxLines) {
-                //                        clear()
-                //                    }
-                //                }
-            }
-
+        LogBox {
             Component.onCompleted: {
-                acrossLogView.coreLogItem = coreLogTextEdit
+                acrossLogView.coreLogItem = getComponent()
             }
         }
     }

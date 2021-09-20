@@ -102,11 +102,12 @@ DBTools::createDefaultGroup()
 }
 
 int
-DBTools::createTable(const std::string& create_str)
+DBTools::createTable(const QString& create_str)
 {
   char* err_msg;
 
-  int result = sqlite3_exec(m_db, create_str.c_str(), nullptr, 0, &err_msg);
+  int result =
+    sqlite3_exec(m_db, create_str.toStdString().c_str(), nullptr, 0, &err_msg);
 
   if (result != SQLITE_OK) {
     p_logger->error("SQL create table error: {}", err_msg);
@@ -120,15 +121,15 @@ int
 DBTools::createGroupsTable()
 {
 
-  std::string create_groups_str{ "CREATE TABLE IF NOT EXISTS groups("
-                                 "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                 "Name TEXT UNIQUE,"
-                                 "IsSubscription BOOLEAN,"
-                                 "Type INTEGER,"
-                                 "Url TEXT,"
-                                 "CycleTime INTEGER,"
-                                 "CreatedAt INT64 NOT NULL,"
-                                 "ModifiedAt INT64 NOT NULL);" };
+  QString create_groups_str = { "CREATE TABLE IF NOT EXISTS groups("
+                                "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                "Name TEXT UNIQUE,"
+                                "IsSubscription BOOLEAN,"
+                                "Type INTEGER,"
+                                "Url TEXT,"
+                                "CycleTime INTEGER,"
+                                "CreatedAt INT64 NOT NULL,"
+                                "ModifiedAt INT64 NOT NULL);" };
 
   auto result = createTable(create_groups_str);
 
@@ -136,22 +137,21 @@ DBTools::createGroupsTable()
 }
 
 int
-DBTools::createNodesTable(const std::string& group_name)
+DBTools::createNodesTable(const QString& group_name)
 {
-  std::string create_nodes_str =
-    fmt::format({ "CREATE TABLE IF NOT EXISTS '{}'("
-                  "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                  "Name TEXT NOT NULL,"
-                  "GroupName TEXT NOT NULL,"
-                  "GroupID INTEGER NOT NULL,"
-                  "Protocol INTEGER NOT NULL,"
-                  "Address CHAR(255) NOT NULL,"
-                  "Port INTEGER NOT NULL,"
-                  "Password TEXT NOT NULL,"
-                  "Raw TEXT NOT NULL,"
-                  "CreatedAt INT64 NOT NULL,"
-                  "ModifiedAt INT64 NOT NULL);" },
-                group_name);
+  QString create_nodes_str = QString("CREATE TABLE IF NOT EXISTS '%1'("
+                                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                     "Name TEXT NOT NULL,"
+                                     "GroupName TEXT NOT NULL,"
+                                     "GroupID INTEGER NOT NULL,"
+                                     "Protocol INTEGER NOT NULL,"
+                                     "Address CHAR(255) NOT NULL,"
+                                     "Port INTEGER NOT NULL,"
+                                     "Password TEXT NOT NULL,"
+                                     "Raw TEXT NOT NULL,"
+                                     "CreatedAt INT64 NOT NULL,"
+                                     "ModifiedAt INT64 NOT NULL);")
+                               .arg(group_name);
 
   auto result = createTable(create_nodes_str);
 
@@ -159,7 +159,7 @@ DBTools::createNodesTable(const std::string& group_name)
 }
 
 bool
-DBTools::isTableExists(const std::vector<std::string>& table_names)
+DBTools::isTableExists(const QStringList& table_names)
 {
   bool result = true;
   int err = SQLITE_OK;
@@ -168,12 +168,13 @@ DBTools::isTableExists(const std::vector<std::string>& table_names)
 
   for (auto name : table_names) {
     std::string result_name;
-    std::string check_str =
-      fmt::format("SELECT Name FROM sqlite_master WHERE Type = 'table' AND "
-                  "Name = '{}';",
-                  name);
+    QString check_str =
+      QString("SELECT Name FROM sqlite_master WHERE Type = 'table' AND "
+              "Name = '%1';")
+        .arg(name);
 
-    err = sqlite3_prepare_v2(m_db, check_str.c_str(), -1, &stmt, nullptr);
+    err = sqlite3_prepare_v2(
+      m_db, check_str.toStdString().c_str(), -1, &stmt, nullptr);
     if (err != SQLITE_OK) {
       p_logger->error("SQL prepare error code: {}", err);
       break;
@@ -194,9 +195,8 @@ DBTools::isTableExists(const std::vector<std::string>& table_names)
       break;
     }
 
-    if (result_name != name) {
-      err_name = name;
-      p_logger->warn("SQL check table `{}` doesn't exists", name);
+    if (result_name != name.toStdString()) {
+      p_logger->warn("SQL check table `{}` doesn't exists", name.toStdString());
       break;
     }
   }
@@ -216,17 +216,18 @@ DBTools::isTableExists(const std::vector<std::string>& table_names)
 }
 
 bool
-DBTools::isGroupExists(const std::string& group_name)
+DBTools::isGroupExists(const QString& group_name)
 {
-  std::string check_str =
-    fmt::format("SELECT Name FROM groups WHERE Name = '{}';", group_name);
-  std::string result_name;
+  QString check_str =
+    QString("SELECT Name FROM groups WHERE Name = '%1';").arg(group_name);
+
   int err = SQLITE_OK;
   bool result = false;
   sqlite3_stmt* stmt = nullptr;
 
   do {
-    err = sqlite3_prepare_v2(m_db, check_str.c_str(), -1, &stmt, nullptr);
+    err = sqlite3_prepare_v2(
+      m_db, check_str.toStdString().c_str(), -1, &stmt, nullptr);
     if (err != SQLITE_OK) {
       p_logger->error("SQL prepare error code: {}", err);
       break;
@@ -263,15 +264,16 @@ DBTools::insert(NodeInfo& node)
     node.modified_time = QDateTime::currentDateTime();
   }
 
-  std::string insert_str =
-    fmt::format({ "INSERT INTO '{}' "
-                  "(Name, GroupName, GroupID, Protocol, Address, Port, "
-                  "Password, Raw, CreatedAt, ModifiedAt) "
-                  "VALUES(?,?,?,?,?,?,?,?,?,?)" },
-                node.group.toStdString());
+  QString insert_str =
+    QString("INSERT INTO '%1' "
+            "(Name, GroupName, GroupID, Protocol, Address, Port, "
+            "Password, Raw, CreatedAt, ModifiedAt) "
+            "VALUES(?,?,?,?,?,?,?,?,?,?)")
+      .arg(node.group);
 
   do {
-    result = sqlite3_prepare_v2(m_db, insert_str.c_str(), -1, &stmt, nullptr);
+    result = sqlite3_prepare_v2(
+      m_db, insert_str.toStdString().c_str(), -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
       p_logger->error("SQL prepare error code: {}", result);
       break;
@@ -460,37 +462,46 @@ DBTools::getLastID()
 }
 
 int
-DBTools::removeItemFromID(const std::string& group_name, int64_t id)
+DBTools::removeItemFromID(const QString& group_name, int64_t id)
 {
   char* err_msg;
-  std::string remove_str =
-    fmt::format("DELETE FROM {} WHERE id = '{}'", group_name, id);
 
-  auto result = sqlite3_exec(m_db, remove_str.c_str(), NULL, NULL, &err_msg);
+  QString remove_str =
+    QString("DELETE FROM '%1' WHERE id = '%2'").arg(group_name).arg(id);
+
+  auto result =
+    sqlite3_exec(m_db, remove_str.toStdString().c_str(), NULL, NULL, &err_msg);
   if (result != SQLITE_OK) {
-    p_logger->error("Failed to remove {}[{}]: {}", group_name, id, err_msg);
+    p_logger->error(
+      "Failed to remove {}[{}]: {}", group_name.toStdString(), id, err_msg);
   }
 
   return result;
 }
 
 int
-DBTools::removeGroupFromName(const std::string& group_name)
+DBTools::removeGroupFromName(const QString& group_name)
 {
   char* err_msg;
-  std::string remove_str =
-    fmt::format("DELETE FROM groups WHERE name = '{}'", group_name);
 
-  auto result = sqlite3_exec(m_db, remove_str.c_str(), NULL, NULL, &err_msg);
+  QString remove_str =
+    QString("DELETE FROM groups WHERE name = '%1'").arg(group_name);
+
+  auto result =
+    sqlite3_exec(m_db, remove_str.toStdString().c_str(), NULL, NULL, &err_msg);
   if (result != SQLITE_OK) {
-    p_logger->error("Failed to remove {}: {}", group_name, err_msg);
+    p_logger->error(
+      "Failed to remove {}: {}", group_name.toStdString(), err_msg);
   } else {
-    std::string drop_table_str = fmt::format("DROP TABLE '{}'", group_name);
+    QString drop_table_str = QString("DROP TABLE '%1'").arg(group_name);
 
-    result = sqlite3_exec(m_db, drop_table_str.c_str(), NULL, NULL, &err_msg);
+    result = sqlite3_exec(
+      m_db, drop_table_str.toStdString().c_str(), NULL, NULL, &err_msg);
+
     if (result != SQLITE_OK) {
-      p_logger->error(
-        "Failed to remove nodes from group {}: {}", group_name, err_msg);
+      p_logger->error("Failed to remove nodes from group {}: {}",
+                      group_name.toStdString(),
+                      err_msg);
     }
   }
 
@@ -500,20 +511,21 @@ DBTools::removeGroupFromName(const std::string& group_name)
 std::vector<GroupInfo>
 DBTools::listAllGroupsInfo()
 {
-  std::string select_str{ "SELECT * FROM groups;" };
+  QString select_str("SELECT * FROM groups;");
 
   return listGroupsInfo(select_str);
 }
 
 std::vector<GroupInfo>
-DBTools::listGroupsInfo(const std::string& select_str)
+DBTools::listGroupsInfo(const QString& select_str)
 {
   int result;
   sqlite3_stmt* stmt;
   std::vector<GroupInfo> groups;
 
   do {
-    result = sqlite3_prepare_v2(m_db, select_str.c_str(), -1, &stmt, nullptr);
+    result = sqlite3_prepare_v2(
+      m_db, select_str.toStdString().c_str(), -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
       p_logger->error("SQL prepare error code: {}", result);
       break;
@@ -533,7 +545,7 @@ DBTools::listGroupsInfo(const std::string& select_str)
         QDateTime().fromTime_t(sqlite3_column_int64(stmt, 6));
       group.modified_time =
         QDateTime().fromTime_t(sqlite3_column_int64(stmt, 7));
-      group.items = listAllNodesInfo(group.name.toStdString()).size();
+      group.items = listAllNodesInfo(group.name).size();
 
       groups.emplace_back(group);
     }
@@ -552,22 +564,23 @@ DBTools::listGroupsInfo(const std::string& select_str)
 }
 
 std::vector<NodeInfo>
-DBTools::listAllNodesInfo(const std::string& group_name)
+DBTools::listAllNodesInfo(const QString& group_name)
 {
-  std::string select_str = fmt::format({ "SELECT * FROM '{}';" }, group_name);
+  QString select_str = QString("SELECT * FROM '%1';").arg(group_name);
 
   return listNodesInfo(select_str);
 }
 
 std::vector<NodeInfo>
-DBTools::listNodesInfo(const std::string& select_str)
+DBTools::listNodesInfo(const QString& select_str)
 {
   int result;
   sqlite3_stmt* stmt;
   std::vector<NodeInfo> nodes;
 
   do {
-    result = sqlite3_prepare_v2(m_db, select_str.c_str(), -1, &stmt, nullptr);
+    result = sqlite3_prepare_v2(
+      m_db, select_str.toStdString().c_str(), -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
       p_logger->error("SQL prepare error code: {}", result);
       break;
@@ -612,20 +625,17 @@ DBTools::listAllNodes()
 {
   std::map<int, NodesInfo> all_nodes;
 
-  for (auto& iter : listAllGroupsInfo()) {
-    auto nodes = listAllNodesInfo(iter.name.toStdString());
+  for (auto& item : listAllGroupsInfo()) {
+    auto nodes = listAllNodesInfo(item.name);
 
-    all_nodes.insert(
-      { iter.id,
-        { 0,
-          0,
-          nodes } }); // group id, { current node id, current index, nodes }
+    // group id, { current node id, current index, nodes }
+    all_nodes.insert({ item.id, { 0, 0, nodes } });
   }
 
   return all_nodes;
 }
 
-const std::string
+const QString
 DBTools::getLibVersion()
 {
   return sqlite3_libversion();

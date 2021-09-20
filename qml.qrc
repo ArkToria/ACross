@@ -86,5 +86,9 @@
         <file>misc/icons/dark/tray_logo_running.svg</file>
         <file>misc/icons/light/tray_logo_stop.svg</file>
         <file>misc/icons/light/tray_logo_running.svg</file>
+        <file>src/views/main/DarkBackground.qml</file>
+        <file>src/views/help/LicenseListModels.qml</file>
+        <file>src/views/components/URLBox.qml</file>
+        <file>src/views/log/LogBox.qml</file>
     </qresource>
 </RCC>

@@ -4,42 +4,42 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../src/views/help/About.qml" line="56"/>
+        <location filename="../src/views/help/About.qml" line="67"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="68"/>
+        <location filename="../src/views/help/About.qml" line="79"/>
         <source>Build Info</source>
         <translation>构建信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="80"/>
+        <location filename="../src/views/help/About.qml" line="91"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="92"/>
+        <location filename="../src/views/help/About.qml" line="103"/>
         <source>Source Code</source>
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="131"/>
+        <location filename="../src/views/help/About.qml" line="114"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="171"/>
+        <location filename="../src/views/help/About.qml" line="125"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="196"/>
+        <location filename="../src/views/help/About.qml" line="153"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="203"/>
+        <location filename="../src/views/help/About.qml" line="160"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
@@ -131,7 +131,7 @@
 <context>
     <name>ChangeLog</name>
     <message>
-        <location filename="../src/views/help/ChangeLog.qml" line="16"/>
+        <location filename="../src/views/help/ChangeLog.qml" line="18"/>
         <source>Release News</source>
         <translation>版本新闻</translation>
     </message>
@@ -421,9 +421,26 @@
     </message>
 </context>
 <context>
+    <name>InfoItem</name>
+    <message>
+        <location filename="../src/views/menu/InfoItem.qml" line="17"/>
+        <source>Core</source>
+        <translation>核心</translation>
+    </message>
+    <message>
+        <location filename="../src/views/menu/InfoItem.qml" line="25"/>
+        <source>Client</source>
+        <translation>客户端</translation>
+    </message>
+    <message>
+        <source>GUI</source>
+        <translation type="vanished">客户端</translation>
+    </message>
+</context>
+<context>
     <name>Licenses</name>
     <message>
-        <location filename="../src/views/help/Licenses.qml" line="15"/>
+        <location filename="../src/views/help/Licenses.qml" line="18"/>
         <source>Libraries and Licenses</source>
         <translation>依赖库和许可</translation>
     </message>
@@ -599,12 +616,12 @@
 <context>
     <name>RemoveConfirmDialog</name>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="59"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="58"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="70"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="69"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -704,7 +721,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="304"/>
+        <location filename="../src/view_models/grouplist.cpp" line="303"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -751,7 +768,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/views/main.qml" line="21"/>
+        <location filename="../src/views/main.qml" line="22"/>
         <source>ACross</source>
         <translation>ACross</translation>
     </message>

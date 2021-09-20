@@ -1,17 +1,16 @@
 #ifndef LOGVIEW_H
 #define LOGVIEW_H
 
-#include "fmt/format.h"
-#include "spdlog/async.h"
-#include "spdlog/sinks/qt_sinks.h"
-#include "spdlog/sinks/rotating_file_sink.h"
-#include "spdlog/sinks/stdout_color_sinks.h"
-
 #include <QMetaProperty>
 #include <QObject>
 #include <QQuickItem>
 #include <QString>
 #include <string>
+
+#include "spdlog/async.h"
+#include "spdlog/sinks/qt_sinks.h"
+#include "spdlog/sinks/rotating_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
 
 constexpr auto THREAD_NUMS = 2;
 constexpr auto QUEUE_SIZE = 8192;

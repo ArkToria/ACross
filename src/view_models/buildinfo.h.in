@@ -6,7 +6,6 @@
 #include <QScreen>
 #include <QString>
 #include <QSysInfo>
-#include <fmt/format.h>
 
 namespace across {
     inline static const QString getVersion() {
@@ -26,16 +25,16 @@ namespace across {
       QSysInfo sys_info;
       QScreen* screen = QGuiApplication::screens().at(0);
 
-      std::string info = fmt::format(
-        "OS: {} | Kernel: {} | Platform: {} | Screen: {}x{} | DPI: {}",
-        sys_info.productType().toStdString(),
-        sys_info.kernelVersion().toStdString(),
-        QGuiApplication::platformName().toStdString(),
-        screen->size().rwidth(),
-        screen->size().rheight(),
-        screen->logicalDotsPerInch());
+      QString info =
+        QString("OS: %1 | Kernel: %2 | Platform: %3 | Screen: %4x%5 | DPI: %6")
+          .arg(sys_info.productType())
+          .arg(sys_info.kernelVersion())
+          .arg(QGuiApplication::platformName())
+          .arg(screen->size().rwidth())
+          .arg(screen->size().rheight())
+          .arg(screen->logicalDotsPerInch());
 
-      return QString::fromStdString(info);
+      return info;
     }
 
     inline static const QString getBuildTime() {

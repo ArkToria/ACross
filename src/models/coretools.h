@@ -30,8 +30,6 @@ public:
 
   void setConfig(const QString& stdin_str);
 
-  void setConfig(const std::string& stdin_str);
-
   Q_INVOKABLE int run();
 
   Q_INVOKABLE int stop();

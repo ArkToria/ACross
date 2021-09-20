@@ -9,6 +9,8 @@ Item {
     implicitWidth: 120
     implicitHeight: 86
 
+    property int fontSize: 12
+
     state: menuItemCard.ListView.isCurrentItem ? "CurrentState" : "NormalState"
 
     states: [
@@ -42,10 +44,10 @@ Item {
 
         ColumnLayout {
             anchors.fill: parent
+            anchors.margins: acrossConfig.itemSpacing
 
             SVGBox {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
-                Layout.topMargin: 8
 
                 source: "qrc:/misc/icons/" + acrossConfig.iconStyle + iconSource
                 sourceWidth: 32
@@ -55,10 +57,9 @@ Item {
             Label {
                 id: menuItemName
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
-                Layout.bottomMargin: 8
 
                 text: name
-                font.pixelSize: 18
+                font.pointSize: fontSize
             }
         }
     }
@@ -68,7 +69,6 @@ Item {
 
         onClicked: {
             menuItemCard.state = "CurrentState"
-
             pageLoader.currentIndex = index
             menuListView.currentIndex = index
         }
