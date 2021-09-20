@@ -1,6 +1,6 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
 import "../components"
 
@@ -8,7 +8,6 @@ Item {
     id: urlSchemeSetting
     implicitWidth: 720
     implicitHeight: 160
-
 
     ColumnLayout {
         anchors.fill: parent

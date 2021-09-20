@@ -1,8 +1,8 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import ACross 1.0
+import ACross
 import "../components"
 
 Item {
@@ -15,7 +15,7 @@ Item {
         spacing: 0
 
         GridLayout {
-            columns:2
+            columns: 2
             rowSpacing: acrossConfig.itemSpacing
             Layout.fillWidth: true
             Layout.margins: acrossConfig.itemSpacing
@@ -38,7 +38,7 @@ Item {
                 color: acrossConfig.textColor
             }
 
-            RowLayout{
+            RowLayout {
                 TextFieldBox {
                     Layout.fillWidth: true
 

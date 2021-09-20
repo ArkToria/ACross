@@ -1,8 +1,8 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import ACross 1.0
+import ACross
 import "../components"
 
 Item {
@@ -10,24 +10,25 @@ Item {
     implicitWidth: 648
     implicitHeight: 480
 
-    property Component nodeShareFormComponent:null
-    function openShareForm(name,address,port,password,url,qrcode) {
-        if (nodeShareFormComponent == null){
-            nodeShareFormComponent = Qt.createComponent("qrc:/src/views/home/NodeShareForm.qml")
+    property Component nodeShareFormComponent: null
+    function openShareForm(name, address, port, password, url, qrcode) {
+        if (nodeShareFormComponent == null) {
+            nodeShareFormComponent = Qt.createComponent(
+                        "qrc:/src/views/home/NodeShareForm.qml")
         }
-        if (nodeShareFormComponent.status === Component.Ready){
-            var window = nodeShareFormComponent.createObject(mainWindow,{
-                name:name,
-                address:address,
-                port:port,
-                password:password,
-                url:url,
-                qrcode:qrcode
-            })
+        if (nodeShareFormComponent.status === Component.Ready) {
+            var window = nodeShareFormComponent.createObject(mainWindow, {
+                                                                 "name": name,
+                                                                 "address": address,
+                                                                 "port": port,
+                                                                 "password": password,
+                                                                 "url": url,
+                                                                 "qrcode": qrcode
+                                                             })
             window.show()
         }
     }
-        
+
     GridView {
         id: nodeGridView
         anchors.fill: parent

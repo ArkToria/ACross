@@ -239,22 +239,22 @@
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="90"/>
+        <location filename="../src/views/home/GroupControl.qml" line="91"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="128"/>
+        <location filename="../src/views/home/GroupControl.qml" line="129"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="166"/>
+        <location filename="../src/views/home/GroupControl.qml" line="167"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="202"/>
+        <location filename="../src/views/home/GroupControl.qml" line="203"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -369,12 +369,12 @@
 <context>
     <name>GroupListPanel</name>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="21"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="20"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="22"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="21"/>
         <source>Confirm to remove group from database</source>
         <translation>确认从数据库中删除组</translation>
     </message>
@@ -522,32 +522,32 @@
 <context>
     <name>NodeItemPopMenu</name>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="44"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="43"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="51"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="50"/>
         <source>Set as default</source>
         <translation>设置为默认</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="63"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="62"/>
         <source>Share Config</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="71"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="70"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="75"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="74"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="86"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="85"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -675,7 +675,7 @@
 <context>
     <name>URLSchemeSetting</name>
     <message>
-        <location filename="../src/views/home/URLSchemeSetting.qml" line="21"/>
+        <location filename="../src/views/home/URLSchemeSetting.qml" line="20"/>
         <source>Import From URL</source>
         <translation>从 URL 导入</translation>
     </message>
@@ -683,37 +683,37 @@
 <context>
     <name>VMESSSetting</name>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="20"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="19"/>
         <source>VMESS Setting</source>
         <translation>VMESS 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="33"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="32"/>
         <source>AlterID</source>
         <translation>AlterID</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="51"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="50"/>
         <source>Enable TLS</source>
         <translation>启用 TLS</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="61"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="60"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="75"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="74"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="91"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="90"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="104"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="103"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>

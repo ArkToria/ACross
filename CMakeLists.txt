@@ -41,11 +41,6 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qml.cmake")
 ######## SOURCE FILES ########
 include_directories(${CMAKE_BINARY_DIR}/generated/)
 
-set(QRC_FILES
-    qml.qrc
-    ${ACROSS_I18N_QRC}
-    )
-
 set(PROJECT_HEADERS
     src/app.h
     src/view_models/logview.h
@@ -108,7 +103,7 @@ set(PROJECT_SOURCES
     src/models/notifytools.cpp
     src/models/dbustools.cpp
     src/models/coretools.cpp
-    ${QRC_FILES}
+    ${ACROSS_I18N_QRC}
     ${ACROSS_QM_FILES}
     ${API_PROTO_SOURCE}
     ${API_GRPC_SOURCE}
@@ -152,7 +147,15 @@ qt_add_qml_module(across
     RESOURCE_PREFIX "/"
     QML_FILES
     ${QML_FILES}
-)
+    )
+
+qt_add_resources(across misc
+    PREFIX "/misc/"
+    BASE /misc/
+    FILES
+    ${ICON_FILES}
+
+    )
 
 qt_import_qml_plugins(across)
 qt_finalize_executable(across)

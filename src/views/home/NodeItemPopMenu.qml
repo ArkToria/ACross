@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 
 import "../components"
 
@@ -14,7 +14,6 @@ Menu {
         nodeItemPopMenu.close()
         nodeItemPopMenu.destroy()
     }
-
 
     background: CardBox {
         id: popMenuBackground
@@ -63,7 +62,7 @@ Menu {
         text: qsTr("Share Config")
 
         onTriggered: {
-            openShareForm(name,address,port,password,"","")
+            openShareForm(name, address, port, password, "", "")
         }
     }
 

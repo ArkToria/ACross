@@ -1,17 +1,17 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 
 import "../components"
 
 Menu {
-    id:groupItemPopMenu
+    id: groupItemPopMenu
     topPadding: 8
     bottomPadding: 8
 
     property real menuWidth: 168
-    
-    onClosed:{
+
+    onClosed: {
         groupItemPopMenu.destroy()
     }
 

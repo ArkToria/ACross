@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtGraphicalEffects 1.0
+import QtQuick
+import Qt5Compat.GraphicalEffects
 
 Rectangle {
     id: cardBackground
@@ -15,7 +15,6 @@ Rectangle {
         horizontalOffset: 1
         verticalOffset: 1
         radius: 5
-        samples: 11
         color: acrossConfig.shadowColor
         source: cardBackground
     }

@@ -1,6 +1,6 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
 import "../components"
 
@@ -25,7 +25,7 @@ Item {
             Layout.fillWidth: true
             Layout.margins: acrossConfig.itemSpacing
 
-            columns:2
+            columns: 2
             rowSpacing: acrossConfig.itemSpacing
 
             Label {

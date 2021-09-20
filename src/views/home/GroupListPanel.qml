@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 
 import ACross 1.0
 import "../components"
@@ -10,7 +10,6 @@ Item {
     id: groupListPanel
     implicitWidth: 312
     implicitHeight: 720
-
 
     GroupForm {
         id: updateGroupForm
@@ -84,15 +83,16 @@ Item {
             sourceHeight: sourceWidth
         }
 
-        property Component appendGroupFormComponent:null
+        property Component appendGroupFormComponent: null
 
         onClicked: {
             darkBackground.show()
 
-            if (appendGroupFormComponent == null){
-                appendGroupFormComponent = Qt.createComponent("qrc:/src/views/home/GroupForm.qml")
+            if (appendGroupFormComponent == null) {
+                appendGroupFormComponent = Qt.createComponent(
+                            "qrc:/src/views/home/GroupForm.qml")
             }
-            if (appendGroupFormComponent.status === Component.Ready){
+            if (appendGroupFormComponent.status === Component.Ready) {
                 appendGroupFormComponent.createObject(groupListPanel).open()
             }
         }

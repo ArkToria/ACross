@@ -1,13 +1,12 @@
-import QtQuick 2.0
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
 import "../components"
 
 Item {
     implicitWidth: 680
     implicitHeight: 300
-
 
     ColumnLayout {
         anchors.fill: parent
@@ -23,7 +22,7 @@ Item {
         }
 
         GridLayout {
-            columns:2
+            columns: 2
             rowSpacing: acrossConfig.itemSpacing
             Layout.fillWidth: true
             Layout.margins: acrossConfig.itemSpacing
@@ -34,7 +33,7 @@ Item {
                 color: acrossConfig.textColor
             }
 
-            RowLayout{
+            RowLayout {
                 TextFieldBox {
                     id: alterIDText
                     Layout.fillWidth: true
@@ -62,7 +61,7 @@ Item {
                 color: acrossConfig.textColor
             }
 
-            RowLayout{
+            RowLayout {
                 DropDownBox {
                     id: securitySelect
                     Layout.fillWidth: true

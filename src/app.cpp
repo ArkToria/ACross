@@ -40,7 +40,7 @@ Application::run()
 void
 Application::setRootContext()
 {
-  const QUrl url(QStringLiteral("qrc:/src/views/main.qml"));
+  const QUrl url(QStringLiteral("qrc:/ACross/src/views/main.qml"));
   QObject::connect(
     &m_engine,
     &QQmlApplicationEngine::objectCreated,

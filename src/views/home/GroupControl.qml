@@ -1,8 +1,8 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import ACross 1.0
+import ACross
 import "../components"
 
 Item {
@@ -10,7 +10,7 @@ Item {
     implicitHeight: 36
     implicitWidth: 648
 
-    property Component popMenuComponent:null
+    property Component popMenuComponent: null
 
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
@@ -60,10 +60,11 @@ Item {
                 }
 
                 onClicked: {
-                    if (popMenuComponent == null){
-                        popMenuComponent = Qt.createComponent("qrc:/src/views/home/NodeForm.qml")
+                    if (popMenuComponent == null) {
+                        popMenuComponent = Qt.createComponent(
+                                    "qrc:/src/views/home/NodeForm.qml")
                     }
-                    if (popMenuComponent.status === Component.Ready){
+                    if (popMenuComponent.status === Component.Ready) {
                         popMenuComponent.createObject(appendNodeButton).show()
                     }
                 }

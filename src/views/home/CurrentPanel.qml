@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
 
 import "../components"
 
@@ -127,11 +127,15 @@ Item {
                         hoverEnabled: true
 
                         onEntered: {
-                            stopButton.color = Qt.binding(function() {return Qt.lighter(stopButton.basicColor, 1.1)})
+                            stopButton.color = Qt.binding(function () {
+                                return Qt.lighter(stopButton.basicColor, 1.1)
+                            })
                         }
 
                         onExited: {
-                            stopButton.color = Qt.binding(function() {return stopButton.basicColor})
+                            stopButton.color = Qt.binding(function () {
+                                return stopButton.basicColor
+                            })
                         }
 
                         onClicked: {
