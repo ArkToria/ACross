@@ -1,12 +1,11 @@
 #ifndef NODEMODEL_H
 #define NODEMODEL_H
 
-#include "fmt/format.h"
-#include "magic_enum.hpp"
-
 #include "nodelist.h"
 
 #include <QAbstractListModel>
+
+#include "magic_enum.hpp"
 
 namespace across {
 class NodeModel : public QAbstractListModel

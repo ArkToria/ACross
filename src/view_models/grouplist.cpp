@@ -49,8 +49,7 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
       break;
     }
 
-    if (auto err = p_db->createNodesTable(group_info.name.toStdString());
-        err != SQLITE_OK) {
+    if (auto err = p_db->createNodesTable(group_info.name); err != SQLITE_OK) {
       p_logger->error("Failed to create table: {}",
                       group_info.name.toStdString());
       break;
@@ -70,7 +69,7 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
 
     if (!result) {
       emit preLastItemRemoved();
-      p_db->removeGroupFromName(group_info.name.toStdString());
+      p_db->removeGroupFromName(group_info.name);
       emit postLastItemRemoved();
       break;
     }
@@ -228,7 +227,7 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
 
     group.id = p_db->getLastID();
 
-    if (p_db->createNodesTable(group.name.toStdString()) != SQLITE_OK) {
+    if (p_db->createNodesTable(group.name) != SQLITE_OK) {
       break;
     }
 
@@ -245,7 +244,7 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
 
       if (!result) {
         emit preLastItemRemoved();
-        p_db->removeGroupFromName(group.name.toStdString());
+        p_db->removeGroupFromName(group.name);
         emit postLastItemRemoved();
         break;
       } else {
@@ -266,7 +265,7 @@ GroupList::removeItem(int index)
 
     emit preItemRemoved(index);
 
-    p_db->removeGroupFromName(m_items.at(index).name.toStdString());
+    p_db->removeGroupFromName(m_items.at(index).name);
 
     m_items.removeAt(index);
 

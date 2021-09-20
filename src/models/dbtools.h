@@ -1,16 +1,14 @@
 #ifndef DBTOOLS_H
 #define DBTOOLS_H
 
-#include "fmt/format.h"
-#include "sqlite3.h"
-#include <QDateTime>
-#include <QMap>
-#include <chrono>
-
 #include "../view_models/configtools.h"
 #include "../view_models/logtools.h"
 
+#include <QDateTime>
+#include <QMap>
+
 #include "magic_enum.hpp"
+#include "sqlite3.h"
 
 namespace across {
 enum SubscriptionType : int
@@ -83,11 +81,11 @@ public:
 
   int createGroupsTable();
 
-  int createNodesTable(const std::string& group_name);
+  int createNodesTable(const QString& group_name);
 
-  bool isTableExists(const std::vector<std::string>& table_names);
+  bool isTableExists(const QStringList& table_names);
 
-  bool isGroupExists(const std::string& group_name);
+  bool isGroupExists(const QString& group_name);
 
   int insert(NodeInfo& node);
 
@@ -95,17 +93,17 @@ public:
 
   int64_t getLastID();
 
-  int removeItemFromID(const std::string& group_name, int64_t id);
+  int removeItemFromID(const QString& group_name, int64_t id);
 
-  int removeGroupFromName(const std::string& group_name);
+  int removeGroupFromName(const QString& group_name);
 
   std::vector<GroupInfo> listAllGroupsInfo();
 
-  std::vector<NodeInfo> listAllNodesInfo(const std::string& group_name);
+  std::vector<NodeInfo> listAllNodesInfo(const QString& group_name);
 
   std::map<int, NodesInfo> listAllNodes();
 
-  const std::string getLibVersion();
+  const QString getLibVersion();
 
 public slots:
   void close();
@@ -114,9 +112,9 @@ signals:
   void destroy();
 
 private:
-  int createTable(const std::string& create_str);
-  std::vector<GroupInfo> listGroupsInfo(const std::string& select_str);
-  std::vector<NodeInfo> listNodesInfo(const std::string& select_str);
+  int createTable(const QString& create_str);
+  std::vector<GroupInfo> listGroupsInfo(const QString& select_str);
+  std::vector<NodeInfo> listNodesInfo(const QString& select_str);
 
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;

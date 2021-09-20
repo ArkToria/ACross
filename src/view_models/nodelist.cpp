@@ -79,7 +79,7 @@ NodeList::removeCurrentNode(int id)
   do {
     for (auto& item : m_items) {
       if (item.id == id) {
-        auto result = p_db->removeItemFromID(item.group.toStdString(), item.id);
+        auto result = p_db->removeItemFromID(item.group, item.id);
         if (result == SQLITE_OK) {
           reloadItems();
         }
@@ -263,8 +263,7 @@ NodeList::setCurrentNode(int id, int index)
     file.close();
 #endif
 
-    p_core->setConfig(root.toStyledString());
-    //if(p_core->isRunning()) p_core->stop();
+    p_core->setConfig(QString::fromStdString(root.toStyledString()));
     p_core->run();
   } while (false);
 }

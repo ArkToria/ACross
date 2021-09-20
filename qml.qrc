@@ -89,9 +89,6 @@
         <file>src/views/main/DarkBackground.qml</file>
         <file>src/views/help/LicenseListModels.qml</file>
         <file>src/views/components/URLBox.qml</file>
-<<<<<<< HEAD
         <file>src/views/log/LogBox.qml</file>
-=======
->>>>>>> 430bbd3 (rebase from master branch)
     </qresource>
 </RCC>
