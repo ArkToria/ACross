@@ -13,7 +13,7 @@ Item {
     function openShareForm(name, address, port, password, url, qrcode) {
         if (nodeShareFormComponent == null) {
             nodeShareFormComponent = Qt.createComponent(
-                        "qrc:/src/views/home/NodeShareForm.qml")
+                        "NodeShareForm.qml")
         }
         if (nodeShareFormComponent.status === Component.Ready) {
             var window = nodeShareFormComponent.createObject(mainWindow, {

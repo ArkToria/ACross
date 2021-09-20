@@ -141,18 +141,18 @@ Item {
                         = groupItemCard.ListView.isCurrentItem ? "ClickState" : "NormalState"
             }
 
-            onClicked: {
-                if (pressedButtons === Qt.RightButton) {
+            onClicked: (mouse) => {
+                if (mouse.button === Qt.RightButton) {
                     if (groupItemPopMenuComponent == null) {
                         groupItemPopMenuComponent = Qt.createComponent(
-                                    "qrc:/src/views/home/GroupItemPopMenu.qml")
+                                    "GroupItemPopMenu.qml")
                     }
                     if (groupItemPopMenuComponent.status === Component.Ready) {
                         groupItemPopMenuComponent.createObject(parent).popup()
                     }
                 }
 
-                if (pressedButtons === Qt.LeftButton) {
+                if (mouse.button === Qt.LeftButton) {
 
                     listScrollView.currentIndex = index
 

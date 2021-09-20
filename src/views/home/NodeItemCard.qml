@@ -164,7 +164,7 @@ Item {
             nodeItemCard.state = "NormalState"
         }
 
-        onDoubleClicked: {
+        onDoubleClicked: (mouse) => {
             if (mouse.button == Qt.LeftButton) {
                 acrossNodes.setCurrentNode(id, index)
 
@@ -174,11 +174,11 @@ Item {
 
         property Component popMenuComponent: null
 
-        onClicked: {
+        onClicked: (mouse) => {
             if (mouse.button == Qt.RightButton) {
                 if (popMenuComponent == null) {
                     popMenuComponent = Qt.createComponent(
-                                "qrc:/src/views/home/NodeItemPopMenu.qml")
+                                "NodeItemPopMenu.qml")
                 }
                 if (popMenuComponent.status === Component.Ready) {
                     popMenuComponent.createObject(nodeItemCard).popup()
