@@ -19,7 +19,7 @@ project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake;")
 set(ACROSS_TOMLPLUSPLUS_PROVIDER "module")
 
-find_package(Qt6 COMPONENTS Core Quick Widgets DBus Core5Compat REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat REQUIRED)
 
 find_package(CURL REQUIRED)
 find_package(fmt CONFIG REQUIRED)
