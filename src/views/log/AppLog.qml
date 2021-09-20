@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import "../components"
+import ACross
 
 CardBox {
     implicitWidth: 680

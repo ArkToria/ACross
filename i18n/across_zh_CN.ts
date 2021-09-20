@@ -448,27 +448,27 @@
 <context>
     <name>ManualSetting</name>
     <message>
-        <location filename="../src/views/home/ManualSetting.qml" line="24"/>
+        <location filename="../src/views/home/ManualSetting.qml" line="23"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ManualSetting.qml" line="37"/>
+        <location filename="../src/views/home/ManualSetting.qml" line="36"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ManualSetting.qml" line="51"/>
+        <location filename="../src/views/home/ManualSetting.qml" line="50"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ManualSetting.qml" line="71"/>
+        <location filename="../src/views/home/ManualSetting.qml" line="70"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ManualSetting.qml" line="84"/>
+        <location filename="../src/views/home/ManualSetting.qml" line="83"/>
         <source>Protocol</source>
         <translation>协议</translation>
     </message>
@@ -499,22 +499,22 @@
 <context>
     <name>NodeForm</name>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="16"/>
+        <location filename="../src/views/home/NodeForm.qml" line="14"/>
         <source>Create New Configuration</source>
         <translation>创建新配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="95"/>
+        <location filename="../src/views/home/NodeForm.qml" line="93"/>
         <source>Outbound</source>
         <translation>出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="175"/>
+        <location filename="../src/views/home/NodeForm.qml" line="173"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="185"/>
+        <location filename="../src/views/home/NodeForm.qml" line="183"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -768,7 +768,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/views/main.qml" line="22"/>
+        <location filename="../src/views/main.qml" line="15"/>
         <source>ACross</source>
         <translation>ACross</translation>
     </message>

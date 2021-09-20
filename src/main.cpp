@@ -3,8 +3,6 @@
 int
 main(int argc, char* argv[])
 {
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
   QApplication::setOrganizationName("arktoria");
   QApplication::setApplicationName(APP_NAME);
   QApplication::setOrganizationDomain("arktoria.org");

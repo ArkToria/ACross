@@ -27,7 +27,8 @@ Switch {
                 horizontalOffset: 1
                 verticalOffset: 1
                 radius: 3
-                samples: 11
+                transparentBorder: true
+                //                samples: 11
                 color: acrossConfig.shadowColor
                 source: handleBackground
             }

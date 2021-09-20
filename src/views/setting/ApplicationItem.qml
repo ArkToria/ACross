@@ -3,7 +3,7 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import "../components"
+import ACross
 
 Item {
     anchors.margins: spacingWidth
@@ -13,9 +13,9 @@ Item {
     FileDialog {
         id: dbFileDialog
         title: qsTr("Select Database Path")
-        selectFolder: false
-        selectExisting: true
-        selectMultiple: false
+        //        selectFolder: false
+        //        selectExisting: true
+        //        selectMultiple: false
         nameFilters: ["SQLite3 Database (*.db)", "All files (*)"]
         onAccepted: {
             acrossConfig.dbPath = fileUrl
@@ -25,9 +25,9 @@ Item {
     FileDialog {
         id: dbFileDirDialog
         title: qsTr("Select Database Path")
-        selectFolder: true
-        selectExisting: false
-        selectMultiple: false
+        //        selectFolder: true
+        //        selectExisting: false
+        //        selectMultiple: false
         onAccepted: {
             acrossConfig.dbPath = fileUrl
         }

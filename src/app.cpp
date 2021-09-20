@@ -51,6 +51,8 @@ Application::setRootContext()
     },
     Qt::QueuedConnection);
 
+  m_engine.addImportPath(u"qrc:/"_qs);
+
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
                                              p_logview.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),

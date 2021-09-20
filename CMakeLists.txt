@@ -32,6 +32,11 @@ find_package(Sodium REQUIRED)
 find_package(ZXing REQUIRED)
 find_package(Threads REQUIRED)
 
+# BEGIN Special case for QtCreator
+list(APPEND QML_DIRS "${CMAKE_CURRENT_BINARY_DIR}")
+set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import paths")
+# END Special case
+
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/protobuf.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/translations.cmake")
@@ -146,16 +151,16 @@ qt_add_qml_module(across
     VERSION 1.0
     RESOURCE_PREFIX "/"
     QML_FILES
-    ${QML_FILES}
-    )
+        ${QML_FILES}
+)
 
 qt_add_resources(across misc
     PREFIX "/misc/"
-    BASE /misc/
+    BASE "${CMAKE_CURRENT_LIST_DIR}/misc"
     FILES
-    ${ICON_FILES}
-
-    )
+        ${ICON_FILES}
+        ${CMAKE_SOURCE_DIR}/misc/across_example.toml
+)
 
 qt_import_qml_plugins(across)
 qt_finalize_executable(across)

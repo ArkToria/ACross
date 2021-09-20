@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
 import ACross 1.0
-import "../components"
+import ACross
 
 Item {
     id: groupListPanel
@@ -71,7 +71,8 @@ Item {
             horizontalOffset: 3
             verticalOffset: 3
             radius: 8
-            samples: 17
+            transparentBorder: true
+            //            samples: 17
             color: acrossConfig.shadowColor
         }
 
@@ -87,10 +88,9 @@ Item {
 
         onClicked: {
             darkBackground.show()
-
             if (appendGroupFormComponent == null) {
                 appendGroupFormComponent = Qt.createComponent(
-                            "qrc:/src/views/home/GroupForm.qml")
+                            "qrc:/ACross/src/views/home/GroupForm.qml")
             }
             if (appendGroupFormComponent.status === Component.Ready) {
                 appendGroupFormComponent.createObject(groupListPanel).open()

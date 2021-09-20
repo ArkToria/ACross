@@ -3,7 +3,7 @@ import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import "../components"
+import ACross
 
 Item {
     anchors.margins: acrossConfig.itemSpacing * 2
@@ -11,9 +11,9 @@ Item {
     FileDialog {
         id: coreFileDialog
         title: qsTr("Select V2Ray Core Path")
-        selectFolder: false
-        selectExisting: true
-        selectMultiple: false
+        //        selectFolder: false
+        //        selectExisting: true
+        //        selectMultiple: false
         nameFilters: ["Select V2Ray core (v2ray*)", "All files (*)"]
 
         onAccepted: {
@@ -24,10 +24,10 @@ Item {
     FileDialog {
         id: assetsFileDialog
         title: qsTr("Select Assets Directory")
-        selectFolder: true
-        selectExisting: true
-        selectMultiple: false
 
+        //        selectFolder: true
+        //        selectExisting: true
+        //        selectMultiple: false
         onAccepted: {
             acrossConfig.assetsPath = fileUrl
         }

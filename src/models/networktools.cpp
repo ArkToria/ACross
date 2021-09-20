@@ -271,13 +271,10 @@ CURLTools::CURLTools(QObject* parent)
 CURLTools::~CURLTools()
 {
   // destroy pointer
-  p_thread->quit();
-  p_thread->wait();
-  p_thread->deleteLater();
-
-  delete p_thread;
-  p_thread = nullptr;
-
+  if (p_thread) {
+    p_thread->quit();
+    p_thread->wait();
+  }
   curl_global_cleanup();
 }
 
@@ -285,7 +282,7 @@ CURLcode
 CURLTools::download(DownloadTask& task)
 {
   // create thread
-  p_thread = new QThread();
+  p_thread = new QThread(this);
   auto worker = new CURLWorker();
   worker->moveToThread(p_thread);
 

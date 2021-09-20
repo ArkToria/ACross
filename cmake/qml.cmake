@@ -16,8 +16,3 @@ list(APPEND ICON_FILES
     ${CMAKE_SOURCE_DIR}/misc/design/logo.svg
     ${CMAKE_SOURCE_DIR}/misc/design/logo_pure.svg
     )
-
-foreach(icon ${ICON_FILES})
-    string(REPLACE "${CMAKE_SOURCE_DIR}/" "" icon_alias ${icon})
-    set_source_files_properties($icon PROPERTIES QT_RESOURCE_ALIAS ${icon_alias})
-endforeach(icon)

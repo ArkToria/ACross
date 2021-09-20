@@ -47,9 +47,10 @@ NodeList::reloadItems()
     m_all_items.insert(item.first, item.second);
   }
 
-  for (auto& item : m_all_items.first().nodes) {
-    m_items.append(item);
-  }
+  if (!m_all_items.isEmpty())
+    for (auto& item : m_all_items.first().nodes) {
+      m_items.append(item);
+    }
 
   emit postItemsReset();
 }

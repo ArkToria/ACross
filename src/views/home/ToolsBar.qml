@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import "../components"
+import ACross
 
 Item {
     implicitHeight: 48

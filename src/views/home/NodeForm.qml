@@ -5,8 +5,6 @@ import QtQuick.Controls
 
 import ACross
 
-import "../components/"
-
 Window {
     id: nodeFormPopWindow
     width: 680

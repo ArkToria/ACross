@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
-import "../components"
+import ACross
 
 Item {
     id: groupItemCard
@@ -142,7 +142,7 @@ Item {
             }
 
             onClicked: {
-                if (mouse.button == Qt.RightButton) {
+                if (pressedButtons === Qt.RightButton) {
                     if (groupItemPopMenuComponent == null) {
                         groupItemPopMenuComponent = Qt.createComponent(
                                     "qrc:/src/views/home/GroupItemPopMenu.qml")
@@ -152,7 +152,7 @@ Item {
                     }
                 }
 
-                if (mouse.button == Qt.LeftButton) {
+                if (pressedButtons === Qt.LeftButton) {
 
                     listScrollView.currentIndex = index
 
