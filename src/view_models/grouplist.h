@@ -9,10 +9,12 @@
 #include <QVariant>
 
 #include "../models/clipboardtools.h"
+#include "../models/cryptotools.h"
 #include "../models/dbtools.h"
 #include "../models/networktools.h"
 #include "../models/notifytools.h"
 #include "../models/serializetools.h"
+
 #include "configtools.h"
 #include "logtools.h"
 #include "nodelist.h"

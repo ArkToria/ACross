@@ -2,7 +2,9 @@
 #define CRYPTOTOOLS_H
 
 #include <QByteArray>
+#include <QCryptographicHash>
 #include <QString>
+
 #include <fcntl.h>
 #include <linux/random.h>
 #include <memory>
@@ -23,6 +25,8 @@ public:
 
   static std::optional<QByteArray> aes256gcmDecode(const QByteArray& data,
                                                    const QByteArray& password);
+
+  static std::optional<QByteArray> sha256sums(const QByteArray& data);
 
   static bool detectEntropyQuality();
 };

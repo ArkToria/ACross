@@ -149,6 +149,7 @@ DBTools::createNodesTable(const QString& group_name)
                                      "Port INTEGER NOT NULL,"
                                      "Password TEXT NOT NULL,"
                                      "Raw TEXT NOT NULL,"
+                                     "Hash TEXT,"
                                      "CreatedAt INT64 NOT NULL,"
                                      "ModifiedAt INT64 NOT NULL);")
                                .arg(group_name);
@@ -166,7 +167,7 @@ DBTools::isTableExists(const QStringList& table_names)
   std::string err_name;
   sqlite3_stmt* stmt = nullptr;
 
-  for (auto name : table_names) {
+  for (auto& name : table_names) {
     std::string result_name;
     QString check_str =
       QString("SELECT Name FROM sqlite_master WHERE Type = 'table' AND "
@@ -267,8 +268,8 @@ DBTools::insert(NodeInfo& node)
   QString insert_str =
     QString("INSERT INTO '%1' "
             "(Name, GroupName, GroupID, Protocol, Address, Port, "
-            "Password, Raw, CreatedAt, ModifiedAt) "
-            "VALUES(?,?,?,?,?,?,?,?,?,?)")
+            "Password, Raw, Hash, CreatedAt, ModifiedAt) "
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
       .arg(node.group);
 
   do {
@@ -332,14 +333,21 @@ DBTools::insert(NodeInfo& node)
       break;
     }
 
-    result = sqlite3_bind_int64(stmt, 9, node.created_time.toSecsSinceEpoch());
+    std::string hash = node.hash.toStdString();
+    result = sqlite3_bind_text(stmt, 9, hash.c_str(), -1, SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      p_logger->error("SQL bind hash error code: {}", result);
+      break;
+    }
+
+    result = sqlite3_bind_int64(stmt, 10, node.created_time.toSecsSinceEpoch());
     if (result != SQLITE_OK) {
       p_logger->error("SQL bind created time error code: {}", result);
       break;
     }
 
     result =
-      sqlite3_bind_int64(stmt, 10, node.modified_time.toSecsSinceEpoch());
+      sqlite3_bind_int64(stmt, 11, node.modified_time.toSecsSinceEpoch());
     if (result != SQLITE_OK) {
       p_logger->error("SQL bind modified time error code: {}", result);
       break;
@@ -602,10 +610,11 @@ DBTools::listNodesInfo(const QString& select_str)
       node.password =
         reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
       node.raw = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
+      node.hash = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
       node.created_time =
-        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 9));
-      node.modified_time =
         QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 10));
+      node.modified_time =
+        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 11));
 
       nodes.emplace_back(node);
     }

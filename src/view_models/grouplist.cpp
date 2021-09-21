@@ -130,16 +130,19 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
     outbound_object.appendShadowsocksObject(shadows_object);
 
     if (p_db != nullptr) {
-      NodeInfo node{ 0,
-                     QString::fromStdString(server.remarks),
-                     group_info.name,
-                     group_info.id,
-                     across::EntryType::shadowsocks,
-                     QString::fromStdString(server.server),
-                     server.server_port,
-                     QString::fromStdString(server.password),
-                     QString::fromStdString(
-                       outbound_object.toObject().toStyledString()) };
+      NodeInfo node = {
+        .id = 0,
+        .name = QString::fromStdString(server.remarks),
+        .group = group_info.name,
+        .group_id = group_info.id,
+        .protocol = across::EntryType::shadowsocks,
+        .address = QString::fromStdString(server.server),
+        .port = server.server_port,
+        .password = QString::fromStdString(server.password),
+        .raw =
+          QString::fromStdString(outbound_object.toObject().toStyledString()),
+        .hash = CryptoTools::sha256sums(content.toUtf8()).value().toHex()
+      };
 
       p_db->insert(node);
     }
@@ -168,6 +171,7 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
     NodeInfo node;
     node.group = group_info.name;
     node.group_id = group_info.id;
+    node.hash = CryptoTools::sha256sums(item.toUtf8()).value().toHex();
 
     result = SerializeTools::decodeOutboundFromURL(node, item);
 

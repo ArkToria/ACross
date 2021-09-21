@@ -101,3 +101,9 @@ CryptoTools::aes256gcmDecode(const QByteArray& data, const QByteArray& password)
 
   return plaintext.left(plaintext_len);
 }
+
+std::optional<QByteArray>
+CryptoTools::sha256sums(const QByteArray& data)
+{
+  return QCryptographicHash::hash(data, QCryptographicHash::Sha256);
+}
