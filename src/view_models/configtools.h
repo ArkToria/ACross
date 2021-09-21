@@ -29,8 +29,8 @@ struct Interface
   {
     QString language = "current";
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> language);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& language);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> language,const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& language,const toml::v2::node_view<toml::node>& default_config);
   } language;
 
   struct Theme
@@ -38,20 +38,20 @@ struct Interface
     QString theme = "current";
     QString include_dir = "./themes/";
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> theme);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& theme);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> theme,const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& theme,const toml::v2::node_view<toml::node>& default_config);
   } theme;
 
   struct Tray
   {
     bool enable = false;
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> tray);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& tray);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> tray,const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& tray,const toml::v2::node_view<toml::node>& default_config);
   } tray;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> interface);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& interface);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> interface,const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& interface,const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Network
@@ -61,8 +61,8 @@ struct Network
   QString user_agent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 "
                        "(KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36";
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> network);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& network);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> network,const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& network,const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Update
@@ -72,8 +72,8 @@ struct Update
   QString update_channel = "stable";
   bool update_from_proxy = true;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> update);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& update);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> update,const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& update,const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct DataBase
@@ -90,8 +90,8 @@ struct DataBase
     uint port = 0;
   } auth;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> database);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& database);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> database,const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& database,const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Core
@@ -108,8 +108,8 @@ struct Core
     uint port = 15491;
   } api;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> core);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& core);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> core,const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& core,const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Theme
@@ -183,8 +183,8 @@ struct InboundSettings
     QString username; // Leave blank to disable
     QString password; // Need to be encrypted
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> socks);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& socks);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> socks,const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& socks,const toml::v2::node_view<toml::node>& default_config);
     across::config::InboundObject toInboundObject();
   } socks;
 
@@ -203,14 +203,14 @@ struct InboundSettings
     QString username; // Leave blank to disable
     QString password; // Need to be encrypted
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> http);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& http);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> http,const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& http,const toml::v2::node_view<toml::node>& default_config);
     across::config::InboundObject toInboundObject();
   } http;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> inbound);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> inbound,const toml::v2::node_view<toml::node>& default_config);
 
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& inbound);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& inbound,const toml::v2::node_view<toml::node>& default_config);
 
   void setObject(Json::Value& root);
 };
@@ -516,6 +516,7 @@ private:
   QString m_config_path = "./" + m_config_name;
   QString m_api_result_text = "";
   toml::v2::table m_config;
+  toml::v2::table m_default_config;
 
   Core m_core;
   DataBase m_db;
