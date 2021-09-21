@@ -27,11 +27,10 @@ namespace across {
 
       QString info =
         QString("OS: %1 | Kernel: %2 | Platform: %3 | Screen: %4x%5 | DPI: %6")
-          .arg(sys_info.productType())
-          .arg(sys_info.kernelVersion())
-          .arg(QGuiApplication::platformName())
-          .arg(screen->size().rwidth())
-          .arg(screen->size().rheight())
+          .arg(sys_info.productType(),
+               sys_info.kernelVersion(),
+               QGuiApplication::platformName())
+          .arg(screen->size().rwidth(), screen->size().rheight())
           .arg(screen->logicalDotsPerInch());
 
       return info;

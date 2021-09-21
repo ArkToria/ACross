@@ -123,6 +123,8 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
   }
 
   for (auto& server : result.value().servers) {
+    auto sip002 = SerializeTools::sip002Encode(server).value().toString();
+
     ShadowsocksObject::OutboundSettingObject shadows_object;
     shadows_object.fromSIP008Server(server);
 
@@ -141,7 +143,7 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
         .password = QString::fromStdString(server.password),
         .raw =
           QString::fromStdString(outbound_object.toObject().toStyledString()),
-        .hash = CryptoTools::sha256sums(content.toUtf8()).value().toHex()
+        .hash = CryptoTools::sha256sums(sip002.toUtf8()).value().toHex()
       };
 
       p_db->insert(node);

@@ -19,6 +19,7 @@ public:
   SerializeTools();
 
   static std::optional<SIP008::Server> sip002Decode(const QUrl& url);
+  static std::optional<QUrl> sip002Encode(const SIP008::Server& sip008);
   static std::optional<URLMetaObject> trojanDecode(const QUrl& url);
   static std::optional<URLMetaObject> vmessBase64Decode(
     const std::string& data);

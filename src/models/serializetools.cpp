@@ -166,6 +166,8 @@ SerializeTools::setTrojanOutboundFromURL(NodeInfo& node, const QUrl& url)
 std::optional<SIP008::Server>
 SerializeTools::sip002Decode(const QUrl& url)
 {
+  // url scheme:
+  // ss://<websafe-base64-encode-utf8(method:password)>@hostname:port/?plugin"#"tag
   SIP008::Server server;
 
   QString user_info = QByteArray::fromBase64(url.userInfo().toUtf8());
@@ -182,6 +184,25 @@ SerializeTools::sip002Decode(const QUrl& url)
   }
 
   return server;
+}
+
+std::optional<QUrl>
+SerializeTools::sip002Encode(const SIP008::Server& node)
+{
+  QUrl url;
+  QString user_info = QString("%1:%2")
+                        .arg(QString::fromStdString(node.method),
+                             QString::fromStdString(node.password))
+                        .toUtf8()
+                        .toBase64(QByteArray::Base64UrlEncoding);
+
+  url.setScheme("ss");
+  url.setHost(QString::fromStdString(node.server));
+  url.setPort(node.server_port);
+  url.setUserInfo(user_info);
+  url.setFragment(QString::fromStdString(node.remarks));
+
+  return url;
 }
 
 std::optional<URLMetaObject>
