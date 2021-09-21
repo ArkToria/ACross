@@ -7,7 +7,7 @@ Dialog {
     id: rootDialog
     modal: true
     implicitWidth: 320
-    implicitHeight: 160
+    implicitHeight: 200
     contentWidth: implicitWidth
     contentHeight: implicitHeight
     x: Math.round((mainWindow.width - width) / 2 - mainPanel.width)
@@ -16,6 +16,7 @@ Dialog {
     property int index
     property string headerText
     property string contentText
+    property int fontSize: 14
 
     background: CardBox {}
 
@@ -33,20 +34,29 @@ Dialog {
         rootDialog.reject()
     }
 
-    header: Rectangle {
+    header: Item {
+        implicitHeight: title.height + acrossConfig.itemSpacing * 2
+        anchors.margins: acrossConfig.itemSpacing * 2
+
         Label {
+            id: title
+            anchors.centerIn: parent
+            horizontalAlignment: Text.AlignHCenter
+
             text: headerText
             color: acrossConfig.textColor
-            font.pixelSize: 18
-            anchors.horizontalCenter: parent.horizontalCenter
+            font.pointSize: Math.round(fontSize * 1.1)
         }
     }
+    contentItem: Item {
+        anchors.margins: acrossConfig.itemSpacing * 2
 
-    contentItem: Label {
-        text: contentText
-        anchors.verticalCenter: parent.verticalCenter
-        horizontalAlignment: Text.AlignHCenter
-        color: acrossConfig.textColor
+        Label {
+            anchors.centerIn: parent
+
+            text: contentText
+            horizontalAlignment: Text.AlignHCenter
+        }
     }
 
     footer: RowLayout {
