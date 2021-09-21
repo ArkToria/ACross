@@ -12,9 +12,10 @@ Rectangle {
 
     layer.enabled: true
     layer.effect: DropShadow {
-        horizontalOffset: 1
-        verticalOffset: 1
-        radius: 5
+        horizontalOffset: 0
+        verticalOffset: 2
+        radius: 8
+        transparentBorder: true
         color: acrossConfig.shadowColor
         source: cardBackground
     }

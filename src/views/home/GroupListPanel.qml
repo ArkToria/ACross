@@ -68,11 +68,10 @@ Item {
         backgroundRadius: width / 2
         layer.enabled: true
         layer.effect: DropShadow {
-            horizontalOffset: 3
-            verticalOffset: 3
+            horizontalOffset: 2
+            verticalOffset: 2
             radius: 8
             transparentBorder: true
-            //            samples: 17
             color: acrossConfig.shadowColor
         }
 

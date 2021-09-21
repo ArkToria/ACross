@@ -9,12 +9,13 @@ SpinBox {
     leftPadding: acrossConfig.itemSpacing
     rightPadding: acrossConfig.itemSpacing
 
-    property int controlSpacing: 1
+    property int controlSpacing: 0
     property int controlWidth: 10
     property int controlHeight: 8
 
     contentItem: TextInput {
         text: spinBox.value
+        verticalAlignment: Text.AlignVCenter
         color: acrossConfig.deepTextColor
         selectionColor: acrossConfig.highlightColor
         selectedTextColor: acrossConfig.highlightTextColor

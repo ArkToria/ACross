@@ -44,6 +44,8 @@ Dialog {
 
     contentItem: Label {
         text: contentText
+        anchors.verticalCenter: parent.verticalCenter
+        horizontalAlignment: Text.AlignHCenter
         color: acrossConfig.textColor
     }
 

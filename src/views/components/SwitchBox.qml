@@ -24,11 +24,10 @@ Switch {
 
             layer.enabled: true
             layer.effect: DropShadow {
-                horizontalOffset: 1
-                verticalOffset: 1
-                radius: 3
+                horizontalOffset: 2
+                verticalOffset: 2
+                radius: 8
                 transparentBorder: true
-                //                samples: 11
                 color: acrossConfig.shadowColor
                 source: handleBackground
             }

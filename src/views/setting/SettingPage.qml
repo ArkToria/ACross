@@ -12,19 +12,18 @@ Item {
     ScrollView {
         id: scrollView
         anchors.fill: parent
+        anchors.margins: acrossConfig.itemSpacing
 
         clip: true
+        contentHeight: column.height
 
-        Column {
+        ColumnLayout {
             id: column
-            topPadding: acrossConfig.itemSpacing
-            leftPadding: acrossConfig.itemSpacing
-            bottomPadding: acrossConfig.itemSpacing
-
+            width: scrollView.availableWidth
             spacing: acrossConfig.itemSpacing
 
             CardBox {
-                implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
+                Layout.fillWidth: true
                 implicitHeight: 260
 
                 CoreItem {
@@ -33,7 +32,7 @@ Item {
             }
 
             CardBox {
-                implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
+                Layout.fillWidth: true
                 implicitHeight: 280
 
                 InboundItem {
@@ -42,7 +41,7 @@ Item {
             }
 
             CardBox {
-                implicitWidth: scrollView.availableWidth - acrossConfig.itemSpacing
+                Layout.fillWidth: true
                 implicitHeight: 320
 
                 ApplicationItem {

@@ -21,13 +21,16 @@ ComboBox {
     delegate: ItemDelegate {
         implicitWidth: comboBox.width
 
-        contentItem: Text {
+        background: Rectangle {
+            color: hovered ? acrossConfig.highlightColor : acrossConfig.backgroundColor
+        }
+
+        contentItem: Label {
             id: itemText
             text: modelData
             color: hovered ? acrossConfig.highlightTextColor : acrossConfig.textColor
         }
     }
-
     indicator: Canvas {
         id: canvas
         x: comboBox.width - width - comboBox.rightPadding
@@ -70,15 +73,11 @@ ComboBox {
             model: comboBox.delegateModel
             currentIndex: comboBox.highlightedIndex
             ScrollIndicator.vertical: ScrollIndicator {}
-
-            highlight: Rectangle {
-                color: acrossConfig.highlightColor
-            }
         }
 
         background: CardBox {
             color: acrossConfig.backgroundColor
-            border.width: 1
+            border.width: acrossConfig.borderWidth
             border.color: acrossConfig.deepColor
         }
     }

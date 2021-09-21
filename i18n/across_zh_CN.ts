@@ -616,12 +616,12 @@
 <context>
     <name>RemoveConfirmDialog</name>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="58"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="60"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="69"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="71"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
