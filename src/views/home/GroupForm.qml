@@ -86,18 +86,12 @@ Popup {
 
             visible: !fromSubscriptionSwitcher.checked
 
-            TextArea {
+            TextAreaBox {
                 id: pasteItemText
                 implicitHeight: 72
 
                 placeholderText: "ss://\n" + "vmess://\n" + "v2ray json config"
-                color: acrossConfig.deepTextColor
                 wrapMode: Text.NoWrap
-
-                background: CardBox {
-                    color: acrossConfig.deepColor
-                    layer.enabled: false
-                }
             }
         }
 

@@ -287,32 +287,32 @@
         <translation>来自粘贴</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="106"/>
+        <location filename="../src/views/home/GroupForm.qml" line="100"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="122"/>
+        <location filename="../src/views/home/GroupForm.qml" line="116"/>
         <source>Cycle (days)</source>
         <translation>周期（天）</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="139"/>
+        <location filename="../src/views/home/GroupForm.qml" line="133"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="149"/>
+        <location filename="../src/views/home/GroupForm.qml" line="143"/>
         <source>Enter the unique subscription url</source>
         <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="169"/>
+        <location filename="../src/views/home/GroupForm.qml" line="163"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="187"/>
+        <location filename="../src/views/home/GroupForm.qml" line="181"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
