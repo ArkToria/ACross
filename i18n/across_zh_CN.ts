@@ -262,57 +262,57 @@
 <context>
     <name>GroupForm</name>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="38"/>
+        <location filename="../src/views/home/GroupForm.qml" line="39"/>
         <source>Create a new group</source>
         <translation>创建新组</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="44"/>
+        <location filename="../src/views/home/GroupForm.qml" line="45"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="53"/>
+        <location filename="../src/views/home/GroupForm.qml" line="54"/>
         <source>Enter the unique group name</source>
         <translation>输入唯一的组名</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="57"/>
+        <location filename="../src/views/home/GroupForm.qml" line="58"/>
         <source>Subscription</source>
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="77"/>
+        <location filename="../src/views/home/GroupForm.qml" line="78"/>
         <source>From Paste</source>
         <translation>来自粘贴</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="100"/>
+        <location filename="../src/views/home/GroupForm.qml" line="101"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="116"/>
+        <location filename="../src/views/home/GroupForm.qml" line="117"/>
         <source>Cycle (days)</source>
         <translation>周期（天）</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="133"/>
+        <location filename="../src/views/home/GroupForm.qml" line="134"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="143"/>
+        <location filename="../src/views/home/GroupForm.qml" line="144"/>
         <source>Enter the unique subscription url</source>
         <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="163"/>
+        <location filename="../src/views/home/GroupForm.qml" line="164"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="181"/>
+        <location filename="../src/views/home/GroupForm.qml" line="182"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

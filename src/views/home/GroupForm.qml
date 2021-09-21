@@ -15,6 +15,7 @@ Popup {
     y: Math.round((mainWindow.height - height) / 2)
 
     property int spacingWidth: 16
+    property int fontSize: 12
 
     modal: true
     focus: true
@@ -36,7 +37,7 @@ Popup {
             Layout.columnSpan: 4
 
             text: qsTr("Create a new group")
-            font.pixelSize: 18
+            font.pointSize: Math.round(fontSize * 1.5)
             color: acrossConfig.textColor
         }
 
@@ -56,7 +57,7 @@ Popup {
         Label {
             text: qsTr("Subscription")
             color: acrossConfig.textColor
-            font.pixelSize: 18
+            font.pointSize: fontSize
         }
 
         Item {
@@ -76,7 +77,7 @@ Popup {
 
             text: qsTr("From Paste")
             color: acrossConfig.textColor
-            font.pixelSize: 18
+            font.pointSize: fontSize
         }
 
         ScrollView {
