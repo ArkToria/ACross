@@ -33,7 +33,6 @@ NodeModel::data(const QModelIndex& index, int role) const
     case IDRole:
       return QVariant().fromValue(item.id);
     case NameRole:
-      // qt5 display emoji string error
       return item.name;
     case GroupRole:
       return item.group;
@@ -45,6 +44,8 @@ NodeModel::data(const QModelIndex& index, int role) const
       return item.port;
     case PasswordRole:
       return item.password;
+    case URLRole:
+      return item.url;
     case CreatedAtRole:
       return item.created_time.toString(dateTimeFormat);
     case ModifiedAtRole:
@@ -57,16 +58,17 @@ NodeModel::data(const QModelIndex& index, int role) const
 QHash<int, QByteArray>
 NodeModel::roleNames() const
 {
-  static const QHash<int, QByteArray> roles{
+  static const QHash<int, QByteArray> roles = {
     { IDRole, "id" },
     { NameRole, "name" },
     { GroupRole, "group" },
     { AddressRole, "address" },
     { PortRole, "port" },
     { PasswordRole, "password" },
-    { CreatedAtRole, "createdAt" },
-    { ModifiedAtRole, "modifiedAt" },
+    { URLRole, "url" },
     { ProtocolTypeRole, "protocol" },
+    { CreatedAtRole, "createdAt" },
+    { ModifiedAtRole, "modifiedAt" }
   };
 
   return roles;

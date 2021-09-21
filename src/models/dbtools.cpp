@@ -120,7 +120,6 @@ DBTools::createTable(const QString& create_str)
 int
 DBTools::createGroupsTable()
 {
-
   QString create_groups_str = { "CREATE TABLE IF NOT EXISTS groups("
                                 "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                                 "Name TEXT UNIQUE,"
@@ -149,7 +148,7 @@ DBTools::createNodesTable(const QString& group_name)
                                      "Port INTEGER NOT NULL,"
                                      "Password TEXT NOT NULL,"
                                      "Raw TEXT NOT NULL,"
-                                     "Hash TEXT,"
+                                     "URL TEXT,"
                                      "CreatedAt INT64 NOT NULL,"
                                      "ModifiedAt INT64 NOT NULL);")
                                .arg(group_name);
@@ -198,6 +197,7 @@ DBTools::isTableExists(const QStringList& table_names)
 
     if (result_name != name.toStdString()) {
       p_logger->warn("SQL check table `{}` doesn't exists", name.toStdString());
+      result = false;
       break;
     }
   }
@@ -268,13 +268,13 @@ DBTools::insert(NodeInfo& node)
   QString insert_str =
     QString("INSERT INTO '%1' "
             "(Name, GroupName, GroupID, Protocol, Address, Port, "
-            "Password, Raw, Hash, CreatedAt, ModifiedAt) "
+            "Password, Raw, URL, CreatedAt, ModifiedAt) "
             "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
       .arg(node.group);
 
   do {
-    result = sqlite3_prepare_v2(
-      m_db, insert_str.toStdString().c_str(), -1, &stmt, nullptr);
+    std::string insert = insert_str.toStdString();
+    result = sqlite3_prepare_v2(m_db, insert.c_str(), -1, &stmt, nullptr);
     if (result != SQLITE_OK) {
       p_logger->error("SQL prepare error code: {}", result);
       break;
@@ -333,10 +333,10 @@ DBTools::insert(NodeInfo& node)
       break;
     }
 
-    std::string hash = node.hash.toStdString();
-    result = sqlite3_bind_text(stmt, 9, hash.c_str(), -1, SQLITE_STATIC);
+    std::string url = node.url.toStdString();
+    result = sqlite3_bind_text(stmt, 9, url.c_str(), -1, SQLITE_STATIC);
     if (result != SQLITE_OK) {
-      p_logger->error("SQL bind hash error code: {}", result);
+      p_logger->error("SQL bind url error code: {}", result);
       break;
     }
 
@@ -610,7 +610,7 @@ DBTools::listNodesInfo(const QString& select_str)
       node.password =
         reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
       node.raw = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
-      node.hash = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
+      node.url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
       node.created_time =
         QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 10));
       node.modified_time =

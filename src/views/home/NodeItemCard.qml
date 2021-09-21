@@ -164,8 +164,8 @@ Item {
             nodeItemCard.state = "NormalState"
         }
 
-        onDoubleClicked: (mouse) => {
-            if (mouse.button == Qt.LeftButton) {
+        onDoubleClicked: function (mouse) {
+            if (mouse.button === Qt.LeftButton) {
                 acrossNodes.setCurrentNode(id, index)
 
                 nodeGridView.currentIndex = index
@@ -174,8 +174,8 @@ Item {
 
         property Component popMenuComponent: null
 
-        onClicked: (mouse) => {
-            if (mouse.button == Qt.RightButton) {
+        onClicked: function (mouse) {
+            if (mouse.button === Qt.RightButton) {
                 if (popMenuComponent == null) {
                     popMenuComponent = Qt.createComponent(
                                 "qrc:/ACross/src/views/home/NodeItemPopMenu.qml")

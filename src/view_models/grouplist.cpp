@@ -143,7 +143,7 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
         .password = QString::fromStdString(server.password),
         .raw =
           QString::fromStdString(outbound_object.toObject().toStyledString()),
-        .hash = CryptoTools::sha256sums(sip002.toUtf8()).value().toHex()
+        .url = sip002,
       };
 
       p_db->insert(node);
@@ -173,7 +173,7 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
     NodeInfo node;
     node.group = group_info.name;
     node.group_id = group_info.id;
-    node.hash = CryptoTools::sha256sums(item.toUtf8()).value().toHex();
+    node.url = item;
 
     result = SerializeTools::decodeOutboundFromURL(node, item);
 
@@ -206,8 +206,10 @@ GroupList::appendItem(const QString& group_name,
   connect(p_curl.get(),
           &across::network::CURLTools::downloadFinished,
           [group_info, this](const QString& content) {
-            auto temp = group_info;
-            insert(temp, content);
+            if (!content.isEmpty()) {
+              auto temp = group_info;
+              insert(temp, content);
+            }
           });
 
   p_curl->download(task);

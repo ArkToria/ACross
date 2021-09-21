@@ -62,7 +62,7 @@ Menu {
         text: qsTr("Share Config")
 
         onTriggered: {
-            openShareForm(name, address, port, password, "", "")
+            openShareForm(name, address, port, password, url, "")
         }
     }
 

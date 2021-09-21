@@ -25,6 +25,7 @@ public:
     PortRole,
     PasswordRole,
     RawRole,
+    URLRole,
     CreatedAtRole,
     ModifiedAtRole,
   };

@@ -144,6 +144,8 @@ Window {
                             Layout.columnSpan: 2
                             Layout.fillHeight: true
 
+                            wrapMode: Text.WrapAnywhere
+
                             text: url
                         }
 

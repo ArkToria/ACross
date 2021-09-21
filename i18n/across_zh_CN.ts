@@ -590,12 +590,12 @@
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="159"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="161"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="163"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="165"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
@@ -721,7 +721,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="309"/>
+        <location filename="../src/view_models/grouplist.cpp" line="311"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

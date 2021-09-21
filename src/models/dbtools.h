@@ -40,7 +40,7 @@ struct NodeInfo
   uint port = 0;
   QString password = "";
   QString raw = "";
-  QString hash = "";
+  QString url = "";
   QDateTime created_time;
   QDateTime modified_time;
 };
