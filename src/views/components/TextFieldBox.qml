@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 
 TextField {
-    color: acrossConfig.deepTextColor
+    color: acrossConfig.textColor
     placeholderTextColor: acrossConfig.deepTextColor
 
     property string backgroundColor: acrossConfig.deepColor
