@@ -15,7 +15,7 @@ Popup {
     y: Math.round((mainWindow.height - height) / 2)
 
     property int spacingWidth: 16
-    property int fontSize: 12
+    property int fontSize: 14
 
     modal: true
     focus: true
@@ -37,7 +37,7 @@ Popup {
             Layout.columnSpan: 4
 
             text: qsTr("Create a new group")
-            font.pointSize: Math.round(fontSize * 1.5)
+            font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
         }
 
