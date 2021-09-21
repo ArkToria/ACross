@@ -884,6 +884,10 @@ bool
 ConfigTools::loadThemeConfig()
 {
   auto themes = m_config["themes"];
+  if (!themes.as_array()||themes.as_array()->size()==0){
+    m_config.as_table()->insert("themes",m_default_config["themes"]);
+    themes=m_config["themes"];
+  }
 
   if (themes.as_array()->empty()) {
     p_logger->error("No themes configuration");
