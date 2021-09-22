@@ -207,7 +207,7 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node)
     .outbound_object = outbound_object,
   };
 
-  node.url = SerializeTools::trojanEncode(meta)->toString(QUrl::FullyEncoded);
+  node.url = SerializeTools::trojanEncode(meta)->toEncoded();
 
   return true;
 }
@@ -240,7 +240,7 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node)
     .method = p_shadowsocks->security().toStdString(),
   };
 
-  node.url = SerializeTools::sip002Encode(server)->toString(QUrl::FullyEncoded);
+  node.url = SerializeTools::sip002Encode(server)->toEncoded();
 
   return true;
 }
@@ -299,8 +299,7 @@ NodeFormModel::setVMessOutboud(NodeInfo& node)
     .outbound_object = outbound_object,
   };
 
-  node.url =
-    SerializeTools::vmessBase64Encode(meta)->toString(QUrl::FullyEncoded);
+  node.url = SerializeTools::vmessBase64Encode(meta)->toEncoded();
 
   return true;
 }

@@ -3,6 +3,7 @@
 
 #include <QImage>
 #include <QString>
+#include <QUrl>
 
 #include "ZXing/BarcodeFormat.h"
 #include "ZXing/BitMatrix.h"

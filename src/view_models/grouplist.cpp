@@ -143,7 +143,7 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
         .password = QString::fromStdString(server.password),
         .raw =
           QString::fromStdString(outbound_object.toObject().toStyledString()),
-        .url = sip002,
+        .url = QString(QUrl(sip002).toEncoded()),
       };
 
       p_db->insert(node);
@@ -173,7 +173,7 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
     NodeInfo node;
     node.group = group_info.name;
     node.group_id = group_info.id;
-    node.url = item;
+    node.url = QString(QUrl(item).toEncoded());
 
     result = SerializeTools::decodeOutboundFromURL(node, item);
 

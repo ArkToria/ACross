@@ -11,18 +11,21 @@ QRCodeTools::write(const QString& text)
     ZXing::MultiFormatWriter(m_format).setMargin(m_margin).setEccLevel(
       m_ecc_level);
 
-  // BUG Fixed: convert emoji code
+  // text should be encoded
   auto bitmap = ZXing::ToMatrix<uint8_t>(
     writer.encode(text.toStdWString(), m_size, m_size));
 
   QImage img(bitmap.width(), bitmap.height(), QImage::Format_RGB888);
 
-  img.fill(qRgb(0, 0, 0));
+  const auto black = qRgb(0, 0, 0);
+  const auto white = qRgb(255, 255, 255);
+
+  img.fill(black);
 
   for (int i = 0; i < bitmap.width(); ++i) {
     for (int j = 0; j < bitmap.height(); ++j) {
       if (bitmap.get(i, j)) {
-        img.setPixel(i, j, qRgb(255, 255, 255));
+        img.setPixel(i, j, white);
       }
     }
   }
