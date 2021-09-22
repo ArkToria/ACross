@@ -182,10 +182,9 @@ CURLWorker::xferInfo(void* p,
 }
 
 void
-CURLWorker::run(const QString& url,
-                const QString& user_agent,
-                const QString& proxy)
+CURLWorker::run(const QVariant& data)
 {
+  auto task = data.value<DownloadTask>();
   if (!isRunning()) {
     setIsRunning(true);
   } else {
@@ -199,13 +198,13 @@ CURLWorker::run(const QString& url,
   CURL* handle = curl_easy_init();
 
   // download setting
-  curl_easy_setopt(handle, CURLOPT_URL, url.toStdString().c_str());
-  if (!user_agent.isEmpty()) {
+  curl_easy_setopt(handle, CURLOPT_URL, task.url.toStdString().c_str());
+  if (!task.user_agent.isEmpty()) {
     curl_easy_setopt(
-      handle, CURLOPT_USERAGENT, user_agent.toStdString().c_str());
+      handle, CURLOPT_USERAGENT, task.user_agent.toStdString().c_str());
   }
-  if (!proxy.isEmpty()) {
-    curl_easy_setopt(handle, CURLOPT_PROXY, proxy.toStdString().c_str());
+  if (!task.proxy.isEmpty()) {
+    curl_easy_setopt(handle, CURLOPT_PROXY, task.proxy.toStdString().c_str());
   }
 
   // progress callback
@@ -219,11 +218,11 @@ CURLWorker::run(const QString& url,
 
   // execute
   if (auto err = curl_easy_perform(handle); err == CURLE_OK) {
-    // notify finished
-    emit done(QString::fromStdString(buffer.str()));
-  } else {
-    emit done("");
+    task.content = QString::fromStdString(buffer.str());
   }
+
+  // notify finished
+  emit done(QVariant::fromValue<DownloadTask>(task));
 
   // clean
   curl_easy_cleanup(handle);
@@ -293,16 +292,15 @@ CURLTools::download(DownloadTask& task)
 
   // start thread process
   p_thread->start();
-  emit operate(task.url,
-               task.user_agent,
-               task.proxy);
+
+  emit operate(QVariant::fromValue<DownloadTask>(task));
 
   // TODO: handle error
   return CURLE_OK;
 }
 
 void
-CURLTools::handleResult(const QString& content)
+CURLTools::handleResult(const QVariant& content)
 {
   emit downloadFinished(content);
 }

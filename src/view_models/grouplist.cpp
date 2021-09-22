@@ -193,6 +193,10 @@ GroupList::appendItem(const QString& group_name,
                       int type,
                       int cycle_time)
 {
+  DownloadTask task = { .filename = group_name,
+                        .url = url,
+                        .user_agent = p_config->networkUserAgent() };
+
   GroupInfo group_info = { .name = group_name,
                            .isSubscription = true,
                            .type =
@@ -200,17 +204,12 @@ GroupList::appendItem(const QString& group_name,
                            .url = url,
                            .cycle_time = cycle_time };
 
-  DownloadTask task = { .url = group_info.url,
-                        .user_agent = p_config->networkUserAgent() };
+  m_pre_items.append(group_info);
 
   connect(p_curl.get(),
           &across::network::CURLTools::downloadFinished,
-          [group_info, this](const QString& content) {
-            if (!content.isEmpty()) {
-              auto temp = group_info;
-              insert(temp, content);
-            }
-          });
+          this,
+          &GroupList::handleDownloaded);
 
   p_curl->download(task);
 }
@@ -311,4 +310,22 @@ GroupList::copyUrlToClipboard(int index)
                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
 
   ClipboardTools().send(item.url);
+}
+
+void
+GroupList::handleDownloaded(const QVariant& content)
+{
+  auto task = content.value<DownloadTask>();
+
+  for (auto i = m_pre_items.size() - 1; i >= 0; --i) {
+    auto item = m_pre_items.at(i);
+    if (task.filename == item.name) {
+      if (task.content.isEmpty()) {
+        m_pre_items.removeAt(i);
+        return;
+      } else {
+        insert(item, task.content);
+      }
+    }
+  }
 }

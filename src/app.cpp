@@ -113,4 +113,6 @@ Application::registerModels()
     APP_NAME, 1, 0, "RawOutboundFormModel");
   qmlRegisterType<across::URLSchemeFormModel>(
     APP_NAME, 1, 0, "URLSchemeFormModel");
+  //  qRegisterMetaType<across::GroupInfo>("GroupInfo");
+  //  qRegisterMetaType<across::network::DownloadTask>("DownloadTask");
 }

@@ -68,6 +68,7 @@ struct GroupInfo
 class DBTools : public QObject
 {
   Q_OBJECT
+
 public:
   explicit DBTools(QObject* parent = nullptr);
 

@@ -70,6 +70,7 @@ struct DownloadTask
   QString url;
   QString user_agent;
   QString proxy;
+  QString content;
 };
 
 class CURLWorker : public QObject
@@ -85,16 +86,14 @@ public:
   bool isRunning() const;
 
 public slots:
-  void run(const QString& url,
-           const QString& user_agent = "",
-           const QString& proxy = "");
+  void run(const QVariant& data);
 
   void setProgress(double newProgress);
 
   void setIsRunning(bool newIsRunning);
 
 signals:
-  void done(const QString& content);
+  void done(const QVariant& data);
 
   void progressChanged(double progress);
 
@@ -126,14 +125,12 @@ public:
   CURLcode download(DownloadTask& task);
 
 public slots:
-  void handleResult(const QString& content);
+  void handleResult(const QVariant& content);
 
 signals:
-  void operate(const QString& url,
-               const QString& user_agent,
-               const QString& proxy);
+  void operate(const QVariant& data);
 
-  void downloadFinished(const QString& content);
+  void downloadFinished(const QVariant& content);
 
 private:
   QThread* p_thread = nullptr;

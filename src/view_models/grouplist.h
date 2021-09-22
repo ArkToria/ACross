@@ -20,6 +20,7 @@
 #include "nodelist.h"
 
 namespace across {
+
 class GroupList : public QObject
 {
   Q_OBJECT
@@ -58,6 +59,8 @@ public slots:
 
   void copyUrlToClipboard(int index);
 
+  void handleDownloaded(const QVariant& content);
+
 signals:
   void preItemAppended();
   void postItemAppended();
@@ -76,6 +79,7 @@ private:
   std::shared_ptr<across::utils::LogTools> p_logger;
 
   QVector<GroupInfo> m_items;
+  QVector<GroupInfo> m_pre_items;
   int64_t m_current_group_id;
 };
 }
