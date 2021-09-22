@@ -17,7 +17,6 @@ Application::Application(int& argc, char** argv)
   p_nodes = QSharedPointer<NodeList>(new NodeList());
   p_groups = QSharedPointer<GroupList>(new GroupList);
   p_tray = QSharedPointer<SystemTray>(new SystemTray());
-  p_image_provider = QSharedPointer<ImageProvider>(new ImageProvider());
 
   registerModels();
   setRootContext();
@@ -28,6 +27,12 @@ Application::Application(int& argc, char** argv)
           &across::setting::ConfigTools::currentLanguageChanged,
           this,
           [&](QString lang) { setTranslator(lang); });
+
+  // dynamic load qrcode image content
+  connect(p_nodes.get(),
+          &across::NodeList::updateQRCode,
+          &m_image_provider,
+          &across::ImageProvider::setContent);
 }
 
 Application::~Application()
@@ -70,13 +75,13 @@ Application::setRootContext()
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              p_tray.get());
   m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
-                            p_image_provider.get());
+                            &m_image_provider);
   m_engine.load(url);
 
   p_config->init(p_logview);
   p_db->init(p_logview, p_config);
   p_core->init(p_logview, p_config);
-  p_nodes->init(p_logview, p_config, p_core, p_db, p_image_provider);
+  p_nodes->init(p_logview, p_config, p_core, p_db);
   p_groups->init(p_logview, p_config, p_db, p_nodes, p_curl);
   p_tray->init(p_config, p_core);
 }

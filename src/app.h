@@ -46,6 +46,8 @@ public:
 
   void registerModels();
 
+  static void removeImageProvider(ImageProvider* img_provider);
+
 private:
   QSharedPointer<LogView> p_logview;
   QSharedPointer<across::setting::ConfigTools> p_config;
@@ -55,7 +57,7 @@ private:
   QSharedPointer<across::NodeList> p_nodes;
   QSharedPointer<across::GroupList> p_groups;
   QSharedPointer<across::SystemTray> p_tray;
-  QSharedPointer<across::ImageProvider> p_image_provider;
+  across::ImageProvider m_image_provider;
 
   const QString m_app_name = APP_NAME;
   QTranslator m_translator;

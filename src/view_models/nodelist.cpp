@@ -14,8 +14,7 @@ void
 NodeList::init(QSharedPointer<LogView> log_view,
                QSharedPointer<across::setting::ConfigTools> config,
                QSharedPointer<CoreTools> core,
-               QSharedPointer<DBTools> db,
-               QSharedPointer<ImageProvider> qrcode)
+               QSharedPointer<DBTools> db)
 {
   p_logger = std::make_shared<LogTools>(log_view, "node_list");
 
@@ -26,8 +25,6 @@ NodeList::init(QSharedPointer<LogView> log_view,
   p_config = config;
 
   p_core = core;
-
-  p_qrcode = qrcode;
 
   reloadItems();
 }
@@ -96,7 +93,7 @@ NodeList::getQRCode(int id)
 {
   for (auto& item : m_items) {
     if (item.id == id) {
-      p_qrcode->setContent(item.name, item.url);
+      emit updateQRCode(item.name, item.url);
       return item.name;
     }
   }

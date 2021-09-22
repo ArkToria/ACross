@@ -6,7 +6,6 @@
 #include "../models/jsontools.h"
 
 #include "configtools.h"
-#include "imageprovider.h"
 #include "logtools.h"
 
 #include "magic_enum.hpp"
@@ -45,8 +44,7 @@ public:
   void init(QSharedPointer<LogView> log_view,
             QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::core::CoreTools> core,
-            QSharedPointer<across::DBTools> db,
-            QSharedPointer<across::ImageProvider> qrcode);
+            QSharedPointer<across::DBTools> db);
 
   QVector<NodeInfo> items();
 
@@ -107,13 +105,14 @@ signals:
   void currentNodePortChanged();
   void currentNodeURLChanged();
 
+  void updateQRCode(const QString& id, const QString& content);
+
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;
   std::shared_ptr<across::config::JsonTools> p_json;
   QSharedPointer<DBTools> p_db;
   QSharedPointer<across::setting::ConfigTools> p_config;
   QSharedPointer<across::core::CoreTools> p_core;
-  QSharedPointer<across::ImageProvider> p_qrcode;
 
   QVector<NodeInfo> m_items;
   QMap<int, NodesInfo> m_all_items;

@@ -12,8 +12,7 @@ class ImageProvider : public QQuickImageProvider
 public:
   ImageProvider(ImageType type = ImageType::Image, Flags flags = Flags());
 
-  ~ImageProvider();
-
+public slots:
   void setContent(const QString& id, const QString& content);
 
   QImage requestImage(const QString& id,
