@@ -23,22 +23,31 @@
 
 namespace across {
 namespace setting {
-struct Table{
+struct Table
+{
 
-  template <typename T>
-  static void fromNodeView(toml::v2::node_view<toml::node> node,
-    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key);
-  template <typename T>
+  template<typename T>
+  static void fromNodeView(
+    toml::v2::node_view<toml::node> node,
+    const toml::v2::node_view<toml::node>& default_config,
+    T& config,
+    const std::string& key);
+  template<typename T>
   static void toNodeView(toml::v2::node_view<toml::node> node,
-    const toml::v2::node_view<toml::node>& default_config,const T& config,const std::string &key);
+                         const toml::v2::node_view<toml::node>& default_config,
+                         const T& config,
+                         const std::string& key);
 };
-struct Interface {
+struct Interface
+{
   struct Language
   {
     QString language = "current";
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> language,const toml::v2::node_view<toml::node>& default_config);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& language,const toml::v2::node_view<toml::node>& default_config);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> language,
+                      const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& language,
+                    const toml::v2::node_view<toml::node>& default_config);
   } language;
 
   struct Theme
@@ -46,34 +55,57 @@ struct Interface {
     QString theme = "current";
     QString include_dir = "./themes/";
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> theme,const toml::v2::node_view<toml::node>& default_config);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& theme,const toml::v2::node_view<toml::node>& default_config);
-    static void fromNodeView(toml::v2::node_view<toml::node> theme,
-      const toml::v2::node_view<toml::node>& default_config,QString& config,const std::string &key);
-    static void toNodeView(toml::v2::node_view<toml::node> tray,
-      const toml::v2::node_view<toml::node>& default_config,const QString& config,const std::string &key);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> theme,
+                      const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& theme,
+                    const toml::v2::node_view<toml::node>& default_config);
+    static void fromNodeView(
+      toml::v2::node_view<toml::node> theme,
+      const toml::v2::node_view<toml::node>& default_config,
+      QString& config,
+      const std::string& key);
+    static void toNodeView(
+      toml::v2::node_view<toml::node> tray,
+      const toml::v2::node_view<toml::node>& default_config,
+      const QString& config,
+      const std::string& key);
   } theme;
 
   struct Tray
   {
     bool enable = false;
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> tray,const toml::v2::node_view<toml::node>& default_config);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& tray,const toml::v2::node_view<toml::node>& default_config);
-    static void fromNodeView(toml::v2::node_view<toml::node> theme,
-      const toml::v2::node_view<toml::node>& default_config,bool& config,const std::string &key);
-    static void toNodeView(toml::v2::node_view<toml::node> theme,
-      const toml::v2::node_view<toml::node>& default_config,const bool& config,const std::string &key);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> tray,
+                      const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& tray,
+                    const toml::v2::node_view<toml::node>& default_config);
+    static void fromNodeView(
+      toml::v2::node_view<toml::node> theme,
+      const toml::v2::node_view<toml::node>& default_config,
+      bool& config,
+      const std::string& key);
+    static void toNodeView(
+      toml::v2::node_view<toml::node> theme,
+      const toml::v2::node_view<toml::node>& default_config,
+      const bool& config,
+      const std::string& key);
   } tray;
 
-  template <typename T>
-  static void fromNodeView(toml::v2::node_view<toml::node> interface,
-    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key);
-  template <typename T>
+  template<typename T>
+  static void fromNodeView(
+    toml::v2::node_view<toml::node> interface,
+    const toml::v2::node_view<toml::node>& default_config,
+    T& config,
+    const std::string& key);
+  template<typename T>
   static void toNodeView(toml::v2::node_view<toml::node> interface,
-    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key);
-  void fromNodeView(toml::v2::node_view<toml::v2::node> interface,const toml::v2::node_view<toml::node>& default_config);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& interface,const toml::v2::node_view<toml::node>& default_config);
+                         const toml::v2::node_view<toml::node>& default_config,
+                         T& config,
+                         const std::string& key);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> interface,
+                    const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& interface,
+                  const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Network
@@ -83,8 +115,10 @@ struct Network
   QString user_agent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 "
                        "(KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36";
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> network,const toml::v2::node_view<toml::node>& default_config);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& network,const toml::v2::node_view<toml::node>& default_config);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> network,
+                    const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& network,
+                  const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Update
@@ -94,8 +128,10 @@ struct Update
   QString update_channel = "stable";
   bool update_from_proxy = true;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> update,const toml::v2::node_view<toml::node>& default_config);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& update,const toml::v2::node_view<toml::node>& default_config);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> update,
+                    const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& update,
+                  const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct DataBase
@@ -112,8 +148,10 @@ struct DataBase
     uint port = 0;
   } auth;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> database,const toml::v2::node_view<toml::node>& default_config);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& database,const toml::v2::node_view<toml::node>& default_config);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> database,
+                    const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& database,
+                  const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Core
@@ -130,8 +168,10 @@ struct Core
     uint port = 15491;
   } api;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> core,const toml::v2::node_view<toml::node>& default_config);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& core,const toml::v2::node_view<toml::node>& default_config);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> core,
+                    const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& core,
+                  const toml::v2::node_view<toml::node>& default_config);
 };
 
 struct Theme
@@ -205,8 +245,10 @@ struct InboundSettings
     QString username; // Leave blank to disable
     QString password; // Need to be encrypted
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> socks,const toml::v2::node_view<toml::node>& default_config);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& socks,const toml::v2::node_view<toml::node>& default_config);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> socks,
+                      const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& socks,
+                    const toml::v2::node_view<toml::node>& default_config);
     across::config::InboundObject toInboundObject();
   } socks;
 
@@ -225,14 +267,18 @@ struct InboundSettings
     QString username; // Leave blank to disable
     QString password; // Need to be encrypted
 
-    void fromNodeView(toml::v2::node_view<toml::v2::node> http,const toml::v2::node_view<toml::node>& default_config);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& http,const toml::v2::node_view<toml::node>& default_config);
+    void fromNodeView(toml::v2::node_view<toml::v2::node> http,
+                      const toml::v2::node_view<toml::node>& default_config);
+    void toNodeView(const toml::v2::node_view<toml::v2::node>& http,
+                    const toml::v2::node_view<toml::node>& default_config);
     across::config::InboundObject toInboundObject();
   } http;
 
-  void fromNodeView(toml::v2::node_view<toml::v2::node> inbound,const toml::v2::node_view<toml::node>& default_config);
+  void fromNodeView(toml::v2::node_view<toml::v2::node> inbound,
+                    const toml::v2::node_view<toml::node>& default_config);
 
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& inbound,const toml::v2::node_view<toml::node>& default_config);
+  void toNodeView(const toml::v2::node_view<toml::v2::node>& inbound,
+                  const toml::v2::node_view<toml::node>& default_config);
 
   void setObject(Json::Value& root);
 };
