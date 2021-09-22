@@ -448,6 +448,7 @@ struct OutboundObject
   std::string send_through = "0.0.0.0";
   std::string protocol = "";
   std::string tag = "";
+  Json::Value servers = Json::arrayValue;
   Json::Value stream_settings;
   Json::Value proxy_settings;
   Json::Value mux;
@@ -463,9 +464,6 @@ struct OutboundObject
   void setTransportStreamObject(
     TransportObject::OutboundStreamObject& trojan_stream_object);
   Json::Value toObject();
-
-private:
-  Json::Value servers = Json::arrayValue;
 };
 
 struct OutboundObjects

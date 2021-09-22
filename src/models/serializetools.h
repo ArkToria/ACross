@@ -28,6 +28,7 @@ public:
 
   static std::optional<URLMetaObject> vmessBase64Decode(
     const std::string& data);
+  static std::optional<QUrl> vmessBase64Encode(const URLMetaObject& meta);
 
   static bool decodeOutboundFromURL(NodeInfo& node, const QString& raw_url);
   static bool setShadowsocksOutboundFromURL(NodeInfo& node, const QUrl& url);

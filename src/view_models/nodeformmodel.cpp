@@ -291,6 +291,17 @@ NodeFormModel::setVMessOutboud(NodeInfo& node)
   node.raw =
     QString::fromStdString(outbound_object.toObject().toStyledString());
 
+  URLMetaObject meta = {
+    .name = node.name.toStdString(),
+    .address = node.address.toStdString(),
+    .port = node.port,
+    .password = node.password.toStdString(),
+    .outbound_object = outbound_object,
+  };
+
+  node.url =
+    SerializeTools::vmessBase64Encode(meta)->toString(QUrl::FullyEncoded);
+
   return true;
 }
 

@@ -400,3 +400,88 @@ SerializeTools::vmessBase64Decode(const std::string& data)
 
   return {};
 }
+
+std::optional<QUrl>
+SerializeTools::vmessBase64Encode(const URLMetaObject& meta)
+{
+  // url scheme:
+  // vmess://<base64EncodeJson>
+  // {
+  //     "v": "2",
+  //     "ps": "Names",
+  //     "add": "111.111.111.111",
+  //     "port": "32000",
+  //     "id": "1386f85e-657b-4d6e-9d56-78badb75e1fd",
+  //     "aid": "100",
+  //     "scy": "zero",
+  //     "net": "tcp",
+  //     "type": "none",
+  //     "host": "www.bbb.com",
+  //     "path": "/",
+  //     "tls": "tls",
+  //     "sni": "www.ccc.com"
+  //  }
+
+  QUrl url;
+  url.setScheme("vmess");
+
+  Json::Value root;
+  root["v"] = "2";
+  root["ps"] = meta.name;
+  root["add"] = meta.address;
+  root["port"] = meta.port;
+  root["id"] = meta.password;
+  root["sni"] = meta.address;
+
+  if (auto vnext = meta.outbound_object.servers;
+      !vnext.isNull() && vnext.isArray() && vnext.size() > 0) {
+    if (auto user_object = vnext[0]; !user_object.isNull()) {
+      if (auto aid = user_object["aid"]; !aid.isNull()) {
+        root["aid"] = aid;
+      } else {
+        root["aid"] = 0;
+      }
+
+      if (auto scy = user_object["security"]; !scy.isNull()) {
+        root["scy"] = scy;
+      } else {
+        root["scy"] = "auto";
+      }
+    }
+  }
+
+  if (auto stream = meta.outbound_object.stream_settings; !stream.isNull()) {
+    if (auto network = stream["network"];
+        !network.isNull() && network.isString()) {
+      root["net"] = network.asString();
+
+      if (network.asString() == "ws") {
+        if (auto ws_setting = stream["wsSetting"]; !ws_setting.isNull()) {
+          if (auto host = ws_setting["headers"]["Host"]; !host.isNull()) {
+            root["host"] = host;
+          }
+          if (auto path = ws_setting["path"]; !path.isNull()) {
+            root["path"] = path;
+          }
+        }
+      } else {
+        root["host"] = "";
+        root["path"] = "";
+      }
+    }
+
+    if (auto security = stream["security"]; !security.isNull()) {
+      root["tls"] = "tls";
+    } else {
+      root["tls"] = "none";
+    }
+  }
+
+  // TODO: support fake stream type
+  root["type"] = "none";
+
+  url.setUserInfo(
+    QString::fromStdString(root.toStyledString()).toUtf8().toBase64());
+
+  return url;
+}
