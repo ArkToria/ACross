@@ -23,8 +23,16 @@
 
 namespace across {
 namespace setting {
-struct Interface
-{
+struct Table{
+
+  template <typename T>
+  static void fromNodeView(toml::v2::node_view<toml::node> node,
+    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key);
+  template <typename T>
+  static void toNodeView(toml::v2::node_view<toml::node> node,
+    const toml::v2::node_view<toml::node>& default_config,const T& config,const std::string &key);
+};
+struct Interface {
   struct Language
   {
     QString language = "current";
@@ -40,6 +48,10 @@ struct Interface
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> theme,const toml::v2::node_view<toml::node>& default_config);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& theme,const toml::v2::node_view<toml::node>& default_config);
+    static void fromNodeView(toml::v2::node_view<toml::node> theme,
+      const toml::v2::node_view<toml::node>& default_config,QString& config,const std::string &key);
+    static void toNodeView(toml::v2::node_view<toml::node> tray,
+      const toml::v2::node_view<toml::node>& default_config,const QString& config,const std::string &key);
   } theme;
 
   struct Tray
@@ -48,8 +60,18 @@ struct Interface
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> tray,const toml::v2::node_view<toml::node>& default_config);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& tray,const toml::v2::node_view<toml::node>& default_config);
+    static void fromNodeView(toml::v2::node_view<toml::node> theme,
+      const toml::v2::node_view<toml::node>& default_config,bool& config,const std::string &key);
+    static void toNodeView(toml::v2::node_view<toml::node> theme,
+      const toml::v2::node_view<toml::node>& default_config,const bool& config,const std::string &key);
   } tray;
 
+  template <typename T>
+  static void fromNodeView(toml::v2::node_view<toml::node> interface,
+    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key);
+  template <typename T>
+  static void toNodeView(toml::v2::node_view<toml::node> interface,
+    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key);
   void fromNodeView(toml::v2::node_view<toml::v2::node> interface,const toml::v2::node_view<toml::node>& default_config);
   void toNodeView(const toml::v2::node_view<toml::v2::node>& interface,const toml::v2::node_view<toml::node>& default_config);
 };

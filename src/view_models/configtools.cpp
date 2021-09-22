@@ -5,6 +5,38 @@ using namespace across::core;
 using namespace across::config;
 using namespace across::utils;
 
+template <typename T>
+void Table::fromNodeView(toml::v2::node_view<toml::node> node,
+    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key) 
+{
+  using U = std::conditional_t<std::is_same_v<T, QString>, std::string, T>;
+  if (!node[key].value<U>().has_value())
+    node.as_table()->insert(key,default_config[key]);
+  if (auto temp = node[key].value<U>();temp.has_value()){
+    if constexpr (std::is_same_v<T,QString>)
+      config = QString::fromStdString(temp.value());
+    else
+      config = temp.value();
+  }
+}
+template <typename T>
+void Table::toNodeView(toml::v2::node_view<toml::node> node,
+    const toml::v2::node_view<toml::node>& default_config,const T& config,const std::string &key) 
+{
+  using U = std::conditional_t<std::is_same_v<T, QString>, std::string, T>;
+  if (!node[key].value<U>().has_value())
+    node.as_table()->insert(key, default_config[key]);
+
+  if constexpr (std::is_same_v<T,QString>)
+    *node[key].as_string() = config.toStdString();
+  else if constexpr (std::is_same_v<T,bool>)
+    *node[key].as_boolean() = config;
+  else if constexpr (std::is_same_v<T,uint>)
+    *node[key].as_integer() = config;
+  else if constexpr (std::is_same_v<T,int>)
+    *node[key].as_integer() = config;
+}
+
 void
 Interface::Language::fromNodeView(
   toml::v2::node_view<toml::node> language,
@@ -23,37 +55,50 @@ Interface::Language::toNodeView(
 }
 
 void
+Interface::Theme::fromNodeView(toml::v2::node_view<toml::node> theme,
+  const toml::v2::node_view<toml::node>& default_config,QString& config,const std::string &key){
+  if (!theme[key].value<std::string>().has_value())
+    theme.as_table()->insert(key, default_config[key]);
+  if (auto temp = theme[key].value<std::string>(); temp.has_value())
+    config = QString::fromStdString(temp.value());
+}
+void
 Interface::Theme::fromNodeView(
   toml::v2::node_view<toml::node> theme,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  if (theme["theme"].as_string() == nullptr)
-    theme.as_table()->insert("theme", default_config["theme"]);
-  if (auto temp = theme["theme"].value<std::string>(); temp.has_value())
-    this->theme = QString::fromStdString(temp.value());
+  fromNodeView(theme,default_config,this->theme,"theme");
 
-  if (theme["include_dir"].as_string() == nullptr)
-    theme.as_table()->insert("include_dir", default_config["include_dir"]);
-  if (auto temp = theme["include_dir"].value<std::string>(); temp.has_value())
-    this->include_dir = QString::fromStdString(temp.value());
+  fromNodeView(theme,default_config,this->include_dir,"include_dir");
 }
+
+void Interface::Theme::toNodeView(
+      toml::v2::node_view<toml::node> theme,
+      const toml::v2::node_view<toml::node>& default_config,const QString& config,const std::string &key) 
+{
+  auto &table = *theme.as_table();
+  if (!theme[key].value<std::string>().has_value())
+    table.insert(key, default_config[key]);
+  *theme[key].as_string() = config.toStdString();
+}
+
 
 void
 Interface::Theme::toNodeView(
   const toml::v2::node_view<toml::node>& theme,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  auto table = *theme.as_table();
-  if (theme["theme"].as_string() != nullptr)
-    *theme["theme"].as_string() = this->theme.toStdString();
-  else {
-    table.insert("theme", default_config["theme"]);
-  }
-  if (theme["include_dir"].as_string() != nullptr)
-    *theme["include_dir"].as_string() = this->include_dir.toStdString();
-  else {
-    table.insert("include_dir", default_config["include_dir"]);
-  }
+  toNodeView(theme,default_config,this->theme,"theme");
+  toNodeView(theme,default_config,this->include_dir,"include_dir");
+}
+
+void
+Interface::Tray::fromNodeView(toml::v2::node_view<toml::node> theme,
+  const toml::v2::node_view<toml::node>& default_config,bool& config,const std::string &key){
+  if (!theme[key].value<bool>().has_value())
+    theme.as_table()->insert(key, default_config[key]);
+  if (auto temp = theme[key].value<bool>(); temp.has_value())
+    config = temp.value();
 }
 
 void
@@ -61,10 +106,15 @@ Interface::Tray::fromNodeView(
   toml::v2::node_view<toml::node> tray,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  if (tray["enable"].as_boolean() == nullptr)
-    tray.as_table()->insert("enable", default_config["enable"]);
-  if (auto temp = tray["enable"].value<bool>(); temp.has_value())
-    this->enable = temp.value();
+  fromNodeView(tray,default_config,this->enable,"enable");
+}
+
+void Interface::Tray::toNodeView(toml::v2::node_view<toml::node> tray,
+      const toml::v2::node_view<toml::node>& default_config,const bool& config,const std::string &key) 
+{
+  if (!tray[key].value<bool>().has_value())
+    tray.as_table()->insert(key, default_config[key]);
+  *tray[key].as_boolean() = config;
 }
 
 void
@@ -72,194 +122,120 @@ Interface::Tray::toNodeView(
   const toml::v2::node_view<toml::node>& tray,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  if (tray["enable"].as_boolean() == nullptr)
-    tray.as_table()->insert("enable", default_config["enable"]);
-  *tray["enable"].as_boolean() = this->enable;
+  toNodeView(tray,default_config,this->enable,"enable");
+}
+
+template<>
+void
+Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
+  const toml::v2::node_view<toml::node>& default_config,Language& config,const std::string &key){
+  if (!interface[key].value<std::string>().has_value())
+    interface.as_table()->insert(key, default_config[key]);
+  if (auto temp = interface[key].value<std::string>(); temp.has_value())
+    config.fromNodeView(interface[key],default_config[key]);
 }
 
 void
 Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
                         const toml::v2::node_view<toml::node>& default_config)
 {
-  auto& table = *interface.as_table();
-  if (interface["language"].as_string() != nullptr)
-    this->language.fromNodeView(interface["language"],
-                                default_config["language"]);
-  else {
-    table.insert("language", default_config["language"]);
-  }
+  fromNodeView(interface,default_config,this->language,"language");
+  fromNodeView(interface,default_config,this->theme,"theme");
+  fromNodeView(interface,default_config,this->tray,"tray");
+}
 
-  if (interface["theme"].as_table() != nullptr)
-    this->theme.fromNodeView(interface["theme"], default_config["theme"]);
-  else
-    table.insert("theme", default_config["theme"]);
+template<typename T>
+void Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
+    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key) 
+{
+  if(interface[key].as_table() == nullptr)
+    interface.as_table()->insert(key,default_config[key]);
+  config.fromNodeView(interface[key],default_config[key]);
+  
+}
 
-  if (interface["tray"].as_table() != nullptr)
-    this->tray.fromNodeView(interface["tray"], default_config["tray"]);
-  else
-    table.insert("tray", default_config["tray"]);
+template <>
+void Interface::toNodeView(toml::v2::node_view<toml::node> interface,
+    const toml::v2::node_view<toml::node>& default_config,Language& config,const std::string &key) 
+{
+  if (interface[key].as_string() == nullptr)
+    interface.as_table()->insert(key, default_config[key]);
+  config.toNodeView(interface[key], default_config[key]);
 }
 
 void
 Interface::toNodeView(const toml::v2::node_view<toml::node>& interface,
                       const toml::v2::node_view<toml::node>& default_config)
 {
-  auto& table = *interface.as_table();
+  toNodeView(interface,default_config,this->language,"language");
+  toNodeView(interface,default_config,this->theme,"theme");
+  toNodeView(interface,default_config,this->tray,"tray");
+}
 
-  if (interface["language"].as_string() == nullptr)
-    interface.as_table()->insert("language", default_config["language"]);
-  this->language.toNodeView(interface["language"], default_config["language"]);
-
-  if (interface["theme"].as_string() == nullptr)
-    interface.as_table()->insert("theme", default_config["theme"]);
-  this->theme.toNodeView(interface["theme"], default_config["theme"]);
-
-  if (interface["tray"].as_string() == nullptr)
-    interface.as_table()->insert("tray", default_config["tray"]);
-  this->tray.toNodeView(interface["tray"], default_config["tray"]);
+template <typename T>
+void Interface::toNodeView(toml::v2::node_view<toml::node> interface,
+    const toml::v2::node_view<toml::node>& default_config,T& config,const std::string &key) 
+{
+  if (interface[key].as_table() == nullptr)
+    interface.as_table()->insert(key, default_config[key]);
+  config.toNodeView(interface[key], default_config[key]);
 }
 
 void
 Network::fromNodeView(toml::v2::node_view<toml::node> network,
                       const toml::v2::node_view<toml::node>& default_config)
 {
-  if (network["test_method"].as_string() == nullptr)
-    network.as_table()->insert("test_method", default_config["test_method"]);
-  if (auto temp = network["test_method"].value<std::string>(); temp.has_value())
-    this->test_method = QString::fromStdString(temp.value());
-
-  if (network["test_url"].as_string() == nullptr)
-    network.as_table()->insert("test_url", default_config["test_url"]);
-  if (auto temp = network["test_url"].value<std::string>(); temp.has_value())
-    this->test_url = QString::fromStdString(temp.value());
-
-  if (network["user_agent"].as_string() == nullptr)
-    network.as_table()->insert("user_agent", default_config["user_agent"]);
-  if (auto temp = network["user_agent"].value<std::string>(); temp.has_value())
-    this->user_agent = QString::fromStdString(temp.value());
+  Table::fromNodeView(network,default_config,this->test_method,"test_method");
+  Table::fromNodeView(network,default_config,this->test_url,"test_url");
+  Table::fromNodeView(network,default_config,this->user_agent,"user_agent");
 }
 
 void
 Network::toNodeView(const toml::v2::node_view<toml::node>& network,
                     const toml::v2::node_view<toml::node>& default_config)
 {
-  if (network["test_method"].as_string() == nullptr)
-    network.as_table()->insert("test_method", default_config["test_method"]);
-  *network["test_method"].as_string() = this->test_method.toStdString();
-
-  if (network["test_url"].as_string() == nullptr)
-    network.as_table()->insert("test_url", default_config["test_url"]);
-  *network["test_url"].as_string() = this->test_url.toStdString();
-
-  if (network["user_agent"].as_string() == nullptr)
-    network.as_table()->insert("user_agent", default_config["user_agent"]);
-  *network["user_agent"].as_string() = this->user_agent.toStdString();
+  Table::toNodeView(network,default_config,this->test_method,"test_method");
+  Table::toNodeView(network,default_config,this->test_url,"test_url");
+  Table::toNodeView(network,default_config,this->user_agent,"user_agent");
 }
 
 void
 Update::fromNodeView(toml::v2::node_view<toml::node> update,
                      const toml::v2::node_view<toml::node>& default_config)
 {
-  if (update["auto_update"].as_boolean() == nullptr)
-    update.as_table()->insert("auto_update", default_config["auto_update"]);
-  if (auto temp = update["auto_update"].value<bool>(); temp.has_value())
-    this->auto_update = temp.value();
-
-  if (update["check_update"].as_boolean() == nullptr)
-    update.as_table()->insert("check_update", default_config["check_update"]);
-  if (auto temp = update["check_update"].value<bool>(); temp.has_value())
-    this->check_update = temp.value();
-
-  if (update["update_from_proxy"].as_boolean() == nullptr)
-    update.as_table()->insert("update_from_proxy",
-                              default_config["update_from_proxy"]);
-  if (auto temp = update["update_from_proxy"].value<bool>(); temp.has_value())
-    this->update_from_proxy = temp.value();
-
-  if (update["update_channel"].as_string() == nullptr)
-    update.as_table()->insert("update_channel",
-                              default_config["update_channel"]);
-  if (auto temp = update["update_channel"].value<std::string>();
-      temp.has_value())
-    this->update_channel = QString::fromStdString(temp.value());
+  Table::fromNodeView(update,default_config,this->auto_update,"auto_update");
+  Table::fromNodeView(update,default_config,this->check_update,"check_update");
+  Table::fromNodeView(update,default_config,this->update_from_proxy,"update_from_proxy");
+  Table::fromNodeView(update,default_config,this->update_channel,"update_channel");
 }
 
 void
 Update::toNodeView(const toml::v2::node_view<toml::node>& update,
                    const toml::v2::node_view<toml::node>& default_config)
 {
-  if (update["auto_update"].as_boolean() == nullptr)
-    update.as_table()->insert("auto_update", default_config["auto_update"]);
-  *update["auto_update"].as_boolean() = this->auto_update;
-
-  if (update["check_update"].as_boolean() == nullptr)
-    update.as_table()->insert("check_update", default_config["check_update"]);
-  *update["check_update"].as_boolean() = this->check_update;
-
-  if (update["update_channel"].as_string() == nullptr)
-    update.as_table()->insert("update_channel",
-                              default_config["update_channel"]);
-  *update["update_channel"].as_string() = this->update_channel.toStdString();
-
-  if (update["update_from_proxy"].as_boolean() == nullptr)
-    update.as_table()->insert("update_from_proxy",
-                              default_config["update_from_proxy"]);
-  *update["update_from_proxy"].as_boolean() = this->update_from_proxy;
+  Table::toNodeView(update,default_config,this->auto_update,"auto_update");
+  Table::toNodeView(update,default_config,this->check_update,"check_update");
+  Table::toNodeView(update,default_config,this->update_channel,"update_channel");
+  Table::toNodeView(update,default_config,this->update_from_proxy,"update_from_proxy");
 }
 
 void
 DataBase::fromNodeView(toml::v2::node_view<toml::node> database,
                        const toml::v2::node_view<toml::node>& default_config)
 {
-  if (database["db_path"].as_string() == nullptr)
-    database.as_table()->insert("db_path", default_config["db_path"]);
-  if (auto temp = database["db_path"].value<std::string>(); temp.has_value())
-    this->path = QString::fromStdString(temp.value());
-
-  if (database["db_backend"].as_string() == nullptr)
-    database.as_table()->insert("db_backend", default_config["db_backend"]);
-  if (auto temp = database["db_backend"].value<std::string>(); temp.has_value())
-    this->backend = QString::fromStdString(temp.value());
+  Table::fromNodeView(database,default_config,this->backend,"db_backend");
+  Table::fromNodeView(database,default_config,this->path,"db_path");
 
   if (database["auth"].as_table() == nullptr)
     database.as_table()->insert("auth", default_config["auth"]);
 
-  if (database["auth"]["enable"].as_boolean() == nullptr)
-    database["auth"].as_table()->insert("enable",
-                                        default_config["auth"]["enable"]);
-  if (auto temp = database["auth"]["enable"].value<bool>();
-      temp.has_value() && temp.value() == true) {
-    this->auth.enable = temp.value();
+  Table::fromNodeView(database["auth"],default_config["auth"],this->auth.enable,"enable");
 
-    auto auth = database["auth"];
-
-    if (database["auth"]["username"].as_string() == nullptr)
-      database["auth"].as_table()->insert("username",
-                                          default_config["auth"]["username"]);
-    if (auto auth_temp = auth["username"].value<std::string>();
-        auth_temp.has_value())
-      this->auth.username = QString::fromStdString(auth_temp.value());
-
-    if (database["auth"]["password"].as_string() == nullptr)
-      database["auth"].as_table()->insert("password",
-                                          default_config["auth"]["password"]);
-    if (auto auth_temp = auth["password"].value<std::string>();
-        auth_temp.has_value())
-      this->auth.password = QString::fromStdString(auth_temp.value());
-
-    if (database["auth"]["address"].as_string() == nullptr)
-      database["auth"].as_table()->insert("address",
-                                          default_config["auth"]["address"]);
-    if (auto auth_temp = auth["address"].value<std::string>();
-        auth_temp.has_value())
-      this->auth.address = QString::fromStdString(auth_temp.value());
-
-    if (!database["auth"]["port"].value<uint>().has_value())
-      database["auth"].as_table()->insert("port",
-                                          default_config["auth"]["port"]);
-    if (auto auth_temp = database["auth"]["port"].value<uint>();
-        auth_temp.has_value())
-      this->auth.port = auth_temp.value();
+  if(this->auth.enable) {
+    Table::fromNodeView(database["auth"],default_config["auth"],this->auth.username,"username");
+    Table::fromNodeView(database["auth"],default_config["auth"],this->auth.password,"password");
+    Table::fromNodeView(database["auth"],default_config["auth"],this->auth.address,"address");
+    Table::fromNodeView(database["auth"],default_config["auth"],this->auth.port,"port");
   }
 }
 
@@ -267,43 +243,19 @@ void
 DataBase::toNodeView(const toml::v2::node_view<toml::node>& database,
                      const toml::v2::node_view<toml::node>& default_config)
 {
-  if (database["db_path"].as_string() == nullptr)
-    database.as_table()->insert("db_path", default_config["db_path"]);
-  *database["db_path"].as_string() = this->path.toStdString();
+  Table::toNodeView(database,default_config,this->path,"db_path");
+  Table::toNodeView(database,default_config,this->backend,"db_backend");
 
-  if (database["db_backend"].as_string() == nullptr)
-    database.as_table()->insert("db_backend", default_config["db_backend"]);
-  *database["db_backend"].as_string() = this->backend.toStdString();
 
   if (database["auth"].as_table() == nullptr)
     database.as_table()->insert("auth", default_config["auth"]);
+
   if (this->auth.enable) {
-    if (database["auth"]["enable"].as_boolean() == nullptr)
-      database["auth"].as_table()->insert("enable",
-                                          default_config["auth"]["enable"]);
-    *database["auth"]["enable"].as_boolean() = this->auth.enable;
-
-    if (database["auth"]["username"].as_string() == nullptr)
-      database["auth"].as_table()->insert("username",
-                                          default_config["auth"]["username"]);
-    *database["auth"]["username"].as_string() =
-      this->auth.username.toStdString();
-
-    if (database["auth"]["password"].as_string() == nullptr)
-      database["auth"].as_table()->insert("password",
-                                          default_config["auth"]["password"]);
-    *database["auth"]["password"].as_string() =
-      this->auth.password.toStdString();
-
-    if (database["auth"]["address"].as_string() == nullptr)
-      database["auth"].as_table()->insert("address",
-                                          default_config["auth"]["address"]);
-    *database["auth"]["address"].as_string() = this->auth.address.toStdString();
-
-    if (database["auth"]["port"].as_integer() == nullptr)
-      database["auth"].as_table()->insert("port",
-                                          default_config["auth"]["port"]);
-    *database["auth"]["port"].as_integer() = this->auth.port;
+    Table::toNodeView(database["auth"],default_config["auth"],this->auth.enable,"enable");
+    Table::toNodeView(database["auth"],default_config["auth"],this->auth.username,"username");
+    Table::toNodeView(database["auth"],default_config["auth"],this->auth.password,"password");
+    Table::toNodeView(database["auth"],default_config["auth"],this->auth.address,"address");
+    Table::toNodeView(database["auth"],default_config["auth"],this->auth.port,"port");
   }
 }
 
@@ -311,41 +263,17 @@ void
 Core::fromNodeView(toml::v2::node_view<toml::node> core,
                    const toml::v2::node_view<toml::node>& default_config)
 {
-  if (core["core_path"].as_string() == nullptr)
-    core.as_table()->insert("core_path", default_config["core_path"]);
-  if (auto temp = core["core_path"].value<std::string>(); temp.has_value())
-    this->core_path = QString::fromStdString(temp.value());
-
-  if (core["assets_path"].as_string() == nullptr)
-    core.as_table()->insert("assets_path", default_config["assets_path"]);
-  if (auto temp = core["assets_path"].value<std::string>(); temp.has_value())
-    this->assets_path = QString::fromStdString(temp.value());
-
-  if (core["log_level"].as_string() == nullptr)
-    core.as_table()->insert("log_level", default_config["log_level"]);
-  if (auto temp = core["log_level"].value<std::string>(); temp.has_value())
-    this->log_level = QString::fromStdString(temp.value());
-
-  if (core["log_lines"].as_integer() == nullptr)
-    core.as_table()->insert("log_lines", default_config["log_lines"]);
-  if (auto temp = core["log_lines"].value<int>(); temp.has_value())
-    this->log_lines = temp.value();
+  Table::fromNodeView(core,default_config,this->core_path,"core_path");
+  Table::fromNodeView(core,default_config,this->assets_path,"assets_path");
+  Table::fromNodeView(core,default_config,this->log_level,"log_level");
+  Table::fromNodeView(core,default_config,this->log_lines,"log_lines");
 
   if (core["api"].as_table() == nullptr)
     core.as_table()->insert("api", default_config["api"]);
 
-  if (core["api"]["enable"].as_boolean() == nullptr)
-    core.as_table()->insert("enable", default_config["api"]["enable"]);
-  if (auto temp = core["api"]["enable"].value<bool>();
-      temp.has_value() && temp.value() == true) {
-    this->api.enable = temp.value();
-
-    if (core["api"]["port"].as_integer() == nullptr)
-      core.as_table()->insert("port", default_config["api"]["port"]);
-    if (auto api_temp = core["api"]["port"].value<uint>();
-        api_temp.has_value()) {
-      this->api.port = api_temp.value();
-    }
+  Table::fromNodeView(core["api"],default_config["api"],this->api.enable,"enable");
+  if(this->api.enable){
+    Table::fromNodeView(core["api"],default_config["api"],this->api.port,"port");
   }
 }
 
@@ -353,32 +281,16 @@ void
 Core::toNodeView(const toml::v2::node_view<toml::node>& core,
                  const toml::v2::node_view<toml::node>& default_config)
 {
-  if (core["core_path"].as_string() == nullptr)
-    core.as_table()->insert("core_path", default_config["core_path"]);
-  *core["core_path"].as_string() = core_path.toStdString();
-
-  if (core["assets_path"].as_string() == nullptr)
-    core.as_table()->insert("assets_path", default_config["assets_path"]);
-  *core["assets_path"].as_string() = assets_path.toStdString();
-
-  if (core["log_level"].as_string() == nullptr)
-    core.as_table()->insert("log_level", default_config["log_level"]);
-  *core["log_level"].as_string() = log_level.toStdString();
-
-  if (core["log_lines"].as_integer() == nullptr)
-    core.as_table()->insert("log_lines", default_config["log_lines"]);
-  *core["log_lines"].as_integer() = log_lines;
+  Table::toNodeView(core,default_config,this->core_path,"core_path");
+  Table::toNodeView(core,default_config,this->assets_path,"assets_path");
+  Table::toNodeView(core,default_config,this->log_level,"log_level");
+  Table::toNodeView(core,default_config,this->log_lines,"log_lines");
 
   if (core["api"].as_table() == nullptr)
     core.as_table()->insert("api", default_config["api"]);
 
-  if (core["api"]["enable"].as_boolean() == nullptr)
-    core.as_table()->insert("enable", default_config["api"]["enable"]);
-  *core["api"]["enable"].as_boolean() = api.enable;
-
-  if (core["api"]["port"].as_integer() == nullptr)
-    core.as_table()->insert("port", default_config["api"]["port"]);
-  *core["api"]["port"].as_integer() = api.port;
+  Table::toNodeView(core["api"],default_config["api"],this->api.enable,"enable");
+  Table::toNodeView(core["api"],default_config["api"],this->api.port,"port");
 }
 
 void
@@ -438,56 +350,19 @@ InboundSettings::SOCKS::fromNodeView(
   toml::v2::node_view<toml::node> socks,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  if (socks["enable"].as_boolean() == nullptr)
-    socks.as_table()->insert("enable", default_config["enable"]);
-  if (auto temp = socks["enable"].value<bool>();
-      temp.has_value() && temp.value() == true) {
-    this->enable = temp.value();
-
-    if (socks["listen"].as_string() == nullptr)
-      socks.as_table()->insert("listen", default_config["listen"]);
-    if (auto socks_temp = socks["listen"].value<std::string>();
-        socks_temp.has_value())
-      this->listen = QString::fromStdString(socks_temp.value());
-
-    if (socks["port"].as_integer() == nullptr)
-      socks.as_table()->insert("port", default_config["port"]);
-    if (auto socks_temp = socks["port"].value<uint>(); socks_temp.has_value())
-      this->port = socks_temp.value();
-
-    if (socks["udp"].as_boolean() == nullptr)
-      socks.as_table()->insert("udp", default_config["udp"]);
-    if (auto socks_temp = socks["udp"].value<bool>(); socks_temp.has_value())
-      this->udp = socks_temp.value();
-
-    if (socks["ip"].as_string() == nullptr)
-      socks.as_table()->insert("ip", default_config["ip"]);
-    if (auto socks_temp = socks["ip"].value<std::string>();
-        socks_temp.has_value())
-      this->ip = QString::fromStdString(socks_temp.value());
-
-    if (socks["user_level"].as_integer() == nullptr)
-      socks.as_table()->insert("user_level", default_config["user_level"]);
-    if (auto socks_temp = socks["user_level"].value<int>();
-        socks_temp.has_value())
-      this->user_level = socks_temp.value();
+  Table::fromNodeView(socks,default_config,this->enable,"enable");
+  if(this->enable){
+    Table::fromNodeView(socks,default_config,this->listen,"listen");
+    Table::fromNodeView(socks,default_config,this->port,"port");
+    Table::fromNodeView(socks,default_config,this->udp,"udp");
+    Table::fromNodeView(socks,default_config,this->ip,"ip");
+    Table::fromNodeView(socks,default_config,this->user_level,"user_level");
 
     if (socks["auth"].as_table() == nullptr)
       socks.as_table()->insert("auth", default_config["auth"]);
 
-    if (socks["auth"]["username"].as_string() == nullptr)
-      socks["auth"].as_table()->insert("username",
-                                       default_config["auth"]["username"]);
-    if (auto socks_temp = socks["auth"]["username"].value<std::string>();
-        socks_temp.has_value())
-      this->username = QString::fromStdString(socks_temp.value());
-
-    if (socks["auth"]["password"].as_string() == nullptr)
-      socks["auth"].as_table()->insert("password",
-                                       default_config["auth"]["password"]);
-    if (auto socks_temp = socks["auth"]["password"].value<std::string>();
-        socks_temp.has_value())
-      this->password = QString::fromStdString(socks_temp.value());
+    Table::fromNodeView(socks["auth"],default_config["auth"],this->username,"username");
+    Table::fromNodeView(socks["auth"],default_config["auth"],this->password,"password");
   }
 }
 
@@ -496,40 +371,18 @@ InboundSettings::SOCKS::toNodeView(
   const toml::v2::node_view<toml::node>& socks,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  if (socks["enable"].as_boolean() == nullptr)
-    socks.as_table()->insert("enable", default_config["enable"]);
-  *socks["enable"].as_boolean() = enable;
-
-  if (socks["listen"].as_string() == nullptr)
-    socks.as_table()->insert("listen", default_config["listen"]);
-  *socks["listen"].as_string() = listen.toStdString();
-
-  if (socks["port"].as_integer() == nullptr)
-    socks.as_table()->insert("port", default_config["port"]);
-  *socks["port"].as_integer() = port;
-
-  if (socks["udp"].as_boolean() == nullptr)
-    socks.as_table()->insert("udp", default_config["udp"]);
-  *socks["udp"].as_boolean() = udp;
-  if (socks["ip"].as_string() == nullptr)
-    socks.as_table()->insert("ip", default_config["ip"]);
-  *socks["ip"].as_string() = ip.toStdString();
-  if (socks["user_level"].as_integer() == nullptr)
-    socks.as_table()->insert("user_level", default_config["user_level"]);
-  *socks["user_level"].as_integer() = user_level;
+  Table::toNodeView(socks,default_config,this->enable,"enable");
+  Table::toNodeView(socks,default_config,this->listen,"listen");
+  Table::toNodeView(socks,default_config,this->port,"port");
+  Table::toNodeView(socks,default_config,this->udp,"udp");
+  Table::toNodeView(socks,default_config,this->ip,"ip");
+  Table::toNodeView(socks,default_config,this->user_level,"user_level");
 
   if (socks["auth"].as_table() == nullptr)
     socks.as_table()->insert("auth", default_config["auth"]);
 
-  if (socks["auth"]["username"].as_string() == nullptr)
-    socks["auth"].as_table()->insert("username",
-                                     default_config["auth"]["username"]);
-  *socks["auth"]["username"].as_string() = username.toStdString();
-
-  if (socks["auth"]["password"].as_string() == nullptr)
-    socks["auth"].as_table()->insert("password",
-                                     default_config["auth"]["password"]);
-  *socks["auth"]["password"].as_string() = password.toStdString();
+  Table::toNodeView(socks["auth"],default_config["auth"],this->username,"username");
+  Table::toNodeView(socks["auth"],default_config["auth"],this->password,"password");
 }
 
 InboundObject
@@ -566,56 +419,19 @@ InboundSettings::HTTP::fromNodeView(
   toml::v2::node_view<toml::node> http,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  if (http["enable"].as_boolean() == nullptr)
-    http.as_table()->insert("enable", default_config["enable"]);
-  if (auto temp = http["enable"].value<bool>();
-      temp.has_value() && temp.value() == true) {
-    this->enable = temp.value();
-
-    if (http["listen"].as_string() == nullptr)
-      http.as_table()->insert("listen", default_config["listen"]);
-    if (auto http_temp = http["listen"].value<std::string>();
-        http_temp.has_value())
-      this->listen = QString::fromStdString(http_temp.value());
-
-    if (http["port"].as_integer() == nullptr)
-      http.as_table()->insert("port", default_config["port"]);
-    if (auto http_temp = http["port"].value<uint>(); http_temp.has_value())
-      this->port = http_temp.value();
-
-    if (http["allow_transparent"].as_boolean() == nullptr)
-      http.as_table()->insert("allow_transparent",
-                              default_config["allow_transparent"]);
-    if (auto http_temp = http["allow_transparent"].value<bool>();
-        http_temp.has_value())
-      this->allow_transparent = http_temp.value();
-
-    if (http["timeout"].as_integer() == nullptr)
-      http.as_table()->insert("timeout", default_config["timeout"]);
-    if (auto http_temp = http["timeout"].value<int>(); http_temp.has_value())
-      this->timeout = http_temp.value();
-
-    if (http["user_level"].as_integer() == nullptr)
-      http.as_table()->insert("user_level", default_config["user_level"]);
-    if (auto http_temp = http["user_level"].value<int>(); http_temp.has_value())
-      this->user_level = http_temp.value();
+  Table::fromNodeView(http,default_config,this->enable,"enable");
+  if(this->enable){
+    Table::fromNodeView(http,default_config,this->listen,"listen");
+    Table::fromNodeView(http,default_config,this->port,"port");
+    Table::fromNodeView(http,default_config,this->allow_transparent,"allow_transparent");
+    Table::fromNodeView(http,default_config,this->timeout,"timeout");
+    Table::fromNodeView(http,default_config,this->user_level,"user_level");
 
     if (http["auth"].as_table() == nullptr)
       http.as_table()->insert("auth", default_config["auth"]);
 
-    if (http["auth"]["username"].as_string() == nullptr)
-      http["auth"].as_table()->insert("username",
-                                      default_config["auth"]["username"]);
-    if (auto http_temp = http["auth"]["username"].value<std::string>();
-        http_temp.has_value())
-      this->username = QString::fromStdString(http_temp.value());
-
-    if (http["auth"]["password"].as_string() == nullptr)
-      http["auth"].as_table()->insert("password",
-                                      default_config["auth"]["password"]);
-    if (auto http_temp = http["auth"]["password"].value<std::string>();
-        http_temp.has_value())
-      this->password = QString::fromStdString(http_temp.value());
+    Table::fromNodeView(http["auth"],default_config["auth"],this->username,"username");
+    Table::fromNodeView(http["auth"],default_config["auth"],this->password,"password");
   }
 }
 
@@ -624,43 +440,18 @@ InboundSettings::HTTP::toNodeView(
   const toml::v2::node_view<toml::node>& http,
   const toml::v2::node_view<toml::node>& default_config)
 {
-  if (http["enable"].as_boolean() == nullptr)
-    http.as_table()->insert("enable", default_config["enable"]);
-  *http["enable"].as_boolean() = enable;
-
-  if (http["listen"].as_string() == nullptr)
-    http.as_table()->insert("listen", default_config["listen"]);
-  *http["listen"].as_string() = listen.toStdString();
-
-  if (http["port"].as_integer() == nullptr)
-    http.as_table()->insert("port", default_config["port"]);
-  *http["port"].as_integer() = port;
-
-  if (http["allow_transparent"].as_boolean() == nullptr)
-    http.as_table()->insert("allow_transparent",
-                            default_config["allow_transparent"]);
-  *http["allow_transparent"].as_boolean() = allow_transparent;
-
-  if (http["timeout"].as_integer() == nullptr)
-    http.as_table()->insert("timeout", default_config["timeout"]);
-  *http["timeout"].as_integer() = timeout;
-
-  if (http["user_level"].as_integer() == nullptr)
-    http.as_table()->insert("user_level", default_config["user_level"]);
-  *http["user_level"].as_integer() = user_level;
+  Table::toNodeView(http,default_config,this->enable,"enable");
+  Table::toNodeView(http,default_config,this->listen,"listen");
+  Table::toNodeView(http,default_config,this->port,"port");
+  Table::toNodeView(http,default_config,this->allow_transparent,"allow_transparent");
+  Table::toNodeView(http,default_config,this->timeout,"timeout");
+  Table::toNodeView(http,default_config,this->user_level,"user_level");
 
   if (http["auth"].as_table() == nullptr)
     http.as_table()->insert("auth", default_config["auth"]);
 
-  if (http["auth"]["username"].as_string() == nullptr)
-    http["auth"].as_table()->insert("username",
-                                    default_config["auth"]["username"]);
-  *http["auth"]["username"].as_string() = username.toStdString();
-
-  if (http["auth"]["password"].as_string() == nullptr)
-    http["auth"].as_table()->insert("password",
-                                    default_config["auth"]["password"]);
-  *http["auth"]["password"].as_string() = password.toStdString();
+  Table::toNodeView(http["auth"],default_config["auth"],this->username,"username");
+  Table::toNodeView(http["auth"],default_config["auth"],this->password,"password");
 }
 
 InboundObject
@@ -775,7 +566,6 @@ ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
 
     if (!(result = loadDBConfig())) {
       p_logger->error("Failed to load database config");
-      break;
     }
 
     if (!(result = loadInterfaceConfig())) {
@@ -930,6 +720,10 @@ ConfigTools::loadUpdateConfig()
 bool
 ConfigTools::loadDBConfig()
 {
+  if(!m_config["database"].is_table()){
+    m_config.insert("database",*m_default_config["database"].as_table());
+  }
+
   if (auto temp = m_config["database"]["db_path"].value<std::string>();
       temp.has_value() && temp != m_db.path.toStdString()) {
     setDBPath(QString::fromStdString(temp.value()), true);
