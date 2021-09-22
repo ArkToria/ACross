@@ -321,11 +321,11 @@ GroupList::handleDownloaded(const QVariant& content)
     auto item = m_pre_items.at(i);
     if (task.filename == item.name) {
       if (task.content.isEmpty()) {
-        m_pre_items.removeAt(i);
-        return;
+        break;
       } else {
         insert(item, task.content);
       }
+      m_pre_items.removeAt(i);
     }
   }
 }
