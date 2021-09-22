@@ -570,32 +570,32 @@
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="105"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="104"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="117"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="115"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="129"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="126"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="144"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="140"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="168"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="163"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="172"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="167"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
@@ -616,12 +616,12 @@
 <context>
     <name>RemoveConfirmDialog</name>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="70"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="71"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="81"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="82"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -721,7 +721,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="310"/>
+        <location filename="../src/view_models/grouplist.cpp" line="309"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

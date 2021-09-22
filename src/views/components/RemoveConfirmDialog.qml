@@ -55,6 +55,7 @@ Dialog {
             anchors.centerIn: parent
 
             text: contentText
+            color: acrossConfig.textColor
             horizontalAlignment: Text.AlignHCenter
         }
     }

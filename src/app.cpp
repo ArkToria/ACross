@@ -30,7 +30,10 @@ Application::Application(int& argc, char** argv)
           [&](QString lang) { setTranslator(lang); });
 }
 
-Application::~Application() {}
+Application::~Application()
+{
+  m_engine.removeImageProvider("acrossImageProvider");
+}
 
 int
 Application::run()
@@ -47,16 +50,13 @@ Application::setRootContext()
     &QQmlApplicationEngine::objectCreated,
     this,
     [url](QObject* obj, const QUrl& objUrl) {
-      if (!obj && url == objUrl)
+      if (!obj && url == objUrl) {
         QCoreApplication::exit(-1);
+      }
     },
     Qt::QueuedConnection);
 
   m_engine.addImportPath(u"qrc:/"_qs);
-
-  m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
-                            p_image_provider.get());
-
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
                                              p_logview.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
@@ -69,6 +69,8 @@ Application::setRootContext()
                                              p_groups.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              p_tray.get());
+  m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
+                            p_image_provider.get());
   m_engine.load(url);
 
   p_config->init(p_logview);

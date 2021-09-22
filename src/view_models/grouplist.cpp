@@ -166,14 +166,12 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
   QString decode_data = QByteArray::fromBase64(content.toUtf8());
 
   for (auto& item : decode_data.split("\n")) {
+    item.remove("\r");
     if (item.isEmpty()) {
       break;
     }
 
-    NodeInfo node;
-    node.group = group_info.name;
-    node.group_id = group_info.id;
-    node.url = QString(QUrl(item).toEncoded());
+    NodeInfo node = { .group = group_info.name, .group_id = group_info.id };
 
     result = SerializeTools::decodeOutboundFromURL(node, item);
 
@@ -184,6 +182,7 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
     }
   }
 
+  reloadItems();
   return result;
 }
 

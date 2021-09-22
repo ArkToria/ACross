@@ -10,7 +10,9 @@ namespace across {
 class ImageProvider : public QQuickImageProvider
 {
 public:
-  ImageProvider();
+  ImageProvider(ImageType type = ImageType::Image, Flags flags = Flags());
+
+  ~ImageProvider();
 
   void setContent(const QString& id, const QString& content);
 

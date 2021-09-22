@@ -86,7 +86,7 @@ Window {
 
                             text: qsTr("Node Info")
                             color: acrossConfig.textColor
-                            font.pixelSize: 18
+                            font.pointSize: 14
                         }
 
                         Label {
@@ -98,7 +98,6 @@ Window {
                             Layout.fillWidth: true
 
                             text: name
-                            readOnly: true
                         }
 
                         Label {
@@ -110,7 +109,6 @@ Window {
                             Layout.fillWidth: true
 
                             text: address
-                            readOnly: true
                         }
 
                         Label {
@@ -122,7 +120,6 @@ Window {
                             Layout.fillWidth: true
 
                             text: port
-                            readOnly: true
                         }
 
                         Label {
@@ -134,7 +131,6 @@ Window {
                             Layout.fillWidth: true
 
                             text: password
-                            readOnly: true
                         }
 
                         Label {
@@ -143,7 +139,7 @@ Window {
 
                             text: qsTr("Copy URL")
                             color: acrossConfig.textColor
-                            font.pixelSize: 18
+                            font.pointSize: 14
                         }
 
                         TextAreaBox {
@@ -152,7 +148,6 @@ Window {
                             Layout.fillHeight: true
 
                             wrapMode: Text.WrapAnywhere
-
                             text: url
                         }
 

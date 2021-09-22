@@ -25,7 +25,7 @@ public:
 
 private:
   uint m_size = 256;
-  uint m_margin = 10;
+  uint m_margin = 2;
   int m_ecc_level = -1;
   ZXing::BarcodeFormat m_format = ZXing::BarcodeFormat::QRCode;
 };

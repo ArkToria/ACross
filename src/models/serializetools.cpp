@@ -51,8 +51,7 @@ bool
 SerializeTools::decodeOutboundFromURL(NodeInfo& node, const QString& raw_url)
 {
   bool result = false;
-
-  node.url = QUrl(raw_url).toEncoded();
+  node.url = raw_url;
 
   do {
     QUrl url(raw_url);
