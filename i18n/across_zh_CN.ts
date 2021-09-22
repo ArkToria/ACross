@@ -560,42 +560,42 @@
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="79"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="87"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="85"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="93"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="97"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="105"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="109"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="117"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="121"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="129"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="136"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="144"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="160"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="168"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="164"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="172"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>

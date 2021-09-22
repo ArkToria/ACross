@@ -4,7 +4,9 @@
 #include "../models/coretools.h"
 #include "../models/dbtools.h"
 #include "../models/jsontools.h"
+
 #include "configtools.h"
+#include "imageprovider.h"
 #include "logtools.h"
 
 #include "magic_enum.hpp"
@@ -43,7 +45,8 @@ public:
   void init(QSharedPointer<LogView> log_view,
             QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::core::CoreTools> core,
-            QSharedPointer<across::DBTools> db);
+            QSharedPointer<across::DBTools> db,
+            QSharedPointer<across::ImageProvider> qrcode);
 
   QVector<NodeInfo> items();
 
@@ -52,6 +55,8 @@ public:
   void appendNode(NodeInfo node);
 
   Q_INVOKABLE void removeCurrentNode(int id);
+
+  Q_INVOKABLE QString getQRCode(int id);
 
 public:
   int currentNodeID();
@@ -108,6 +113,7 @@ private:
   QSharedPointer<DBTools> p_db;
   QSharedPointer<across::setting::ConfigTools> p_config;
   QSharedPointer<across::core::CoreTools> p_core;
+  QSharedPointer<across::ImageProvider> p_qrcode;
 
   QVector<NodeInfo> m_items;
   QMap<int, NodesInfo> m_all_items;

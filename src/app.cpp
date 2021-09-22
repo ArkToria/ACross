@@ -54,8 +54,8 @@ Application::setRootContext()
 
   m_engine.addImportPath(u"qrc:/"_qs);
 
-  //  m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
-  //                            p_image_provider.get());
+  m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
+                            p_image_provider.get());
 
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
                                              p_logview.get());
@@ -74,7 +74,7 @@ Application::setRootContext()
   p_config->init(p_logview);
   p_db->init(p_logview, p_config);
   p_core->init(p_logview, p_config);
-  p_nodes->init(p_logview, p_config, p_core, p_db);
+  p_nodes->init(p_logview, p_config, p_core, p_db, p_image_provider);
   p_groups->init(p_logview, p_config, p_db, p_nodes, p_curl);
   p_tray->init(p_config, p_core);
 }
@@ -113,6 +113,4 @@ Application::registerModels()
     APP_NAME, 1, 0, "RawOutboundFormModel");
   qmlRegisterType<across::URLSchemeFormModel>(
     APP_NAME, 1, 0, "URLSchemeFormModel");
-  //  qRegisterMetaType<across::GroupInfo>("GroupInfo");
-  //  qRegisterMetaType<across::network::DownloadTask>("DownloadTask");
 }

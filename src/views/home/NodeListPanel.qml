@@ -10,19 +10,19 @@ Item {
     implicitHeight: 480
 
     property Component nodeShareFormComponent: null
-    function openShareForm(name, address, port, password, url, qrcode) {
+    function openShareForm(nodeID, name, address, port, password, url) {
         if (nodeShareFormComponent == null) {
             nodeShareFormComponent = Qt.createComponent(
                         "qrc:/ACross/src/views/home/NodeShareForm.qml")
         }
         if (nodeShareFormComponent.status === Component.Ready) {
             var window = nodeShareFormComponent.createObject(mainWindow, {
+                                                                 "nodeID": nodeID,
                                                                  "name": name,
                                                                  "address": address,
                                                                  "port": port,
                                                                  "password": password,
-                                                                 "url": url,
-                                                                 "qrcode": qrcode
+                                                                 "url": url
                                                              })
             window.show()
         }

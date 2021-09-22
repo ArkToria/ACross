@@ -10,6 +10,8 @@ QRCodeTools::write(const QString& text)
   auto writer =
     ZXing::MultiFormatWriter(m_format).setMargin(m_margin).setEccLevel(
       m_ecc_level);
+
+  // BUG Fixed: convert emoji code
   auto bitmap = ZXing::ToMatrix<uint8_t>(
     writer.encode(text.toStdWString(), m_size, m_size));
 

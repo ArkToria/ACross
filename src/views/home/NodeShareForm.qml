@@ -16,6 +16,7 @@ Window {
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
+    property string nodeID
     property string name
     property string address
     property int port
@@ -27,6 +28,15 @@ Window {
         if (!visible) {
             nodeShareFormWindow.close()
             nodeShareFormWindow.destroy()
+        }
+    }
+
+    function getQRCode() {
+        var name = acrossNodes.getQRCode(nodeID)
+        if (name === "") {
+            return "qrc:/misc/icons/" + acrossConfig.iconStyle + "/repo_qr_code.svg"
+        } else {
+            return "image://acrossImageProvider/" + name
         }
     }
 
@@ -53,9 +63,7 @@ Window {
                     SVGBox {
                         anchors.centerIn: parent
 
-                        source: qrcode === "" ? "qrc:/misc/icons/" + acrossConfig.iconStyle
-                                                + "/repo_qr_code.svg" : qrcode
-                        //                        source: "image://acrossImageProvider/yellow"
+                        source: getQRCode()
                         sourceWidth: parent.width / 1.2
                         sourceHeight: sourceWidth
                     }

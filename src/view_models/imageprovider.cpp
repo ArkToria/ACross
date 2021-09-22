@@ -1,25 +1,27 @@
 #include "imageprovider.h"
 
 using namespace across;
+using namespace across::utils;
 
 ImageProvider::ImageProvider()
-  : QQuickImageProvider(QQuickImageProvider::Pixmap)
+  : QQuickImageProvider(QQuickImageProvider::Image)
+{}
+
+void
+ImageProvider::setContent(const QString& id, const QString& content)
 {
+  m_id = id;
+  m_content = content;
 }
 
-QPixmap
-ImageProvider::requestPixmap(const QString& id,
-                             QSize* size,
-                             const QSize& requestedSize)
+QImage
+ImageProvider::requestImage(const QString& id,
+                            QSize* size,
+                            const QSize& requestedSize)
 {
-  int width = 100;
-  int height = 100;
+  if (id == m_id) {
+    return QRCodeTools().write(m_content);
+  }
 
-  if (size)
-    *size = QSize(width, height);
-  QPixmap pixmap(requestedSize.width() > 0 ? requestedSize.width() : width,
-                 requestedSize.height() > 0 ? requestedSize.height() : height);
-  pixmap.fill(QColor(id).rgba());
-
-  return pixmap;
+  return QImage();
 }
