@@ -118,26 +118,26 @@ NodeList::displayGroupID()
   return m_display_group_id;
 }
 
-QString
-NodeList::currentNodeName()
+const QString&
+NodeList::currentNodeName() const
 {
   return m_current_node.name;
 }
 
-QString
-NodeList::currentNodeGroup()
+const QString&
+NodeList::currentNodeGroup() const
 {
   return m_current_node.group;
 }
 
 QString
-NodeList::currentNodeProtocol()
+NodeList::currentNodeProtocol() const
 {
   return magic_enum::enum_name(m_current_node.protocol).data();
 }
 
-QString
-NodeList::currentNodeAddress()
+const QString&
+NodeList::currentNodeAddress() const
 {
   return m_current_node.address;
 }
@@ -146,6 +146,12 @@ int
 NodeList::currentNodePort()
 {
   return m_current_node.port;
+}
+
+const QString&
+NodeList::currentNodeURL() const
+{
+  return m_current_node.url;
 }
 
 void

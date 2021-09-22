@@ -3,7 +3,6 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import ACross
-import ACross
 
 Item {
     id: groupControlBar

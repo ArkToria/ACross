@@ -17,6 +17,7 @@ Application::Application(int& argc, char** argv)
   p_nodes = QSharedPointer<NodeList>(new NodeList());
   p_groups = QSharedPointer<GroupList>(new GroupList);
   p_tray = QSharedPointer<SystemTray>(new SystemTray());
+  p_image_provider = QSharedPointer<ImageProvider>(new ImageProvider());
 
   registerModels();
   setRootContext();
@@ -52,6 +53,9 @@ Application::setRootContext()
     Qt::QueuedConnection);
 
   m_engine.addImportPath(u"qrc:/"_qs);
+
+  //  m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
+  //                            p_image_provider.get());
 
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
                                              p_logview.get());

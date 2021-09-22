@@ -94,16 +94,14 @@ struct TransportObject
   {
     Network network = Network::tcp;
     std::string security = "tls";
+    Json::Value tls_setting;
+    Json::Value websocket_setting;
 
     void setTLSSetting(Json::Value tls_object);
     void setTLSSetting(TLSObject tls_object);
     void setWebsocketSetting(Json::Value websocket_object);
     void setWebsocketSetting(WebSocketObject websocket_object);
     Json::Value toObject();
-
-  private:
-    Json::Value tls_setting;
-    Json::Value websocket_setting;
   };
 };
 

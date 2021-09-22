@@ -477,10 +477,10 @@ DBTools::removeItemFromID(const QString& group_name, int64_t id)
   char* err_msg;
 
   QString remove_str =
-    QString("DELETE FROM '%1' WHERE id = '%2'").arg(group_name, id);
+    QString("DELETE FROM '%1' WHERE id = '%2'").arg(group_name).arg(id);
 
-  auto result =
-    sqlite3_exec(m_db, remove_str.toStdString().c_str(), NULL, NULL, &err_msg);
+  std::string remove = remove_str.toStdString();
+  auto result = sqlite3_exec(m_db, remove.c_str(), NULL, NULL, &err_msg);
   if (result != SQLITE_OK) {
     p_logger->error(
       "Failed to remove {}[{}]: {}", group_name.toStdString(), id, err_msg);

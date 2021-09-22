@@ -34,6 +34,8 @@ class NodeList : public QObject
                currentNodeAddressChanged)
   Q_PROPERTY(
     int currentNodePort READ currentNodePort NOTIFY currentNodePortChanged)
+  Q_PROPERTY(
+    QString currentNodeURL READ currentNodeURL NOTIFY currentNodeURLChanged)
 
 public:
   explicit NodeList(QObject* parent = nullptr);
@@ -60,15 +62,17 @@ public:
 
   int displayGroupID();
 
-  QString currentNodeName();
+  const QString& currentNodeName() const;
 
-  QString currentNodeGroup();
+  const QString& currentNodeGroup() const;
 
-  QString currentNodeProtocol();
+  QString currentNodeProtocol() const;
 
-  QString currentNodeAddress();
+  const QString& currentNodeAddress() const;
 
   int currentNodePort();
+
+  const QString& currentNodeURL() const;
 
 public slots:
   void setCurrentGroupID(int group_id);
@@ -96,6 +100,7 @@ signals:
   void currentNodeProtocolChanged();
   void currentNodeAddressChanged();
   void currentNodePortChanged();
+  void currentNodeURLChanged();
 
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;

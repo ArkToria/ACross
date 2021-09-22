@@ -52,6 +52,8 @@ SerializeTools::decodeOutboundFromURL(NodeInfo& node, const QString& raw_url)
 {
   bool result = false;
 
+  node.url = raw_url;
+
   do {
     QUrl url(raw_url);
     auto scheme = magic_enum::enum_cast<SchemeType>(url.scheme().toStdString());
@@ -121,6 +123,7 @@ SerializeTools::setVMessOutboundFromBase64(NodeInfo& node,
     if (!vmess_meta.has_value()) {
       break;
     }
+
     auto outbound_object = vmess_meta->outbound_object;
 
     node.protocol = across::EntryType::vmess;
@@ -168,6 +171,7 @@ SerializeTools::sip002Decode(const QUrl& url)
 {
   // url scheme:
   // ss://<websafe-base64-encode-utf8(method:password)>@hostname:port/?plugin"#"tag
+
   SIP008::Server server;
 
   QString user_info = QByteArray::fromBase64(url.userInfo().toUtf8());
@@ -189,6 +193,9 @@ SerializeTools::sip002Decode(const QUrl& url)
 std::optional<QUrl>
 SerializeTools::sip002Encode(const SIP008::Server& node)
 {
+  // url scheme:
+  // ss://<websafe-base64-encode-utf8(method:password)>@hostname:port/?plugin"#"tag
+
   QUrl url;
   QString user_info = QString("%1:%2")
                         .arg(QString::fromStdString(node.method),
@@ -210,6 +217,7 @@ SerializeTools::trojanDecode(const QUrl& url)
 {
   // url scheme:
   // trojan://<password>@<host>:<port>?sni=<server_name>&allowinsecure=<allow_insecure>&alpn=h2%0Ahttp/1.1#<name>
+
   do {
     OutboundObject outbound_object;
 
@@ -259,14 +267,68 @@ SerializeTools::trojanDecode(const QUrl& url)
       outbound_object.setTransportStreamObject(outbound_stream);
     }
 
-    return URLMetaObject{ url.fragment(QUrl::FullyDecoded).toStdString(),
-                          outbound_setting.address,
-                          outbound_setting.port,
-                          outbound_setting.password,
-                          outbound_object };
+    return URLMetaObject{ .name =
+                            url.fragment(QUrl::FullyDecoded).toStdString(),
+                          .address = outbound_setting.address,
+                          .port = outbound_setting.port,
+                          .password = outbound_setting.password,
+                          .outbound_object = outbound_object };
   } while (false);
 
   return {};
+}
+
+std::optional<QUrl>
+SerializeTools::trojanEncode(const URLMetaObject& meta)
+{
+  // url scheme:
+  // trojan://<password>@<host>:<port>?sni=<server_name>&allowinsecure=<allow_insecure>&alpn=h2%0Ahttp/1.1#<name>
+
+  QUrl url;
+  QUrlQuery query;
+
+  url.setScheme("trojan");
+  url.setHost(QString::fromStdString(meta.address));
+  url.setPort(meta.port);
+  url.setUserInfo(QString::fromStdString(meta.password));
+  url.setFragment(QString::fromStdString(meta.name));
+
+  if (auto stream = meta.outbound_object.stream_settings; !stream.isNull()) {
+    if (auto tls = stream["tlsSettings"]; !tls.isNull()) {
+      if (auto sni = tls["serverName"]; !sni.isNull() && sni.isString()) {
+        query.addQueryItem("sni", QString::fromStdString(sni.asString()));
+      }
+
+      if (auto allow_insecure = tls["allowInsecure"];
+          !allow_insecure.isNull() && allow_insecure.isBool()) {
+        if (allow_insecure.asBool()) {
+          query.addQueryItem("allowinsecure", "true");
+        } else {
+          query.addQueryItem("allowinsecure", "false");
+        }
+      }
+
+      if (auto alpn = tls["alpn"]; !alpn.isNull() && alpn.isArray()) {
+        QString alpn_string;
+        auto alpn_size = alpn.size();
+
+        for (auto& alpn_item : alpn) {
+          alpn_string.append(QString::fromStdString(alpn_item.asString()));
+
+          if (alpn_size > 1) {
+            alpn_string.append("%0A");
+            alpn_size--;
+          }
+        }
+
+        query.addQueryItem("alpn", alpn_string);
+      }
+    }
+  }
+
+  url.setQuery(query);
+
+  return url;
 }
 
 std::optional<URLMetaObject>

@@ -59,7 +59,7 @@ QHash<int, QByteArray>
 NodeModel::roleNames() const
 {
   static const QHash<int, QByteArray> roles = {
-    { IDRole, "id" },
+    { IDRole, "nodeID" },
     { NameRole, "name" },
     { GroupRole, "group" },
     { AddressRole, "address" },

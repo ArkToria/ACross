@@ -5,8 +5,6 @@ import QtQuick.Controls
 
 import ACross
 
-import "../components/"
-
 Window {
     id: nodeShareFormWindow
     width: 680
@@ -57,6 +55,7 @@ Window {
 
                         source: qrcode === "" ? "qrc:/misc/icons/" + acrossConfig.iconStyle
                                                 + "/repo_qr_code.svg" : qrcode
+                        //                        source: "image://acrossImageProvider/yellow"
                         sourceWidth: parent.width / 1.2
                         sourceHeight: sourceWidth
                     }

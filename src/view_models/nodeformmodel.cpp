@@ -199,6 +199,16 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node)
   node.raw =
     QString::fromStdString(outbound_object.toObject().toStyledString());
 
+  URLMetaObject meta = {
+    .name = node.name.toStdString(),
+    .address = node.address.toStdString(),
+    .port = node.port,
+    .password = node.password.toStdString(),
+    .outbound_object = outbound_object,
+  };
+
+  node.url = SerializeTools::trojanEncode(meta)->toString(QUrl::FullyEncoded);
+
   return true;
 }
 
@@ -221,6 +231,16 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node)
 
   node.raw =
     QString::fromStdString(outbound_object.toObject().toStyledString());
+
+  SIP008::Server server = {
+    .remarks = node.name.toStdString(),
+    .server = node.address.toStdString(),
+    .server_port = node.port,
+    .password = node.password.toStdString(),
+    .method = p_shadowsocks->security().toStdString(),
+  };
+
+  node.url = SerializeTools::sip002Encode(server)->toString(QUrl::FullyEncoded);
 
   return true;
 }

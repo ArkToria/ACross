@@ -15,6 +15,7 @@
 #include "view_models/configtools.h"
 #include "view_models/grouplist.h"
 #include "view_models/groupmodel.h"
+#include "view_models/imageprovider.h"
 #include "view_models/logview.h"
 #include "view_models/nodeformmodel.h"
 #include "view_models/nodelist.h"
@@ -54,6 +55,7 @@ private:
   QSharedPointer<across::NodeList> p_nodes;
   QSharedPointer<across::GroupList> p_groups;
   QSharedPointer<across::SystemTray> p_tray;
+  QSharedPointer<across::ImageProvider> p_image_provider;
 
   const QString m_app_name = APP_NAME;
   QTranslator m_translator;

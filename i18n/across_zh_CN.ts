@@ -234,27 +234,27 @@
 <context>
     <name>GroupControl</name>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="43"/>
+        <location filename="../src/views/home/GroupControl.qml" line="42"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="91"/>
+        <location filename="../src/views/home/GroupControl.qml" line="90"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="129"/>
+        <location filename="../src/views/home/GroupControl.qml" line="128"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="167"/>
+        <location filename="../src/views/home/GroupControl.qml" line="166"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="203"/>
+        <location filename="../src/views/home/GroupControl.qml" line="202"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -369,12 +369,12 @@
 <context>
     <name>GroupListPanel</name>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="20"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="19"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="21"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="20"/>
         <source>Confirm to remove group from database</source>
         <translation>确认从数据库中删除组</translation>
     </message>
@@ -555,47 +555,47 @@
 <context>
     <name>NodeShareForm</name>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="16"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="14"/>
         <source>Share Configuration</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="80"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="79"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="86"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="85"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="98"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="97"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="110"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="109"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="122"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="121"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="137"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="136"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="161"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="160"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="165"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="164"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
