@@ -730,37 +730,37 @@
     <name>across::SystemTray</name>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="44"/>
-        <location filename="../src/view_models/systemtray.cpp" line="119"/>
-        <location filename="../src/view_models/systemtray.cpp" line="138"/>
+        <location filename="../src/view_models/systemtray.cpp" line="111"/>
+        <location filename="../src/view_models/systemtray.cpp" line="130"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="45"/>
-        <location filename="../src/view_models/systemtray.cpp" line="139"/>
+        <location filename="../src/view_models/systemtray.cpp" line="131"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="46"/>
-        <location filename="../src/view_models/systemtray.cpp" line="140"/>
+        <location filename="../src/view_models/systemtray.cpp" line="132"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="47"/>
-        <location filename="../src/view_models/systemtray.cpp" line="141"/>
+        <location filename="../src/view_models/systemtray.cpp" line="133"/>
         <source>Reconnect</source>
         <translation>重连</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="48"/>
-        <location filename="../src/view_models/systemtray.cpp" line="142"/>
+        <location filename="../src/view_models/systemtray.cpp" line="134"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="121"/>
+        <location filename="../src/view_models/systemtray.cpp" line="113"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
