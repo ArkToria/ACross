@@ -57,7 +57,7 @@ private:
   QSharedPointer<across::NodeList> p_nodes;
   QSharedPointer<across::GroupList> p_groups;
   QSharedPointer<across::SystemTray> p_tray;
-  across::ImageProvider m_image_provider;
+  across::ImageProvider *p_image_provider;
 
   const QString m_app_name = APP_NAME;
   QTranslator m_translator;
