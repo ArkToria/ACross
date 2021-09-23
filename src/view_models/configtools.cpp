@@ -589,8 +589,6 @@ ConfigTools::ConfigTools(QObject* parent) {}
 bool
 ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
 {
-  bool result = false;
-
   // initial config logger
   p_logger = std::make_shared<LogTools>(log_view, "setting");
 
@@ -599,58 +597,59 @@ ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
   connect(
     this, &ConfigTools::configChanged, this, [&]() { this->saveConfig(); });
 
-  do {
-    result = true;
+  QFile example_file(":/misc/across_example.toml");
+  if (!example_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    p_logger->error("Failed to read build-in config file");
+    return false;
+  }
 
-    QFile example_file(":/misc/across_example.toml");
-    if (!example_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-      p_logger->error("Failed to read default config file");
-      break;
-    }
-    QString default_config_text = example_file.readAll();
+  if (auto default_config_content = example_file.readAll();
+      !default_config_content.isEmpty()) {
+    this->m_default_config = toml::parse(default_config_content.toStdString());
+  } else {
+    p_logger->warn("Build-in config is empty");
+    return false;
+  }
 
-    this->m_default_config = toml::parse(default_config_text.toStdString());
+  if (config_path.isEmpty()) {
+    p_logger->warn("Failed to load config path, use build-in config instead");
+  } else {
+    this->m_config_path = config_path;
 
-    if (config_path.isEmpty()) {
-      p_logger->warn("Failed to load config path");
-      break;
-    } else {
-      this->m_config_path = config_path;
+    this->m_config = toml::parse_file(config_path.toStdString());
+    if (m_config.empty()) {
+      p_logger->error("Failed to parse config, use build-in config instead");
 
-      this->m_config = toml::parse_file(config_path.toStdString());
-      if (m_config.empty()) {
-        p_logger->error("Failed to parse config");
-        for (auto i : m_default_config) {
-          m_config.insert(i.first, i.second);
-          printf("%s\n", i.first.c_str());
-        }
+      for (auto i : m_default_config) {
+        m_config.insert(i.first, i.second);
+        printf("%s\n", i.first.c_str());
       }
     }
+  }
 
-    if (!(result = loadCoreConfig())) {
-      p_logger->error("Failed to load core config");
-    }
+  if (!loadCoreConfig()) {
+    p_logger->error("Failed to load core config");
+  }
 
-    if (!(result = loadDBConfig())) {
-      p_logger->error("Failed to load database config");
-    }
+  if (!loadDBConfig()) {
+    p_logger->error("Failed to load database config");
+  }
 
-    if (!(result = loadInterfaceConfig())) {
-      p_logger->error("Failed to load interface config");
-    }
+  if (!loadInterfaceConfig()) {
+    p_logger->error("Failed to load interface config");
+  }
 
-    if (!(result = loadThemeConfig())) {
-      p_logger->error("Failed to load colors config");
-    }
+  if (!loadThemeConfig()) {
+    p_logger->error("Failed to load colors config");
+  }
 
-    if (!(result = loadInboundConfig())) {
-      p_logger->error("Failed to load inbounds config");
-    }
+  if (!loadInboundConfig()) {
+    p_logger->error("Failed to load inbounds config");
+  }
 
-    emit configChanged();
-  } while (false);
+  emit configChanged();
 
-  return result;
+  return true;
 }
 
 QString
