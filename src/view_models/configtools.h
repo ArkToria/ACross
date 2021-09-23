@@ -31,12 +31,16 @@ struct Table
     toml::v2::node_view<toml::node> node,
     const toml::v2::node_view<toml::node>& default_config,
     T& config,
-    const std::string& key);
+    const std::string& key,
+    std::shared_ptr<across::utils::LogTools> p_logger,
+    const std::string& path);
   template<typename T>
   static void toNodeView(toml::v2::node_view<toml::node> node,
                          const toml::v2::node_view<toml::node>& default_config,
                          const T& config,
-                         const std::string& key);
+                         const std::string& key,
+                         std::shared_ptr<across::utils::LogTools> p_logger,
+                         const std::string& path);
 };
 struct Interface
 {
@@ -45,9 +49,13 @@ struct Interface
     QString language = "current";
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> language,
-                      const toml::v2::node_view<toml::node>& default_config);
+                      const toml::v2::node_view<toml::node>& default_config,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& language,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   } language;
 
   struct Theme
@@ -56,19 +64,13 @@ struct Interface
     QString include_dir = "./themes/";
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> theme,
-                      const toml::v2::node_view<toml::node>& default_config);
+                      const toml::v2::node_view<toml::node>& default_config,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& theme,
-                    const toml::v2::node_view<toml::node>& default_config);
-    static void fromNodeView(
-      toml::v2::node_view<toml::node> theme,
-      const toml::v2::node_view<toml::node>& default_config,
-      QString& config,
-      const std::string& key);
-    static void toNodeView(
-      toml::v2::node_view<toml::node> tray,
-      const toml::v2::node_view<toml::node>& default_config,
-      const QString& config,
-      const std::string& key);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   } theme;
 
   struct Tray
@@ -76,19 +78,13 @@ struct Interface
     bool enable = false;
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> tray,
-                      const toml::v2::node_view<toml::node>& default_config);
+                      const toml::v2::node_view<toml::node>& default_config,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& tray,
-                    const toml::v2::node_view<toml::node>& default_config);
-    static void fromNodeView(
-      toml::v2::node_view<toml::node> theme,
-      const toml::v2::node_view<toml::node>& default_config,
-      bool& config,
-      const std::string& key);
-    static void toNodeView(
-      toml::v2::node_view<toml::node> theme,
-      const toml::v2::node_view<toml::node>& default_config,
-      const bool& config,
-      const std::string& key);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   } tray;
 
   template<typename T>
@@ -96,16 +92,24 @@ struct Interface
     toml::v2::node_view<toml::node> interface,
     const toml::v2::node_view<toml::node>& default_config,
     T& config,
-    const std::string& key);
+    const std::string& key,
+    std::shared_ptr<across::utils::LogTools> p_logger,
+    const std::string& path);
   template<typename T>
   static void toNodeView(toml::v2::node_view<toml::node> interface,
                          const toml::v2::node_view<toml::node>& default_config,
                          T& config,
-                         const std::string& key);
+                         const std::string& key,
+                         std::shared_ptr<across::utils::LogTools> p_logger,
+                         const std::string& path);
   void fromNodeView(toml::v2::node_view<toml::v2::node> interface,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   void toNodeView(const toml::v2::node_view<toml::v2::node>& interface,
-                  const toml::v2::node_view<toml::node>& default_config);
+                  const toml::v2::node_view<toml::node>& default_config,
+                  std::shared_ptr<across::utils::LogTools> p_logger,
+                  const std::string& path);
 };
 
 struct Network
@@ -116,9 +120,13 @@ struct Network
                        "(KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36";
 
   void fromNodeView(toml::v2::node_view<toml::v2::node> network,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   void toNodeView(const toml::v2::node_view<toml::v2::node>& network,
-                  const toml::v2::node_view<toml::node>& default_config);
+                  const toml::v2::node_view<toml::node>& default_config,
+                  std::shared_ptr<across::utils::LogTools> p_logger,
+                  const std::string& path);
 };
 
 struct Update
@@ -129,9 +137,13 @@ struct Update
   bool update_from_proxy = true;
 
   void fromNodeView(toml::v2::node_view<toml::v2::node> update,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   void toNodeView(const toml::v2::node_view<toml::v2::node>& update,
-                  const toml::v2::node_view<toml::node>& default_config);
+                  const toml::v2::node_view<toml::node>& default_config,
+                  std::shared_ptr<across::utils::LogTools> p_logger,
+                  const std::string& path);
 };
 
 struct DataBase
@@ -149,9 +161,13 @@ struct DataBase
   } auth;
 
   void fromNodeView(toml::v2::node_view<toml::v2::node> database,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   void toNodeView(const toml::v2::node_view<toml::v2::node>& database,
-                  const toml::v2::node_view<toml::node>& default_config);
+                  const toml::v2::node_view<toml::node>& default_config,
+                  std::shared_ptr<across::utils::LogTools> p_logger,
+                  const std::string& path);
 };
 
 struct Core
@@ -169,9 +185,13 @@ struct Core
   } api;
 
   void fromNodeView(toml::v2::node_view<toml::v2::node> core,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
   void toNodeView(const toml::v2::node_view<toml::v2::node>& core,
-                  const toml::v2::node_view<toml::node>& default_config);
+                  const toml::v2::node_view<toml::node>& default_config,
+                  std::shared_ptr<across::utils::LogTools> p_logger,
+                  const std::string& path);
 };
 
 struct Theme
@@ -246,9 +266,13 @@ struct InboundSettings
     QString password; // Need to be encrypted
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> socks,
-                      const toml::v2::node_view<toml::node>& default_config);
+                      const toml::v2::node_view<toml::node>& default_config,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& socks,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
     across::config::InboundObject toInboundObject();
   } socks;
 
@@ -268,17 +292,25 @@ struct InboundSettings
     QString password; // Need to be encrypted
 
     void fromNodeView(toml::v2::node_view<toml::v2::node> http,
-                      const toml::v2::node_view<toml::node>& default_config);
+                      const toml::v2::node_view<toml::node>& default_config,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path);
     void toNodeView(const toml::v2::node_view<toml::v2::node>& http,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
     across::config::InboundObject toInboundObject();
   } http;
 
   void fromNodeView(toml::v2::node_view<toml::v2::node> inbound,
-                    const toml::v2::node_view<toml::node>& default_config);
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path);
 
   void toNodeView(const toml::v2::node_view<toml::v2::node>& inbound,
-                  const toml::v2::node_view<toml::node>& default_config);
+                  const toml::v2::node_view<toml::node>& default_config,
+                  std::shared_ptr<across::utils::LogTools> p_logger,
+                  const std::string& path);
 
   void setObject(Json::Value& root);
 };

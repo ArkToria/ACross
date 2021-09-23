@@ -10,11 +10,16 @@ void
 Table::fromNodeView(toml::v2::node_view<toml::node> node,
                     const toml::v2::node_view<toml::node>& default_config,
                     T& config,
-                    const std::string& key)
+                    const std::string& key,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path)
 {
   using U = std::conditional_t<std::is_same_v<T, QString>, std::string, T>;
-  if (!node[key].value<U>().has_value())
+  if (!node[key].value<U>().has_value()) {
     node.as_table()->insert(key, default_config[key]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path);
+  }
   if (auto temp = node[key].value<U>(); temp.has_value()) {
     if constexpr (std::is_same_v<T, QString>)
       config = QString::fromStdString(temp.value());
@@ -27,11 +32,16 @@ void
 Table::toNodeView(toml::v2::node_view<toml::node> node,
                   const toml::v2::node_view<toml::node>& default_config,
                   const T& config,
-                  const std::string& key)
+                  const std::string& key,
+                  std::shared_ptr<across::utils::LogTools> p_logger,
+                  const std::string& path)
 {
   using U = std::conditional_t<std::is_same_v<T, QString>, std::string, T>;
-  if (!node[key].value<U>().has_value())
+  if (!node[key].value<U>().has_value()) {
     node.as_table()->insert(key, default_config[key]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path);
+  }
 
   if constexpr (std::is_same_v<T, QString>)
     *node[key].as_string() = config.toStdString();
@@ -46,7 +56,9 @@ Table::toNodeView(toml::v2::node_view<toml::node> node,
 void
 Interface::Language::fromNodeView(
   toml::v2::node_view<toml::node> language,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
   if (auto temp = *language.value<std::string>(); !temp.empty())
     this->language = QString::fromStdString(temp);
@@ -55,7 +67,9 @@ Interface::Language::fromNodeView(
 void
 Interface::Language::toNodeView(
   const toml::v2::node_view<toml::node>& language,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
   *language.as_string() = this->language.toStdString();
 }
@@ -64,85 +78,56 @@ void
 Interface::Theme::fromNodeView(
   toml::v2::node_view<toml::node> theme,
   const toml::v2::node_view<toml::node>& default_config,
-  QString& config,
-  const std::string& key)
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  if (!theme[key].value<std::string>().has_value())
-    theme.as_table()->insert(key, default_config[key]);
-  if (auto temp = theme[key].value<std::string>(); temp.has_value())
-    config = QString::fromStdString(temp.value());
-}
-void
-Interface::Theme::fromNodeView(
-  toml::v2::node_view<toml::node> theme,
-  const toml::v2::node_view<toml::node>& default_config)
-{
-  fromNodeView(theme, default_config, this->theme, "theme");
-
-  fromNodeView(theme, default_config, this->include_dir, "include_dir");
-}
-
-void
-Interface::Theme::toNodeView(
-  toml::v2::node_view<toml::node> theme,
-  const toml::v2::node_view<toml::node>& default_config,
-  const QString& config,
-  const std::string& key)
-{
-  auto& table = *theme.as_table();
-  if (!theme[key].value<std::string>().has_value())
-    table.insert(key, default_config[key]);
-  *theme[key].as_string() = config.toStdString();
+  Table::fromNodeView(
+    theme, default_config, this->theme, "theme", p_logger, path + ".theme");
+  Table::fromNodeView(theme,
+                      default_config,
+                      this->include_dir,
+                      "include_dir",
+                      p_logger,
+                      path + ".include_dir");
 }
 
 void
 Interface::Theme::toNodeView(
   const toml::v2::node_view<toml::node>& theme,
-  const toml::v2::node_view<toml::node>& default_config)
-{
-  toNodeView(theme, default_config, this->theme, "theme");
-  toNodeView(theme, default_config, this->include_dir, "include_dir");
-}
-
-void
-Interface::Tray::fromNodeView(
-  toml::v2::node_view<toml::node> theme,
   const toml::v2::node_view<toml::node>& default_config,
-  bool& config,
-  const std::string& key)
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  if (!theme[key].value<bool>().has_value())
-    theme.as_table()->insert(key, default_config[key]);
-  if (auto temp = theme[key].value<bool>(); temp.has_value())
-    config = temp.value();
+  Table::toNodeView(
+    theme, default_config, this->theme, "theme", p_logger, path + ".theme");
+  Table::toNodeView(theme,
+                    default_config,
+                    this->include_dir,
+                    "include_dir",
+                    p_logger,
+                    path + ".include_dir");
 }
 
 void
 Interface::Tray::fromNodeView(
   toml::v2::node_view<toml::node> tray,
-  const toml::v2::node_view<toml::node>& default_config)
-{
-  fromNodeView(tray, default_config, this->enable, "enable");
-}
-
-void
-Interface::Tray::toNodeView(
-  toml::v2::node_view<toml::node> tray,
   const toml::v2::node_view<toml::node>& default_config,
-  const bool& config,
-  const std::string& key)
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  if (!tray[key].value<bool>().has_value())
-    tray.as_table()->insert(key, default_config[key]);
-  *tray[key].as_boolean() = config;
+  Table::fromNodeView(
+    tray, default_config, this->enable, "enable", p_logger, path + ".enable");
 }
 
 void
 Interface::Tray::toNodeView(
   const toml::v2::node_view<toml::node>& tray,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  toNodeView(tray, default_config, this->enable, "enable");
+  Table::toNodeView(
+    tray, default_config, this->enable, "enable", p_logger, path + ".enable");
 }
 
 template<>
@@ -150,21 +135,33 @@ void
 Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
                         const toml::v2::node_view<toml::node>& default_config,
                         Language& config,
-                        const std::string& key)
+                        const std::string& key,
+                        std::shared_ptr<across::utils::LogTools> p_logger,
+                        const std::string& path)
 {
   if (!interface[key].value<std::string>().has_value())
     interface.as_table()->insert(key, default_config[key]);
   if (auto temp = interface[key].value<std::string>(); temp.has_value())
-    config.fromNodeView(interface[key], default_config[key]);
+    config.fromNodeView(
+      interface[key], default_config[key], p_logger, path + "..enable");
 }
 
 void
 Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
-                        const toml::v2::node_view<toml::node>& default_config)
+                        const toml::v2::node_view<toml::node>& default_config,
+                        std::shared_ptr<across::utils::LogTools> p_logger,
+                        const std::string& path)
 {
-  fromNodeView(interface, default_config, this->language, "language");
-  fromNodeView(interface, default_config, this->theme, "theme");
-  fromNodeView(interface, default_config, this->tray, "tray");
+  fromNodeView(interface,
+               default_config,
+               this->language,
+               "language",
+               p_logger,
+               path + ".language");
+  fromNodeView(
+    interface, default_config, this->theme, "theme", p_logger, path + ".theme");
+  fromNodeView(
+    interface, default_config, this->tray, "tray", p_logger, path + ".tray");
 }
 
 template<typename T>
@@ -172,11 +169,14 @@ void
 Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
                         const toml::v2::node_view<toml::node>& default_config,
                         T& config,
-                        const std::string& key)
+                        const std::string& key,
+                        std::shared_ptr<across::utils::LogTools> p_logger,
+                        const std::string& path)
 {
   if (interface[key].as_table() == nullptr)
     interface.as_table()->insert(key, default_config[key]);
-  config.fromNodeView(interface[key], default_config[key]);
+  config.fromNodeView(
+    interface[key], default_config[key], p_logger, path + key);
 }
 
 template<>
@@ -184,20 +184,32 @@ void
 Interface::toNodeView(toml::v2::node_view<toml::node> interface,
                       const toml::v2::node_view<toml::node>& default_config,
                       Language& config,
-                      const std::string& key)
+                      const std::string& key,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path)
 {
   if (interface[key].as_string() == nullptr)
     interface.as_table()->insert(key, default_config[key]);
-  config.toNodeView(interface[key], default_config[key]);
+  config.toNodeView(
+    interface[key], default_config[key], p_logger, path + ".tray");
 }
 
 void
 Interface::toNodeView(const toml::v2::node_view<toml::node>& interface,
-                      const toml::v2::node_view<toml::node>& default_config)
+                      const toml::v2::node_view<toml::node>& default_config,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path)
 {
-  toNodeView(interface, default_config, this->language, "language");
-  toNodeView(interface, default_config, this->theme, "theme");
-  toNodeView(interface, default_config, this->tray, "tray");
+  toNodeView(interface,
+             default_config,
+             this->language,
+             "language",
+             p_logger,
+             path + ".language");
+  toNodeView(
+    interface, default_config, this->theme, "theme", p_logger, path + ".theme");
+  toNodeView(
+    interface, default_config, this->tray, "tray", p_logger, path + ".tray");
 }
 
 template<typename T>
@@ -205,149 +217,340 @@ void
 Interface::toNodeView(toml::v2::node_view<toml::node> interface,
                       const toml::v2::node_view<toml::node>& default_config,
                       T& config,
-                      const std::string& key)
+                      const std::string& key,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path)
 {
   if (interface[key].as_table() == nullptr)
     interface.as_table()->insert(key, default_config[key]);
-  config.toNodeView(interface[key], default_config[key]);
+  config.toNodeView(interface[key], default_config[key], p_logger, path + key);
 }
 
 void
 Network::fromNodeView(toml::v2::node_view<toml::node> network,
-                      const toml::v2::node_view<toml::node>& default_config)
+                      const toml::v2::node_view<toml::node>& default_config,
+                      std::shared_ptr<across::utils::LogTools> p_logger,
+                      const std::string& path)
 {
-  Table::fromNodeView(
-    network, default_config, this->test_method, "test_method");
-  Table::fromNodeView(network, default_config, this->test_url, "test_url");
-  Table::fromNodeView(network, default_config, this->user_agent, "user_agent");
+  Table::fromNodeView(network,
+                      default_config,
+                      this->test_method,
+                      "test_method",
+                      p_logger,
+                      path + ".test_method");
+  Table::fromNodeView(network,
+                      default_config,
+                      this->test_url,
+                      "test_url",
+                      p_logger,
+                      path + ".test_url");
+  Table::fromNodeView(network,
+                      default_config,
+                      this->user_agent,
+                      "user_agent",
+                      p_logger,
+                      path + ".user_agent");
 }
 
 void
 Network::toNodeView(const toml::v2::node_view<toml::node>& network,
-                    const toml::v2::node_view<toml::node>& default_config)
+                    const toml::v2::node_view<toml::node>& default_config,
+                    std::shared_ptr<across::utils::LogTools> p_logger,
+                    const std::string& path)
 {
-  Table::toNodeView(network, default_config, this->test_method, "test_method");
-  Table::toNodeView(network, default_config, this->test_url, "test_url");
-  Table::toNodeView(network, default_config, this->user_agent, "user_agent");
+  Table::toNodeView(network,
+                    default_config,
+                    this->test_method,
+                    "test_method",
+                    p_logger,
+                    path + ".test_method");
+  Table::toNodeView(network,
+                    default_config,
+                    this->test_url,
+                    "test_url",
+                    p_logger,
+                    path + ".test_url");
+  Table::toNodeView(network,
+                    default_config,
+                    this->user_agent,
+                    "user_agent",
+                    p_logger,
+                    path + ".user_agent");
 }
 
 void
 Update::fromNodeView(toml::v2::node_view<toml::node> update,
-                     const toml::v2::node_view<toml::node>& default_config)
+                     const toml::v2::node_view<toml::node>& default_config,
+                     std::shared_ptr<across::utils::LogTools> p_logger,
+                     const std::string& path)
 {
-  Table::fromNodeView(update, default_config, this->auto_update, "auto_update");
-  Table::fromNodeView(
-    update, default_config, this->check_update, "check_update");
-  Table::fromNodeView(
-    update, default_config, this->update_from_proxy, "update_from_proxy");
-  Table::fromNodeView(
-    update, default_config, this->update_channel, "update_channel");
+  Table::fromNodeView(update,
+                      default_config,
+                      this->auto_update,
+                      "auto_update",
+                      p_logger,
+                      path + ".auto_update");
+  Table::fromNodeView(update,
+                      default_config,
+                      this->check_update,
+                      "check_update",
+                      p_logger,
+                      path + ".check_update");
+  Table::fromNodeView(update,
+                      default_config,
+                      this->update_from_proxy,
+                      "update_from_proxy",
+                      p_logger,
+                      path + ".update_from_proxy");
+  Table::fromNodeView(update,
+                      default_config,
+                      this->update_channel,
+                      "update_channel",
+                      p_logger,
+                      path + ".update_channel");
 }
 
 void
 Update::toNodeView(const toml::v2::node_view<toml::node>& update,
-                   const toml::v2::node_view<toml::node>& default_config)
+                   const toml::v2::node_view<toml::node>& default_config,
+                   std::shared_ptr<across::utils::LogTools> p_logger,
+                   const std::string& path)
 {
-  Table::toNodeView(update, default_config, this->auto_update, "auto_update");
-  Table::toNodeView(update, default_config, this->check_update, "check_update");
-  Table::toNodeView(
-    update, default_config, this->update_channel, "update_channel");
-  Table::toNodeView(
-    update, default_config, this->update_from_proxy, "update_from_proxy");
+  Table::toNodeView(update,
+                    default_config,
+                    this->auto_update,
+                    "auto_update",
+                    p_logger,
+                    path + ".auto_update");
+  Table::toNodeView(update,
+                    default_config,
+                    this->check_update,
+                    "check_update",
+                    p_logger,
+                    path + ".check_update");
+  Table::toNodeView(update,
+                    default_config,
+                    this->update_channel,
+                    "update_channel",
+                    p_logger,
+                    path + ".update_channel");
+  Table::toNodeView(update,
+                    default_config,
+                    this->update_from_proxy,
+                    "update_from_proxy",
+                    p_logger,
+                    path + ".update_from_proxy");
 }
 
 void
 DataBase::fromNodeView(toml::v2::node_view<toml::node> database,
-                       const toml::v2::node_view<toml::node>& default_config)
+                       const toml::v2::node_view<toml::node>& default_config,
+                       std::shared_ptr<across::utils::LogTools> p_logger,
+                       const std::string& path)
 {
-  Table::fromNodeView(database, default_config, this->backend, "db_backend");
-  Table::fromNodeView(database, default_config, this->path, "db_path");
+  Table::fromNodeView(database,
+                      default_config,
+                      this->backend,
+                      "db_backend",
+                      p_logger,
+                      path + ".db_backend");
+  Table::fromNodeView(database,
+                      default_config,
+                      this->path,
+                      "db_path",
+                      p_logger,
+                      path + ".db_path");
 
   if (database["auth"].as_table() == nullptr)
     database.as_table()->insert("auth", default_config["auth"]);
 
-  Table::fromNodeView(
-    database["auth"], default_config["auth"], this->auth.enable, "enable");
+  Table::fromNodeView(database["auth"],
+                      default_config["auth"],
+                      this->auth.enable,
+                      "enable",
+                      p_logger,
+                      path + ".auth.enable");
 
   if (this->auth.enable) {
     Table::fromNodeView(database["auth"],
                         default_config["auth"],
                         this->auth.username,
-                        "username");
+                        "username",
+                        p_logger,
+                        path + ".auth.username");
     Table::fromNodeView(database["auth"],
                         default_config["auth"],
                         this->auth.password,
-                        "password");
-    Table::fromNodeView(
-      database["auth"], default_config["auth"], this->auth.address, "address");
-    Table::fromNodeView(
-      database["auth"], default_config["auth"], this->auth.port, "port");
+                        "password",
+                        p_logger,
+                        path + ".auth.password");
+    Table::fromNodeView(database["auth"],
+                        default_config["auth"],
+                        this->auth.address,
+                        "address",
+                        p_logger,
+                        path + ".auth.address");
+    Table::fromNodeView(database["auth"],
+                        default_config["auth"],
+                        this->auth.port,
+                        "port",
+                        p_logger,
+                        path + ".auth.port");
   }
 }
 
 void
 DataBase::toNodeView(const toml::v2::node_view<toml::node>& database,
-                     const toml::v2::node_view<toml::node>& default_config)
+                     const toml::v2::node_view<toml::node>& default_config,
+                     std::shared_ptr<across::utils::LogTools> p_logger,
+                     const std::string& path)
 {
-  Table::toNodeView(database, default_config, this->path, "db_path");
-  Table::toNodeView(database, default_config, this->backend, "db_backend");
+  Table::toNodeView(database,
+                    default_config,
+                    this->path,
+                    "db_path",
+                    p_logger,
+                    path + ".db_path");
+  Table::toNodeView(database,
+                    default_config,
+                    this->backend,
+                    "db_backend",
+                    p_logger,
+                    path + ".db_backend");
 
   if (database["auth"].as_table() == nullptr)
     database.as_table()->insert("auth", default_config["auth"]);
 
+  Table::toNodeView(database["auth"],
+                    default_config["auth"],
+                    this->auth.enable,
+                    "enable",
+                    p_logger,
+                    path + ".auth.enable");
   if (this->auth.enable) {
-    Table::toNodeView(
-      database["auth"], default_config["auth"], this->auth.enable, "enable");
     Table::toNodeView(database["auth"],
                       default_config["auth"],
                       this->auth.username,
-                      "username");
+                      "username",
+                      p_logger,
+                      path + ".auth.username");
     Table::toNodeView(database["auth"],
                       default_config["auth"],
                       this->auth.password,
-                      "password");
-    Table::toNodeView(
-      database["auth"], default_config["auth"], this->auth.address, "address");
-    Table::toNodeView(
-      database["auth"], default_config["auth"], this->auth.port, "port");
+                      "password",
+                      p_logger,
+                      path + ".auth.password");
+    Table::toNodeView(database["auth"],
+                      default_config["auth"],
+                      this->auth.address,
+                      "address",
+                      p_logger,
+                      path + ".auth.address");
+    Table::toNodeView(database["auth"],
+                      default_config["auth"],
+                      this->auth.port,
+                      "port",
+                      p_logger,
+                      path + ".auth.port");
   }
 }
 
 void
 Core::fromNodeView(toml::v2::node_view<toml::node> core,
-                   const toml::v2::node_view<toml::node>& default_config)
+                   const toml::v2::node_view<toml::node>& default_config,
+                   std::shared_ptr<across::utils::LogTools> p_logger,
+                   const std::string& path)
 {
-  Table::fromNodeView(core, default_config, this->core_path, "core_path");
-  Table::fromNodeView(core, default_config, this->assets_path, "assets_path");
-  Table::fromNodeView(core, default_config, this->log_level, "log_level");
-  Table::fromNodeView(core, default_config, this->log_lines, "log_lines");
+  Table::fromNodeView(core,
+                      default_config,
+                      this->core_path,
+                      "core_path",
+                      p_logger,
+                      path + ".core_path");
+  Table::fromNodeView(core,
+                      default_config,
+                      this->assets_path,
+                      "assets_path",
+                      p_logger,
+                      path + ".assets_path");
+  Table::fromNodeView(core,
+                      default_config,
+                      this->log_level,
+                      "log_level",
+                      p_logger,
+                      path + ".log_level");
+  Table::fromNodeView(core,
+                      default_config,
+                      this->log_lines,
+                      "log_lines",
+                      p_logger,
+                      path + ".log_lines");
 
   if (core["api"].as_table() == nullptr)
     core.as_table()->insert("api", default_config["api"]);
 
-  Table::fromNodeView(
-    core["api"], default_config["api"], this->api.enable, "enable");
+  Table::fromNodeView(core["api"],
+                      default_config["api"],
+                      this->api.enable,
+                      "enable",
+                      p_logger,
+                      path + ".api.enable");
   if (this->api.enable) {
-    Table::fromNodeView(
-      core["api"], default_config["api"], this->api.port, "port");
+    Table::fromNodeView(core["api"],
+                        default_config["api"],
+                        this->api.port,
+                        "port",
+                        p_logger,
+                        path + ".api.port");
   }
 }
 
 void
 Core::toNodeView(const toml::v2::node_view<toml::node>& core,
-                 const toml::v2::node_view<toml::node>& default_config)
+                 const toml::v2::node_view<toml::node>& default_config,
+                 std::shared_ptr<across::utils::LogTools> p_logger,
+                 const std::string& path)
 {
-  Table::toNodeView(core, default_config, this->core_path, "core_path");
-  Table::toNodeView(core, default_config, this->assets_path, "assets_path");
-  Table::toNodeView(core, default_config, this->log_level, "log_level");
-  Table::toNodeView(core, default_config, this->log_lines, "log_lines");
+  Table::toNodeView(core,
+                    default_config,
+                    this->core_path,
+                    "core_path",
+                    p_logger,
+                    path + ".core_path");
+  Table::toNodeView(core,
+                    default_config,
+                    this->assets_path,
+                    "assets_path",
+                    p_logger,
+                    path + ".assets_path");
+  Table::toNodeView(core,
+                    default_config,
+                    this->log_level,
+                    "log_level",
+                    p_logger,
+                    path + ".log_level");
+  Table::toNodeView(core,
+                    default_config,
+                    this->log_lines,
+                    "log_lines",
+                    p_logger,
+                    path + ".log_lines");
 
   if (core["api"].as_table() == nullptr)
     core.as_table()->insert("api", default_config["api"]);
 
-  Table::toNodeView(
-    core["api"], default_config["api"], this->api.enable, "enable");
-  Table::toNodeView(core["api"], default_config["api"], this->api.port, "port");
+  Table::toNodeView(core["api"],
+                    default_config["api"],
+                    this->api.enable,
+                    "enable",
+                    p_logger,
+                    path + ".api.enable");
+  Table::toNodeView(core["api"],
+                    default_config["api"],
+                    this->api.port,
+                    "port",
+                    p_logger,
+                    path + ".api.port");
 }
 
 void
@@ -405,45 +608,89 @@ Theme::Colors::fromNodeView(toml::v2::node_view<toml::node> colors_node)
 void
 InboundSettings::SOCKS::fromNodeView(
   toml::v2::node_view<toml::node> socks,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  Table::fromNodeView(socks, default_config, this->enable, "enable");
+  Table::fromNodeView(
+    socks, default_config, this->enable, "enable", p_logger, path + ".enable");
   if (this->enable) {
-    Table::fromNodeView(socks, default_config, this->listen, "listen");
-    Table::fromNodeView(socks, default_config, this->port, "port");
-    Table::fromNodeView(socks, default_config, this->udp, "udp");
-    Table::fromNodeView(socks, default_config, this->ip, "ip");
-    Table::fromNodeView(socks, default_config, this->user_level, "user_level");
+    Table::fromNodeView(socks,
+                        default_config,
+                        this->listen,
+                        "listen",
+                        p_logger,
+                        path + ".listen");
+    Table::fromNodeView(
+      socks, default_config, this->port, "port", p_logger, path + ".port");
+    Table::fromNodeView(
+      socks, default_config, this->udp, "udp", p_logger, path + ".udp");
+    Table::fromNodeView(
+      socks, default_config, this->ip, "ip", p_logger, path + ".ip");
+    Table::fromNodeView(socks,
+                        default_config,
+                        this->user_level,
+                        "user_level",
+                        p_logger,
+                        path + ".user_level");
 
     if (socks["auth"].as_table() == nullptr)
       socks.as_table()->insert("auth", default_config["auth"]);
 
-    Table::fromNodeView(
-      socks["auth"], default_config["auth"], this->username, "username");
-    Table::fromNodeView(
-      socks["auth"], default_config["auth"], this->password, "password");
+    Table::fromNodeView(socks["auth"],
+                        default_config["auth"],
+                        this->username,
+                        "username",
+                        p_logger,
+                        path + ".auth.username");
+    Table::fromNodeView(socks["auth"],
+                        default_config["auth"],
+                        this->password,
+                        "password",
+                        p_logger,
+                        path + ".auth.password");
   }
 }
 
 void
 InboundSettings::SOCKS::toNodeView(
   const toml::v2::node_view<toml::node>& socks,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  Table::toNodeView(socks, default_config, this->enable, "enable");
-  Table::toNodeView(socks, default_config, this->listen, "listen");
-  Table::toNodeView(socks, default_config, this->port, "port");
-  Table::toNodeView(socks, default_config, this->udp, "udp");
-  Table::toNodeView(socks, default_config, this->ip, "ip");
-  Table::toNodeView(socks, default_config, this->user_level, "user_level");
+  Table::toNodeView(
+    socks, default_config, this->enable, "enable", p_logger, path + ".enable");
+  Table::toNodeView(
+    socks, default_config, this->listen, "listen", p_logger, path + ".listen");
+  Table::toNodeView(
+    socks, default_config, this->port, "port", p_logger, path + ".port");
+  Table::toNodeView(
+    socks, default_config, this->udp, "udp", p_logger, path + ".udp");
+  Table::toNodeView(
+    socks, default_config, this->ip, "ip", p_logger, path + ".ip");
+  Table::toNodeView(socks,
+                    default_config,
+                    this->user_level,
+                    "user_level",
+                    p_logger,
+                    path + ".user_level");
 
   if (socks["auth"].as_table() == nullptr)
     socks.as_table()->insert("auth", default_config["auth"]);
 
-  Table::toNodeView(
-    socks["auth"], default_config["auth"], this->username, "username");
-  Table::toNodeView(
-    socks["auth"], default_config["auth"], this->password, "password");
+  Table::toNodeView(socks["auth"],
+                    default_config["auth"],
+                    this->username,
+                    "username",
+                    p_logger,
+                    path + ".auth.username");
+  Table::toNodeView(socks["auth"],
+                    default_config["auth"],
+                    this->password,
+                    "password",
+                    p_logger,
+                    path + ".auth.password");
 }
 
 InboundObject
@@ -478,47 +725,101 @@ InboundSettings::SOCKS::toInboundObject()
 void
 InboundSettings::HTTP::fromNodeView(
   toml::v2::node_view<toml::node> http,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  Table::fromNodeView(http, default_config, this->enable, "enable");
+  Table::fromNodeView(
+    http, default_config, this->enable, "enable", p_logger, path + ".enable");
   if (this->enable) {
-    Table::fromNodeView(http, default_config, this->listen, "listen");
-    Table::fromNodeView(http, default_config, this->port, "port");
     Table::fromNodeView(
-      http, default_config, this->allow_transparent, "allow_transparent");
-    Table::fromNodeView(http, default_config, this->timeout, "timeout");
-    Table::fromNodeView(http, default_config, this->user_level, "user_level");
+      http, default_config, this->listen, "listen", p_logger, path + ".listen");
+    Table::fromNodeView(
+      http, default_config, this->port, "port", p_logger, path + ".port");
+    Table::fromNodeView(http,
+                        default_config,
+                        this->allow_transparent,
+                        "allow_transparent",
+                        p_logger,
+                        path + ".allow_transparent");
+    Table::fromNodeView(http,
+                        default_config,
+                        this->timeout,
+                        "timeout",
+                        p_logger,
+                        path + ".timeout");
+    Table::fromNodeView(http,
+                        default_config,
+                        this->user_level,
+                        "user_level",
+                        p_logger,
+                        path + ".user_level");
 
     if (http["auth"].as_table() == nullptr)
       http.as_table()->insert("auth", default_config["auth"]);
 
-    Table::fromNodeView(
-      http["auth"], default_config["auth"], this->username, "username");
-    Table::fromNodeView(
-      http["auth"], default_config["auth"], this->password, "password");
+    Table::fromNodeView(http["auth"],
+                        default_config["auth"],
+                        this->username,
+                        "username",
+                        p_logger,
+                        path + ".auth.username");
+    Table::fromNodeView(http["auth"],
+                        default_config["auth"],
+                        this->password,
+                        "password",
+                        p_logger,
+                        path + ".auth.password");
   }
 }
 
 void
 InboundSettings::HTTP::toNodeView(
   const toml::v2::node_view<toml::node>& http,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  Table::toNodeView(http, default_config, this->enable, "enable");
-  Table::toNodeView(http, default_config, this->listen, "listen");
-  Table::toNodeView(http, default_config, this->port, "port");
   Table::toNodeView(
-    http, default_config, this->allow_transparent, "allow_transparent");
-  Table::toNodeView(http, default_config, this->timeout, "timeout");
-  Table::toNodeView(http, default_config, this->user_level, "user_level");
+    http, default_config, this->enable, "enable", p_logger, path + ".enable");
+  Table::toNodeView(
+    http, default_config, this->listen, "listen", p_logger, path + ".listen");
+  Table::toNodeView(
+    http, default_config, this->port, "port", p_logger, path + ".port");
+  Table::toNodeView(http,
+                    default_config,
+                    this->allow_transparent,
+                    "allow_transparent",
+                    p_logger,
+                    path + ".allow_transparent");
+  Table::toNodeView(http,
+                    default_config,
+                    this->timeout,
+                    "timeout",
+                    p_logger,
+                    path + ".timeout");
+  Table::toNodeView(http,
+                    default_config,
+                    this->user_level,
+                    "user_level",
+                    p_logger,
+                    path + ".user_level");
 
   if (http["auth"].as_table() == nullptr)
     http.as_table()->insert("auth", default_config["auth"]);
 
-  Table::toNodeView(
-    http["auth"], default_config["auth"], this->username, "username");
-  Table::toNodeView(
-    http["auth"], default_config["auth"], this->password, "password");
+  Table::toNodeView(http["auth"],
+                    default_config["auth"],
+                    this->username,
+                    "username",
+                    p_logger,
+                    path + ".auth.username");
+  Table::toNodeView(http["auth"],
+                    default_config["auth"],
+                    this->password,
+                    "password",
+                    p_logger,
+                    path + ".auth.password");
 }
 
 InboundObject
@@ -553,19 +854,27 @@ InboundSettings::HTTP::toInboundObject()
 void
 InboundSettings::fromNodeView(
   toml::v2::node_view<toml::node> inbound,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  socks.fromNodeView(inbound["socks"], default_config["socks"]);
-  http.fromNodeView(inbound["http"], default_config["http"]);
+  socks.fromNodeView(
+    inbound["socks"], default_config["socks"], p_logger, path + ".socks");
+  http.fromNodeView(
+    inbound["http"], default_config["http"], p_logger, path + ".http");
 }
 
 void
 InboundSettings::toNodeView(
   const toml::v2::node_view<toml::node>& inbound,
-  const toml::v2::node_view<toml::node>& default_config)
+  const toml::v2::node_view<toml::node>& default_config,
+  std::shared_ptr<across::utils::LogTools> p_logger,
+  const std::string& path)
 {
-  socks.toNodeView(inbound["socks"], default_config["socks"]);
-  http.toNodeView(inbound["http"], default_config["http"]);
+  socks.toNodeView(
+    inbound["socks"], default_config["socks"], p_logger, path + ".socks");
+  http.toNodeView(
+    inbound["http"], default_config["http"], p_logger, path + ".http");
 }
 
 void
@@ -721,11 +1030,16 @@ ConfigTools::loadInterfaceConfig()
     if (m_config.empty() || !m_config["interface"].is_table()) {
       m_config.insert_or_assign("interface",
                                 *m_default_config["interface"].as_table());
+      p_logger->warn(
+        "Failed to load config : [{}], use build-in config instead",
+        "interface");
       result = false;
     }
 
     m_interface.fromNodeView(m_config["interface"],
-                             m_default_config["interface"]);
+                             m_default_config["interface"],
+                             p_logger,
+                             "interface");
 
   } while (false);
 
@@ -742,11 +1056,17 @@ ConfigTools::loadInterfaceTheme()
       break;
     }
 
-    if (m_config["interface"]["theme"].as_table() == nullptr)
+    if (m_config["interface"]["theme"].as_table() == nullptr) {
       m_config["interface"].as_table()->insert(
         "theme", m_default_config["interface"]["theme"]);
+      p_logger->warn(
+        "Failed to load config : [{}], use build-in config instead",
+        "interface.theme");
+    }
     m_interface.theme.fromNodeView(m_config["interface"]["theme"],
-                                   m_default_config["interface"]["theme"]);
+                                   m_default_config["interface"]["theme"],
+                                   p_logger,
+                                   "interface.theme");
 
     result = true;
   } while (false);
@@ -761,7 +1081,9 @@ ConfigTools::loadInterfaceLanguage()
     return false;
 
   m_interface.fromNodeView(m_config["interface"],
-                           m_default_config["interface"]);
+                           m_default_config["interface"],
+                           p_logger,
+                           "interface");
   return true;
 }
 
@@ -775,7 +1097,8 @@ ConfigTools::loadUpdateConfig()
       break;
     }
 
-    m_update.fromNodeView(m_config["update"], m_default_config["update"]);
+    m_update.fromNodeView(
+      m_config["update"], m_default_config["update"], p_logger, "update");
 
     result = true;
   } while (false);
@@ -788,6 +1111,8 @@ ConfigTools::loadDBConfig()
 {
   if (!m_config["database"].is_table()) {
     m_config.insert("database", *m_default_config["database"].as_table());
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   "database");
   }
 
   if (auto temp = m_config["database"]["db_path"].value<std::string>();
@@ -809,6 +1134,8 @@ ConfigTools::loadThemeConfig()
   auto themes = m_config["themes"];
   if (!themes.as_array() || themes.as_array()->size() == 0) {
     m_config.as_table()->insert("themes", m_default_config["themes"]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   "themes");
     themes = m_config["themes"];
   }
 
@@ -855,6 +1182,8 @@ ConfigTools::loadThemeConfig()
 
   m_config["interface"].as_table()->insert(
     "theme", *m_default_config["interface"]["theme"].as_table());
+  p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                 "interface.theme");
 
   return false;
 }
@@ -870,10 +1199,13 @@ ConfigTools::loadCoreConfig()
 
     if (m_config.empty() || !m_config["core"].is_table()) {
       m_config.insert_or_assign("core", *m_default_config["core"].as_table());
+      p_logger->warn(
+        "Failed to load config : [{}], use build-in config instead", "core");
       result = false;
     }
 
-    m_core.fromNodeView(m_config["core"], m_default_config["core"]);
+    m_core.fromNodeView(
+      m_config["core"], m_default_config["core"], p_logger, "core");
 
     if (m_core.core_path.isEmpty()) {
       if (!envs_info.V2RAY_CORE_PATH.isEmpty()) {
@@ -914,21 +1246,28 @@ ConfigTools::loadInboundConfig()
   bool result = true;
   if (m_config.empty()) {
     m_config.insert("inbound", *m_default_config["inbound"].as_table());
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   "inbound");
     result = false;
   }
 
   if (m_config["inbound"]["socks"].as_table() == nullptr) {
     m_config.insert_or_assign("inbound",
                               *m_default_config["inbound"].as_table());
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   "inbound");
     result = false;
   }
   if (m_config["inbound"]["http"].as_table() == nullptr) {
     m_config.insert_or_assign("inbound",
                               *m_default_config["inbound"].as_table());
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   "inbound");
     result = false;
   }
 
-  m_inbound.fromNodeView(m_config["inbound"], m_default_config["inbound"]);
+  m_inbound.fromNodeView(
+    m_config["inbound"], m_default_config["inbound"], p_logger, "inbound");
   return result;
 }
 
@@ -938,7 +1277,8 @@ ConfigTools::loadNetworkConfig()
   if (m_config.empty())
     return false;
 
-  m_network.fromNodeView(m_config["network"], m_default_config["network"]);
+  m_network.fromNodeView(
+    m_config["network"], m_default_config["network"], p_logger, "network");
   return true;
 }
 
@@ -1084,12 +1424,18 @@ ConfigTools::saveConfig(QString config_path)
   } while (false);
 
   if (!path.isEmpty()) {
-    m_db.toNodeView(m_config["database"], m_default_config["database"]);
-    m_core.toNodeView(m_config["core"], m_default_config["core"]);
-    m_inbound.toNodeView(m_config["inbound"], m_default_config["inbound"]);
-    m_network.toNodeView(m_config["network"], m_default_config["network"]);
+    m_db.toNodeView(
+      m_config["database"], m_default_config["database"], p_logger, "database");
+    m_core.toNodeView(
+      m_config["core"], m_default_config["core"], p_logger, "core");
+    m_inbound.toNodeView(
+      m_config["inbound"], m_default_config["inbound"], p_logger, "inbound");
+    m_network.toNodeView(
+      m_config["network"], m_default_config["network"], p_logger, "network");
     m_interface.toNodeView(m_config["interface"],
-                           m_default_config["interface"]);
+                           m_default_config["interface"],
+                           p_logger,
+                           "interface");
 
     config.open(path.toStdString(), std::ios::out | std::ios::trunc);
 
