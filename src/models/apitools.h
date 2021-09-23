@@ -1,9 +1,12 @@
 #ifndef APITOOLS_H
 #define APITOOLS_H
 
+#include <QString>
+
 #include <grpcpp/grpcpp.h>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "v2ray_api.grpc.pb.h"
 
@@ -29,6 +32,8 @@ public:
   explicit APITools(uint port);
 
   std::pair<bool, std::string> isOk() const;
+
+  std::pair<int64_t, int64_t> getTraffic(const QString& tag);
 
 private:
   std::unique_ptr<StatsService::Stub> p_stub;
