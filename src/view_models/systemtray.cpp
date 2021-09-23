@@ -85,11 +85,19 @@ void
 SystemTray::loadTrayIcons(const QString& stylish, const QString& color)
 {
   if (p_config->trayColor() == "light") {
+    /*
     connectedIcon = QIcon::fromTheme("org.arktoria.across.light.running.svg");
     disconnectedIcon = QIcon::fromTheme("org.arktoria.across.light.stop.svg");
+    */
+    connectedIcon = QIcon(":misc/icons/light/tray_logo_running.svg");
+    disconnectedIcon = QIcon(":misc/icons/light/tray_logo_stop.svg");
   } else {
+    /*
     connectedIcon = QIcon::fromTheme("org.arktoria.across.dark.running.svg");
     disconnectedIcon = QIcon::fromTheme("org.arktoria.across.dark.stop.svg");
+    */
+    connectedIcon = QIcon(":misc/icons/dark/tray_logo_running.svg");
+    disconnectedIcon = QIcon(":misc/icons/dark/tray_logo_stop.svg");
   }
 
   onRunningChanged();
