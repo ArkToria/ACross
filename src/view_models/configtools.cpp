@@ -139,8 +139,11 @@ Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
                         std::shared_ptr<across::utils::LogTools> p_logger,
                         const std::string& path)
 {
-  if (!interface[key].value<std::string>().has_value())
+  if (!interface[key].value<std::string>().has_value()) {
     interface.as_table()->insert(key, default_config[key]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path);
+  }
   if (auto temp = interface[key].value<std::string>(); temp.has_value())
     config.fromNodeView(
       interface[key], default_config[key], p_logger, path + "..enable");
@@ -173,8 +176,11 @@ Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
                         std::shared_ptr<across::utils::LogTools> p_logger,
                         const std::string& path)
 {
-  if (interface[key].as_table() == nullptr)
+  if (interface[key].as_table() == nullptr) {
     interface.as_table()->insert(key, default_config[key]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path);
+  }
   config.fromNodeView(
     interface[key], default_config[key], p_logger, path + key);
 }
@@ -188,8 +194,11 @@ Interface::toNodeView(toml::v2::node_view<toml::node> interface,
                       std::shared_ptr<across::utils::LogTools> p_logger,
                       const std::string& path)
 {
-  if (interface[key].as_string() == nullptr)
+  if (interface[key].as_string() == nullptr) {
     interface.as_table()->insert(key, default_config[key]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path);
+  }
   config.toNodeView(
     interface[key], default_config[key], p_logger, path + ".tray");
 }
@@ -221,8 +230,11 @@ Interface::toNodeView(toml::v2::node_view<toml::node> interface,
                       std::shared_ptr<across::utils::LogTools> p_logger,
                       const std::string& path)
 {
-  if (interface[key].as_table() == nullptr)
+  if (interface[key].as_table() == nullptr) {
     interface.as_table()->insert(key, default_config[key]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path);
+  }
   config.toNodeView(interface[key], default_config[key], p_logger, path + key);
 }
 
@@ -361,8 +373,11 @@ DataBase::fromNodeView(toml::v2::node_view<toml::node> database,
                       p_logger,
                       path + ".db_path");
 
-  if (database["auth"].as_table() == nullptr)
+  if (database["auth"].as_table() == nullptr) {
     database.as_table()->insert("auth", default_config["auth"]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path + ".auth");
+  }
 
   Table::fromNodeView(database["auth"],
                       default_config["auth"],
@@ -418,8 +433,11 @@ DataBase::toNodeView(const toml::v2::node_view<toml::node>& database,
                     p_logger,
                     path + ".db_backend");
 
-  if (database["auth"].as_table() == nullptr)
+  if (database["auth"].as_table() == nullptr) {
     database.as_table()->insert("auth", default_config["auth"]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path + ".auth");
+  }
 
   Table::toNodeView(database["auth"],
                     default_config["auth"],
@@ -486,8 +504,11 @@ Core::fromNodeView(toml::v2::node_view<toml::node> core,
                       p_logger,
                       path + ".log_lines");
 
-  if (core["api"].as_table() == nullptr)
+  if (core["api"].as_table() == nullptr) {
     core.as_table()->insert("api", default_config["api"]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path + ".api");
+  }
 
   Table::fromNodeView(core["api"],
                       default_config["api"],
@@ -536,8 +557,11 @@ Core::toNodeView(const toml::v2::node_view<toml::node>& core,
                     p_logger,
                     path + ".log_lines");
 
-  if (core["api"].as_table() == nullptr)
+  if (core["api"].as_table() == nullptr) {
     core.as_table()->insert("api", default_config["api"]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path + ".api");
+  }
 
   Table::toNodeView(core["api"],
                     default_config["api"],
@@ -634,8 +658,12 @@ InboundSettings::SOCKS::fromNodeView(
                         p_logger,
                         path + ".user_level");
 
-    if (socks["auth"].as_table() == nullptr)
+    if (socks["auth"].as_table() == nullptr) {
       socks.as_table()->insert("auth", default_config["auth"]);
+      p_logger->warn(
+        "Failed to load config : [{}], use build-in config instead",
+        path + ".auth");
+    }
 
     Table::fromNodeView(socks["auth"],
                         default_config["auth"],
@@ -676,8 +704,11 @@ InboundSettings::SOCKS::toNodeView(
                     p_logger,
                     path + ".user_level");
 
-  if (socks["auth"].as_table() == nullptr)
+  if (socks["auth"].as_table() == nullptr) {
     socks.as_table()->insert("auth", default_config["auth"]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path + ".auth");
+  }
 
   Table::toNodeView(socks["auth"],
                     default_config["auth"],
@@ -755,8 +786,12 @@ InboundSettings::HTTP::fromNodeView(
                         p_logger,
                         path + ".user_level");
 
-    if (http["auth"].as_table() == nullptr)
+    if (http["auth"].as_table() == nullptr) {
       http.as_table()->insert("auth", default_config["auth"]);
+      p_logger->warn(
+        "Failed to load config : [{}], use build-in config instead",
+        path + ".auth");
+    }
 
     Table::fromNodeView(http["auth"],
                         default_config["auth"],
@@ -805,8 +840,11 @@ InboundSettings::HTTP::toNodeView(
                     p_logger,
                     path + ".user_level");
 
-  if (http["auth"].as_table() == nullptr)
+  if (http["auth"].as_table() == nullptr) {
     http.as_table()->insert("auth", default_config["auth"]);
+    p_logger->warn("Failed to load config : [{}], use build-in config instead",
+                   path + ".auth");
+  }
 
   Table::toNodeView(http["auth"],
                     default_config["auth"],
