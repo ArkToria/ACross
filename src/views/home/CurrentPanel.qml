@@ -100,6 +100,29 @@ Item {
 
             ColumnLayout {
                 Item {
+                    Layout.fillWidth: width
+
+                    ColumnLayout {
+                        anchors.fill: parent
+                        Label {
+                            text: "↑ " + acrossNodes.uploadTraffic
+                            color: acrossConfig.textColor
+                        }
+
+                        Rectangle {
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 2
+                            color: acrossConfig.textColor
+                        }
+
+                        Label {
+                            text: "↓ " + acrossNodes.downloadTraffic
+                            color: acrossConfig.textColor
+                        }
+                    }
+                }
+
+                Item {
                     Layout.fillHeight: true
                 }
 

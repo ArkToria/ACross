@@ -447,7 +447,7 @@ public:
   Q_INVOKABLE QString getConfigTomlVersion();
   Q_INVOKABLE QString getLanguage();
   Q_INVOKABLE void freshColors();
-  Q_INVOKABLE bool testApi();
+  Q_INVOKABLE bool testAPI();
   Q_INVOKABLE bool testAndSetAddr(const QString& addr);
   Q_INVOKABLE void freshInbound();
   Q_INVOKABLE bool saveConfig(QString config_path = "");

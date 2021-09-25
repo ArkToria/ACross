@@ -1,52 +1,104 @@
 #include "apitools.h"
 #include <iostream>
 
+using namespace across;
 using namespace across::core;
 
 APITools::APITools(std::shared_ptr<grpc::Channel> channel)
 {
-  p_stub = StatsService::NewStub(channel);
+  p_channel = channel;
 }
 
 APITools::APITools(uint port)
 {
-  auto channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(port),
-                                     grpc::InsecureChannelCredentials());
+  p_channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(port),
+                                  grpc::InsecureChannelCredentials());
+}
 
-  p_stub = StatsService::NewStub(channel);
+APITools::~APITools()
+{
+  // destroy pointer
+  if (p_thread) {
+    p_thread->quit();
+    p_thread->wait();
+  }
+}
+
+void
+APITools::startMonitoring(const QString& tag)
+{
+  m_tag = tag;
+
+  // create thread
+  p_thread = new QThread(this);
+  auto worker = new APIWorker(p_channel);
+  worker->moveToThread(p_thread);
+
+  // connect signals
+  connect(this, &APITools::operate, worker, &APIWorker::start);
+  connect(
+    worker, &APIWorker::trafficChanged, this, &APITools::handleTrafficResult);
+  connect(this, &APITools::stopMonitoring, worker, &APIWorker::stop);
+
+  // start thread process
+  p_thread->start();
+  emit operate(m_tag);
+}
+
+void
+APITools::restartMonitoring()
+{
+  startMonitoring(m_tag);
 }
 
 std::pair<bool, std::string>
 APITools::isOk() const
 {
+  auto p_stub = StatsService::NewStub(p_channel);
   bool isOk = false;
+
   std::string err;
   ClientContext context;
   SysStatsRequest request;
   SysStatsResponse response;
 
   if (auto stats = p_stub->GetSysStats(&context, request, &response);
-      stats.ok()) {
-    if (response.uptime() > 0) {
-      isOk = true;
-    }
+      stats.ok() && response.uptime() > 0) {
+    isOk = true;
   } else {
-    isOk = false;
     err = std::to_string(stats.error_code()) + ": " + stats.error_message();
   }
 
-  return std::make_pair(isOk, err);
+  return { isOk, err };
 }
 
-std::pair<int64_t, int64_t>
-APITools::getTraffic(const QString& tag)
+void
+APITools::handleTrafficResult(const QVariant& data)
 {
-  auto call_api = [&tag, this](const QString& type) -> int64_t {
+  emit trafficChanged(data);
+}
+
+APIWorker::APIWorker(std::shared_ptr<grpc::Channel> channel)
+{
+  p_stub = StatsService::NewStub(channel);
+}
+
+void
+APIWorker::start(const QString& tag)
+{
+  if (!tag.isEmpty()) {
+    m_tag = tag;
+  }
+
+  m_stop = false;
+
+  auto call_api = [&](const QString& type) -> int64_t {
     ClientContext context;
     GetStatsResponse response;
     GetStatsRequest request;
+
     request.set_name(
-      QString("inbound>>>%1>>>traffic>>>%2").arg(tag, type).toStdString());
+      QString("inbound>>>%1>>>traffic>>>%2").arg(m_tag, type).toStdString());
     request.set_reset(false);
 
     if (auto status = p_stub->GetStats(&context, request, &response);
@@ -54,8 +106,27 @@ APITools::getTraffic(const QString& tag)
       return response.stat().value();
     }
 
-    return 0;
+    return -1;
   };
 
-  return { call_api("uplink"), call_api("downlink") };
+  while (!m_stop) {
+    auto traffic_info = TrafficInfo{
+      .upload = call_api("uplink"),
+      .download = call_api("downlink"),
+    };
+
+    emit trafficChanged(QVariant::fromValue<TrafficInfo>(traffic_info));
+
+    if (traffic_info.upload < 0 || traffic_info.download < 0) {
+      break;
+    } else {
+      QThread::msleep(1000);
+    }
+  }
+}
+
+void
+APIWorker::stop()
+{
+  this->m_stop = true;
 }

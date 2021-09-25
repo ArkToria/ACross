@@ -124,7 +124,6 @@ qt_add_executable(across
     ${PROJECT_HEADERS}
     )
 
-
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 

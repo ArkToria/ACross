@@ -80,8 +80,10 @@ CoreTools::run()
     connect(
      p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
   }
-  if (m_running)
+
+  if (m_running) {
     this->stop();
+  }
 
   p_process->setProcessEnvironment(m_env);
 

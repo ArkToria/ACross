@@ -2,6 +2,7 @@
 #define NODELIST_H
 
 #include "../models/clipboardtools.h"
+#include "../models/apitools.h"
 #include "../models/coretools.h"
 #include "../models/dbtools.h"
 #include "../models/jsontools.h"
@@ -39,7 +40,10 @@ class NodeList : public QObject
     int currentNodePort READ currentNodePort NOTIFY currentNodePortChanged)
   Q_PROPERTY(
     QString currentNodeURL READ currentNodeURL NOTIFY currentNodeURLChanged)
-
+  Q_PROPERTY(QString uploadTraffic READ uploadTraffic WRITE setUploadTraffic
+               NOTIFY uploadTrafficChanged)
+  Q_PROPERTY(QString downloadTraffic READ downloadTraffic WRITE
+               setDownloadTraffic NOTIFY downloadTrafficChanged)
 public:
   explicit NodeList(QObject* parent = nullptr);
 
@@ -79,6 +83,10 @@ public:
 
   const QString& currentNodeURL() const;
 
+  const QString& uploadTraffic() const;
+
+  const QString& downloadTraffic() const;
+
 public slots:
   void setCurrentGroupID(int group_id);
 
@@ -87,6 +95,10 @@ public slots:
   void setCurrentNode(int id, int index);
 
   void copyUrlToClipboard(int id);
+  
+  void setUploadTraffic(const QString& newUploadTraffic);
+
+  void setDownloadTraffic(const QString& newDownloadTraffic);
 
 signals:
   void preItemsReset();
@@ -111,10 +123,15 @@ signals:
 
   void updateQRCode(const QString& id, const QString& content);
 
+  void uploadTrafficChanged(const QString& uploadTraffic);
+
+  void downloadTrafficChanged(const QString& downloadTraffic);
+
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;
   std::shared_ptr<across::config::JsonTools> p_json;
   QSharedPointer<DBTools> p_db;
+  QSharedPointer<across::core::APITools> p_api;
   QSharedPointer<across::setting::ConfigTools> p_config;
   QSharedPointer<across::core::CoreTools> p_core;
 
@@ -124,6 +141,8 @@ private:
   int m_group_id = 1;
   int m_display_group_id = 1;
   NodeInfo m_current_node;
+  QString m_uploadTraffic;
+  QString m_downloadTraffic;
 };
 }
 

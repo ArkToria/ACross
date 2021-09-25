@@ -9,8 +9,9 @@ Item {
     implicitWidth: 240
     implicitHeight: 192
 
-    state: "NormalState"
+    property Component popMenuComponent: null
 
+    state: "NormalState"
     states: [
         State {
             name: "NormalState"
@@ -171,8 +172,6 @@ Item {
                 nodeGridView.currentIndex = index
             }
         }
-
-        property Component popMenuComponent: null
 
         onClicked: function (mouse) {
             if (mouse.button === Qt.RightButton) {

@@ -26,6 +26,56 @@ NodeList::init(QSharedPointer<LogView> log_view,
 
   p_core = core;
 
+  connect(p_config.get(), &ConfigTools::apiEnableChanged, this, [&]() {
+    if (!p_config->apiEnable() && p_api != nullptr)
+      emit p_api->stopMonitoring();
+    else {
+      if (p_core->isRunning() && p_api != nullptr) {
+        p_api->restartMonitoring();
+      }
+    }
+  });
+
+  connect(p_config.get(), &ConfigTools::apiPortChanged, this, [&]() {
+    if (p_api != nullptr) {
+      emit p_api->stopMonitoring();
+      p_api.reset(new APITools(p_config->apiPort().toUInt()));
+    }
+  });
+
+  connect(p_core.get(), &CoreTools::isRunningChanged, this, [&]() {
+    if (p_api != nullptr) {
+      if (p_core->isRunning()) {
+        p_api->startMonitoring("QV2RAY_API_INBOUND");
+      } else {
+        emit p_api->stopMonitoring();
+      }
+    }
+  });
+
+  if (p_config->apiEnable()) {
+    p_api =
+      QSharedPointer<APITools>(new APITools(p_config->apiPort().toUInt()));
+
+    connect(p_api.get(),
+            &APITools::trafficChanged,
+            this,
+            [this](const QVariant& data) {
+              auto traffic = data.value<TrafficInfo>();
+              if (traffic.download >= 0) {
+                setDownloadTraffic(QString::number(traffic.download));
+              } else {
+                setDownloadTraffic("N/A");
+              }
+
+              if (traffic.upload >= 0) {
+                setUploadTraffic(QString::number(traffic.download));
+              } else {
+                setUploadTraffic("N/A");
+              }
+            });
+  }
+
   reloadItems();
 }
 
@@ -280,9 +330,9 @@ NodeList::setCurrentNode(int id, int index)
     writer->write(root, &file);
     file.close();
 #endif
-
     p_core->setConfig(QString::fromStdString(root.toStyledString()));
     p_core->run();
+
   } while (false);
 }
 
@@ -303,4 +353,34 @@ NodeList::copyUrlToClipboard(int id)
                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
 
   ClipboardTools().send(item.url);
+}
+
+const QString&
+NodeList::uploadTraffic() const
+{
+  return m_uploadTraffic;
+}
+
+void
+NodeList::setUploadTraffic(const QString& newUploadTraffic)
+{
+  if (m_uploadTraffic == newUploadTraffic)
+    return;
+  m_uploadTraffic = newUploadTraffic;
+  emit uploadTrafficChanged(m_uploadTraffic);
+}
+
+const QString&
+NodeList::downloadTraffic() const
+{
+  return m_downloadTraffic;
+}
+
+void
+NodeList::setDownloadTraffic(const QString& newDownloadTraffic)
+{
+  if (m_downloadTraffic == newDownloadTraffic)
+    return;
+  m_downloadTraffic = newDownloadTraffic;
+  emit downloadTrafficChanged(m_downloadTraffic);
 }

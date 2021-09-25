@@ -9,6 +9,7 @@
 #include <QProcess>
 #include <QProcessEnvironment>
 #include <QRegularExpression>
+#include <QSharedPointer>
 #include <QString>
 #include <QStringList>
 #include <memory>

@@ -162,7 +162,7 @@ Item {
                 // sync input information
                 acrossConfig.apiPort = apiPortText.text
 
-                var stats = acrossConfig.testApi()
+                var stats = acrossConfig.testAPI()
 
                 if (stats && acrossConfig.apiResultText === "") {
                     testResult.text = qsTr("Success")

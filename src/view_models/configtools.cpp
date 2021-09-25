@@ -1385,7 +1385,7 @@ ConfigTools::freshColors()
 }
 
 bool
-ConfigTools::testApi()
+ConfigTools::testAPI()
 {
   bool result = false;
 
