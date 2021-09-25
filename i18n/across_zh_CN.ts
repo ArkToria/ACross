@@ -56,74 +56,77 @@
     <name>ApplicationItem</name>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="15"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="27"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="25"/>
         <source>Select Database Path</source>
         <translation>选择数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="47"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="43"/>
         <source>Application Setting</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="49"/>
         <source>Enable Tray Icon</source>
         <translation>启用托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="73"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="69"/>
         <source>Set UserAgent</source>
         <translation>设置 UserAgent</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="86"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="110"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="106"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="123"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="142"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="164"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="160"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="176"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="172"/>
         <source>Log File</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="183"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="214"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="180"/>
+        <source>Open Folder</source>
+        <translation>打开文件夹</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="202"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="192"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="223"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="211"/>
         <source>Folder</source>
         <translation>文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="199"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="187"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="208"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="196"/>
         <source>Enter Database Path Here</source>
         <translation>在此输入数据库路径</translation>
     </message>
@@ -555,47 +558,52 @@
 <context>
     <name>NodeShareForm</name>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="14"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="15"/>
         <source>Share Configuration</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="87"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="46"/>
+        <source>Save QRCode to local path</source>
+        <translation>将二维码保存到本地</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeShareForm.qml" line="96"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="93"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="102"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="104"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="113"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="115"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="124"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="126"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="135"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="140"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="149"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="163"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="172"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="167"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="179"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>

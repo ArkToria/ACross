@@ -4,9 +4,12 @@ using namespace across;
 
 EnvTools::EnvTools()
 {
-  m_info = { get("ACROSS_CONFIG_PATH"),
-             get("V2RAY_CORE_PATH"),
-             get("V2RAY_ASSETS_PATH") };
+  m_info = {
+    .ACROSS_CONFIG_PATH = get("ACROSS_CONFIG_PATH"),
+    .ACROSS_DATA_DIR = get("ACROSS_DATA_DIR"),
+    .V2RAY_CORE_PATH = get("V2RAY_CORE_PATH"),
+    .V2RAY_ASSETS_PATH = get("V2RAY_ASSETS_PATH"),
+  };
 }
 
 QString

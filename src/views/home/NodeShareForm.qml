@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Dialogs
 
 import ACross
 
@@ -37,6 +38,14 @@ Window {
             return "qrc:/misc/icons/" + acrossConfig.iconStyle + "/repo_qr_code.svg"
         } else {
             return "image://acrossImageProvider/" + name
+        }
+    }
+
+    FontDialog {
+        id: saveQRCodeDialog
+        title: qsTr("Save QRCode to local path")
+        onAccepted: {
+
         }
     }
 
@@ -161,6 +170,9 @@ Window {
 
                             ButtonBox {
                                 text: qsTr("Save")
+                                onClicked: {
+                                    saveQRCodeDialog.open()
+                                }
                             }
 
                             ButtonBox {

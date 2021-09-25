@@ -13,9 +13,7 @@ Item {
     FileDialog {
         id: dbFileDialog
         title: qsTr("Select Database Path")
-        //        selectFolder: false
-        //        selectExisting: true
-        //        selectMultiple: false
+
         nameFilters: ["SQLite3 Database (*.db)", "All files (*)"]
         onAccepted: {
             acrossConfig.dbPath = fileUrl
@@ -25,9 +23,7 @@ Item {
     FileDialog {
         id: dbFileDirDialog
         title: qsTr("Select Database Path")
-        //        selectFolder: true
-        //        selectExisting: false
-        //        selectMultiple: false
+
         onAccepted: {
             acrossConfig.dbPath = fileUrl
         }
@@ -99,7 +95,7 @@ Item {
             displayText: acrossConfig.currentTheme
             model: ["current", "default-light", "dark", "nord-dark"]
 
-            onEditTextChanged: {
+            onEditTextChanged: function (editText) {
                 if (editText !== "current") {
                     acrossConfig.currentTheme = editText
                 }
@@ -135,7 +131,7 @@ Item {
             displayText: acrossConfig.logLevel
             model: ["current", "debug", "info", "warn", "error", "none"]
 
-            onEditTextChanged: {
+            onEditTextChanged: function (editText) {
                 if (editText !== "current") {
                     acrossConfig.logLevel = editText
                 }
@@ -179,19 +175,11 @@ Item {
 
         ButtonBox {
             Layout.fillWidth: true
+            Layout.columnSpan: 2
 
-            text: qsTr("Open File")
+            text: qsTr("Open Folder")
             onClicked: {
-                dbFileDialog.open()
-            }
-        }
-
-        ButtonBox {
-            Layout.fillWidth: true
-
-            text: qsTr("Folder")
-            onClicked: {
-
+                Qt.openUrlExternally(acrossLogView.logDir())
             }
         }
 

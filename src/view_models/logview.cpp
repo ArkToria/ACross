@@ -1,5 +1,7 @@
 #include "logview.h"
 
+using namespace across;
+
 LogView::LogView(LogView* parent)
   : QObject(parent)
 {
@@ -17,15 +19,20 @@ LogView::~LogView() {}
 void
 LogView::init()
 {
+  if (auto [app_log, core_log, _] = getLogsInfo();
+      !app_log.isEmpty() && !core_log.isEmpty()) {
+    m_app_log_path = app_log.toStdString();
+    m_core_log_path = core_log.toStdString();
+  }
+
   spdlog::init_thread_pool(QUEUE_SIZE, THREAD_NUMS);
   p_thread_pool = spdlog::thread_pool();
 
-  spdlog::sink_ptr stdout_sink =
-    std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-  spdlog::sink_ptr app_rotating_sink =
+  auto stdout_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+  auto app_rotating_sink =
     std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
       m_app_log_path, MAX_FILE_SIZE, MAX_LOG_FILES);
-  spdlog::sink_ptr core_rotating_sink =
+  auto core_rotating_sink =
     std::make_shared<spdlog::sinks::rotating_file_sink_mt>(
       m_core_log_path, MAX_FILE_SIZE, MAX_LOG_FILES);
 
@@ -125,4 +132,37 @@ std::pair<std::shared_ptr<spdlog::async_logger>,
 LogView::raw()
 {
   return { this->p_app_logger, this->p_core_logger };
+}
+
+LogsInfo
+LogView::getLogsInfo()
+{
+  QString app_file;
+  QString core_file;
+  QDir log_dir;
+
+#ifdef __linux__
+  if (auto data_home = EnvTools().getInfo().ACROSS_DATA_DIR;
+      !data_home.isEmpty()) {
+    log_dir = QDir(data_home).filePath("logs");
+    app_file = log_dir.filePath(APP_FILE_NAME);
+    core_file = log_dir.filePath(CORE_FILE_NAME);
+  } else if (auto home = EnvTools().get("HOME"); !home.isEmpty()) {
+    log_dir = QDir(home).filePath(".local/share/across/logs");
+    app_file = log_dir.filePath(APP_FILE_NAME);
+    core_file = log_dir.filePath(CORE_FILE_NAME);
+  }
+#else
+  log_dir = "./";
+  app_file = QDir("./").filePath(APP_FILE_NAME);
+  core_file = QDir("./").filePath(CORE_FILE_NAME);
+#endif
+
+  return { app_file, core_file, log_dir.absolutePath() };
+}
+
+QString
+LogView::logDir()
+{
+  return QUrl::fromLocalFile(getLogsInfo().log_dir).toString();
 }
