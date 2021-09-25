@@ -349,22 +349,22 @@
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="63"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="64"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="67"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="68"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="80"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="81"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="84"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -594,18 +594,22 @@
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="149"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="179"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="172"/>
-        <source>Save</source>
-        <translation>保存</translation>
+        <source>Save Image</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="179"/>
+        <source>Save</source>
+        <translation type="vanished">保存</translation>
+    </message>
+    <message>
         <source>Copy</source>
-        <translation>复制</translation>
+        <translation type="vanished">复制</translation>
     </message>
 </context>
 <context>
@@ -732,6 +736,14 @@
         <location filename="../src/view_models/grouplist.cpp" line="309"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
+    </message>
+</context>
+<context>
+    <name>across::NodeList</name>
+    <message>
+        <location filename="../src/view_models/nodelist.cpp" line="303"/>
+        <source>Copy [%1] URL to clipboard</source>
+        <translation type="unfinished">复制 [%1] 链接到剪贴板</translation>
     </message>
 </context>
 <context>

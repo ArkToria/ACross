@@ -77,15 +77,15 @@ NodeList::appendNode(NodeInfo node)
 void
 NodeList::removeCurrentNode(int id)
 {
-    for (auto& item : m_items) {
-      if (item.id == id) {
-        auto result = p_db->removeItemFromID(item.group, item.id);
-        if (result == SQLITE_OK) {
-          reloadItems();
-        }
-        break;
+  for (auto& item : m_items) {
+    if (item.id == id) {
+      auto result = p_db->removeItemFromID(item.group, item.id);
+      if (result == SQLITE_OK) {
+        reloadItems();
       }
+      break;
     }
+  }
 }
 
 QString
@@ -284,4 +284,23 @@ NodeList::setCurrentNode(int id, int index)
     p_core->setConfig(QString::fromStdString(root.toStyledString()));
     p_core->run();
   } while (false);
+}
+
+void
+NodeList::copyUrlToClipboard(int id)
+{
+  auto iter = std::find_if(m_items.begin(), m_items.end(), [&](NodeInfo& item) {
+    return item.id == id;
+  });
+  if (iter == m_items.end()) {
+    p_logger->error("Failed to copy node url: {}", id);
+    return;
+  }
+
+  auto item = *iter;
+
+  NotifyTools().send(item.url,
+                     QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
+
+  ClipboardTools().send(item.url);
 }

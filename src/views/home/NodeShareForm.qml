@@ -169,14 +169,17 @@ Window {
                             }
 
                             ButtonBox {
-                                text: qsTr("Save")
+                                text: qsTr("Save Image")
                                 onClicked: {
-                                    saveQRCodeDialog.open()
+                                    //saveQRCodeDialog.open()
                                 }
                             }
 
                             ButtonBox {
-                                text: qsTr("Copy")
+                                text: qsTr("Copy URL")
+                                onClicked: {
+                                    acrossNodes.copyUrlToClipboard(nodeID)
+                                }
                             }
                         }
                     }

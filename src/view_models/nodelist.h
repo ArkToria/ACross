@@ -1,9 +1,11 @@
 #ifndef NODELIST_H
 #define NODELIST_H
 
+#include "../models/clipboardtools.h"
 #include "../models/coretools.h"
 #include "../models/dbtools.h"
 #include "../models/jsontools.h"
+#include "../models/notifytools.h"
 
 #include "configtools.h"
 #include "logtools.h"
@@ -83,6 +85,8 @@ public slots:
   void setDisplayGroupID(int group_id);
 
   void setCurrentNode(int id, int index);
+
+  void copyUrlToClipboard(int id);
 
 signals:
   void preItemsReset();

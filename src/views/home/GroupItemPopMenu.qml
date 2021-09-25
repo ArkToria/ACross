@@ -56,6 +56,7 @@ Menu {
 
         onTriggered: {
             acrossGroups.copyUrlToClipboard(index)
+            console.log(index)
         }
     }
 
