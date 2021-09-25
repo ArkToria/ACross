@@ -55,78 +55,78 @@
 <context>
     <name>ApplicationItem</name>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="15"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="25"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="18"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="29"/>
         <source>Select Database Path</source>
         <translation>选择数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="43"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="47"/>
         <source>Application Setting</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="49"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
         <source>Enable Tray Icon</source>
         <translation>启用托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="69"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="73"/>
         <source>Set UserAgent</source>
         <translation>设置 UserAgent</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="86"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="106"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="110"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="123"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="142"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="147"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="160"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="165"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="172"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
         <source>Log File</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="180"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="185"/>
         <source>Open Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="202"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="207"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="211"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="216"/>
         <source>Folder</source>
         <translation>文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="187"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="192"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="196"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="201"/>
         <source>Enter Database Path Here</source>
         <translation>在此输入数据库路径</translation>
     </message>
@@ -400,25 +400,25 @@
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="67"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="71"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="86"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="104"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="94"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="112"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="121"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="138"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="129"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="146"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="155"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="180"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="163"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="188"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>

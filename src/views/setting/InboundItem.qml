@@ -57,9 +57,13 @@ Item {
 
         SwitchBox {
             id: socksSwitch
-            checked: acrossConfig.socksEnable
+
             onCheckedChanged: {
                 acrossConfig.socksEnable = checked
+            }
+
+            Component.onCompleted: {
+                checked = acrossConfig.socksEnable
             }
         }
 
@@ -75,9 +79,13 @@ Item {
 
         SwitchBox {
             id: httpSwitch
-            checked: acrossConfig.httpEnable
+
             onCheckedChanged: {
                 acrossConfig.httpEnable = checked
+            }
+
+            Component.onCompleted: {
+                checked = acrossConfig.httpEnable
             }
         }
 

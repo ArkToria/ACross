@@ -1,5 +1,8 @@
 import QtQuick
-import QtQuick.Dialogs
+
+//import QtQuick.Dialogs
+import Qt.labs.platform
+
 import QtQuick.Layouts
 import QtQuick.Controls
 
@@ -13,6 +16,7 @@ Item {
     FileDialog {
         id: dbFileDialog
         title: qsTr("Select Database Path")
+        fileMode: FileDialog.OpenFile
 
         nameFilters: ["SQLite3 Database (*.db)", "All files (*)"]
         onAccepted: {
@@ -95,7 +99,7 @@ Item {
             displayText: acrossConfig.currentTheme
             model: ["current", "default-light", "dark", "nord-dark"]
 
-            onEditTextChanged: function (editText) {
+            onEditTextChanged: {
                 if (editText !== "current") {
                     acrossConfig.currentTheme = editText
                 }
@@ -125,13 +129,14 @@ Item {
         }
 
         DropDownBox {
+            id: logLevelText
             Layout.fillWidth: true
             Layout.columnSpan: 2
 
             displayText: acrossConfig.logLevel
             model: ["current", "debug", "info", "warn", "error", "none"]
 
-            onEditTextChanged: function (editText) {
+            onEditTextChanged: {
                 if (editText !== "current") {
                     acrossConfig.logLevel = editText
                 }
