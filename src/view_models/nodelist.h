@@ -40,9 +40,9 @@ class NodeList : public QObject
     int currentNodePort READ currentNodePort NOTIFY currentNodePortChanged)
   Q_PROPERTY(
     QString currentNodeURL READ currentNodeURL NOTIFY currentNodeURLChanged)
-  Q_PROPERTY(QString uploadTraffic READ uploadTraffic WRITE setUploadTraffic
+  Q_PROPERTY(double uploadTraffic READ uploadTraffic WRITE setUploadTraffic
                NOTIFY uploadTrafficChanged)
-  Q_PROPERTY(QString downloadTraffic READ downloadTraffic WRITE
+  Q_PROPERTY(double downloadTraffic READ downloadTraffic WRITE
                setDownloadTraffic NOTIFY downloadTrafficChanged)
 public:
   explicit NodeList(QObject* parent = nullptr);
@@ -83,9 +83,9 @@ public:
 
   const QString& currentNodeURL() const;
 
-  const QString& uploadTraffic() const;
+  double uploadTraffic();
 
-  const QString& downloadTraffic() const;
+  double downloadTraffic();
 
 public slots:
   void setCurrentGroupID(int group_id);
@@ -95,10 +95,10 @@ public slots:
   void setCurrentNode(int id, int index);
 
   void copyUrlToClipboard(int id);
-  
-  void setUploadTraffic(const QString& newUploadTraffic);
 
-  void setDownloadTraffic(const QString& newDownloadTraffic);
+  void setUploadTraffic(double newUploadTraffic);
+
+  void setDownloadTraffic(double newDownloadTraffic);
 
 signals:
   void preItemsReset();
@@ -122,10 +122,8 @@ signals:
   void currentNodeURLChanged();
 
   void updateQRCode(const QString& id, const QString& content);
-
-  void uploadTrafficChanged(const QString& uploadTraffic);
-
-  void downloadTrafficChanged(const QString& downloadTraffic);
+  void uploadTrafficChanged(double uploadTraffic);
+  void downloadTrafficChanged(double downloadTraffic);
 
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;
@@ -141,8 +139,8 @@ private:
   int m_group_id = 1;
   int m_display_group_id = 1;
   NodeInfo m_current_node;
-  QString m_uploadTraffic;
-  QString m_downloadTraffic;
+  across::core::TrafficInfo m_traffic_delta;
+  across::core::TrafficInfo m_traffic_last;
 };
 }
 

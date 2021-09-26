@@ -63,16 +63,18 @@ NodeList::init(QSharedPointer<LogView> log_view,
             [this](const QVariant& data) {
               auto traffic = data.value<TrafficInfo>();
               if (traffic.download >= 0) {
-                setDownloadTraffic(QString::number(traffic.download));
+                setDownloadTraffic(traffic.download - m_traffic_last.download);
               } else {
-                setDownloadTraffic("N/A");
+                setDownloadTraffic(0);
               }
+              m_traffic_last.download = traffic.download;
 
               if (traffic.upload >= 0) {
-                setUploadTraffic(QString::number(traffic.upload));
+                setUploadTraffic(traffic.upload - m_traffic_last.upload);
               } else {
-                setUploadTraffic("N/A");
+                setUploadTraffic(0);
               }
+              m_traffic_last.upload = traffic.upload;
             });
   }
 
@@ -355,32 +357,32 @@ NodeList::copyUrlToClipboard(int id)
   ClipboardTools().send(item.url);
 }
 
-const QString&
-NodeList::uploadTraffic() const
+double
+NodeList::uploadTraffic()
 {
-  return m_uploadTraffic;
+  return m_traffic_delta.upload;
 }
 
 void
-NodeList::setUploadTraffic(const QString& newUploadTraffic)
+NodeList::setUploadTraffic(double newUploadTraffic)
 {
-  if (m_uploadTraffic == newUploadTraffic)
+  if (m_traffic_delta.upload == newUploadTraffic)
     return;
-  m_uploadTraffic = newUploadTraffic;
-  emit uploadTrafficChanged(m_uploadTraffic);
+  m_traffic_delta.upload = newUploadTraffic;
+  emit uploadTrafficChanged(m_traffic_delta.upload);
 }
 
-const QString&
-NodeList::downloadTraffic() const
+double
+NodeList::downloadTraffic()
 {
-  return m_downloadTraffic;
+  return m_traffic_delta.download;
 }
 
 void
-NodeList::setDownloadTraffic(const QString& newDownloadTraffic)
+NodeList::setDownloadTraffic(double newDownloadTraffic)
 {
-  if (m_downloadTraffic == newDownloadTraffic)
+  if (m_traffic_delta.download == newDownloadTraffic)
     return;
-  m_downloadTraffic = newDownloadTraffic;
-  emit downloadTrafficChanged(m_downloadTraffic);
+  m_traffic_delta.download = newDownloadTraffic;
+  emit downloadTrafficChanged(m_traffic_delta.download);
 }
