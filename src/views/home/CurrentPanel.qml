@@ -61,7 +61,7 @@ Item {
 
                     Label {
                         id: uploadText
-                        text: "↑ " + acrossNodes.uploadTraffic + "Bps"
+                        text: "↑ " + acrossNodes.uploadTraffic + " B/s"
                         Layout.alignment: Qt.AlignRight | Qt.AlignTop
                         color: acrossConfig.textColor
                     }
@@ -76,7 +76,7 @@ Item {
 
                     Label {
                         id: downloadText
-                        text: "↓ " + acrossNodes.downloadTraffic + "Bps"
+                        text: "↓ " + acrossNodes.downloadTraffic + " B/s"
                         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
                         color: acrossConfig.textColor
                     }

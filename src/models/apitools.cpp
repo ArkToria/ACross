@@ -4,19 +4,29 @@
 using namespace across;
 using namespace across::core;
 
-APITools::APITools(std::shared_ptr<grpc::Channel> channel)
-{
-  p_channel = channel;
-}
-
 APITools::APITools(uint port)
 {
   p_channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(port),
                                   grpc::InsecureChannelCredentials());
+
+  // create thread
+  p_thread = new QThread(this);
+  p_worker = new APIWorker(p_channel);
+  p_worker->moveToThread(p_thread);
+
+  // connect signals
+  connect(this, &APITools::operate, p_worker, &APIWorker::start);
+  connect(
+    p_worker, &APIWorker::trafficChanged, this, &APITools::handleTrafficResult);
 }
 
 APITools::~APITools()
 {
+  if (p_worker) {
+    p_worker->stop();
+    p_worker->deleteLater();
+  }
+
   // destroy pointer
   if (p_thread) {
     p_thread->quit();
@@ -29,17 +39,6 @@ APITools::startMonitoring(const QString& tag)
 {
   m_tag = tag;
 
-  // create thread
-  p_thread = new QThread(this);
-  auto worker = new APIWorker(p_channel);
-  worker->moveToThread(p_thread);
-
-  // connect signals
-  connect(this, &APITools::operate, worker, &APIWorker::start);
-  connect(
-    worker, &APIWorker::trafficChanged, this, &APITools::handleTrafficResult);
-  connect(this, &APITools::stop, worker, &APIWorker::stop);
-
   // start thread process
   p_thread->start();
   emit operate(m_tag);
@@ -48,7 +47,7 @@ APITools::startMonitoring(const QString& tag)
 void
 APITools::stopMonitoring()
 {
-  emit stop();
+  p_worker->stop();
 }
 
 void
@@ -129,8 +128,6 @@ APIWorker::start(const QString& tag)
       QThread::msleep(1000);
     }
   }
-
-  qDebug() << "api thread stop here";
 }
 
 void

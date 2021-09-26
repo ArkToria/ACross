@@ -62,19 +62,9 @@ NodeList::init(QSharedPointer<LogView> log_view,
             this,
             [this](const QVariant& data) {
               auto traffic = data.value<TrafficInfo>();
-              if (traffic.download >= 0) {
-                setDownloadTraffic(traffic.download - m_traffic_last.download);
-              } else {
-                setDownloadTraffic(0);
-              }
-              m_traffic_last.download = traffic.download;
-
-              if (traffic.upload >= 0) {
-                setUploadTraffic(traffic.upload - m_traffic_last.upload);
-              } else {
-                setUploadTraffic(0);
-              }
-              m_traffic_last.upload = traffic.upload;
+              setDownloadTraffic(traffic.download - m_traffic_last.download);
+              setUploadTraffic(traffic.upload - m_traffic_last.upload);
+              m_traffic_last = traffic;
             });
   }
 

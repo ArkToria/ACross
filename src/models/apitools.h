@@ -58,8 +58,6 @@ class APITools : public QObject
 {
   Q_OBJECT
 public:
-  explicit APITools(std::shared_ptr<Channel> channel);
-
   explicit APITools(uint port);
 
   ~APITools();
@@ -78,13 +76,12 @@ public slots:
 signals:
   void operate(const QString& tag);
 
-  void stop();
-
   void trafficChanged(const QVariant& data);
 
 private:
   std::shared_ptr<Channel> p_channel;
   QThread* p_thread = nullptr;
+  APIWorker* p_worker = nullptr;
   QString m_tag;
 };
 }

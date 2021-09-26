@@ -140,7 +140,7 @@ private:
   int m_display_group_id = 1;
   NodeInfo m_current_node;
   across::core::TrafficInfo m_traffic_delta;
-  across::core::TrafficInfo m_traffic_last;
+  across::core::TrafficInfo m_traffic_last = { 0, 0 };
 };
 }
 
