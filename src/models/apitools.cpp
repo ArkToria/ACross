@@ -38,11 +38,17 @@ APITools::startMonitoring(const QString& tag)
   connect(this, &APITools::operate, worker, &APIWorker::start);
   connect(
     worker, &APIWorker::trafficChanged, this, &APITools::handleTrafficResult);
-  connect(this, &APITools::stopMonitoring, worker, &APIWorker::stop);
+  connect(this, &APITools::stop, worker, &APIWorker::stop);
 
   // start thread process
   p_thread->start();
   emit operate(m_tag);
+}
+
+void
+APITools::stopMonitoring()
+{
+  emit stop();
 }
 
 void
@@ -123,10 +129,13 @@ APIWorker::start(const QString& tag)
       QThread::msleep(1000);
     }
   }
+
+  qDebug() << "api thread stop here";
 }
 
 void
 APIWorker::stop()
 {
+  // failed to notify this
   this->m_stop = true;
 }

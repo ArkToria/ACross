@@ -28,7 +28,7 @@ NodeList::init(QSharedPointer<LogView> log_view,
 
   connect(p_config.get(), &ConfigTools::apiEnableChanged, this, [&]() {
     if (!p_config->apiEnable() && p_api != nullptr)
-      emit p_api->stopMonitoring();
+      p_api->stopMonitoring();
     else {
       if (p_core->isRunning() && p_api != nullptr) {
         p_api->restartMonitoring();
@@ -38,7 +38,7 @@ NodeList::init(QSharedPointer<LogView> log_view,
 
   connect(p_config.get(), &ConfigTools::apiPortChanged, this, [&]() {
     if (p_api != nullptr) {
-      emit p_api->stopMonitoring();
+      p_api->stopMonitoring();
       p_api.reset(new APITools(p_config->apiPort().toUInt()));
     }
   });
@@ -48,7 +48,7 @@ NodeList::init(QSharedPointer<LogView> log_view,
       if (p_core->isRunning()) {
         p_api->startMonitoring("QV2RAY_API_INBOUND");
       } else {
-        emit p_api->stopMonitoring();
+        p_api->stopMonitoring();
       }
     }
   });
@@ -69,7 +69,7 @@ NodeList::init(QSharedPointer<LogView> log_view,
               }
 
               if (traffic.upload >= 0) {
-                setUploadTraffic(QString::number(traffic.download));
+                setUploadTraffic(QString::number(traffic.upload));
               } else {
                 setUploadTraffic("N/A");
               }

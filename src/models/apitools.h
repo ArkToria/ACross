@@ -66,6 +66,8 @@ public:
 
   void startMonitoring(const QString& tag);
 
+  void stopMonitoring();
+
   void restartMonitoring();
 
   std::pair<bool, std::string> isOk() const;
@@ -76,7 +78,7 @@ public slots:
 signals:
   void operate(const QString& tag);
 
-  void stopMonitoring();
+  void stop();
 
   void trafficChanged(const QVariant& data);
 
