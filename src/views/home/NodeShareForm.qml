@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
-import QtQuick.Dialogs
+//import QtQuick.Dialogs
+import Qt.labs.platform
 
 import ACross
 
@@ -41,11 +42,12 @@ Window {
         }
     }
 
-    FontDialog {
+    FileDialog {
         id: saveQRCodeDialog
         title: qsTr("Save QRCode to local path")
+        fileMode:FileDialog.SaveFile
         onAccepted: {
-
+            acrossNodes.saveQRCodeToFile(nodeID,file)
         }
     }
 
@@ -171,7 +173,7 @@ Window {
                             ButtonBox {
                                 text: qsTr("Save Image")
                                 onClicked: {
-                                    //saveQRCodeDialog.open()
+                                    saveQRCodeDialog.open()
                                 }
                             }
 

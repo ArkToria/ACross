@@ -347,6 +347,21 @@ NodeList::copyUrlToClipboard(int id)
   ClipboardTools().send(item.url);
 }
 
+void NodeList::saveQRCodeToFile(int id,const QUrl &filename) 
+{
+  auto iter = std::find_if(m_items.begin(), m_items.end(), [&](NodeInfo& item) {
+    return item.id == id;
+  });
+  if (iter == m_items.end()) {
+    p_logger->error("Failed to save QRCode Image: {}", id);
+    return;
+  }
+
+  auto item = *iter;
+
+  QRCodeTools().write(item.url).save(filename.path());
+}
+
 double
 NodeList::uploadTraffic()
 {

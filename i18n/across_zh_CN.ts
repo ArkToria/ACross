@@ -546,48 +546,48 @@
 <context>
     <name>NodeShareForm</name>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="15"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="16"/>
         <source>Share Configuration</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="46"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="47"/>
         <source>Save QRCode to local path</source>
         <translation>保存二维码到本地</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="96"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="98"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="102"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="104"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="113"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="115"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="124"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="126"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="135"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="137"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="149"/>
-        <location filename="../src/views/home/NodeShareForm.qml" line="179"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="151"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="181"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="172"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="174"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>

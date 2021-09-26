@@ -7,6 +7,7 @@
 #include "../models/dbtools.h"
 #include "../models/jsontools.h"
 #include "../models/notifytools.h"
+#include "../models/qrcodetools.h"
 
 #include "configtools.h"
 #include "logtools.h"
@@ -95,6 +96,8 @@ public slots:
   void setCurrentNode(int id, int index);
 
   void copyUrlToClipboard(int id);
+
+  void saveQRCodeToFile(int id,const QUrl &filename);
 
   void setUploadTraffic(double newUploadTraffic);
 
