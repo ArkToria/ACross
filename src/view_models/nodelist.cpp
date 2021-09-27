@@ -32,6 +32,8 @@ NodeList::init(QSharedPointer<LogView> log_view,
     else {
       if (p_core->isRunning() && p_api != nullptr) {
         p_api->restartMonitoring();
+        m_traffic_last.clear();
+        m_traffic_sum.clear();
       }
     }
   });
@@ -40,15 +42,19 @@ NodeList::init(QSharedPointer<LogView> log_view,
     if (p_api != nullptr) {
       p_api->stopMonitoring();
       p_api.reset(new APITools(p_config->apiPort().toUInt()));
+      m_traffic_last.clear();
+      m_traffic_sum.clear();
     }
   });
 
   connect(p_core.get(), &CoreTools::isRunningChanged, this, [&]() {
     if (p_api != nullptr) {
       if (p_core->isRunning()) {
-        p_api->startMonitoring("QV2RAY_API_INBOUND");
+        p_api->startMonitoring("PROXY");
       } else {
         p_api->stopMonitoring();
+        m_traffic_last.clear();
+        m_traffic_sum.clear();
       }
     }
   });
@@ -62,8 +68,14 @@ NodeList::init(QSharedPointer<LogView> log_view,
             this,
             [this](const QVariant& data) {
               auto traffic = data.value<TrafficInfo>();
-              setDownloadTraffic(traffic.download - m_traffic_last.download);
-              setUploadTraffic(traffic.upload - m_traffic_last.upload);
+
+              m_traffic_sum.download +=
+                traffic.download - m_traffic_last.download;
+              m_traffic_sum.upload += traffic.upload - m_traffic_last.upload;
+
+              setDownloadTraffic(m_traffic_sum.download);
+              setUploadTraffic(m_traffic_sum.upload);
+
               m_traffic_last = traffic;
             });
   }
@@ -365,29 +377,29 @@ void NodeList::saveQRCodeToFile(int id,const QUrl &filename)
 double
 NodeList::uploadTraffic()
 {
-  return m_traffic_delta.upload;
+  return m_traffic.upload;
 }
 
 void
 NodeList::setUploadTraffic(double newUploadTraffic)
 {
-  if (m_traffic_delta.upload == newUploadTraffic)
+  if (m_traffic.upload == newUploadTraffic)
     return;
-  m_traffic_delta.upload = newUploadTraffic;
-  emit uploadTrafficChanged(m_traffic_delta.upload);
+  m_traffic.upload = newUploadTraffic;
+  emit uploadTrafficChanged(m_traffic.upload);
 }
 
 double
 NodeList::downloadTraffic()
 {
-  return m_traffic_delta.download;
+  return m_traffic.download;
 }
 
 void
 NodeList::setDownloadTraffic(double newDownloadTraffic)
 {
-  if (m_traffic_delta.download == newDownloadTraffic)
+  if (m_traffic.download == newDownloadTraffic)
     return;
-  m_traffic_delta.download = newDownloadTraffic;
-  emit downloadTrafficChanged(m_traffic_delta.download);
+  m_traffic.download = newDownloadTraffic;
+  emit downloadTrafficChanged(m_traffic.download);
 }

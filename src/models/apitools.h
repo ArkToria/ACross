@@ -30,8 +30,10 @@ namespace across {
 namespace core {
 struct TrafficInfo
 {
-  int64_t upload = -1;
-  int64_t download = -1;
+  int64_t upload = 0;
+  int64_t download = 0;
+
+  void clear();
 };
 
 class APIWorker : public QObject

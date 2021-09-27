@@ -103,7 +103,7 @@ APIWorker::start(const QString& tag)
     GetStatsRequest request;
 
     request.set_name(
-      QString("inbound>>>%1>>>traffic>>>%2").arg(m_tag, type).toStdString());
+      QString("outbound>>>%1>>>traffic>>>%2").arg(m_tag, type).toStdString());
     request.set_reset(false);
 
     if (auto status = p_stub->GetStats(&context, request, &response);
@@ -135,4 +135,10 @@ APIWorker::stop()
 {
   // failed to notify this
   this->m_stop = true;
+}
+
+void
+TrafficInfo::clear()
+{
+  download = upload = 0;
 }
