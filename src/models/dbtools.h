@@ -95,6 +95,8 @@ public:
 
   int64_t getLastID();
 
+  int update(GroupInfo& group);
+
   int removeItemFromID(const QString& group_name, int64_t id);
 
   int removeGroupFromName(const QString& group_name);

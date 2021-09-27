@@ -35,6 +35,11 @@ GroupList::init(QSharedPointer<LogView> log_view,
     p_logger->error("Failed to get the nodes");
   }
 
+  connect(p_nodes.get(),
+          &NodeList::itemsSizeChanged,
+          this,
+          &GroupList::handleItemsChanged);
+
   reloadItems();
 }
 
@@ -325,6 +330,17 @@ GroupList::handleDownloaded(const QVariant& content)
         insert(item, task.content);
       }
       m_pre_items.removeAt(i);
+    }
+  }
+}
+
+void
+GroupList::handleItemsChanged(int64_t group_id, int size)
+{
+  for (auto& item : m_items) {
+    if (item.id == group_id) {
+      item.items = size;
+      emit itemsSizeChanged(group_id, size);
     }
   }
 }

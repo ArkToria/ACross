@@ -117,6 +117,19 @@ GroupModel::setList(GroupList* list)
 
     connect(
       p_list, &GroupList::postLastItemRemoved, this, [&] { endRemoveRows(); });
+
+    connect(p_list,
+            &GroupList::itemsSizeChanged,
+            this,
+            [&](int64_t group_id, int size) {
+              for (int index = 0; index != p_list->items().size(); ++index) {
+                if (group_id == p_list->items().at(index).id) {
+                  QModelIndex topLeft = createIndex(index, 0);
+                  QModelIndex bottomRight = createIndex(index + 1, 0);
+                  emit dataChanged(topLeft, bottomRight);
+                }
+              }
+            });
   }
 
   endResetModel();

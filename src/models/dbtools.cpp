@@ -55,7 +55,8 @@ DBTools::reload()
                         "PRAGMA synchronous=OFF;"
                         "PRAGMA count_changes=OFF;"
                         "PRAGMA journal_mode=MEMORY;"
-                        "PRAGMA temp_store=MEMORY;" };
+                        "PRAGMA temp_store=MEMORY;"
+                        "PRAGMA sql_self_updates=1" };
 
   result = sqlite3_exec(m_db, init_str.c_str(), NULL, NULL, &err_msg);
   if (result != SQLITE_OK) {
@@ -469,6 +470,13 @@ int64_t
 DBTools::getLastID()
 {
   return sqlite3_last_insert_rowid(m_db);
+}
+
+int
+DBTools::update(GroupInfo& group)
+{
+  // TODO
+  return SQLITE_OK;
 }
 
 int

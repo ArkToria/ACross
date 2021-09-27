@@ -106,6 +106,8 @@ public slots:
   void setDownloadTraffic(double newDownloadTraffic);
 
 signals:
+  void itemsSizeChanged(int64_t group_id, int size);
+
   void preItemsReset();
   void postItemsReset();
 

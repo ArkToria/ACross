@@ -126,6 +126,8 @@ NodeList::appendNode(NodeInfo node)
   p_db->insert(node);
 
   reloadItems();
+
+  emit itemsSizeChanged(node.group_id, m_items.size());
 }
 
 void
