@@ -59,6 +59,8 @@ public slots:
 
   void copyUrlToClipboard(int index);
 
+  void editItem(int index);
+
   void handleDownloaded(const QVariant& content);
 
   void handleItemsChanged(int64_t group_id, int size);
@@ -73,7 +75,7 @@ signals:
   void preLastItemRemoved();
   void postLastItemRemoved();
 
-  void itemsSizeChanged(int64_t group_id, int size);
+  void itemInfoChanged(int index);
 
 private:
   QSharedPointer<across::setting::ConfigTools> p_config;

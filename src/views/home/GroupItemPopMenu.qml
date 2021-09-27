@@ -45,7 +45,7 @@ Menu {
     Action {
         text: qsTr("Edit")
         onTriggered: {
-
+            acrossGroups.editItem(index)
         }
     }
 
@@ -56,7 +56,6 @@ Menu {
 
         onTriggered: {
             acrossGroups.copyUrlToClipboard(index)
-            console.log(index)
         }
     }
 

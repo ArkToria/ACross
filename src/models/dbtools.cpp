@@ -475,8 +475,24 @@ DBTools::getLastID()
 int
 DBTools::update(GroupInfo& group)
 {
-  // TODO
-  return SQLITE_OK;
+  char* err_msg;
+
+  QString update_str =
+    QString("UPDATE groups SET "
+            "Name = '%1', IsSubscription = '%2', Type = '%3', "
+            "Url = '%4', CycleTime = '%5', ModifiedAt = '%6' "
+            "WHERE ID = '%7';")
+      .arg(group.name)
+      .arg(group.isSubscription)
+      .arg(group.type)
+      .arg(group.url)
+      .arg(group.cycle_time)
+      .arg(group.modified_time.toSecsSinceEpoch())
+      .arg(group.id);
+  std::string update = update_str.toStdString();
+  auto result = sqlite3_exec(m_db, update.c_str(), NULL, NULL, &err_msg);
+
+  return result;
 }
 
 int

@@ -317,6 +317,19 @@ GroupList::copyUrlToClipboard(int index)
 }
 
 void
+GroupList::editItem(int index)
+{
+  if (index < m_items.size()) {
+    m_items[index].modified_time = QDateTime::currentDateTime();
+    auto item = m_items.at(index);
+    p_db->update(item);
+    emit itemInfoChanged(index);
+  } else {
+    p_logger->error("GroupList out of index: {}", index);
+  }
+}
+
+void
 GroupList::handleDownloaded(const QVariant& content)
 {
   auto task = content.value<DownloadTask>();
@@ -337,10 +350,11 @@ GroupList::handleDownloaded(const QVariant& content)
 void
 GroupList::handleItemsChanged(int64_t group_id, int size)
 {
-  for (auto& item : m_items) {
-    if (item.id == group_id) {
-      item.items = size;
-      emit itemsSizeChanged(group_id, size);
+  for (auto index = 0; index < m_items.size(); ++index) {
+    if (auto item = m_items.at(index); item.id == group_id) {
+      m_items[index].items = size;
+      emit itemInfoChanged(index);
+      break;
     }
   }
 }

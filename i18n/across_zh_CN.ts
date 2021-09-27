@@ -341,22 +341,22 @@
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="64"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="63"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="68"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="67"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="81"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="80"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="84"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
