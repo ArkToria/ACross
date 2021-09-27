@@ -16,6 +16,7 @@
 #include <QObject>
 #include <QPointer>
 #include <QSharedPointer>
+#include <QUrl>
 #include <QVariant>
 
 namespace across {
@@ -63,6 +64,8 @@ public:
 
   Q_INVOKABLE QString getQRCode(int id);
 
+  Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
+
 public:
   int currentNodeID();
 
@@ -97,7 +100,6 @@ public slots:
 
   void copyUrlToClipboard(int id);
 
-  void saveQRCodeToFile(int id,const QUrl &filename);
 
   void setUploadTraffic(double newUploadTraffic);
 

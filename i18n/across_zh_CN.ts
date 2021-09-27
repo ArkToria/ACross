@@ -556,38 +556,38 @@
         <translation>保存二维码到本地</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="98"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="100"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="104"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="106"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="115"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="117"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="126"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="128"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="137"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="139"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="151"/>
-        <location filename="../src/views/home/NodeShareForm.qml" line="181"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="153"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="183"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="174"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="176"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>
@@ -729,7 +729,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="351"/>
+        <location filename="../src/view_models/nodelist.cpp" line="357"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

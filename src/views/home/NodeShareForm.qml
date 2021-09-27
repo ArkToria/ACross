@@ -45,9 +45,11 @@ Window {
     FileDialog {
         id: saveQRCodeDialog
         title: qsTr("Save QRCode to local path")
-        fileMode:FileDialog.SaveFile
+
+        defaultSuffix: "png"
+        fileMode: FileDialog.SaveFile
         onAccepted: {
-            acrossNodes.saveQRCodeToFile(nodeID,file)
+            acrossNodes.saveQRCodeToFile(nodeID, file)
         }
     }
 
