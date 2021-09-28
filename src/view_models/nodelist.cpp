@@ -99,12 +99,12 @@ NodeList::reloadItems()
 
   for (auto& item : p_db->listAllNodes()) {
     m_all_items.insert(item.first, item.second);
-  }
-
-  if (!m_all_items.isEmpty())
-    for (auto& item : m_all_items.first().nodes) {
-      m_items.append(item);
+    if (item.first == this->displayGroupID()) {
+      for (auto& node_info : item.second.nodes) {
+        m_items.append(node_info);
+      }
     }
+  }
 
   emit postItemsReset();
 }
@@ -123,11 +123,13 @@ NodeList::appendNode(NodeInfo node)
     }
   }
 
-  p_db->insert(node);
+  if (auto err = p_db->insert(node); err != SQLITE_OK) {
+    p_logger->error("Failed to add node: {}", node.name.toStdString());
+  } else {
+    reloadItems();
 
-  reloadItems();
-
-  emit itemsSizeChanged(node.group_id, m_items.size());
+    emit itemsSizeChanged(node.group_id, m_items.size());
+  }
 }
 
 void
