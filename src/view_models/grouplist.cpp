@@ -48,7 +48,7 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
 {
   emit preItemAppended();
 
-  bool err = false;
+  bool insert_result = false;
   do {
     if (auto err = p_db->insert(group_info); err != SQLITE_OK) {
       break;
@@ -79,13 +79,13 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
       break;
     }
 
-    err = true;
+    insert_result = true;
   } while (false);
 
   reloadItems();
   emit postItemAppended();
 
-  return err;
+  return insert_result;
 }
 
 QVector<GroupInfo>
@@ -223,48 +223,25 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
 {
   emit preItemAppended();
 
-  GroupInfo group;
-  group.id = m_items.size() + 1;
-  group.name = group_name;
-  group.isSubscription = false;
-
-  int result = 0;
+  GroupInfo group_info = {
+    .name = group_name,
+    .isSubscription = false,
+  };
 
   do {
-    result = p_db->insert(group);
-    if (result != SQLITE_OK) {
+    if (auto err = p_db->insert(group_info); err != SQLITE_OK) {
       break;
     }
 
-    group.id = p_db->getLastID();
-
-    if (p_db->createNodesTable(group.name) != SQLITE_OK) {
+    if (auto err = p_db->createNodesTable(group_info.name); err != SQLITE_OK) {
+      p_logger->error("Failed to create table: {}",
+                      group_info.name.toStdString());
       break;
     }
 
-    for (auto& item : node_items.split("\n")) {
-      if (item.isEmpty()) {
-        break;
-      }
-
-      NodeInfo node;
-      node.group = group.name;
-      node.group_id = group.id;
-
-      result = SerializeTools::decodeOutboundFromURL(node, item);
-
-      if (!result) {
-        emit preLastItemRemoved();
-        p_db->removeGroupFromName(group.name);
-        emit postLastItemRemoved();
-        break;
-      } else {
-        p_db->insert(node);
-        reloadItems();
-      }
-    }
   } while (false);
 
+  reloadItems();
   emit postItemAppended();
 }
 
