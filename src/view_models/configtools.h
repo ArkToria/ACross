@@ -25,7 +25,6 @@ namespace across {
 namespace setting {
 struct Table
 {
-
   template<typename T>
   static void fromNodeView(
     toml::v2::node_view<toml::node> node,
@@ -42,6 +41,7 @@ struct Table
                          std::shared_ptr<across::utils::LogTools> p_logger,
                          const std::string& path);
 };
+
 struct Interface
 {
   struct Language
@@ -250,6 +250,19 @@ struct Theme
 
 struct InboundSettings
 {
+  struct API
+  {
+    bool enable = true;
+
+    QString listen = "127.0.0.1";
+    uint port = 15491;
+    const QString protocol = "dokodemo-door";
+    const QString tag = "ACROSS_API_INBOUND";
+
+    void fromCoreAPI(const Core::API& core_api);
+    across::config::InboundObject toInboundObject();
+  } api;
+
   struct SOCKS
   {
     bool enable;
@@ -301,6 +314,8 @@ struct InboundSettings
                     const std::string& path);
     across::config::InboundObject toInboundObject();
   } http;
+
+  void fromCoreAPI(const Core::API& core_api);
 
   void fromNodeView(toml::v2::node_view<toml::v2::node> inbound,
                     const toml::v2::node_view<toml::node>& default_config,

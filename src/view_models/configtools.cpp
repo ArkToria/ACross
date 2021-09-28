@@ -27,6 +27,7 @@ Table::fromNodeView(toml::v2::node_view<toml::node> node,
       config = temp.value();
   }
 }
+
 template<typename T>
 void
 Table::toNodeView(toml::v2::node_view<toml::node> node,
@@ -890,6 +891,12 @@ InboundSettings::HTTP::toInboundObject()
 }
 
 void
+InboundSettings::fromCoreAPI(const Core::API& core_api)
+{
+  api.fromCoreAPI(core_api);
+}
+
+void
 InboundSettings::fromNodeView(
   toml::v2::node_view<toml::node> inbound,
   const toml::v2::node_view<toml::node>& default_config,
@@ -926,6 +933,10 @@ InboundSettings::setObject(Json::Value& root)
 
   if (http.enable) {
     inbound_objects.appendInboundObject(http.toInboundObject());
+  }
+
+  if (api.enable) {
+    inbound_objects.appendInboundObject(api.toInboundObject());
   }
 
   inbound_objects.setObject(root);
@@ -1304,6 +1315,7 @@ ConfigTools::loadInboundConfig()
     result = false;
   }
 
+  m_inbound.fromCoreAPI(m_core.api);
   m_inbound.fromNodeView(
     m_config["inbound"], m_default_config["inbound"], p_logger, "inbound");
   return result;
@@ -2364,4 +2376,29 @@ QString
 ConfigTools::licenseURL()
 {
   return getLicenseURL();
+}
+
+void
+InboundSettings::API::fromCoreAPI(const Core::API& core_api)
+{
+  this->enable = core_api.enable;
+  this->port = core_api.port;
+}
+
+InboundObject
+InboundSettings::API::toInboundObject()
+{
+  InboundObject inbound_object;
+  inbound_object.listen = this->listen.toStdString();
+  inbound_object.port = std::to_string(this->port);
+  inbound_object.protocol = this->protocol.toStdString();
+  inbound_object.tag = this->tag.toStdString();
+
+  DokodemoDoorObject::InboundSettingObject inbound_setting_object;
+  inbound_setting_object.address = this->listen.toStdString();
+  inbound_setting_object.port = this->port;
+
+  inbound_object.settings = inbound_setting_object.toObject();
+
+  return inbound_object;
 }

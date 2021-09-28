@@ -27,10 +27,18 @@ struct LogObject
 
   void setLogLevel(LogLevel level);
   void setObject(Json::Value& root);
-  Json::Value toObject();
 
 private:
   std::string log_level = "warning";
+};
+
+struct APIObject
+{
+  const QString tag = "ACROSS_API";
+  Json::Value services = Json::arrayValue;
+
+  APIObject();
+  void setObject(Json::Value& root);
 };
 
 struct TransportObject
@@ -132,6 +140,21 @@ struct SIP008
   std::string user_uuid = "";
 
   Json::Value toObject(int index = 0);
+};
+
+struct DokodemoDoorObject
+{
+  struct InboundSettingObject
+  {
+    std::string address = "127.0.0.1";
+    uint port = 15492;
+    std::string network = "tcp";
+    int timeout = 300;
+    bool follow_redirect = false;
+    int user_level = 0;
+
+    Json::Value toObject();
+  };
 };
 
 struct HttpObject
@@ -390,6 +413,72 @@ private:
   uint refresh = 5;
   std::string strategy = "random";
   uint concurrency = 0;
+};
+
+struct RuleObject
+{
+  // domain_matche: "linear" | "mph"
+  std::string domain_matche = "mph";
+  std::string type = "field";
+  Json::Value domains = Json::arrayValue;
+  Json::Value ip = Json::arrayValue;
+  std::string port;
+  std::string source_port;
+  // network: "tcp" | "udp" | "tcp,udp"
+  std::string network = "tcp";
+  Json::Value source = Json::arrayValue;
+  Json::Value user = Json::arrayValue;
+  Json::Value inbound_tag = Json::arrayValue;
+  // protocol: "http" | "tls" | "bittorrent"
+  Json::Value protocol = Json::arrayValue;
+  std::string attrs = "";
+
+  Json::Value toObject();
+};
+
+struct StrategyObject
+{
+  // "random" | "leastPing"
+  std::string type = "random";
+
+  Json::Value toObject();
+};
+
+struct BalancerObject
+{
+  std::string tag = "balancer";
+  Json::Value selector = Json::arrayValue;
+
+  void setStrategyObject(StrategyObject strategy_object);
+  void setStrategyObject(Json::Value strategy_object);
+  Json::Value toObject();
+};
+
+struct RoutingObject
+{
+  // "AsIs" | "IPIfNonMatch" | "IPOnDemand"
+  std::string domain_strategy = "AsIs";
+
+  // "linear" | "mph"
+  std::string domain_matche = "mph";
+
+  void appendRuleObject(RuleObject rule_object);
+  void appendBalancerObject(BalancerObject balancer_object);
+  Json::Value toObject();
+
+private:
+  Json::Value rules = Json::arrayValue;
+  Json::Value balancers = Json::arrayValue;
+};
+
+struct RoutingObjects
+{
+  void appendRoutingObject(Json::Value routing_object);
+  void appendRoutingObject(RoutingObject routing_object);
+  void setObject(Json::Value& root);
+
+private:
+  Json::Value routing = Json::arrayValue;
 };
 
 struct InboundObject

@@ -80,18 +80,8 @@ void
 LogObject::setObject(Json::Value& root)
 {
   root["log"]["loglevel"] = this->log_level;
-}
-
-Json::Value
-LogObject::toObject()
-{
-  Json::Value root;
-
-  root["access"] = this->access_log_path;
-  root["error"] = this->error_log_path;
-  root["loglevel"] = this->log_level;
-
-  return root;
+  root["log"]["access"] = this->access_log_path;
+  root["log"]["error"] = this->error_log_path;
 }
 
 Json::Value
@@ -1067,3 +1057,72 @@ TransportObject::WebSocketObject::toObject()
 
   return root;
 }
+
+APIObject::APIObject()
+{
+  services.clear();
+  for (auto& item : { "ReflectionService",
+                      "HandlerService",
+                      "LoggerService",
+                      "StatsService" }) {
+    services.append(item);
+  }
+}
+
+void
+APIObject::setObject(Json::Value& root)
+{
+  root["api"]["tag"] = this->tag.toStdString();
+  root["api"]["services"] = this->services;
+}
+
+Json::Value
+DokodemoDoorObject::InboundSettingObject::toObject()
+{
+  Json::Value root;
+
+  root["address"] = this->address;
+  root["port"] = this->port;
+  root["network"] = this->network;
+  root["timeout"] = this->timeout;
+  root["followRedirect"] = this->follow_redirect;
+  root["userLevel"] = this->user_level;
+
+  return root;
+}
+
+Json::Value
+RuleObject::toObject()
+{}
+
+void
+RoutingObject::appendRuleObject(RuleObject rule_object)
+{}
+
+Json::Value
+RoutingObject::toObject()
+{}
+
+void
+RoutingObjects::appendRoutingObject(Json::Value routing_object)
+{}
+
+void
+RoutingObjects::appendRoutingObject(RoutingObject routing_object)
+{}
+
+Json::Value
+StrategyObject::toObject()
+{}
+
+void
+BalancerObject::setStrategyObject(StrategyObject strategy_object)
+{}
+
+void
+BalancerObject::setStrategyObject(Json::Value strategy_object)
+{}
+
+Json::Value
+BalancerObject::toObject()
+{}

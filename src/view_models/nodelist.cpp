@@ -317,6 +317,11 @@ NodeList::setCurrentNode(int id, int index)
     }
 
     {
+      APIObject api_object;
+      api_object.setObject(root);
+    }
+
+    {
       InboundSettings inbound_settings = p_config->getInboundConfig();
       inbound_settings.setObject(root);
     }
