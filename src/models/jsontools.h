@@ -422,8 +422,8 @@ struct RuleObject
   std::string type = "field";
   Json::Value domains = Json::arrayValue;
   Json::Value ip = Json::arrayValue;
-  std::string port;
-  std::string source_port;
+  std::string port = 0;
+  std::string source_port = 0;
   // network: "tcp" | "udp" | "tcp,udp"
   std::string network = "tcp";
   Json::Value source = Json::arrayValue;
@@ -432,6 +432,8 @@ struct RuleObject
   // protocol: "http" | "tls" | "bittorrent"
   Json::Value protocol = Json::arrayValue;
   std::string attrs = "";
+  Json::Value outbound_tag = "";
+  Json::Value balancer_tag = "";
 
   Json::Value toObject();
 };
@@ -452,6 +454,9 @@ struct BalancerObject
   void setStrategyObject(StrategyObject strategy_object);
   void setStrategyObject(Json::Value strategy_object);
   Json::Value toObject();
+
+private:
+  Json::Value strategy;
 };
 
 struct RoutingObject
@@ -463,7 +468,9 @@ struct RoutingObject
   std::string domain_matche = "mph";
 
   void appendRuleObject(RuleObject rule_object);
+  void appendRuleObject(Json::Value rule_object);
   void appendBalancerObject(BalancerObject balancer_object);
+  void appendBalancerObject(Json::Value balancer_object);
   Json::Value toObject();
 
 private:

@@ -1093,36 +1093,106 @@ DokodemoDoorObject::InboundSettingObject::toObject()
 
 Json::Value
 RuleObject::toObject()
-{}
+{
+  Json::Value root;
+
+  root["domainMatcher"] = this->domain_matche;
+  root["type"] = this->type;
+  root["domains"] = this->domains;
+  root["ip"] = this->ip;
+  root["port"] = this->port;
+  root["sourcePort"] = this->source_port;
+  root["network"] = this->network;
+  root["source"] = this->source;
+  root["user"] = this->user;
+  root["inboundTag"] = this->inbound_tag;
+  root["protocol"] = this->protocol;
+  root["attrs"] = this->attrs;
+  root["outboundTag"] = this->outbound_tag;
+  root["balancerTag"] = this->balancer_tag;
+
+  return root;
+}
 
 void
 RoutingObject::appendRuleObject(RuleObject rule_object)
-{}
+{
+  this->rules.append(rule_object.toObject());
+}
+
+void
+RoutingObject::appendRuleObject(Json::Value rule_object)
+{
+  this->rules.append(rule_object);
+}
+
+void
+RoutingObject::appendBalancerObject(BalancerObject balancer_object)
+{
+  this->balancers.append(balancer_object.toObject());
+}
+
+void
+RoutingObject::appendBalancerObject(Json::Value balancer_object)
+{
+  this->balancers.append(balancer_object);
+}
 
 Json::Value
 RoutingObject::toObject()
-{}
+{
+  Json::Value root;
+
+  root["domainStrategy"] = this->domain_strategy;
+  root["domainMatcher"] = this->domain_matche;
+  root["rules"] = this->rules;
+  root["balancers"] = this->balancers;
+
+  return root;
+}
 
 void
 RoutingObjects::appendRoutingObject(Json::Value routing_object)
-{}
+{
+  this->routing.append(routing_object);
+}
 
 void
 RoutingObjects::appendRoutingObject(RoutingObject routing_object)
-{}
+{
+  this->routing.append(routing_object.toObject());
+}
 
 Json::Value
 StrategyObject::toObject()
-{}
+{
+  Json::Value root;
+
+  root["type"] = this->type;
+
+  return root;
+}
 
 void
 BalancerObject::setStrategyObject(StrategyObject strategy_object)
-{}
+{
+  this->strategy = strategy_object.toObject();
+}
 
 void
 BalancerObject::setStrategyObject(Json::Value strategy_object)
-{}
+{
+  this->strategy = strategy_object;
+}
 
 Json::Value
 BalancerObject::toObject()
-{}
+{
+  Json::Value root;
+
+  root["tag"] = this->tag;
+  root["selector"] = this->selector;
+  root["strategy"] = this->strategy;
+
+  return root;
+}
