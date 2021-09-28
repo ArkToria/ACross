@@ -68,6 +68,8 @@ Menu {
     }
 
     MenuSeparator {
+        visible: 0 === model.index ? false : true
+
         background: Rectangle {
             height: 1
             color: acrossConfig.deepColor
@@ -82,6 +84,7 @@ Menu {
 
     Action {
         text: qsTr("Delete")
+        enabled: 0 === model.index ? false : true
 
         onTriggered: {
             darkBackground.show()

@@ -351,12 +351,12 @@
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="80"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="82"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="84"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="86"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
