@@ -112,7 +112,7 @@ NodeList::reloadItems()
 void
 NodeList::appendNode(NodeInfo node)
 {
-  node.group_id = currentGroupID();
+  node.group_id = displayGroupID();
 
   auto groups = p_db->listAllGroupsInfo();
 
