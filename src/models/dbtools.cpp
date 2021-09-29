@@ -16,9 +16,7 @@ DBTools::init(QSharedPointer<LogView> log_view,
               QSharedPointer<ConfigTools> config)
 {
   p_logger = std::make_shared<LogTools>(log_view, "database");
-
   p_config = config;
-
   reload();
 }
 
@@ -26,21 +24,19 @@ void
 DBTools::reload()
 {
   close();
-
   if (p_config == nullptr) {
     return;
   }
 
-  auto db_config = p_config->getDBConfig();
-
-  if (db_config.path.isEmpty()) {
+  auto p_db = p_config->configPtr()->mutable_database();
+  if (p_db->db_path().empty()) {
     p_logger->error("Failed to load database on path");
     return;
   } else {
-    p_logger->info("Open database on path: {}", db_config.path.toStdString());
+    p_logger->info("Open database on path: {}", p_db->db_path());
   }
 
-  int result = sqlite3_open(db_config.path.toStdString().c_str(), &m_db);
+  int result = sqlite3_open(p_db->db_path().c_str(), &m_db);
   if (result != SQLITE_OK) {
     p_logger->error("SQL open error code: {}", result);
     return;
@@ -50,7 +46,6 @@ DBTools::reload()
 
   char* err_msg;
   sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-
   std::string init_str{ "PRAGMA encoding='UTF-8';"
                         "PRAGMA synchronous=OFF;"
                         "PRAGMA count_changes=OFF;"
@@ -86,7 +81,6 @@ DBTools::reload()
       }
     }
   }
-
   sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
 }
 
@@ -94,11 +88,8 @@ int
 DBTools::createDefaultGroup()
 {
   int result = SQLITE_OK;
-
   GroupInfo default_group{ 0, "default_group" };
-
   result = this->insert(default_group);
-
   return result;
 }
 
@@ -106,15 +97,12 @@ int
 DBTools::createTable(const QString& create_str)
 {
   char* err_msg;
-
   int result =
     sqlite3_exec(m_db, create_str.toStdString().c_str(), nullptr, 0, &err_msg);
-
   if (result != SQLITE_OK) {
     p_logger->error("SQL create table error: {}", err_msg);
     sqlite3_free(err_msg);
   }
-
   return result;
 }
 
@@ -130,9 +118,7 @@ DBTools::createGroupsTable()
                                 "CycleTime INTEGER,"
                                 "CreatedAt INT64 NOT NULL,"
                                 "ModifiedAt INT64 NOT NULL);" };
-
   auto result = createTable(create_groups_str);
-
   return result;
 }
 
@@ -153,9 +139,7 @@ DBTools::createNodesTable(const QString& group_name)
                                      "CreatedAt INT64 NOT NULL,"
                                      "ModifiedAt INT64 NOT NULL);")
                                .arg(group_name);
-
   auto result = createTable(create_nodes_str);
-
   return result;
 }
 
@@ -476,7 +460,6 @@ int
 DBTools::update(GroupInfo& group)
 {
   char* err_msg;
-
   QString update_str =
     QString("UPDATE groups SET "
             "Name = '%1', IsSubscription = '%2', Type = '%3', "
@@ -490,8 +473,8 @@ DBTools::update(GroupInfo& group)
       .arg(group.modified_time.toSecsSinceEpoch())
       .arg(group.id);
   std::string update = update_str.toStdString();
-  auto result = sqlite3_exec(m_db, update.c_str(), NULL, NULL, &err_msg);
 
+  auto result = sqlite3_exec(m_db, update.c_str(), NULL, NULL, &err_msg);
   return result;
 }
 
@@ -499,17 +482,15 @@ int
 DBTools::removeItemFromID(const QString& group_name, int64_t id)
 {
   char* err_msg;
-
   QString remove_str =
     QString("DELETE FROM '%1' WHERE id = '%2'").arg(group_name).arg(id);
-
   std::string remove = remove_str.toStdString();
+
   auto result = sqlite3_exec(m_db, remove.c_str(), NULL, NULL, &err_msg);
   if (result != SQLITE_OK) {
     p_logger->error(
       "Failed to remove {}[{}]: {}", group_name.toStdString(), id, err_msg);
   }
-
   return result;
 }
 
@@ -517,7 +498,6 @@ int
 DBTools::removeGroupFromName(const QString& group_name)
 {
   char* err_msg;
-
   QString remove_str =
     QString("DELETE FROM groups WHERE name = '%1'").arg(group_name);
 
@@ -538,16 +518,13 @@ DBTools::removeGroupFromName(const QString& group_name)
                       err_msg);
     }
   }
-
   return result;
 }
 
 std::vector<GroupInfo>
 DBTools::listAllGroupsInfo()
 {
-  QString select_str("SELECT * FROM groups;");
-
-  return listGroupsInfo(select_str);
+  return listGroupsInfo(QString("SELECT * FROM groups;"));
 }
 
 std::vector<GroupInfo>
@@ -593,7 +570,6 @@ DBTools::listGroupsInfo(const QString& select_str)
       p_logger->error("SQL stmt finalize error code: {}", result);
     }
   } while (false);
-
   return groups;
 }
 
@@ -652,7 +628,6 @@ DBTools::listNodesInfo(const QString& select_str)
       p_logger->error("SQL stmt finalize error code: {}", result);
     }
   } while (false);
-
   return nodes;
 }
 
@@ -660,14 +635,12 @@ std::map<int, NodesInfo>
 DBTools::listAllNodes()
 {
   std::map<int, NodesInfo> all_nodes;
-
   for (auto& item : listAllGroupsInfo()) {
     auto nodes = listAllNodesInfo(item.name);
 
     // group id, { current node id, current index, nodes }
     all_nodes.insert({ item.id, { 0, 0, nodes } });
   }
-
   return all_nodes;
 }
 

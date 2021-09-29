@@ -4,21 +4,20 @@
 #include "across.grpc.pb.h"
 
 #include <fstream>
-#include <sstream>
 #include <google/protobuf/util/json_util.h>
+#include <sstream>
+#include <toml++/toml.h>
 
 namespace across {
 namespace setting {
 class ConfigHelper
 {
 public:
-  ConfigHelper();
+  static std::string toJson(
+    across::config::Config& config,
+    google::protobuf::util::JsonPrintOptions options = defaultPrintOptions());
 
-  std::string toJson();
-
-  across::config::Config fromJson(const std::string& json_string);
-
-  void save(const std::string& file_path = "./across.json");
+  static across::config::Config fromJson(const std::string& json_string);
 
   static google::protobuf::util::JsonPrintOptions defaultPrintOptions();
 
@@ -27,9 +26,11 @@ public:
   static void saveToFile(const std::string& content,
                          const std::string& file_path = "./across.json");
 
-private:
-  google::protobuf::util::JsonPrintOptions m_options = defaultPrintOptions();
-  across::config::Config m_config = defaultConfig();
+  static std::string readFromFile(const std::string& file_path);
+
+  static std::string JsonToToml(const std::string& json_str);
+
+  static std::string TomlToJson(const std::string& toml_str);
 };
 }
 }

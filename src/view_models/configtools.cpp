@@ -5,943 +5,6 @@ using namespace across::core;
 using namespace across::config;
 using namespace across::utils;
 
-template<typename T>
-void
-Table::fromNodeView(toml::v2::node_view<toml::node> node,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    T& config,
-                    const std::string& key,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path)
-{
-  using U = std::conditional_t<std::is_same_v<T, QString>, std::string, T>;
-  if (!node[key].value<U>().has_value()) {
-    node.as_table()->insert(key, default_config[key]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path);
-  }
-  if (auto temp = node[key].value<U>(); temp.has_value()) {
-    if constexpr (std::is_same_v<T, QString>)
-      config = QString::fromStdString(temp.value());
-    else
-      config = temp.value();
-  }
-}
-
-template<typename T>
-void
-Table::toNodeView(toml::v2::node_view<toml::node> node,
-                  const toml::v2::node_view<toml::node>& default_config,
-                  const T& config,
-                  const std::string& key,
-                  std::shared_ptr<across::utils::LogTools> p_logger,
-                  const std::string& path)
-{
-  using U = std::conditional_t<std::is_same_v<T, QString>, std::string, T>;
-  if (!node[key].value<U>().has_value()) {
-    node.as_table()->insert(key, default_config[key]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path);
-  }
-
-  if constexpr (std::is_same_v<T, QString>)
-    *node[key].as_string() = config.toStdString();
-  else if constexpr (std::is_same_v<T, bool>)
-    *node[key].as_boolean() = config;
-  else if constexpr (std::is_same_v<T, uint>)
-    *node[key].as_integer() = config;
-  else if constexpr (std::is_same_v<T, int>)
-    *node[key].as_integer() = config;
-}
-
-void
-Interface::Language::fromNodeView(
-  toml::v2::node_view<toml::node> language,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  if (auto temp = *language.value<std::string>(); !temp.empty())
-    this->language = QString::fromStdString(temp);
-}
-
-void
-Interface::Language::toNodeView(
-  const toml::v2::node_view<toml::node>& language,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  *language.as_string() = this->language.toStdString();
-}
-
-void
-Interface::Theme::fromNodeView(
-  toml::v2::node_view<toml::node> theme,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::fromNodeView(
-    theme, default_config, this->theme, "theme", p_logger, path + ".theme");
-  Table::fromNodeView(theme,
-                      default_config,
-                      this->include_dir,
-                      "include_dir",
-                      p_logger,
-                      path + ".include_dir");
-}
-
-void
-Interface::Theme::toNodeView(
-  const toml::v2::node_view<toml::node>& theme,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::toNodeView(
-    theme, default_config, this->theme, "theme", p_logger, path + ".theme");
-  Table::toNodeView(theme,
-                    default_config,
-                    this->include_dir,
-                    "include_dir",
-                    p_logger,
-                    path + ".include_dir");
-}
-
-void
-Interface::Tray::fromNodeView(
-  toml::v2::node_view<toml::node> tray,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::fromNodeView(
-    tray, default_config, this->enable, "enable", p_logger, path + ".enable");
-}
-
-void
-Interface::Tray::toNodeView(
-  const toml::v2::node_view<toml::node>& tray,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::toNodeView(
-    tray, default_config, this->enable, "enable", p_logger, path + ".enable");
-}
-
-template<>
-void
-Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
-                        const toml::v2::node_view<toml::node>& default_config,
-                        Language& config,
-                        const std::string& key,
-                        std::shared_ptr<across::utils::LogTools> p_logger,
-                        const std::string& path)
-{
-  if (!interface[key].value<std::string>().has_value()) {
-    interface.as_table()->insert(key, default_config[key]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path);
-  }
-  if (auto temp = interface[key].value<std::string>(); temp.has_value())
-    config.fromNodeView(
-      interface[key], default_config[key], p_logger, path + "..enable");
-}
-
-void
-Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
-                        const toml::v2::node_view<toml::node>& default_config,
-                        std::shared_ptr<across::utils::LogTools> p_logger,
-                        const std::string& path)
-{
-  fromNodeView(interface,
-               default_config,
-               this->language,
-               "language",
-               p_logger,
-               path + ".language");
-  fromNodeView(
-    interface, default_config, this->theme, "theme", p_logger, path + ".theme");
-  fromNodeView(
-    interface, default_config, this->tray, "tray", p_logger, path + ".tray");
-}
-
-template<typename T>
-void
-Interface::fromNodeView(toml::v2::node_view<toml::node> interface,
-                        const toml::v2::node_view<toml::node>& default_config,
-                        T& config,
-                        const std::string& key,
-                        std::shared_ptr<across::utils::LogTools> p_logger,
-                        const std::string& path)
-{
-  if (interface[key].as_table() == nullptr) {
-    interface.as_table()->insert(key, default_config[key]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path);
-  }
-  config.fromNodeView(
-    interface[key], default_config[key], p_logger, path + key);
-}
-
-template<>
-void
-Interface::toNodeView(toml::v2::node_view<toml::node> interface,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      Language& config,
-                      const std::string& key,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path)
-{
-  if (interface[key].as_string() == nullptr) {
-    interface.as_table()->insert(key, default_config[key]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path);
-  }
-  config.toNodeView(
-    interface[key], default_config[key], p_logger, path + ".tray");
-}
-
-void
-Interface::toNodeView(const toml::v2::node_view<toml::node>& interface,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path)
-{
-  toNodeView(interface,
-             default_config,
-             this->language,
-             "language",
-             p_logger,
-             path + ".language");
-  toNodeView(
-    interface, default_config, this->theme, "theme", p_logger, path + ".theme");
-  toNodeView(
-    interface, default_config, this->tray, "tray", p_logger, path + ".tray");
-}
-
-template<typename T>
-void
-Interface::toNodeView(toml::v2::node_view<toml::node> interface,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      T& config,
-                      const std::string& key,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path)
-{
-  if (interface[key].as_table() == nullptr) {
-    interface.as_table()->insert(key, default_config[key]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path);
-  }
-  config.toNodeView(interface[key], default_config[key], p_logger, path + key);
-}
-
-void
-Network::fromNodeView(toml::v2::node_view<toml::node> network,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path)
-{
-  Table::fromNodeView(network,
-                      default_config,
-                      this->test_method,
-                      "test_method",
-                      p_logger,
-                      path + ".test_method");
-  Table::fromNodeView(network,
-                      default_config,
-                      this->test_url,
-                      "test_url",
-                      p_logger,
-                      path + ".test_url");
-  Table::fromNodeView(network,
-                      default_config,
-                      this->user_agent,
-                      "user_agent",
-                      p_logger,
-                      path + ".user_agent");
-}
-
-void
-Network::toNodeView(const toml::v2::node_view<toml::node>& network,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path)
-{
-  Table::toNodeView(network,
-                    default_config,
-                    this->test_method,
-                    "test_method",
-                    p_logger,
-                    path + ".test_method");
-  Table::toNodeView(network,
-                    default_config,
-                    this->test_url,
-                    "test_url",
-                    p_logger,
-                    path + ".test_url");
-  Table::toNodeView(network,
-                    default_config,
-                    this->user_agent,
-                    "user_agent",
-                    p_logger,
-                    path + ".user_agent");
-}
-
-void
-Update::fromNodeView(toml::v2::node_view<toml::node> update,
-                     const toml::v2::node_view<toml::node>& default_config,
-                     std::shared_ptr<across::utils::LogTools> p_logger,
-                     const std::string& path)
-{
-  Table::fromNodeView(update,
-                      default_config,
-                      this->auto_update,
-                      "auto_update",
-                      p_logger,
-                      path + ".auto_update");
-  Table::fromNodeView(update,
-                      default_config,
-                      this->check_update,
-                      "check_update",
-                      p_logger,
-                      path + ".check_update");
-  Table::fromNodeView(update,
-                      default_config,
-                      this->update_from_proxy,
-                      "update_from_proxy",
-                      p_logger,
-                      path + ".update_from_proxy");
-  Table::fromNodeView(update,
-                      default_config,
-                      this->update_channel,
-                      "update_channel",
-                      p_logger,
-                      path + ".update_channel");
-}
-
-void
-Update::toNodeView(const toml::v2::node_view<toml::node>& update,
-                   const toml::v2::node_view<toml::node>& default_config,
-                   std::shared_ptr<across::utils::LogTools> p_logger,
-                   const std::string& path)
-{
-  Table::toNodeView(update,
-                    default_config,
-                    this->auto_update,
-                    "auto_update",
-                    p_logger,
-                    path + ".auto_update");
-  Table::toNodeView(update,
-                    default_config,
-                    this->check_update,
-                    "check_update",
-                    p_logger,
-                    path + ".check_update");
-  Table::toNodeView(update,
-                    default_config,
-                    this->update_channel,
-                    "update_channel",
-                    p_logger,
-                    path + ".update_channel");
-  Table::toNodeView(update,
-                    default_config,
-                    this->update_from_proxy,
-                    "update_from_proxy",
-                    p_logger,
-                    path + ".update_from_proxy");
-}
-
-void
-DataBase::fromNodeView(toml::v2::node_view<toml::node> database,
-                       const toml::v2::node_view<toml::node>& default_config,
-                       std::shared_ptr<across::utils::LogTools> p_logger,
-                       const std::string& path)
-{
-  Table::fromNodeView(database,
-                      default_config,
-                      this->backend,
-                      "db_backend",
-                      p_logger,
-                      path + ".db_backend");
-  Table::fromNodeView(database,
-                      default_config,
-                      this->path,
-                      "db_path",
-                      p_logger,
-                      path + ".db_path");
-
-  if (database["auth"].as_table() == nullptr) {
-    database.as_table()->insert("auth", default_config["auth"]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path + ".auth");
-  }
-
-  Table::fromNodeView(database["auth"],
-                      default_config["auth"],
-                      this->auth.enable,
-                      "enable",
-                      p_logger,
-                      path + ".auth.enable");
-
-  if (this->auth.enable) {
-    Table::fromNodeView(database["auth"],
-                        default_config["auth"],
-                        this->auth.username,
-                        "username",
-                        p_logger,
-                        path + ".auth.username");
-    Table::fromNodeView(database["auth"],
-                        default_config["auth"],
-                        this->auth.password,
-                        "password",
-                        p_logger,
-                        path + ".auth.password");
-    Table::fromNodeView(database["auth"],
-                        default_config["auth"],
-                        this->auth.address,
-                        "address",
-                        p_logger,
-                        path + ".auth.address");
-    Table::fromNodeView(database["auth"],
-                        default_config["auth"],
-                        this->auth.port,
-                        "port",
-                        p_logger,
-                        path + ".auth.port");
-  }
-}
-
-void
-DataBase::toNodeView(const toml::v2::node_view<toml::node>& database,
-                     const toml::v2::node_view<toml::node>& default_config,
-                     std::shared_ptr<across::utils::LogTools> p_logger,
-                     const std::string& path)
-{
-  Table::toNodeView(database,
-                    default_config,
-                    this->path,
-                    "db_path",
-                    p_logger,
-                    path + ".db_path");
-  Table::toNodeView(database,
-                    default_config,
-                    this->backend,
-                    "db_backend",
-                    p_logger,
-                    path + ".db_backend");
-
-  if (database["auth"].as_table() == nullptr) {
-    database.as_table()->insert("auth", default_config["auth"]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path + ".auth");
-  }
-
-  Table::toNodeView(database["auth"],
-                    default_config["auth"],
-                    this->auth.enable,
-                    "enable",
-                    p_logger,
-                    path + ".auth.enable");
-  if (this->auth.enable) {
-    Table::toNodeView(database["auth"],
-                      default_config["auth"],
-                      this->auth.username,
-                      "username",
-                      p_logger,
-                      path + ".auth.username");
-    Table::toNodeView(database["auth"],
-                      default_config["auth"],
-                      this->auth.password,
-                      "password",
-                      p_logger,
-                      path + ".auth.password");
-    Table::toNodeView(database["auth"],
-                      default_config["auth"],
-                      this->auth.address,
-                      "address",
-                      p_logger,
-                      path + ".auth.address");
-    Table::toNodeView(database["auth"],
-                      default_config["auth"],
-                      this->auth.port,
-                      "port",
-                      p_logger,
-                      path + ".auth.port");
-  }
-}
-
-void
-Core::fromNodeView(toml::v2::node_view<toml::node> core,
-                   const toml::v2::node_view<toml::node>& default_config,
-                   std::shared_ptr<across::utils::LogTools> p_logger,
-                   const std::string& path)
-{
-  Table::fromNodeView(core,
-                      default_config,
-                      this->core_path,
-                      "core_path",
-                      p_logger,
-                      path + ".core_path");
-  Table::fromNodeView(core,
-                      default_config,
-                      this->assets_path,
-                      "assets_path",
-                      p_logger,
-                      path + ".assets_path");
-  Table::fromNodeView(core,
-                      default_config,
-                      this->log_level,
-                      "log_level",
-                      p_logger,
-                      path + ".log_level");
-  Table::fromNodeView(core,
-                      default_config,
-                      this->log_lines,
-                      "log_lines",
-                      p_logger,
-                      path + ".log_lines");
-
-  if (core["api"].as_table() == nullptr) {
-    core.as_table()->insert("api", default_config["api"]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path + ".api");
-  }
-
-  Table::fromNodeView(core["api"],
-                      default_config["api"],
-                      this->api.enable,
-                      "enable",
-                      p_logger,
-                      path + ".api.enable");
-  if (this->api.enable) {
-    Table::fromNodeView(core["api"],
-                        default_config["api"],
-                        this->api.port,
-                        "port",
-                        p_logger,
-                        path + ".api.port");
-  }
-}
-
-void
-Core::toNodeView(const toml::v2::node_view<toml::node>& core,
-                 const toml::v2::node_view<toml::node>& default_config,
-                 std::shared_ptr<across::utils::LogTools> p_logger,
-                 const std::string& path)
-{
-  Table::toNodeView(core,
-                    default_config,
-                    this->core_path,
-                    "core_path",
-                    p_logger,
-                    path + ".core_path");
-  Table::toNodeView(core,
-                    default_config,
-                    this->assets_path,
-                    "assets_path",
-                    p_logger,
-                    path + ".assets_path");
-  Table::toNodeView(core,
-                    default_config,
-                    this->log_level,
-                    "log_level",
-                    p_logger,
-                    path + ".log_level");
-  Table::toNodeView(core,
-                    default_config,
-                    this->log_lines,
-                    "log_lines",
-                    p_logger,
-                    path + ".log_lines");
-
-  if (core["api"].as_table() == nullptr) {
-    core.as_table()->insert("api", default_config["api"]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path + ".api");
-  }
-
-  Table::toNodeView(core["api"],
-                    default_config["api"],
-                    this->api.enable,
-                    "enable",
-                    p_logger,
-                    path + ".api.enable");
-  Table::toNodeView(core["api"],
-                    default_config["api"],
-                    this->api.port,
-                    "port",
-                    p_logger,
-                    path + ".api.port");
-}
-
-void
-Theme::Colors::fromNodeView(toml::v2::node_view<toml::node> colors_node)
-{
-  if (auto temp = colors_node["text_color"].value<std::string>();
-      temp.has_value())
-    this->text_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["background_color"].value<std::string>();
-      temp.has_value())
-    this->background_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["highlight_color"].value<std::string>();
-      temp.has_value())
-    this->highlight_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["highlight_text_color"].value<std::string>();
-      temp.has_value())
-    this->highlight_text_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["warn_color"].value<std::string>();
-      temp.has_value())
-    this->warn_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["warn_text_color"].value<std::string>();
-      temp.has_value())
-    this->warn_text_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["shadow_color"].value<std::string>();
-      temp.has_value())
-    this->shadow_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["border_color"].value<std::string>();
-      temp.has_value())
-    this->border_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["deep_color"].value<std::string>();
-      temp.has_value())
-    this->deep_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["deep_text_color"].value<std::string>();
-      temp.has_value())
-    this->deep_text_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["style_color"].value<std::string>();
-      temp.has_value())
-    this->style_color = QString::fromStdString(temp.value());
-
-  if (auto temp = colors_node["style_text_color"].value<std::string>();
-      temp.has_value())
-    this->style_text_color = QString::fromStdString(temp.value());
-}
-
-void
-InboundSettings::SOCKS::fromNodeView(
-  toml::v2::node_view<toml::node> socks,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::fromNodeView(
-    socks, default_config, this->enable, "enable", p_logger, path + ".enable");
-  if (this->enable) {
-    Table::fromNodeView(socks,
-                        default_config,
-                        this->listen,
-                        "listen",
-                        p_logger,
-                        path + ".listen");
-    Table::fromNodeView(
-      socks, default_config, this->port, "port", p_logger, path + ".port");
-    Table::fromNodeView(
-      socks, default_config, this->udp, "udp", p_logger, path + ".udp");
-    Table::fromNodeView(
-      socks, default_config, this->ip, "ip", p_logger, path + ".ip");
-    Table::fromNodeView(socks,
-                        default_config,
-                        this->user_level,
-                        "user_level",
-                        p_logger,
-                        path + ".user_level");
-
-    if (socks["auth"].as_table() == nullptr) {
-      socks.as_table()->insert("auth", default_config["auth"]);
-      p_logger->warn(
-        "Failed to load config : [{}], use build-in config instead",
-        path + ".auth");
-    }
-
-    Table::fromNodeView(socks["auth"],
-                        default_config["auth"],
-                        this->username,
-                        "username",
-                        p_logger,
-                        path + ".auth.username");
-    Table::fromNodeView(socks["auth"],
-                        default_config["auth"],
-                        this->password,
-                        "password",
-                        p_logger,
-                        path + ".auth.password");
-  }
-}
-
-void
-InboundSettings::SOCKS::toNodeView(
-  const toml::v2::node_view<toml::node>& socks,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::toNodeView(
-    socks, default_config, this->enable, "enable", p_logger, path + ".enable");
-  Table::toNodeView(
-    socks, default_config, this->listen, "listen", p_logger, path + ".listen");
-  Table::toNodeView(
-    socks, default_config, this->port, "port", p_logger, path + ".port");
-  Table::toNodeView(
-    socks, default_config, this->udp, "udp", p_logger, path + ".udp");
-  Table::toNodeView(
-    socks, default_config, this->ip, "ip", p_logger, path + ".ip");
-  Table::toNodeView(socks,
-                    default_config,
-                    this->user_level,
-                    "user_level",
-                    p_logger,
-                    path + ".user_level");
-
-  if (socks["auth"].as_table() == nullptr) {
-    socks.as_table()->insert("auth", default_config["auth"]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path + ".auth");
-  }
-
-  Table::toNodeView(socks["auth"],
-                    default_config["auth"],
-                    this->username,
-                    "username",
-                    p_logger,
-                    path + ".auth.username");
-  Table::toNodeView(socks["auth"],
-                    default_config["auth"],
-                    this->password,
-                    "password",
-                    p_logger,
-                    path + ".auth.password");
-}
-
-InboundObject
-InboundSettings::SOCKS::toInboundObject()
-{
-  InboundObject inbound_object;
-
-  inbound_object.listen = this->listen.toStdString();
-  inbound_object.port = std::to_string(this->port);
-  inbound_object.protocol = this->protocol.toStdString();
-
-  SocksObject::InboundSettingObject inbound_setting_object;
-
-  if (!this->username.isEmpty()) {
-    SocksObject::AccountObject account_object;
-
-    account_object.username = this->username.toStdString();
-    account_object.password = this->password.toStdString();
-
-    inbound_setting_object.appendAccountObject(account_object);
-  }
-
-  inbound_setting_object.ip = this->ip.toStdString();
-  inbound_setting_object.udp = this->udp;
-  inbound_setting_object.user_level = this->user_level;
-
-  inbound_object.settings = inbound_setting_object.toObject();
-
-  return inbound_object;
-}
-
-void
-InboundSettings::HTTP::fromNodeView(
-  toml::v2::node_view<toml::node> http,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::fromNodeView(
-    http, default_config, this->enable, "enable", p_logger, path + ".enable");
-  if (this->enable) {
-    Table::fromNodeView(
-      http, default_config, this->listen, "listen", p_logger, path + ".listen");
-    Table::fromNodeView(
-      http, default_config, this->port, "port", p_logger, path + ".port");
-    Table::fromNodeView(http,
-                        default_config,
-                        this->allow_transparent,
-                        "allow_transparent",
-                        p_logger,
-                        path + ".allow_transparent");
-    Table::fromNodeView(http,
-                        default_config,
-                        this->timeout,
-                        "timeout",
-                        p_logger,
-                        path + ".timeout");
-    Table::fromNodeView(http,
-                        default_config,
-                        this->user_level,
-                        "user_level",
-                        p_logger,
-                        path + ".user_level");
-
-    if (http["auth"].as_table() == nullptr) {
-      http.as_table()->insert("auth", default_config["auth"]);
-      p_logger->warn(
-        "Failed to load config : [{}], use build-in config instead",
-        path + ".auth");
-    }
-
-    Table::fromNodeView(http["auth"],
-                        default_config["auth"],
-                        this->username,
-                        "username",
-                        p_logger,
-                        path + ".auth.username");
-    Table::fromNodeView(http["auth"],
-                        default_config["auth"],
-                        this->password,
-                        "password",
-                        p_logger,
-                        path + ".auth.password");
-  }
-}
-
-void
-InboundSettings::HTTP::toNodeView(
-  const toml::v2::node_view<toml::node>& http,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  Table::toNodeView(
-    http, default_config, this->enable, "enable", p_logger, path + ".enable");
-  Table::toNodeView(
-    http, default_config, this->listen, "listen", p_logger, path + ".listen");
-  Table::toNodeView(
-    http, default_config, this->port, "port", p_logger, path + ".port");
-  Table::toNodeView(http,
-                    default_config,
-                    this->allow_transparent,
-                    "allow_transparent",
-                    p_logger,
-                    path + ".allow_transparent");
-  Table::toNodeView(http,
-                    default_config,
-                    this->timeout,
-                    "timeout",
-                    p_logger,
-                    path + ".timeout");
-  Table::toNodeView(http,
-                    default_config,
-                    this->user_level,
-                    "user_level",
-                    p_logger,
-                    path + ".user_level");
-
-  if (http["auth"].as_table() == nullptr) {
-    http.as_table()->insert("auth", default_config["auth"]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   path + ".auth");
-  }
-
-  Table::toNodeView(http["auth"],
-                    default_config["auth"],
-                    this->username,
-                    "username",
-                    p_logger,
-                    path + ".auth.username");
-  Table::toNodeView(http["auth"],
-                    default_config["auth"],
-                    this->password,
-                    "password",
-                    p_logger,
-                    path + ".auth.password");
-}
-
-InboundObject
-InboundSettings::HTTP::toInboundObject()
-{
-  InboundObject inbound_object;
-
-  inbound_object.listen = this->listen.toStdString();
-  inbound_object.port = std::to_string(this->port);
-  inbound_object.protocol = this->protocol.toStdString();
-
-  HttpObject::InboundSettingObject inbound_setting_object;
-
-  if (!this->username.isEmpty()) {
-    HttpObject::AccountObject account_object;
-
-    account_object.username = this->username.toStdString();
-    account_object.password = this->password.toStdString();
-
-    inbound_setting_object.appendAccountObject(account_object);
-  }
-
-  inbound_setting_object.timeout = this->timeout;
-  inbound_setting_object.allow_transparent = this->allow_transparent;
-  inbound_setting_object.user_level = this->user_level;
-
-  inbound_object.settings = inbound_setting_object.toObject();
-
-  return inbound_object;
-}
-
-void
-InboundSettings::fromCoreAPI(const Core::API& core_api)
-{
-  api.fromCoreAPI(core_api);
-}
-
-void
-InboundSettings::fromNodeView(
-  toml::v2::node_view<toml::node> inbound,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  socks.fromNodeView(
-    inbound["socks"], default_config["socks"], p_logger, path + ".socks");
-  http.fromNodeView(
-    inbound["http"], default_config["http"], p_logger, path + ".http");
-}
-
-void
-InboundSettings::toNodeView(
-  const toml::v2::node_view<toml::node>& inbound,
-  const toml::v2::node_view<toml::node>& default_config,
-  std::shared_ptr<across::utils::LogTools> p_logger,
-  const std::string& path)
-{
-  socks.toNodeView(
-    inbound["socks"], default_config["socks"], p_logger, path + ".socks");
-  http.toNodeView(
-    inbound["http"], default_config["http"], p_logger, path + ".http");
-}
-
-void
-InboundSettings::setObject(Json::Value& root)
-{
-  InboundObjects inbound_objects;
-
-  if (socks.enable) {
-    inbound_objects.appendInboundObject(socks.toInboundObject());
-  }
-
-  if (http.enable) {
-    inbound_objects.appendInboundObject(http.toInboundObject());
-  }
-
-  if (api.enable) {
-    inbound_objects.appendInboundObject(api.toInboundObject());
-  }
-
-  inbound_objects.setObject(root);
-}
-
 ConfigTools::ConfigTools(QObject* parent) {}
 
 bool
@@ -950,70 +13,34 @@ ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
   // initial config logger
   p_logger = std::make_shared<LogTools>(log_view, "setting");
 
-  QString config_path = loadConfigPath(file_path);
-
   connect(
     this, &ConfigTools::configChanged, this, [&]() { this->saveConfig(); });
 
-  QFile example_file(":/misc/across_example.toml");
-  if (!example_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-    p_logger->error("Failed to read build-in config file");
-    return false;
-  }
-
-  if (auto default_config_content = example_file.readAll();
-      !default_config_content.isEmpty()) {
-    this->m_default_config = toml::parse(default_config_content.toStdString());
-  } else {
-    p_logger->warn("Build-in config is empty");
-    return false;
-  }
-
-  if (config_path.isEmpty()) {
+  if (auto config_path = loadConfigPath(file_path); config_path.isEmpty()) {
     p_logger->warn("Failed to load config path, use build-in config instead");
   } else {
     this->m_config_path = config_path;
 
-    this->m_config = toml::parse_file(config_path.toStdString());
-    if (m_config.empty()) {
-      p_logger->error("Failed to parse config, use build-in config instead");
-
-      for (auto i : m_default_config) {
-        m_config.insert(i.first, i.second);
-        printf("%s\n", i.first.c_str());
-      }
+    if (auto json_str = ConfigHelper::readFromFile(m_config_path.toStdString());
+        !json_str.empty()) {
+      this->m_conf.MergeFrom(ConfigHelper::fromJson(json_str));
     }
   }
 
-  if (!loadCoreConfig()) {
-    p_logger->error("Failed to load core config");
-  }
-
-  if (!loadDBConfig()) {
-    p_logger->error("Failed to load database config");
-  }
-
-  if (!loadInterfaceConfig()) {
-    p_logger->error("Failed to load interface config");
-  }
-
-  if (!loadThemeConfig()) {
-    p_logger->error("Failed to load colors config");
-  }
-
-  if (!loadInboundConfig()) {
-    p_logger->error("Failed to load inbounds config");
-  }
+  p_core = m_conf.mutable_core();
+  p_interface = m_conf.mutable_interface();
+  p_inbound = m_conf.mutable_inbound();
+  p_network = m_conf.mutable_network();
+  loadThemeConfig();
 
   emit configChanged();
-
   return true;
 }
 
 QString
 ConfigTools::loadConfigPath(const QString& file_path)
 {
-  QString config_path = "./across.toml";
+  QString config_path = "./across.json";
 
   // Setting Path > Env Path > Current Path > Default Path
   do {
@@ -1022,8 +49,8 @@ ConfigTools::loadConfigPath(const QString& file_path)
       break;
     }
 
-    auto env_path = m_envs.getInfo().ACROSS_CONFIG_PATH;
-    if (!env_path.isEmpty()) {
+    if (auto env_path = m_envs.getInfo().ACROSS_CONFIG_PATH;
+        !env_path.isEmpty()) {
       config_path = env_path;
 
       if (isFileExist(config_path)) {
@@ -1037,9 +64,8 @@ ConfigTools::loadConfigPath(const QString& file_path)
     }
 
     QDir xdg_path(env_config_home + "/across/");
-    auto temp_config = xdg_path.filePath(m_config_name);
-    if (isFileExist(temp_config)) {
-      config_path = temp_config;
+    config_path = xdg_path.filePath(m_config_name);
+    if (isFileExist(config_path)) {
       break;
     } else {
       // create directory and example config file
@@ -1047,336 +73,66 @@ ConfigTools::loadConfigPath(const QString& file_path)
         xdg_path.mkdir(xdg_path.path());
       }
 
-      QFile config_file(temp_config);
-      if (!config_file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        break;
-      }
+      ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
+                               config_path.toStdString());
 
-      QFile example_config(":/misc/across_example.toml");
-      if (!example_config.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        break;
-      }
-
-      config_file.write(example_config.readAll());
-      config_file.close();
-      config_path = temp_config;
-
-      p_logger->info("Generate new config on: {}", temp_config.toStdString());
+      p_logger->info("Generate new config on: {}", config_path.toStdString());
     }
   } while (false);
 
   return config_path;
 }
 
-bool
-ConfigTools::loadInterfaceConfig()
-{
-  bool result = false;
-
-  do {
-    result = true;
-
-    if (m_config.empty() || !m_config["interface"].is_table()) {
-      m_config.insert_or_assign("interface",
-                                *m_default_config["interface"].as_table());
-      p_logger->warn(
-        "Failed to load config : [{}], use build-in config instead",
-        "interface");
-      result = false;
-    }
-
-    m_interface.fromNodeView(m_config["interface"],
-                             m_default_config["interface"],
-                             p_logger,
-                             "interface");
-
-  } while (false);
-
-  return result;
-}
-
-bool
-ConfigTools::loadInterfaceTheme()
-{
-  bool result = false;
-
-  do {
-    if (m_config.empty() || !m_config["interface"]["theme"].is_table()) {
-      break;
-    }
-
-    if (m_config["interface"]["theme"].as_table() == nullptr) {
-      m_config["interface"].as_table()->insert(
-        "theme", m_default_config["interface"]["theme"]);
-      p_logger->warn(
-        "Failed to load config : [{}], use build-in config instead",
-        "interface.theme");
-    }
-    m_interface.theme.fromNodeView(m_config["interface"]["theme"],
-                                   m_default_config["interface"]["theme"],
-                                   p_logger,
-                                   "interface.theme");
-
-    result = true;
-  } while (false);
-
-  return result;
-}
-
-bool
-ConfigTools::loadInterfaceLanguage()
-{
-  if (m_config.empty())
-    return false;
-
-  m_interface.fromNodeView(m_config["interface"],
-                           m_default_config["interface"],
-                           p_logger,
-                           "interface");
-  return true;
-}
-
-bool
-ConfigTools::loadUpdateConfig()
-{
-  bool result = false;
-
-  do {
-    if (m_config.empty() || !m_config["update"].is_table()) {
-      break;
-    }
-
-    m_update.fromNodeView(
-      m_config["update"], m_default_config["update"], p_logger, "update");
-
-    result = true;
-  } while (false);
-
-  return result;
-}
-
-bool
-ConfigTools::loadDBConfig()
-{
-  if (!m_config["database"].is_table()) {
-    m_config.insert("database", *m_default_config["database"].as_table());
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   "database");
-  }
-
-  if (auto temp = m_config["database"]["db_path"].value<std::string>();
-      temp.has_value() && temp != m_db.path.toStdString()) {
-    setDBPath(QString::fromStdString(temp.value()), true);
-
-    return true;
-  } else {
-    p_logger->warn("Failed to get the db_path, use default path `{}`",
-                   m_db.path.toStdString());
-  }
-
-  return isFileExist(m_db.path);
-}
-
-bool
+void
 ConfigTools::loadThemeConfig()
 {
-  auto themes = m_config["themes"];
-  if (!themes.as_array() || themes.as_array()->size() == 0) {
-    m_config.as_table()->insert("themes", m_default_config["themes"]);
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   "themes");
-    themes = m_config["themes"];
-  }
-
-  if (themes.as_array()->empty()) {
-    p_logger->error("No themes configuration");
-    return false;
-  }
-
-  for (int i = 0; i < themes.as_array()->size(); ++i) {
-    if (auto temp = themes[i]["name"].value<std::string>(); temp.has_value()) {
-      if (auto temp_name = QString::fromStdString(temp.value());
-          m_interface.theme.theme == temp_name) {
-        m_theme.name = temp_name;
-
-        if (auto theme_temp = themes[i]["tray"]["stylish"].value<std::string>();
-            theme_temp.has_value())
-          m_theme.tray.stylish = QString::fromStdString(theme_temp.value());
-
-        if (auto theme_temp = themes[i]["tray"]["color"].value<std::string>();
-            theme_temp.has_value())
-          m_theme.tray.color = QString::fromStdString(theme_temp.value());
-
-        if (auto theme_temp = themes[i]["border"]["radius"].value<int>();
-            theme_temp.has_value())
-          m_theme.border.radius = theme_temp.value();
-
-        if (auto theme_temp = themes[i]["border"]["width"].value<int>();
-            theme_temp.has_value())
-          m_theme.border.width = theme_temp.value();
-
-        if (auto theme_temp = themes[i]["item"]["spacing"].value<int>();
-            theme_temp.has_value())
-          m_theme.item.spacing = theme_temp.value();
-
-        if (auto theme_temp = themes[i]["icon"]["style"].value<std::string>();
-            theme_temp.has_value())
-          m_theme.icon.style = QString::fromStdString(theme_temp.value());
-
-        m_theme.colors.fromNodeView(themes[i]["colors"]);
-        return true;
-      }
+  auto interface_theme = p_interface->mutable_theme();
+  for (auto theme : m_conf.themes()) {
+    if (interface_theme->theme() == theme.name()) {
+      p_theme->CopyFrom(theme);
     }
   }
 
-  m_config["interface"].as_table()->insert(
-    "theme", *m_default_config["interface"]["theme"].as_table());
-  p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                 "interface.theme");
-
-  return false;
+  emit freshColors();
+  emit configChanged();
+  emit currentThemeChanged();
+  emit trayColorChanged();
+  emit trayStylishChanged();
+  emit borderColorChanged();
+  emit borderRadiusChanged();
 }
 
-bool
-ConfigTools::loadCoreConfig()
+Config*
+ConfigTools::configPtr()
 {
-  bool result = false;
-  auto envs_info = m_envs.getInfo();
-
-  do {
-    result = true;
-
-    if (m_config.empty() || !m_config["core"].is_table()) {
-      m_config.insert_or_assign("core", *m_default_config["core"].as_table());
-      p_logger->warn(
-        "Failed to load config : [{}], use build-in config instead", "core");
-      result = false;
-    }
-
-    m_core.fromNodeView(
-      m_config["core"], m_default_config["core"], p_logger, "core");
-
-    if (m_core.core_path.isEmpty()) {
-      if (!envs_info.V2RAY_CORE_PATH.isEmpty()) {
-        m_core.core_path = envs_info.V2RAY_CORE_PATH;
-      } else {
-        m_core.core_path = "/usr/bin/v2ray";
-      }
-    }
-
-    if (!isFileExist(m_core.core_path)) {
-      p_logger->error("Core file doesn't exist");
-      m_core.core_path = ""; // reset the core path
-      break;
-    }
-
-    if (m_core.assets_path.isEmpty()) {
-      if (!envs_info.V2RAY_ASSETS_PATH.isEmpty()) {
-        m_core.assets_path = envs_info.V2RAY_ASSETS_PATH;
-      } else {
-        m_core.assets_path = "/usr/share/v2ray";
-      }
-    }
-
-    if (!isFileExist(m_core.assets_path + "/geosite.dat") ||
-        !isFileExist(m_core.assets_path + "/geoip.dat")) {
-      p_logger->error("Geographic files doesn't exist");
-      break;
-    }
-
-  } while (false);
-
-  return result;
+  return &m_conf;
 }
 
-bool
-ConfigTools::loadInboundConfig()
-{
-  bool result = true;
-  if (m_config.empty()) {
-    m_config.insert("inbound", *m_default_config["inbound"].as_table());
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   "inbound");
-    result = false;
-  }
-
-  if (m_config["inbound"]["socks"].as_table() == nullptr) {
-    m_config.insert_or_assign("inbound",
-                              *m_default_config["inbound"].as_table());
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   "inbound");
-    result = false;
-  }
-  if (m_config["inbound"]["http"].as_table() == nullptr) {
-    m_config.insert_or_assign("inbound",
-                              *m_default_config["inbound"].as_table());
-    p_logger->warn("Failed to load config : [{}], use build-in config instead",
-                   "inbound");
-    result = false;
-  }
-
-  m_inbound.fromCoreAPI(m_core.api);
-  m_inbound.fromNodeView(
-    m_config["inbound"], m_default_config["inbound"], p_logger, "inbound");
-  return result;
-}
-
-bool
-ConfigTools::loadNetworkConfig()
-{
-  if (m_config.empty())
-    return false;
-
-  m_network.fromNodeView(
-    m_config["network"], m_default_config["network"], p_logger, "network");
-  return true;
-}
-
-InboundSettings
-ConfigTools::getInboundConfig()
-{
-  return m_inbound;
-}
-
-DataBase
-ConfigTools::getDBConfig()
-{
-  return m_db;
-}
+void
+ConfigTools::setInboundObject(Json::Value& root)
+{}
 
 QString
 ConfigTools::getConfigVersion()
 {
-  if (auto temp = m_config["config_version"].value<std::string>();
-      temp.has_value()) {
-    return QString::fromStdString(temp.value());
-  }
-
-  return {};
+  return QString::fromStdString(m_conf.config_version());
 }
 
 QString
 ConfigTools::getConfigTomlVersion()
 {
-  auto toml_version =
-    QString::fromStdString(*m_config["toml_version"].value<std::string>());
-
-  return toml_version;
+  return QString::fromStdString(m_conf.toml_version());
 }
 
 QString
 ConfigTools::getLanguage()
 {
-  auto language = QString::fromStdString(
-    *m_config["interface"]["language"].value<std::string>());
-
-  return language;
+  return QString::fromStdString(m_conf.interface().language());
 }
 
 void
 ConfigTools::freshColors()
 {
-  if (loadThemeConfig()) {
     emit textColorChanged();
     emit backgroundColorChanged();
     emit highlightColorChanged();
@@ -1393,7 +149,6 @@ ConfigTools::freshColors()
     emit borderWidthChanged();
     emit itemSpacingChanged();
     emit iconStyleChanged();
-  }
 }
 
 bool
@@ -1401,8 +156,8 @@ ConfigTools::testAPI()
 {
   bool result = false;
 
-  if (m_core.api.enable) {
-    APITools client(m_core.api.port);
+  if (m_conf.core().api().enable()) {
+    APITools client(m_conf.core().api().port());
     auto [stats, err] = client.isOk();
 
     if (stats) {
@@ -1410,7 +165,6 @@ ConfigTools::testAPI()
     } else {
       m_api_result_text = QString::fromStdString(err);
     }
-
     result = stats;
   }
 
@@ -1441,7 +195,6 @@ ConfigTools::testAndSetAddr(const QString& addr)
 void
 ConfigTools::freshInbound()
 {
-  if (loadInboundConfig()) {
     emit socksEnableChanged();
     emit socksPortChanged();
     emit socksUsernameChanged();
@@ -1450,59 +203,25 @@ ConfigTools::freshInbound()
     emit httpPortChanged();
     emit httpUsernameChanged();
     emit httpPasswordChanged();
-  }
 }
 
-bool
+void
 ConfigTools::saveConfig(QString config_path)
 {
-  bool result = false;
-  QString path;
-  std::ofstream config;
-  QDateTime now = QDateTime::currentDateTimeUtc();
-
-  do {
-    if (!config_path.isEmpty()) {
-      path = config_path;
-      break;
-    }
-
-    if (!m_config_path.isEmpty()) {
-      path = m_config_path;
-      break;
-    }
-  } while (false);
-
-  if (!path.isEmpty()) {
-    m_db.toNodeView(
-      m_config["database"], m_default_config["database"], p_logger, "database");
-    m_core.toNodeView(
-      m_config["core"], m_default_config["core"], p_logger, "core");
-    m_inbound.toNodeView(
-      m_config["inbound"], m_default_config["inbound"], p_logger, "inbound");
-    m_network.toNodeView(
-      m_config["network"], m_default_config["network"], p_logger, "network");
-    m_interface.toNodeView(m_config["interface"],
-                           m_default_config["interface"],
-                           p_logger,
-                           "interface");
-
-    config.open(path.toStdString(), std::ios::out | std::ios::trunc);
-
-    config << "# Generate Time: " << now.toString().toStdString() << "\n"
-           << toml::default_formatter(m_config);
-
-    config.close();
-    result = true;
+  if (!config_path.isEmpty()) {
+    ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
+                             config_path.toStdString());
+  } else {
+    ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
+                             m_config_path.toStdString());
   }
-
-  return result;
 }
 
 void
 ConfigTools::setDBPath(const QString& db_path, bool init)
 {
   auto temp_path = db_path;
+  auto database = m_conf.mutable_database();
 
 #ifdef Q_OS_LINUX
   if ((temp_path == "~") || (temp_path.startsWith("~/"))) {
@@ -1522,15 +241,14 @@ ConfigTools::setDBPath(const QString& db_path, bool init)
   }
 
   if (!temp_path.split("/").last().contains(".db")) {
-    QDir db_dir(temp_path);
-    m_db.path = db_dir.relativeFilePath("across.db");
+    auto path = QDir(temp_path).relativeFilePath("across.db").toStdString();
+    database->set_db_path(path);
   } else {
-    QFileInfo db_file(temp_path);
-    m_db.path = db_file.filePath();
+    database->set_db_path(QFileInfo(temp_path).filePath().toStdString());
   }
 
-  auto dir = QFileInfo(m_db.path).dir();
-  if (!dir.exists()) {
+  if (auto dir = QFileInfo(QString::fromStdString(database->db_path())).dir();
+      !dir.exists()) {
     QDir().mkdir(dir.path());
   }
 
@@ -1542,186 +260,176 @@ ConfigTools::setDBPath(const QString& db_path, bool init)
   emit dbPathChanged();
 }
 
-toml::table
-ConfigTools::getConfig()
-{
-  return m_config;
-}
-
 QString
 ConfigTools::textColor()
 {
-  return m_theme.colors.text_color;
+  return p_theme->colors().text_color().c_str();
 }
 
 QString
 ConfigTools::backgroundColor()
 {
-  return m_theme.colors.background_color;
+  return p_theme->colors().background_color().c_str();
 }
 
 QString
 ConfigTools::highlightColor()
 {
-  return m_theme.colors.highlight_color;
+  return p_theme->colors().highlight_color().c_str();
 }
 
 QString
 ConfigTools::highlightTextColor()
 {
-  return m_theme.colors.highlight_text_color;
+  return p_theme->colors().highlight_text_color().c_str();
 }
 
 QString
 ConfigTools::warnColor()
 {
-  return m_theme.colors.warn_color;
+  return p_theme->colors().warn_color().c_str();
 }
 
 QString
 ConfigTools::warnTextColor()
 {
-  return m_theme.colors.warn_text_color;
+  return p_theme->colors().warn_text_color().c_str();
 }
 
 QString
 ConfigTools::shadowColor()
 {
-  return m_theme.colors.shadow_color;
+  return p_theme->colors().shadow_color().c_str();
 }
 
 QString
 ConfigTools::borderColor()
 {
-  return m_theme.colors.border_color;
+  return p_theme->colors().border_color().c_str();
 }
 
 QString
 ConfigTools::deepColor()
 {
-  return m_theme.colors.deep_color;
+  return p_theme->colors().deep_color().c_str();
 }
 
 QString
 ConfigTools::deepTextColor()
 {
-  return m_theme.colors.deep_text_color;
+  return p_theme->colors().deep_text_color().c_str();
 }
 
 QString
 ConfigTools::styleColor()
 {
-  return m_theme.colors.style_color;
+  return p_theme->colors().style_color().c_str();
 }
 
 QString
 ConfigTools::styleTextColor()
 {
-  return m_theme.colors.style_text_color;
+  return p_theme->colors().style_color().c_str();
 }
 
 QString
 ConfigTools::trayStylish()
 {
-  return m_theme.tray.stylish;
+  return p_theme->tray().stylish().c_str();
 }
 
 QString
 ConfigTools::trayColor()
 {
-  return m_theme.tray.color;
+  return p_theme->tray().color().c_str();
 }
 
 int
 ConfigTools::borderRadius()
 {
-  return m_theme.border.radius;
+  return p_theme->border().radius();
 }
 
 int
 ConfigTools::borderWidth()
 {
-  return m_theme.border.width;
+  return p_theme->border().width();
 }
 
 int
 ConfigTools::itemSpacing()
 {
-  return m_theme.item.spacing;
+  return p_theme->item().spacing();
 }
 
-const QString&
-ConfigTools::iconStyle() const
+QString
+ConfigTools::iconStyle()
 {
-  return m_theme.icon.style;
+  return p_theme->icon().style().c_str();
 }
 
-const QString&
-ConfigTools::currentTheme() const
+QString
+ConfigTools::currentTheme()
 {
-  return m_interface.theme.theme;
+  return p_interface->theme().theme().c_str();
 }
 
 bool
 ConfigTools::socksEnable()
 {
-  return m_inbound.socks.enable;
+  return p_inbound->socks5().enable();
 }
 
 QString
 ConfigTools::socksPort()
 {
-  return QString::fromStdString(std::to_string(m_inbound.socks.port));
+  return std::to_string(p_inbound->socks5().port()).c_str();
 }
 
 QString
 ConfigTools::socksUsername()
 {
-  return m_inbound.socks.username;
+  return p_inbound->socks5().auth().username().c_str();
 }
 
 QString
 ConfigTools::socksPassword()
 {
-  return m_inbound.socks.password;
+  return p_inbound->socks5().auth().password().c_str();
 }
 
 bool
 ConfigTools::httpEnable()
 {
-  return m_inbound.http.enable;
+  return p_inbound->http().enable();
 }
 
 QString
 ConfigTools::httpPort()
 {
-  return QString::fromStdString(std::to_string(m_inbound.http.port));
+  return std::to_string(p_inbound->http().port()).c_str();
 }
 
 QString
 ConfigTools::httpUsername()
 {
-  return m_inbound.http.username;
+  return p_inbound->http().auth().username().c_str();
 }
 
 QString
 ConfigTools::httpPassword()
 {
-  return m_inbound.http.password;
+  return p_inbound->http().auth().password().c_str();
 }
 
 void
 ConfigTools::setCorePath(const QUrl& val)
 {
   QString path = val.toLocalFile();
-
-  if (path == m_core.core_path) {
+  if (path == p_core->core_path().c_str())
     return;
-  }
-
   if (isFileExist(path)) {
-    m_core.core_path = path;
-
+    p_core->set_core_path(path.toStdString());
     emit configChanged();
     emit corePathChanged();
   }
@@ -1731,13 +439,9 @@ void
 ConfigTools::setAssetsPath(const QUrl& val)
 {
   QString path = val.toLocalFile();
-
-  if (path == m_core.assets_path || path.isEmpty()) {
+  if (path == p_core->assets_path().c_str() || path.isEmpty())
     return;
-  }
-
-  m_core.assets_path = path;
-
+  p_core->set_assets_path(path.toStdString());
   emit configChanged();
   emit assetsPathChanged();
 }
@@ -1745,12 +449,9 @@ ConfigTools::setAssetsPath(const QUrl& val)
 void
 ConfigTools::setLogLevel(const QString& log_level)
 {
-  if (log_level == m_core.log_level) {
+  if (log_level == p_core->log_level().c_str())
     return;
-  }
-
-  m_core.log_level = log_level;
-
+  p_core->set_log_level(log_level.toStdString());
   emit configChanged();
   emit logLevelChanged();
 }
@@ -1758,25 +459,19 @@ ConfigTools::setLogLevel(const QString& log_level)
 void
 ConfigTools::setLogLines(int log_lines)
 {
-  if (log_lines == m_core.log_lines) {
+  if (log_lines == p_core->log_lines())
     return;
-  }
-
-  m_core.log_lines = log_lines;
-
+  p_core->set_log_lines(log_lines);
   emit configChanged();
-  emit logLinesChanged(m_core.log_lines);
+  emit logLinesChanged(log_lines);
 }
 
 void
 ConfigTools::setApiEnable(bool val)
 {
-  if (val == m_core.api.enable) {
+  if (val == p_core->api().enable())
     return;
-  }
-
-  m_core.api.enable = val;
-
+  p_core->mutable_api()->set_enable(val);
   emit configChanged();
   emit apiEnableChanged();
 }
@@ -1785,13 +480,10 @@ void
 ConfigTools::setApiPort(QString& portStr)
 {
   uint port = portStr.toUInt();
-  if (port == m_core.api.port || portStr.isEmpty()) {
+  if (port == p_core->api().port() || portStr.isEmpty())
     return;
-  }
-
   if (port >= 0 && port <= 65535) {
-    m_core.api.port = port;
-
+    p_core->mutable_api()->set_port(port);
     emit configChanged();
     emit apiPortChanged();
   }
@@ -1800,14 +492,10 @@ ConfigTools::setApiPort(QString& portStr)
 void
 ConfigTools::setInboundAddress(const QString& addr)
 {
-  if (addr.isEmpty() || addr == m_inbound.socks.listen) {
+  if (addr.isEmpty() || addr == p_inbound->socks5().listen().c_str())
     return;
-  }
-
-  // Keep the listening address the same
-  m_inbound.socks.listen = addr;
-  m_inbound.http.listen = addr;
-
+  p_inbound->mutable_socks5()->set_listen(addr.toStdString());
+  p_inbound->mutable_http()->set_listen(addr.toStdString());
   emit configChanged();
   emit inboundAddressChanged();
 }
@@ -1815,232 +503,181 @@ ConfigTools::setInboundAddress(const QString& addr)
 void
 ConfigTools::setTextColor(const QString& val)
 {
-  if (val == m_theme.colors.text_color) {
+  if (val == p_theme->colors().text_color().c_str())
     return;
-  }
-
-  m_theme.colors.text_color = val;
+  p_theme->mutable_colors()->set_text_color(val.toStdString());
   emit textColorChanged();
 }
 
 void
 ConfigTools::setBackgroundColor(const QString& val)
 {
-  if (val == m_theme.colors.background_color) {
+  if (val == p_theme->colors().background_color().c_str())
     return;
-  }
-
-  m_theme.colors.background_color = val;
+  p_theme->mutable_colors()->set_background_color(val.toStdString());
   emit backgroundColorChanged();
 }
 
 void
 ConfigTools::setHighlightColor(const QString& val)
 {
-  if (val == m_theme.colors.highlight_color) {
+  if (val == p_theme->colors().highlight_color().c_str())
     return;
-  }
-
-  m_theme.colors.highlight_color = val;
+  p_theme->mutable_colors()->set_highlight_color(val.toStdString());
   emit highlightColorChanged();
 }
 
 void
 ConfigTools::setHighlightTextColor(const QString& val)
 {
-  if (val == m_theme.colors.highlight_text_color) {
+  if (val == p_theme->colors().highlight_text_color().c_str())
     return;
-  }
-
-  m_theme.colors.highlight_text_color = val;
+  p_theme->mutable_colors()->set_highlight_text_color(val.toStdString());
   emit highlightTextColorChanged();
 }
 
 void
 ConfigTools::setWarnColor(const QString& val)
 {
-  if (val == m_theme.colors.warn_color) {
+  if (val == p_theme->colors().warn_color().c_str())
     return;
-  }
-
-  m_theme.colors.warn_color = val;
+  p_theme->mutable_colors()->set_warn_color(val.toStdString());
   emit warnColorChanged();
 }
 
 void
 ConfigTools::setWarnTextColor(const QString& val)
 {
-  if (val == m_theme.colors.warn_text_color) {
+  if (val == p_theme->colors().warn_text_color().c_str())
     return;
-  }
-
-  m_theme.colors.warn_text_color = val;
+  p_theme->mutable_colors()->set_warn_text_color(val.toStdString());
   emit warnTextColorChanged();
 }
 
 void
 ConfigTools::setShadowColor(const QString& val)
 {
-  if (val == m_theme.colors.shadow_color) {
+  if (val == p_theme->colors().shadow_color().c_str())
     return;
-  }
-
-  m_theme.colors.shadow_color = val;
+  p_theme->mutable_colors()->set_shadow_color(val.toStdString());
   emit shadowColorChanged();
 }
 
 void
 ConfigTools::setBorderColor(const QString& val)
 {
-  if (val == m_theme.colors.border_color) {
+  if (val == p_theme->colors().border_color().c_str())
     return;
-  }
-
-  m_theme.colors.border_color = val;
+  p_theme->mutable_colors()->set_border_color(val.toStdString());
   emit borderColorChanged();
 }
 
 void
 ConfigTools::setDeepColor(const QString& val)
 {
-  if (val == m_theme.colors.deep_color) {
+  if (val == p_theme->colors().deep_color().c_str())
     return;
-  }
-
-  m_theme.colors.deep_color = val;
+  p_theme->mutable_colors()->set_deep_color(val.toStdString());
   emit deepColorChanged();
 }
 
 void
 ConfigTools::setDeepTextColor(const QString& val)
 {
-  if (val == m_theme.colors.deep_text_color) {
+  if (val == p_theme->colors().deep_text_color().c_str())
     return;
-  }
-
-  m_theme.colors.deep_text_color = val;
+  p_theme->mutable_colors()->set_deep_text_color(val.toStdString());
   emit deepTextColorChanged();
 }
 
 void
 ConfigTools::setStyleColor(const QString& val)
 {
-  if (val == m_theme.colors.style_color) {
+  if (val == p_theme->colors().style_color().c_str())
     return;
-  }
-
-  m_theme.colors.style_color = val;
+  p_theme->mutable_colors()->set_style_color(val.toStdString());
   emit styleColorChanged();
 }
 
 void
 ConfigTools::setStyleTextColor(const QString& val)
 {
-  if (val == m_theme.colors.style_text_color) {
+  if (val == p_theme->colors().style_text_color().c_str())
     return;
-  }
-
-  m_theme.colors.style_text_color = val;
+  p_theme->mutable_colors()->set_style_text_color(val.toStdString());
   emit styleTextColorChanged();
 }
 
 void
 ConfigTools::setTrayStylish(const QString& val)
 {
-  if (val == m_theme.tray.stylish) {
+  if (val == p_theme->tray().stylish().c_str())
     return;
-  }
-
-  m_theme.tray.stylish = val;
+  p_theme->mutable_tray()->set_stylish(val.toStdString());
   emit trayStylishChanged();
 }
 
 void
 ConfigTools::setTrayColor(const QString& val)
 {
-  if (val == m_theme.tray.color) {
+  if (val == p_theme->tray().color().c_str())
     return;
-  }
-
-  m_theme.tray.color = val;
+  p_theme->mutable_tray()->set_color(val.toStdString());
   emit trayColorChanged();
 }
 
 void
-ConfigTools::setBorderRadius(int radius)
+ConfigTools::setBorderRadius(int val)
 {
-  if (radius == m_theme.border.radius) {
+  if (val == p_theme->border().radius())
     return;
-  }
-
-  m_theme.border.radius = radius;
+  p_theme->mutable_border()->set_radius(val);
   emit borderRadiusChanged();
 }
 
 void
-ConfigTools::setBorderWidth(int width)
+ConfigTools::setBorderWidth(int val)
 {
-  if (width == m_theme.border.width) {
+  if (val == p_theme->border().width())
     return;
-  }
-
-  m_theme.border.width = width;
+  p_theme->mutable_border()->set_width(val);
   emit borderWidthChanged();
 }
 
 void
-ConfigTools::setItemSpacing(int spacing)
+ConfigTools::setItemSpacing(int val)
 {
-  if (spacing == m_theme.item.spacing) {
+  if (val == p_theme->item().spacing())
     return;
-  }
-
-  m_theme.item.spacing = spacing;
+  p_theme->mutable_item()->set_spacing(val);
   emit itemSpacingChanged();
 }
 
 void
-ConfigTools::setIconStyle(const QString& newIconStyle)
+ConfigTools::setIconStyle(const QString& val)
 {
-  if (m_theme.icon.style == newIconStyle)
+  if (val == p_theme->icon().style().c_str())
     return;
-
-  m_theme.icon.style = newIconStyle;
-
+  p_theme->mutable_icon()->set_style(val.toStdString());
   emit iconStyleChanged();
 }
 
 void
-ConfigTools::setCurrentTheme(const QString& newCurrentTheme)
+ConfigTools::setCurrentTheme(const QString& val)
 {
-  if (m_interface.theme.theme == newCurrentTheme ||
-      newCurrentTheme == "current" || newCurrentTheme.isEmpty())
+  if (val == p_interface->theme().theme().c_str() || val.isEmpty() ||
+      val.contains("current"))
     return;
-
-  *m_config["interface"]["theme"]["theme"].as_string() =
-    newCurrentTheme.toStdString();
-
-  if (loadInterfaceTheme()) {
-    freshColors();
-
-    emit configChanged();
-    emit currentThemeChanged();
-    emit trayColorChanged();
-    emit trayStylishChanged();
-    emit borderColorChanged();
-    emit borderRadiusChanged();
-  }
+  p_interface->mutable_theme()->set_theme(val.toStdString());
+  loadThemeConfig();
 }
 
 void
 ConfigTools::setSocksEnable(bool val)
 {
-  if (val == m_inbound.socks.enable) {
+  if (val == p_inbound->socks5().enable())
     return;
-  }
-
-  m_inbound.socks.enable = val;
-
+  p_inbound->mutable_socks5()->set_enable(val);
   emit configChanged();
   emit socksEnableChanged();
 }
@@ -2049,51 +686,46 @@ void
 ConfigTools::setSocksPort(const QString& portStr)
 {
   uint port = portStr.toUInt();
-  if (port == m_inbound.socks.port || portStr.isEmpty()) {
+  if (port == p_inbound->socks5().port())
     return;
-  }
-
-  m_inbound.socks.port = port;
-
+  p_inbound->mutable_socks5()->set_port(port);
   emit configChanged();
   emit socksPortChanged();
 }
 
 void
-ConfigTools::setSocksUsername(const QString& name)
+ConfigTools::setSocksUsername(const QString& val)
 {
-  if (name == m_inbound.socks.username) {
+  if (val == p_inbound->socks5().auth().username().c_str())
     return;
+  if (auto auth = p_inbound->mutable_socks5()->mutable_auth(); val.isEmpty()) {
+    auth->set_enable(false);
+  } else {
+    auth->set_enable(true);
+    auth->set_username(val);
+    emit socksUsernameChanged();
   }
-
-  m_inbound.socks.username = name;
-
   emit configChanged();
-  emit socksUsernameChanged();
 }
 
 void
-ConfigTools::setSocksPassword(const QString& pass)
+ConfigTools::setSocksPassword(const QString& val)
 {
-  if (pass == m_inbound.socks.password) {
+  if (val == p_inbound->socks5().auth().password().c_str())
     return;
+  if (auto auth = p_inbound->mutable_socks5()->mutable_auth(); auth->enable()) {
+    auth->set_password(val);
+    emit configChanged();
+    emit socksPasswordChanged();
   }
-
-  m_inbound.socks.password = pass;
-
-  emit configChanged();
-  emit socksPasswordChanged();
 }
 
 void
 ConfigTools::setHttpEnable(bool val)
 {
-  if (val == m_inbound.http.enable) {
+  if (val == p_inbound->http().enable())
     return;
-  }
-
-  m_inbound.http.enable = val;
-
+  p_inbound->mutable_http()->set_enable(val);
   emit configChanged();
   emit httpEnableChanged();
 }
@@ -2102,40 +734,38 @@ void
 ConfigTools::setHttpPort(QString& portStr)
 {
   uint port = portStr.toUInt();
-  if (port == m_inbound.http.port || portStr.isEmpty()) {
+  if (port == p_inbound->http().port())
     return;
-  }
-
-  m_inbound.http.port = port;
-
+  p_inbound->mutable_http()->set_port(port);
   emit configChanged();
   emit httpPortChanged();
 }
 
 void
-ConfigTools::setHttpUsername(const QString& name)
+ConfigTools::setHttpUsername(const QString& val)
 {
-  if (name == m_inbound.http.username) {
+  if (val == p_inbound->http().auth().username().c_str())
     return;
+  if (auto auth = p_inbound->mutable_http()->mutable_auth(); val.isEmpty()) {
+    auth->set_enable(false);
+  } else {
+    auth->set_enable(true);
+    auth->set_username(val);
+    emit configChanged();
   }
-
-  m_inbound.http.username = name;
-
-  emit configChanged();
   emit httpUsernameChanged();
 }
 
 void
-ConfigTools::setHttpPassword(const QString& pass)
+ConfigTools::setHttpPassword(const QString& val)
 {
-  if (pass == m_inbound.http.password) {
+  if (val == p_inbound->http().auth().password().c_str())
     return;
+  if (auto auth = p_inbound->mutable_http()->mutable_auth(); auth->enable()) {
+    auth->set_password(val);
+    emit configChanged();
+    emit httpPasswordChanged();
   }
-
-  m_inbound.http.password = pass;
-
-  emit configChanged();
-  emit httpPasswordChanged();
 }
 
 bool
@@ -2154,89 +784,72 @@ QString
 ConfigTools::coreInfo()
 {
   QProcess core_process;
-  QString info;
+  if (p_core->core_path().empty())
+    return "";
 
-  if (m_core.core_path.isEmpty()) {
-    return info;
-  }
-
-  core_process.start(m_core.core_path, { "-version" });
+  core_process.start(p_core->core_path().c_str(), { "-version" });
   core_process.waitForFinished();
 
-  if (core_process.exitStatus() == QProcess::NormalExit) {
-    QString raw_info = core_process.readAllStandardOutput();
+  if (core_process.exitStatus() == QProcess::NormalExit)
+    if (auto raw_info = core_process.readAllStandardOutput();
+        !raw_info.isEmpty())
+      return raw_info;
 
-    if (!raw_info.isEmpty()) {
-      info = raw_info;
-    }
-  }
-
-  return info;
+  return "";
 }
 
 QString
 ConfigTools::coreVersion()
 {
-  auto temp_info = coreInfo();
-  if (temp_info.isEmpty()) {
-    return "not found";
-  }
-
-  QString version =
-    temp_info.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts).at(1);
-  if (!version.isEmpty()) {
-    m_core.core_version = version;
-  }
-
-  return m_core.core_version;
+  if (auto info = coreInfo(); info.isEmpty())
+    return "";
+  else if (auto version =
+             info.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts).at(1);
+           !version.isEmpty())
+    return version;
+  return "";
 }
 
 QString
 ConfigTools::corePath()
 {
-  return m_core.core_path;
+  return p_core->core_path().c_str();
 }
 
 QString
 ConfigTools::assetsPath()
 {
-  return m_core.assets_path;
+  return p_core->assets_path().c_str();
 }
 
 QString
 ConfigTools::logLevel()
 {
-  return m_core.log_level;
+  return p_core->log_level().c_str();
 }
 
 int
 ConfigTools::logLines()
 {
-  return m_core.log_lines;
+  return p_core->log_lines();
 }
 
 QString
 ConfigTools::dbPath()
 {
-  return m_db.path;
-}
-
-Core
-ConfigTools::getCore()
-{
-  return m_core;
+  return p_db->db_path().c_str();
 }
 
 bool
 ConfigTools::apiEnable()
 {
-  return m_core.api.enable;
+  return p_core->api().enable();
 }
 
 QString
 ConfigTools::apiPort()
 {
-  return QString::fromStdString(std::to_string(m_core.api.port));
+  return std::to_string(p_core->api().port()).c_str();
 }
 
 QString
@@ -2248,60 +861,56 @@ ConfigTools::apiResultText()
 QString
 ConfigTools::inboundAddress()
 {
-  return m_inbound.socks.listen;
+  return p_inbound->socks5().listen().c_str();
 }
 
-const QString&
-ConfigTools::currentLanguage() const
+QString
+ConfigTools::currentLanguage()
 {
-  return m_interface.language.language;
+  return p_interface->language().c_str();
 }
 
 bool
 ConfigTools::enableTray()
 {
-  return m_interface.tray.enable;
+  return p_interface->tray().enable();
 }
 
-const QString&
-ConfigTools::networkTestMethod() const
+QString
+ConfigTools::networkTestMethod()
 {
-  return m_network.test_method;
+  return p_network->test_method().c_str();
 }
 
-const QString&
-ConfigTools::networkTestURL() const
+QString
+ConfigTools::networkTestURL()
 {
-  return m_network.test_url;
+  return p_network->test_url().c_str();
 }
 
-const QString&
-ConfigTools::networkUserAgent() const
+QString
+ConfigTools::networkUserAgent()
 {
-  return m_network.user_agent;
+  return p_network->user_agent().c_str();
 }
 
 void
-ConfigTools::setCurrentLanguage(const QString& newCurrentLanguage)
+ConfigTools::setCurrentLanguage(const QString& val)
 {
-  if (m_interface.language.language == newCurrentLanguage ||
-      newCurrentLanguage == "current" || newCurrentLanguage.isEmpty())
+  if (val == p_interface->language().c_str() || val.isEmpty() ||
+      val.contains("current"))
     return;
-
-  m_interface.language.language = newCurrentLanguage;
-
+  p_interface->set_language(val.toStdString());
   emit configChanged();
-  emit currentLanguageChanged(m_interface.language.language);
+  emit currentLanguageChanged(val);
 }
 
 void
 ConfigTools::setEnableTray(bool val)
 {
-  if (m_interface.tray.enable == val)
+  if (val == p_interface->tray().enable())
     return;
-
-  m_interface.tray.enable = val;
-
+  p_interface->mutable_tray()->set_enable(val);
   emit configChanged();
   emit enableTrayChanged();
 }
@@ -2309,11 +918,9 @@ ConfigTools::setEnableTray(bool val)
 void
 ConfigTools::setNetworkTestMethod(const QString& val)
 {
-  if (m_network.test_method == val)
+  if (val == p_network->test_method().c_str())
     return;
-
-  m_network.test_method = val;
-
+  p_network->set_test_method(val.toStdString());
   emit configChanged();
   emit networkTestMethodChanged();
 }
@@ -2321,11 +928,9 @@ ConfigTools::setNetworkTestMethod(const QString& val)
 void
 ConfigTools::setNetworkTestURL(const QString& val)
 {
-  if (m_network.test_url == val)
+  if (val == p_network->test_url().c_str())
     return;
-
-  m_network.test_url = val;
-
+  p_network->set_test_url(val.toStdString());
   emit configChanged();
   emit networkTestURLChanged();
 }
@@ -2333,11 +938,9 @@ ConfigTools::setNetworkTestURL(const QString& val)
 void
 ConfigTools::setNetworkUserAgent(const QString& val)
 {
-  if (m_network.user_agent == val)
+  if (val == p_network->user_agent().c_str())
     return;
-
-  m_network.user_agent = val;
-
+  p_network->set_user_agent(val.toStdString());
   emit configChanged();
   emit networkUserAgentChanged();
 }
@@ -2376,29 +979,4 @@ QString
 ConfigTools::licenseURL()
 {
   return getLicenseURL();
-}
-
-void
-InboundSettings::API::fromCoreAPI(const Core::API& core_api)
-{
-  this->enable = core_api.enable;
-  this->port = core_api.port;
-}
-
-InboundObject
-InboundSettings::API::toInboundObject()
-{
-  InboundObject inbound_object;
-  inbound_object.listen = this->listen.toStdString();
-  inbound_object.port = std::to_string(this->port);
-  inbound_object.protocol = this->protocol.toStdString();
-  inbound_object.tag = this->tag.toStdString();
-
-  DokodemoDoorObject::InboundSettingObject inbound_setting_object;
-  inbound_setting_object.address = this->listen.toStdString();
-  inbound_setting_object.port = this->port;
-
-  inbound_object.settings = inbound_setting_object.toObject();
-
-  return inbound_object;
 }

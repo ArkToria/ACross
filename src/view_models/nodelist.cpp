@@ -351,8 +351,7 @@ NodeList::setCurrentNode(int id, int index)
     }
 
     {
-      InboundSettings inbound_settings = p_config->getInboundConfig();
-      inbound_settings.setObject(root);
+      p_config->setInboundObject(root);
     }
 
     {

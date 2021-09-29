@@ -46,7 +46,7 @@ signals:
   void isRunningChanged();
 
 private:
-  across::setting::Core m_core;
+  across::config::Core* p_core;
   QSharedPointer<across::setting::ConfigTools> p_config;
   std::shared_ptr<across::utils::LogTools> p_logger;
 

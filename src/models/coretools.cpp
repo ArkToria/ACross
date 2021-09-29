@@ -12,7 +12,6 @@ CoreTools::CoreTools(QObject* parent)
 CoreTools::~CoreTools()
 {
   this->stop();
-
   if (p_process != nullptr) {
     delete p_process;
     p_process = nullptr;
@@ -25,7 +24,7 @@ CoreTools::init(QSharedPointer<LogView> log_view,
 {
   p_config = config;
 
-  auto setCore = [&]() { m_core = p_config->getCore(); };
+  auto setCore = [&]() { p_core = p_config->configPtr()->mutable_core(); };
 
   auto setWorkingDirectory = [&]() {
     QFileInfo db_path(p_config->dbPath());
@@ -75,7 +74,6 @@ CoreTools::run()
 
   if (p_process == nullptr) {
     p_process = new QProcess();
-
     p_process->setProcessChannelMode(QProcess::MergedChannels);
     connect(
      p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
@@ -86,20 +84,14 @@ CoreTools::run()
   }
 
   p_process->setProcessEnvironment(m_env);
-
   p_process->start(
-    m_core.core_path, {}, QIODevice::ReadWrite | QIODevice::Text);
-
+    p_core->core_path().c_str(), {}, QIODevice::ReadWrite | QIODevice::Text);
   p_process->write(m_config.toUtf8());
-
   p_process->waitForBytesWritten();
-
   p_process->closeWriteChannel();
-
   p_process->waitForStarted();
 
-  int exit_code = p_process->exitCode();
-
+  auto exit_code = p_process->exitCode();
   if (exit_code != 0) {
     qCritical() << "Failed to start v2ray process";
   } else {
@@ -115,11 +107,8 @@ CoreTools::stop()
   if (p_process != nullptr &&
       p_process->state() == QProcess::ProcessState::Running) {
     p_process->kill();
-
     p_process->waitForFinished();
-
     this->setIsRunning(false);
-
     return p_process->exitCode();
   }
 
@@ -135,12 +124,9 @@ CoreTools::isRunning()
 void
 CoreTools::setIsRunning(bool value)
 {
-  if (value == m_running) {
+  if (value == m_running)
     return;
-  }
-
   m_running = value;
-
   emit isRunningChanged();
 }
 

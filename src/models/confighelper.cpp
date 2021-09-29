@@ -4,17 +4,13 @@ using namespace google::protobuf::util;
 using namespace across;
 using namespace across::setting;
 
-ConfigHelper::ConfigHelper()
-{
-  //  this->save();
-}
-
 std::string
-ConfigHelper::toJson()
+ConfigHelper::toJson(config::Config& config,
+                     google::protobuf::util::JsonPrintOptions options)
 {
   std::string json_string;
 
-  MessageToJsonString(m_config, &json_string, m_options);
+  MessageToJsonString(config, &json_string, options);
 
   return json_string;
 }
@@ -22,15 +18,10 @@ ConfigHelper::toJson()
 across::config::Config
 ConfigHelper::fromJson(const std::string& json_string)
 {
-  JsonStringToMessage(json_string, &m_config);
+  config::Config config;
+  JsonStringToMessage(json_string, &config);
 
-  return m_config;
-}
-
-void
-ConfigHelper::save(const std::string& file_path)
-{
-  ConfigHelper::saveToFile(this->toJson(), file_path);
+  return config;
 }
 
 JsonPrintOptions
@@ -277,4 +268,13 @@ ConfigHelper::saveToFile(const std::string& content,
   std::ofstream file(file_path);
   file << content;
   file.close();
+}
+
+std::string
+ConfigHelper::readFromFile(const std::string& file_path)
+{
+  std::ifstream file(file_path);
+  std::ostringstream ss;
+  ss << file.rdbuf();
+  return ss.str();
 }

@@ -16,6 +16,7 @@
 #include <wordexp.h>
 
 #include "../models/apitools.h"
+#include "../models/confighelper.h"
 #include "../models/envtools.h"
 #include "../models/jsontools.h"
 #include "buildinfo.h"
@@ -23,313 +24,6 @@
 
 namespace across {
 namespace setting {
-struct Table
-{
-  template<typename T>
-  static void fromNodeView(
-    toml::v2::node_view<toml::node> node,
-    const toml::v2::node_view<toml::node>& default_config,
-    T& config,
-    const std::string& key,
-    std::shared_ptr<across::utils::LogTools> p_logger,
-    const std::string& path);
-  template<typename T>
-  static void toNodeView(toml::v2::node_view<toml::node> node,
-                         const toml::v2::node_view<toml::node>& default_config,
-                         const T& config,
-                         const std::string& key,
-                         std::shared_ptr<across::utils::LogTools> p_logger,
-                         const std::string& path);
-};
-
-struct Interface
-{
-  struct Language
-  {
-    QString language = "current";
-
-    void fromNodeView(toml::v2::node_view<toml::v2::node> language,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& language,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  } language;
-
-  struct Theme
-  {
-    QString theme = "current";
-    QString include_dir = "./themes/";
-
-    void fromNodeView(toml::v2::node_view<toml::v2::node> theme,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& theme,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  } theme;
-
-  struct Tray
-  {
-    bool enable = false;
-
-    void fromNodeView(toml::v2::node_view<toml::v2::node> tray,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& tray,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  } tray;
-
-  template<typename T>
-  static void fromNodeView(
-    toml::v2::node_view<toml::node> interface,
-    const toml::v2::node_view<toml::node>& default_config,
-    T& config,
-    const std::string& key,
-    std::shared_ptr<across::utils::LogTools> p_logger,
-    const std::string& path);
-  template<typename T>
-  static void toNodeView(toml::v2::node_view<toml::node> interface,
-                         const toml::v2::node_view<toml::node>& default_config,
-                         T& config,
-                         const std::string& key,
-                         std::shared_ptr<across::utils::LogTools> p_logger,
-                         const std::string& path);
-  void fromNodeView(toml::v2::node_view<toml::v2::node> interface,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& interface,
-                  const toml::v2::node_view<toml::node>& default_config,
-                  std::shared_ptr<across::utils::LogTools> p_logger,
-                  const std::string& path);
-};
-
-struct Network
-{
-  QString test_method = "tcping";
-  QString test_url = "https://www.google.com";
-  QString user_agent = "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 "
-                       "(KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36";
-
-  void fromNodeView(toml::v2::node_view<toml::v2::node> network,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& network,
-                  const toml::v2::node_view<toml::node>& default_config,
-                  std::shared_ptr<across::utils::LogTools> p_logger,
-                  const std::string& path);
-};
-
-struct Update
-{
-  bool auto_update = false;
-  bool check_update = true;
-  QString update_channel = "stable";
-  bool update_from_proxy = true;
-
-  void fromNodeView(toml::v2::node_view<toml::v2::node> update,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& update,
-                  const toml::v2::node_view<toml::node>& default_config,
-                  std::shared_ptr<across::utils::LogTools> p_logger,
-                  const std::string& path);
-};
-
-struct DataBase
-{
-  QString path = "./across.db";
-  QString backend = "sqlite3";
-
-  struct Auth
-  {
-    bool enable = false;
-    QString username = "";
-    QString password = "";
-    QString address = "";
-    uint port = 0;
-  } auth;
-
-  void fromNodeView(toml::v2::node_view<toml::v2::node> database,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& database,
-                  const toml::v2::node_view<toml::node>& default_config,
-                  std::shared_ptr<across::utils::LogTools> p_logger,
-                  const std::string& path);
-};
-
-struct Core
-{
-  QString core_path = "";
-  QString assets_path = "";
-  QString log_level = "warning";
-  int log_lines = 500;
-  QString core_version = "";
-
-  struct API
-  {
-    bool enable = false;
-    uint port = 15491;
-  } api;
-
-  void fromNodeView(toml::v2::node_view<toml::v2::node> core,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& core,
-                  const toml::v2::node_view<toml::node>& default_config,
-                  std::shared_ptr<across::utils::LogTools> p_logger,
-                  const std::string& path);
-};
-
-struct Theme
-{
-  QString name = "dark";
-
-  struct Tray
-  {
-    QString stylish = "line";
-    QString color = "dark";
-  } tray;
-
-  struct Banner
-  {
-    bool enable = false;
-    QString background_image = "";
-    float background_opacity = 1.0;
-  } banner;
-
-  struct Border
-  {
-    int radius = 8;
-    int width = 1;
-  } border;
-
-  struct Item
-  {
-    int spacing = 8;
-  } item;
-
-  struct Icon
-  {
-    QString style = "dark";
-  } icon;
-
-  struct Colors
-  {
-    QString text_color = "#f3f3f3";
-    QString background_color = "#3b4252";
-    QString highlight_color = "#5e81ac";
-    QString highlight_text_color = "#eceff4";
-    QString warn_color = "#bf616a";
-    QString warn_text_color = "#ffffff";
-    QString shadow_color = "#29000000";
-    QString border_color = "#3381a1c1";
-    QString deep_color = "#2e3440";
-    QString deep_text_color = "#ffffff";
-    QString style_color = "#bbde5e";
-    QString style_text_color = "#ffffff";
-
-    void fromNodeView(toml::v2::node_view<toml::v2::node> colors_node);
-  };
-
-  Colors colors;
-};
-
-struct InboundSettings
-{
-  struct API
-  {
-    bool enable = true;
-
-    QString listen = "127.0.0.1";
-    uint port = 15491;
-    const QString protocol = "dokodemo-door";
-    const QString tag = "ACROSS_API_INBOUND";
-
-    void fromCoreAPI(const Core::API& core_api);
-    across::config::InboundObject toInboundObject();
-  } api;
-
-  struct SOCKS
-  {
-    bool enable;
-
-    QString listen = "127.0.0.1";
-    uint port = 1089;
-    const QString protocol = "socks";
-
-    bool udp = false;
-    QString ip = "";
-    int user_level = 0;
-
-    QString username; // Leave blank to disable
-    QString password; // Need to be encrypted
-
-    void fromNodeView(toml::v2::node_view<toml::v2::node> socks,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& socks,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-    across::config::InboundObject toInboundObject();
-  } socks;
-
-  struct HTTP
-  {
-    bool enable;
-
-    QString listen = "127.0.0.1";
-    uint port = 8888;
-    const QString protocol = "http";
-
-    bool allow_transparent = false;
-    int timeout = 0;
-    int user_level = 0;
-
-    QString username; // Leave blank to disable
-    QString password; // Need to be encrypted
-
-    void fromNodeView(toml::v2::node_view<toml::v2::node> http,
-                      const toml::v2::node_view<toml::node>& default_config,
-                      std::shared_ptr<across::utils::LogTools> p_logger,
-                      const std::string& path);
-    void toNodeView(const toml::v2::node_view<toml::v2::node>& http,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-    across::config::InboundObject toInboundObject();
-  } http;
-
-  void fromCoreAPI(const Core::API& core_api);
-
-  void fromNodeView(toml::v2::node_view<toml::v2::node> inbound,
-                    const toml::v2::node_view<toml::node>& default_config,
-                    std::shared_ptr<across::utils::LogTools> p_logger,
-                    const std::string& path);
-
-  void toNodeView(const toml::v2::node_view<toml::v2::node>& inbound,
-                  const toml::v2::node_view<toml::node>& default_config,
-                  std::shared_ptr<across::utils::LogTools> p_logger,
-                  const std::string& path);
-
-  void setObject(Json::Value& root);
-};
-
 class ConfigTools : public QObject
 {
   Q_OBJECT
@@ -437,26 +131,11 @@ class ConfigTools : public QObject
 
 public:
   explicit ConfigTools(QObject* parent = nullptr);
-
   bool init(QSharedPointer<LogView> logview, const QString& file_path = "");
-
   QString loadConfigPath(const QString& file_path);
-
-  toml::v2::table getConfig();
-
-  Core getCore();
-  bool loadInterfaceConfig();
-  bool loadInterfaceTheme();
-  bool loadInterfaceLanguage();
-  bool loadUpdateConfig();
-  bool loadDBConfig();
-  bool loadThemeConfig();
-  bool loadCoreConfig();
-  bool loadInboundConfig();
-  bool loadNetworkConfig();
-
-  InboundSettings getInboundConfig();
-  DataBase getDBConfig();
+  void loadThemeConfig();
+  across::config::Config* configPtr();
+  void setInboundObject(Json::Value& root);
 
   Q_INVOKABLE QString getConfigVersion();
   Q_INVOKABLE QString getConfigTomlVersion();
@@ -465,7 +144,7 @@ public:
   Q_INVOKABLE bool testAPI();
   Q_INVOKABLE bool testAndSetAddr(const QString& addr);
   Q_INVOKABLE void freshInbound();
-  Q_INVOKABLE bool saveConfig(QString config_path = "");
+  Q_INVOKABLE void saveConfig(QString config_path = "");
 
   static bool isFileExist(QString file_path);
 
@@ -514,15 +193,15 @@ public:
   int borderRadius();
   int borderWidth();
   int itemSpacing();
-  const QString& iconStyle() const;
-  const QString& currentTheme() const;
-  const QString& currentLanguage() const;
+  QString iconStyle();
+  QString currentTheme();
+  QString currentLanguage();
   bool enableTray();
 
   // network setting
-  const QString& networkTestMethod() const;
-  const QString& networkTestURL() const;
-  const QString& networkUserAgent() const;
+  QString networkTestMethod();
+  QString networkTestURL();
+  QString networkUserAgent();
 
   // help page
   QString buildInfo();
@@ -533,22 +212,22 @@ public:
   QString licenseURL();
 
 public slots:
-  void setDBPath(const QString& db_path, bool init = false);
+  void setDBPath(const QString& val, bool init = false);
   void setCorePath(const QUrl& val);
   void setAssetsPath(const QUrl& val);
-  void setLogLevel(const QString& log_level);
-  void setLogLines(int log_lines);
+  void setLogLevel(const QString& val);
+  void setLogLines(int val);
   void setApiEnable(bool val);
-  void setApiPort(QString& portStr);
-  void setInboundAddress(const QString& addr);
+  void setApiPort(QString& val);
+  void setInboundAddress(const QString& val);
   void setSocksEnable(bool val);
-  void setSocksPort(const QString& portStr);
-  void setSocksUsername(const QString& name);
-  void setSocksPassword(const QString& pass);
+  void setSocksPort(const QString& val);
+  void setSocksUsername(const QString& val);
+  void setSocksPassword(const QString& val);
   void setHttpEnable(bool val);
-  void setHttpPort(QString& portStr);
-  void setHttpUsername(const QString& name);
-  void setHttpPassword(const QString& pass);
+  void setHttpPort(QString& val);
+  void setHttpUsername(const QString& val);
+  void setHttpPassword(const QString& val);
   void setTextColor(const QString& val);
   void setBackgroundColor(const QString& val);
   void setHighlightColor(const QString& val);
@@ -563,12 +242,12 @@ public slots:
   void setStyleTextColor(const QString& val);
   void setTrayStylish(const QString& val);
   void setTrayColor(const QString& val);
-  void setBorderRadius(int radius);
-  void setBorderWidth(int width);
-  void setItemSpacing(int spacing);
-  void setIconStyle(const QString& newIconStyle);
-  void setCurrentTheme(const QString& newCurrentTheme);
-  void setCurrentLanguage(const QString& newCurrentLanguage);
+  void setBorderRadius(int val);
+  void setBorderWidth(int val);
+  void setItemSpacing(int val);
+  void setIconStyle(const QString& val);
+  void setCurrentTheme(const QString& val);
+  void setCurrentLanguage(const QString& val);
   void setEnableTray(bool val);
 
   // network setting
@@ -630,17 +309,15 @@ private:
   const QString m_config_name = "across.toml";
   QString m_config_path = "./" + m_config_name;
   QString m_api_result_text = "";
-  toml::v2::table m_config;
-  toml::v2::table m_default_config;
 
-  Core m_core;
-  DataBase m_db;
   EnvTools m_envs;
-  Theme m_theme;
-  Update m_update;
-  Interface m_interface;
-  Network m_network;
-  InboundSettings m_inbound;
+  across::config::Config m_conf = ConfigHelper::defaultConfig();
+  across::config::Core* p_core;
+  across::config::Database* p_db;
+  across::config::Interface* p_interface;
+  across::config::Theme* p_theme;
+  across::config::Inbound* p_inbound;
+  across::config::Network* p_network;
 };
 }
 }
