@@ -91,7 +91,7 @@ Application::setRootContext()
   p_core->init(p_logview, p_config);
   p_nodes->init(p_logview, p_config, p_core, p_db);
   p_groups->init(p_logview, p_config, p_db, p_nodes, p_curl);
-  p_tray->init(p_config, p_core);
+  p_tray->init(p_logview, p_config, p_core, p_nodes);
 }
 
 void

@@ -2,6 +2,8 @@
 #define SYSTEMTRAY_H
 #include "../models/coretools.h"
 #include "../view_models/configtools.h"
+#include "../view_models/nodelist.h"
+#include "../view_models/logtools.h"
 
 #include <QObject>
 #include <QAction>
@@ -9,6 +11,7 @@
 #include <QSystemTrayIcon>
 
 namespace across {
+QString unitConvert(double bytes);
 class SystemTray : public QObject {
     Q_OBJECT
 public:
@@ -18,8 +21,10 @@ public:
     };
     explicit SystemTray(QObject* parent = 0);
 
-    void init(QSharedPointer<across::setting::ConfigTools> config,
-              QSharedPointer<across::core::CoreTools> core);
+    void init(QSharedPointer<LogView> log_view,
+                 QSharedPointer<across::setting::ConfigTools> config,
+                 QSharedPointer<across::core::CoreTools> core,
+                 QSharedPointer<across::NodeList> nodes);
 
     void loadTrayIcons(const QString& stylish = "", const QString& color = "");
 
@@ -37,11 +42,20 @@ private slots:
 public slots:
     void onRunningChanged();
     void onEnableTrayChanged();
+    void onTrafficChanged();
 
   private:
     QSharedPointer<QSystemTrayIcon> p_tray_icon;
     QSharedPointer<across::setting::ConfigTools> p_config;
     QSharedPointer<across::core::CoreTools> p_core;
+    QSharedPointer<across::NodeList> p_nodes;
+    QSharedPointer<across::core::APITools> p_api;
+
+    std::shared_ptr<across::utils::LogTools> p_logger;
+
+    double uploadTraffic=0.0;
+    double downloadTraffic=0.0;
+
     QIcon connectedIcon;
     QIcon disconnectedIcon;
 

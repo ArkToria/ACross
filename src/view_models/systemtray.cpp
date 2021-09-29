@@ -1,9 +1,11 @@
 #include "systemtray.h"
 #include <QSystemTrayIcon>
+#include <cmath>
 
 using namespace across;
 using namespace across::core;
 using namespace across::setting;
+using namespace across::utils;
 
 SystemTray::SystemTray(QObject* parent)
   : QObject(parent)
@@ -11,12 +13,25 @@ SystemTray::SystemTray(QObject* parent)
   p_tray_icon = QSharedPointer<QSystemTrayIcon>(new QSystemTrayIcon());
 }
 
+inline QString across::unitConvert(double bytes){
+  if (bytes == 0.0) return QString("0 B");
+  QString sizes[] = {"B","KB","MB","GB","TB","PB","EB","ZB","YB"};
+  int index = int(floor(log(bytes)/log(1024)));
+  return QString("%1 %2")
+    .arg(bytes/pow(1024,index),0,'g',3)
+    .arg(sizes[index]);
+}
+
 void
-SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
-                 QSharedPointer<across::core::CoreTools> core)
+SystemTray::init(QSharedPointer<LogView> log_view,
+                 QSharedPointer<across::setting::ConfigTools> config,
+                 QSharedPointer<across::core::CoreTools> core,
+                 QSharedPointer<across::NodeList> nodes)
 {
+  p_logger = std::make_shared<LogTools>(log_view, "system_tray");
   p_config = config;
   p_core = core;
+  p_nodes = nodes;
 
   connect(
     p_config.get(),
@@ -35,9 +50,22 @@ SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
           this,
           &SystemTray::onEnableTrayChanged);
 
+
   loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
 
   p_tray_icon->setToolTip("Across " + p_config->guiVersion());
+  connect(p_nodes.get(),&across::NodeList::uploadTrafficChanged,this,
+  [this](double uploadTraffic){
+    this->uploadTraffic=uploadTraffic;
+    onTrafficChanged();
+  });
+  connect(p_nodes.get(),&across::NodeList::downloadTrafficChanged,this,
+  [this](double downloadTraffic){
+    this->downloadTraffic=downloadTraffic;
+    onTrafficChanged();
+  });
+
+
   onRunningChanged();
   onEnableTrayChanged();
 
@@ -140,4 +168,9 @@ void SystemTray::onEnableTrayChanged(){
    }else{
      p_tray_icon->hide();
    }
+}
+
+inline void SystemTray::onTrafficChanged() 
+{
+    p_tray_icon->setToolTip("Across " + p_config->guiVersion() + "\r\n" + tr("Up: ") + unitConvert(uploadTraffic) + "/s" + tr(" Down: ") + unitConvert(downloadTraffic) + "/s");
 }
