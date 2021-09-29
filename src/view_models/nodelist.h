@@ -148,6 +148,7 @@ private:
   NodeInfo m_current_node;
   across::core::TrafficInfo m_traffic = { 0, 0 };
   across::core::TrafficInfo m_traffic_last = { 0, 0 };
+  across::core::TrafficInfo m_traffic_last_rate = { 0, 0 };
   across::core::TrafficInfo m_traffic_sum = { 0, 0 };
 };
 }

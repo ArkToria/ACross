@@ -69,12 +69,20 @@ NodeList::init(QSharedPointer<LogView> log_view,
             [this](const QVariant& data) {
               auto traffic = data.value<TrafficInfo>();
 
-              m_traffic_sum.download +=
-                traffic.download - m_traffic_last.download;
-              m_traffic_sum.upload += traffic.upload - m_traffic_last.upload;
+              m_traffic_sum.download += traffic.download -
+                                        m_traffic_last.download -
+                                        m_traffic_last_rate.download;
 
-              setDownloadTraffic(m_traffic_sum.download);
-              setUploadTraffic(m_traffic_sum.upload);
+              m_traffic_sum.upload += traffic.upload - m_traffic_last.upload -
+                                      m_traffic_last_rate.upload;
+
+              setDownloadTraffic(std::max(m_traffic_sum.download, 0L));
+              setUploadTraffic(std::max(m_traffic_sum.upload, 0L));
+
+              m_traffic_last_rate = {
+                .upload = traffic.upload - m_traffic_last.upload,
+                .download = traffic.download - m_traffic_last.download,
+              };
 
               m_traffic_last = traffic;
             });
