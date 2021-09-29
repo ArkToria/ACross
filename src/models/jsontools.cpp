@@ -1096,20 +1096,47 @@ RuleObject::toObject()
 {
   Json::Value root;
 
-  root["domainMatcher"] = this->domain_matche;
-  root["type"] = this->type;
-  root["domains"] = this->domains;
-  root["ip"] = this->ip;
-  root["port"] = this->port;
-  root["sourcePort"] = this->source_port;
-  root["network"] = this->network;
-  root["source"] = this->source;
-  root["user"] = this->user;
-  root["inboundTag"] = this->inbound_tag;
-  root["protocol"] = this->protocol;
-  root["attrs"] = this->attrs;
-  root["outboundTag"] = this->outbound_tag;
-  root["balancerTag"] = this->balancer_tag;
+  if (!this->domain_matche.empty())
+    root["domainMatcher"] = this->domain_matche;
+
+  if (!this->type.empty())
+    root["type"] = this->type;
+
+  if (checkJsonArray(this->domains))
+    root["domains"] = this->domains;
+
+  if (checkJsonArray(this->ip))
+    root["ip"] = this->ip;
+
+  if (!this->port.empty() && this->port != "0")
+    root["port"] = this->port;
+
+  if (!this->source_port.empty() && this->source_port != "0")
+    root["sourcePort"] = this->source_port;
+
+  if (!this->network.empty())
+    root["network"] = this->network;
+
+  if (checkJsonArray(this->source))
+    root["source"] = this->source;
+
+  if (checkJsonArray(this->user))
+    root["user"] = this->user;
+
+  if (checkJsonArray(this->inbound_tag))
+    root["inboundTag"] = this->inbound_tag;
+
+  if (checkJsonArray(this->protocol))
+    root["protocol"] = this->protocol;
+
+  if (!this->attrs.empty())
+    root["attrs"] = this->attrs;
+
+  if (!this->outbound_tag.empty())
+    root["outboundTag"] = this->outbound_tag;
+
+  if (!this->balancer_tag.empty())
+    root["balancerTag"] = this->balancer_tag;
 
   return root;
 }
@@ -1143,24 +1170,29 @@ RoutingObject::toObject()
 {
   Json::Value root;
 
-  root["domainStrategy"] = this->domain_strategy;
-  root["domainMatcher"] = this->domain_matche;
-  root["rules"] = this->rules;
-  root["balancers"] = this->balancers;
+  if (!this->domain_strategy.empty()) {
+    root["domainStrategy"] = this->domain_strategy;
+  }
+
+  if (!this->domain_matche.empty()) {
+    root["domainMatcher"] = this->domain_matche;
+  }
+
+  if (!this->rules.isNull() && !this->rules.empty() && this->rules.isArray()) {
+    root["rules"] = this->rules;
+  }
+  if (!this->balancers.isNull() && !this->balancers.empty() &&
+      this->balancers.isArray()) {
+    root["balancers"] = this->balancers;
+  }
 
   return root;
 }
 
 void
-RoutingObjects::appendRoutingObject(Json::Value routing_object)
+RoutingObject::setObject(Json::Value& root)
 {
-  this->routing.append(routing_object);
-}
-
-void
-RoutingObjects::appendRoutingObject(RoutingObject routing_object)
-{
-  this->routing.append(routing_object.toObject());
+  root["routing"] = this->toObject();
 }
 
 Json::Value
@@ -1195,4 +1227,93 @@ BalancerObject::toObject()
   root["strategy"] = this->strategy;
 
   return root;
+}
+
+void
+Stats::setObject(Json::Value& root)
+{
+  Json::Value empty = Json::objectValue;
+  root["stats"] = empty;
+}
+
+Json::Value
+LevelObject::toObject()
+{
+  Json::Value root;
+
+  root["handshake"] = this->handshake;
+  root["connIdle"] = this->conn_idle;
+  root["uplinkOnly"] = this->uplink_only;
+  root["downlinkOnly"] = this->downlink_only;
+  root["statsUserUplink"] = this->stats_user_uplink;
+  root["statsUserDownlink"] = this->stats_user_downlink;
+  root["bufferSize"] = this->buffer_size;
+
+  return root;
+}
+
+void
+LevelPolicyObject::insertLevelObject(LevelObject& level_object)
+{
+  this->level_policy_object[std::to_string(level_object.level)] =
+    level_object.toObject();
+}
+
+void
+LevelPolicyObject::insertLevelObject(Json::Value& level_object, int level)
+{
+  this->level_policy_object[std::to_string(level)] = level_object;
+}
+
+Json::Value
+LevelPolicyObject::toObject()
+{
+  return this->level_policy_object;
+}
+
+Json::Value
+SystemPolicyObject::toObject()
+{
+  Json::Value root;
+
+  root["statsInboundUplink"] = this->stats_inbound_uplink;
+  root["statsInboundDownlink"] = this->stats_inbound_downlink;
+  root["statsOutboundUplink"] = this->stats_outbound_uplink;
+  root["statsOutboundDownlink"] = this->stats_outbound_downlink;
+
+  return root;
+}
+
+void
+PolicyObject::setLevelPolicyObject(Json::Value& level_policy_object)
+{
+  this->level_policy_object = level_policy_object;
+}
+
+void
+PolicyObject::setLevelPolicyObject(LevelPolicyObject& level_policy_object)
+{
+  this->level_policy_object = level_policy_object.toObject();
+}
+
+void
+PolicyObject::setSystemPolicyObject(Json::Value& system_policy_object)
+{
+  this->system_policy_object = system_policy_object;
+}
+
+void
+PolicyObject::setSystemPolicyObject(SystemPolicyObject& system_policy_object)
+{
+  this->system_policy_object = system_policy_object.toObject();
+}
+
+void
+PolicyObject::setObject(Json::Value& root)
+{
+  if (!this->level_policy_object.isNull())
+    root["policy"]["levels"] = this->level_policy_object;
+
+  if (!this->system_policy_object.isNull())
+    root["policy"]["system"] = this->system_policy_object;
 }

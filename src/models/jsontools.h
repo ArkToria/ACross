@@ -11,6 +11,14 @@
 
 namespace across {
 namespace config {
+static inline bool
+checkJsonArray(Json::Value& array)
+{
+  if (!array.isNull() && !array.empty() && array.isArray())
+    return true;
+  return false;
+}
+
 struct LogObject
 {
   enum LogLevel
@@ -422,8 +430,8 @@ struct RuleObject
   std::string type = "field";
   Json::Value domains = Json::arrayValue;
   Json::Value ip = Json::arrayValue;
-  std::string port = 0;
-  std::string source_port = 0;
+  std::string port = "0";
+  std::string source_port = "0";
   // network: "tcp" | "udp" | "tcp,udp"
   std::string network = "tcp";
   Json::Value source = Json::arrayValue;
@@ -432,8 +440,8 @@ struct RuleObject
   // protocol: "http" | "tls" | "bittorrent"
   Json::Value protocol = Json::arrayValue;
   std::string attrs = "";
-  Json::Value outbound_tag = "";
-  Json::Value balancer_tag = "";
+  std::string outbound_tag = "";
+  std::string balancer_tag = "";
 
   Json::Value toObject();
 };
@@ -472,20 +480,63 @@ struct RoutingObject
   void appendBalancerObject(BalancerObject balancer_object);
   void appendBalancerObject(Json::Value balancer_object);
   Json::Value toObject();
+  void setObject(Json::Value& root);
 
 private:
   Json::Value rules = Json::arrayValue;
   Json::Value balancers = Json::arrayValue;
 };
 
-struct RoutingObjects
+struct LevelObject
 {
-  void appendRoutingObject(Json::Value routing_object);
-  void appendRoutingObject(RoutingObject routing_object);
+  int level = 0;
+  int handshake = 4;
+  int conn_idle = 300;
+  int uplink_only = 2;
+  int downlink_only = 5;
+  bool stats_user_uplink = true;
+  bool stats_user_downlink = true;
+  int buffer_size = 10240;
+
+  Json::Value toObject();
+};
+
+struct LevelPolicyObject
+{
+  void insertLevelObject(LevelObject& level_object);
+  void insertLevelObject(Json::Value& level_object, int level);
+  Json::Value toObject();
+
+private:
+  Json::Value level_policy_object;
+};
+
+struct SystemPolicyObject
+{
+  bool stats_inbound_uplink = true;
+  bool stats_inbound_downlink = true;
+  bool stats_outbound_uplink = true;
+  bool stats_outbound_downlink = true;
+
+  Json::Value toObject();
+};
+
+struct PolicyObject
+{
+  void setLevelPolicyObject(Json::Value& level_policy_object);
+  void setLevelPolicyObject(LevelPolicyObject& level_policy_object);
+  void setSystemPolicyObject(Json::Value& system_policy_object);
+  void setSystemPolicyObject(SystemPolicyObject& system_policy_object);
   void setObject(Json::Value& root);
 
 private:
-  Json::Value routing = Json::arrayValue;
+  Json::Value level_policy_object;
+  Json::Value system_policy_object;
+};
+
+struct Stats
+{
+  void setObject(Json::Value& root);
 };
 
 struct InboundObject
@@ -543,7 +594,7 @@ struct OutboundObject
 {
   std::string send_through = "0.0.0.0";
   std::string protocol = "";
-  std::string tag = "";
+  std::string tag = "PROXY";
   Json::Value servers = Json::arrayValue;
   Json::Value stream_settings;
   Json::Value proxy_settings;

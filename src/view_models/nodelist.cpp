@@ -324,6 +324,25 @@ NodeList::setCurrentNode(int id, int index)
     }
 
     {
+      RuleObject api_rule_object = {
+        .type = "field",
+        .outbound_tag = "ACROSS_API",
+      };
+      api_rule_object.inbound_tag.append("ACROSS_API_INBOUND");
+
+      RoutingObject routing_object;
+      routing_object.appendRuleObject(api_rule_object);
+      routing_object.setObject(root);
+
+      Stats().setObject(root);
+
+      SystemPolicyObject system_policy_object;
+      PolicyObject policy_object;
+      policy_object.setSystemPolicyObject(system_policy_object);
+      policy_object.setObject(root);
+    }
+
+    {
       InboundSettings inbound_settings = p_config->getInboundConfig();
       inbound_settings.setObject(root);
     }

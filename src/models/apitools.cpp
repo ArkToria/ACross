@@ -111,7 +111,7 @@ APIWorker::start(const QString& tag)
       return response.stat().value();
     }
 
-    return -1;
+    return 0;
   };
 
   while (!m_stop) {
