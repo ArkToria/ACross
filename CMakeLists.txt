@@ -76,8 +76,11 @@ set(PROJECT_HEADERS
     src/models/notifytools.h
     src/models/dbustools.h
     src/models/coretools.h
+    src/models/confighelper.h
     ${API_PROTO_HEADER}
     ${API_GRPC_HEADER}
+    ${ACROSS_PROTO_HEADER}
+    ${ACROSS_GRPC_HEADER}
     )
 
 set(PROJECT_SOURCES
@@ -110,8 +113,11 @@ set(PROJECT_SOURCES
     src/models/notifytools.cpp
     src/models/dbustools.cpp
     src/models/coretools.cpp
+    src/models/confighelper.cpp
     ${ACROSS_I18N_QRC}
     ${ACROSS_QM_FILES}
+    ${ACROSS_PROTO_SOURCE}
+    ${ACROSS_GRPC_SOURCE}
     ${API_PROTO_SOURCE}
     ${API_GRPC_SOURCE}
     )

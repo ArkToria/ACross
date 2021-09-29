@@ -10,6 +10,10 @@
 #include <QTranslator>
 #include <QUrl>
 
+#ifdef QT_DEBUG
+#include "models/confighelper.h"
+#endif
+
 #include "models/dbtools.h"
 #include "models/envtools.h"
 #include "view_models/configtools.h"

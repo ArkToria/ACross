@@ -9,6 +9,12 @@ using namespace across::setting;
 Application::Application(int& argc, char** argv)
   : QApplication(argc, argv)
 {
+#ifdef QT_DEBUG
+  {
+    ConfigHelper config_helper;
+  }
+#endif
+
   p_logview = QSharedPointer<LogView>(new LogView());
   p_config = QSharedPointer<ConfigTools>(new ConfigTools(this));
   p_db = QSharedPointer<DBTools>(new DBTools());
