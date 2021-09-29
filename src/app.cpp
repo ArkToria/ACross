@@ -1,4 +1,6 @@
 #include "app.h"
+#include <fstream>
+#include <sstream>
 
 using namespace across;
 using namespace across::core;
@@ -12,6 +14,13 @@ Application::Application(int& argc, char** argv)
 #ifdef QT_DEBUG
   {
     ConfigHelper config_helper;
+
+    std::ifstream file("across_exmaple.json");
+    std::ostringstream ss;
+    ss << file.rdbuf();
+
+    auto config = config_helper.fromJson(ss.str());
+    config_helper.save();
   }
 #endif
 

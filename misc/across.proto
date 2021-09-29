@@ -12,7 +12,8 @@ message Config
   Database database = 6;
   Core core = 7;
   Inbound inbound = 8;
-  repeated Theme themes = 9;
+  Network network = 9;
+  repeated Theme themes = 10;
 }
 
 message Interface
@@ -77,8 +78,9 @@ message Inbound
 {
   message Auth
   {
-    string username = 1;
-    string password = 2;
+      bool enable = 1;
+    string username = 2;
+    string password = 3;
   }
 
   message SOCKS5
@@ -102,6 +104,9 @@ message Inbound
     int32 user_level = 6;
     Auth auth = 7;
   }
+
+  SOCKS5 socks5 = 1;
+  HTTP http = 2;
 }
 
 message Network

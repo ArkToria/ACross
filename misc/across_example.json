@@ -1,0 +1,186 @@
+{
+    "title": "ACross Configuration Example",
+    "config_version": "0.1.0",
+    "toml_version": "1.0.0",
+    "interface": {
+        "language": "en_US",
+        "theme": {
+            "theme": "default-light",
+            "include_dir": "$HOME/.local/share/across/themes/"
+        },
+        "tray": {
+            "enable": false,
+            "close_to_minimize": false
+        }
+    },
+    "update": {
+        "auto_update": false,
+        "check_update": true,
+        "update_channel": "stable",
+        "update_from_proxy": true
+    },
+    "database": {
+        "db_path": "$HOME/.local/share/across/across.db",
+        "db_backend": "sqlite3",
+        "auth": {
+            "enable": false,
+            "username": "",
+            "password": "",
+            "address": "",
+            "port": 3000
+        }
+    },
+    "core": {
+        "core_path": "/usr/bin/v2ray",
+        "assets_path": "/usr/share/v2ray/",
+        "log_level": "warning",
+        "log_lines": "50",
+        "api": {
+            "enable": true,
+            "port": 15491
+        }
+    },
+    "inbound": {
+        "socks5": {
+            "enable": true,
+            "listen": "127.0.0.1",
+            "port": 1090,
+            "udp_enable": false,
+            "udp_ip": "",
+            "user_level": 0,
+            "auth": {
+                "enable": false,
+                "username": "",
+                "password": ""
+            }
+        },
+        "http": {
+            "enable": true,
+            "listen": "127.0.0.1",
+            "port": 8889,
+            "allow_transparent": false,
+            "timeout": "0",
+            "user_level": 0,
+            "auth": {
+                "enable": false,
+                "username": "",
+                "password": ""
+            }
+        }
+    },
+    "network": {
+        "test_method": "tcping",
+        "test_url": "https://www.google.com",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.7113.93 Safari/537.36"
+    },
+    "themes": [
+        {
+            "name": "default-light",
+            "tray": {
+                "stylish": "block",
+                "color": "light"
+            },
+            "banner": {
+                "enable": false,
+                "background_image": "",
+                "background_opacity": 0.9
+            },
+            "colors": {
+                "text_color": "#2f2f2f",
+                "background_color": "#fafafa",
+                "highlight_color": "#63a7d7",
+                "highlight_text_color": "#fefefe",
+                "warn_color": "#ff716a",
+                "warn_text_color": "#fefefe",
+                "shadow_color": "#29000000",
+                "border_color": "#27707070",
+                "deep_color": "#f2f2f2",
+                "deep_text_color": "#4f4f4f",
+                "style_color": "#94cbff",
+                "style_text_color": "#fefefe"
+            },
+            "border": {
+                "radius": 8,
+                "width": 1
+            },
+            "item": {
+                "spacing": 8
+            },
+            "icon": {
+                "style": "light"
+            }
+        },
+        {
+            "name": "dark",
+            "banner": {
+                "background_image": "qrc:/icons/card_background.jpg",
+                "background_opacity": 0.9,
+                "enable": false
+            },
+            "border": {
+                "radius": 8,
+                "width": 1
+            },
+            "colors": {
+                "background_color": "#252525",
+                "border_color": "#3381a1c1",
+                "deep_color": "#1f1f1f",
+                "deep_text_color": "#c3c3c3",
+                "highlight_color": "#415f79",
+                "highlight_text_color": "#eceff4",
+                "shadow_color": "#29000000",
+                "style_color": "#66854e",
+                "style_text_color": "#ffffff",
+                "text_color": "#e3e3e3",
+                "warn_color": "#7f616a",
+                "warn_text_color": "#ffffff"
+            },
+            "icon": {
+                "style": "dark"
+            },
+            "item": {
+                "spacing": 8
+            },
+            "tray": {
+                "color": "dark",
+                "stylish": "block"
+            }
+        },
+        {
+            "name": "nord-dark",
+            "banner": {
+                "background_image": "qrc:/icons/card_background.jpg",
+                "background_opacity": 0.9,
+                "enable": false
+            },
+            "border": {
+                "radius": 8,
+                "width": 1
+            },
+            "colors": {
+                "background_color": "#3b4252",
+                "border_color": "#3381a1c1",
+                "deep_color": "#2e3440",
+                "deep_text_color": "#e3e3e3",
+                "highlight_color": "#5e81ac",
+                "highlight_text_color": "#eceff4",
+                "shadow_color": "#29000000",
+                "style_color": "#bbde5e",
+                "style_text_color": "#ffffff",
+                "text_color": "#f3f3f3",
+                "warn_color": "#bf616a",
+                "warn_text_color": "#ffffff"
+            },
+            "icon": {
+                "style": "dark"
+            },
+            "item": {
+                "spacing": 8
+            },
+            "tray": {
+                "color": "dark",
+                "stylish": "block"
+            }
+        }
+    ]
+}

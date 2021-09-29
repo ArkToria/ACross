@@ -166,7 +166,8 @@ qt_add_resources(across misc
     BASE "${CMAKE_CURRENT_LIST_DIR}/misc"
     FILES
         ${ICON_FILES}
-        ${CMAKE_SOURCE_DIR}/misc/across_example.toml
+        ${CMAKE_SOURCE_DIR}/misc/across_example.json
+        ${CMAKE_SOURCE_DIR}/misc/across_example.toml # should be remove after get toml from json
 )
 
 qt_import_qml_plugins(across)
