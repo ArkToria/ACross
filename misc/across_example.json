@@ -112,74 +112,74 @@
         },
         {
             "name": "dark",
+            "tray": {
+                "stylish": "block",
+                "color": "dark"
+            },
             "banner": {
-                "background_image": "qrc:/icons/card_background.jpg",
-                "background_opacity": 0.9,
-                "enable": false
+                "enable": false,
+                "background_image": "",
+                "background_opacity": 0.9
+            },
+            "colors": {
+                "text_color": "#e3e3e3",
+                "background_color": "#252525",
+                "highlight_color": "#415f79",
+                "highlight_text_color": "#eceff4",
+                "warn_color": "#7f616a",
+                "warn_text_color": "#ffffff",
+                "shadow_color": "#29000000",
+                "border_color": "#3381a1c1",
+                "deep_color": "#1f1f1f",
+                "deep_text_color": "#c3c3c3",
+                "style_color": "#66854e",
+                "style_text_color": "#ffffff"
             },
             "border": {
                 "radius": 8,
                 "width": 1
             },
-            "colors": {
-                "background_color": "#252525",
-                "border_color": "#3381a1c1",
-                "deep_color": "#1f1f1f",
-                "deep_text_color": "#c3c3c3",
-                "highlight_color": "#415f79",
-                "highlight_text_color": "#eceff4",
-                "shadow_color": "#29000000",
-                "style_color": "#66854e",
-                "style_text_color": "#ffffff",
-                "text_color": "#e3e3e3",
-                "warn_color": "#7f616a",
-                "warn_text_color": "#ffffff"
-            },
-            "icon": {
-                "style": "dark"
-            },
             "item": {
                 "spacing": 8
             },
-            "tray": {
-                "color": "dark",
-                "stylish": "block"
+            "icon": {
+                "style": "dark"
             }
         },
         {
             "name": "nord-dark",
+            "tray": {
+                "stylish": "block",
+                "color": "dark"
+            },
             "banner": {
-                "background_image": "qrc:/icons/card_background.jpg",
-                "background_opacity": 0.9,
-                "enable": false
+                "enable": false,
+                "background_image": "",
+                "background_opacity": 0.9
+            },
+            "colors": {
+                "text_color": "#f3f3f3",
+                "background_color": "#3b4252",
+                "highlight_color": "#5e81ac",
+                "highlight_text_color": "#eceff4",
+                "warn_color": "#bf616a",
+                "warn_text_color": "#ffffff",
+                "shadow_color": "#29000000",
+                "border_color": "#3381a1c1",
+                "deep_color": "#2e3440",
+                "deep_text_color": "#e3e3e3",
+                "style_color": "#bbde5e",
+                "style_text_color": "#ffffff"
             },
             "border": {
                 "radius": 8,
                 "width": 1
             },
-            "colors": {
-                "background_color": "#3b4252",
-                "border_color": "#3381a1c1",
-                "deep_color": "#2e3440",
-                "deep_text_color": "#e3e3e3",
-                "highlight_color": "#5e81ac",
-                "highlight_text_color": "#eceff4",
-                "shadow_color": "#29000000",
-                "style_color": "#bbde5e",
-                "style_text_color": "#ffffff",
-                "text_color": "#f3f3f3",
-                "warn_color": "#bf616a",
-                "warn_text_color": "#ffffff"
-            },
-            "icon": {
-                "style": "dark"
-            },
             "item": {
                 "spacing": 8
             },
-            "tray": {
-                "color": "dark",
-                "stylish": "block"
+            "icon": {
+                "style": "dark"
             }
         }
     ]

@@ -20,9 +20,9 @@ ConfigHelper::toJson()
 }
 
 across::config::Config
-ConfigHelper::fromJson(const std::string& content)
+ConfigHelper::fromJson(const std::string& json_string)
 {
-  JsonStringToMessage(content, &m_config);
+  JsonStringToMessage(json_string, &m_config);
 
   return m_config;
 }
@@ -178,6 +178,92 @@ ConfigHelper::defaultConfig()
 
     if (auto icon = theme->mutable_icon()) {
       icon->set_style("light");
+    }
+  }
+
+  if (auto theme = config.add_themes()) {
+    theme->set_name("dark");
+
+    if (auto tray = theme->mutable_tray()) {
+      tray->set_stylish("block");
+      tray->set_color("dark");
+    }
+
+    if (auto banner = theme->mutable_banner()) {
+      banner->set_enable(false);
+      banner->set_background_image("");
+      banner->set_background_opacity(0.9);
+    }
+
+    if (auto colors = theme->mutable_colors()) {
+      colors->set_text_color("#e3e3e3");
+      colors->set_background_color("#252525");
+      colors->set_highlight_color("#415f79");
+      colors->set_highlight_text_color("#eceff4");
+      colors->set_warn_color("#7f616a");
+      colors->set_warn_text_color("#ffffff");
+      colors->set_shadow_color("#29000000");
+      colors->set_border_color("#3381a1c1");
+      colors->set_deep_color("#1f1f1f");
+      colors->set_deep_text_color("#c3c3c3");
+      colors->set_style_color("#66854e");
+      colors->set_style_text_color("#ffffff");
+    }
+
+    if (auto border = theme->mutable_border()) {
+      border->set_radius(8);
+      border->set_width(1);
+    }
+
+    if (auto item = theme->mutable_item()) {
+      item->set_spacing(8);
+    }
+
+    if (auto icon = theme->mutable_icon()) {
+      icon->set_style("dark");
+    }
+  }
+
+  if (auto theme = config.add_themes()) {
+    theme->set_name("nord-dark");
+
+    if (auto tray = theme->mutable_tray()) {
+      tray->set_stylish("block");
+      tray->set_color("dark");
+    }
+
+    if (auto banner = theme->mutable_banner()) {
+      banner->set_enable(false);
+      banner->set_background_image("");
+      banner->set_background_opacity(0.9);
+    }
+
+    if (auto colors = theme->mutable_colors()) {
+      colors->set_text_color("#f3f3f3");
+      colors->set_background_color("#3b4252");
+      colors->set_highlight_color("#5e81ac");
+      colors->set_highlight_text_color("#eceff4");
+      colors->set_warn_color("#bf616a");
+      colors->set_warn_text_color("#ffffff");
+      colors->set_shadow_color("#29000000");
+      colors->set_border_color("#3381a1c1");
+      colors->set_deep_color("#2e3440");
+      colors->set_deep_text_color("#e3e3e3");
+      colors->set_style_color("#bbde5e");
+      colors->set_style_text_color("#ffffff");
+    }
+
+    if (auto border = theme->mutable_border()) {
+      border->set_radius(8);
+      border->set_width(1);
+    }
+
+    if (auto item = theme->mutable_item()) {
+      item->set_spacing(8);
+    }
+
+    if (auto icon = theme->mutable_icon()) {
+      icon->set_style("dark");
     }
   }
 

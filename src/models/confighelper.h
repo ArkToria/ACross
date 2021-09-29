@@ -3,11 +3,8 @@
 
 #include "across.grpc.pb.h"
 
-#include <QDebug>
-
 #include <fstream>
 #include <sstream>
-
 #include <google/protobuf/util/json_util.h>
 
 namespace across {
@@ -19,7 +16,7 @@ public:
 
   std::string toJson();
 
-  across::config::Config fromJson(const std::string& content);
+  across::config::Config fromJson(const std::string& json_string);
 
   void save(const std::string& file_path = "./across.json");
 
