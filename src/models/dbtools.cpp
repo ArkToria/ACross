@@ -495,29 +495,31 @@ DBTools::removeItemFromID(const QString& group_name, int64_t id)
 }
 
 int
-DBTools::removeGroupFromName(const QString& group_name)
+DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
 {
   char* err_msg;
-  QString remove_str =
+  auto result = SQLITE_OK;
+  auto remove_str =
     QString("DELETE FROM groups WHERE name = '%1'").arg(group_name);
+  auto drop_table_str = QString("DROP TABLE '%1'").arg(group_name);
 
-  auto result =
-    sqlite3_exec(m_db, remove_str.toStdString().c_str(), NULL, NULL, &err_msg);
-  if (result != SQLITE_OK) {
-    p_logger->error(
-      "Failed to remove {}: {}", group_name.toStdString(), err_msg);
-  } else {
-    QString drop_table_str = QString("DROP TABLE '%1'").arg(group_name);
-
+  if (!keep_group) {
     result = sqlite3_exec(
-      m_db, drop_table_str.toStdString().c_str(), NULL, NULL, &err_msg);
-
+      m_db, remove_str.toStdString().c_str(), NULL, NULL, &err_msg);
     if (result != SQLITE_OK) {
-      p_logger->error("Failed to remove nodes from group {}: {}",
-                      group_name.toStdString(),
-                      err_msg);
+      p_logger->error(
+        "Failed to remove {}: {}", group_name.toStdString(), err_msg);
+      return result;
     }
   }
+
+  result = sqlite3_exec(
+    m_db, drop_table_str.toStdString().c_str(), NULL, NULL, &err_msg);
+  if (result != SQLITE_OK)
+    p_logger->error("Failed to remove nodes from group {}: {}",
+                    group_name.toStdString(),
+                    err_msg);
+
   return result;
 }
 

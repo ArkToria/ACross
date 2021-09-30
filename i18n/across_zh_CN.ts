@@ -361,7 +361,7 @@
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="86"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="89"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -726,7 +726,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="291"/>
+        <location filename="../src/view_models/grouplist.cpp" line="312"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

@@ -80,6 +80,9 @@ Menu {
         enabled: isSubscription
 
         text: qsTr("Update")
+        onTriggered: {
+            acrossGroups.checkUpdate(index)
+        }
     }
 
     Action {

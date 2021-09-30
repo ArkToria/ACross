@@ -26,6 +26,7 @@ public:
             QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::core::CoreTools> core,
             QSharedPointer<across::NodeList> nodes);
+
   void loadTrayIcons(const QString& stylish = "", const QString& color = "");
   void retranslate();
 

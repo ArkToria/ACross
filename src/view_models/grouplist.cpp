@@ -51,6 +51,8 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
   bool insert_result = false;
   do {
     if (auto err = p_db->insert(group_info); err != SQLITE_OK) {
+      p_logger->error("Failed to insert group: {}",
+                      group_info.name.toStdString());
       break;
     }
 
@@ -92,6 +94,37 @@ QVector<GroupInfo>
 GroupList::items() const
 {
   return m_items;
+}
+
+void
+GroupList::checkUpdate(int index, bool force)
+{
+  do {
+    if (index >= m_items.size())
+      break;
+
+    auto item = m_items.at(index);
+    if (!item.isSubscription || item.url.isEmpty())
+      break;
+
+    if (item.cycle_time >
+          item.modified_time.daysTo(QDateTime::currentDateTime()) &&
+        !force)
+      break;
+
+    DownloadTask task = {
+      .filename = item.name,
+      .url = item.url,
+      .user_agent = p_config->networkUserAgent(),
+    };
+
+    connect(p_curl.get(),
+            &across::network::CURLTools::downloadFinished,
+            this,
+            &GroupList::handleUpdated);
+
+    p_curl->download(task);
+  } while (false);
 }
 
 void
@@ -197,16 +230,19 @@ GroupList::appendItem(const QString& group_name,
                       int type,
                       int cycle_time)
 {
-  DownloadTask task = { .filename = group_name,
-                        .url = url,
-                        .user_agent = p_config->networkUserAgent() };
+  DownloadTask task = {
+    .filename = group_name,
+    .url = url,
+    .user_agent = p_config->networkUserAgent(),
+  };
 
-  GroupInfo group_info = { .name = group_name,
-                           .isSubscription = true,
-                           .type =
-                             magic_enum::enum_value<SubscriptionType>(type),
-                           .url = url,
-                           .cycle_time = cycle_time };
+  GroupInfo group_info = {
+    .name = group_name,
+    .isSubscription = true,
+    .type = magic_enum::enum_value<SubscriptionType>(type),
+    .url = url,
+    .cycle_time = cycle_time,
+  };
 
   m_pre_items.append(group_info);
 
@@ -262,21 +298,6 @@ GroupList::removeItem(int index)
 }
 
 void
-GroupList::upgradeItem(int index)
-{
-  auto item = m_items.at(index);
-
-  if (item.isSubscription) {
-    //    auto data_stream = std::make_shared<std::stringstream>();
-
-    //    connect(p_curl.get(), &across::network::CURLTools::downloadFinished,
-    //    [&]() {
-    //      auto result = p_db->createNodesTable(item.name.toStdString());
-    //    });
-  }
-}
-
-void
 GroupList::setDisplayGroupID(int id)
 {
   p_nodes->setDisplayGroupID(id);
@@ -310,16 +331,65 @@ void
 GroupList::handleDownloaded(const QVariant& content)
 {
   auto task = content.value<DownloadTask>();
+  if (task.content.isEmpty())
+    return;
 
   for (auto i = m_pre_items.size() - 1; i >= 0; --i) {
-    auto item = m_pre_items.at(i);
+    if (auto item = m_pre_items.at(i); task.filename == item.name)
+      if (insert(item, task.content))
+        m_pre_items.removeAt(i);
+  }
+}
+
+void
+GroupList::handleUpdated(const QVariant& content)
+{
+  auto task = content.value<DownloadTask>();
+  if (task.content.isEmpty())
+    return;
+
+  for (auto& item : m_items) {
     if (task.filename == item.name) {
-      if (task.content.isEmpty()) {
-        break;
-      } else {
-        insert(item, task.content);
-      }
-      m_pre_items.removeAt(i);
+      item.modified_time = QDateTime::currentDateTime();
+      do {
+        if (auto err = p_db->update(item); err != SQLITE_OK) {
+          p_logger->error("Failed to update group: {}",
+                          item.name.toStdString());
+          break;
+        }
+
+        if (auto err = p_db->removeGroupFromName(item.name, true);
+            err != SQLITE_OK) {
+          p_logger->error("Failed to remove old table: {}",
+                          item.name.toStdString());
+          break;
+        }
+
+        if (auto err = p_db->createNodesTable(item.name); err != SQLITE_OK) {
+          p_logger->error("Failed to create new table: {}",
+                          item.name.toStdString());
+          break;
+        }
+
+        bool result = false;
+        switch (item.type) {
+          case sip008:
+            result = this->insertSIP008(item, task.content);
+            break;
+          case base64:
+            result = this->insertBase64(item, task.content);
+            break;
+          default:
+            break;
+        }
+
+        if (!result) {
+          p_logger->error("Failed to insert nodes");
+          break;
+        }
+      } while (false);
+
+      reloadItems();
     }
   }
 }

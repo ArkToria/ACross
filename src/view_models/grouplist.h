@@ -41,6 +41,8 @@ public:
 
   QVector<GroupInfo> items() const;
 
+  Q_INVOKABLE void checkUpdate(int index, bool force = true);
+
 public slots:
   void reloadItems(bool reopen_db = false);
 
@@ -53,8 +55,6 @@ public slots:
 
   void removeItem(int index);
 
-  void upgradeItem(int index);
-
   void setDisplayGroupID(int id);
 
   void copyUrlToClipboard(int index);
@@ -62,6 +62,8 @@ public slots:
   void editItem(int index);
 
   void handleDownloaded(const QVariant& content);
+
+  void handleUpdated(const QVariant& content);
 
   void handleItemsChanged(int64_t group_id, int size);
 

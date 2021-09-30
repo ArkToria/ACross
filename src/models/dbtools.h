@@ -99,7 +99,7 @@ public:
 
   int removeItemFromID(const QString& group_name, int64_t id);
 
-  int removeGroupFromName(const QString& group_name);
+  int removeGroupFromName(const QString& group_name, bool keep_group = false);
 
   std::vector<GroupInfo> listAllGroupsInfo();
 
