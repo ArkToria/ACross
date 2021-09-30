@@ -212,7 +212,7 @@ public:
   QString licenseURL();
 
 public slots:
-  void setDBPath(const QString& val, bool init = false);
+  void setDBPath(const QString& val = "", bool init = false);
   void setCorePath(const QUrl& val);
   void setAssetsPath(const QUrl& val);
   void setLogLevel(const QString& val);

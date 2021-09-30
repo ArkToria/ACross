@@ -28,11 +28,12 @@ ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
   }
 
   p_core = m_conf.mutable_core();
+  p_db = m_conf.mutable_database();
   p_interface = m_conf.mutable_interface();
   p_inbound = m_conf.mutable_inbound();
   p_network = m_conf.mutable_network();
+  setDBPath("", true);
   loadThemeConfig();
-
   emit configChanged();
   return true;
 }
@@ -87,14 +88,16 @@ void
 ConfigTools::loadThemeConfig()
 {
   auto interface_theme = p_interface->mutable_theme();
-  for (auto theme : m_conf.themes()) {
+  for (auto& theme : *m_conf.mutable_themes()) {
     if (interface_theme->theme() == theme.name()) {
-      p_theme->CopyFrom(theme);
+      p_theme = &theme;
+      break;
     }
   }
 
-  emit freshColors();
-  emit configChanged();
+  auto debug = p_theme->name();
+
+  freshColors();
   emit currentThemeChanged();
   emit trayColorChanged();
   emit trayStylishChanged();
@@ -220,8 +223,9 @@ ConfigTools::saveConfig(QString config_path)
 void
 ConfigTools::setDBPath(const QString& db_path, bool init)
 {
-  auto temp_path = db_path;
-  auto database = m_conf.mutable_database();
+  QString temp_path = db_path;
+  if (db_path.isEmpty())
+    temp_path = p_db->db_path().c_str();
 
 #ifdef Q_OS_LINUX
   if ((temp_path == "~") || (temp_path.startsWith("~/"))) {
@@ -230,7 +234,7 @@ ConfigTools::setDBPath(const QString& db_path, bool init)
 
   if (temp_path.startsWith("$")) {
     wordexp_t p;
-    wordexp(db_path.toStdString().c_str(), &p, 0);
+    wordexp(temp_path.toStdString().c_str(), &p, 0);
     temp_path = QString::fromStdString(*p.we_wordv);
     wordfree(&p);
   }
@@ -242,13 +246,12 @@ ConfigTools::setDBPath(const QString& db_path, bool init)
 
   if (!temp_path.split("/").last().contains(".db")) {
     auto path = QDir(temp_path).relativeFilePath("across.db").toStdString();
-    database->set_db_path(path);
+    p_db->set_db_path(path);
   } else {
-    database->set_db_path(QFileInfo(temp_path).filePath().toStdString());
+    p_db->set_db_path(QFileInfo(temp_path).filePath().toStdString());
   }
 
-  if (auto dir = QFileInfo(QString::fromStdString(database->db_path())).dir();
-      !dir.exists()) {
+  if (auto dir = QFileInfo(temp_path).dir(); !dir.exists()) {
     QDir().mkdir(dir.path());
   }
 
@@ -702,7 +705,7 @@ ConfigTools::setSocksUsername(const QString& val)
     auth->set_enable(false);
   } else {
     auth->set_enable(true);
-    auth->set_username(val);
+    auth->set_username(val.toStdString());
     emit socksUsernameChanged();
   }
   emit configChanged();
@@ -714,7 +717,7 @@ ConfigTools::setSocksPassword(const QString& val)
   if (val == p_inbound->socks5().auth().password().c_str())
     return;
   if (auto auth = p_inbound->mutable_socks5()->mutable_auth(); auth->enable()) {
-    auth->set_password(val);
+    auth->set_password(val.toStdString());
     emit configChanged();
     emit socksPasswordChanged();
   }
@@ -750,7 +753,7 @@ ConfigTools::setHttpUsername(const QString& val)
     auth->set_enable(false);
   } else {
     auth->set_enable(true);
-    auth->set_username(val);
+    auth->set_username(val.toStdString());
     emit configChanged();
   }
   emit httpUsernameChanged();
@@ -762,7 +765,7 @@ ConfigTools::setHttpPassword(const QString& val)
   if (val == p_inbound->http().auth().password().c_str())
     return;
   if (auto auth = p_inbound->mutable_http()->mutable_auth(); auth->enable()) {
-    auth->set_password(val);
+    auth->set_password(val.toStdString());
     emit configChanged();
     emit httpPasswordChanged();
   }

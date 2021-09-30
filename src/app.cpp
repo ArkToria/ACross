@@ -53,6 +53,8 @@ Application::run()
 void
 Application::setRootContext()
 {
+  p_config->init(p_logview);
+
   const QUrl url(QStringLiteral("qrc:/ACross/src/views/main.qml"));
   QObject::connect(
     &m_engine,
@@ -82,7 +84,6 @@ Application::setRootContext()
                             p_image_provider);
   m_engine.load(url);
 
-  p_config->init(p_logview);
   p_db->init(p_logview, p_config);
   p_core->init(p_logview, p_config);
   p_nodes->init(p_logview, p_config, p_core, p_db);

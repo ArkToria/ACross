@@ -28,15 +28,15 @@ DBTools::reload()
     return;
   }
 
-  auto p_db = p_config->configPtr()->mutable_database();
-  if (p_db->db_path().empty()) {
+  auto db_path = p_config->dbPath().toStdString();
+  if (db_path.empty()) {
     p_logger->error("Failed to load database on path");
     return;
   } else {
-    p_logger->info("Open database on path: {}", p_db->db_path());
+    p_logger->info("Open database on path: {}", db_path);
   }
 
-  int result = sqlite3_open(p_db->db_path().c_str(), &m_db);
+  int result = sqlite3_open(db_path.c_str(), &m_db);
   if (result != SQLITE_OK) {
     p_logger->error("SQL open error code: {}", result);
     return;
