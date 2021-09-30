@@ -17,7 +17,6 @@ project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
 
 ######## FIND DEPENDENCES ########
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake;")
-set(ACROSS_TOMLPLUSPLUS_PROVIDER "module")
 
 find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat REQUIRED)
 
@@ -25,7 +24,6 @@ find_package(CURL REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(jsoncpp REQUIRED)
 find_package(magic_enum REQUIRED)
-find_package(tomlplusplus REQUIRED)
 find_package(SQLite3 REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(Sodium REQUIRED)
@@ -149,7 +147,6 @@ target_link_libraries(across PRIVATE
     sodium
     spdlog::spdlog
     SQLite::SQLite3
-    tomlplusplus
     ZXing
     )
 
@@ -167,7 +164,7 @@ qt_add_resources(across misc
     FILES
         ${ICON_FILES}
         ${CMAKE_SOURCE_DIR}/misc/across_example.json
-        ${CMAKE_SOURCE_DIR}/misc/across_example.toml # should be remove after get toml from json
+        ${CMAKE_SOURCE_DIR}/misc/across.proto
 )
 
 qt_import_qml_plugins(across)
@@ -185,7 +182,7 @@ add_subdirectory(tests)
 #########################
 install(TARGETS across RUNTIME DESTINATION bin)
 install(FILES ${CMAKE_SOURCE_DIR}/misc/org.arktoria.across.desktop DESTINATION share/applications)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/across_example.toml DESTINATION share/across/)
+install(FILES ${CMAKE_SOURCE_DIR}/misc/across_example.json DESTINATION share/across/)
 install(FILES ${CMAKE_SOURCE_DIR}/misc/design/logo.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.svg)
 install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_running.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.light.running.svg)
 install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.light.stop.svg)

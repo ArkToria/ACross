@@ -1,7 +1,6 @@
 {
     "title": "ACross Configuration Example",
     "config_version": "0.1.0",
-    "toml_version": "1.0.0",
     "interface": {
         "language": "en_US",
         "theme": {

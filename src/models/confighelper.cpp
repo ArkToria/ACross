@@ -41,7 +41,6 @@ ConfigHelper::defaultConfig()
   across::config::Config config;
   config.set_title("ACross Configuration Example");
   config.set_config_version("0.1.0");
-  config.set_toml_version("1.0.0");
 
   if (auto interface = config.mutable_interface()) {
     interface->set_language("en_US");

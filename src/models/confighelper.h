@@ -6,7 +6,6 @@
 #include <fstream>
 #include <google/protobuf/util/json_util.h>
 #include <sstream>
-#include <toml++/toml.h>
 
 namespace across {
 namespace setting {
@@ -27,10 +26,6 @@ public:
                          const std::string& file_path = "./across.json");
 
   static std::string readFromFile(const std::string& file_path);
-
-  static std::string JsonToToml(const std::string& json_str);
-
-  static std::string TomlToJson(const std::string& toml_str);
 };
 }
 }

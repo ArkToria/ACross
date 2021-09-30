@@ -12,7 +12,6 @@
 #include <QString>
 #include <QTextStream>
 #include <QUrl>
-#include <toml++/toml.h>
 #include <wordexp.h>
 
 #include "../models/apitools.h"
@@ -138,7 +137,6 @@ public:
   void setInboundObject(Json::Value& root);
 
   Q_INVOKABLE QString getConfigVersion();
-  Q_INVOKABLE QString getConfigTomlVersion();
   Q_INVOKABLE QString getLanguage();
   Q_INVOKABLE void freshColors();
   Q_INVOKABLE bool testAPI();

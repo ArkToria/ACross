@@ -184,12 +184,6 @@ ConfigTools::getConfigVersion()
 }
 
 QString
-ConfigTools::getConfigTomlVersion()
-{
-  return QString::fromStdString(m_conf.toml_version());
-}
-
-QString
 ConfigTools::getLanguage()
 {
   return QString::fromStdString(m_conf.interface().language());

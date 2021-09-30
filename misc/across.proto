@@ -5,7 +5,6 @@ message Config
 {
   string title = 1;
   string config_version = 2;
-  string toml_version = 3;
 
   Interface interface = 4;
   Update update = 5;
