@@ -26,12 +26,14 @@ public:
             QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::core::CoreTools> core,
             QSharedPointer<across::NodeList> nodes);
-
   void loadTrayIcons(const QString& stylish = "", const QString& color = "");
-
-  Q_INVOKABLE void toggleVisibilitySetText(bool vis);
   void retranslate();
 
+  Q_INVOKABLE void toggleVisibilitySetText(bool vis);
+  Q_INVOKABLE static inline bool isSystemTrayAvailable()
+  {
+    return QSystemTrayIcon::isSystemTrayAvailable();
+  };
 public slots:
   void onRunningChanged();
   void onEnableTrayChanged();

@@ -55,8 +55,18 @@ Item {
         }
 
         Item {
+            id: item1
             Layout.fillWidth: true
             Layout.columnSpan: 4
+
+            Label {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+
+                visible: acrossTray.isSystemTrayAvailable() ? false : true
+                text: qsTr("System tray is not available")
+                color: acrossConfig.warnColor
+            }
         }
 
         SwitchBox {
