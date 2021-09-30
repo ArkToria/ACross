@@ -131,8 +131,8 @@ class ConfigTools : public QObject
 
 public:
   explicit ConfigTools(QObject* parent = nullptr);
-  bool init(QSharedPointer<LogView> logview, const QString& file_path = "");
-  QString loadConfigPath(const QString& file_path);
+  bool init(const QString& file_path = "");
+  bool loadConfigPath(const QString& file_path = "");
   void loadThemeConfig();
   across::config::Config* configPtr();
   void setInboundObject(Json::Value& root);
@@ -305,8 +305,7 @@ signals:
   void networkUserAgentChanged();
 
 private:
-  std::shared_ptr<across::utils::LogTools> p_logger;
-  const QString m_config_name = "across.toml";
+  const QString m_config_name = "across.json";
   QString m_config_path = "./" + m_config_name;
   QString m_api_result_text = "";
 

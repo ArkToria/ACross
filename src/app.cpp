@@ -19,8 +19,8 @@ Application::Application(int& argc, char** argv)
   p_nodes = QSharedPointer<NodeList>(new NodeList());
   p_groups = QSharedPointer<GroupList>(new GroupList);
   p_tray = QSharedPointer<SystemTray>(new SystemTray());
-
   p_image_provider = new ImageProvider();
+  p_config->init();
 
   registerModels();
   setRootContext();
@@ -53,8 +53,6 @@ Application::run()
 void
 Application::setRootContext()
 {
-  p_config->init(p_logview);
-
   const QUrl url(QStringLiteral("qrc:/ACross/src/views/main.qml"));
   QObject::connect(
     &m_engine,

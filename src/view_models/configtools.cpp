@@ -8,23 +8,17 @@ using namespace across::utils;
 ConfigTools::ConfigTools(QObject* parent) {}
 
 bool
-ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
+ConfigTools::init(const QString& file_path)
 {
-  // initial config logger
-  p_logger = std::make_shared<LogTools>(log_view, "setting");
-
   connect(
     this, &ConfigTools::configChanged, this, [&]() { this->saveConfig(); });
 
-  if (auto config_path = loadConfigPath(file_path); config_path.isEmpty()) {
-    p_logger->warn("Failed to load config path, use build-in config instead");
-  } else {
-    this->m_config_path = config_path;
-
+  if (loadConfigPath()) {
     if (auto json_str = ConfigHelper::readFromFile(m_config_path.toStdString());
         !json_str.empty()) {
       this->m_conf.MergeFrom(ConfigHelper::fromJson(json_str));
     }
+  } else {
   }
 
   p_core = m_conf.mutable_core();
@@ -38,50 +32,48 @@ ConfigTools::init(QSharedPointer<LogView> log_view, const QString& file_path)
   return true;
 }
 
-QString
+bool
 ConfigTools::loadConfigPath(const QString& file_path)
 {
-  QString config_path = "./across.json";
+  bool result = true;
 
   // Setting Path > Env Path > Current Path > Default Path
   do {
+    if (file_path == this->m_config_path)
+      break;
+
     if (isFileExist(file_path)) {
-      config_path = file_path;
+      this->m_config_path = file_path;
       break;
     }
 
     if (auto env_path = m_envs.getInfo().ACROSS_CONFIG_PATH;
-        !env_path.isEmpty()) {
-      config_path = env_path;
-
-      if (isFileExist(config_path)) {
-        break;
-      }
-    }
-
-    auto env_config_home = m_envs.get("XDG_CONFIG_HOME");
-    if (env_config_home.isEmpty()) {
-      env_config_home = m_envs.get("HOME").append("/.config");
-    }
-
-    QDir xdg_path(env_config_home + "/across/");
-    config_path = xdg_path.filePath(m_config_name);
-    if (isFileExist(config_path)) {
+        !env_path.isEmpty() && isFileExist(env_path)) {
+      this->m_config_path = env_path;
       break;
+    }
+
+    QDir xdg_path;
+    if (auto env_config_home = m_envs.get("XDG_CONFIG_HOME");
+        env_config_home.isEmpty()) {
+      xdg_path = m_envs.get("HOME").append("/.config").append("/across/");
     } else {
-      // create directory and example config file
-      if (!xdg_path.exists()) {
-        xdg_path.mkdir(xdg_path.path());
-      }
+      xdg_path = env_config_home.append("/across/");
+    }
 
+    this->m_config_path = xdg_path.filePath(m_config_name);
+    if (!xdg_path.exists()) {
+      xdg_path.mkdir(xdg_path.path());
+    }
+
+    if (!isFileExist(this->m_config_path)) {
       ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
-                               config_path.toStdString());
-
-      p_logger->info("Generate new config on: {}", config_path.toStdString());
+                               this->m_config_path.toStdString());
+      result = false;
     }
   } while (false);
 
-  return config_path;
+  return result;
 }
 
 void
@@ -113,7 +105,77 @@ ConfigTools::configPtr()
 
 void
 ConfigTools::setInboundObject(Json::Value& root)
-{}
+{
+  Json::Value inbounds = Json::arrayValue;
+  if (auto http = p_inbound->http(); http.enable()) {
+    Json::Value http_object;
+    http_object["listen"] = p_inbound->http().listen();
+    http_object["port"] = p_inbound->http().port();
+    http_object["protocol"] = "http";
+    http_object["tag"] = "http_IN";
+
+    Json::Value settings;
+    settings["allowTransparent"] = http.allow_transparent();
+    settings["timeout"] = http.timeout();
+    settings["userLevel"] = http.user_level();
+
+    if (auto auth = http.auth(); auth.enable()) {
+      Json::Value account;
+      account["user"] = auth.username();
+      account["pass"] = auth.password();
+
+      Json::Value accounts = Json::arrayValue;
+      accounts.append(account);
+      settings["accounts"] = accounts;
+    }
+
+    http_object["settings"] = settings;
+    inbounds.append(http_object);
+  }
+
+  if (auto socks5 = p_inbound->socks5(); socks5.enable()) {
+    Json::Value socks5_object;
+    socks5_object["listen"] = socks5.listen();
+    socks5_object["port"] = socks5.port();
+    socks5_object["protocol"] = "socks";
+    socks5_object["tag"] = "socks5_IN";
+
+    Json::Value settings;
+    settings["userLevel"] = socks5.user_level();
+    if (auto auth = socks5.auth(); auth.enable()) {
+      settings["auth"] = "password";
+
+      Json::Value account;
+      account["user"] = auth.username();
+      account["pass"] = auth.password();
+
+      Json::Value accounts = Json::arrayValue;
+      accounts.append(account);
+      settings["accounts"] = accounts;
+    }
+
+    if (socks5.udp_enable()) {
+      settings["udp"] = true;
+      settings["ip"] = socks5.udp_ip();
+    }
+
+    socks5_object["settings"] = settings;
+    inbounds.append(socks5_object);
+  }
+
+  if (auto api = p_core->api(); api.enable()) {
+    Json::Value api_object;
+    api_object["listen"] = api.listen();
+    api_object["port"] = api.port();
+    api_object["protocol"] = "dokodemo-door";
+    api_object["settings"]["address"] = api.listen();
+    api_object["tag"] = "ACROSS_API_INBOUND";
+
+    inbounds.append(api_object);
+  }
+
+  root["inbounds"] = inbounds;
+}
 
 QString
 ConfigTools::getConfigVersion()
@@ -136,22 +198,22 @@ ConfigTools::getLanguage()
 void
 ConfigTools::freshColors()
 {
-    emit textColorChanged();
-    emit backgroundColorChanged();
-    emit highlightColorChanged();
-    emit highlightTextColorChanged();
-    emit warnColorChanged();
-    emit warnTextColorChanged();
-    emit shadowColorChanged();
-    emit borderColorChanged();
-    emit deepColorChanged();
-    emit deepTextColorChanged();
-    emit styleColorChanged();
-    emit styleTextColorChanged();
-    emit borderRadiusChanged();
-    emit borderWidthChanged();
-    emit itemSpacingChanged();
-    emit iconStyleChanged();
+  emit textColorChanged();
+  emit backgroundColorChanged();
+  emit highlightColorChanged();
+  emit highlightTextColorChanged();
+  emit warnColorChanged();
+  emit warnTextColorChanged();
+  emit shadowColorChanged();
+  emit borderColorChanged();
+  emit deepColorChanged();
+  emit deepTextColorChanged();
+  emit styleColorChanged();
+  emit styleTextColorChanged();
+  emit borderRadiusChanged();
+  emit borderWidthChanged();
+  emit itemSpacingChanged();
+  emit iconStyleChanged();
 }
 
 bool
@@ -198,14 +260,14 @@ ConfigTools::testAndSetAddr(const QString& addr)
 void
 ConfigTools::freshInbound()
 {
-    emit socksEnableChanged();
-    emit socksPortChanged();
-    emit socksUsernameChanged();
-    emit socksPasswordChanged();
-    emit httpEnableChanged();
-    emit httpPortChanged();
-    emit httpUsernameChanged();
-    emit httpPasswordChanged();
+  emit socksEnableChanged();
+  emit socksPortChanged();
+  emit socksUsernameChanged();
+  emit socksPasswordChanged();
+  emit httpEnableChanged();
+  emit httpPortChanged();
+  emit httpUsernameChanged();
+  emit httpPasswordChanged();
 }
 
 void
@@ -673,6 +735,7 @@ ConfigTools::setCurrentTheme(const QString& val)
     return;
   p_interface->mutable_theme()->set_theme(val.toStdString());
   loadThemeConfig();
+  emit configChanged();
 }
 
 void

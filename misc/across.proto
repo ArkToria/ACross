@@ -65,6 +65,7 @@ message Core
   {
     bool enable = 1;
     uint32 port = 2;
+    string listen = 3;
   }
 
   string core_path = 1;

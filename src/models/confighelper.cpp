@@ -86,6 +86,7 @@ ConfigHelper::defaultConfig()
     if (auto api = core->mutable_api(); core->has_api()) {
       api->set_enable(true);
       api->set_port(15491);
+      api->set_listen("127.0.0.1");
     }
   }
 
