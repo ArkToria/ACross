@@ -35,6 +35,8 @@ public:
 
   Q_INVOKABLE int stop();
 
+  Q_INVOKABLE int restart();
+
   bool isRunning();
 
 public slots:

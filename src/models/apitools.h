@@ -72,6 +72,17 @@ public:
 
   std::pair<bool, std::string> isOk() const;
 
+  static inline QString unitConvert(double bytes)
+  {
+    if (bytes == 0.0)
+      return QString("0 B");
+    QString sizes[] = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
+    int index = int(floor(log(bytes) / log(1024)));
+    return QString("%1 %2")
+      .arg(bytes / pow(1024, index), 0, 'g', 3)
+      .arg(sizes[index]);
+  };
+
 public slots:
   void handleTrafficResult(const QVariant& data);
 

@@ -10,14 +10,6 @@ Item {
     implicitWidth: 648
     implicitHeight: 230
 
-    function unitConvert(bytes) {
-        if (bytes === 0)
-            return '0 B'
-        var k = 1024, sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'], i = Math.floor(Math.log(bytes) / Math.log(k))
-
-        return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i]
-    }
-
     CardBox {
         id: background
         anchors.fill: parent
@@ -69,8 +61,7 @@ Item {
 
                     Label {
                         id: uploadText
-                        text: "↑ " + unitConvert(
-                                  acrossNodes.uploadTraffic) + "/s"
+                        text: "↑ " + acrossNodes.uploadTraffic + "/s"
                         Layout.alignment: Qt.AlignRight | Qt.AlignTop
                         color: acrossConfig.textColor
                     }
@@ -85,8 +76,7 @@ Item {
 
                     Label {
                         id: downloadText
-                        text: "↓ " + unitConvert(
-                                  acrossNodes.downloadTraffic) + "/s"
+                        text: "↓ " + acrossNodes.downloadTraffic + "/s"
                         Layout.alignment: Qt.AlignRight | Qt.AlignBottom
                         color: acrossConfig.textColor
                     }

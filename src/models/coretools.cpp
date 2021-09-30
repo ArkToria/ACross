@@ -93,8 +93,9 @@ CoreTools::run()
 
   auto exit_code = p_process->exitCode();
   if (exit_code != 0) {
-    qCritical() << "Failed to start v2ray process";
+    p_logger->error("Failed to start v2ray process");
   } else {
+    p_logger->info("Core is running...");
     this->setIsRunning(true);
   }
 
@@ -113,6 +114,18 @@ CoreTools::stop()
   }
 
   return -1;
+}
+
+int
+CoreTools::restart()
+{
+  if (auto err = this->stop(); err < 0)
+    return err;
+
+  if (auto err = this->run(); err < 0)
+    return err;
+
+  return 0;
 }
 
 bool

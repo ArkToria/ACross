@@ -424,10 +424,10 @@ NodeList::saveQRCodeToFile(int id, const QUrl& url)
   }
 }
 
-double
+QString
 NodeList::uploadTraffic()
 {
-  return m_traffic.upload;
+  return APITools::unitConvert(m_traffic.upload);
 }
 
 void
@@ -436,13 +436,13 @@ NodeList::setUploadTraffic(double newUploadTraffic)
   if (m_traffic.upload == newUploadTraffic)
     return;
   m_traffic.upload = newUploadTraffic;
-  emit uploadTrafficChanged(m_traffic.upload);
+  emit uploadTrafficChanged(APITools::unitConvert(m_traffic.upload));
 }
 
-double
+QString
 NodeList::downloadTraffic()
 {
-  return m_traffic.download;
+  return APITools::unitConvert(m_traffic.download);
 }
 
 void
@@ -451,5 +451,5 @@ NodeList::setDownloadTraffic(double newDownloadTraffic)
   if (m_traffic.download == newDownloadTraffic)
     return;
   m_traffic.download = newDownloadTraffic;
-  emit downloadTrafficChanged(m_traffic.download);
+  emit downloadTrafficChanged(APITools::unitConvert(m_traffic.download));
 }

@@ -13,15 +13,6 @@ SystemTray::SystemTray(QObject* parent)
   p_tray_icon = QSharedPointer<QSystemTrayIcon>(new QSystemTrayIcon());
 }
 
-inline QString across::unitConvert(double bytes){
-  if (bytes == 0.0) return QString("0 B");
-  QString sizes[] = {"B","KB","MB","GB","TB","PB","EB","ZB","YB"};
-  int index = int(floor(log(bytes)/log(1024)));
-  return QString("%1 %2")
-    .arg(bytes/pow(1024,index),0,'g',3)
-    .arg(sizes[index]);
-}
-
 void
 SystemTray::init(QSharedPointer<LogView> log_view,
                  QSharedPointer<across::setting::ConfigTools> config,
@@ -50,21 +41,23 @@ SystemTray::init(QSharedPointer<LogView> log_view,
           this,
           &SystemTray::onEnableTrayChanged);
 
-
   loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
 
   p_tray_icon->setToolTip("Across " + p_config->guiVersion());
-  connect(p_nodes.get(),&across::NodeList::uploadTrafficChanged,this,
-  [this](double uploadTraffic){
-    this->uploadTraffic=uploadTraffic;
-    onTrafficChanged();
-  });
-  connect(p_nodes.get(),&across::NodeList::downloadTrafficChanged,this,
-  [this](double downloadTraffic){
-    this->downloadTraffic=downloadTraffic;
-    onTrafficChanged();
-  });
-
+  connect(p_nodes.get(),
+          &across::NodeList::uploadTrafficChanged,
+          this,
+          [this](const QString& uploadTraffic) {
+            this->uploadTraffic = uploadTraffic;
+            onTrafficChanged();
+          });
+  connect(p_nodes.get(),
+          &across::NodeList::downloadTrafficChanged,
+          this,
+          [this](const QString& downloadTraffic) {
+            this->downloadTraffic = downloadTraffic;
+            onTrafficChanged();
+          });
 
   onRunningChanged();
   onEnableTrayChanged();
@@ -83,10 +76,10 @@ SystemTray::init(QSharedPointer<LogView> log_view,
 
   connect(
     actionToggleVisibility, &QAction::triggered, this, &SystemTray::signalShow);
-  connect(actionStart, &QAction::triggered,[this] {p_core->run();});
-  connect(actionStop, &QAction::triggered,[this] {p_core->stop();});
-  connect(actionRestart, &QAction::triggered,[this]
-  {p_core->stop();p_core->run();});
+  connect(actionStart, &QAction::triggered, p_core.get(), &CoreTools::run);
+  connect(actionStop, &QAction::triggered, p_core.get(), &CoreTools::stop);
+  connect(
+    actionRestart, &QAction::triggered, p_core.get(), &CoreTools::restart);
   connect(actionQuit, &QAction::triggered, this, &SystemTray::signalQuit);
 
   rootMenu->addAction(actionToggleVisibility);
@@ -125,24 +118,28 @@ SystemTray::loadTrayIcons(const QString& stylish, const QString& color)
 
 void SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    switch (reason){
+  switch (reason) {
     case QSystemTrayIcon::Trigger:
-        emit signalIconActivated();
-        break;
+      emit signalIconActivated();
+      break;
     default:
-        break;
-    }
-}
- 
-void SystemTray::toggleVisibilitySetText(bool vis){
-    if(vis==Visibility::Minimized){
-        actionToggleVisibility->setText(tr("Show"));
-    }else{
-        actionToggleVisibility->setText(tr("Hide"));
-    }
+      break;
+  }
 }
 
-void SystemTray::onRunningChanged(){
+void
+SystemTray::toggleVisibilitySetText(bool vis)
+{
+  if (vis == Visibility::Minimized) {
+    actionToggleVisibility->setText(tr("Show"));
+  } else {
+    actionToggleVisibility->setText(tr("Hide"));
+  }
+}
+
+void
+SystemTray::onRunningChanged()
+{
   if (p_core->isRunning()) {
     p_tray_icon->setIcon(connectedIcon);
     actionStart->setEnabled(false);
@@ -162,15 +159,22 @@ void SystemTray::retranslate(){
     actionQuit->setText(tr("Quit"));
 }
 
-void SystemTray::onEnableTrayChanged(){
-   if(p_config->enableTray()){
-     p_tray_icon->show();
-   }else{
-     p_tray_icon->hide();
-   }
+void
+SystemTray::onEnableTrayChanged()
+{
+  if (p_config->enableTray()) {
+    p_tray_icon->show();
+  } else {
+    p_tray_icon->hide();
+  }
 }
 
-inline void SystemTray::onTrafficChanged() 
+inline void
+SystemTray::onTrafficChanged()
 {
-    p_tray_icon->setToolTip("Across " + p_config->guiVersion() + "\r\n" + tr("Up: ") + unitConvert(uploadTraffic) + "/s" + tr(" Down: ") + unitConvert(downloadTraffic) + "/s");
+  auto content = QString("ACross %1\r"
+                         "↑ %2/s"
+                         "↓ %3/s")
+                   .arg(p_config->guiVersion(), uploadTraffic, downloadTraffic);
+  p_tray_icon->setToolTip(content);
 }

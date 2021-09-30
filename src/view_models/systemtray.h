@@ -2,71 +2,72 @@
 #define SYSTEMTRAY_H
 #include "../models/coretools.h"
 #include "../view_models/configtools.h"
-#include "../view_models/nodelist.h"
 #include "../view_models/logtools.h"
+#include "../view_models/nodelist.h"
 
-#include <QObject>
 #include <QAction>
 #include <QMenu>
+#include <QObject>
 #include <QSystemTrayIcon>
 
 namespace across {
-QString unitConvert(double bytes);
-class SystemTray : public QObject {
-    Q_OBJECT
+class SystemTray : public QObject
+{
+  Q_OBJECT
 public:
-    enum Visibility{
-        Minimized=false,
-        Visible=true
-    };
-    explicit SystemTray(QObject* parent = 0);
+  enum Visibility
+  {
+    Minimized = false,
+    Visible = true
+  };
+  explicit SystemTray(QObject* parent = 0);
 
-    void init(QSharedPointer<LogView> log_view,
-                 QSharedPointer<across::setting::ConfigTools> config,
-                 QSharedPointer<across::core::CoreTools> core,
-                 QSharedPointer<across::NodeList> nodes);
+  void init(QSharedPointer<LogView> log_view,
+            QSharedPointer<across::setting::ConfigTools> config,
+            QSharedPointer<across::core::CoreTools> core,
+            QSharedPointer<across::NodeList> nodes);
 
-    void loadTrayIcons(const QString& stylish = "", const QString& color = "");
+  void loadTrayIcons(const QString& stylish = "", const QString& color = "");
 
-    Q_INVOKABLE void toggleVisibilitySetText(bool vis);
-    void retranslate();
-
-signals:
-    void signalIconActivated();
-    void signalShow();
-    void signalQuit();
-
-private slots:
-    void iconActivated(QSystemTrayIcon::ActivationReason reason);
+  Q_INVOKABLE void toggleVisibilitySetText(bool vis);
+  void retranslate();
 
 public slots:
-    void onRunningChanged();
-    void onEnableTrayChanged();
-    void onTrafficChanged();
+  void onRunningChanged();
+  void onEnableTrayChanged();
+  void onTrafficChanged();
 
-  private:
-    QSharedPointer<QSystemTrayIcon> p_tray_icon;
-    QSharedPointer<across::setting::ConfigTools> p_config;
-    QSharedPointer<across::core::CoreTools> p_core;
-    QSharedPointer<across::NodeList> p_nodes;
-    QSharedPointer<across::core::APITools> p_api;
+private slots:
+  void iconActivated(QSystemTrayIcon::ActivationReason reason);
 
-    std::shared_ptr<across::utils::LogTools> p_logger;
+signals:
+  void signalIconActivated();
+  void signalShow();
+  void signalQuit();
 
-    double uploadTraffic=0.0;
-    double downloadTraffic=0.0;
+private:
+  QSharedPointer<QSystemTrayIcon> p_tray_icon;
+  QSharedPointer<across::setting::ConfigTools> p_config;
+  QSharedPointer<across::core::CoreTools> p_core;
+  QSharedPointer<across::NodeList> p_nodes;
+  QSharedPointer<across::core::APITools> p_api;
 
-    QIcon connectedIcon;
-    QIcon disconnectedIcon;
+  std::shared_ptr<across::utils::LogTools> p_logger;
+
+  QString uploadTraffic = "";
+  QString downloadTraffic = "";
+
+  QIcon connectedIcon;
+  QIcon disconnectedIcon;
 
 #define DECL_ACTION(parent, name) QAction* name = new QAction(parent)
-    QMenu *rootMenu = new QMenu();
+  QMenu* rootMenu = new QMenu();
 
-    DECL_ACTION(rootMenu, actionToggleVisibility);
-    DECL_ACTION(rootMenu, actionStart);
-    DECL_ACTION(rootMenu, actionStop);
-    DECL_ACTION(rootMenu, actionRestart);
-    DECL_ACTION(rootMenu, actionQuit);
+  DECL_ACTION(rootMenu, actionToggleVisibility);
+  DECL_ACTION(rootMenu, actionStart);
+  DECL_ACTION(rootMenu, actionStop);
+  DECL_ACTION(rootMenu, actionRestart);
+  DECL_ACTION(rootMenu, actionQuit);
 };
 }
 
