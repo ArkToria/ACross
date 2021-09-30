@@ -10,6 +10,10 @@ Item {
     implicitHeight: 192
 
     property Component popMenuComponent: null
+    property color backgroundColor: 
+        (acrossNodes.currentNodeGroup===group&&acrossNodes.currentNodeID===Number(nodeID)&&acrossCore.isRunning)?
+            acrossConfig.highlightColor:
+            acrossConfig.backgroundColor
 
     state: "NormalState"
     states: [
@@ -17,7 +21,7 @@ Item {
             name: "NormalState"
             PropertyChanges {
                 target: background
-                color: acrossConfig.backgroundColor
+                color: backgroundColor
             }
             PropertyChanges {
                 target: nodeNameText
@@ -44,7 +48,7 @@ Item {
             name: "HoverState"
             PropertyChanges {
                 target: background
-                color: Qt.lighter(acrossConfig.backgroundColor, 0.9)
+                color: Qt.lighter(backgroundColor, 0.9)
             }
             PropertyChanges {
                 target: nodeNameText
@@ -159,6 +163,8 @@ Item {
 
         onEntered: {
             nodeItemCard.state = "HoverState"
+            console.log(acrossNodes.currentNodeGroup,group,Number(acrossNodes.currentNodeID),Number(nodeID))
+            console.log(acrossNodes.currentNodeGroup===group,acrossNodes.currentNodeID===nodeID)
         }
 
         onExited: {
