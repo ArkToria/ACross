@@ -348,7 +348,8 @@ GroupList::handleUpdated(const QVariant& content)
   if (task.content.isEmpty())
     return;
 
-  for (auto& item : m_items) {
+  for (auto iter = 0; iter < m_items.size(); ++iter) {
+    auto& item = m_items[iter];
     if (task.filename == item.name) {
       item.modified_time = QDateTime::currentDateTime();
       do {
@@ -390,6 +391,7 @@ GroupList::handleUpdated(const QVariant& content)
       } while (false);
 
       reloadItems();
+      emit itemInfoChanged(iter);
     }
   }
 }

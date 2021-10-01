@@ -148,6 +148,7 @@ NodeList::removeCurrentNode(int id)
       auto result = p_db->removeItemFromID(item.group, item.id);
       if (result == SQLITE_OK) {
         reloadItems();
+        emit itemsSizeChanged(item.group_id, m_items.size());
       }
       break;
     }
