@@ -133,7 +133,7 @@ signals:
   void downloadFinished(const QVariant& content);
 
 private:
-  QMap<QString, QThread*> threads;
+  QMap<QString, QThread*> m_threads;
 };
 }
 }

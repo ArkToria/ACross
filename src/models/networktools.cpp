@@ -270,7 +270,7 @@ CURLTools::CURLTools(QObject* parent)
 CURLTools::~CURLTools()
 {
   // destroy pointer
-  for (auto& p_thread : threads) {
+  for (auto& p_thread : m_threads) {
     if (p_thread != nullptr) {
       p_thread->quit();
       p_thread->wait();
@@ -283,20 +283,30 @@ CURLTools::~CURLTools()
 CURLcode
 CURLTools::download(DownloadTask& task)
 {
-  threads.insert(task.filename, new QThread(this));
+  if (m_threads.contains(task.filename)) {
+    if (auto& p_thread = m_threads[task.filename]; p_thread != nullptr) {
+      p_thread->quit();
+      p_thread->wait();
+    } else {
+      p_thread = new QThread(this);
+    }
+  } else {
+    m_threads.insert(task.filename, new QThread(this));
+  }
+
   auto worker = new CURLWorker();
-  worker->moveToThread(threads.value(task.filename));
+  worker->moveToThread(m_threads.value(task.filename));
 
   // connect signals
   connect(this, &CURLTools::operate, worker, &CURLWorker::run);
-  connect(threads.value(task.filename),
+  connect(m_threads.value(task.filename),
           &QThread::finished,
           worker,
           &QObject::deleteLater);
   connect(worker, &CURLWorker::done, this, &CURLTools::handleResult);
 
   // start thread process
-  threads.value(task.filename)->start();
+  m_threads.value(task.filename)->start();
 
   emit operate(QVariant::fromValue<DownloadTask>(task));
 
