@@ -9,11 +9,20 @@ Item {
     implicitWidth: 240
     implicitHeight: 192
 
+    function isCurrent() {
+        if (acrossNodes.currentNodeGroup === group
+                && acrossNodes.currentNodeID === Number(nodeID)
+                && acrossCore.isRunning) {
+            return true
+        }
+        return false
+    }
+
     property Component popMenuComponent: null
-    property color backgroundColor: 
-        (acrossNodes.currentNodeGroup===group&&acrossNodes.currentNodeID===Number(nodeID)&&acrossCore.isRunning)?
-            acrossConfig.highlightColor:
-            acrossConfig.backgroundColor
+    property color backgroundColor: isCurrent(
+                                        ) ? acrossConfig.highlightColor : acrossConfig.backgroundColor
+    property color textColor: isCurrent(
+                                  ) ? acrossConfig.highlightTextColor : acrossConfig.textColor
 
     state: "NormalState"
     states: [
@@ -23,52 +32,12 @@ Item {
                 target: background
                 color: backgroundColor
             }
-            PropertyChanges {
-                target: nodeNameText
-                color: acrossConfig.textColor
-            }
-            PropertyChanges {
-                target: addressText
-                color: acrossConfig.textColor
-            }
-            PropertyChanges {
-                target: protocolText
-                color: acrossConfig.textColor
-            }
-            PropertyChanges {
-                target: speedText
-                color: acrossConfig.textColor
-            }
-            PropertyChanges {
-                target: latencyText
-                color: acrossConfig.textColor
-            }
         },
         State {
             name: "HoverState"
             PropertyChanges {
                 target: background
                 color: Qt.lighter(backgroundColor, 0.9)
-            }
-            PropertyChanges {
-                target: nodeNameText
-                color: acrossConfig.deepTextColor
-            }
-            PropertyChanges {
-                target: addressText
-                color: acrossConfig.deepTextColor
-            }
-            PropertyChanges {
-                target: protocolText
-                color: acrossConfig.deepTextColor
-            }
-            PropertyChanges {
-                target: speedText
-                color: acrossConfig.deepTextColor
-            }
-            PropertyChanges {
-                target: latencyText
-                color: acrossConfig.deepTextColor
             }
         }
     ]
@@ -94,9 +63,9 @@ Item {
                 textFormat: Text.AutoText
                 wrapMode: Text.WrapAnywhere
                 elide: Text.ElideRight
+                color: textColor
                 maximumLineCount: 2
                 font.pixelSize: 16
-                color: acrossConfig.textColor
             }
 
             Rectangle {
@@ -113,7 +82,10 @@ Item {
                     anchors.topMargin: acrossConfig.itemSpacing
                     anchors.rightMargin: acrossConfig.itemSpacing
 
-                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/more_vert.svg"
+                    source: isCurrent(
+                                ) ? "qrc:/misc/icons/" + acrossConfig.iconStyle
+                                    + "/more_vert_reverse.svg" : "qrc:/misc/icons/"
+                                    + acrossConfig.iconStyle + "/more_vert.svg"
                     sourceWidth: 24
                     sourceHeight: 24
                 }
@@ -124,8 +96,8 @@ Item {
                 Layout.fillWidth: true
 
                 text: address
+                color: textColor
                 font.pixelSize: 14
-                color: acrossConfig.textColor
             }
 
             Label {
@@ -133,8 +105,8 @@ Item {
                 Layout.fillWidth: true
 
                 text: protocol
+                color: textColor
                 font.pixelSize: 14
-                color: acrossConfig.textColor
             }
 
             Label {
@@ -143,14 +115,14 @@ Item {
 
                 text: "↑ 128 M ↓ 2.4 GB"
                 font.pixelSize: 14
-                color: acrossConfig.textColor
+                color: textColor
             }
 
             Label {
                 id: latencyText
                 text: "32 ms"
                 font.pixelSize: 14
-                color: acrossConfig.styleColor
+                color: textColor
             }
         }
     }
@@ -163,8 +135,10 @@ Item {
 
         onEntered: {
             nodeItemCard.state = "HoverState"
-            console.log(acrossNodes.currentNodeGroup,group,Number(acrossNodes.currentNodeID),Number(nodeID))
-            console.log(acrossNodes.currentNodeGroup===group,acrossNodes.currentNodeID===nodeID)
+            console.log(acrossNodes.currentNodeGroup, group,
+                        Number(acrossNodes.currentNodeID), Number(nodeID))
+            console.log(acrossNodes.currentNodeGroup === group,
+                        acrossNodes.currentNodeID === nodeID)
         }
 
         onExited: {

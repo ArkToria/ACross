@@ -38,7 +38,7 @@ set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import path
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/protobuf.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/translations.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qml.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 ##################################
 
 ######## SOURCE FILES ########

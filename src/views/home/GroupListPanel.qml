@@ -63,7 +63,7 @@ Item {
         implicitHeight: 56
         z: 1
 
-        basicColor: Qt.lighter(acrossConfig.highlightColor, 1.4)
+        basicColor: acrossConfig.styleColor
         backgroundRadius: width / 2
         layer.enabled: true
         layer.effect: DropShadow {
