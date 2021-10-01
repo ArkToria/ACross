@@ -169,7 +169,7 @@ SystemTray::onEnableTrayChanged()
   }
 }
 
-inline void
+void
 SystemTray::onTrafficChanged()
 {
   auto content = QString("ACross %1\r"
