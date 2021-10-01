@@ -284,9 +284,6 @@ CURLcode
 CURLTools::download(DownloadTask& task)
 {
   threads.insert(task.filename, new QThread(this));
-
-  // create thread
-  //  p_thread = new QThread(this);
   auto worker = new CURLWorker();
   worker->moveToThread(threads.value(task.filename));
 

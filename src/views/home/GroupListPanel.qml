@@ -66,7 +66,7 @@ Item {
             }
 
             onContentYChanged: {
-                if (Math.abs(contentY) > updateIcon.sourceHeight * 2) {
+                if (-contentY > updateIcon.sourceHeight * 2) {
                     updateIcon.visible = true
                     updateToken = true
                 } else {
