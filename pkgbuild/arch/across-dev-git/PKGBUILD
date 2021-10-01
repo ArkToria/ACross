@@ -16,7 +16,7 @@ optdepends=('v2ray: use system v2ray core.'
 
 makedepends=('git' 'cmake' 'ninja' 'gcc' 'gtest')
 
-source=('across-dev-git::git+https://github.com/ArkToria/ACross.git#branch=qt6_dev')
+source=('across-dev-git::git+https://github.com/ArkToria/ACross.git')
 
 sha512sums=('SKIP')
 
