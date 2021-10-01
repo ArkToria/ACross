@@ -41,6 +41,8 @@ public:
 
   QVector<GroupInfo> items() const;
 
+  Q_INVOKABLE void checkAllUpdate(bool force = false);
+
   Q_INVOKABLE void checkUpdate(int index, bool force = true);
 
 public slots:

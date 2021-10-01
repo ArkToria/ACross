@@ -41,6 +41,9 @@ GroupList::init(QSharedPointer<LogView> log_view,
           &GroupList::handleItemsChanged);
 
   reloadItems();
+
+  // TEST: Auto checking for updates
+  checkAllUpdate();
 }
 
 bool
@@ -94,6 +97,14 @@ QVector<GroupInfo>
 GroupList::items() const
 {
   return m_items;
+}
+
+void
+GroupList::checkAllUpdate(bool force)
+{
+  for (auto i = 0; i < m_items.size(); ++i) {
+    checkUpdate(i, force);
+  }
 }
 
 void

@@ -32,10 +32,22 @@ Item {
             z: 1
         }
 
+        SVGBox {
+            id: updateIcon
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
+
+            visible: false
+            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/update.svg"
+            sourceWidth: 24
+            sourceHeight: 24
+        }
+
         ListView {
             id: listScrollView
             Layout.fillWidth: true
             Layout.fillHeight: true
+
+            property bool updateToken: false
 
             highlightMoveDuration: 0
 
@@ -51,6 +63,20 @@ Item {
 
             highlight: Rectangle {
                 color: acrossConfig.highlightColor
+            }
+
+            onContentYChanged: {
+                if (Math.abs(contentY) > updateIcon.sourceHeight * 2) {
+                    updateIcon.visible = true
+                    updateToken = true
+                } else {
+                    updateIcon.visible = false
+                }
+
+                if (updateToken && this.contentY === 0) {
+                    acrossGroups.checkAllUpdate(true) // force update
+                    updateToken = false
+                }
             }
         }
     }
