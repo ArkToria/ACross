@@ -44,7 +44,7 @@ Item {
             Layout.fillWidth: true
             Layout.columnSpan: 6
 
-            text: qsTr("Application Setting")
+            text: qsTr("Application Settings")
             font.pixelSize: 24
             color: acrossConfig.textColor
         }
@@ -103,6 +103,7 @@ Item {
         }
 
         DropDownBox {
+            id: themeDropDownBox
             Layout.fillWidth: true
             Layout.columnSpan: 2
 

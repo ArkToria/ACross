@@ -63,9 +63,19 @@ DBTools::reload()
     result = createGroupsTable();
 
     if (result == SQLITE_OK) {
-      p_logger->info("SQL create tables successfully");
+      p_logger->info("SQL create the groups table successfully");
     } else {
-      p_logger->error("SQL failed to create tables");
+      p_logger->error("SQL failed to create the groups table");
+    }
+  }
+
+  if (!isTableExists({ "runtime" })) {
+    result = createRuntimeTable();
+
+    if (result == SQLITE_OK) {
+      p_logger->info("SQL create the runtime table successfully");
+    } else {
+      p_logger->error("SQL failed to create the runtime table");
     }
   }
 
@@ -140,6 +150,17 @@ DBTools::createNodesTable(const QString& group_name)
                                      "ModifiedAt INT64 NOT NULL);")
                                .arg(group_name);
   auto result = createTable(create_nodes_str);
+  return result;
+}
+
+int
+DBTools::createRuntimeTable()
+{
+  QString create_runtime_str = { "CREATE TABLE IF NOT EXISTS runtime("
+                                 "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                                 "Key TEXT UNIQUE NOT NULL,"
+                                 "Value TEXT);" };
+  auto result = createTable(create_runtime_str);
   return result;
 }
 

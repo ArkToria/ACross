@@ -85,6 +85,8 @@ public:
 
   int createNodesTable(const QString& group_name);
 
+  int createRuntimeTable();
+
   bool isTableExists(const QStringList& table_names);
 
   bool isGroupExists(const QString& group_name);
