@@ -96,8 +96,8 @@ Application::setTranslator(const QString& lang)
     this->removeTranslator(&m_translator);
   }
 
-  const QString baseName = m_app_name.toLower() + "_" + QLocale(lang).name();
-  auto file_path = ":/" + baseName + ".qm";
+  auto file_path =
+    u":/i18n/%1_%2.qm"_qs.arg(m_app_name.toLower(), QLocale(lang).name());
 
   if (QFile(file_path).exists()) {
     if (m_translator.load(file_path)) {

@@ -18,7 +18,7 @@ project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
 ######## FIND DEPENDENCES ########
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake;")
 
-find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat LinguistTools REQUIRED)
 
 find_package(CURL REQUIRED)
 find_package(fmt CONFIG REQUIRED)
@@ -37,7 +37,6 @@ set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import path
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/protobuf.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/translations.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 ##################################
 
@@ -112,7 +111,6 @@ set(PROJECT_SOURCES
     src/models/dbustools.cpp
     src/models/coretools.cpp
     src/models/confighelper.cpp
-    ${ACROSS_I18N_QRC}
     ${ACROSS_QM_FILES}
     ${ACROSS_PROTO_SOURCE}
     ${ACROSS_GRPC_SOURCE}
@@ -155,17 +153,23 @@ qt_add_qml_module(across
     VERSION 1.0
     RESOURCE_PREFIX "/"
     QML_FILES
-        ${QML_FILES}
-)
+    ${QML_FILES}
+    )
+
+qt_add_translations(across
+    RESOURCE_PREFIX "/i18n"
+    TS_FILES
+        ${CMAKE_SOURCE_DIR}/i18n/across_zh_CN.ts
+    )
 
 qt_add_resources(across misc
     PREFIX "/misc/"
     BASE "${CMAKE_CURRENT_LIST_DIR}/misc"
     FILES
-        ${ICON_FILES}
-        ${CMAKE_SOURCE_DIR}/misc/across_example.json
-        ${CMAKE_SOURCE_DIR}/misc/across.proto
-)
+    ${ICON_FILES}
+    ${CMAKE_SOURCE_DIR}/misc/across_example.json
+    ${CMAKE_SOURCE_DIR}/misc/across.proto
+    )
 
 qt_import_qml_plugins(across)
 qt_finalize_executable(across)
