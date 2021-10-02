@@ -65,6 +65,9 @@ DBTools::reload()
       p_logger->error("Failed to create runtime table: {}",
                       result.text().toStdString());
       break;
+    } else {
+      createRuntimeValue("CURRENT_GROUP_ID", "0");
+      createRuntimeValue("CURRENT_NODE_ID", "0");
     }
 
     if (result = createNodesTable("default_group");
@@ -83,10 +86,10 @@ DBTools::reload()
 }
 
 QSqlError
-DBTools::stepExec(const QVariantList& collection,
-                  const QString& sql_str,
-                  int columns,
-                  QVector<QVariantList>* collections)
+DBTools::stepExec(const QString& sql_str,
+                  QVariantList* inputCollection,
+                  int outputColumns,
+                  QVector<QVariantList>* outputCollections)
 {
   QSqlError result;
   QSqlQuery query(m_db);
@@ -98,12 +101,14 @@ DBTools::stepExec(const QVariantList& collection,
       break;
     }
 
-    for (auto& item : collection) {
-      query.addBindValue(item);
+    if (inputCollection != nullptr) {
+      for (auto& item : *inputCollection) {
+        query.addBindValue(item);
 
-      if (result = query.lastError(); result.type() != QSqlError::NoError) {
-        p_logger->error("Failed to bind: {}", result.text().toStdString());
-        break;
+        if (result = query.lastError(); result.type() != QSqlError::NoError) {
+          p_logger->error("Failed to bind: {}", result.text().toStdString());
+          break;
+        }
       }
     }
 
@@ -114,13 +119,13 @@ DBTools::stepExec(const QVariantList& collection,
       }
     }
 
-    if (collections != nullptr) {
+    if (outputCollections != nullptr) {
       while (query.next()) {
         QVariantList temp;
-        for (auto i = 0; i < columns; ++i) {
+        for (auto i = 0; i < outputColumns; ++i) {
           temp.append(query.value(i));
         }
-        collections->append(temp);
+        outputCollections->append(temp);
       }
     }
   } while (false);
@@ -211,13 +216,13 @@ DBTools::createRuntimeTable()
 QSqlError
 DBTools::createRuntimeValue(const QString& key, const QString& value)
 {
-  QString insert_str("INSERT INTO runtime"
+  QString insert_str("INSERT OR IGNORE INTO runtime"
                      "(Key, Value)"
                      "VALUES(?,?)");
 
-  QVariantList collection = { key, value };
+  QVariantList input_collection = { key, value };
 
-  return stepExec(collection, insert_str);
+  return stepExec(insert_str, &input_collection);
 }
 
 QString
@@ -225,10 +230,12 @@ DBTools::readRuntimeValue(const QString& key)
 {
   QString select_str("SELECT Value FROM runtime WHERE Key = ?");
 
-  QVector<QVariantList> collections;
-  if (auto result = stepExec({ key }, select_str, 1, &collections);
+  QVector<QVariantList> output_collections;
+  QVariantList input_collection = { key };
+  if (auto result =
+        stepExec(select_str, &input_collection, 1, &output_collections);
       result.type() == QSqlError::NoError) {
-    return collections.first().first().toString();
+    return output_collections.first().first().toString();
   }
   return QString();
 }
@@ -236,13 +243,19 @@ DBTools::readRuntimeValue(const QString& key)
 QSqlError
 DBTools::updateRuntimeValue(const QString& key, const QString& value)
 {
-  return QSqlError();
+  QString update_str("UPDATE runtime SET Value = ? WHERE Key = ?");
+  QVariantList input_collection = { value, key };
+
+  return stepExec(update_str, &input_collection);
 }
 
 QSqlError
 DBTools::deleteRuntimeValue(const QString& key)
 {
-  return QSqlError();
+  QString delete_str("DELETE FROM runtime WHERE Key = ?");
+  QVariantList input_collection = { key };
+
+  return stepExec(delete_str, &input_collection);
 }
 
 bool
@@ -294,7 +307,7 @@ DBTools::insert(NodeInfo& node)
   }
 
   qint64 group_id = node.group_id;
-  QVariantList collection = {
+  QVariantList input_collection = {
     node.name,
     node.group,
     group_id,
@@ -308,7 +321,7 @@ DBTools::insert(NodeInfo& node)
     node.modified_time.toSecsSinceEpoch(),
   };
 
-  if (result = stepExec(collection, insert_str);
+  if (result = stepExec(insert_str, &input_collection);
       result.type() == QSqlError::NoError)
     node.id = getLastID();
 
@@ -333,12 +346,12 @@ DBTools::insert(GroupInfo& group)
     group.modified_time = QDateTime::currentDateTime();
   }
 
-  QVariantList collections = {
+  QVariantList input_collection = {
     group.name,       group.isSubscription, group.type,          group.url,
     group.cycle_time, group.created_time,   group.modified_time,
   };
 
-  if (result = stepExec(collections, insert_str);
+  if (result = stepExec(insert_str, &input_collection);
       result.type() == QSqlError::NoError) {
     group.id = getLastID();
   }
@@ -367,12 +380,12 @@ DBTools::update(GroupInfo& group)
                      "WHERE ID = ?;");
 
   qint64 group_id = group.id;
-  QVariantList collection = {
+  QVariantList input_collection = {
     group.name,       group.isSubscription, group.type, group.url,
     group.cycle_time, group.modified_time,  group_id,
   };
 
-  return stepExec(collection, update_str);
+  return stepExec(update_str, &input_collection);
 }
 
 QSqlError
@@ -380,17 +393,19 @@ DBTools::removeItemFromID(const QString& group_name, int64_t id)
 {
   QString remove_str = QString("DELETE FROM '%1' WHERE id = ?").arg(group_name);
   qint64 node_id = id;
+  QVariantList input_collection = { node_id };
 
-  return stepExec({ node_id }, remove_str);
+  return stepExec(remove_str, &input_collection);
 }
 
 QSqlError
 DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
 {
   QString remove_str("DELETE FROM groups WHERE name = ?");
+  QVariantList input_collection = { group_name };
 
   if (!keep_group) {
-    if (auto result = stepExec({ group_name }, remove_str);
+    if (auto result = stepExec(remove_str, &input_collection);
         result.type() != QSqlError::NoError) {
       p_logger->error("Failed to remove {}", group_name.toStdString());
 
@@ -420,7 +435,7 @@ DBTools::listAllGroupsInfo()
   std::vector<GroupInfo> groups;
   QVector<QVariantList> collections;
 
-  if (auto result = stepExec(QVariantList(), select_str, 8, &collections);
+  if (auto result = stepExec(select_str, nullptr, 8, &collections);
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to list all groups");
   } else {
@@ -463,7 +478,7 @@ DBTools::listAllNodesInfo(const QString& group_name)
   QString select_str =
     QString("SELECT * FROM '%1'").arg(group_name.toHtmlEscaped());
 
-  if (auto result = stepExec(QVariantList(), select_str, 12, &collections);
+  if (auto result = stepExec(select_str, nullptr, 12, &collections);
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to list all nodes");
   } else {

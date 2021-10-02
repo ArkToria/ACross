@@ -81,10 +81,10 @@ public:
 
   void reload();
 
-  QSqlError stepExec(const QVariantList& collection,
-                     const QString& sql_str,
-                     int columns = 0,
-                     QVector<QVariantList>* collections = nullptr);
+  QSqlError stepExec(const QString& sql_str,
+                     QVariantList* inputCollection = nullptr,
+                     int outputColumns = 0,
+                     QVector<QVariantList>* outputCollections = nullptr);
 
   QSqlError createDefaultGroup();
 
