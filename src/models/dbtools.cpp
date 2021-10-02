@@ -66,7 +66,9 @@ DBTools::reload()
 }
 
 int
-DBTools::insertStepExec(const QVariantList& collections, const QString& sql_str)
+DBTools::stepExec(const QVariantList& collection,
+                  const QString& sql_str,
+                  QVector<QVariantList>* collections)
 {
   int result = SQLITE_OK;
   sqlite3_stmt* stmt;
@@ -79,48 +81,80 @@ DBTools::insertStepExec(const QVariantList& collections, const QString& sql_str)
       break;
     }
 
-    for (auto i = 0; i < collections.size(); ++i) {
-      auto item = collections.at(i);
-      auto index = i + 1;
+    if (collections == nullptr) {
+      for (auto i = 0; i < collection.size(); ++i) {
+        auto item = collection.at(i);
+        auto index = i + 1;
 
-      switch (item.typeId()) {
-        case QMetaType::UInt:
-        case QMetaType::Bool:
-        case QMetaType::Int:
-          result = sqlite3_bind_int(stmt, index, item.toInt());
-          break;
-        case QMetaType::LongLong:
-          result = sqlite3_bind_int64(stmt, index, item.toLongLong());
-          break;
-        case QMetaType::QDateTime:
-          result = sqlite3_bind_int64(
-            stmt, index, item.toDateTime().toSecsSinceEpoch());
-          break;
-        case QMetaType::QString:
-          result = sqlite3_bind_text(stmt,
-                                     index,
-                                     item.toString().toStdString().c_str(),
-                                     -1,
-                                     SQLITE_TRANSIENT);
-          break;
-        default:
-          p_logger->error("Unknown value type: {}", item.typeId());
-          break;
-      }
+        switch (item.typeId()) {
+          case QMetaType::UInt:
+          case QMetaType::Bool:
+          case QMetaType::Int:
+            result = sqlite3_bind_int(stmt, index, item.toInt());
+            break;
+          case QMetaType::LongLong:
+            result = sqlite3_bind_int64(stmt, index, item.toLongLong());
+            break;
+          case QMetaType::QDateTime:
+            result = sqlite3_bind_int64(
+              stmt, index, item.toDateTime().toSecsSinceEpoch());
+            break;
+          case QMetaType::QString:
+            result = sqlite3_bind_text(stmt,
+                                       index,
+                                       item.toString().toStdString().c_str(),
+                                       -1,
+                                       SQLITE_TRANSIENT);
+            break;
+          default:
+            p_logger->error("Unknown value type: {}", item.typeId());
+            break;
+        }
 
-      if (result != SQLITE_OK) {
-        p_logger->error("SQL bind error code: {}", result);
-        break;
+        if (result != SQLITE_OK) {
+          p_logger->error("SQL bind error code: {}", result);
+          break;
+        }
       }
     }
 
     sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-    {
+    if (collections == nullptr) {
       result = sqlite3_step(stmt);
+    } else {
+      auto temp = collection;
+
+      while ((result = sqlite3_step(stmt)) == SQLITE_ROW) {
+        for (auto i = 0; i < temp.size(); ++i) {
+          auto& item = temp[i];
+
+          switch (item.typeId()) {
+            case QMetaType::Bool:
+            case QMetaType::Int:
+              item = sqlite3_column_int(stmt, i);
+              break;
+            case QMetaType::LongLong:
+              item = sqlite3_column_int64(stmt, i);
+              break;
+            case QMetaType::QDateTime:
+              item =
+                QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, i));
+              break;
+            case QMetaType::QString:
+              item =
+                reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
+            default:
+              p_logger->error("Unknown value type: {}", item.typeId());
+              break;
+          }
+        }
+        collections->append(temp);
+      }
     }
+
     sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
     if (result != SQLITE_DONE) {
-      p_logger->error("SQL group insert step error code: {}", result);
+      p_logger->error("SQL group step error code: {}", result);
     }
 
     result = sqlite3_reset(stmt);
@@ -164,8 +198,13 @@ int
 DBTools::createDefaultGroup()
 {
   int result = SQLITE_OK;
-  GroupInfo default_group{ 0, "default_group" };
-  result = this->insert(default_group);
+  const QString default_group_str("default_group");
+
+  if (!isGroupExists(default_group_str)) {
+    GroupInfo default_group{ .name = default_group_str };
+    result = this->insert(default_group);
+  }
+
   return result;
 }
 
@@ -242,7 +281,7 @@ DBTools::createRuntimeValue(const QString& key, const QString& value)
 
   QVariantList collections = { key, value };
 
-  result = insertStepExec(collections, insert_str);
+  result = stepExec(collections, insert_str);
   return result;
 }
 
@@ -319,36 +358,41 @@ DBTools::isTableExists(const QStringList& table_names)
 bool
 DBTools::isGroupExists(const QString& group_name)
 {
-  QString check_str =
-    QString("SELECT Name FROM groups WHERE Name = '%1';").arg(group_name);
-
-  int err = SQLITE_OK;
-  bool result = false;
+  int result = SQLITE_OK;
+  bool is_exists = false;
   sqlite3_stmt* stmt = nullptr;
+  QString check_str("SELECT Name FROM groups WHERE Name = ?;");
 
   do {
-    err = sqlite3_prepare_v2(
+    result = sqlite3_prepare_v2(
       m_db, check_str.toStdString().c_str(), -1, &stmt, nullptr);
-    if (err != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", err);
+    if (result != SQLITE_OK) {
+      p_logger->error("SQL prepare error code: {}", result);
       break;
     }
 
-    err = sqlite3_step(stmt);
-    if (err == SQLITE_ROW) {
-      result = true;
+    result = sqlite3_bind_text(
+      stmt, 1, group_name.toStdString().c_str(), -1, SQLITE_TRANSIENT);
+    if (result != SQLITE_OK) {
+      p_logger->error("SQL bind error code: {}", result);
+      break;
+    }
+
+    result = sqlite3_step(stmt);
+    if (result == SQLITE_ROW) {
+      is_exists = true;
       break;
     }
   } while (false);
 
   if (stmt != nullptr) {
-    err = sqlite3_finalize(stmt);
-    if (err != SQLITE_OK) {
-      p_logger->error("SQL stmt finalize error code: {}", err);
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      p_logger->error("SQL stmt finalize error code: {}", result);
     }
   }
 
-  return result;
+  return is_exists;
 }
 
 int
@@ -356,7 +400,7 @@ DBTools::insert(NodeInfo& node)
 {
   auto result = SQLITE_OK;
   QString insert_str =
-    QString("INSERT INTO '%1' "
+    QString("INSERT INTO \"%1\" "
             "(Name, GroupName, GroupID, Protocol, Address, Port, "
             "Password, Raw, URL, CreatedAt, ModifiedAt) "
             "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
@@ -377,7 +421,7 @@ DBTools::insert(NodeInfo& node)
     node.url,     node.created_time, node.modified_time,
   };
 
-  if (result = insertStepExec(collections, insert_str); result == SQLITE_OK)
+  if (result = stepExec(collections, insert_str); result == SQLITE_OK)
     node.id = getLastID();
 
   return result;
@@ -405,7 +449,7 @@ DBTools::insert(GroupInfo& group)
     group.cycle_time, group.created_time,   group.modified_time,
   };
 
-  if (result = insertStepExec(collections, insert_str); result == SQLITE_OK)
+  if (result = stepExec(collections, insert_str); result == SQLITE_OK)
     group.id = getLastID();
 
   return result;
@@ -420,29 +464,19 @@ DBTools::getLastID()
 int
 DBTools::update(GroupInfo& group)
 {
-  char* err_msg;
-  QString update_str =
-    QString("UPDATE groups SET "
-            "Name = '%1', IsSubscription = '%2', Type = '%3', "
-            "Url = '%4', CycleTime = '%5', ModifiedAt = '%6' "
-            "WHERE ID = '%7';")
-      .arg(group.name)
-      .arg(group.isSubscription)
-      .arg(group.type)
-      .arg(group.url)
-      .arg(group.cycle_time)
-      .arg(group.modified_time.toSecsSinceEpoch())
-      .arg(group.id);
-  std::string update = update_str.toStdString();
+  auto result = SQLITE_OK;
+  QString update_str("UPDATE groups SET "
+                     "Name = ?, IsSubscription = ?, Type = ?, "
+                     "Url = ?, CycleTime = ?, ModifiedAt = ? "
+                     "WHERE ID = ?;");
 
-  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-  auto result = sqlite3_exec(m_db, update.c_str(), NULL, NULL, &err_msg);
-  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+  qint64 group_id = group.id;
+  QVariantList collections = {
+    group.name,       group.isSubscription, group.type, group.url,
+    group.cycle_time, group.modified_time,  group_id,
+  };
 
-  if (result != SQLITE_OK) {
-    p_logger->error("Update: {}", err_msg);
-    sqlite3_free(err_msg);
-  }
+  result = stepExec(collections, update_str);
 
   return result;
 }
@@ -450,50 +484,35 @@ DBTools::update(GroupInfo& group)
 int
 DBTools::removeItemFromID(const QString& group_name, int64_t id)
 {
-  char* err_msg;
-  QString remove_str =
-    QString("DELETE FROM '%1' WHERE id = '%2'").arg(group_name).arg(id);
-  std::string remove = remove_str.toStdString();
+  auto result = SQLITE_OK;
+  QString remove_str = QString("DELETE FROM '%1' WHERE id = ?").arg(group_name);
+  qint64 node_id = id;
 
-  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-  auto result = sqlite3_exec(m_db, remove.c_str(), NULL, NULL, &err_msg);
-  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
-
-  if (result != SQLITE_OK) {
-    p_logger->error(
-      "Failed to remove {}[{}]: {}", group_name.toStdString(), id, err_msg);
-    sqlite3_free(err_msg);
-  }
-
+  result = stepExec({ node_id }, remove_str);
   return result;
 }
 
 int
 DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
 {
-  char* err_msg;
   auto result = SQLITE_OK;
-  auto remove_str =
-    QString("DELETE FROM groups WHERE name = '%1'").arg(group_name);
+  QString remove_str("DELETE FROM groups WHERE name = ?");
   auto drop_table_str = QString("DROP TABLE '%1'").arg(group_name);
 
   if (!keep_group) {
-    sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-    result = sqlite3_exec(
-      m_db, remove_str.toStdString().c_str(), NULL, NULL, &err_msg);
-    sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
-
-    if (result != SQLITE_OK) {
-      p_logger->error(
-        "Failed to remove {}: {}", group_name.toStdString(), err_msg);
-      sqlite3_free(err_msg);
+    if (result = stepExec({ group_name }, remove_str); result != SQLITE_OK) {
+      p_logger->error("Failed to remove {}", group_name.toStdString());
 
       return result;
     }
   }
 
+  char* err_msg;
+  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
   result = sqlite3_exec(
     m_db, drop_table_str.toStdString().c_str(), NULL, NULL, &err_msg);
+  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+
   if (result != SQLITE_OK) {
     p_logger->error("Failed to remove nodes from group {}: {}",
                     group_name.toStdString(),
@@ -507,59 +526,53 @@ DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
 std::vector<GroupInfo>
 DBTools::listAllGroupsInfo()
 {
-  return listGroupsInfo(QString("SELECT * FROM groups;"));
-}
-
-std::vector<GroupInfo>
-DBTools::listGroupsInfo(const QString& select_str)
-{
   int result;
-  sqlite3_stmt* stmt;
+  GroupInfo temp;
+  qint64 group_id;
+  QString select_str("SELECT * FROM groups;");
   std::vector<GroupInfo> groups;
 
-  do {
-    result = sqlite3_prepare_v2(
-      m_db, select_str.toStdString().c_str(), -1, &stmt, nullptr);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", result);
-      break;
-    }
+  QVariantList collection = {
+    group_id, temp.name,       temp.isSubscription, temp.type,
+    temp.url, temp.cycle_time, temp.created_time,   temp.modified_time
+  };
 
-    while ((result = sqlite3_step(stmt)) == SQLITE_ROW) {
+  QVector<QVariantList> collections;
+
+  result = stepExec(collection, select_str, &collections);
+  if (result != SQLITE_OK) {
+    p_logger->error("Failed to list all groups");
+  } else {
+    for (auto& item : collections) {
       GroupInfo group;
-
-      group.id = sqlite3_column_int64(stmt, 0);
-      group.name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-      group.isSubscription = sqlite3_column_int(stmt, 2);
-      group.type =
-        magic_enum::enum_value<SubscriptionType>(sqlite3_column_int(stmt, 3));
-      group.url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 4));
-      group.cycle_time = sqlite3_column_int(stmt, 5);
-      group.created_time =
-        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 6));
-      group.modified_time =
-        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 7));
+      group.id = item.at(0).toLongLong();
+      group.name = item.at(1).toString();
+      group.isSubscription = item.at(2).toBool();
+      group.type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt());
+      group.url = item.at(4).toString();
+      group.cycle_time = item.at(5).toInt();
+      group.created_time = item.at(6).toDateTime();
+      group.modified_time = item.at(7).toDateTime();
       group.items = listAllNodesInfo(group.name).size();
 
       groups.emplace_back(group);
     }
+  }
 
-    if (result != SQLITE_DONE) {
-      p_logger->error("SQL select error code: {}", sqlite3_errmsg(m_db));
-    }
-
-    result = sqlite3_finalize(stmt);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL stmt finalize error code: {}", result);
-    }
-  } while (false);
+  m_all_groups_info = groups;
   return groups;
+}
+
+std::vector<GroupInfo>
+DBTools::getAllGroupsInfo()
+{
+  return m_all_groups_info;
 }
 
 std::vector<NodeInfo>
 DBTools::listAllNodesInfo(const QString& group_name)
 {
-  QString select_str = QString("SELECT * FROM '%1';").arg(group_name);
+  QString select_str = QString("SELECT * FROM \"%1\";").arg(group_name);
 
   return listNodesInfo(select_str);
 }
@@ -618,7 +631,7 @@ std::map<int, NodesInfo>
 DBTools::listAllNodes()
 {
   std::map<int, NodesInfo> all_nodes;
-  for (auto& item : listAllGroupsInfo()) {
+  for (auto& item : m_all_groups_info) {
     auto nodes = listAllNodesInfo(item.name);
 
     // group id, { current node id, current index, nodes }

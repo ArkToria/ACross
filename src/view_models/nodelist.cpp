@@ -122,7 +122,7 @@ NodeList::appendNode(NodeInfo node)
 {
   node.group_id = displayGroupID();
 
-  auto groups = p_db->listAllGroupsInfo();
+  auto groups = p_db->getAllGroupsInfo();
 
   for (auto& item : groups) {
     if (item.id == node.group_id) {

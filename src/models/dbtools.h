@@ -79,7 +79,9 @@ public:
 
   void reload();
 
-  int insertStepExec(const QVariantList& collections, const QString& sql_str);
+  int stepExec(const QVariantList& collection,
+               const QString& sql_str,
+               QVector<QVariantList>* collections = nullptr);
 
   int setPragma();
 
@@ -117,6 +119,8 @@ public:
 
   std::vector<GroupInfo> listAllGroupsInfo();
 
+  std::vector<GroupInfo> getAllGroupsInfo();
+
   std::vector<NodeInfo> listAllNodesInfo(const QString& group_name);
 
   std::map<int, NodesInfo> listAllNodes();
@@ -131,8 +135,8 @@ signals:
 
 private:
   int createTable(const QString& create_str);
-  std::vector<GroupInfo> listGroupsInfo(const QString& select_str);
   std::vector<NodeInfo> listNodesInfo(const QString& select_str);
+  std::vector<GroupInfo> m_all_groups_info;
 
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;
