@@ -19,6 +19,7 @@ DBTools::init(QSharedPointer<LogView> log_view,
   p_config = config;
 
   reload();
+  readRuntimeValue("CURRENT_GROUP_ID");
 }
 
 void
@@ -214,14 +215,21 @@ DBTools::createRuntimeValue(const QString& key, const QString& value)
                      "(Key, Value)"
                      "VALUES(?,?)");
 
-  QVariantList collections = { key, value };
+  QVariantList collection = { key, value };
 
-  return stepExec(collections, insert_str);
+  return stepExec(collection, insert_str);
 }
 
 QString
 DBTools::readRuntimeValue(const QString& key)
 {
+  QString select_str("SELECT Value FROM runtime WHERE Key = ?");
+
+  QVector<QVariantList> collections;
+  if (auto result = stepExec({ key }, select_str, 1, &collections);
+      result.type() == QSqlError::NoError) {
+    return collections.first().first().toString();
+  }
   return QString();
 }
 
@@ -275,7 +283,7 @@ DBTools::insert(NodeInfo& node)
             "(Name, GroupName, GroupID, Protocol, Address, Port, "
             "Password, Raw, URL, CreatedAt, ModifiedAt) "
             "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
-      .arg(node.group);
+      .arg(node.group.toHtmlEscaped());
 
   if (node.created_time.isNull()) {
     node.created_time = QDateTime::currentDateTime();
@@ -286,7 +294,7 @@ DBTools::insert(NodeInfo& node)
   }
 
   qint64 group_id = node.group_id;
-  QVariantList collections = {
+  QVariantList collection = {
     node.name,
     node.group,
     group_id,
@@ -300,7 +308,7 @@ DBTools::insert(NodeInfo& node)
     node.modified_time.toSecsSinceEpoch(),
   };
 
-  if (result = stepExec(collections, insert_str);
+  if (result = stepExec(collection, insert_str);
       result.type() == QSqlError::NoError)
     node.id = getLastID();
 
