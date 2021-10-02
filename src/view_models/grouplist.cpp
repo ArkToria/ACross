@@ -53,13 +53,14 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
 
   bool insert_result = false;
   do {
-    if (auto err = p_db->insert(group_info); err != SQLITE_OK) {
+    if (auto err = p_db->insert(group_info); err.type() != QSqlError::NoError) {
       p_logger->error("Failed to insert group: {}",
                       group_info.name.toStdString());
       break;
     }
 
-    if (auto err = p_db->createNodesTable(group_info.name); err != SQLITE_OK) {
+    if (auto err = p_db->createNodesTable(group_info.name);
+        err.type() != QSqlError::NoError) {
       p_logger->error("Failed to create table: {}",
                       group_info.name.toStdString());
       break;
@@ -276,11 +277,12 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
   };
 
   do {
-    if (auto err = p_db->insert(group_info); err != SQLITE_OK) {
+    if (auto err = p_db->insert(group_info); err.type() != QSqlError::NoError) {
       break;
     }
 
-    if (auto err = p_db->createNodesTable(group_info.name); err != SQLITE_OK) {
+    if (auto err = p_db->createNodesTable(group_info.name);
+        err.type() != QSqlError::NoError) {
       p_logger->error("Failed to create table: {}",
                       group_info.name.toStdString());
       break;
@@ -364,20 +366,21 @@ GroupList::handleUpdated(const QVariant& content)
     if (task.filename == item.name) {
       item.modified_time = QDateTime::currentDateTime();
       do {
-        if (auto err = p_db->update(item); err != SQLITE_OK) {
+        if (auto err = p_db->update(item); err.type() != QSqlError::NoError) {
           p_logger->error("Failed to update group: {}",
                           item.name.toStdString());
           break;
         }
 
         if (auto err = p_db->removeGroupFromName(item.name, true);
-            err != SQLITE_OK) {
+            err.type() != QSqlError::NoError) {
           p_logger->error("Failed to remove old table: {}",
                           item.name.toStdString());
           break;
         }
 
-        if (auto err = p_db->createNodesTable(item.name); err != SQLITE_OK) {
+        if (auto err = p_db->createNodesTable(item.name);
+            err.type() != QSqlError::NoError) {
           p_logger->error("Failed to create new table: {}",
                           item.name.toStdString());
           break;

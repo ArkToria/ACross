@@ -6,9 +6,11 @@
 
 #include <QDateTime>
 #include <QMap>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
 
 #include "magic_enum.hpp"
-#include "sqlite3.h"
 
 namespace across {
 enum SubscriptionType : int
@@ -79,43 +81,45 @@ public:
 
   void reload();
 
-  int stepExec(const QVariantList& collection,
-               const QString& sql_str,
-               QVector<QVariantList>* collections = nullptr);
+  QSqlError stepExec(const QVariantList& collection,
+                     const QString& sql_str,
+                     int columns = 0,
+                     QVector<QVariantList>* collections = nullptr);
 
-  int setPragma();
+  QSqlError createDefaultGroup();
 
-  int createDefaultGroup();
+  QSqlError createGroupsTable();
 
-  int createGroupsTable();
+  QSqlError createNodesTable(const QString& group_name);
 
-  int createNodesTable(const QString& group_name);
+  QSqlError createRuntimeTable();
 
-  int createRuntimeTable();
-
-  int createRuntimeValue(const QString& key, const QString& value);
+  QSqlError createRuntimeValue(const QString& key, const QString& value);
 
   QString readRuntimeValue(const QString& key);
 
-  int updateRuntimeValue(const QString& key, const QString& value);
+  QSqlError updateRuntimeValue(const QString& key, const QString& value);
 
-  int deleteRuntimeValue(const QString& key);
+  QSqlError deleteRuntimeValue(const QString& key);
 
-  bool isTableExists(const QStringList& table_names);
+  bool isTableExists(const QString& table_name);
 
   bool isGroupExists(const QString& group_name);
 
-  int insert(NodeInfo& node);
+  QSqlError insert(NodeInfo& node);
 
-  int insert(GroupInfo& group);
+  QSqlError insert(GroupInfo& group);
 
   int64_t getLastID();
 
-  int update(GroupInfo& group);
+  QSqlError update(GroupInfo& group);
 
-  int removeItemFromID(const QString& group_name, int64_t id);
+  QSqlError removeItemFromID(const QString& group_name, int64_t id);
 
-  int removeGroupFromName(const QString& group_name, bool keep_group = false);
+  QSqlError removeGroupFromName(const QString& group_name,
+                                bool keep_group = false);
+
+  QSqlError dropTable(const QString& table_name);
 
   std::vector<GroupInfo> listAllGroupsInfo();
 
@@ -125,8 +129,6 @@ public:
 
   std::map<int, NodesInfo> listAllNodes();
 
-  const QString getLibVersion();
-
 public slots:
   void close();
 
@@ -134,14 +136,13 @@ signals:
   void destroy();
 
 private:
-  int createTable(const QString& create_str);
-  std::vector<NodeInfo> listNodesInfo(const QString& select_str);
+  QSqlError createTable(const QString& create_str);
   std::vector<GroupInfo> m_all_groups_info;
 
 private:
+  QSqlDatabase m_db;
   std::shared_ptr<across::utils::LogTools> p_logger;
   QSharedPointer<across::setting::ConfigTools> p_config = nullptr;
-  sqlite3* m_db = nullptr;
 };
 }
 

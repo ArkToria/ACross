@@ -131,7 +131,7 @@ NodeList::appendNode(NodeInfo node)
     }
   }
 
-  if (auto err = p_db->insert(node); err != SQLITE_OK) {
+  if (auto err = p_db->insert(node); err.type() != QSqlError::NoError) {
     p_logger->error("Failed to add node: {}", node.name.toStdString());
   } else {
     reloadItems();
@@ -146,7 +146,7 @@ NodeList::removeCurrentNode(int id)
   for (auto& item : m_items) {
     if (item.id == id) {
       auto result = p_db->removeItemFromID(item.group, item.id);
-      if (result == SQLITE_OK) {
+      if (result.type() == QSqlError::NoError) {
         reloadItems();
         emit itemsSizeChanged(item.group_id, m_items.size());
       }

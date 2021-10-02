@@ -30,205 +30,132 @@ DBTools::reload()
     if (p_config == nullptr)
       break;
 
-    auto db_path = p_config->dbPath().toStdString();
-    if (db_path.empty()) {
+    auto db_path = p_config->dbPath();
+    if (db_path.isEmpty()) {
       p_logger->error("Failed to load database on path");
       break;
     } else {
-      p_logger->info("Open database on path: {}", db_path);
+      p_logger->info("Open database on path: {}", db_path.toStdString());
     }
 
-    auto result = SQLITE_OK;
-
-    if (result = sqlite3_open(db_path.c_str(), &m_db); result != SQLITE_OK) {
-      p_logger->error("SQL open error code: {}", result);
-      break;
+    QSqlError result;
+    if (QSqlDatabase::isDriverAvailable("QSQLITE")) {
+      m_db = QSqlDatabase::addDatabase("QSQLITE");
+      m_db.setDatabaseName(db_path);
+      if (!m_db.open()) {
+        p_logger->error("Failed to open database");
+        break;
+      } else {
+        p_logger->info("Opened successfully");
+      }
     } else {
-      p_logger->info("SQL opened successfully");
+      p_logger->error("Database driver is unavailable: {}",
+                      m_db.driverName().toStdString());
+      break;
     }
 
-    if (result = setPragma(); result != SQLITE_OK)
+    if (result = createGroupsTable(); result.type() != QSqlError::NoError) {
+      p_logger->error("Failed to create groups table: {}",
+                      result.text().toStdString());
       break;
+    }
 
-    if (result = createGroupsTable(); result != SQLITE_OK)
+    if (result = createRuntimeTable(); result.type() != QSqlError::NoError) {
+      p_logger->error("Failed to create runtime table: {}",
+                      result.text().toStdString());
       break;
+    }
 
-    if (result = createRuntimeTable(); result != SQLITE_OK)
+    if (result = createNodesTable("default_group");
+        result.type() != QSqlError::NoError) {
+      p_logger->error("Failed to create default_group table: {}",
+                      result.text().toStdString());
       break;
+    }
 
-    if (result = createNodesTable("default_group"); result != SQLITE_OK)
+    if (result = createDefaultGroup(); result.type() != QSqlError::NoError) {
+      p_logger->error("Failed to insert default_group to groups table: {}",
+                      result.text().toStdString());
       break;
-
-    if (result = createDefaultGroup(); result != SQLITE_OK)
-      break;
-
+    }
   } while (false);
 }
 
-int
+QSqlError
 DBTools::stepExec(const QVariantList& collection,
                   const QString& sql_str,
+                  int columns,
                   QVector<QVariantList>* collections)
 {
-  int result = SQLITE_OK;
-  sqlite3_stmt* stmt;
+  QSqlError result;
+  QSqlQuery query(m_db);
 
   do {
-    auto step_str = sql_str.toStdString();
-    result = sqlite3_prepare_v2(m_db, step_str.c_str(), -1, &stmt, nullptr);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", result);
+    if (!query.prepare(sql_str)) {
+      p_logger->error("Failed to prepared: {}",
+                      query.lastError().text().toStdString());
       break;
     }
 
-    if (collections == nullptr) {
-      for (auto i = 0; i < collection.size(); ++i) {
-        auto item = collection.at(i);
-        auto index = i + 1;
+    for (auto& item : collection) {
+      query.addBindValue(item);
 
-        switch (item.typeId()) {
-          case QMetaType::UInt:
-          case QMetaType::Bool:
-          case QMetaType::Int:
-            result = sqlite3_bind_int(stmt, index, item.toInt());
-            break;
-          case QMetaType::LongLong:
-            result = sqlite3_bind_int64(stmt, index, item.toLongLong());
-            break;
-          case QMetaType::QDateTime:
-            result = sqlite3_bind_int64(
-              stmt, index, item.toDateTime().toSecsSinceEpoch());
-            break;
-          case QMetaType::QString:
-            result = sqlite3_bind_text(stmt,
-                                       index,
-                                       item.toString().toStdString().c_str(),
-                                       -1,
-                                       SQLITE_TRANSIENT);
-            break;
-          default:
-            p_logger->error("Unknown value type: {}", item.typeId());
-            break;
-        }
-
-        if (result != SQLITE_OK) {
-          p_logger->error("SQL bind error code: {}", result);
-          break;
-        }
+      if (result = query.lastError(); result.type() != QSqlError::NoError) {
+        p_logger->error("Failed to bind: {}", result.text().toStdString());
+        break;
       }
     }
 
-    sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-    if (collections == nullptr) {
-      result = sqlite3_step(stmt);
-    } else {
-      auto temp = collection;
+    if (!query.exec()) {
+      if (result = query.lastError(); result.type() != QSqlError::NoError) {
+        p_logger->error("Failed to step: {}", result.text().toStdString());
+        break;
+      }
+    }
 
-      while ((result = sqlite3_step(stmt)) == SQLITE_ROW) {
-        for (auto i = 0; i < temp.size(); ++i) {
-          auto& item = temp[i];
-
-          switch (item.typeId()) {
-            case QMetaType::Bool:
-            case QMetaType::Int:
-              item = sqlite3_column_int(stmt, i);
-              break;
-            case QMetaType::LongLong:
-              item = sqlite3_column_int64(stmt, i);
-              break;
-            case QMetaType::QDateTime:
-              item =
-                QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, i));
-              break;
-            case QMetaType::QString:
-              item =
-                reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
-            default:
-              p_logger->error("Unknown value type: {}", item.typeId());
-              break;
-          }
+    if (collections != nullptr) {
+      while (query.next()) {
+        QVariantList temp;
+        for (auto i = 0; i < columns; ++i) {
+          temp.append(query.value(i));
         }
         collections->append(temp);
       }
     }
-
-    sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
-    if (result != SQLITE_DONE) {
-      p_logger->error("SQL group step error code: {}", result);
-    }
-
-    result = sqlite3_reset(stmt);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL stmt reset error code: {}", result);
-    }
-
-    result = sqlite3_finalize(stmt);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL stmt finalize error code: {}", result);
-    }
   } while (false);
 
   return result;
 }
 
-int
-DBTools::setPragma()
-{
-  char* err_msg;
-  auto result = SQLITE_OK;
-  std::string init_str{ "PRAGMA encoding='UTF-8';"
-                        "PRAGMA synchronous=OFF;"
-                        "PRAGMA count_changes=OFF;"
-                        "PRAGMA journal_mode=MEMORY;"
-                        "PRAGMA temp_store=MEMORY;"
-                        "PRAGMA sql_self_updates=1" };
-
-  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-  result = sqlite3_exec(m_db, init_str.c_str(), NULL, NULL, &err_msg);
-  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
-  if (result != SQLITE_OK) {
-    p_logger->error("SQL initialization error code: {}", err_msg);
-    sqlite3_free(err_msg);
-  }
-
-  return result;
-}
-
-int
+QSqlError
 DBTools::createDefaultGroup()
 {
-  int result = SQLITE_OK;
-  const QString default_group_str("default_group");
+  QSqlError result;
+  const QString default_group("default_group");
 
-  if (!isGroupExists(default_group_str)) {
-    GroupInfo default_group{ .name = default_group_str };
-    result = this->insert(default_group);
+  if (!isGroupExists(default_group)) {
+    GroupInfo group = { .name = default_group };
+    result = this->insert(group);
   }
 
   return result;
 }
 
-int
+QSqlError
 DBTools::createTable(const QString& create_str)
 {
-  char* err_msg;
-  auto result = SQLITE_OK;
-
-  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-  result =
-    sqlite3_exec(m_db, create_str.toStdString().c_str(), nullptr, 0, &err_msg);
-  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
-
-  if (result != SQLITE_OK) {
-    p_logger->error("SQL create table error: {}", err_msg);
-    sqlite3_free(err_msg);
-  }
-  return result;
+  QSqlQuery query(m_db);
+  query.exec(create_str);
+  return query.lastError();
 }
 
-int
+QSqlError
 DBTools::createGroupsTable()
 {
+  if (isTableExists("groups")) {
+    return QSqlError();
+  }
+
   QString create_groups_str("CREATE TABLE IF NOT EXISTS groups("
                             "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                             "Name TEXT UNIQUE,"
@@ -241,9 +168,13 @@ DBTools::createGroupsTable()
   return createTable(create_groups_str);
 }
 
-int
+QSqlError
 DBTools::createNodesTable(const QString& group_name)
 {
+  if (isTableExists(group_name)) {
+    return QSqlError();
+  }
+
   QString create_nodes_str = QString("CREATE TABLE IF NOT EXISTS '%1'("
                                      "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                                      "Name TEXT NOT NULL,"
@@ -256,149 +187,89 @@ DBTools::createNodesTable(const QString& group_name)
                                      "Raw TEXT NOT NULL,"
                                      "URL TEXT,"
                                      "CreatedAt INT64 NOT NULL,"
-                                     "ModifiedAt INT64 NOT NULL);")
-                               .arg(group_name);
+                                     "ModifiedAt INT64 NOT NULL) ;")
+                               .arg(group_name.toHtmlEscaped());
+
   return createTable(create_nodes_str);
 }
 
-int
+QSqlError
 DBTools::createRuntimeTable()
 {
-  QString create_runtime_str = { "CREATE TABLE IF NOT EXISTS runtime("
+  if (isTableExists("runtime")) {
+    return QSqlError();
+  }
+
+  QString create_runtime_str = { "CREATE TABLE IF NOT EXISTS runtime ("
                                  "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                                  "Key TEXT UNIQUE NOT NULL,"
                                  "Value TEXT);" };
   return createTable(create_runtime_str);
 }
 
-int
+QSqlError
 DBTools::createRuntimeValue(const QString& key, const QString& value)
 {
-  auto result = SQLITE_OK;
   QString insert_str("INSERT INTO runtime"
                      "(Key, Value)"
                      "VALUES(?,?)");
 
   QVariantList collections = { key, value };
 
-  result = stepExec(collections, insert_str);
-  return result;
+  return stepExec(collections, insert_str);
 }
 
 QString
 DBTools::readRuntimeValue(const QString& key)
-{}
+{
+  return QString();
+}
 
-int
+QSqlError
 DBTools::updateRuntimeValue(const QString& key, const QString& value)
-{}
+{
+  return QSqlError();
+}
 
-int
+QSqlError
 DBTools::deleteRuntimeValue(const QString& key)
-{}
+{
+  return QSqlError();
+}
 
 bool
-DBTools::isTableExists(const QStringList& table_names)
+DBTools::isTableExists(const QString& table_name)
 {
-  bool result = true;
-  int err = SQLITE_OK;
-  std::string err_name;
-  sqlite3_stmt* stmt = nullptr;
-
-  for (auto& name : table_names) {
-    std::string result_name;
-    QString check_str =
-      QString("SELECT Name FROM sqlite_master WHERE Type = 'table' AND "
-              "Name = '%1';")
-        .arg(name);
-
-    err = sqlite3_prepare_v2(
-      m_db, check_str.toStdString().c_str(), -1, &stmt, nullptr);
-    if (err != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", err);
-      break;
-    }
-
-    while ((err = sqlite3_step(stmt)) == SQLITE_ROW) {
-      result_name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 0));
-    }
-
-    if (err != SQLITE_DONE) {
-      p_logger->error("SQL table exists step error code: {}", err);
-      break;
-    }
-
-    err = sqlite3_reset(stmt);
-    if (err != SQLITE_OK) {
-      p_logger->error("SQL stmt reset error code: {}", err);
-      break;
-    }
-
-    if (result_name != name.toStdString()) {
-      p_logger->warn("SQL check table `{}` doesn't exists", name.toStdString());
-      result = false;
-      break;
-    }
+  for (auto& table : m_db.tables()) {
+    if (table == table_name)
+      return true;
   }
 
-  if (stmt != nullptr) {
-    err = sqlite3_finalize(stmt);
-    if (err != SQLITE_OK) {
-      p_logger->error("SQL stmt finalize error code: {}", err);
-    }
-  }
-
-  if (err != SQLITE_OK || !err_name.empty()) {
-    result = false;
-  }
-
-  return result;
+  return false;
 }
 
 bool
 DBTools::isGroupExists(const QString& group_name)
 {
-  int result = SQLITE_OK;
-  bool is_exists = false;
-  sqlite3_stmt* stmt = nullptr;
-  QString check_str("SELECT Name FROM groups WHERE Name = ?;");
+  QSqlQuery query(m_db);
 
-  do {
-    result = sqlite3_prepare_v2(
-      m_db, check_str.toStdString().c_str(), -1, &stmt, nullptr);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", result);
-      break;
-    }
+  if (query.prepare("SELECT * FROM groups WHERE Name = ?")) {
+    query.addBindValue(group_name);
 
-    result = sqlite3_bind_text(
-      stmt, 1, group_name.toStdString().c_str(), -1, SQLITE_TRANSIENT);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_step(stmt);
-    if (result == SQLITE_ROW) {
-      is_exists = true;
-      break;
-    }
-  } while (false);
-
-  if (stmt != nullptr) {
-    result = sqlite3_finalize(stmt);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL stmt finalize error code: {}", result);
+    if (query.exec()) {
+      if (query.next()) {
+        return true;
+      }
     }
   }
 
-  return is_exists;
+  return false;
 }
 
-int
+QSqlError
 DBTools::insert(NodeInfo& node)
 {
-  auto result = SQLITE_OK;
+  QSqlError result;
   QString insert_str =
     QString("INSERT INTO \"%1\" "
             "(Name, GroupName, GroupID, Protocol, Address, Port, "
@@ -416,21 +287,31 @@ DBTools::insert(NodeInfo& node)
 
   qint64 group_id = node.group_id;
   QVariantList collections = {
-    node.name,    node.group,        group_id,           node.protocol,
-    node.address, node.port,         node.password,      node.raw,
-    node.url,     node.created_time, node.modified_time,
+    node.name,
+    node.group,
+    group_id,
+    node.protocol,
+    node.address,
+    node.port,
+    node.password,
+    node.raw,
+    node.url,
+    node.created_time.toSecsSinceEpoch(),
+    node.modified_time.toSecsSinceEpoch(),
   };
 
-  if (result = stepExec(collections, insert_str); result == SQLITE_OK)
+  if (result = stepExec(collections, insert_str);
+      result.type() == QSqlError::NoError)
     node.id = getLastID();
 
   return result;
 }
 
-int
+QSqlError
 DBTools::insert(GroupInfo& group)
 {
-  auto result = SQLITE_OK;
+  QSqlError result;
+
   QString insert_str(
     "INSERT INTO groups"
     "(Name, IsSubscription, Type, Url, CycleTime, CreatedAt, ModifiedAt)"
@@ -449,8 +330,10 @@ DBTools::insert(GroupInfo& group)
     group.cycle_time, group.created_time,   group.modified_time,
   };
 
-  if (result = stepExec(collections, insert_str); result == SQLITE_OK)
+  if (result = stepExec(collections, insert_str);
+      result.type() == QSqlError::NoError) {
     group.id = getLastID();
+  }
 
   return result;
 }
@@ -458,89 +341,79 @@ DBTools::insert(GroupInfo& group)
 int64_t
 DBTools::getLastID()
 {
-  return sqlite3_last_insert_rowid(m_db);
+  QSqlQuery query(m_db);
+
+  if (auto id = query.lastInsertId(); id.typeId() == QMetaType::LongLong) {
+    return id.toLongLong();
+  }
+
+  return 0;
 }
 
-int
+QSqlError
 DBTools::update(GroupInfo& group)
 {
-  auto result = SQLITE_OK;
   QString update_str("UPDATE groups SET "
                      "Name = ?, IsSubscription = ?, Type = ?, "
                      "Url = ?, CycleTime = ?, ModifiedAt = ? "
                      "WHERE ID = ?;");
 
   qint64 group_id = group.id;
-  QVariantList collections = {
+  QVariantList collection = {
     group.name,       group.isSubscription, group.type, group.url,
     group.cycle_time, group.modified_time,  group_id,
   };
 
-  result = stepExec(collections, update_str);
-
-  return result;
+  return stepExec(collection, update_str);
 }
 
-int
+QSqlError
 DBTools::removeItemFromID(const QString& group_name, int64_t id)
 {
-  auto result = SQLITE_OK;
   QString remove_str = QString("DELETE FROM '%1' WHERE id = ?").arg(group_name);
   qint64 node_id = id;
 
-  result = stepExec({ node_id }, remove_str);
-  return result;
+  return stepExec({ node_id }, remove_str);
 }
 
-int
+QSqlError
 DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
 {
-  auto result = SQLITE_OK;
   QString remove_str("DELETE FROM groups WHERE name = ?");
-  auto drop_table_str = QString("DROP TABLE '%1'").arg(group_name);
 
   if (!keep_group) {
-    if (result = stepExec({ group_name }, remove_str); result != SQLITE_OK) {
+    if (auto result = stepExec({ group_name }, remove_str);
+        result.type() != QSqlError::NoError) {
       p_logger->error("Failed to remove {}", group_name.toStdString());
 
       return result;
     }
   }
 
-  char* err_msg;
-  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-  result = sqlite3_exec(
-    m_db, drop_table_str.toStdString().c_str(), NULL, NULL, &err_msg);
-  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+  return dropTable(group_name);
+}
 
-  if (result != SQLITE_OK) {
-    p_logger->error("Failed to remove nodes from group {}: {}",
-                    group_name.toStdString(),
-                    err_msg);
-    sqlite3_free(err_msg);
-  }
-
-  return result;
+QSqlError
+DBTools::dropTable(const QString& table_name)
+{
+  QSqlQuery query(m_db);
+  query.prepare("DROP TABLE ?;");
+  query.addBindValue(table_name);
+  query.exec();
+  return query.lastError();
 }
 
 std::vector<GroupInfo>
 DBTools::listAllGroupsInfo()
 {
-  int result;
   GroupInfo temp;
-  qint64 group_id;
-  QString select_str("SELECT * FROM groups;");
+  qint64 group_id = -1;
+  QString select_str("SELECT * FROM groups");
   std::vector<GroupInfo> groups;
-
-  QVariantList collection = {
-    group_id, temp.name,       temp.isSubscription, temp.type,
-    temp.url, temp.cycle_time, temp.created_time,   temp.modified_time
-  };
-
   QVector<QVariantList> collections;
 
-  result = stepExec(collection, select_str, &collections);
-  if (result != SQLITE_OK) {
+  if (auto result = stepExec(QVariantList(), select_str, 8, &collections);
+      result.type() != QSqlError::NoError) {
     p_logger->error("Failed to list all groups");
   } else {
     for (auto& item : collections) {
@@ -551,11 +424,14 @@ DBTools::listAllGroupsInfo()
       group.type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt());
       group.url = item.at(4).toString();
       group.cycle_time = item.at(5).toInt();
-      group.created_time = item.at(6).toDateTime();
-      group.modified_time = item.at(7).toDateTime();
+      group.created_time =
+        QDateTime::fromSecsSinceEpoch(item.at(6).toLongLong());
+      group.modified_time =
+        QDateTime::fromSecsSinceEpoch(item.at(7).toLongLong());
       group.items = listAllNodesInfo(group.name).size();
 
-      groups.emplace_back(group);
+      if (group.id > 0)
+        groups.emplace_back(group);
     }
   }
 
@@ -572,60 +448,42 @@ DBTools::getAllGroupsInfo()
 std::vector<NodeInfo>
 DBTools::listAllNodesInfo(const QString& group_name)
 {
-  QString select_str = QString("SELECT * FROM \"%1\";").arg(group_name);
-
-  return listNodesInfo(select_str);
-}
-
-std::vector<NodeInfo>
-DBTools::listNodesInfo(const QString& select_str)
-{
-  int result;
-  sqlite3_stmt* stmt;
+  NodeInfo temp;
+  qint64 node_id;
   std::vector<NodeInfo> nodes;
+  QVector<QVariantList> collections;
+  QString select_str =
+    QString("SELECT * FROM '%1'").arg(group_name.toHtmlEscaped());
 
-  do {
-    result = sqlite3_prepare_v2(
-      m_db, select_str.toStdString().c_str(), -1, &stmt, nullptr);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", result);
-      break;
-    }
-
-    while ((result = sqlite3_step(stmt)) == SQLITE_ROW) {
+  if (auto result = stepExec(QVariantList(), select_str, 12, &collections);
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to list all nodes");
+  } else {
+    for (auto& item : collections) {
       NodeInfo node;
 
-      node.id = sqlite3_column_int(stmt, 0);
-      node.name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-      node.group = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 2));
-      node.group_id = sqlite3_column_int(stmt, 3);
-      node.protocol = static_cast<EntryType>(sqlite3_column_int(stmt, 4));
-      node.address =
-        reinterpret_cast<const char*>(sqlite3_column_text(stmt, 5));
-      node.port = sqlite3_column_int(stmt, 6);
-      node.password =
-        reinterpret_cast<const char*>(sqlite3_column_text(stmt, 7));
-      node.raw = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 8));
-      node.url = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 9));
+      node.id = item.at(0).toLongLong();
+      node.name = item.at(1).toString();
+      node.group = item.at(2).toString();
+      node.group_id = item.at(3).toInt();
+      node.protocol = magic_enum::enum_value<EntryType>(item.at(4).toInt());
+      node.address = item.at(5).toString();
+      node.port = item.at(6).toInt();
+      node.password = item.at(7).toString();
+      node.raw = item.at(8).toString();
+      node.url = item.at(9).toString();
       node.created_time =
-        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 10));
+        QDateTime::fromSecsSinceEpoch(item.at(10).toLongLong());
       node.modified_time =
-        QDateTime().fromSecsSinceEpoch(sqlite3_column_int64(stmt, 11));
+        QDateTime::fromSecsSinceEpoch(item.at(11).toLongLong());
 
       nodes.emplace_back(node);
     }
+  }
 
-    if (result != SQLITE_DONE) {
-      p_logger->error("SQL select error code: {}", sqlite3_errmsg(m_db));
-    }
-
-    result = sqlite3_finalize(stmt);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL stmt finalize error code: {}", result);
-    }
-  } while (false);
   return nodes;
 }
+
 
 std::map<int, NodesInfo>
 DBTools::listAllNodes()
@@ -640,18 +498,11 @@ DBTools::listAllNodes()
   return all_nodes;
 }
 
-const QString
-DBTools::getLibVersion()
-{
-  return sqlite3_libversion();
-}
-
 void
 DBTools::close()
 {
-  if (m_db != nullptr) {
-    sqlite3_close(m_db);
-    m_db = nullptr;
+  if (m_db.isOpen()) {
+    m_db.close();
     emit destroy();
   }
 }
