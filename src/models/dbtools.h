@@ -79,6 +79,10 @@ public:
 
   void reload();
 
+  int insertStepExec(const QVariantList& collections, const QString& sql_str);
+
+  int setPragma();
+
   int createDefaultGroup();
 
   int createGroupsTable();
@@ -86,6 +90,14 @@ public:
   int createNodesTable(const QString& group_name);
 
   int createRuntimeTable();
+
+  int createRuntimeValue(const QString& key, const QString& value);
+
+  QString readRuntimeValue(const QString& key);
+
+  int updateRuntimeValue(const QString& key, const QString& value);
+
+  int deleteRuntimeValue(const QString& key);
 
   bool isTableExists(const QStringList& table_names);
 

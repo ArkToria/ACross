@@ -17,6 +17,7 @@ DBTools::init(QSharedPointer<LogView> log_view,
 {
   p_logger = std::make_shared<LogTools>(log_view, "database");
   p_config = config;
+
   reload();
 }
 
@@ -24,28 +25,123 @@ void
 DBTools::reload()
 {
   close();
-  if (p_config == nullptr) {
-    return;
-  }
 
-  auto db_path = p_config->dbPath().toStdString();
-  if (db_path.empty()) {
-    p_logger->error("Failed to load database on path");
-    return;
-  } else {
-    p_logger->info("Open database on path: {}", db_path);
-  }
+  do {
+    if (p_config == nullptr)
+      break;
 
-  int result = sqlite3_open(db_path.c_str(), &m_db);
-  if (result != SQLITE_OK) {
-    p_logger->error("SQL open error code: {}", result);
-    return;
-  } else {
-    p_logger->info("SQL opened successfully");
-  }
+    auto db_path = p_config->dbPath().toStdString();
+    if (db_path.empty()) {
+      p_logger->error("Failed to load database on path");
+      break;
+    } else {
+      p_logger->info("Open database on path: {}", db_path);
+    }
 
+    auto result = SQLITE_OK;
+
+    if (result = sqlite3_open(db_path.c_str(), &m_db); result != SQLITE_OK) {
+      p_logger->error("SQL open error code: {}", result);
+      break;
+    } else {
+      p_logger->info("SQL opened successfully");
+    }
+
+    if (result = setPragma(); result != SQLITE_OK)
+      break;
+
+    if (result = createGroupsTable(); result != SQLITE_OK)
+      break;
+
+    if (result = createRuntimeTable(); result != SQLITE_OK)
+      break;
+
+    if (result = createNodesTable("default_group"); result != SQLITE_OK)
+      break;
+
+    if (result = createDefaultGroup(); result != SQLITE_OK)
+      break;
+
+  } while (false);
+}
+
+int
+DBTools::insertStepExec(const QVariantList& collections, const QString& sql_str)
+{
+  int result = SQLITE_OK;
+  sqlite3_stmt* stmt;
+
+  do {
+    auto step_str = sql_str.toStdString();
+    result = sqlite3_prepare_v2(m_db, step_str.c_str(), -1, &stmt, nullptr);
+    if (result != SQLITE_OK) {
+      p_logger->error("SQL prepare error code: {}", result);
+      break;
+    }
+
+    for (auto i = 0; i < collections.size(); ++i) {
+      auto item = collections.at(i);
+      auto index = i + 1;
+
+      switch (item.typeId()) {
+        case QMetaType::UInt:
+        case QMetaType::Bool:
+        case QMetaType::Int:
+          result = sqlite3_bind_int(stmt, index, item.toInt());
+          break;
+        case QMetaType::LongLong:
+          result = sqlite3_bind_int64(stmt, index, item.toLongLong());
+          break;
+        case QMetaType::QDateTime:
+          result = sqlite3_bind_int64(
+            stmt, index, item.toDateTime().toSecsSinceEpoch());
+          break;
+        case QMetaType::QString:
+          result = sqlite3_bind_text(stmt,
+                                     index,
+                                     item.toString().toStdString().c_str(),
+                                     -1,
+                                     SQLITE_TRANSIENT);
+          break;
+        default:
+          p_logger->error("Unknown value type: {}", item.typeId());
+          break;
+      }
+
+      if (result != SQLITE_OK) {
+        p_logger->error("SQL bind error code: {}", result);
+        break;
+      }
+    }
+
+    sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
+    {
+      result = sqlite3_step(stmt);
+    }
+    sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+    if (result != SQLITE_DONE) {
+      p_logger->error("SQL group insert step error code: {}", result);
+    }
+
+    result = sqlite3_reset(stmt);
+    if (result != SQLITE_OK) {
+      p_logger->error("SQL stmt reset error code: {}", result);
+    }
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      p_logger->error("SQL stmt finalize error code: {}", result);
+    }
+  } while (false);
+
+  return result;
+}
+
+int
+DBTools::setPragma()
+{
   char* err_msg;
-  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
+  auto result = SQLITE_OK;
   std::string init_str{ "PRAGMA encoding='UTF-8';"
                         "PRAGMA synchronous=OFF;"
                         "PRAGMA count_changes=OFF;"
@@ -53,45 +149,15 @@ DBTools::reload()
                         "PRAGMA temp_store=MEMORY;"
                         "PRAGMA sql_self_updates=1" };
 
+  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
   result = sqlite3_exec(m_db, init_str.c_str(), NULL, NULL, &err_msg);
+  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
   if (result != SQLITE_OK) {
     p_logger->error("SQL initialization error code: {}", err_msg);
     sqlite3_free(err_msg);
   }
 
-  if (!isTableExists({ "groups" })) {
-    result = createGroupsTable();
-
-    if (result == SQLITE_OK) {
-      p_logger->info("SQL create the groups table successfully");
-    } else {
-      p_logger->error("SQL failed to create the groups table");
-    }
-  }
-
-  if (!isTableExists({ "runtime" })) {
-    result = createRuntimeTable();
-
-    if (result == SQLITE_OK) {
-      p_logger->info("SQL create the runtime table successfully");
-    } else {
-      p_logger->error("SQL failed to create the runtime table");
-    }
-  }
-
-  if (!isGroupExists("default_group")) {
-    result = createDefaultGroup();
-
-    if (result == SQLITE_OK) {
-      p_logger->info("SQL create default group successfully");
-
-      result = createNodesTable("default_group");
-      if (result != SQLITE_OK) {
-        p_logger->error("Failed to create default nodes table: {}", result);
-      }
-    }
-  }
-  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+  return result;
 }
 
 int
@@ -107,8 +173,13 @@ int
 DBTools::createTable(const QString& create_str)
 {
   char* err_msg;
-  int result =
+  auto result = SQLITE_OK;
+
+  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
+  result =
     sqlite3_exec(m_db, create_str.toStdString().c_str(), nullptr, 0, &err_msg);
+  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+
   if (result != SQLITE_OK) {
     p_logger->error("SQL create table error: {}", err_msg);
     sqlite3_free(err_msg);
@@ -119,17 +190,16 @@ DBTools::createTable(const QString& create_str)
 int
 DBTools::createGroupsTable()
 {
-  QString create_groups_str = { "CREATE TABLE IF NOT EXISTS groups("
-                                "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                "Name TEXT UNIQUE,"
-                                "IsSubscription BOOLEAN,"
-                                "Type INTEGER,"
-                                "Url TEXT,"
-                                "CycleTime INTEGER,"
-                                "CreatedAt INT64 NOT NULL,"
-                                "ModifiedAt INT64 NOT NULL);" };
-  auto result = createTable(create_groups_str);
-  return result;
+  QString create_groups_str("CREATE TABLE IF NOT EXISTS groups("
+                            "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                            "Name TEXT UNIQUE,"
+                            "IsSubscription BOOLEAN,"
+                            "Type INTEGER,"
+                            "Url TEXT,"
+                            "CycleTime INTEGER,"
+                            "CreatedAt INT64 NOT NULL,"
+                            "ModifiedAt INT64 NOT NULL);");
+  return createTable(create_groups_str);
 }
 
 int
@@ -149,8 +219,7 @@ DBTools::createNodesTable(const QString& group_name)
                                      "CreatedAt INT64 NOT NULL,"
                                      "ModifiedAt INT64 NOT NULL);")
                                .arg(group_name);
-  auto result = createTable(create_nodes_str);
-  return result;
+  return createTable(create_nodes_str);
 }
 
 int
@@ -160,9 +229,34 @@ DBTools::createRuntimeTable()
                                  "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                                  "Key TEXT UNIQUE NOT NULL,"
                                  "Value TEXT);" };
-  auto result = createTable(create_runtime_str);
+  return createTable(create_runtime_str);
+}
+
+int
+DBTools::createRuntimeValue(const QString& key, const QString& value)
+{
+  auto result = SQLITE_OK;
+  QString insert_str("INSERT INTO runtime"
+                     "(Key, Value)"
+                     "VALUES(?,?)");
+
+  QVariantList collections = { key, value };
+
+  result = insertStepExec(collections, insert_str);
   return result;
 }
+
+QString
+DBTools::readRuntimeValue(const QString& key)
+{}
+
+int
+DBTools::updateRuntimeValue(const QString& key, const QString& value)
+{}
+
+int
+DBTools::deleteRuntimeValue(const QString& key)
+{}
 
 bool
 DBTools::isTableExists(const QStringList& table_names)
@@ -260,8 +354,13 @@ DBTools::isGroupExists(const QString& group_name)
 int
 DBTools::insert(NodeInfo& node)
 {
-  int result;
-  sqlite3_stmt* stmt;
+  auto result = SQLITE_OK;
+  QString insert_str =
+    QString("INSERT INTO '%1' "
+            "(Name, GroupName, GroupID, Protocol, Address, Port, "
+            "Password, Raw, URL, CreatedAt, ModifiedAt) "
+            "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
+      .arg(node.group);
 
   if (node.created_time.isNull()) {
     node.created_time = QDateTime::currentDateTime();
@@ -271,113 +370,15 @@ DBTools::insert(NodeInfo& node)
     node.modified_time = QDateTime::currentDateTime();
   }
 
-  QString insert_str =
-    QString("INSERT INTO '%1' "
-            "(Name, GroupName, GroupID, Protocol, Address, Port, "
-            "Password, Raw, URL, CreatedAt, ModifiedAt) "
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
-      .arg(node.group);
+  qint64 group_id = node.group_id;
+  QVariantList collections = {
+    node.name,    node.group,        group_id,           node.protocol,
+    node.address, node.port,         node.password,      node.raw,
+    node.url,     node.created_time, node.modified_time,
+  };
 
-  do {
-    std::string insert = insert_str.toStdString();
-    result = sqlite3_prepare_v2(m_db, insert.c_str(), -1, &stmt, nullptr);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", result);
-      break;
-    }
-
-    std::string name = node.name.toStdString();
-    result = sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind name error code: {}", result);
-      break;
-    }
-
-    std::string group = node.group.toStdString();
-    result = sqlite3_bind_text(stmt, 2, group.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group name error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int(stmt, 3, node.group_id);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group id error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int(stmt, 4, node.protocol);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind protocol error code: {}", result);
-      break;
-    }
-
-    std::string address = node.address.toStdString();
-    result = sqlite3_bind_text(stmt, 5, address.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind address error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int(stmt, 6, node.port);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind port error code: {}", result);
-      break;
-    }
-
-    std::string password = node.password.toStdString();
-    result = sqlite3_bind_text(stmt, 7, password.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind password error code: {}", result);
-      break;
-    }
-
-    std::string raw = node.raw.toStdString();
-    result = sqlite3_bind_text(stmt, 8, raw.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind raw error code: {}", result);
-      break;
-    }
-
-    std::string url = node.url.toStdString();
-    result = sqlite3_bind_text(stmt, 9, url.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind url error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int64(stmt, 10, node.created_time.toSecsSinceEpoch());
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind created time error code: {}", result);
-      break;
-    }
-
-    result =
-      sqlite3_bind_int64(stmt, 11, node.modified_time.toSecsSinceEpoch());
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind modified time error code: {}", result);
-      break;
-    }
-
-    sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-    {
-      result = sqlite3_step(stmt);
-      if (result != SQLITE_DONE) {
-        p_logger->error("SQL insert node step error code: {}", result);
-      }
-    }
-    sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
-
-    result = sqlite3_reset(stmt);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL stmt reset error code: {}", result);
-    }
-  } while (false);
-
-  result = sqlite3_finalize(stmt);
-  if (result != SQLITE_OK) {
-    p_logger->error("SQL stmt finalize error code: {}", result);
-  }
+  if (result = insertStepExec(collections, insert_str); result == SQLITE_OK)
+    node.id = getLastID();
 
   return result;
 }
@@ -385,88 +386,27 @@ DBTools::insert(NodeInfo& node)
 int
 DBTools::insert(GroupInfo& group)
 {
-  int result;
-  sqlite3_stmt* stmt;
-
-  std::string insert_str{
+  auto result = SQLITE_OK;
+  QString insert_str(
     "INSERT INTO groups"
     "(Name, IsSubscription, Type, Url, CycleTime, CreatedAt, ModifiedAt)"
-    "VALUES(?,?,?,?,?,?,?)"
+    "VALUES(?,?,?,?,?,?,?)");
+
+  if (group.created_time.isNull()) {
+    group.created_time = QDateTime::currentDateTime();
+  }
+
+  if (group.modified_time.isNull()) {
+    group.modified_time = QDateTime::currentDateTime();
+  }
+
+  QVariantList collections = {
+    group.name,       group.isSubscription, group.type,          group.url,
+    group.cycle_time, group.created_time,   group.modified_time,
   };
 
-  do {
-    result = sqlite3_prepare_v2(m_db, insert_str.c_str(), -1, &stmt, nullptr);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL prepare error code: {}", result);
-      break;
-    }
-
-    std::string name = group.name.toStdString();
-    result = sqlite3_bind_text(stmt, 1, name.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group name error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int(stmt, 2, group.isSubscription);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group isSubscription error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int(stmt, 3, group.type);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group isSubscription error code: {}", result);
-      break;
-    }
-
-    std::string url = group.url.toStdString();
-    result = sqlite3_bind_text(stmt, 4, url.c_str(), -1, SQLITE_STATIC);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group url error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int(stmt, 5, group.cycle_time);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group isSubscription error code: {}", result);
-      break;
-    }
-
-    result = sqlite3_bind_int64(stmt, 6, group.created_time.toSecsSinceEpoch());
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group created time error code: {}", result);
-      break;
-    }
-
-    result =
-      sqlite3_bind_int64(stmt, 7, group.modified_time.toSecsSinceEpoch());
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL bind group modified time error code: {}", result);
-      break;
-    }
-
-    sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
-    {
-      result = sqlite3_step(stmt);
-      if (result != SQLITE_DONE) {
-        p_logger->error("SQL group insert step error code: {}", result);
-      } else {
-        group.id = this->getLastID();
-      }
-    }
-    sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
-
-    result = sqlite3_reset(stmt);
-    if (result != SQLITE_OK) {
-      p_logger->error("SQL stmt reset error code: {}", result);
-    }
-  } while (false);
-
-  result = sqlite3_finalize(stmt);
-  if (result != SQLITE_OK) {
-    p_logger->error("SQL stmt finalize error code: {}", result);
-  }
+  if (result = insertStepExec(collections, insert_str); result == SQLITE_OK)
+    group.id = getLastID();
 
   return result;
 }
@@ -495,7 +435,15 @@ DBTools::update(GroupInfo& group)
       .arg(group.id);
   std::string update = update_str.toStdString();
 
+  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
   auto result = sqlite3_exec(m_db, update.c_str(), NULL, NULL, &err_msg);
+  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+
+  if (result != SQLITE_OK) {
+    p_logger->error("Update: {}", err_msg);
+    sqlite3_free(err_msg);
+  }
+
   return result;
 }
 
@@ -507,11 +455,16 @@ DBTools::removeItemFromID(const QString& group_name, int64_t id)
     QString("DELETE FROM '%1' WHERE id = '%2'").arg(group_name).arg(id);
   std::string remove = remove_str.toStdString();
 
+  sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
   auto result = sqlite3_exec(m_db, remove.c_str(), NULL, NULL, &err_msg);
+  sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+
   if (result != SQLITE_OK) {
     p_logger->error(
       "Failed to remove {}[{}]: {}", group_name.toStdString(), id, err_msg);
+    sqlite3_free(err_msg);
   }
+
   return result;
 }
 
@@ -525,21 +478,28 @@ DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
   auto drop_table_str = QString("DROP TABLE '%1'").arg(group_name);
 
   if (!keep_group) {
+    sqlite3_mutex_enter(sqlite3_db_mutex(m_db));
     result = sqlite3_exec(
       m_db, remove_str.toStdString().c_str(), NULL, NULL, &err_msg);
+    sqlite3_mutex_leave(sqlite3_db_mutex(m_db));
+
     if (result != SQLITE_OK) {
       p_logger->error(
         "Failed to remove {}: {}", group_name.toStdString(), err_msg);
+      sqlite3_free(err_msg);
+
       return result;
     }
   }
 
   result = sqlite3_exec(
     m_db, drop_table_str.toStdString().c_str(), NULL, NULL, &err_msg);
-  if (result != SQLITE_OK)
+  if (result != SQLITE_OK) {
     p_logger->error("Failed to remove nodes from group {}: {}",
                     group_name.toStdString(),
                     err_msg);
+    sqlite3_free(err_msg);
+  }
 
   return result;
 }
