@@ -227,6 +227,12 @@ NodeList::currentNodePort()
 }
 
 const QString&
+NodeList::currentNodePassword() const
+{
+  return m_current_node.password;
+}
+
+const QString&
 NodeList::currentNodeURL() const
 {
   return m_current_node.url;
@@ -274,6 +280,7 @@ NodeList::setCurrentNodeByID(int id)
           emit currentNodeProtocolChanged();
           emit currentNodeAddressChanged();
           emit currentNodePortChanged();
+          emit currentNodePasswordChanged();
           emit currentNodeURLChanged();
           emit currentGroupIDChanged();
           break;

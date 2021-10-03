@@ -10,6 +10,24 @@ Item {
     implicitWidth: 648
 
     property Component popMenuComponent: null
+    property Component nodeShareFormComponent: null
+    function openShareForm(nodeID, name, address, port, password, url) {
+        if (nodeShareFormComponent == null) {
+            nodeShareFormComponent = Qt.createComponent(
+                        "qrc:/ACross/src/views/home/NodeShareForm.qml")
+        }
+        if (nodeShareFormComponent.status === Component.Ready) {
+            var window = nodeShareFormComponent.createObject(mainWindow, {
+                                                                 "nodeID": nodeID,
+                                                                 "name": name,
+                                                                 "address": address,
+                                                                 "port": port,
+                                                                 "password": password,
+                                                                 "url": url
+                                                             })
+            window.show()
+        }
+    }
 
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
@@ -105,6 +123,10 @@ Item {
                 onExited: {
                     parent.color = "transparent"
                 }
+
+                onClicked: {
+                    acrossNodes.copyUrlToClipboard(acrossNodes.currentNodeID)
+                }
             }
         }
 
@@ -142,6 +164,15 @@ Item {
 
                 onExited: {
                     parent.color = "transparent"
+                }
+
+                onClicked: {
+                    openShareForm(acrossNodes.currentNodeID,
+                                  acrossNodes.currentNodeName,
+                                  acrossNodes.currentNodeAddress,
+                                  acrossNodes.currentNodePort,
+                                  acrossNodes.currentNodePassword,
+                                  acrossNodes.currentNodeURL)
                 }
             }
         }

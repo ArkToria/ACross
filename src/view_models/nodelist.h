@@ -38,6 +38,8 @@ class NodeList : public QObject
                currentNodeAddressChanged)
   Q_PROPERTY(
     int currentNodePort READ currentNodePort NOTIFY currentNodePortChanged)
+  Q_PROPERTY(QString currentNodePassword READ currentNodePassword NOTIFY
+               currentNodePasswordChanged)
   Q_PROPERTY(
     QString currentNodeURL READ currentNodeURL NOTIFY currentNodeURLChanged)
   Q_PROPERTY(
@@ -73,6 +75,7 @@ public:
   QString currentNodeProtocol() const;
   const QString& currentNodeAddress() const;
   int currentNodePort();
+  const QString& currentNodePassword() const;
   const QString& currentNodeURL() const;
   QString uploadTraffic();
   QString downloadTraffic();
@@ -101,6 +104,7 @@ signals:
   void currentNodeProtocolChanged();
   void currentNodeAddressChanged();
   void currentNodePortChanged();
+  void currentNodePasswordChanged();
   void currentNodeURLChanged();
 
   void updateQRCode(const QString& id, const QString& content);
