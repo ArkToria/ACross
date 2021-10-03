@@ -30,6 +30,9 @@ public:
   void loadTrayIcons(const QString& stylish = "", const QString& color = "");
   void retranslate();
 
+  QString titleString();
+  QString inboundString();
+
   Q_INVOKABLE void toggleVisibilitySetText(bool vis);
   Q_INVOKABLE static inline bool isSystemTrayAvailable()
   {

@@ -43,7 +43,32 @@ SystemTray::init(QSharedPointer<LogView> log_view,
 
   loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
 
-  p_tray_icon->setToolTip("Across " + p_config->guiVersion());
+  p_tray_icon->setToolTip(titleString() + inboundString());
+
+  connect(
+    p_config.get(),
+    &across::setting::ConfigTools::socksEnableChanged,
+    this,
+    [this]() { p_tray_icon->setToolTip(titleString() + inboundString()); });
+
+  connect(
+    p_config.get(),
+    &across::setting::ConfigTools::socksPortChanged,
+    this,
+    [this]() { p_tray_icon->setToolTip(titleString() + inboundString()); });
+
+  connect(
+    p_config.get(),
+    &across::setting::ConfigTools::httpEnableChanged,
+    this,
+    [this]() { p_tray_icon->setToolTip(titleString() + inboundString()); });
+
+  connect(
+    p_config.get(),
+    &across::setting::ConfigTools::httpPortChanged,
+    this,
+    [this]() { p_tray_icon->setToolTip(titleString() + inboundString()); });
+
   connect(p_nodes.get(),
           &across::NodeList::uploadTrafficChanged,
           this,
@@ -159,6 +184,30 @@ void SystemTray::retranslate(){
     actionQuit->setText(tr("Quit"));
 }
 
+QString
+SystemTray::titleString()
+{
+  return QString("ACross %1\n").arg(p_config->guiVersion());
+}
+
+QString
+SystemTray::inboundString()
+{
+  QString socks5_port, http_port = tr("OFF");
+
+  if (p_config->socksEnable()) {
+    socks5_port = p_config->socksPort();
+  }
+
+  if (p_config->httpEnable()) {
+    http_port = p_config->httpPort();
+  }
+
+  return QString("socks5: %1 | "
+                 "http: %2\n")
+    .arg(socks5_port, http_port);
+}
+
 void
 SystemTray::onEnableTrayChanged()
 {
@@ -172,9 +221,10 @@ SystemTray::onEnableTrayChanged()
 void
 SystemTray::onTrafficChanged()
 {
-  auto content = QString("ACross %1\r"
-                         "↑ %2/s"
-                         "↓ %3/s")
-                   .arg(p_config->guiVersion(), uploadTraffic, downloadTraffic);
+  auto content = titleString() + inboundString() +
+                 QString("↑ %1/s"
+                         "↓ %2/s")
+                   .arg(uploadTraffic, downloadTraffic);
+
   p_tray_icon->setToolTip(content);
 }
