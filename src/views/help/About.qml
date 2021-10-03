@@ -107,7 +107,7 @@ CardBox {
                 URLBox {
                     Layout.fillWidth: true
 
-                    urlText: acrossConfig.licenseURL
+                    urlText: acrossConfig.sourceCodeURL
                 }
 
                 Label {
@@ -118,7 +118,7 @@ CardBox {
                 URLBox {
                     Layout.fillWidth: true
 
-                    urlText: acrossConfig.sourceCodeURL
+                    urlText: acrossConfig.licenseURL
                 }
 
                 Label {
