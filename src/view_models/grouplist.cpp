@@ -402,6 +402,9 @@ GroupList::handleUpdated(const QVariant& content)
           p_logger->error("Failed to insert nodes");
           break;
         }
+
+        item.id = p_db->getLastID();
+        p_db->update(item);
       } while (false);
 
       reloadItems();

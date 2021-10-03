@@ -347,8 +347,13 @@ DBTools::insert(GroupInfo& group)
   }
 
   QVariantList input_collection = {
-    group.name,       group.isSubscription, group.type,          group.url,
-    group.cycle_time, group.created_time,   group.modified_time,
+    group.name,
+    group.isSubscription,
+    group.type,
+    group.url,
+    group.cycle_time,
+    group.created_time.toSecsSinceEpoch(),
+    group.modified_time.toSecsSinceEpoch(),
   };
 
   if (result = stepExec(insert_str, &input_collection);
@@ -381,8 +386,9 @@ DBTools::update(GroupInfo& group)
 
   qint64 group_id = group.id;
   QVariantList input_collection = {
-    group.name,       group.isSubscription, group.type, group.url,
-    group.cycle_time, group.modified_time,  group_id,
+    group.name, group.isSubscription, group.type,
+    group.url,  group.cycle_time,     group.modified_time.toSecsSinceEpoch(),
+    group_id,
   };
 
   return stepExec(update_str, &input_collection);
@@ -420,10 +426,9 @@ QSqlError
 DBTools::dropTable(const QString& table_name)
 {
   QSqlQuery query(m_db);
-  query.prepare("DROP TABLE ?;");
-  query.addBindValue(table_name);
-  query.exec();
-  return query.lastError();
+  QString drop_str = QString("DROP TABLE \"%1\"").arg(table_name);
+
+  return stepExec(drop_str);
 }
 
 std::vector<GroupInfo>
@@ -476,7 +481,7 @@ DBTools::listAllNodesInfo(const QString& group_name)
   std::vector<NodeInfo> nodes;
   QVector<QVariantList> collections;
   QString select_str =
-    QString("SELECT * FROM '%1'").arg(group_name.toHtmlEscaped());
+    QString("SELECT * FROM \"%1\"").arg(group_name.toHtmlEscaped());
 
   if (auto result = stepExec(select_str, nullptr, 12, &collections);
       result.type() != QSqlError::NoError) {
