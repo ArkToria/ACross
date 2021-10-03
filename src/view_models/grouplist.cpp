@@ -213,9 +213,14 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
     return result;
   }
 
-  QString decode_data = QByteArray::fromBase64(content.toUtf8());
+  QString temp_data;
+  if (!content.contains("://")) {
+    temp_data = QByteArray::fromBase64(content.toUtf8());
+  } else {
+    temp_data = content;
+  }
 
-  for (auto& item : decode_data.split("\n")) {
+  for (auto& item : temp_data.split("\n")) {
     item.remove("\r");
     if (item.isEmpty()) {
       break;
@@ -269,29 +274,15 @@ GroupList::appendItem(const QString& group_name,
 void
 GroupList::appendItem(const QString& group_name, const QString& node_items)
 {
-  emit preItemAppended();
-
   GroupInfo group_info = {
     .name = group_name,
     .isSubscription = false,
+    .type = base64,
   };
 
-  do {
-    if (auto err = p_db->insert(group_info); err.type() != QSqlError::NoError) {
-      break;
-    }
-
-    if (auto err = p_db->createNodesTable(group_info.name);
-        err.type() != QSqlError::NoError) {
-      p_logger->error("Failed to create table: {}",
-                      group_info.name.toStdString());
-      break;
-    }
-
-  } while (false);
-
-  reloadItems();
-  emit postItemAppended();
+  if (!insert(group_info, node_items)) {
+    p_logger->error("Failed to parse url");
+  }
 }
 
 void
