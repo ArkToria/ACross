@@ -110,6 +110,11 @@ NodeList::reloadItems()
     if (item.first == this->displayGroupID()) {
       for (auto& node_info : item.second.nodes) {
         m_items.append(node_info);
+        if (node_info.id ==
+            p_db->readRuntimeValue("CURRENT_NODE_ID").toLongLong()) {
+          m_current_node = node_info;
+          setCurrentGroupID(m_current_node.group_id);
+        }
       }
     }
   }
@@ -299,9 +304,9 @@ NodeList::setCurrentNode(int id, int index)
 
     if (iter != items->nodes.end()) {
       m_current_node = *iter;
-
       p_db->updateRuntimeValue("CURRENT_NODE_ID",
                                QString::number(m_current_node.id));
+
       setCurrentGroupID(m_current_node.group_id);
 
       emit currentNodeNameChanged();
