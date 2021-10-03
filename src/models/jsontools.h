@@ -1,7 +1,6 @@
 #ifndef JSONTOOLS_H
 #define JSONTOOLS_H
 
-#include "cryptotools.h"
 #include "magic_enum.hpp"
 #include "json/json.h"
 #include <QString>

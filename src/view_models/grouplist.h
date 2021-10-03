@@ -9,7 +9,6 @@
 #include <QVariant>
 
 #include "../models/clipboardtools.h"
-#include "../models/cryptotools.h"
 #include "../models/dbtools.h"
 #include "../models/networktools.h"
 #include "../models/notifytools.h"

@@ -25,7 +25,7 @@ find_package(fmt CONFIG REQUIRED)
 find_package(jsoncpp REQUIRED)
 find_package(magic_enum REQUIRED)
 find_package(spdlog REQUIRED)
-find_package(Sodium REQUIRED)
+#find_package(Sodium REQUIRED)
 find_package(ZXing REQUIRED)
 find_package(Threads REQUIRED)
 
@@ -61,7 +61,6 @@ set(PROJECT_HEADERS
     src/view_models/systemtray.h
     src/view_models/imageprovider.h
     src/models/apitools.h
-    src/models/cryptotools.h
     src/models/dbtools.h
     src/models/envtools.h
     src/models/qrcodetools.h
@@ -98,7 +97,6 @@ set(PROJECT_SOURCES
     src/view_models/systemtray.cpp
     src/view_models/imageprovider.cpp
     src/models/apitools.cpp
-    src/models/cryptotools.cpp
     src/models/dbtools.cpp
     src/models/envtools.cpp
     src/models/qrcodetools.cpp
@@ -142,7 +140,6 @@ target_link_libraries(across PRIVATE
     jsoncpp
     magic_enum
     pthread
-    sodium
     spdlog::spdlog
     ZXing
     )

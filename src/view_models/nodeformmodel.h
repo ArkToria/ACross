@@ -1,7 +1,6 @@
 #ifndef NODEFORMMODEL_H
 #define NODEFORMMODEL_H
 
-#include "sodium.h"
 #include <QObject>
 
 #include "../models/dbtools.h"
