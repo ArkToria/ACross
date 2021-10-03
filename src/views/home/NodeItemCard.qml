@@ -110,10 +110,10 @@ Item {
             }
 
             Label {
-                id: speedText
+                id: ruleText
                 Layout.fillWidth: true
 
-                text: "↑ 128 M ↓ 2.4 GB"
+                text: "Bypass CN"
                 font.pixelSize: 14
                 color: textColor
             }
