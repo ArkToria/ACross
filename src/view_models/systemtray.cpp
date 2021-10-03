@@ -68,9 +68,9 @@ SystemTray::init(QSharedPointer<LogView> log_view,
   actionRestart->setText(tr("Reconnect"));
   actionQuit->setText(tr("Quit"));
 
-  actionStart->setEnabled(false);
+  actionStart->setEnabled(true);
   actionStop->setEnabled(false);
-  actionRestart->setEnabled(false);
+  actionRestart->setEnabled(true);
 
   actionToggleVisibility->setIcon(QIcon::fromTheme("org.arktoria.across"));
 
