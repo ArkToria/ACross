@@ -48,6 +48,10 @@ Menu {
 
     Action {
         text: qsTr("Set as default")
+
+        onTriggered: {
+            acrossNodes.setAsDefault(nodeID)
+        }
     }
 
     MenuSeparator {

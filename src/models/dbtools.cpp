@@ -19,7 +19,6 @@ DBTools::init(QSharedPointer<LogView> log_view,
   p_config = config;
 
   reload();
-  readRuntimeValue("CURRENT_GROUP_ID");
 }
 
 void
@@ -68,6 +67,8 @@ DBTools::reload()
     } else {
       createRuntimeValue("CURRENT_GROUP_ID", "0");
       createRuntimeValue("CURRENT_NODE_ID", "0");
+      createRuntimeValue("DEFAULT_GROUP_ID", "0");
+      createRuntimeValue("DEFAULT_NODE_ID", "0");
     }
 
     if (result = createNodesTable("default_group");

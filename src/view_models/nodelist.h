@@ -62,6 +62,7 @@ public:
   Q_INVOKABLE void removeCurrentNode(int id);
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
+  Q_INVOKABLE void setAsDefault(int id);
 
 public:
   QVector<NodeInfo> items();

@@ -148,6 +148,10 @@ NodeList::removeCurrentNode(int id)
       auto result = p_db->removeItemFromID(item.group, item.id);
       if (result.type() == QSqlError::NoError) {
         reloadItems();
+
+        p_db->updateRuntimeValue("CURRENT_NODE_ID", "0");
+        p_db->updateRuntimeValue("CURRENT_GROUP_ID", "0");
+
         emit itemsSizeChanged(item.group_id, m_items.size());
       }
       break;
@@ -240,7 +244,7 @@ NodeList::setCurrentGroupID(int group_id)
   }
 
   m_group_id = group_id;
-
+  p_db->updateRuntimeValue("CURRENT_GROUP_ID", QString::number(group_id));
   emit currentGroupIDChanged();
 }
 
@@ -296,6 +300,8 @@ NodeList::setCurrentNode(int id, int index)
     if (iter != items->nodes.end()) {
       m_current_node = *iter;
 
+      p_db->updateRuntimeValue("CURRENT_NODE_ID",
+                               QString::number(m_current_node.id));
       setCurrentGroupID(m_current_node.group_id);
 
       emit currentNodeNameChanged();
@@ -423,6 +429,14 @@ NodeList::saveQRCodeToFile(int id, const QUrl& url)
       p_logger->error("Failed to save image: {}", file_path.toStdString());
     }
   }
+}
+
+void
+NodeList::setAsDefault(int id)
+{
+  p_db->updateRuntimeValue("DEFAULT_NODE_ID", QString::number(id));
+  p_db->updateRuntimeValue("DEFAULT_GROUP_ID",
+                           QString::number(displayGroupID()));
 }
 
 QString
