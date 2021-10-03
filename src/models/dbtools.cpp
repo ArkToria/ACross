@@ -259,6 +259,30 @@ DBTools::deleteRuntimeValue(const QString& key)
   return stepExec(delete_str, &input_collection);
 }
 
+int64_t
+DBTools::getCurrentNodeID()
+{
+  return readRuntimeValue("CURRENT_NODE_ID").toLongLong();
+}
+
+int64_t
+DBTools::getCurrentGroupID()
+{
+  return readRuntimeValue("CURRENT_GROUP_ID").toLongLong();
+}
+
+int64_t
+DBTools::getDefaultNodeID()
+{
+  return readRuntimeValue("DEFAULT_NOED_ID").toLongLong();
+}
+
+int64_t
+DBTools::getDefaultGroupID()
+{
+  return readRuntimeValue("DEFAULT_GROUP_ID").toLongLong();
+}
+
 bool
 DBTools::isTableExists(const QString& table_name)
 {
@@ -307,11 +331,10 @@ DBTools::insert(NodeInfo& node)
     node.modified_time = QDateTime::currentDateTime();
   }
 
-  qint64 group_id = node.group_id;
   QVariantList input_collection = {
     node.name,
     node.group,
-    group_id,
+    node.group_id,
     node.protocol,
     node.address,
     node.port,
@@ -385,22 +408,20 @@ DBTools::update(GroupInfo& group)
                      "Url = ?, CycleTime = ?, ModifiedAt = ? "
                      "WHERE ID = ?;");
 
-  qint64 group_id = group.id;
   QVariantList input_collection = {
     group.name, group.isSubscription, group.type,
     group.url,  group.cycle_time,     group.modified_time.toSecsSinceEpoch(),
-    group_id,
+    group.id,
   };
 
   return stepExec(update_str, &input_collection);
 }
 
 QSqlError
-DBTools::removeItemFromID(const QString& group_name, int64_t id)
+DBTools::removeItemFromID(const QString& group_name, qint64 id)
 {
   QString remove_str = QString("DELETE FROM '%1' WHERE id = ?").arg(group_name);
-  qint64 node_id = id;
-  QVariantList input_collection = { node_id };
+  QVariantList input_collection = { id };
 
   return stepExec(remove_str, &input_collection);
 }
@@ -426,7 +447,6 @@ DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
 QSqlError
 DBTools::dropTable(const QString& table_name)
 {
-  QSqlQuery query(m_db);
   QString drop_str = QString("DROP TABLE \"%1\"").arg(table_name);
 
   return stepExec(drop_str);
@@ -436,7 +456,6 @@ std::vector<GroupInfo>
 DBTools::listAllGroupsInfo()
 {
   GroupInfo temp;
-  qint64 group_id = -1;
   QString select_str("SELECT * FROM groups");
   std::vector<GroupInfo> groups;
   QVector<QVariantList> collections;
@@ -457,7 +476,7 @@ DBTools::listAllGroupsInfo()
         QDateTime::fromSecsSinceEpoch(item.at(6).toLongLong());
       group.modified_time =
         QDateTime::fromSecsSinceEpoch(item.at(7).toLongLong());
-      group.items = listAllNodesInfo(group.name).size();
+      group.items = listAllNodesFromGroup(group.name).size();
 
       if (group.id > 0)
         groups.emplace_back(group);
@@ -474,12 +493,11 @@ DBTools::getAllGroupsInfo()
   return m_all_groups_info;
 }
 
-std::vector<NodeInfo>
-DBTools::listAllNodesInfo(const QString& group_name)
+QVector<NodeInfo>
+DBTools::listAllNodesFromGroup(const QString& group_name)
 {
   NodeInfo temp;
-  qint64 node_id;
-  std::vector<NodeInfo> nodes;
+  QVector<NodeInfo> nodes;
   QVector<QVariantList> collections;
   QString select_str =
     QString("SELECT * FROM \"%1\"").arg(group_name.toHtmlEscaped());
@@ -494,7 +512,7 @@ DBTools::listAllNodesInfo(const QString& group_name)
       node.id = item.at(0).toLongLong();
       node.name = item.at(1).toString();
       node.group = item.at(2).toString();
-      node.group_id = item.at(3).toInt();
+      node.group_id = item.at(3).toLongLong();
       node.protocol = magic_enum::enum_value<EntryType>(item.at(4).toInt());
       node.address = item.at(5).toString();
       node.port = item.at(6).toInt();
@@ -513,16 +531,15 @@ DBTools::listAllNodesInfo(const QString& group_name)
   return nodes;
 }
 
-
-std::map<int, NodesInfo>
+QMap<qint64, QVector<NodeInfo>>
 DBTools::listAllNodes()
 {
-  std::map<int, NodesInfo> all_nodes;
+  QMap<qint64, QVector<NodeInfo>> all_nodes;
   for (auto& item : m_all_groups_info) {
-    auto nodes = listAllNodesInfo(item.name);
+    auto nodes = listAllNodesFromGroup(item.name);
 
     // group id, { current node id, current index, nodes }
-    all_nodes.insert({ item.id, { 0, 0, nodes } });
+    all_nodes.insert(item.id, nodes);
   }
   return all_nodes;
 }

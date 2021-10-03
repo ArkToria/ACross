@@ -147,7 +147,7 @@ Item {
 
         onDoubleClicked: function (mouse) {
             if (mouse.button === Qt.LeftButton) {
-                acrossNodes.setCurrentNode(nodeID, index)
+                acrossNodes.setCurrentNodeByID(nodeID)
 
                 nodeGridView.currentIndex = index
             }

@@ -105,16 +105,19 @@ NodeList::reloadItems()
   m_items.clear();
   m_all_items.clear();
 
-  for (auto& item : p_db->listAllNodes()) {
-    m_all_items.insert(item.first, item.second);
-    if (item.first == this->displayGroupID()) {
-      for (auto& node_info : item.second.nodes) {
-        m_items.append(node_info);
-        if (node_info.id ==
-            p_db->readRuntimeValue("CURRENT_NODE_ID").toLongLong()) {
-          m_current_node = node_info;
-          setCurrentGroupID(m_current_node.group_id);
-        }
+  m_all_items = p_db->listAllNodes();
+
+  if (auto iter = m_all_items.find(this->displayGroupID());
+      iter != m_all_items.end()) {
+    m_items = *iter;
+  }
+
+  auto current_node_id = p_db->getCurrentNodeID();
+  if (auto iter = m_all_items.find(current_node_id);
+      iter != m_all_items.end()) {
+    for (auto& item : *iter) {
+      if (item.id == current_node_id) {
+        m_current_node = item;
       }
     }
   }
@@ -129,6 +132,7 @@ NodeList::appendNode(NodeInfo node)
 
   auto groups = p_db->getAllGroupsInfo();
 
+  // get display group name
   for (auto& item : groups) {
     if (item.id == node.group_id) {
       node.group = item.name;
@@ -146,17 +150,14 @@ NodeList::appendNode(NodeInfo node)
 }
 
 void
-NodeList::removeCurrentNode(int id)
+NodeList::removeNodeByID(int id)
 {
   for (auto& item : m_items) {
     if (item.id == id) {
       auto result = p_db->removeItemFromID(item.group, item.id);
       if (result.type() == QSqlError::NoError) {
+
         reloadItems();
-
-        p_db->updateRuntimeValue("CURRENT_NODE_ID", "0");
-        p_db->updateRuntimeValue("CURRENT_GROUP_ID", "0");
-
         emit itemsSizeChanged(item.group_id, m_items.size());
       }
       break;
@@ -180,23 +181,13 @@ NodeList::getQRCode(int id)
 int
 NodeList::currentNodeID()
 {
-  auto temp_items = m_all_items.find(m_group_id).value();
-
-  return temp_items.current_id;
-}
-
-int
-NodeList::currentNodeIndex()
-{
-  auto temp_items = m_all_items.find(m_group_id).value();
-
-  return temp_items.current_index;
+  return m_current_node.id;
 }
 
 int
 NodeList::currentGroupID()
 {
-  return m_group_id;
+  return m_current_node.group_id;
 }
 
 int
@@ -242,80 +233,54 @@ NodeList::currentNodeURL() const
 }
 
 void
-NodeList::setCurrentGroupID(int group_id)
-{
-  if (m_group_id == group_id) {
-    return;
-  }
-
-  m_group_id = group_id;
-  p_db->updateRuntimeValue("CURRENT_GROUP_ID", QString::number(group_id));
-  emit currentGroupIDChanged();
-}
-
-void
 NodeList::setDisplayGroupID(int group_id)
 {
-  do {
     if (group_id <= 0 || group_id == m_display_group_id) {
-      break;
+      return;
     }
 
     m_display_group_id = group_id;
 
-    emit preItemsReset();
+    if (auto iter = m_all_items.find(m_display_group_id);
+        iter != m_all_items.end()) {
+      emit preItemsReset();
 
-    m_items.clear();
-    for (auto& item : m_all_items.find(m_display_group_id).value().nodes) {
-      m_items.append(item);
+      m_items.clear();
+      m_items = *iter;
+
+      emit postItemsReset();
+      emit displayGroupIDChanged();
     }
-
-    emit postItemsReset();
-
-    emit displayGroupIDChanged();
-
-  } while (false);
 }
 
 void
-NodeList::setCurrentNode(int id, int index)
+NodeList::setCurrentNodeByID(int id)
 {
   do {
-    auto items = m_all_items.find(m_display_group_id);
-    if (items != m_all_items.end()) {
-      items->current_id = id;
-      items->current_index = index;
-
-      emit currentNodeIDChanged();
-      emit currentNodeIndexChanged();
-    } else {
-      p_logger->error("Failed to get group: {}", m_group_id);
-      break;
-    }
-
-    auto iter = std::find_if(
-      items->nodes.begin(), items->nodes.end(), [&](NodeInfo item) {
+    if (auto iter = m_all_items.find(m_display_group_id);
+        iter != m_all_items.end()) {
+      for (auto& item : *iter) {
         if (item.id == id) {
-          return true;
-        } else {
-          return false;
+          m_current_node = item;
+
+          p_db->updateRuntimeValue("CURRENT_NODE_ID",
+                                   QString::number(m_current_node.id));
+          p_db->updateRuntimeValue("CURRENT_GROUP_ID",
+                                   QString::number(m_current_node.group_id));
+
+          emit currentNodeIDChanged();
+          emit currentNodeNameChanged();
+          emit currentNodeGroupChanged();
+          emit currentNodeProtocolChanged();
+          emit currentNodeAddressChanged();
+          emit currentNodePortChanged();
+          emit currentNodeURLChanged();
+          emit currentGroupIDChanged();
+          break;
         }
-      });
-
-    if (iter != items->nodes.end()) {
-      m_current_node = *iter;
-      p_db->updateRuntimeValue("CURRENT_NODE_ID",
-                               QString::number(m_current_node.id));
-
-      setCurrentGroupID(m_current_node.group_id);
-
-      emit currentNodeNameChanged();
-      emit currentNodeGroupChanged();
-      emit currentNodeProtocolChanged();
-      emit currentNodeAddressChanged();
-      emit currentNodePortChanged();
+      }
     } else {
-      break;
+      p_logger->error("Failed to load display group: {}", m_display_group_id);
     }
 
     if (p_config == nullptr) {
@@ -328,7 +293,6 @@ NodeList::setCurrentNode(int id, int index)
     };
 
     Json::Value root;
-
     {
       LogObject log_object;
       if (auto level = magic_enum::enum_cast<LogObject::LogLevel>(

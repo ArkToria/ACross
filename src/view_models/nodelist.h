@@ -25,9 +25,7 @@ class NodeList : public QObject
   Q_OBJECT
   Q_PROPERTY(int currentNodeID READ currentNodeID NOTIFY currentNodeIDChanged)
   Q_PROPERTY(
-    int currentNodeIndex READ currentNodeIndex NOTIFY currentNodeIndexChanged)
-  Q_PROPERTY(int currentGroupID READ currentGroupID WRITE setCurrentGroupID
-               NOTIFY currentGroupIDChanged)
+    int currentGroupID READ currentGroupID NOTIFY currentGroupIDChanged)
   Q_PROPERTY(int displayGroupID READ displayGroupID WRITE setDisplayGroupID
                NOTIFY displayGroupIDChanged)
   Q_PROPERTY(
@@ -59,7 +57,8 @@ public:
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
 
-  Q_INVOKABLE void removeCurrentNode(int id);
+  Q_INVOKABLE void setCurrentNodeByID(int id);
+  Q_INVOKABLE void removeNodeByID(int id);
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
@@ -67,7 +66,6 @@ public:
 public:
   QVector<NodeInfo> items();
   int currentNodeID();
-  int currentNodeIndex();
   int currentGroupID();
   int displayGroupID();
   const QString& currentNodeName() const;
@@ -80,13 +78,11 @@ public:
   QString downloadTraffic();
 
 public slots:
-  void setCurrentGroupID(int group_id);
   void setDisplayGroupID(int group_id);
-  void setCurrentNode(int id, int index);
   void copyUrlToClipboard(int id);
 
 signals:
-  void itemsSizeChanged(int64_t group_id, int size);
+  void itemsSizeChanged(qint64 group_id, int size);
 
   void preItemsReset();
   void postItemsReset();
@@ -98,7 +94,6 @@ signals:
   void postItemRemoved();
 
   void currentNodeIDChanged();
-  void currentNodeIndexChanged();
   void currentGroupIDChanged();
   void displayGroupIDChanged();
   void currentNodeNameChanged();
@@ -121,9 +116,8 @@ private:
   QSharedPointer<across::core::CoreTools> p_core;
 
   QVector<NodeInfo> m_items;
-  QMap<int, NodesInfo> m_all_items;
+  QMap<qint64, QVector<NodeInfo>> m_all_items;
 
-  int m_group_id = 1;
   int m_display_group_id = 1;
   NodeInfo m_current_node;
   across::core::TrafficInfo m_traffic = { 0, 0 };

@@ -33,10 +33,10 @@ enum EntryType
 
 struct NodeInfo
 {
-  int64_t id = 0;
+  qint64 id = 0;
   QString name = "";
   QString group = "";
-  int64_t group_id = 0;
+  qint64 group_id = 0;
   EntryType protocol;
   QString address = "";
   uint port = 0;
@@ -47,16 +47,9 @@ struct NodeInfo
   QDateTime modified_time;
 };
 
-struct NodesInfo
-{
-  int64_t current_id = 0;
-  int current_index = 0;
-  std::vector<NodeInfo> nodes;
-};
-
 struct GroupInfo
 {
-  int64_t id = 0;
+  qint64 id = 0;
   QString name = "";
   bool isSubscription = false;
   SubscriptionType type = none;
@@ -102,6 +95,11 @@ public:
 
   QSqlError deleteRuntimeValue(const QString& key);
 
+  int64_t getCurrentNodeID();
+  int64_t getCurrentGroupID();
+  int64_t getDefaultNodeID();
+  int64_t getDefaultGroupID();
+
   bool isTableExists(const QString& table_name);
 
   bool isGroupExists(const QString& group_name);
@@ -114,7 +112,7 @@ public:
 
   QSqlError update(GroupInfo& group);
 
-  QSqlError removeItemFromID(const QString& group_name, int64_t id);
+  QSqlError removeItemFromID(const QString& group_name, qint64 id);
 
   QSqlError removeGroupFromName(const QString& group_name,
                                 bool keep_group = false);
@@ -125,9 +123,9 @@ public:
 
   std::vector<GroupInfo> getAllGroupsInfo();
 
-  std::vector<NodeInfo> listAllNodesInfo(const QString& group_name);
+  QVector<NodeInfo> listAllNodesFromGroup(const QString& group_name);
 
-  std::map<int, NodesInfo> listAllNodes();
+  QMap<qint64, QVector<NodeInfo>> listAllNodes();
 
 public slots:
   void close();

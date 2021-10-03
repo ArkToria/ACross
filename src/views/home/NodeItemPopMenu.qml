@@ -89,7 +89,7 @@ Menu {
         text: qsTr("Delete")
 
         onTriggered: {
-            acrossNodes.removeCurrentNode(nodeID)
+            acrossNodes.removeNodeByID(nodeID)
         }
     }
 }
