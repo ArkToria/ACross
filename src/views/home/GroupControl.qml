@@ -29,6 +29,19 @@ Item {
         }
     }
 
+    function getItemWidth() {
+        var width = acrossConfig.itemSpacing + Math.max(
+                    groupContorlCreate.width, groupContorlCopy.width,
+                    groupContorlQRCode.width, groupContorlSearch.width,
+                    groupContorlLocate.width)
+        return width
+    }
+
+    function getItemHeight() {
+        var height = acrossConfig.itemSpacing + groupContorlCreate.height
+        return height
+    }
+
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
         anchors.rightMargin: acrossConfig.itemSpacing
@@ -41,8 +54,8 @@ Item {
 
         CardBox {
             id: appendNodeButton
-            implicitHeight: groupContorlCreate.height
-            implicitWidth: groupContorlCreate.width
+            implicitHeight: getItemHeight()
+            implicitWidth: getItemWidth()
             layer.enabled: false
             color: "transparent"
 
@@ -89,8 +102,8 @@ Item {
         }
 
         CardBox {
-            implicitHeight: groupContorlCopy.height
-            implicitWidth: groupContorlCopy.width
+            implicitHeight: getItemHeight()
+            implicitWidth: getItemWidth()
             layer.enabled: false
             color: "transparent"
 
@@ -131,8 +144,8 @@ Item {
         }
 
         CardBox {
-            implicitHeight: groupContorlQRCode.height
-            implicitWidth: groupContorlQRCode.width
+            implicitHeight: getItemHeight()
+            implicitWidth: getItemWidth()
             layer.enabled: false
             color: "transparent"
 
@@ -178,8 +191,8 @@ Item {
         }
 
         CardBox {
-            implicitHeight: groupContorlSearch.height
-            implicitWidth: groupContorlSearch.width
+            implicitHeight: getItemHeight()
+            implicitWidth: getItemWidth()
             layer.enabled: false
             color: "transparent"
 
@@ -214,8 +227,8 @@ Item {
         }
 
         CardBox {
-            implicitHeight: groupContorlLocate.height
-            implicitWidth: groupContorlLocate.width
+            implicitHeight: getItemHeight()
+            implicitWidth: getItemWidth()
             layer.enabled: false
             color: "transparent"
 
@@ -249,7 +262,7 @@ Item {
 
                 onClicked: {
                     groupListPanel.setIndexByID(acrossNodes.currentGroupID)
-                    
+
                     nodeListPanel.locate()
                 }
             }
