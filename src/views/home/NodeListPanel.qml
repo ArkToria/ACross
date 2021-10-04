@@ -28,7 +28,7 @@ Item {
         }
     }
 
-    property real currentNodeY:0.0
+    property real currentNodeY: 0.0
     function locate() {
         nodeGridView.contentY = currentNodeY
     }
@@ -42,7 +42,7 @@ Item {
             list: acrossNodes
         }
 
-        cellWidth: Math.round((width - acrossConfig.itemSpacing) / 2)
+        cellWidth: Math.round(width / 2)
         cellHeight: 192
 
         delegate: NodeItemCard {
