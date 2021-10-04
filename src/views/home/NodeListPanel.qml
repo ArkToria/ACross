@@ -28,6 +28,11 @@ Item {
         }
     }
 
+    property real currentNodeY:0.0
+    function locate() {
+        nodeGridView.contentY = currentNodeY
+    }
+
     GridView {
         id: nodeGridView
         anchors.fill: parent

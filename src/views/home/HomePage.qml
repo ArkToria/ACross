@@ -29,6 +29,7 @@ Item {
             border.width: 1
 
             GroupListPanel {
+                id: groupListPanel
                 anchors.fill: parent
                 anchors.margins: 1
             }

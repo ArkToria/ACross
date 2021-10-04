@@ -9,6 +9,20 @@ Item {
     id: groupListPanel
     implicitWidth: 312
     implicitHeight: 720
+    
+    function setIndexByID(group_id) {
+        let index = -1;
+        for (let i=0; i<listScrollView.count; i++){
+            if(listScrollView.itemAtIndex(i).groupID === group_id){
+                index = i;
+                break;
+            }
+        }
+        if(index === -1) return;
+        listScrollView.currentIndex = index;
+
+        acrossGroups.setDisplayGroupID(group_id)
+    }
 
     GroupForm {
         id: updateGroupForm

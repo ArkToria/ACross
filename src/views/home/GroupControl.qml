@@ -246,6 +246,12 @@ Item {
                 onExited: {
                     parent.color = "transparent"
                 }
+
+                onClicked: {
+                    groupListPanel.setIndexByID(acrossNodes.currentGroupID)
+                    
+                    nodeListPanel.locate()
+                }
             }
         }
     }

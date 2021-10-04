@@ -135,10 +135,6 @@ Item {
 
         onEntered: {
             nodeItemCard.state = "HoverState"
-            console.log(acrossNodes.currentNodeGroup, group,
-                        Number(acrossNodes.currentNodeID), Number(nodeID))
-            console.log(acrossNodes.currentNodeGroup === group,
-                        acrossNodes.currentNodeID === nodeID)
         }
 
         onExited: {
@@ -150,6 +146,8 @@ Item {
                 acrossNodes.setCurrentNodeByID(nodeID)
 
                 nodeGridView.currentIndex = index
+
+                root.currentNodeY=nodeGridView.currentItem.y
             }
         }
 

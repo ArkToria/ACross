@@ -11,6 +11,8 @@ Item {
     implicitWidth: 312
     implicitHeight: 96
 
+    property int groupID:group_id
+
     state: groupItemCard.ListView.isCurrentItem ? "ClickState" : "NormalState"
 
     states: [
@@ -156,8 +158,6 @@ Item {
 
                     listScrollView.currentIndex = index
 
-                    groupItemCard.state = "ClickState"
-
                     acrossGroups.setDisplayGroupID(group_id)
                 }
             }
@@ -167,7 +167,11 @@ Item {
             target: listScrollView
 
             function onCurrentIndexChanged() {
-                groupItemCard.state = "NormalState"
+                if (listScrollView.currentIndex === index){
+                    groupItemCard.state = "ClickState"
+                } else {
+                    groupItemCard.state = "NormalState"
+                }
             }
         }
     }
