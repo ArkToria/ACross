@@ -84,7 +84,7 @@ Item {
 
                     source: isCurrent(
                                 ) ? "qrc:/misc/icons/" + acrossConfig.iconStyle
-                                    + "/more_vert_reverse.svg" : "qrc:/misc/icons/"
+                                    + (acrossConfig.iconStyle === "dark" ? "/more_vert.svg" : "/more_vert_reverse.svg") : "qrc:/misc/icons/"
                                     + acrossConfig.iconStyle + "/more_vert.svg"
                     sourceWidth: 24
                     sourceHeight: 24

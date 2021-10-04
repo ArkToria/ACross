@@ -1,3 +1,6 @@
 [submodule "3rdpart/magic_enum"]
 	path = 3rdpart/magic_enum
 	url = https://github.com/Neargye/magic_enum.git
+[submodule "3rdpart/semver"]
+	path = 3rdpart/semver
+	url = https://github.com/Neargye/semver
