@@ -44,6 +44,8 @@ public:
 
   Q_INVOKABLE void checkUpdate(int index, bool force = true);
 
+  Q_INVOKABLE int getIndexByID(int id);
+
 public slots:
   void reloadItems(bool reopen_db = false);
 

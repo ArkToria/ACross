@@ -28,11 +28,18 @@ Item {
         }
     }
 
-    property real currentNodeY: 0.0
-    function locate() {
-        nodeGridView.contentY = currentNodeY
+    property int currentIndex : nodeGridView.currentIndex
+    function setIndex(index){
+        currentIndex = index;
+        nodeGridView.currentIndex = index;
+    }
+    function locate(index) {
+        if(index < nodeGridView.count) {
+            nodeGridView.contentY = nodeGridView.cellHeight * Math.floor(index / nodeGridViewColumns)
+        }
     }
 
+    property int nodeGridViewColumns : 2
     GridView {
         id: nodeGridView
         anchors.fill: parent
@@ -42,7 +49,7 @@ Item {
             list: acrossNodes
         }
 
-        cellWidth: Math.round(width / 2)
+        cellWidth: Math.round(width / nodeGridViewColumns)
         cellHeight: 192
 
         delegate: NodeItemCard {

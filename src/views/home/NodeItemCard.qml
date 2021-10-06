@@ -145,9 +145,7 @@ Item {
             if (mouse.button === Qt.LeftButton) {
                 acrossNodes.setCurrentNodeByID(nodeID)
 
-                nodeGridView.currentIndex = index
-
-                root.currentNodeY=nodeGridView.currentItem.y
+                root.setIndex(index)
             }
         }
 

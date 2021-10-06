@@ -11,13 +11,7 @@ Item {
     implicitHeight: 720
     
     function setIndexByID(group_id) {
-        let index = -1;
-        for (let i=0; i<listScrollView.count; i++){
-            if(listScrollView.itemAtIndex(i).groupID === group_id){
-                index = i;
-                break;
-            }
-        }
+        let index = acrossGroups.getIndexByID(group_id);
         if(index === -1) return;
         listScrollView.currentIndex = index;
 

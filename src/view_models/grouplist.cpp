@@ -139,6 +139,17 @@ GroupList::checkUpdate(int index, bool force)
   } while (false);
 }
 
+Q_INVOKABLE int GroupList::getIndexByID(int id) 
+{
+  for(auto iter = 0; iter < m_items.size(); ++iter){
+    auto& item = m_items[iter];
+    if(item.id == id) {
+      return iter;
+    }
+  }
+  return -1;
+}
+
 void
 GroupList::reloadItems(bool reopen_db)
 {
