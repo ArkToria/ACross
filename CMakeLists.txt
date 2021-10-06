@@ -25,7 +25,6 @@ find_package(fmt CONFIG REQUIRED)
 find_package(jsoncpp REQUIRED)
 find_package(magic_enum REQUIRED)
 find_package(spdlog REQUIRED)
-#find_package(Sodium REQUIRED)
 find_package(ZXing REQUIRED)
 find_package(Threads REQUIRED)
 
@@ -37,6 +36,7 @@ set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import path
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/protobuf.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/3rdpart/semver/")
 ##################################
 
 ######## SOURCE FILES ########
@@ -142,6 +142,7 @@ target_link_libraries(across PRIVATE
     pthread
     spdlog::spdlog
     ZXing
+    semver
     )
 
 qt_add_qml_module(across

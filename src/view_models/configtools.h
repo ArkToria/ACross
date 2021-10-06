@@ -18,6 +18,7 @@
 #include "../models/confighelper.h"
 #include "../models/envtools.h"
 #include "../models/jsontools.h"
+#include "../models/networktools.h"
 #include "buildinfo.h"
 #include "logtools.h"
 
@@ -127,10 +128,13 @@ class ConfigTools : public QObject
   Q_PROPERTY(QString sourceCodeURL READ sourceCodeURL CONSTANT)
   Q_PROPERTY(QString reportURL READ reportURL CONSTANT)
   Q_PROPERTY(QString licenseURL READ licenseURL CONSTANT)
+  Q_PROPERTY(QString apiURL READ apiURL CONSTANT)
+  Q_PROPERTY(QString releaseURL READ releaseURL CONSTANT)
 
 public:
   explicit ConfigTools(QObject* parent = nullptr);
-  bool init(const QString& file_path = "");
+  bool init(QSharedPointer<across::network::CURLTools> curl,
+            const QString& file_path = "");
   bool loadConfigPath(const QString& file_path = "");
   void loadThemeConfig();
   across::config::Config* configPtr();
@@ -143,6 +147,7 @@ public:
   Q_INVOKABLE bool testAndSetAddr(const QString& addr);
   Q_INVOKABLE void freshInbound();
   Q_INVOKABLE void saveConfig(QString config_path = "");
+  Q_INVOKABLE void checkUpdate();
 
   static bool isFileExist(QString file_path);
 
@@ -208,6 +213,8 @@ public:
   QString sourceCodeURL();
   QString reportURL();
   QString licenseURL();
+  QString apiURL();
+  QString releaseURL();
 
 public slots:
   void setDBPath(const QString& val = "", bool init = false);
@@ -252,6 +259,9 @@ public slots:
   void setNetworkTestMethod(const QString& val);
   void setNetworkTestURL(const QString& val);
   void setNetworkUserAgent(const QString& val);
+
+  // help page
+  void handleUpdated(const QVariant& content);
 
 signals:
   void dbPathChanged();
@@ -302,12 +312,16 @@ signals:
   void networkTestURLChanged();
   void networkUserAgentChanged();
 
+  // help page
+  void updatedChanged(const QString& version);
+
 private:
   const QString m_config_name = "across.json";
   QString m_config_path = "./" + m_config_name;
   QString m_api_result_text = "";
 
   EnvTools m_envs;
+  QSharedPointer<across::network::CURLTools> p_curl;
   across::config::Config m_conf = ConfigHelper::defaultConfig();
   across::config::Core* p_core;
   across::config::Database* p_db;

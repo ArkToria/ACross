@@ -1,6 +1,7 @@
 #include "networktools.h"
 
 using namespace across::network;
+using namespace across::config;
 
 DNSTools::DNSTools(QObject* parent)
   : QObject(parent)
@@ -318,4 +319,43 @@ void
 CURLTools::handleResult(const QVariant& content)
 {
   emit downloadFinished(content);
+}
+
+QString
+UpdateTools::getVersion(const QString& content)
+{
+  Json::Value root;
+  Json::String err_msg;
+
+  if (JsonTools::jsonParse(content.toStdString(), root, err_msg)) {
+    if (auto tag = root["tag_name"]; !tag.isNull() && tag.isString()) {
+      auto result = QString::fromStdString(tag.asString());
+      return result.remove("v");
+    }
+  }
+
+  return QString();
+}
+
+int
+UpdateTools::compareVersion(const QString& ver_a, const QString& ver_b)
+{
+  // Output values
+  //   : <0 : if ver1<ver2 0
+  //   : if ver1 == ver2> 0 : if ver1>
+  //   ver2
+
+  constexpr auto qstr2ver = [](const QString& qstr_ver) -> semver::version {
+    auto std_str = qstr_ver.toStdString();
+    std::string_view view_str(std_str.data(), std_str.size());
+
+    return semver::version(view_str);
+  };
+
+  if (auto v_a = qstr2ver(ver_a), v_b = qstr2ver(ver_b); v_a < v_b)
+    return -1;
+  else if (v_a == v_b)
+    return 0;
+  else
+    return 1;
 }

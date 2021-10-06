@@ -59,6 +59,19 @@ namespace across {
     {
       return QString("https://www.gnu.org/licenses/gpl-3.0.html");
     }
+
+    inline static const QString
+    getAPIURL()
+    {
+      return QString(
+        "https://api.github.com/repos/ArkToria/ACross/releases/latest");
+    }
+
+    inline static const QString
+    getReleaseURL()
+    {
+      return QString("https://github.com/ArkToria/ACross/releases");
+    }
 }
 
 #endif // VERSION_H_IN

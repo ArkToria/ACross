@@ -149,6 +149,14 @@ CardBox {
                         Layout.fillWidth: true
                     }
 
+                    URLBox {
+                        id: newVersionText
+                        visible: false
+
+                        urlText: acrossConfig.releaseURL
+                        color: acrossConfig.styleColor
+                    }
+
                     ButtonBox {
                         text: qsTr("Report Bugs")
                         basicColor: acrossConfig.warnColor
@@ -158,6 +166,26 @@ CardBox {
 
                     ButtonBox {
                         text: qsTr("Check Update")
+
+                        onClicked: {
+                            acrossConfig.checkUpdate()
+                        }
+                    }
+
+                    Connections {
+                        target: acrossConfig
+
+                        function onUpdatedChanged(version) {
+                            newVersionText.visible = true
+
+                            if (version !== "") {
+                                newVersionText.text = qsTr(
+                                            "New Version: ") + version
+                            } else {
+                                newVersionText.text = qsTr(
+                                            "Already the latest version")
+                            }
+                        }
                     }
                 }
             }

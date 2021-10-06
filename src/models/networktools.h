@@ -1,7 +1,10 @@
 #ifndef NETWORKTOOLS_H
 #define NETWORKTOOLS_H
 
+#include "jsontools.h"
+
 #include "curl/curl.h"
+#include "semver.hpp"
 
 #include <QDnsLookup>
 #include <QHostAddress>
@@ -134,6 +137,13 @@ signals:
 
 private:
   QMap<QString, QThread*> m_threads;
+};
+
+class UpdateTools
+{
+public:
+  static QString getVersion(const QString& content);
+  static int compareVersion(const QString& ver_a, const QString& ver_b);
 };
 }
 }

@@ -3,12 +3,13 @@
 using namespace across::setting;
 using namespace across::core;
 using namespace across::config;
+using namespace across::network;
 using namespace across::utils;
 
 ConfigTools::ConfigTools(QObject* parent) {}
 
 bool
-ConfigTools::init(const QString& file_path)
+ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
 {
   connect(
     this, &ConfigTools::configChanged, this, [&]() { this->saveConfig(); });
@@ -19,6 +20,13 @@ ConfigTools::init(const QString& file_path)
       this->m_conf.MergeFrom(ConfigHelper::fromJson(json_str));
     }
   } else {
+    qDebug() << "Create new config on :" << m_config_path;
+  }
+
+  if (curl != nullptr) {
+    p_curl = curl;
+  } else {
+    return false;
   }
 
   p_core = m_conf.mutable_core();
@@ -273,6 +281,23 @@ ConfigTools::saveConfig(QString config_path)
   } else {
     ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
                              m_config_path.toStdString());
+  }
+}
+
+void
+ConfigTools::checkUpdate()
+{
+  if (p_curl != nullptr) {
+    DownloadTask task = { .filename = "github_api.json",
+                          .url = apiURL(),
+                          .user_agent = networkUserAgent() };
+
+    connect(p_curl.get(),
+            &CURLTools::downloadFinished,
+            this,
+            &ConfigTools::handleUpdated);
+
+    p_curl->download(task);
   }
 }
 
@@ -1005,6 +1030,28 @@ ConfigTools::setNetworkUserAgent(const QString& val)
   emit networkUserAgentChanged();
 }
 
+void
+ConfigTools::handleUpdated(const QVariant& content)
+{
+  if (auto task = content.value<DownloadTask>(); !task.content.isEmpty()) {
+
+#ifdef QT_DEBUG
+    QString test_content("{\"tag_name\": \"v0.1.1\"}");
+    if (auto new_ver = UpdateTools::getVersion(test_content);
+        new_ver.isEmpty()) {
+#else
+    if (auto new_ver = UpdateTools::getVersion(task.content);
+        new_ver.isEmpty()) {
+#endif
+
+    } else if (UpdateTools::compareVersion(new_ver, guiVersion()) > 0)
+      emit updatedChanged(new_ver);
+    else {
+      emit updatedChanged("");
+    }
+  }
+}
+
 QString
 ConfigTools::buildInfo()
 {
@@ -1039,4 +1086,16 @@ QString
 ConfigTools::licenseURL()
 {
   return getLicenseURL();
+}
+
+QString
+ConfigTools::apiURL()
+{
+  return getAPIURL();
+}
+
+QString
+ConfigTools::releaseURL()
+{
+  return getReleaseURL();
 }
