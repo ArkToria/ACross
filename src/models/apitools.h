@@ -30,8 +30,8 @@ namespace across {
 namespace core {
 struct TrafficInfo
 {
-  int64_t upload = 0;
-  int64_t download = 0;
+  qint64 upload = 0;
+  qint64 download = 0;
 
   void clear();
 };

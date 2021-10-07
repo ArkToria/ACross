@@ -76,8 +76,8 @@ NodeList::init(QSharedPointer<LogView> log_view,
               m_traffic_sum.upload += traffic.upload - m_traffic_last.upload -
                                       m_traffic_last_rate.upload;
 
-              setDownloadTraffic(std::max(m_traffic_sum.download, 0L));
-              setUploadTraffic(std::max(m_traffic_sum.upload, 0L));
+              setDownloadTraffic(std::max(m_traffic_sum.download, 0LL));
+              setUploadTraffic(std::max(m_traffic_sum.upload, 0LL));
 
               m_traffic_last_rate = {
                 .upload = traffic.upload - m_traffic_last.upload,
