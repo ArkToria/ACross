@@ -141,7 +141,7 @@ LogView::getLogsInfo()
   QString core_file;
   QDir log_dir;
 
-#ifdef __linux__
+#ifdef Q_OS_LINUX
   if (auto data_home = EnvTools().getInfo().ACROSS_DATA_DIR;
       !data_home.isEmpty()) {
     log_dir = QDir(data_home).filePath("logs");
@@ -153,7 +153,7 @@ LogView::getLogsInfo()
     core_file = log_dir.filePath(CORE_FILE_NAME);
   }
 #else
-  log_dir = "./";
+  log_dir = QDir("./");
   app_file = QDir("./").filePath(APP_FILE_NAME);
   core_file = QDir("./").filePath(CORE_FILE_NAME);
 #endif
