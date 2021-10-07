@@ -107,3 +107,7 @@ _deps
 
 # Nix
 /result*
+
+# ---> Windows
+.vs/
+CMakeSettings.json

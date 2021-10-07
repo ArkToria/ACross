@@ -5,9 +5,15 @@
 #include <QString>
 #include <QUrl>
 
+#ifdef Q_OS_WIN
+#include <BarcodeFormat.h>
+#include <BitMatrix.h>
+#include <MultiFormatWriter.h>
+#else
 #include "ZXing/BarcodeFormat.h"
 #include "ZXing/BitMatrix.h"
 #include "ZXing/MultiFormatWriter.h"
+#endif
 
 namespace across {
 namespace utils {

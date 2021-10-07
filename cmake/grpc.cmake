@@ -4,11 +4,13 @@ find_package(gRPC CONFIG REQUIRED)
 # Find Generator Executable Plugin
 find_program(GRPC_CC_PLUGIN_EXECUTABLE grpc_cpp_plugin)
 
-# Find PkgConfig
-find_package(PkgConfig REQUIRED)
+if(UNIX)
+    # Find PkgConfig
+    find_package(PkgConfig REQUIRED)
 
-# Check Modules
-pkg_check_modules(GRPC REQUIRED grpc++ grpc)
+    # Check Modules
+    pkg_check_modules(GRPC REQUIRED grpc++ grpc)
+endif()
 
 # Set Source Files
 set(API_GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${API_PROTO_NAME}.grpc.pb.cc")
