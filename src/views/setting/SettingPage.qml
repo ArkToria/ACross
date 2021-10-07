@@ -42,7 +42,7 @@ Item {
 
             CardBox {
                 Layout.fillWidth: true
-                implicitHeight: 320
+                implicitHeight: 420
 
                 ApplicationItem {
                     anchors.fill: parent

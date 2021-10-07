@@ -97,44 +97,6 @@ Item {
         }
 
         Label {
-            text: qsTr("Theme")
-            horizontalAlignment: Text.AlignLeft
-            color: acrossConfig.textColor
-        }
-
-        DropDownBox {
-            id: themeDropDownBox
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            displayText: acrossConfig.currentTheme
-            model: ["current", "default-light", "dark", "nord-dark"]
-
-            onEditTextChanged: {
-                if (editText !== "current") {
-                    acrossConfig.currentTheme = editText
-                }
-            }
-        }
-
-        Label {
-            text: qsTr("Language")
-            color: acrossConfig.textColor
-        }
-
-        DropDownBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            displayText: acrossConfig.currentLanguage
-            model: ["current", "en_US", "zh_CN"]
-
-            onEditTextChanged: {
-                acrossConfig.currentLanguage = editText
-            }
-        }
-
-        Label {
             text: qsTr("Log Level")
             color: acrossConfig.textColor
         }
@@ -147,7 +109,7 @@ Item {
             displayText: acrossConfig.logLevel
             model: ["current", "debug", "info", "warn", "error", "none"]
 
-            onEditTextChanged: {
+            onEditTextChanged: function (editText) {
                 if (editText !== "current") {
                     acrossConfig.logLevel = editText
                 }
@@ -228,6 +190,113 @@ Item {
             onClicked: {
                 dbFileDirDialog.open()
             }
+        }
+
+        Label {
+            text: qsTr("Theme")
+            horizontalAlignment: Text.AlignLeft
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            id: themeDropDownBox
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+
+            displayText: acrossConfig.currentTheme
+            model: ["current", "default-light", "dark", "nord-dark"]
+
+            onEditTextChanged: function (editText) {
+                if (editText !== "current") {
+                    acrossConfig.currentTheme = editText
+                }
+            }
+        }
+
+        Label {
+            text: qsTr("Language")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+
+            displayText: acrossConfig.currentLanguage
+            model: ["current", "en_US", "zh_CN"]
+
+            onEditTextChanged: {
+                acrossConfig.currentLanguage = editText
+            }
+        }
+
+        Label {
+            text: qsTr("Enable Banner")
+            color: acrossConfig.textColor
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+        }
+
+        SwitchBox {
+            id: enableBannerSwitch
+            Layout.alignment: Qt.AlignRight
+
+            checked: acrossConfig.enableBanner
+            onCheckedChanged: {
+                acrossConfig.enableBanner = checked
+            }
+        }
+
+        Label {
+            visible: enableBannerSwitch.checked
+
+            text: qsTr("Banner Image")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            visible: enableBannerSwitch.checked
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+
+            placeholderText: acrossConfig.backgroundImage
+        }
+
+        ButtonBox {
+            visible: enableBannerSwitch.checked
+            Layout.fillWidth: true
+
+            text: qsTr("Open File")
+        }
+
+        Label {
+            visible: enableBannerSwitch.checked
+
+            text: qsTr("Banner Opacity")
+            color: acrossConfig.textColor
+        }
+
+        Slider {
+            id: backgroundOpacitySlider
+            visible: enableBannerSwitch.checked
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+
+            from: 0.0
+            to: 1.0
+            stepSize: 0.05
+            snapMode: Slider.SnapOnRelease
+        }
+
+        Label {
+            visible: enableBannerSwitch.checked
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+            text: backgroundOpacitySlider.value.toFixed(2)
+            color: acrossConfig.textColor
         }
     }
 }

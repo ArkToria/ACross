@@ -1002,6 +1002,62 @@ ConfigTools::setEnableTray(bool val)
   emit enableTrayChanged();
 }
 
+bool
+ConfigTools::enableBanner()
+{
+  return p_theme->banner().enable();
+}
+
+void
+ConfigTools::setEnableBanner(bool val)
+{
+  if (val == p_theme->banner().enable())
+    return;
+  p_theme->mutable_banner()->set_enable(val);
+
+  emit enableBannerChanged();
+}
+
+double
+ConfigTools::backgroundOpacity()
+{
+  return p_theme->banner().background_opacity();
+}
+
+void
+ConfigTools::setBackgroundOpacity(double val)
+{
+  if (qFuzzyCompare(val, p_theme->banner().background_opacity()))
+    return;
+
+  p_theme->mutable_banner()->set_background_opacity(val);
+  emit backgroundOpacityChanged();
+}
+
+QString
+ConfigTools::backgroundImage()
+{
+  if (auto url =
+        QUrl::fromLocalFile(p_theme->banner().background_image().c_str());
+      url.isLocalFile()) {
+    return url.url();
+  }
+
+  return QString();
+}
+
+void
+ConfigTools::setBackgroundImage(const QString& val)
+{
+  if (val == p_theme->banner().background_image().c_str())
+    return;
+
+  p_theme->mutable_banner()->set_background_image(val.toStdString());
+
+  emit configChanged();
+  emit backgroundImageChanged();
+}
+
 void
 ConfigTools::setNetworkTestMethod(const QString& val)
 {

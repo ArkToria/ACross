@@ -112,6 +112,12 @@ class ConfigTools : public QObject
                setCurrentLanguage NOTIFY currentLanguageChanged)
   Q_PROPERTY(bool enableTray READ enableTray WRITE setEnableTray NOTIFY
                enableTrayChanged)
+  Q_PROPERTY(bool enableBanner READ enableBanner WRITE setEnableBanner NOTIFY
+               enableBannerChanged)
+  Q_PROPERTY(QString backgroundImage READ backgroundImage WRITE
+               setBackgroundImage NOTIFY backgroundImageChanged)
+  Q_PROPERTY(double backgroundOpacity READ backgroundOpacity WRITE
+               setBackgroundOpacity NOTIFY backgroundOpacityChanged)
 
   // network setting
   Q_PROPERTY(QString networkTestMethod READ networkTestMethod WRITE
@@ -200,6 +206,9 @@ public:
   QString currentTheme();
   QString currentLanguage();
   bool enableTray();
+  bool enableBanner();
+  QString backgroundImage();
+  double backgroundOpacity();
 
   // network setting
   QString networkTestMethod();
@@ -254,6 +263,9 @@ public slots:
   void setCurrentTheme(const QString& val);
   void setCurrentLanguage(const QString& val);
   void setEnableTray(bool val);
+  void setEnableBanner(bool val);
+  void setBackgroundImage(const QString& val);
+  void setBackgroundOpacity(double val);
 
   // network setting
   void setNetworkTestMethod(const QString& val);
@@ -306,6 +318,9 @@ signals:
   void enableTrayChanged();
   void buildInfoChanged();
   void configChanged();
+  void enableBannerChanged();
+  void backgroundImageChanged();
+  void backgroundOpacityChanged();
 
   // network setting
   void networkTestMethodChanged();
