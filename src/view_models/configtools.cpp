@@ -17,6 +17,8 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
   if (loadConfigPath()) {
     if (auto json_str = ConfigHelper::readFromFile(m_config_path.toStdString());
         !json_str.empty()) {
+      // replace old themes
+      this->m_conf.mutable_themes()->Clear();
       this->m_conf.MergeFrom(ConfigHelper::fromJson(json_str));
     }
   } else {
