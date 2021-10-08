@@ -37,7 +37,7 @@ Item {
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredWidth: 72
+            Layout.preferredWidth: 32
         }
 
         CardBox {
