@@ -53,12 +53,14 @@ CoreTools::init(QSharedPointer<LogView> log_view,
 
   connect(
     p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
-  connect(
-     p_process, &QProcess::stateChanged, this, [&](QProcess::ProcessState state) {
-        if(state==QProcess::NotRunning){
-          this->setIsRunning(false);
-        }
-     });
+  connect(p_process,
+          &QProcess::stateChanged,
+          this,
+          [&](QProcess::ProcessState state) {
+            if (state == QProcess::NotRunning) {
+              this->setIsRunning(false);
+            }
+          });
 
   return true;
 }
@@ -82,13 +84,15 @@ CoreTools::run()
     p_process = new QProcess();
     p_process->setProcessChannelMode(QProcess::MergedChannels);
     connect(
-     p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
-    connect(
-     p_process, &QProcess::stateChanged, this, [&](QProcess::ProcessState state) {
-        if(state==QProcess::NotRunning){
-          this->setIsRunning(false);
-        }
-     });
+      p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
+    connect(p_process,
+            &QProcess::stateChanged,
+            this,
+            [&](QProcess::ProcessState state) {
+              if (state == QProcess::NotRunning) {
+                this->setIsRunning(false);
+              }
+            });
   }
 
   if (m_running) {
