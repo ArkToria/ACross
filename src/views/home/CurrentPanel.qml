@@ -23,6 +23,7 @@ Item {
             Image {
                 id: backgroundImage
                 anchors.fill: parent
+                visible: acrossConfig.enableBanner
 
                 source: acrossConfig.backgroundImage
                 fillMode: Image.PreserveAspectCrop
