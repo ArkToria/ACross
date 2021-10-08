@@ -197,7 +197,7 @@ ConfigHelper::defaultConfig()
       colors->set_border_color("#bcb995c1");
       colors->set_deep_color("#1f1f1f");
       colors->set_deep_text_color("#c3c3c3");
-      colors->set_style_color("#bfb27e");
+      colors->set_style_color("#cfc29e");
       colors->set_style_text_color("#ffffff");
     }
 
