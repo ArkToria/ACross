@@ -16,35 +16,29 @@ Item {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
         anchors.rightMargin: acrossConfig.itemSpacing
 
-        Image {
-            id: backgroundImage
-            anchors.fill: parent
-            source: acrossConfig.backgroundImage
-            fillMode: Image.PreserveAspectCrop
-
-            layer.enabled: true
-            layer.effect: OpacityMask {
-                maskSource: mask
-            }
-
-            ColorOverlay {
-                anchors.fill: parent
-                source: parent
-                color: acrossConfig.backgroundColor
-                opacity: acrossConfig.backgroundOpacity > 0 ? acrossConfig.backgroundOpacity : 0
-            }
-        }
-
-        CardBox {
-            id: mask
-            anchors.fill: parent
-            visible: false
-        }
-
         CardBox {
             id: background
-            color: acrossConfig.enableBanner ? "transparent" : acrossConfig.backgroundColor
             anchors.fill: parent
+
+            Image {
+                id: backgroundImage
+                anchors.fill: parent
+
+                source: acrossConfig.backgroundImage
+                fillMode: Image.PreserveAspectCrop
+                opacity: acrossConfig.backgroundOpacity > 0 ? acrossConfig.backgroundOpacity : 0
+
+                layer.enabled: true
+                layer.effect: OpacityMask {
+                    maskSource: mask
+                }
+            }
+
+            CardBox {
+                id: mask
+                anchors.fill: parent
+                visible: false
+            }
 
             GridLayout {
                 anchors.fill: parent
