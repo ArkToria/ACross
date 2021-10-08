@@ -27,9 +27,9 @@ find_package(fmt CONFIG REQUIRED)
 find_package(magic_enum REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(Threads REQUIRED)
+find_package(jsoncpp REQUIRED)
 
 if (WIN32)
-    find_package(jsoncpp CONFIG REQUIRED)
     message("Fetching 'zxing-cpp'...")
     set(BUILD_EXAMPLES OFF CACHE STRING "" FORCE)
     set(BUILD_BLACKBOX_TESTS OFF CACHE STRING "" FORCE)
@@ -41,7 +41,6 @@ if (WIN32)
     FetchContent_MakeAvailable(zxing-cpp)
     message("Fetch 'zxing-cpp' done.")
 else()
-    find_package(jsoncpp REQUIRED)
     find_package(ZXing REQUIRED)
 endif()
 
@@ -158,20 +157,9 @@ target_link_libraries(across PRIVATE
     semver
     spdlog::spdlog
     ZXing
+    Threads::Threads
+    ACross::jsoncpp
     )
-
-if (WIN32)
-    target_link_libraries(across PRIVATE
-        jsoncpp_lib
-        jsoncpp_object
-        Threads::Threads
-        )
-else()
-    target_link_libraries(across PRIVATE
-        jsoncpp
-        pthread
-        )
-endif()
 
 qt_add_qml_module(across
     URI "ACross"
