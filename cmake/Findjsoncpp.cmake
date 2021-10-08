@@ -15,4 +15,10 @@ if (UNIX)
     target_link_libraries(jsoncpp PUBLIC
         ${JSONCPP_LIBRARY}
         )
+else()
+    find_package(jsoncpp CONFIG REQUIRED)
+    add_library(jsoncpp INTERFACE)
+    target_link_libraries(jsoncpp INTERFACE jsoncpp_lib jsoncpp_object)
 endif()
+
+add_library(ACross::jsoncpp ALIAS jsoncpp)
