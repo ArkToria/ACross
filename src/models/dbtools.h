@@ -138,6 +138,7 @@ private:
   std::vector<GroupInfo> m_all_groups_info;
 
 private:
+  const QString PREFIX = "acg_";
   QSqlDatabase m_db;
   std::shared_ptr<across::utils::LogTools> p_logger;
   QSharedPointer<across::setting::ConfigTools> p_config = nullptr;

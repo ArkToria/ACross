@@ -140,7 +140,7 @@ DBTools::createDefaultGroup()
   QSqlError result;
   const QString default_group("default_group");
 
-  if (!isGroupExists(default_group)) {
+  if (!isGroupExists(PREFIX + default_group)) {
     GroupInfo group = { .name = default_group };
     result = this->insert(group);
   }
@@ -178,7 +178,7 @@ DBTools::createGroupsTable()
 QSqlError
 DBTools::createNodesTable(const QString& group_name)
 {
-  if (isTableExists(group_name)) {
+  if (isTableExists(PREFIX + group_name)) {
     return QSqlError();
   }
 
@@ -195,7 +195,7 @@ DBTools::createNodesTable(const QString& group_name)
                                      "URL TEXT,"
                                      "CreatedAt INT64 NOT NULL,"
                                      "ModifiedAt INT64 NOT NULL) ;")
-                               .arg(group_name.toHtmlEscaped());
+                               .arg(PREFIX + group_name.toHtmlEscaped());
 
   return createTable(create_nodes_str);
 }
@@ -321,7 +321,7 @@ DBTools::insert(NodeInfo& node)
             "(Name, GroupName, GroupID, Protocol, Address, Port, "
             "Password, Raw, URL, CreatedAt, ModifiedAt) "
             "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
-      .arg(node.group.toHtmlEscaped());
+      .arg(PREFIX + node.group.toHtmlEscaped());
 
   if (node.created_time.isNull()) {
     node.created_time = QDateTime::currentDateTime();
@@ -371,7 +371,7 @@ DBTools::insert(GroupInfo& group)
   }
 
   QVariantList input_collection = {
-    group.name,
+    PREFIX + group.name,
     group.isSubscription,
     group.type,
     group.url,
@@ -409,8 +409,12 @@ DBTools::update(GroupInfo& group)
                      "WHERE ID = ?;");
 
   QVariantList input_collection = {
-    group.name, group.isSubscription, group.type,
-    group.url,  group.cycle_time,     group.modified_time.toSecsSinceEpoch(),
+    PREFIX + group.name,
+    group.isSubscription,
+    group.type,
+    group.url,
+    group.cycle_time,
+    group.modified_time.toSecsSinceEpoch(),
     group.id,
   };
 
@@ -447,7 +451,7 @@ DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
 QSqlError
 DBTools::dropTable(const QString& table_name)
 {
-  QString drop_str = QString("DROP TABLE \"%1\"").arg(table_name);
+  QString drop_str = QString("DROP TABLE \"%1\"").arg(PREFIX + table_name);
 
   return stepExec(drop_str);
 }
@@ -467,7 +471,7 @@ DBTools::listAllGroupsInfo()
     for (auto& item : collections) {
       GroupInfo group;
       group.id = item.at(0).toLongLong();
-      group.name = item.at(1).toString();
+      group.name = item.at(1).toString().remove(PREFIX);
       group.isSubscription = item.at(2).toBool();
       group.type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt());
       group.url = item.at(4).toString();
@@ -500,7 +504,7 @@ DBTools::listAllNodesFromGroup(const QString& group_name)
   QVector<NodeInfo> nodes;
   QVector<QVariantList> collections;
   QString select_str =
-    QString("SELECT * FROM \"%1\"").arg(group_name.toHtmlEscaped());
+    QString("SELECT * FROM \"%1\"").arg(PREFIX + group_name.toHtmlEscaped());
 
   if (auto result = stepExec(select_str, nullptr, 12, &collections);
       result.type() != QSqlError::NoError) {
