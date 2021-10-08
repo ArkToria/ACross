@@ -2,7 +2,7 @@
 
 ![banner](misc/design/banner.png)
 
-[More Screenshot](misc/screenshots)
+[More Screenshots...](misc/screenshots)
 
 ## Dependences
 
