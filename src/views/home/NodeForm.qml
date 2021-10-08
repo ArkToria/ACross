@@ -116,8 +116,7 @@ Window {
                                         break
                                     case "outbound":
                                         nodeFormModel.protocol = "raw"
-                                        streamSettingLoader.source
-                                                = "qrc:/ACross/src/views/home/RawOutboundSetting.qml"
+                                        streamSettingLoader.source = "qrc:/ACross/src/views/home/RawOutboundSetting.qml"
                                         break
                                     case "url":
                                         nodeFormModel.protocol = "scheme"
@@ -162,7 +161,7 @@ Window {
 
                 RowLayout {
                     spacing: acrossConfig.itemSpacing
-                    implicitWidth: scrollView.availableWidth
+                    width: scrollView.availableWidth
 
                     Item {
                         Layout.fillWidth: true
@@ -170,8 +169,8 @@ Window {
 
                     ButtonBox {
                         id: acceptFormButton
+
                         text: qsTr("Accept")
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         onClicked: {
                             streamSettingLoader.acceptAll()
                             nodeFormModel.accept()
@@ -181,7 +180,8 @@ Window {
 
                     ButtonBox {
                         text: qsTr("Cancel")
-                        Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
+                        basicColor: acrossConfig.warnColor
+                        basicState: "WarnState"
 
                         onClicked: {
                             nodeFormModel.cancel()

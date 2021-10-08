@@ -47,7 +47,7 @@ Item {
 
         Label {
             text: qsTr("SOCKS5")
-            font.pixelSize: 18
+            font.pointSize: 12
             color: acrossConfig.textColor
         }
 
@@ -69,7 +69,7 @@ Item {
 
         Label {
             text: qsTr("HTTP")
-            font.pixelSize: 18
+            font.pointSize: 12
             color: acrossConfig.textColor
         }
 

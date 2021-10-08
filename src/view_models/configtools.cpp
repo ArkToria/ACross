@@ -105,6 +105,9 @@ ConfigTools::loadThemeConfig()
   emit trayStylishChanged();
   emit borderColorChanged();
   emit borderRadiusChanged();
+  emit enableBannerChanged();
+  emit backgroundImageChanged();
+  emit backgroundOpacityChanged();
 }
 
 Config*
@@ -1015,6 +1018,7 @@ ConfigTools::setEnableBanner(bool val)
     return;
   p_theme->mutable_banner()->set_enable(val);
 
+  emit configChanged();
   emit enableBannerChanged();
 }
 
@@ -1031,6 +1035,8 @@ ConfigTools::setBackgroundOpacity(double val)
     return;
 
   p_theme->mutable_banner()->set_background_opacity(val);
+
+  emit configChanged();
   emit backgroundOpacityChanged();
 }
 
@@ -1039,7 +1045,7 @@ ConfigTools::backgroundImage()
 {
   if (auto url =
         QUrl::fromLocalFile(p_theme->banner().background_image().c_str());
-      url.isLocalFile()) {
+      !url.isEmpty()) {
     return url.url();
   }
 
@@ -1047,15 +1053,20 @@ ConfigTools::backgroundImage()
 }
 
 void
-ConfigTools::setBackgroundImage(const QString& val)
+ConfigTools::setBackgroundImage(const QString& file_url)
 {
-  if (val == p_theme->banner().background_image().c_str())
-    return;
+  if (auto url = QUrl(file_url); url.isLocalFile()) {
+    QFileInfo file(url.path());
 
-  p_theme->mutable_banner()->set_background_image(val.toStdString());
+    auto val = file.absoluteFilePath();
+    if (val == p_theme->banner().background_image().c_str())
+      return;
 
-  emit configChanged();
-  emit backgroundImageChanged();
+    p_theme->mutable_banner()->set_background_image(val.toStdString());
+
+    emit configChanged();
+    emit backgroundImageChanged();
+  }
 }
 
 void

@@ -29,19 +29,6 @@ Item {
         }
     }
 
-    function getItemWidth() {
-        var width = acrossConfig.itemSpacing + Math.max(
-                    groupContorlCreate.width, groupContorlCopy.width,
-                    groupContorlQRCode.width, groupContorlSearch.width,
-                    groupContorlLocate.width)
-        return width
-    }
-
-    function getItemHeight() {
-        var height = acrossConfig.itemSpacing + groupContorlCreate.height
-        return height
-    }
-
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
         anchors.rightMargin: acrossConfig.itemSpacing
@@ -50,12 +37,14 @@ Item {
 
         Item {
             Layout.fillWidth: true
+            Layout.preferredWidth: 72
         }
 
         CardBox {
             id: appendNodeButton
-            implicitHeight: getItemHeight()
-            implicitWidth: getItemWidth()
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
             layer.enabled: false
             color: "transparent"
 
@@ -102,8 +91,9 @@ Item {
         }
 
         CardBox {
-            implicitHeight: getItemHeight()
-            implicitWidth: getItemWidth()
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
             layer.enabled: false
             color: "transparent"
 
@@ -144,8 +134,9 @@ Item {
         }
 
         CardBox {
-            implicitHeight: getItemHeight()
-            implicitWidth: getItemWidth()
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
             layer.enabled: false
             color: "transparent"
 
@@ -191,8 +182,9 @@ Item {
         }
 
         CardBox {
-            implicitHeight: getItemHeight()
-            implicitWidth: getItemWidth()
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
             layer.enabled: false
             color: "transparent"
 
@@ -227,8 +219,9 @@ Item {
         }
 
         CardBox {
-            implicitHeight: getItemHeight()
-            implicitWidth: getItemWidth()
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
             layer.enabled: false
             color: "transparent"
 

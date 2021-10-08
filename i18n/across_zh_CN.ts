@@ -34,14 +34,24 @@
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="153"/>
+        <location filename="../src/views/help/About.qml" line="161"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="160"/>
+        <location filename="../src/views/help/About.qml" line="168"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
+    </message>
+    <message>
+        <location filename="../src/views/help/About.qml" line="182"/>
+        <source>New Version: </source>
+        <translation>新版本: </translation>
+    </message>
+    <message>
+        <location filename="../src/views/help/About.qml" line="185"/>
+        <source>Already the latest version</source>
+        <translation>已经是最新版本</translation>
     </message>
 </context>
 <context>
@@ -61,79 +71,124 @@
         <translation>选择数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="47"/>
         <source>Application Setting</source>
-        <translation>应用设置</translation>
+        <translation type="vanished">应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="216"/>
         <source>Enable Tray Icon</source>
         <translation>启用托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="67"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="231"/>
         <source>System tray is not available</source>
         <translation>系统托盘不可用</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="83"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="65"/>
         <source>Set UserAgent</source>
         <translation>设置 UserAgent</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="100"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="178"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="120"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="199"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="137"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="82"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="157"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="38"/>
+        <source>Select Image</source>
+        <translation>设置图片</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="59"/>
+        <source>Application Settings</source>
+        <translation>应用设置</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="102"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="175"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="120"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="187"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="132"/>
         <source>Log File</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="195"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="140"/>
         <source>Open Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="202"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="147"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="211"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="156"/>
         <source>Enter Database Path Here</source>
         <translation>在此输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="217"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="162"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="292"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="226"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="171"/>
         <source>Folder</source>
         <translation>文件夹</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="247"/>
+        <source>Enable Background Image</source>
+        <translation>启用背景图</translation>
+    </message>
+    <message>
+        <source>Image</source>
+        <translation type="obsolete">图片</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="276"/>
+        <source>Background Image</source>
+        <translation>背景图</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="302"/>
+        <source>Opacity</source>
+        <translation>不透明度</translation>
+    </message>
+    <message>
+        <source>Background Opacity</source>
+        <translation type="vanished">不透明度</translation>
+    </message>
+    <message>
+        <source>Enable Banner</source>
+        <translation type="obsolete">启用横幅</translation>
+    </message>
+    <message>
+        <source>Banner Image</source>
+        <translation type="vanished">背景图</translation>
+    </message>
+    <message>
+        <source>Banner Opacity</source>
+        <translation type="vanished">不透明度</translation>
     </message>
 </context>
 <context>
@@ -234,27 +289,27 @@
 <context>
     <name>GroupControl</name>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="42"/>
+        <location filename="../src/views/home/GroupControl.qml" line="62"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="90"/>
+        <location filename="../src/views/home/GroupControl.qml" line="111"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="128"/>
+        <location filename="../src/views/home/GroupControl.qml" line="154"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="166"/>
+        <location filename="../src/views/home/GroupControl.qml" line="202"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="202"/>
+        <location filename="../src/views/home/GroupControl.qml" line="239"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -320,7 +375,7 @@
 <context>
     <name>GroupItemCard</name>
     <message numerus="yes">
-        <location filename="../src/views/home/GroupItemCard.qml" line="110"/>
+        <location filename="../src/views/home/GroupItemCard.qml" line="112"/>
         <source>%n Items</source>
         <comment>item count of group</comment>
         <translation>
@@ -328,7 +383,7 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemCard.qml" line="119"/>
+        <location filename="../src/views/home/GroupItemCard.qml" line="121"/>
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
@@ -369,12 +424,12 @@
 <context>
     <name>GroupListPanel</name>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="19"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="27"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="20"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="28"/>
         <source>Confirm to remove group from database</source>
         <translation>确认从数据库中移除组</translation>
     </message>
@@ -510,7 +565,7 @@
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="183"/>
+        <location filename="../src/views/home/NodeForm.qml" line="182"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -528,22 +583,22 @@
         <translation>设置为默认</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="62"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="66"/>
         <source>Share Config</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="70"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="74"/>
         <source>ICMP Ping</source>
         <translation>ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="74"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="78"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="85"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="89"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -726,7 +781,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="323"/>
+        <location filename="../src/view_models/grouplist.cpp" line="327"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -734,7 +789,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="393"/>
+        <location filename="../src/view_models/nodelist.cpp" line="375"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -742,40 +797,45 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="65"/>
-        <location filename="../src/view_models/systemtray.cpp" line="134"/>
-        <location filename="../src/view_models/systemtray.cpp" line="155"/>
+        <location filename="../src/view_models/systemtray.cpp" line="90"/>
+        <location filename="../src/view_models/systemtray.cpp" line="159"/>
+        <location filename="../src/view_models/systemtray.cpp" line="180"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="66"/>
-        <location filename="../src/view_models/systemtray.cpp" line="156"/>
+        <location filename="../src/view_models/systemtray.cpp" line="91"/>
+        <location filename="../src/view_models/systemtray.cpp" line="181"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="67"/>
-        <location filename="../src/view_models/systemtray.cpp" line="157"/>
+        <location filename="../src/view_models/systemtray.cpp" line="92"/>
+        <location filename="../src/view_models/systemtray.cpp" line="182"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="68"/>
-        <location filename="../src/view_models/systemtray.cpp" line="158"/>
+        <location filename="../src/view_models/systemtray.cpp" line="93"/>
+        <location filename="../src/view_models/systemtray.cpp" line="183"/>
         <source>Reconnect</source>
         <translation>重连</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="69"/>
-        <location filename="../src/view_models/systemtray.cpp" line="159"/>
+        <location filename="../src/view_models/systemtray.cpp" line="94"/>
+        <location filename="../src/view_models/systemtray.cpp" line="184"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="136"/>
+        <location filename="../src/view_models/systemtray.cpp" line="161"/>
         <source>Hide</source>
         <translation>隐藏</translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/systemtray.cpp" line="196"/>
+        <source>OFF</source>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>

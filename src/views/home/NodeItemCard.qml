@@ -20,7 +20,9 @@ Item {
 
     property Component popMenuComponent: null
     property color backgroundColor: isCurrent(
-                                        ) ? acrossConfig.highlightColor : acrossConfig.backgroundColor
+                                        ) ? Qt.lighter(
+                                                acrossConfig.highlightColor,
+                                                0.9) : acrossConfig.backgroundColor
     property color textColor: isCurrent(
                                   ) ? acrossConfig.highlightTextColor : acrossConfig.textColor
 

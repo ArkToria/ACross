@@ -20,7 +20,7 @@ Item {
 
         nameFilters: ["SQLite3 Database (*.db)", "All files (*)"]
         onAccepted: {
-            acrossConfig.dbPath = fileUrl
+            acrossConfig.dbPath = file
         }
     }
 
@@ -29,7 +29,19 @@ Item {
         title: qsTr("Select Database Path")
 
         onAccepted: {
-            acrossConfig.dbPath = fileUrl
+            acrossConfig.dbPath = file
+        }
+    }
+
+    FileDialog {
+        id: backgroundImageDialog
+        title: qsTr("Select Image")
+        fileMode: FileDialog.OpenFile
+
+        nameFilters: ["Image Files (*.jpg *.jpeg *.png *.svg)", "All files (*)"]
+
+        onAccepted: {
+            acrossConfig.backgroundImage = file
         }
     }
 
@@ -47,36 +59,6 @@ Item {
             text: qsTr("Application Settings")
             font.pixelSize: 24
             color: acrossConfig.textColor
-        }
-
-        Label {
-            text: qsTr("Enable Tray Icon")
-            color: acrossConfig.textColor
-        }
-
-        Item {
-            id: item1
-            Layout.fillWidth: true
-            Layout.columnSpan: 4
-
-            Label {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-
-                visible: acrossTray.isSystemTrayAvailable() ? false : true
-                text: qsTr("System tray is not available")
-                color: acrossConfig.warnColor
-            }
-        }
-
-        SwitchBox {
-            id: enableTrayIcon
-            Layout.alignment: Qt.AlignRight
-
-            checked: acrossConfig.enableTray
-            onCheckedChanged: {
-                acrossConfig.enableTray = checked
-            }
         }
 
         Label {
@@ -109,8 +91,8 @@ Item {
             displayText: acrossConfig.logLevel
             model: ["current", "debug", "info", "warn", "error", "none"]
 
-            onEditTextChanged: function (editText) {
-                if (editText !== "current") {
+            onEditTextChanged: {
+                if (model.editText !== "current") {
                     acrossConfig.logLevel = editText
                 }
             }
@@ -206,8 +188,8 @@ Item {
             displayText: acrossConfig.currentTheme
             model: ["current", "default-light", "dark", "nord-dark"]
 
-            onEditTextChanged: function (editText) {
-                if (editText !== "current") {
+            onEditTextChanged: {
+                if (model.editText !== "current") {
                     acrossConfig.currentTheme = editText
                 }
             }
@@ -231,8 +213,40 @@ Item {
         }
 
         Label {
-            text: qsTr("Enable Banner")
+            text: qsTr("Enable Tray Icon")
             color: acrossConfig.textColor
+            font.pointSize: 12
+        }
+
+        Item {
+            id: item1
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+
+            Label {
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: parent.left
+
+                visible: acrossTray.isSystemTrayAvailable() ? false : true
+                text: qsTr("System tray is not available")
+                color: acrossConfig.warnColor
+            }
+        }
+
+        SwitchBox {
+            id: enableTrayIcon
+            Layout.alignment: Qt.AlignRight
+
+            checked: acrossConfig.enableTray
+            onCheckedChanged: {
+                acrossConfig.enableTray = checked
+            }
+        }
+
+        Label {
+            text: qsTr("Enable Background Image")
+            color: acrossConfig.textColor
+            font.pointSize: 12
         }
 
         Item {
@@ -247,13 +261,19 @@ Item {
             checked: acrossConfig.enableBanner
             onCheckedChanged: {
                 acrossConfig.enableBanner = checked
+
+                if (checked) {
+                    applicationItemCard.implicitHeight = 430
+                } else {
+                    applicationItemCard.implicitHeight = 400
+                }
             }
         }
 
         Label {
             visible: enableBannerSwitch.checked
 
-            text: qsTr("Banner Image")
+            text: qsTr("Background Image")
             color: acrossConfig.textColor
         }
 
@@ -270,25 +290,34 @@ Item {
             Layout.fillWidth: true
 
             text: qsTr("Open File")
+
+            onClicked: {
+                backgroundImageDialog.open()
+            }
         }
 
         Label {
             visible: enableBannerSwitch.checked
 
-            text: qsTr("Banner Opacity")
+            text: qsTr("Opacity")
             color: acrossConfig.textColor
         }
 
-        Slider {
+        SliderBox {
             id: backgroundOpacitySlider
             visible: enableBannerSwitch.checked
             Layout.fillWidth: true
             Layout.columnSpan: 4
 
+            value: acrossConfig.backgroundOpacity
             from: 0.0
             to: 1.0
             stepSize: 0.05
             snapMode: Slider.SnapOnRelease
+
+            onValueChanged: {
+                acrossConfig.backgroundOpacity = value.toFixed(2)
+            }
         }
 
         Label {

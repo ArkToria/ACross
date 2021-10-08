@@ -31,8 +31,7 @@ Item {
                 anchors.fill: parent
                 source: parent
                 color: acrossConfig.backgroundColor
-                opacity: (1 - acrossConfig.backgroundOpacity)
-                         > 0 ? 1 - acrossConfig.backgroundOpacity : 0
+                opacity: acrossConfig.backgroundOpacity > 0 ? acrossConfig.backgroundOpacity : 0
             }
         }
 

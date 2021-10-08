@@ -32,7 +32,7 @@ Button {
             name: "HoverState"
             PropertyChanges {
                 target: background
-                color: Qt.lighter(basicColor, 1.2)
+                color: Qt.lighter(basicColor, 1.1)
             }
         },
         State {

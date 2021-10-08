@@ -189,15 +189,15 @@ ConfigHelper::defaultConfig()
     if (auto colors = theme->mutable_colors()) {
       colors->set_text_color("#e3e3e3");
       colors->set_background_color("#252525");
-      colors->set_highlight_color("#415f79");
+      colors->set_highlight_color("#b7b27e");
       colors->set_highlight_text_color("#eceff4");
-      colors->set_warn_color("#7f616a");
+      colors->set_warn_color("#bf616a");
       colors->set_warn_text_color("#ffffff");
       colors->set_shadow_color("#29000000");
-      colors->set_border_color("#3381a1c1");
+      colors->set_border_color("#bcb995c1");
       colors->set_deep_color("#1f1f1f");
       colors->set_deep_text_color("#c3c3c3");
-      colors->set_style_color("#66854e");
+      colors->set_style_color("#bfb27e");
       colors->set_style_text_color("#ffffff");
     }
 
