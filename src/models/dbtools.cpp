@@ -71,6 +71,11 @@ DBTools::reload()
       createRuntimeValue("DEFAULT_NODE_ID", "0");
     }
 
+    if (result = createSearchTable(); result.type() != QSqlError::NoError) {
+      p_logger->error("Failed to create virtual search table: {}",
+                      result.text().toStdString());
+    }
+
     if (result = createNodesTable("default_group");
         result.type() != QSqlError::NoError) {
       p_logger->error("Failed to create default_group table: {}",
@@ -83,6 +88,7 @@ DBTools::reload()
                       result.text().toStdString());
       break;
     }
+
   } while (false);
 }
 
@@ -149,10 +155,10 @@ DBTools::createDefaultGroup()
 }
 
 QSqlError
-DBTools::createTable(const QString& create_str)
+DBTools::directExec(const QString& sql_str)
 {
   QSqlQuery query(m_db);
-  query.exec(create_str);
+  query.exec(sql_str);
   return query.lastError();
 }
 
@@ -172,7 +178,7 @@ DBTools::createGroupsTable()
                             "CycleTime INTEGER,"
                             "CreatedAt INT64 NOT NULL,"
                             "ModifiedAt INT64 NOT NULL);");
-  return createTable(create_groups_str);
+  return directExec(create_groups_str);
 }
 
 QSqlError
@@ -197,7 +203,7 @@ DBTools::createNodesTable(const QString& group_name)
                                      "ModifiedAt INT64 NOT NULL) ;")
                                .arg(PREFIX + group_name.toHtmlEscaped());
 
-  return createTable(create_nodes_str);
+  return directExec(create_nodes_str);
 }
 
 QSqlError
@@ -211,7 +217,24 @@ DBTools::createRuntimeTable()
                                  "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                                  "Key TEXT UNIQUE NOT NULL,"
                                  "Value TEXT);" };
-  return createTable(create_runtime_str);
+  return directExec(create_runtime_str);
+}
+
+QSqlError
+DBTools::createSearchTable()
+{
+  if (isTableExists("search")) {
+    return QSqlError();
+  }
+
+  QString create_runtime_str = { "CREATE VIRTUAL TABLE IF NOT EXISTS search ("
+                                 "ID INTEGER PRIMARY KEY NOT NULL,"
+                                 "GroupID TEXT NOT NULL,"
+                                 "Name TEXT,"
+                                 "GroupName TEXT NOT NULL,"
+                                 "Address TEXT);" };
+
+  return directExec(create_runtime_str);
 }
 
 QSqlError
@@ -257,6 +280,51 @@ DBTools::deleteRuntimeValue(const QString& key)
   QVariantList input_collection = { key };
 
   return stepExec(delete_str, &input_collection);
+}
+
+QSqlError
+DBTools::createTrigger(const QString& group_name)
+{
+  QVector<QString> triggers;
+  QSqlError result;
+
+  triggers.append(
+    QString("CREATE TRIGGER %1 AFTER INSERT ON %2"
+            "FROM EACH ROW"
+            "BEGIN"
+            "INSERT INTO search VALUES (new.ID, new.GroupID, new.Name, "
+            "new.GroupName, new.Address);"
+            "END;")
+      .arg("trigger_after_insert_" + PREFIX + group_name.toHtmlEscaped(),
+           PREFIX + group_name.toHtmlEscaped()));
+
+  triggers.append(
+    QString("CREATE TRIGGER %1 AFTER DELETE ON %2"
+            "FROM EACH ROW"
+            "BEGIN"
+            "DROP FROM search WHERE ID = old.ID;"
+            "END;")
+      .arg("trigger_after_delete_" + PREFIX + group_name.toHtmlEscaped(),
+           PREFIX + group_name.toHtmlEscaped()));
+
+  triggers.append(
+    QString("CREATE TRIGGER %1 AFTER UPDATE ON %2"
+            "FROM EACH ROW"
+            "BEGIN"
+            "UPDATE OR REPLACE search SET GroupID = old.GroupID, "
+            "Name = old.Name, GroupName = old.GroupName, Address = old.Address "
+            "WHERE ID = old.ID;"
+            "END;")
+      .arg("trigger_after_update_" + PREFIX + group_name.toHtmlEscaped(),
+           PREFIX + group_name.toHtmlEscaped()));
+
+  for (auto& trigger_str : triggers) {
+    if (result = directExec(trigger_str); result.type() != QSqlError::NoError) {
+      return result;
+    }
+  }
+
+  return result;
 }
 
 int64_t
@@ -383,6 +451,8 @@ DBTools::insert(GroupInfo& group)
   if (result = stepExec(insert_str, &input_collection);
       result.type() == QSqlError::NoError) {
     group.id = getLastID();
+
+    result = createTrigger(group.name);
   }
 
   return result;
