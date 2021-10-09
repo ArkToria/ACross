@@ -87,6 +87,8 @@ public:
 
   QSqlError createRuntimeTable();
 
+  QSqlError createSearchTable();
+
   QSqlError createRuntimeValue(const QString& key, const QString& value);
 
   QString readRuntimeValue(const QString& key);
@@ -94,6 +96,8 @@ public:
   QSqlError updateRuntimeValue(const QString& key, const QString& value);
 
   QSqlError deleteRuntimeValue(const QString& key);
+
+  QSqlError createTrigger(const QString& group_name);
 
   int64_t getCurrentNodeID();
   int64_t getCurrentGroupID();
@@ -134,7 +138,7 @@ signals:
   void destroy();
 
 private:
-  QSqlError createTable(const QString& create_str);
+  QSqlError directExec(const QString& sql_str);
   std::vector<GroupInfo> m_all_groups_info;
 
 private:
