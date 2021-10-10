@@ -65,7 +65,10 @@ public:
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
-  void setLatency(qint64 id, const QString &group,const QString& addr, unsigned int port);
+  void setLatency(qint64 id,
+                  const QString& group_name,
+                  const QString& addr,
+                  unsigned int port);
 
   Q_INVOKABLE void setCurrentNodeByID(int id);
   Q_INVOKABLE void removeNodeByID(int id);
