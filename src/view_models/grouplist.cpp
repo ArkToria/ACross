@@ -59,13 +59,6 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
       break;
     }
 
-    if (auto err = p_db->createNodesTable(group_info.name);
-        err.type() != QSqlError::NoError) {
-      p_logger->error("Failed to create table: {}",
-                      group_info.name.toStdString());
-      break;
-    }
-
     bool result = false;
     switch (group_info.type) {
       case sip008:
@@ -80,7 +73,7 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
 
     if (!result) {
       emit preLastItemRemoved();
-      p_db->removeGroupFromName(group_info.name);
+      p_db->removeGroupFromID(group_info.id);
       emit postLastItemRemoved();
       break;
     }
@@ -153,16 +146,13 @@ Q_INVOKABLE int GroupList::getIndexByID(int id)
 void
 GroupList::reloadItems(bool reopen_db)
 {
-  m_items.clear();
-
   if (reopen_db) {
     p_db->reload();
   }
 
-  auto temp_items = p_db->listAllGroupsInfo();
-
-  for (auto& item : temp_items) {
-    m_items.append(item);
+  if (auto result = p_db->reloadAllGroupsInfo();
+      result.type() == QSqlError::NoError) {
+    m_items = p_db->getAllGroupsInfo();
   }
 
   if (m_items.isEmpty()) {
@@ -196,8 +186,8 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
       NodeInfo node = {
         .id = 0,
         .name = QString::fromStdString(server.remarks),
-        .group = group_info.name,
         .group_id = group_info.id,
+        .group_name = group_info.name,
         .protocol = across::EntryType::shadowsocks,
         .address = QString::fromStdString(server.server),
         .port = server.server_port,
@@ -237,7 +227,10 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
       break;
     }
 
-    NodeInfo node = { .group = group_info.name, .group_id = group_info.id };
+    NodeInfo node = {
+      .group_id = group_info.id,
+      .group_name = group_info.name,
+    };
 
     result = SerializeTools::decodeOutboundFromURL(node, item);
 
@@ -304,7 +297,7 @@ GroupList::removeItem(int index)
 
     emit preItemRemoved(index);
 
-    p_db->removeGroupFromName(m_items.at(index).name);
+    p_db->removeGroupFromID(m_items.at(index).id);
 
     m_items.removeAt(index);
 
@@ -374,16 +367,9 @@ GroupList::handleUpdated(const QVariant& content)
           break;
         }
 
-        if (auto err = p_db->removeGroupFromName(item.name, true);
+        if (auto err = p_db->removeGroupFromID(item.id, true);
             err.type() != QSqlError::NoError) {
           p_logger->error("Failed to remove old table: {}",
-                          item.name.toStdString());
-          break;
-        }
-
-        if (auto err = p_db->createNodesTable(item.name);
-            err.type() != QSqlError::NoError) {
-          p_logger->error("Failed to create new table: {}",
                           item.name.toStdString());
           break;
         }
@@ -405,7 +391,7 @@ GroupList::handleUpdated(const QVariant& content)
           break;
         }
 
-        item.id = p_db->getLastID();
+        //        item.id = p_db->getLastID();
         p_db->update(item);
       } while (false);
 

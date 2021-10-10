@@ -35,7 +35,7 @@ NodeModel::data(const QModelIndex& index, int role) const
     case NameRole:
       return item.name;
     case GroupRole:
-      return item.group;
+      return item.group_name;
     case ProtocolTypeRole:
       return magic_enum::enum_name(item.protocol).data();
     case AddressRole:

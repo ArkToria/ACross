@@ -23,10 +23,11 @@ namespace across {
 class NodeList : public QObject
 {
   Q_OBJECT
-  Q_PROPERTY(int currentNodeID READ currentNodeID NOTIFY currentNodeIDChanged)
   Q_PROPERTY(
-    int currentGroupID READ currentGroupID NOTIFY currentGroupIDChanged)
-  Q_PROPERTY(int displayGroupID READ displayGroupID WRITE setDisplayGroupID
+    qint64 currentNodeID READ currentNodeID NOTIFY currentNodeIDChanged)
+  Q_PROPERTY(
+    qint64 currentGroupID READ currentGroupID NOTIFY currentGroupIDChanged)
+  Q_PROPERTY(qint64 displayGroupID READ displayGroupID WRITE setDisplayGroupID
                NOTIFY displayGroupIDChanged)
   Q_PROPERTY(
     QString currentNodeName READ currentNodeName NOTIFY currentNodeNameChanged)
@@ -54,7 +55,9 @@ public:
             QSharedPointer<across::core::CoreTools> core,
             QSharedPointer<across::DBTools> db);
 
+  bool run();
   void reloadItems();
+  Json::Value generateConfig();
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
@@ -67,16 +70,16 @@ public:
 
 public:
   QVector<NodeInfo> items();
-  int currentNodeID();
-  int currentGroupID();
-  int displayGroupID();
-  const QString& currentNodeName() const;
-  const QString& currentNodeGroup() const;
-  QString currentNodeProtocol() const;
-  const QString& currentNodeAddress() const;
+  qint64 currentNodeID();
+  qint64 currentGroupID();
+  qint64 displayGroupID();
+  QString currentNodeName();
+  QString currentNodeGroup();
+  QString currentNodeProtocol();
+  QString currentNodeAddress();
   int currentNodePort();
-  const QString& currentNodePassword() const;
-  const QString& currentNodeURL() const;
+  QString currentNodePassword();
+  QString currentNodeURL();
   QString uploadTraffic();
   QString downloadTraffic();
 
@@ -119,11 +122,10 @@ private:
   QSharedPointer<across::setting::ConfigTools> p_config;
   QSharedPointer<across::core::CoreTools> p_core;
 
-  QVector<NodeInfo> m_items;
-  QMap<qint64, QVector<NodeInfo>> m_all_items;
+  QVector<NodeInfo> m_nodes;
+  NodeInfo m_node;
 
   int m_display_group_id = 1;
-  NodeInfo m_current_node;
   across::core::TrafficInfo m_traffic = { 0, 0 };
   across::core::TrafficInfo m_traffic_last = { 0, 0 };
   across::core::TrafficInfo m_traffic_last_rate = { 0, 0 };

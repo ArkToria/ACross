@@ -54,31 +54,14 @@ DBTools::reload()
       break;
     }
 
-    if (result = createGroupsTable(); result.type() != QSqlError::NoError) {
-      p_logger->error("Failed to create groups table: {}",
+    if (result = createDefaultTables(); result.type() != QSqlError::NoError) {
+      p_logger->error("Failed to create tables: {}",
                       result.text().toStdString());
       break;
     }
 
-    if (result = createRuntimeTable(); result.type() != QSqlError::NoError) {
-      p_logger->error("Failed to create runtime table: {}",
-                      result.text().toStdString());
-      break;
-    } else {
-      createRuntimeValue("CURRENT_GROUP_ID", "0");
-      createRuntimeValue("CURRENT_NODE_ID", "0");
-      createRuntimeValue("DEFAULT_GROUP_ID", "0");
-      createRuntimeValue("DEFAULT_NODE_ID", "0");
-    }
-
-    if (result = createSearchTable(); result.type() != QSqlError::NoError) {
-      p_logger->error("Failed to create virtual search table: {}",
-                      result.text().toStdString());
-    }
-
-    if (result = createNodesTable("default_group");
-        result.type() != QSqlError::NoError) {
-      p_logger->error("Failed to create default_group table: {}",
+    if (result = createDefaultValues(); result.type() != QSqlError::NoError) {
+      p_logger->error("Failed to create values: {}",
                       result.text().toStdString());
       break;
     }
@@ -93,6 +76,74 @@ DBTools::reload()
 }
 
 QSqlError
+DBTools::createDefaultTables()
+{
+  QSqlError result;
+  const QVector<QString> tables = {
+    { "CREATE TABLE IF NOT EXISTS groups("
+      "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "Name TEXT NOT NULL,"
+      "IsSubscription BOOLEAN NOT NULL,"
+      "Type INTEGER NOT NULL,"
+      "Url TEXT,"
+      "CycleTime INTEGER,"
+      "CreatedAt INT64 NOT NULL,"
+      "ModifiedAt INT64 NOT NULL);" },
+    { "CREATE TABLE IF NOT EXISTS runtime("
+      "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "Name TEXT UNIQUE NOT NULL,"
+      "Type INTEGER NOT NULL,"
+      "Value TEXT);" },
+    { "CREATE TABLE IF NOT EXISTS nodes("
+      "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+      "Name TEXT NOT NULL,"
+      "GroupID INTEGER NOT NULL,"
+      "GroupName TEXT NOT NULL,"
+      "Protocol INTEGER NOT NULL,"
+      "Address TEXT NOT NULL,"
+      "Port INTEGER NOT NULL,"
+      "Password TEXT,"
+      "Raw TEXT NOT NULL,"
+      "URL TEXT NOT NULL,"
+      "Latency INTEGER,"
+      "Upload INT64,"
+      "Download INT64,"
+      "CreatedAt INT64 NOT NULL,"
+      "ModifiedAt INT64 NOT NULL) ;" },
+  };
+
+  for (auto& table : tables) {
+    if (result = directExec(table); result.type() != QSqlError::NoError) {
+      break;
+    }
+  }
+
+  return result;
+}
+
+QSqlError
+DBTools::createDefaultValues()
+{
+  QSqlError result;
+
+  const QVector<RuntimeValue> values = {
+    RuntimeValue(CURRENT_NODE_ID, 0LL),
+    RuntimeValue(CURRENT_GROUP_ID, 0LL),
+    RuntimeValue(DEFAULT_NODE_ID, 0LL),
+    RuntimeValue(DEFAULT_GROUP_ID, 0LL),
+  };
+
+  for (auto& value : values) {
+    if (result = createRuntimeValue(value);
+        result.type() != QSqlError::NoError) {
+      break;
+    }
+  }
+
+  return result;
+}
+
+QPair<QSqlError, qint64>
 DBTools::stepExec(const QString& sql_str,
                   QVariantList* inputCollection,
                   int outputColumns,
@@ -137,17 +188,16 @@ DBTools::stepExec(const QString& sql_str,
     }
   } while (false);
 
-  return result;
+  return { result, query.lastInsertId().toLongLong() };
 }
 
 QSqlError
 DBTools::createDefaultGroup()
 {
   QSqlError result;
-  const QString default_group("default_group");
 
-  if (!isGroupExists(PREFIX + default_group)) {
-    GroupInfo group = { .name = default_group };
+  if (const QString name("default_group"); !isGroupExists(name)) {
+    GroupInfo group = { .name = name };
     result = this->insert(group);
   }
 
@@ -163,192 +213,96 @@ DBTools::directExec(const QString& sql_str)
 }
 
 QSqlError
-DBTools::createGroupsTable()
-{
-  if (isTableExists("groups")) {
-    return QSqlError();
-  }
-
-  QString create_groups_str("CREATE TABLE IF NOT EXISTS groups("
-                            "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                            "Name TEXT UNIQUE,"
-                            "IsSubscription BOOLEAN,"
-                            "Type INTEGER,"
-                            "Url TEXT,"
-                            "CycleTime INTEGER,"
-                            "CreatedAt INT64 NOT NULL,"
-                            "ModifiedAt INT64 NOT NULL);");
-  return directExec(create_groups_str);
-}
-
-QSqlError
-DBTools::createNodesTable(const QString& group_name)
-{
-  if (isTableExists(PREFIX + group_name)) {
-    return QSqlError();
-  }
-
-  QString create_nodes_str = QString("CREATE TABLE IF NOT EXISTS '%1'("
-                                     "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                     "Name TEXT NOT NULL,"
-                                     "GroupName TEXT NOT NULL,"
-                                     "GroupID INTEGER NOT NULL,"
-                                     "Protocol INTEGER NOT NULL,"
-                                     "Address CHAR(255) NOT NULL,"
-                                     "Port INTEGER NOT NULL,"
-                                     "Password TEXT NOT NULL,"
-                                     "Raw TEXT NOT NULL,"
-                                     "URL TEXT,"
-                                     "CreatedAt INT64 NOT NULL,"
-                                     "ModifiedAt INT64 NOT NULL) ;")
-                               .arg(PREFIX + group_name.toHtmlEscaped());
-
-  return directExec(create_nodes_str);
-}
-
-QSqlError
-DBTools::createRuntimeTable()
-{
-  if (isTableExists("runtime")) {
-    return QSqlError();
-  }
-
-  QString create_runtime_str = { "CREATE TABLE IF NOT EXISTS runtime ("
-                                 "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                                 "Key TEXT UNIQUE NOT NULL,"
-                                 "Value TEXT);" };
-  return directExec(create_runtime_str);
-}
-
-QSqlError
-DBTools::createSearchTable()
-{
-  if (isTableExists("search")) {
-    return QSqlError();
-  }
-
-  QString create_runtime_str = { "CREATE VIRTUAL TABLE IF NOT EXISTS search ("
-                                 "ID INTEGER PRIMARY KEY NOT NULL,"
-                                 "GroupID TEXT NOT NULL,"
-                                 "Name TEXT,"
-                                 "GroupName TEXT NOT NULL,"
-                                 "Address TEXT);" };
-
-  return directExec(create_runtime_str);
-}
-
-QSqlError
-DBTools::createRuntimeValue(const QString& key, const QString& value)
+DBTools::createRuntimeValue(const RuntimeValue& value)
 {
   QString insert_str("INSERT OR IGNORE INTO runtime"
-                     "(Key, Value)"
-                     "VALUES(?,?)");
+                     "(Name, Type, Value)"
+                     "VALUES(?,?,?)");
 
-  QVariantList input_collection = { key, value };
+  QVariantList input_collection = { value.key, value.type, value.value };
 
-  return stepExec(insert_str, &input_collection);
+  return stepExec(insert_str, &input_collection).first;
 }
 
-QString
+std::optional<RuntimeValue>
 DBTools::readRuntimeValue(const QString& key)
 {
-  QString select_str("SELECT Value FROM runtime WHERE Key = ?");
-
-  QVector<QVariantList> output_collections;
   QVariantList input_collection = { key };
+  QVector<QVariantList> output_collections;
+  QString select_str("SELECT Type,Value FROM runtime WHERE Name = ?");
+
   if (auto result =
-        stepExec(select_str, &input_collection, 1, &output_collections);
-      result.type() == QSqlError::NoError) {
-    return output_collections.first().first().toString();
+        stepExec(select_str, &input_collection, 2, &output_collections).first;
+      result.type() == QSqlError::NoError && !output_collections.isEmpty()) {
+
+    auto item = output_collections.first();
+    return RuntimeValue(key, item.first().toInt(), item.last());
   }
-  return QString();
+
+  return {};
+}
+
+std::optional<RuntimeValue>
+DBTools::readRuntimeValue(const RunTimeValues& key)
+{
+  return readRuntimeValue(magic_enum::enum_name(key).data());
 }
 
 QSqlError
-DBTools::updateRuntimeValue(const QString& key, const QString& value)
+DBTools::updateRuntimeValue(const RuntimeValue& value)
 {
-  QString update_str("UPDATE runtime SET Value = ? WHERE Key = ?");
-  QVariantList input_collection = { value, key };
+  QString update_str("UPDATE runtime SET Type = ?, Value = ? WHERE Name = ?");
 
-  return stepExec(update_str, &input_collection);
+  QVariantList input_collection = { value.type, value.value, value.key };
+
+  return stepExec(update_str, &input_collection).first;
 }
 
 QSqlError
 DBTools::deleteRuntimeValue(const QString& key)
 {
-  QString delete_str("DELETE FROM runtime WHERE Key = ?");
+  QString delete_str("DELETE FROM runtime WHERE Name = ?");
   QVariantList input_collection = { key };
 
-  return stepExec(delete_str, &input_collection);
+  return stepExec(delete_str, &input_collection).first;
 }
 
 QSqlError
-DBTools::createTrigger(const QString& group_name)
+DBTools::deleteRuntimeValue(const RunTimeValues& key)
 {
-  QVector<QString> triggers;
-  QSqlError result;
-
-  triggers.append(
-    QString("CREATE TRIGGER %1 AFTER INSERT ON %2"
-            "FROM EACH ROW"
-            "BEGIN"
-            "INSERT INTO search VALUES (new.ID, new.GroupID, new.Name, "
-            "new.GroupName, new.Address);"
-            "END;")
-      .arg("trigger_after_insert_" + PREFIX + group_name.toHtmlEscaped(),
-           PREFIX + group_name.toHtmlEscaped()));
-
-  triggers.append(
-    QString("CREATE TRIGGER %1 AFTER DELETE ON %2"
-            "FROM EACH ROW"
-            "BEGIN"
-            "DROP FROM search WHERE ID = old.ID;"
-            "END;")
-      .arg("trigger_after_delete_" + PREFIX + group_name.toHtmlEscaped(),
-           PREFIX + group_name.toHtmlEscaped()));
-
-  triggers.append(
-    QString("CREATE TRIGGER %1 AFTER UPDATE ON %2"
-            "FROM EACH ROW"
-            "BEGIN"
-            "UPDATE OR REPLACE search SET GroupID = old.GroupID, "
-            "Name = old.Name, GroupName = old.GroupName, Address = old.Address "
-            "WHERE ID = old.ID;"
-            "END;")
-      .arg("trigger_after_update_" + PREFIX + group_name.toHtmlEscaped(),
-           PREFIX + group_name.toHtmlEscaped()));
-
-  for (auto& trigger_str : triggers) {
-    if (result = directExec(trigger_str); result.type() != QSqlError::NoError) {
-      return result;
-    }
-  }
-
-  return result;
+  return deleteRuntimeValue(magic_enum::enum_name(key).data());
 }
 
-int64_t
+qint64
 DBTools::getCurrentNodeID()
 {
-  return readRuntimeValue("CURRENT_NODE_ID").toLongLong();
+  return readRuntimeValue(RunTimeValues::CURRENT_NODE_ID)
+    .value()
+    .value.toLongLong();
 }
 
-int64_t
+qint64
 DBTools::getCurrentGroupID()
 {
-  return readRuntimeValue("CURRENT_GROUP_ID").toLongLong();
+  return readRuntimeValue(RunTimeValues::CURRENT_GROUP_ID)
+    .value()
+    .value.toLongLong();
 }
 
-int64_t
+qint64
 DBTools::getDefaultNodeID()
 {
-  return readRuntimeValue("DEFAULT_NOED_ID").toLongLong();
+  return readRuntimeValue(RunTimeValues::DEFAULT_NODE_ID)
+    .value()
+    .value.toLongLong();
 }
 
-int64_t
+qint64
 DBTools::getDefaultGroupID()
 {
-  return readRuntimeValue("DEFAULT_GROUP_ID").toLongLong();
+  return readRuntimeValue(RunTimeValues::DEFAULT_GROUP_ID)
+    .value()
+    .value.toLongLong();
 }
 
 bool
@@ -383,13 +337,11 @@ DBTools::isGroupExists(const QString& group_name)
 QSqlError
 DBTools::insert(NodeInfo& node)
 {
-  QSqlError result;
-  QString insert_str =
-    QString("INSERT INTO \"%1\" "
-            "(Name, GroupName, GroupID, Protocol, Address, Port, "
-            "Password, Raw, URL, CreatedAt, ModifiedAt) "
-            "VALUES(?,?,?,?,?,?,?,?,?,?,?)")
-      .arg(PREFIX + node.group.toHtmlEscaped());
+  const QString insert_str(
+    "INSERT INTO nodes "
+    "(Name, GroupID, GroupName, Protocol, Address, Port, "
+    "Password, Raw, URL, Latency, Upload, Download, CreatedAt, ModifiedAt) "
+    "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
   if (node.created_time.isNull()) {
     node.created_time = QDateTime::currentDateTime();
@@ -401,21 +353,25 @@ DBTools::insert(NodeInfo& node)
 
   QVariantList input_collection = {
     node.name,
-    node.group,
     node.group_id,
+    node.group_name,
     node.protocol,
     node.address,
     node.port,
     node.password,
     node.raw,
     node.url,
+    node.latency,
+    node.upload,
+    node.download,
     node.created_time.toSecsSinceEpoch(),
     node.modified_time.toSecsSinceEpoch(),
   };
 
-  if (result = stepExec(insert_str, &input_collection);
-      result.type() == QSqlError::NoError)
-    node.id = getLastID();
+  auto [result, id] = stepExec(insert_str, &input_collection);
+  if (result.type() == QSqlError::NoError) {
+    node.id = id;
+  }
 
   return result;
 }
@@ -423,10 +379,8 @@ DBTools::insert(NodeInfo& node)
 QSqlError
 DBTools::insert(GroupInfo& group)
 {
-  QSqlError result;
-
-  QString insert_str(
-    "INSERT INTO groups"
+  const QString insert_str(
+    "INSERT INTO groups "
     "(Name, IsSubscription, Type, Url, CycleTime, CreatedAt, ModifiedAt)"
     "VALUES(?,?,?,?,?,?,?)");
 
@@ -439,7 +393,7 @@ DBTools::insert(GroupInfo& group)
   }
 
   QVariantList input_collection = {
-    PREFIX + group.name,
+    group.name,
     group.isSubscription,
     group.type,
     group.url,
@@ -448,135 +402,160 @@ DBTools::insert(GroupInfo& group)
     group.modified_time.toSecsSinceEpoch(),
   };
 
-  if (result = stepExec(insert_str, &input_collection);
-      result.type() == QSqlError::NoError) {
-    group.id = getLastID();
+  auto [result, id] = stepExec(insert_str, &input_collection);
+  if (result.type() == QSqlError::NoError) {
+    group.id = id;
 
-    result = createTrigger(group.name);
+    result = reloadAllGroupsInfo();
   }
 
   return result;
 }
 
-int64_t
-DBTools::getLastID()
-{
-  QSqlQuery query(m_db);
-
-  if (auto id = query.lastInsertId(); id.typeId() == QMetaType::LongLong) {
-    return id.toLongLong();
-  }
-
-  return 0;
-}
 
 QSqlError
 DBTools::update(GroupInfo& group)
 {
-  QString update_str("UPDATE groups SET "
-                     "Name = ?, IsSubscription = ?, Type = ?, "
-                     "Url = ?, CycleTime = ?, ModifiedAt = ? "
-                     "WHERE ID = ?;");
+  QSqlError result;
+  const QString update_str("UPDATE groups SET "
+                           "Name = ?, IsSubscription = ?, Type = ?, "
+                           "Url = ?, CycleTime = ?, ModifiedAt = ? "
+                           "WHERE ID = ?;");
 
   QVariantList input_collection = {
-    PREFIX + group.name,
-    group.isSubscription,
-    group.type,
-    group.url,
-    group.cycle_time,
-    group.modified_time.toSecsSinceEpoch(),
+    group.name, group.isSubscription, group.type,
+    group.url,  group.cycle_time,     group.modified_time.toSecsSinceEpoch(),
     group.id,
   };
 
-  return stepExec(update_str, &input_collection);
+  if (result = stepExec(update_str, &input_collection).first;
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to update group: {}", group.id);
+  } else {
+    result = reloadAllGroupsInfo();
+  }
+
+  return result;
 }
 
 QSqlError
-DBTools::removeItemFromID(const QString& group_name, qint64 id)
+DBTools::removeNodeFromID(qint64 id)
 {
-  QString remove_str = QString("DELETE FROM '%1' WHERE id = ?").arg(group_name);
+  const QString remove_str("DELETE FROM nodes WHERE ID = ?");
   QVariantList input_collection = { id };
 
-  return stepExec(remove_str, &input_collection);
+  return stepExec(remove_str, &input_collection).first;
 }
 
 QSqlError
-DBTools::removeGroupFromName(const QString& group_name, bool keep_group)
+DBTools::removeGroupFromID(qint64 id, bool keep_group)
 {
-  QString remove_str("DELETE FROM groups WHERE name = ?");
-  QVariantList input_collection = { group_name };
+  QSqlError result;
+  QVariantList input_collection = { id };
 
   if (!keep_group) {
-    if (auto result = stepExec(remove_str, &input_collection);
+    const QString remove_str("DELETE FROM groups WHERE ID = ?");
+
+    if (result = stepExec(remove_str, &input_collection).first;
         result.type() != QSqlError::NoError) {
-      p_logger->error("Failed to remove {}", group_name.toStdString());
+      p_logger->error(
+        "Failed to remove group {}: {}", id, result.text().toStdString());
 
       return result;
     }
   }
 
-  return dropTable(group_name);
-}
-
-QSqlError
-DBTools::dropTable(const QString& table_name)
-{
-  QString drop_str = QString("DROP TABLE \"%1\"").arg(PREFIX + table_name);
-
-  return stepExec(drop_str);
-}
-
-std::vector<GroupInfo>
-DBTools::listAllGroupsInfo()
-{
-  GroupInfo temp;
-  QString select_str("SELECT * FROM groups");
-  std::vector<GroupInfo> groups;
-  QVector<QVariantList> collections;
-
-  if (auto result = stepExec(select_str, nullptr, 8, &collections);
+  const QString remove_str("DELETE FROM nodes WHERE GroupID = ?");
+  if (result = stepExec(remove_str, &input_collection).first;
       result.type() != QSqlError::NoError) {
-    p_logger->error("Failed to list all groups");
+    p_logger->error("Failed to remove nodes: {}", result.text().toStdString());
   } else {
-    for (auto& item : collections) {
-      GroupInfo group;
-      group.id = item.at(0).toLongLong();
-      group.name = item.at(1).toString().remove(PREFIX);
-      group.isSubscription = item.at(2).toBool();
-      group.type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt());
-      group.url = item.at(4).toString();
-      group.cycle_time = item.at(5).toInt();
-      group.created_time =
-        QDateTime::fromSecsSinceEpoch(item.at(6).toLongLong());
-      group.modified_time =
-        QDateTime::fromSecsSinceEpoch(item.at(7).toLongLong());
-      group.items = listAllNodesFromGroup(group.name).size();
+    result = reloadAllGroupsInfo();
+  }
 
-      if (group.id > 0)
-        groups.emplace_back(group);
+  return result;
+}
+
+qsizetype
+DBTools::getSizeFromGroupID(qint64 group_id)
+{
+  QVector<QVariantList> collections;
+  QVariantList input_collection = { group_id };
+  const QString select_str("SELECT ID FROM nodes WHERE GroupID = ?");
+  if (auto result =
+        stepExec(select_str, &input_collection, 1, &collections).first;
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to list all nodes");
+  } else {
+    return collections.size();
+  }
+
+  return 0;
+}
+
+QString
+DBTools::getGroupNameFromGroupID(qint64 group_id)
+{
+  for (auto& group : m_groups) {
+    if (group_id == group.id) {
+      return group.name;
     }
   }
 
-  m_all_groups_info = groups;
-  return groups;
+  return "";
 }
 
-std::vector<GroupInfo>
+QSqlError
+DBTools::reloadAllGroupsInfo()
+{
+  QSqlError result;
+  GroupInfo temp;
+  const QString select_str("SELECT * FROM groups");
+  QVector<QVariantList> collections;
+
+  if (result = stepExec(select_str, nullptr, 8, &collections).first;
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to list all groups");
+  } else {
+    m_groups.clear();
+
+    for (auto& item : collections) {
+      GroupInfo group = {
+        .id = item.at(0).toLongLong(),
+        .name = item.at(1).toString(),
+        .isSubscription = item.at(2).toBool(),
+        .type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt()),
+        .url = item.at(4).toString(),
+        .cycle_time = item.at(5).toInt(),
+        .created_time = QDateTime::fromSecsSinceEpoch(item.at(6).toLongLong()),
+        .modified_time = QDateTime::fromSecsSinceEpoch(item.at(7).toLongLong()),
+      };
+
+      group.items = getSizeFromGroupID(group.id);
+
+      m_groups.emplace_back(group);
+    }
+  }
+
+  return result;
+}
+
+QVector<GroupInfo>
 DBTools::getAllGroupsInfo()
 {
-  return m_all_groups_info;
+  return m_groups;
 }
 
 QVector<NodeInfo>
-DBTools::listAllNodesFromGroup(const QString& group_name)
+DBTools::listAllNodesFromGroupID(qint64 group_id)
 {
-  NodeInfo temp;
   QVector<NodeInfo> nodes;
   QVector<QVariantList> collections;
-  QString select_str =
-    QString("SELECT * FROM \"%1\"").arg(PREFIX + group_name.toHtmlEscaped());
+  QVariantList input_collection = { group_id };
+  const QString select_str("SELECT * FROM nodes WHERE GroupID = ?");
 
-  if (auto result = stepExec(select_str, nullptr, 12, &collections);
+  if (auto result =
+        stepExec(select_str, &input_collection, 15, &collections).first;
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to list all nodes");
   } else {
@@ -585,37 +564,27 @@ DBTools::listAllNodesFromGroup(const QString& group_name)
 
       node.id = item.at(0).toLongLong();
       node.name = item.at(1).toString();
-      node.group = item.at(2).toString();
-      node.group_id = item.at(3).toLongLong();
+      node.group_id = item.at(2).toLongLong();
+      node.group_name = item.at(3).toString();
       node.protocol = magic_enum::enum_value<EntryType>(item.at(4).toInt());
       node.address = item.at(5).toString();
       node.port = item.at(6).toInt();
       node.password = item.at(7).toString();
       node.raw = item.at(8).toString();
       node.url = item.at(9).toString();
+      node.latency = item.at(10).toLongLong();
+      node.upload = item.at(11).toLongLong();
+      node.download = item.at(12).toLongLong();
       node.created_time =
-        QDateTime::fromSecsSinceEpoch(item.at(10).toLongLong());
+        QDateTime::fromSecsSinceEpoch(item.at(13).toLongLong());
       node.modified_time =
-        QDateTime::fromSecsSinceEpoch(item.at(11).toLongLong());
+        QDateTime::fromSecsSinceEpoch(item.at(14).toLongLong());
 
       nodes.emplace_back(node);
     }
   }
 
   return nodes;
-}
-
-QMap<qint64, QVector<NodeInfo>>
-DBTools::listAllNodes()
-{
-  QMap<qint64, QVector<NodeInfo>> all_nodes;
-  for (auto& item : m_all_groups_info) {
-    auto nodes = listAllNodesFromGroup(item.name);
-
-    // group id, { current node id, current index, nodes }
-    all_nodes.insert(item.id, nodes);
-  }
-  return all_nodes;
 }
 
 void
@@ -626,3 +595,21 @@ DBTools::close()
     emit destroy();
   }
 }
+
+RuntimeValue::RuntimeValue(const QString& key, const QVariant& value)
+  : key(key)
+  , type(value.typeId())
+  , value(value)
+{}
+
+RuntimeValue::RuntimeValue(const RunTimeValues key, const QVariant& value)
+  : key(magic_enum::enum_name(key).data())
+  , type(value.typeId())
+  , value(value)
+{}
+
+RuntimeValue::RuntimeValue(const QString& key, int type, const QVariant& value)
+  : key(key)
+  , type(type)
+  , value(value)
+{}
