@@ -110,6 +110,20 @@ DBTools::createDefaultTables()
       "Download INT64,"
       "CreatedAt INT64 NOT NULL,"
       "ModifiedAt INT64 NOT NULL) ;" },
+    { "CREATE VIRTUAL TABLE IF NOT EXISTS search "
+      "USING fts5(ID, Name, GroupID, GroupName, Address);" },
+    { "CREATE TRIGGER IF NOT EXISTS search_a_i AFTER INSERT ON nodes BEGIN "
+      "INSERT INTO search VALUES (new.ID, new.Name, new.GroupID, "
+      "new.GroupName, new.Address);"
+      "END;" },
+    { "CREATE TRIGGER IF NOT EXISTS search_a_d AFTER DELETE ON nodes BEGIN "
+      "DELETE FROM search WHERE ID = old.ID;"
+      "END;" },
+    { "CREATE TRIGGER IF NOT EXISTS search_a_u AFTER UPDATE ON nodes BEGIN "
+      "UPDATE OR REPLACE search SET Name = new.Name,GroupID = "
+      "new.GroupID,GroupName = new.GroupName, Address = new.Address WHERE ID = "
+      "old.ID;"
+      "END;" },
   };
 
   for (auto& table : tables) {
