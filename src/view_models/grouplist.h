@@ -44,6 +44,8 @@ public:
 
   Q_INVOKABLE void checkUpdate(int index, bool force = true);
 
+  Q_INVOKABLE void testTcpPing(int index);
+
   Q_INVOKABLE int getIndexByID(int id);
 
 public slots:

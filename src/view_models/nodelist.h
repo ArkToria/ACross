@@ -18,6 +18,7 @@
 #include <QSharedPointer>
 #include <QUrl>
 #include <QVariant>
+#include <QtConcurrent>
 
 namespace across {
 class NodeList : public QObject
@@ -61,12 +62,14 @@ public:
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
+  void setLatency(qint64 id, const QString &group,const QString& addr, unsigned int port);
 
   Q_INVOKABLE void setCurrentNodeByID(int id);
   Q_INVOKABLE void removeNodeByID(int id);
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
+  Q_INVOKABLE void setAvgLatency(int id);
 
 public:
   QVector<NodeInfo> items();
@@ -109,6 +112,8 @@ signals:
   void currentNodePortChanged();
   void currentNodePasswordChanged();
   void currentNodeURLChanged();
+
+  void nodeLatencyChanged(int id,const QString &group,int latency);
 
   void updateQRCode(const QString& id, const QString& content);
   void uploadTrafficChanged(const QString& uploadTraffic);

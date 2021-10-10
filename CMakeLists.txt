@@ -18,7 +18,7 @@ project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
 ######## FIND DEPENDENCES ########
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake;")
 
-find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat Sql LinguistTools REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat Sql LinguistTools Concurrent REQUIRED)
 
 find_package(CURL REQUIRED)
 find_package(fmt CONFIG REQUIRED)
@@ -133,6 +133,7 @@ target_link_libraries(across PRIVATE
     Qt6::DBus
     Qt6::Core5Compat
     Qt6::Sql
+    Qt6::Concurrent
     CURL::libcurl
     fmt::fmt
     gRPC::grpc++
