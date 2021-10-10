@@ -26,6 +26,7 @@ public:
     PasswordRole,
     RawRole,
     URLRole,
+    LatencyRole,
     CreatedAtRole,
     ModifiedAtRole,
   };

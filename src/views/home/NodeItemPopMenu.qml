@@ -76,6 +76,10 @@ Menu {
 
     Action {
         text: qsTr("TCP Ping")
+
+        onTriggered: {
+            acrossNodes.setAvgLatency(nodeID)
+        }
     }
 
     MenuSeparator {
