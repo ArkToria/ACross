@@ -91,203 +91,13 @@ NodeList::init(QSharedPointer<LogView> log_view,
   reloadItems();
 }
 
-QVector<NodeInfo>
-NodeList::items()
-{
-  return m_items;
-}
-
-void
-NodeList::reloadItems()
-{
-  emit preItemsReset();
-
-  m_items.clear();
-  m_all_items.clear();
-
-  m_all_items = p_db->listAllNodes();
-
-  if (auto iter = m_all_items.find(this->displayGroupID());
-      iter != m_all_items.end()) {
-    m_items = *iter;
-  }
-
-  auto current_node_id = p_db->getCurrentNodeID();
-  if (auto iter = m_all_items.find(current_node_id);
-      iter != m_all_items.end()) {
-    for (auto& item : *iter) {
-      if (item.id == current_node_id) {
-        m_current_node = item;
-      }
-    }
-  }
-
-  emit postItemsReset();
-}
-
-void
-NodeList::appendNode(NodeInfo node)
-{
-  node.group_id = displayGroupID();
-
-  auto groups = p_db->getAllGroupsInfo();
-
-  // get display group name
-  for (auto& item : groups) {
-    if (item.id == node.group_id) {
-      node.group = item.name;
-      break;
-    }
-  }
-
-  if (auto err = p_db->insert(node); err.type() != QSqlError::NoError) {
-    p_logger->error("Failed to add node: {}", node.name.toStdString());
-  } else {
-    reloadItems();
-
-    emit itemsSizeChanged(node.group_id, m_items.size());
-  }
-}
-
-void
-NodeList::removeNodeByID(int id)
-{
-  for (auto& item : m_items) {
-    if (item.id == id) {
-      auto result = p_db->removeItemFromID(item.group, item.id);
-      if (result.type() == QSqlError::NoError) {
-
-        reloadItems();
-        emit itemsSizeChanged(item.group_id, m_items.size());
-      }
-      break;
-    }
-  }
-}
-
-QString
-NodeList::getQRCode(int id)
-{
-  for (auto& item : m_items) {
-    if (item.id == id) {
-      emit updateQRCode(item.name, item.url);
-      return item.name;
-    }
-  }
-
-  return "";
-}
-
-int
-NodeList::currentNodeID()
-{
-  return m_current_node.id;
-}
-
-int
-NodeList::currentGroupID()
-{
-  return m_current_node.group_id;
-}
-
-int
-NodeList::displayGroupID()
-{
-  return m_display_group_id;
-}
-
-const QString&
-NodeList::currentNodeName() const
-{
-  return m_current_node.name;
-}
-
-const QString&
-NodeList::currentNodeGroup() const
-{
-  return m_current_node.group;
-}
-
-QString
-NodeList::currentNodeProtocol() const
-{
-  return magic_enum::enum_name(m_current_node.protocol).data();
-}
-
-const QString&
-NodeList::currentNodeAddress() const
-{
-  return m_current_node.address;
-}
-
-int
-NodeList::currentNodePort()
-{
-  return m_current_node.port;
-}
-
-const QString&
-NodeList::currentNodePassword() const
-{
-  return m_current_node.password;
-}
-
-const QString&
-NodeList::currentNodeURL() const
-{
-  return m_current_node.url;
-}
-
-void
-NodeList::setDisplayGroupID(int group_id)
-{
-    if (group_id <= 0 || group_id == m_display_group_id) {
-      return;
-    }
-
-    m_display_group_id = group_id;
-
-    if (auto iter = m_all_items.find(m_display_group_id);
-        iter != m_all_items.end()) {
-      emit preItemsReset();
-
-      m_items.clear();
-      m_items = *iter;
-
-      emit postItemsReset();
-      emit displayGroupIDChanged();
-    }
-}
-
-void
-NodeList::setCurrentNodeByID(int id)
+bool
+NodeList::run()
 {
   do {
-    if (auto iter = m_all_items.find(m_display_group_id);
-        iter != m_all_items.end()) {
-      for (auto& item : *iter) {
-        if (item.id == id) {
-          m_current_node = item;
-
-          p_db->updateRuntimeValue("CURRENT_NODE_ID",
-                                   QString::number(m_current_node.id));
-          p_db->updateRuntimeValue("CURRENT_GROUP_ID",
-                                   QString::number(m_current_node.group_id));
-
-          emit currentNodeIDChanged();
-          emit currentNodeNameChanged();
-          emit currentNodeGroupChanged();
-          emit currentNodeProtocolChanged();
-          emit currentNodeAddressChanged();
-          emit currentNodePortChanged();
-          emit currentNodePasswordChanged();
-          emit currentNodeURLChanged();
-          emit currentGroupIDChanged();
-          break;
-        }
-      }
-    } else {
-      p_logger->error("Failed to load display group: {}", m_display_group_id);
+    if (m_node.raw.isEmpty()) {
+      p_logger->error("Failed to load current node");
+      break;
     }
 
     if (p_config == nullptr) {
@@ -299,72 +109,250 @@ NodeList::setCurrentNodeByID(int id)
       p_logger->error("Failed to load json tools");
     };
 
-    Json::Value root;
-    {
-      LogObject log_object;
-      if (auto level = magic_enum::enum_cast<LogObject::LogLevel>(
-            p_config->logLevel().toStdString())) {
-        log_object.setLogLevel(level.value());
-        log_object.setObject(root);
-      }
+    if (p_core == nullptr) {
+      p_logger->error("Failed to load core tools");
+    };
+
+    auto config = generateConfig();
+
+    p_core->setConfig(QString::fromStdString(config.toStyledString()));
+    p_core->run();
+  } while (false);
+
+  return false;
+}
+
+QVector<NodeInfo>
+NodeList::items()
+{
+  return m_nodes;
+}
+
+void
+NodeList::reloadItems()
+{
+  emit preItemsReset();
+
+  m_nodes = p_db->listAllNodesFromGroupID(displayGroupID());
+
+  emit postItemsReset();
+}
+
+Json::Value
+NodeList::generateConfig()
+{
+  Json::Value root;
+  {
+    LogObject log_object;
+    if (auto level = magic_enum::enum_cast<LogObject::LogLevel>(
+          p_config->logLevel().toStdString())) {
+      log_object.setLogLevel(level.value());
+      log_object.setObject(root);
     }
+  }
 
-    {
-      APIObject api_object;
-      api_object.setObject(root);
-    }
+  {
+    APIObject api_object;
+    api_object.setObject(root);
+  }
 
-    {
-      RuleObject api_rule_object = {
-        .type = "field",
-        .outbound_tag = "ACROSS_API",
-      };
-      api_rule_object.inbound_tag.append("ACROSS_API_INBOUND");
+  {
+    RuleObject api_rule_object = {
+      .type = "field",
+      .outbound_tag = "ACROSS_API",
+    };
+    api_rule_object.inbound_tag.append("ACROSS_API_INBOUND");
 
-      RoutingObject routing_object;
-      routing_object.appendRuleObject(api_rule_object);
-      routing_object.setObject(root);
+    RoutingObject routing_object;
+    routing_object.appendRuleObject(api_rule_object);
+    routing_object.setObject(root);
 
-      Stats().setObject(root);
+    Stats().setObject(root);
 
-      SystemPolicyObject system_policy_object;
-      PolicyObject policy_object;
-      policy_object.setSystemPolicyObject(system_policy_object);
-      policy_object.setObject(root);
-    }
+    SystemPolicyObject system_policy_object;
+    PolicyObject policy_object;
+    policy_object.setSystemPolicyObject(system_policy_object);
+    policy_object.setObject(root);
+  }
 
-    {
-      p_config->setInboundObject(root);
-    }
+  {
+    p_config->setInboundObject(root);
+  }
 
-    {
-      p_json->setData(m_current_node.raw.toStdString());
+  {
+    p_json->setData(m_node.raw.toStdString());
 
-      OutboundObjects outbound_objects;
-      outbound_objects.appendOutboundObject(p_json->getRoot());
-      outbound_objects.setObject(root);
-    }
+    OutboundObjects outbound_objects;
+    outbound_objects.appendOutboundObject(p_json->getRoot());
+    outbound_objects.setObject(root);
+  }
 
 #ifdef QT_DEBUG
-    std::ofstream file("generation_test.json");
-    Json::StreamWriterBuilder builder;
-    std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-    writer->write(root, &file);
-    file.close();
+  std::ofstream file("generation_test.json");
+  Json::StreamWriterBuilder builder;
+  std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+  writer->write(root, &file);
+  file.close();
 #endif
-    p_core->setConfig(QString::fromStdString(root.toStyledString()));
-    p_core->run();
 
-  } while (false);
+  return root;
+}
+
+void
+NodeList::appendNode(NodeInfo node)
+{
+  node.group_id = displayGroupID();
+  node.group_name = p_db->getGroupNameFromGroupID(node.group_id);
+
+  if (auto err = p_db->insert(node); err.type() != QSqlError::NoError) {
+    p_logger->error("Failed to add node: {}", node.name.toStdString());
+  } else {
+    reloadItems();
+    emit itemsSizeChanged(node.group_id, m_nodes.size());
+  }
+}
+
+void
+NodeList::removeNodeByID(int id)
+{
+  if (auto result = p_db->removeNodeFromID(id);
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to remove node: {}", id);
+  } else {
+    reloadItems();
+
+    for (auto& node : m_nodes) {
+      if (id == node.id) {
+        emit itemsSizeChanged(node.group_id, m_nodes.size());
+        break;
+      }
+    }
+  }
+}
+
+QString
+NodeList::getQRCode(int id)
+{
+  for (auto& item : m_nodes) {
+    if (item.id == id) {
+      emit updateQRCode(item.name, item.url);
+      return item.name;
+    }
+  }
+
+  return "";
+}
+
+qint64
+NodeList::currentNodeID()
+{
+  return m_node.id;
+}
+
+qint64
+NodeList::currentGroupID()
+{
+  return m_node.group_id;
+}
+
+qint64
+NodeList::displayGroupID()
+{
+  return m_display_group_id;
+}
+
+QString
+NodeList::currentNodeName()
+{
+  return m_node.name;
+}
+
+QString
+NodeList::currentNodeGroup()
+{
+  return m_node.group_name;
+}
+
+QString
+NodeList::currentNodeProtocol()
+{
+  return magic_enum::enum_name(m_node.protocol).data();
+}
+
+QString
+NodeList::currentNodeAddress()
+{
+  return m_node.address;
+}
+
+int
+NodeList::currentNodePort()
+{
+  return m_node.port;
+}
+
+QString
+NodeList::currentNodePassword()
+{
+  return m_node.password;
+}
+
+QString
+NodeList::currentNodeURL()
+{
+  return m_node.url;
+}
+
+void
+NodeList::setDisplayGroupID(int group_id)
+{
+    if (group_id <= 0 || group_id == m_display_group_id) {
+      return;
+    }
+    m_display_group_id = group_id;
+
+    reloadItems();
+    emit displayGroupIDChanged();
+}
+
+void
+NodeList::setCurrentNodeByID(int id)
+{
+  for (auto& node : m_nodes) {
+    if (id == node.id) {
+      m_node = node;
+
+      p_db->updateRuntimeValue(
+        RuntimeValue(RunTimeValues::CURRENT_NODE_ID, node.id));
+      p_db->updateRuntimeValue(
+        RuntimeValue(RunTimeValues::CURRENT_GROUP_ID, node.group_id));
+
+      emit currentNodeIDChanged();
+      emit currentNodeNameChanged();
+      emit currentNodeGroupChanged();
+      emit currentNodeProtocolChanged();
+      emit currentNodeAddressChanged();
+      emit currentNodePortChanged();
+      emit currentNodePasswordChanged();
+      emit currentNodeURLChanged();
+      emit currentGroupIDChanged();
+
+      if (!run()) {
+        p_logger->error("Failed to start current node: {} {}",
+                        node.id,
+                        node.name.toStdString());
+      }
+    }
+  }
 }
 
 void
 NodeList::copyUrlToClipboard(int id)
 {
-  auto iter = std::find_if(m_items.begin(), m_items.end(), [&](NodeInfo& item) {
+  auto iter = std::find_if(m_nodes.begin(), m_nodes.end(), [&](NodeInfo& item) {
     return item.id == id;
   });
-  if (iter == m_items.end()) {
+  if (iter == m_nodes.end()) {
     p_logger->error("Failed to copy node url: {}", id);
     return;
   }
@@ -380,10 +368,10 @@ NodeList::copyUrlToClipboard(int id)
 void
 NodeList::saveQRCodeToFile(int id, const QUrl& url)
 {
-  auto iter = std::find_if(m_items.begin(), m_items.end(), [&](NodeInfo& item) {
+  auto iter = std::find_if(m_nodes.begin(), m_nodes.end(), [&](NodeInfo& item) {
     return item.id == id;
   });
-  if (iter == m_items.end()) {
+  if (iter == m_nodes.end()) {
     p_logger->error("Failed to load node info: {}", id);
     return;
   }
@@ -410,9 +398,9 @@ NodeList::saveQRCodeToFile(int id, const QUrl& url)
 void
 NodeList::setAsDefault(int id)
 {
-  p_db->updateRuntimeValue("DEFAULT_NODE_ID", QString::number(id));
-  p_db->updateRuntimeValue("DEFAULT_GROUP_ID",
-                           QString::number(displayGroupID()));
+  p_db->updateRuntimeValue(RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, id));
+  p_db->updateRuntimeValue(
+    RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, displayGroupID()));
 }
 
 QString
