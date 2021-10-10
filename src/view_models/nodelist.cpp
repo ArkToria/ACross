@@ -422,6 +422,26 @@ NodeList::setLatency(qint64 id, const QString &group,const QString& addr, unsign
 
   emit nodeLatencyChanged(id,group,latency);
 }
+void
+NodeList::setAvgLatency(int id){
+  auto iter = std::find_if(m_items.begin(), m_items.end(), [&](NodeInfo& item) {
+    return item.id == id;
+  });
+  if (iter == m_items.end()) {
+    p_logger->error("Failed to load node info: {}", id);
+    return;
+  }
+  QFuture<void> setFuture = QtConcurrent::run(&NodeList::setLatency,this,iter->id,iter->group,iter->address,iter->port);
+}
+
+void
+NodeList::setLatency(qint64 id, const QString &group,const QString& addr, unsigned int port){
+  across::network::TCPPing tcpPingTool(addr,port);
+
+  int latency = tcpPingTool.getAvgLatency();
+
+  emit nodeLatencyChanged(id,group,latency);
+}
 
 QString
 NodeList::uploadTraffic()
