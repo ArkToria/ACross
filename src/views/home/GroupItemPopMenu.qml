@@ -65,6 +65,9 @@ Menu {
 
     Action {
         text: qsTr("TCP Ping")
+        onTriggered: {
+            acrossGroups.testTcpPing(index)
+        }
     }
 
     MenuSeparator {
