@@ -12,13 +12,14 @@
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = { self, nixpkgs, flake-utils, magic_enum, semver }:
-    flake-utils.lib.eachDefaultSystem
+    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (system:
         let
           pkgs = import nixpkgs { inherit system; overlays = [ self.overlay ]; };
         in
-        {
+        rec {
           packages = { inherit (pkgs) across qt6 spdlog; };
+          checks = packages;
         }
       ) // {
       overlay = final: prev: {
