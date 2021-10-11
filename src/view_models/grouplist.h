@@ -46,10 +46,12 @@ public:
 
   Q_INVOKABLE int getIndexByID(int id);
 
-  Q_INVOKABLE QVector<SearchResult> search(const QString& value);
+  Q_INVOKABLE void search(const QString& value);
+
+  Q_INVOKABLE void restore();
 
 public slots:
-  void reloadItems(bool reopen_db = false);
+  void reloadItems(bool reopen_db = false, bool reload_nodes = true);
 
   void appendItem(const QString& group_name,
                   const QString& url,
@@ -73,6 +75,9 @@ public slots:
   void handleItemsChanged(int64_t group_id, int size);
 
 signals:
+  void preItemsReset();
+  void postItemsReset();
+
   void preItemAppended();
   void postItemAppended();
 
@@ -91,8 +96,9 @@ private:
   QSharedPointer<across::network::CURLTools> p_curl;
   std::shared_ptr<across::utils::LogTools> p_logger;
 
-  QVector<GroupInfo> m_items;
-  QVector<GroupInfo> m_pre_items;
+  QVector<GroupInfo> m_groups;
+  QVector<GroupInfo> m_origin_groups;
+  QVector<GroupInfo> m_pre_groups;
   int64_t m_current_group_id;
 };
 }

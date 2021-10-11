@@ -391,6 +391,46 @@ DBTools::insert(NodeInfo& node)
 }
 
 QSqlError
+DBTools::update(NodeInfo& node)
+{
+  QSqlError result;
+  const QString update_str("UPDATE nodes SET "
+                           "Name = ?, GroupID = ?, GroupName = ?, "
+                           "Protocol = ?, Address = ?, Port = ? Password = ?, "
+                           "Raw = ?, URL = ?, Latency = ?, Upload = ?, "
+                           "Download = ?, CreatedAt = ?, ModifiedAt = ?"
+                           "WHERE ID = ?;");
+
+  node.modified_time = QDateTime::currentDateTime();
+  QVariantList input_collection = {
+    node.name,
+    node.group_id,
+    node.group_name,
+    node.protocol,
+    node.address,
+    node.port,
+    node.password,
+    node.raw,
+    node.url,
+    node.latency,
+    node.upload,
+    node.download,
+    node.created_time.toSecsSinceEpoch(),
+    node.modified_time.toSecsSinceEpoch(),
+    node.id,
+  };
+
+  if (result = stepExec(update_str, &input_collection).first;
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to update node: {}", node.id);
+  } else {
+    result = reloadAllGroupsInfo();
+  }
+
+  return result;
+}
+
+QSqlError
 DBTools::insert(GroupInfo& group)
 {
   const QString insert_str(
@@ -601,29 +641,27 @@ DBTools::listAllNodesFromGroupID(qint64 group_id)
   return nodes;
 }
 
-QVector<SearchResult>
+QMap<qint64, QVector<qint64>>
 DBTools::search(const QString& value)
 {
   QVector<QVariantList> collections;
-  QVector<SearchResult> search_results;
+  QMap<qint64, QVector<qint64>> search_results;
   QVariantList input_collection = { value.toHtmlEscaped() };
-  const QString search_str(
-    "SELECT ID,Name,GroupID,GroupName FROM search WHERE search = ?;");
+  const QString search_str("SELECT GroupID,GROUP_CONCAT(ID) FROM search WHERE "
+                           "search = ? GROUP BY GroupID;");
 
   if (auto result =
-        stepExec(search_str, &input_collection, 4, &collections).first;
+        stepExec(search_str, &input_collection, 2, &collections).first;
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to list all nodes");
   } else {
     for (auto& item : collections) {
-      SearchResult node = {
-        .node_id = item.at(0).toLongLong(),
-        .node_name = item.at(1).toString(),
-        .group_id = item.at(2).toLongLong(),
-        .group_name = item.at(3).toString(),
-      };
+      QVector<qint64> nodes_id;
+      for (auto& node_id : item.at(1).toString().split(",")) {
+        nodes_id.append(node_id.toLongLong());
+      }
 
-      search_results.append(node);
+      search_results.insert(item.at(0).toLongLong(), nodes_id);
     }
   }
 

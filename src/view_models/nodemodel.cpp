@@ -46,6 +46,12 @@ NodeModel::data(const QModelIndex& index, int role) const
       return item.password;
     case URLRole:
       return item.url;
+    case LatencyRole:
+      return item.latency;
+    case UploadRole:
+      return item.upload;
+    case DownloadRole:
+      return item.download;
     case CreatedAtRole:
       return item.created_time.toString(dateTimeFormat);
     case ModifiedAtRole:
@@ -68,7 +74,7 @@ NodeModel::roleNames() const
     { URLRole, "url" },
     { ProtocolTypeRole, "protocol" },
     { CreatedAtRole, "createdAt" },
-    { ModifiedAtRole, "modifiedAt" }
+    { ModifiedAtRole, "modifiedAt" },
   };
 
   return roles;
@@ -95,11 +101,9 @@ NodeModel::connectItems()
 
     if (m_old_rows > index) {
       beginRemoveRows(QModelIndex(), index, m_old_rows);
-
       endRemoveRows();
     } else if (m_old_rows < index) {
       beginInsertRows(QModelIndex(), m_old_rows, index - 1);
-
       endInsertRows();
     }
 
@@ -110,19 +114,16 @@ NodeModel::connectItems()
 void
 NodeModel::setList(NodeList* list)
 {
+  if (list == nullptr)
+    return;
+
   beginResetModel();
 
-  if (p_list) {
+  if (p_list)
     p_list->disconnect(this);
-  }
 
   p_list = list;
-
-  if (p_list) {
-    connectItems();
-  }
-
+  connectItems();
   emit listChanged();
-
   endResetModel();
 }

@@ -10,22 +10,17 @@ GroupModel::GroupModel(QObject* parent)
 int
 GroupModel::rowCount(const QModelIndex& parent) const
 {
-  if (parent.isValid() || !p_list)
+  if (parent.isValid() || p_list == nullptr)
     return 0;
-
-  if (p_list != nullptr) {
+  else
     return p_list->items().size();
-  } else {
-    return 0;
-  }
 }
 
 QVariant
 GroupModel::data(const QModelIndex& index, int role) const
 {
-  if (!index.isValid() || !p_list || index.row() >= rowCount()) {
+  if (!index.isValid() || p_list == nullptr || index.row() >= rowCount())
     return QVariant();
-  }
 
   const GroupInfo item = p_list->items().at(index.row());
 
@@ -58,14 +53,15 @@ GroupModel::data(const QModelIndex& index, int role) const
 QHash<int, QByteArray>
 GroupModel::roleNames() const
 {
-  static const QHash<int, QByteArray> roles{ { GroupIDRole, "group_id" },
-                                             { UrlRole, "url" },
-                                             { NameRole, "name" },
-                                             { ItemsRole, "items" },
-                                             { CreatedAtRole, "createdAt" },
-                                             { ModifiedAtRole, "modifiedAt" },
-                                             { IsSubscriptionRole,
-                                               "isSubscription" } };
+  static const QHash<int, QByteArray> roles{
+    { GroupIDRole, "group_id" },
+    { UrlRole, "url" },
+    { NameRole, "name" },
+    { ItemsRole, "items" },
+    { CreatedAtRole, "createdAt" },
+    { ModifiedAtRole, "modifiedAt" },
+    { IsSubscriptionRole, "isSubscription" },
+  };
 
   return roles;
 }
@@ -77,61 +73,77 @@ GroupModel::list() const
 }
 
 void
+GroupModel::connectItems()
+{
+  connect(p_list, &GroupList::preItemsReset, this, [&]() {
+    m_old_rows = p_list->items().size();
+  });
+
+  connect(p_list, &GroupList::postItemsReset, this, [&]() {
+    int index = p_list->items().size();
+
+    QModelIndex topLeft = createIndex(0, 0);
+    QModelIndex bottomRight = createIndex(index, 0);
+
+    if (m_old_rows > index) {
+      beginRemoveRows(QModelIndex(), index, m_old_rows);
+      endRemoveRows();
+    } else if (m_old_rows < index) {
+      beginInsertRows(QModelIndex(), m_old_rows, index - 1);
+      endInsertRows();
+    }
+
+    emit dataChanged(topLeft, bottomRight);
+  });
+
+  connect(p_list, &GroupList::preItemAppended, this, [&] {
+    const int index = p_list->items().size();
+    beginInsertRows(QModelIndex(), index, index);
+  });
+
+  connect(p_list, &GroupList::postItemAppended, this, [&] { endInsertRows(); });
+
+  connect(p_list, &GroupList::preItemRemoved, this, [&](int index) {
+    beginRemoveRows(QModelIndex(), index, index);
+  });
+
+  connect(p_list, &GroupList::postItemRemoved, this, [&] { endRemoveRows(); });
+
+  connect(p_list, &GroupList::preLastItemRemoved, this, [&]() {
+    int index = p_list->items().size();
+    beginRemoveRows(QModelIndex(), index, index);
+  });
+
+  connect(
+    p_list, &GroupList::postLastItemRemoved, this, [&] { endRemoveRows(); });
+
+  connect(p_list, &GroupList::itemInfoChanged, this, [&](int index) {
+    emit dataChanged(createIndex(index, 0), createIndex(index + 1, 0));
+  });
+}
+
+void
 GroupModel::setList(GroupList* list)
 {
-  if (list == nullptr) {
+  if (list == nullptr)
     return;
-  }
 
   beginResetModel();
 
-  if (p_list) {
+  if (p_list != nullptr)
     p_list->disconnect(this);
-  }
 
   p_list = list;
-
-  if (p_list) {
-    connect(p_list, &GroupList::preItemAppended, this, [&] {
-      const int index = p_list->items().size();
-
-      beginInsertRows(QModelIndex(), index, index);
-    });
-
-    connect(p_list, &GroupList::postItemAppended, this, [&] {
-      // TODO: reset current index to the last one
-      endInsertRows();
-    });
-
-    connect(p_list, &GroupList::preItemRemoved, this, [&](int index) {
-      beginRemoveRows(QModelIndex(), index, index);
-    });
-
-    connect(
-      p_list, &GroupList::postItemRemoved, this, [&] { endRemoveRows(); });
-
-    connect(p_list, &GroupList::preLastItemRemoved, this, [&]() {
-      int index = p_list->items().size();
-      beginRemoveRows(QModelIndex(), index, index);
-    });
-
-    connect(
-      p_list, &GroupList::postLastItemRemoved, this, [&] { endRemoveRows(); });
-
-    connect(p_list, &GroupList::itemInfoChanged, this, [&](int index) {
-      emit dataChanged(createIndex(index, 0), createIndex(index + 1, 0));
-    });
-  }
-
+  connectItems();
+  emit listChanged();
   endResetModel();
 }
 
 bool
 GroupModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-  if (p_list == nullptr) {
+  if (p_list == nullptr)
     return false;
-  }
 
   GroupInfo item = p_list->items().at(index.row());
 

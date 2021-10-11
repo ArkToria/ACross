@@ -90,13 +90,13 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
 QVector<GroupInfo>
 GroupList::items() const
 {
-  return m_items;
+  return m_groups;
 }
 
 void
 GroupList::checkAllUpdate(bool force)
 {
-  for (auto i = 0; i < m_items.size(); ++i) {
+  for (auto i = 0; i < m_groups.size(); ++i) {
     checkUpdate(i, force);
   }
 }
@@ -105,10 +105,10 @@ void
 GroupList::checkUpdate(int index, bool force)
 {
   do {
-    if (index >= m_items.size())
+    if (index >= m_groups.size())
       break;
 
-    auto item = m_items.at(index);
+    auto item = m_groups.at(index);
     if (!item.isSubscription || item.url.isEmpty())
       break;
 
@@ -134,8 +134,8 @@ GroupList::checkUpdate(int index, bool force)
 
 Q_INVOKABLE int GroupList::getIndexByID(int id) 
 {
-  for(auto iter = 0; iter < m_items.size(); ++iter){
-    auto& item = m_items[iter];
+  for (auto iter = 0; iter < m_groups.size(); ++iter) {
+    auto& item = m_groups[iter];
     if(item.id == id) {
       return iter;
     }
@@ -143,14 +143,38 @@ Q_INVOKABLE int GroupList::getIndexByID(int id)
   return -1;
 }
 
-QVector<SearchResult>
+void
 GroupList::search(const QString& value)
 {
-  return p_db->search(value);
+  QVector<GroupInfo> temp_groups;
+  auto iter = m_origin_groups.begin();
+  auto results = p_db->search(value);
+
+  for (auto& key : results.keys()) {
+    for (; iter != m_origin_groups.end(); ++iter) {
+      if (iter->id == key) {
+        temp_groups.append(*iter);
+        ++iter;
+        break;
+      }
+    }
+  }
+
+  emit preItemsReset();
+  m_groups = temp_groups;
+  emit postItemsReset();
 }
 
 void
-GroupList::reloadItems(bool reopen_db)
+GroupList::restore()
+{
+  emit preItemsReset();
+  m_groups = m_origin_groups;
+  emit postItemsReset();
+}
+
+void
+GroupList::reloadItems(bool reopen_db, bool reload_nodes)
 {
   if (reopen_db) {
     p_db->reload();
@@ -158,16 +182,21 @@ GroupList::reloadItems(bool reopen_db)
 
   if (auto result = p_db->reloadAllGroupsInfo();
       result.type() == QSqlError::NoError) {
-    m_items = p_db->getAllGroupsInfo();
+    emit preItemsReset();
+    m_groups = p_db->getAllGroupsInfo();
+    emit postItemsReset();
+
+    if (m_groups.isEmpty()) {
+      p_logger->warn("No group items from database");
+      return;
+    } else {
+      m_origin_groups = m_groups;
+    }
   }
 
-  if (m_items.isEmpty()) {
-    p_logger->warn("No group items from database");
-  } else {
-    p_logger->info("Load group items from database");
+  if (reload_nodes) {
+    p_nodes->reloadItems();
   }
-
-  p_nodes->reloadItems();
 }
 
 bool
@@ -271,7 +300,7 @@ GroupList::appendItem(const QString& group_name,
     .cycle_time = cycle_time,
   };
 
-  m_pre_items.append(group_info);
+  m_pre_groups.append(group_info);
 
   connect(p_curl.get(),
           &across::network::CURLTools::downloadFinished,
@@ -298,14 +327,14 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
 void
 GroupList::removeItem(int index)
 {
-  if (m_items.size() > index) {
-    setDisplayGroupID(m_items.at(index - 1).id);
+  if (m_groups.size() > index) {
+    setDisplayGroupID(m_groups.at(index - 1).id);
 
     emit preItemRemoved(index);
 
-    p_db->removeGroupFromID(m_items.at(index).id);
+    p_db->removeGroupFromID(m_groups.at(index).id);
 
-    m_items.removeAt(index);
+    m_groups.removeAt(index);
 
     emit postItemRemoved();
   }
@@ -320,7 +349,7 @@ GroupList::setDisplayGroupID(int id)
 void
 GroupList::copyUrlToClipboard(int index)
 {
-  auto item = m_items.at(index);
+  auto item = m_groups.at(index);
 
   NotifyTools().send(item.url,
                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
@@ -331,9 +360,9 @@ GroupList::copyUrlToClipboard(int index)
 void
 GroupList::editItem(int index)
 {
-  if (index < m_items.size()) {
-    m_items[index].modified_time = QDateTime::currentDateTime();
-    auto item = m_items.at(index);
+  if (index < m_groups.size()) {
+    m_groups[index].modified_time = QDateTime::currentDateTime();
+    auto item = m_groups.at(index);
     p_db->update(item);
     emit itemInfoChanged(index);
   } else {
@@ -348,10 +377,10 @@ GroupList::handleDownloaded(const QVariant& content)
   if (task.content.isEmpty())
     return;
 
-  for (auto i = m_pre_items.size() - 1; i >= 0; --i) {
-    if (auto item = m_pre_items.at(i); task.filename == item.name)
+  for (auto i = m_pre_groups.size() - 1; i >= 0; --i) {
+    if (auto item = m_pre_groups.at(i); task.filename == item.name)
       if (insert(item, task.content))
-        m_pre_items.removeAt(i);
+        m_pre_groups.removeAt(i);
   }
 }
 
@@ -362,8 +391,8 @@ GroupList::handleUpdated(const QVariant& content)
   if (task.content.isEmpty())
     return;
 
-  for (auto iter = 0; iter < m_items.size(); ++iter) {
-    auto& item = m_items[iter];
+  for (auto iter = 0; iter < m_groups.size(); ++iter) {
+    auto& item = m_groups[iter];
     if (task.filename == item.name) {
       item.modified_time = QDateTime::currentDateTime();
       do {
@@ -410,9 +439,9 @@ GroupList::handleUpdated(const QVariant& content)
 void
 GroupList::handleItemsChanged(int64_t group_id, int size)
 {
-  for (auto index = 0; index < m_items.size(); ++index) {
-    if (auto item = m_items.at(index); item.id == group_id) {
-      m_items[index].items = size;
+  for (auto index = 0; index < m_groups.size(); ++index) {
+    if (auto item = m_groups.at(index); item.id == group_id) {
+      m_groups[index].items = size;
       emit itemInfoChanged(index);
       break;
     }

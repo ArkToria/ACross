@@ -17,8 +17,12 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            onEditingFinished: {
-                acrossGroups.search(text)
+            onTextChanged: {
+                if (this.text === "") {
+                    acrossGroups.restore()
+                } else {
+                    acrossGroups.search(text)
+                }
             }
         }
 
@@ -34,7 +38,8 @@ Item {
                 hoverEnabled: true
 
                 onClicked: {
-                    acrossGroups.search(searchTextField.text)
+                    if (searchTextField.model.text !== "")
+                        acrossGroups.search(searchTextField.text)
                 }
 
                 onEntered: {

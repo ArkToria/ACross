@@ -41,6 +41,8 @@ public:
 
   GroupList* list() const;
 
+  void connectItems();
+
 public slots:
   void setList(GroupList* list);
 
@@ -51,6 +53,7 @@ signals:
 
 private:
   GroupList* p_list;
+  int m_old_rows;
 };
 }
 
