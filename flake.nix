@@ -29,8 +29,9 @@
           nativeBuildInputs = with final; [ cmake ninja pkg-config ];
           buildInputs = with final;[ qt6 libGL curl jsoncpp spdlog zxing-cpp protobuf grpc gtest c-ares ];
           prePatch = ''
-            ln -sf ${magic_enum} 3rdpart/magic_enum
-            ln -sf ${semver} 3rdpart/semver
+            rm -rf 3rdpart/*
+            ln -s ${magic_enum} 3rdpart/magic_enum
+            ln -s ${semver} 3rdpart/semver
           '';
         };
         qt6 = final.stdenv.mkDerivation rec {
