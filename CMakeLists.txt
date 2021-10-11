@@ -187,6 +187,9 @@ qt_add_resources(across misc
 qt_import_qml_plugins(across)
 qt_finalize_executable(across)
 
+set_target_properties(across PROPERTIES
+    WIN32_EXECUTABLE TRUE)
+
 if (WIN32)
     add_custom_command(
         TARGET across
