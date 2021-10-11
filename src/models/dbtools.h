@@ -98,6 +98,14 @@ struct RuntimeValue
   RuntimeValue(const QString& key, int type, const QVariant& value);
 };
 
+struct SearchResult
+{
+  qint64 node_id = 0;
+  QString node_name = "";
+  qint64 group_id = 0;
+  QString group_name = "";
+};
+
 class DBTools : public QObject
 {
   Q_OBJECT
@@ -142,6 +150,7 @@ public:
   QSqlError reloadAllGroupsInfo();
   QVector<GroupInfo> getAllGroupsInfo();
   QVector<NodeInfo> listAllNodesFromGroupID(qint64 group_id);
+  QVector<SearchResult> search(const QString& value);
 
 public slots:
   void close();

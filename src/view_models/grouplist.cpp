@@ -143,6 +143,12 @@ Q_INVOKABLE int GroupList::getIndexByID(int id)
   return -1;
 }
 
+QVector<SearchResult>
+GroupList::search(const QString& value)
+{
+  return p_db->search(value);
+}
+
 void
 GroupList::reloadItems(bool reopen_db)
 {

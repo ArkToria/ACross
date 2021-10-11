@@ -46,6 +46,8 @@ public:
 
   Q_INVOKABLE int getIndexByID(int id);
 
+  Q_INVOKABLE QVector<SearchResult> search(const QString& value);
+
 public slots:
   void reloadItems(bool reopen_db = false);
 

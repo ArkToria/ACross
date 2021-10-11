@@ -7,14 +7,33 @@ import ACross
 Item {
     implicitHeight: 48
     implicitWidth: 312
-    Rectangle {
-        anchors.fill: parent
 
-        color: acrossConfig.backgroundColor
+    RowLayout {
+        anchors.fill: parent
+        anchors.margins: acrossConfig.itemSpacing
 
         TextFieldBox {
-            anchors.fill: parent
-            anchors.margins: 8
+            id: searchTextField
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+
+            onEditingFinished: {
+                acrossGroups.search(text)
+            }
+        }
+
+        SVGBox {
+            Layout.preferredWidth: 24
+
+            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/search.svg"
+            sourceWidth: 24
+            sourceHeight: 24
+
+            MouseArea {
+                onClicked: {
+                    acrossGroups.search(searchTextField.text)
+                }
+            }
         }
     }
 }

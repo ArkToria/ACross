@@ -9,11 +9,12 @@ Item {
     id: groupListPanel
     implicitWidth: 312
     implicitHeight: 720
-    
+
     function setIndexByID(group_id) {
-        let index = acrossGroups.getIndexByID(group_id);
-        if(index === -1) return;
-        listScrollView.currentIndex = index;
+        let index = acrossGroups.getIndexByID(group_id)
+        if (index === -1)
+            return
+        listScrollView.currentIndex = index
 
         acrossGroups.setDisplayGroupID(group_id)
     }
@@ -36,7 +37,6 @@ Item {
         ToolsBar {
             Layout.fillWidth: true
             Layout.preferredHeight: 48
-
             z: 1
         }
 

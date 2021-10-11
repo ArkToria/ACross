@@ -601,6 +601,35 @@ DBTools::listAllNodesFromGroupID(qint64 group_id)
   return nodes;
 }
 
+QVector<SearchResult>
+DBTools::search(const QString& value)
+{
+  QVector<QVariantList> collections;
+  QVector<SearchResult> search_results;
+  QVariantList input_collection = { value.toHtmlEscaped() };
+  const QString search_str(
+    "SELECT ID,Name,GroupID,GroupName FROM search WHERE search = ?;");
+
+  if (auto result =
+        stepExec(search_str, &input_collection, 4, &collections).first;
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to list all nodes");
+  } else {
+    for (auto& item : collections) {
+      SearchResult node = {
+        .node_id = item.at(0).toLongLong(),
+        .node_name = item.at(1).toString(),
+        .group_id = item.at(2).toLongLong(),
+        .group_name = item.at(3).toString(),
+      };
+
+      search_results.append(node);
+    }
+  }
+
+  return search_results;
+}
+
 void
 DBTools::close()
 {
