@@ -29,8 +29,8 @@
           nativeBuildInputs = with final; [ cmake ninja pkg-config ];
           buildInputs = with final;[ qt6 libGL curl jsoncpp spdlog zxing-cpp protobuf grpc gtest c-ares ];
           prePatch = ''
-            ln -s ${magic_enum} 3rdpart/magic_enum
-            ln -s ${semver} 3rdpart/semver
+            ln -sf ${magic_enum} 3rdpart/magic_enum
+            ln -sf ${semver} 3rdpart/semver
           '';
         };
         qt6 = final.stdenv.mkDerivation rec {
@@ -40,8 +40,126 @@
             url = "https://download.qt.io/official_releases/qt/${final.lib.versions.majorMinor version}/${version}/single/qt-everywhere-src-${version}.tar.xz";
             sha256 = "sha256-YMLcDuht0zjlxRlL2Vkiq/wJeEHj6FVpPftPWq8NtNs=";
           };
-          nativeBuildInputs = with final; [ cmake ninja perl python pkg-config ];
-          buildInputs = with final; [ libGL double-conversion glib icu libb2 lttng-ust pcre2 brotli openssl freetype fontconfig wayland ];
+          nativeBuildInputs = with final; [ cmake ninja perl python pkg-config xmlstarlet ];
+          buildInputs = with final; [
+            xorg.libxcb
+            xorg.libX11
+            xorg.libXau
+            xorg.libXdmcp
+            xorg.libXtst
+            xorg.xrandr
+            xorg.libXext
+            xorg.libXi
+            xorg.libXft
+            xorg.libICE
+            xorg.libSM
+            xorg.libXres
+            xorg.libXaw
+            xorg.libXcomposite
+            xorg.libXcursor
+            xorg.libXinerama
+            xorg.libXmu
+            xorg.libXpm
+            xorg.libXrandr
+            xorg.libXt
+            xorg.libXv
+            xorg.libXxf86misc
+            xorg.libxkbfile
+            xorg.xcbproto
+            xorg.xcbutilcursor
+            xorg.xcbutilimage
+            xorg.xcbutil
+            xorg.xcbutilwm
+            xorg.xcbutilrenderutil
+            xorg.xcbutilerrors
+            xorg.xcbutilkeysyms
+            xorg.xkbutils
+            xorg.xkbevd
+            xorg.xkbprint
+            xorg.xkbevd
+            xorg.xkbcomp
+            xorg.libXext
+            xorg.libXdmcp
+            xorg.libXi
+            xorg.libXau
+            xorg.libxshmfence
+            xorg.libXtst
+            xorg.xcbutilwm
+            libthai
+            libdatrie
+            epoxy
+            libselinux
+            libsepol
+            sqlite
+            libxkbcommon
+            libiconv
+            mtdev
+            util-linux
+            directfb
+            md4c
+            libdrm
+            at-spi2-core
+            gtk3
+            libinput
+            snappy
+            nss
+            libxslt
+            libxml2
+            valgrind
+            libGL
+            double-conversion
+            glib
+            icu
+            libb2
+            lttng-ust
+            re2
+            pcre
+            pcre2
+            libjpeg
+            brotli
+            openssl
+            freetype
+            fontconfig
+            wayland
+            zstd
+            dbus
+            systemdMinimal
+            libproxy
+            mesa
+            harfbuzz
+          ];
+          cmakeFlags = [
+            "-Wno-dev"
+          ] ++ builtins.map (x: "-DBUILD_${x}=OFF") [
+            "qtwebengine"
+            "qtwebview"
+            "qtwebchannel"
+            "qtwebsockets"
+            "qtvirtualkeyboard"
+            "qttranslations"
+            "qtserialbus"
+            "qtsensors"
+            "qtimageformats"
+            "qt3d"
+            "qtactiveqt"
+            "qtmultimedia"
+            "qtcharts"
+            "qtcoap"
+            "qtconnectivity"
+            "qtdatavis3d"
+            "qtdoc"
+            "qtserialport"
+            "qtlocation"
+            "qtlottie"
+            "qtmqtt"
+            "qtnetworkauth"
+            "qtopcua"
+            "qtquicktimeline"
+            "qtquick3d"
+            "qtremoteobjects"
+            "qtscxml"
+            "qtwayland"
+          ];
           preBuild = ''
             export LD_LIBRARY_PATH="$PWD/qtbase/lib''${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH"
           '';
