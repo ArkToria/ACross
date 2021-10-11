@@ -412,6 +412,45 @@ DBTools::insert(GroupInfo& group)
   return result;
 }
 
+QSqlError
+DBTools::update(NodeInfo& node)
+{
+  QSqlError result;
+  const QString update_str("UPDATE nodes SET "
+                           "Name = ?, GroupID = ?, GroupName = ?, "
+                           "Protocol = ?, Address = ?, Port = ?, Password = ?, "
+                           "Raw = ?, URL = ?, Latency = ?, Upload = ?, "
+                           "Download = ?, CreatedAt = ?, ModifiedAt = ? "
+                           "WHERE ID = ?;");
+
+  node.modified_time = QDateTime::currentDateTime();
+  QVariantList input_collection = {
+    node.name,
+    node.group_id,
+    node.group_name,
+    node.protocol,
+    node.address,
+    node.port,
+    node.password,
+    node.raw,
+    node.url,
+    node.latency,
+    node.upload,
+    node.download,
+    node.created_time.toSecsSinceEpoch(),
+    node.modified_time.toSecsSinceEpoch(),
+    node.id,
+  };
+
+  if (result = stepExec(update_str, &input_collection).first;
+      result.type() != QSqlError::NoError) {
+    p_logger->error("Failed to update node: {}", node.id);
+  } else {
+    result = reloadAllGroupsInfo();
+  }
+
+  return result;
+}
 
 QSqlError
 DBTools::update(GroupInfo& group)

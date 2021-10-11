@@ -43,7 +43,7 @@ struct NodeInfo
   QString password = "";
   QString raw = "";
   QString url = "";
-  qint64 latency = 0;
+  qint64 latency = -1;
   qint64 upload = 0;
   qint64 download = 0;
   QDateTime created_time;
@@ -132,6 +132,7 @@ public:
   bool isGroupExists(const QString& group_name);
 
   QSqlError insert(NodeInfo& node);
+  QSqlError update(NodeInfo& node);
   QSqlError insert(GroupInfo& group);
   QSqlError update(GroupInfo& group);
   QSqlError removeNodeFromID(qint64 id);

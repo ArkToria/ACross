@@ -46,6 +46,8 @@ NodeModel::data(const QModelIndex& index, int role) const
       return item.password;
     case URLRole:
       return item.url;
+    case LatencyRole:
+      return item.latency;
     case CreatedAtRole:
       return item.created_time.toString(dateTimeFormat);
     case ModifiedAtRole:
@@ -67,6 +69,7 @@ NodeModel::roleNames() const
     { PasswordRole, "password" },
     { URLRole, "url" },
     { ProtocolTypeRole, "protocol" },
+    { LatencyRole, "latency"},
     { CreatedAtRole, "createdAt" },
     { ModifiedAtRole, "modifiedAt" }
   };
