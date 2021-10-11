@@ -646,7 +646,7 @@ DBTools::search(const QString& value)
 {
   QVector<QVariantList> collections;
   QMap<qint64, QVector<qint64>> search_results;
-  QVariantList input_collection = { value.toHtmlEscaped() };
+  QVariantList input_collection = { value.toHtmlEscaped().append("*") };
   const QString search_str("SELECT GroupID,GROUP_CONCAT(ID) FROM search WHERE "
                            "search = ? GROUP BY GroupID;");
 
