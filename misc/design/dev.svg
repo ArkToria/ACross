@@ -1,0 +1,30 @@
+<svg width="300" height="300" version="1.1" viewBox="0 0 79.375 79.375" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient13320" x2="79.375" y2="79.375" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#454545" offset="0"/>
+   <stop stop-color="#454545" offset="1"/>
+  </linearGradient>
+  <filter id="filter33776" x="-.090709" y="-.090709" width="1.194" height="1.194" color-interpolation-filters="sRGB">
+   <feFlood flood-color="rgb(0,0,0)" flood-opacity=".49804" result="flood"/>
+   <feComposite in="flood" in2="SourceGraphic" operator="in" result="composite1"/>
+   <feGaussianBlur in="composite1" result="blur" stdDeviation="3"/>
+   <feOffset dx="1" dy="1" result="offset"/>
+   <feComposite in="SourceGraphic" in2="offset" result="composite2"/>
+  </filter>
+ </defs>
+ <rect width="79.375" height="79.375" fill="#373737" stroke-linecap="round" stroke-linejoin="bevel" stroke-width=".52917"/>
+ <circle transform="matrix(.62177 0 0 .62177 15.2 15.2)" cx="39.688" cy="39.688" r="39.688" fill="url(#linearGradient13320)" filter="url(#filter33776)" stroke-linecap="round" stroke-linejoin="bevel" stroke-width=".52917"/>
+ <g transform="matrix(.63535 0 0 .63535 14.431 11.688)" fill="none">
+  <path d="m7.0328 29.863s19.488 0.69869 20.638 2.5251-13.696 17.074-13.696 17.074" stroke="#f9fbff" stroke-width="2.6458"/>
+  <path d="m57.186 10.184s-14.897 13.886-13.689 15.65 21.593 3.5811 21.593 3.5811" stroke="#f9fbff" stroke-width="2.6458"/>
+  <g stroke="#fff">
+   <path transform="scale(.26458)" d="m130.69 298.67c4.4873-39.907 12.195-77.062 25.331-76.541 16.978 0.67408 23.878 41.656 26.681 74.254" stroke-width="10"/>
+   <path transform="scale(.26458)" d="m271.03 238.59c-20.807-27.637-41.039-48.438-50.033-39.879-12.727 12.111-0.48458 47.959 12.147 76.114" stroke-width="10"/>
+   <path d="m31.114 50.526c0.01292 0.82888 0.26273 1.6528 0.71232 2.3492 0.44959 0.69648 1.0975 1.2634 1.8476 1.6164 0.75004 0.35306 1.5998 0.49118 2.4231 0.39385s1.6174-0.42981 2.2644-0.94804c1.081-0.86584 1.6928-2.1702 2.4837-3.3072 0.39546-0.5685 0.84789-1.1075 1.4099-1.5121 0.56205-0.40458 1.2439-0.66815 1.936-0.6424 0.47916 0.01782 0.94524 0.17219 1.3744 0.38605 0.42916 0.21386 0.82576 0.48666 1.2217 0.75709 0.39596 0.27043 0.79471 0.54051 1.2269 0.74818s0.9022 0.35214 1.3817 0.35621c0.43571 0.0037 0.869-0.10957 1.2589-0.30405 0.38992-0.19448 0.73734-0.46868 1.036-0.78595 0.59733-0.63453 0.99473-1.429 1.3374-2.2303s0.64102-1.6256 1.0785-2.3793c0.43748-0.75369 1.0334-1.4452 1.8181-1.8244 0.7449-0.35989 1.6341-0.40929 2.4142-0.13411 0.78018 0.27518 1.4416 0.87147 1.7959 1.6191" stroke-width="2.6458"/>
+  </g>
+ </g>
+ <g transform="matrix(.84897 0 0 .84897 2.6018 -.36241)">
+  <rect x="7.2224" y="59.357" width="25.852" height="14.287" rx="4.2333" ry="4.2333" fill="#ff8080" stroke-linecap="round" stroke-linejoin="bevel" stroke-width=".52917"/>
+  <text x="10.560114" y="70.225929" fill="#ffffff" font-family="sans-serif" font-size="10.583px" stroke-width=".26458" style="line-height:1.25" xml:space="preserve"><tspan x="10.560114" y="70.225929" fill="#ffffff" font-family="'Noto Sans'" font-weight="300" stroke-width=".26458">Dev</tspan></text>
+ </g>
+</svg>
