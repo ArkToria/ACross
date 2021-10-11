@@ -258,6 +258,49 @@ ConfigHelper::defaultConfig()
     }
   }
 
+  if (auto theme = config.add_themes()) {
+    theme->set_name("pure-pink");
+
+    if (auto tray = theme->mutable_tray()) {
+      tray->set_stylish("block");
+      tray->set_color("light");
+    }
+
+    if (auto banner = theme->mutable_banner()) {
+      banner->set_enable(false);
+      banner->set_background_image("");
+      banner->set_background_opacity(0.9);
+    }
+
+    if (auto colors = theme->mutable_colors()) {
+      colors->set_text_color("#755c99");
+      colors->set_background_color("#f0e6ef");
+      colors->set_highlight_color("#c29bbf");
+      colors->set_highlight_text_color("#f5edf5");
+      colors->set_warn_color("#f0a5bf");
+      colors->set_warn_text_color("#ffffff");
+      colors->set_shadow_color("#29000000");
+      colors->set_border_color("#3381a1c1");
+      colors->set_deep_color("#f0a6ca");
+      colors->set_deep_text_color("#584573");
+      colors->set_style_color("#b4a6c9");
+      colors->set_style_text_color("#fefefe");
+    }
+
+    if (auto border = theme->mutable_border()) {
+      border->set_radius(8);
+      border->set_width(1);
+    }
+
+    if (auto item = theme->mutable_item()) {
+      item->set_spacing(8);
+    }
+
+    if (auto icon = theme->mutable_icon()) {
+      icon->set_style("light");
+    }
+  }
+
   return config;
 }
 

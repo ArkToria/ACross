@@ -180,6 +180,42 @@
             "icon": {
                 "style": "dark"
             }
+        },
+        {
+            "name": "pure-pink",
+            "tray": {
+                "stylish": "block",
+                "color": "light"
+            },
+            "banner": {
+                "enable": true,
+                "background_image": "",
+                "background_opacity": 0.9
+            },
+            "colors": {
+                "text_color": "#755C99",
+                "background_color": "#f0e6ef",
+                "highlight_color": "#c29bbf",
+                "highlight_text_color": "#f5edf5",
+                "warn_color": "#f0a5bf",
+                "warn_text_color": "#ffffff",
+                "shadow_color": "#29000000",
+                "border_color": "#3381a1c1",
+                "deep_color": "#f0a6ca",
+                "deep_text_color": "#584573",
+                "style_color": "#b4a6c9",
+                "style_text_color": "#fefefe"
+            },
+            "border": {
+                "radius": 8,
+                "width": 1
+            },
+            "item": {
+                "spacing": 8
+            },
+            "icon": {
+                "style": "light"
+            }
         }
     ]
 }
