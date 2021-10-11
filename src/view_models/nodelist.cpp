@@ -450,6 +450,29 @@ NodeList::setAsDefault(int id)
 void
 NodeList::setAvgLatency(int id)
 {
+  QFuture<void> waitFuture = QtConcurrent::run([&,id]{
+    QFuture<void> setFuture = QtConcurrent::run(&NodeList::setLatency,
+                                                this,
+                                                id);
+    setFuture.waitForFinished();
+
+    auto iter = std::find_if(m_nodes.begin(), m_nodes.end(), [&](NodeInfo& item) {
+      return item.id == id;
+    });
+    if (iter == m_nodes.end()) {
+      p_logger->error("Failed to load node info: {}", id);
+      return;
+    }
+    auto &node = *iter;
+
+    p_db->update(node);
+    reloadItems();
+  });
+}
+
+void
+NodeList::setLatency(int id)
+{
   auto iter = std::find_if(m_nodes.begin(), m_nodes.end(), [&](NodeInfo& item) {
     return item.id == id;
   });
@@ -457,25 +480,13 @@ NodeList::setAvgLatency(int id)
     p_logger->error("Failed to load node info: {}", id);
     return;
   }
-  QFuture<void> setFuture = QtConcurrent::run(&NodeList::setLatency,
-                                              this,
-                                              iter->id,
-                                              iter->group_name,
-                                              iter->address,
-                                              iter->port);
-}
+  auto &node = *iter;
 
-void
-NodeList::setLatency(qint64 id,
-                     const QString& group_name,
-                     const QString& addr,
-                     unsigned int port)
-{
-  across::network::TCPPing tcpPingTool(addr, port);
+  across::network::TCPPing tcpPingTool(node.address, node.port);
 
   int latency = tcpPingTool.getAvgLatency();
 
-  emit nodeLatencyChanged(id, group_name, latency);
+  node.latency = latency;
 }
 
 QString

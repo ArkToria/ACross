@@ -18,18 +18,6 @@ Item {
         return false
     }
 
-    property int latencyDisplay : -1
-    Connections {
-        target:acrossNodes
-        function onNodeLatencyChanged(id, group_name, nodeLatency) {
-            if(group_name === group && nodeID === id){
-                latencyDisplay = nodeLatency;
-            }
-        }
-        function onPreItemsReset(){
-            latencyDisplay = -1;
-        }
-    }
 
     property Component popMenuComponent: null
     property color backgroundColor: isCurrent(
@@ -135,7 +123,7 @@ Item {
 
             Label {
                 id: latencyDisplayText
-                text: latencyDisplay === -1 ? "-- ms" : latencyDisplay + " ms"
+                text: latency === -1 ? "-- ms" : latency + " ms"
                 font.pixelSize: 14
                 color: textColor
             }

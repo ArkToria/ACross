@@ -43,7 +43,7 @@ struct NodeInfo
   QString password = "";
   QString raw = "";
   QString url = "";
-  qint64 latency = 0;
+  qint64 latency = -1;
   qint64 upload = 0;
   qint64 download = 0;
   QDateTime created_time;
