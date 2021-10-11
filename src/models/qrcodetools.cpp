@@ -7,6 +7,9 @@ QRCodeTools::QRCodeTools() {}
 QImage
 QRCodeTools::write(const QString& text)
 {
+  if (text.isEmpty())
+    return {};
+
   auto writer =
     ZXing::MultiFormatWriter(m_format).setMargin(m_margin).setEccLevel(
       m_ecc_level);
