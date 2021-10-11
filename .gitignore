@@ -104,3 +104,6 @@ _deps
 
 .idea
 .vscode
+
+# Nix
+/result*
