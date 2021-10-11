@@ -189,6 +189,9 @@ qt_import_qml_plugins(across)
 qt_finalize_executable(across)
 add_dependencies(across across_lupdate)
 
+set_target_properties(across PROPERTIES
+    WIN32_EXECUTABLE TRUE)
+
 if (WIN32)
     add_custom_command(
         TARGET across
