@@ -66,10 +66,12 @@ Button {
 
         onEntered: {
             button.state = "HoverState"
+            cursorShape = Qt.PointingHandCursor
         }
 
         onExited: {
             button.state = basicState
+            cursorShape = Qt.ArrowCursor
         }
 
         onClicked: {

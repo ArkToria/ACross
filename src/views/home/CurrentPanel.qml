@@ -186,9 +186,9 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.rightMargin: acrossConfig.itemSpacing
                         anchors.bottomMargin: acrossConfig.itemSpacing
-
                         implicitWidth: 64
                         implicitHeight: width
+                        z: 1
 
                         radius: Math.round(width / 2)
 
@@ -210,6 +210,7 @@ Item {
                             hoverEnabled: true
 
                             onEntered: {
+                                cursorShape = Qt.PointingHandCursor
                                 stopButton.color = Qt.binding(function () {
                                     return Qt.lighter(stopButton.basicColor,
                                                       1.1)
@@ -217,6 +218,7 @@ Item {
                             }
 
                             onExited: {
+                                cursorShape = Qt.ArrowCursor
                                 stopButton.color = Qt.binding(function () {
                                     return stopButton.basicColor
                                 })

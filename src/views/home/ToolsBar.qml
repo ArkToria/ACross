@@ -30,8 +30,19 @@ Item {
             sourceHeight: 24
 
             MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+
                 onClicked: {
                     acrossGroups.search(searchTextField.text)
+                }
+
+                onEntered: {
+                    cursorShape = Qt.PointingHandCursor
+                }
+
+                onExited: {
+                    cursorShape = Qt.ArrowCursor
                 }
             }
         }
