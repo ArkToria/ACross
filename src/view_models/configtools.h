@@ -12,7 +12,11 @@
 #include <QString>
 #include <QTextStream>
 #include <QUrl>
+
+#ifdef Q_OS_WIN
+#else
 #include <wordexp.h>
+#endif
 
 #include "../models/apitools.h"
 #include "../models/confighelper.h"

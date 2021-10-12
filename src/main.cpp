@@ -7,7 +7,6 @@ main(int argc, char* argv[])
   QApplication::setApplicationName(APP_NAME);
   QApplication::setOrganizationDomain("arktoria.org");
   QApplication::setApplicationDisplayName("V2Ray Client");
-  QApplication::setWindowIcon(QIcon(":misc/design/logo.svg"));
   QApplication::setFont(QFont("Noto Sans", 10));
 
   across::Application app(argc, argv);

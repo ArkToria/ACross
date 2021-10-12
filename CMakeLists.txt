@@ -16,17 +16,33 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/buildinfo.cmake")
 project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
 
 ######## FIND DEPENDENCES ########
-set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${CMAKE_CURRENT_SOURCE_DIR}/cmake;")
+include(FetchContent)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat Sql LinguistTools REQUIRED)
 
 find_package(CURL REQUIRED)
 find_package(fmt CONFIG REQUIRED)
-find_package(jsoncpp REQUIRED)
 find_package(magic_enum REQUIRED)
 find_package(spdlog REQUIRED)
-find_package(ZXing REQUIRED)
 find_package(Threads REQUIRED)
+find_package(jsoncpp REQUIRED)
+
+if (WIN32)
+    message("Fetching 'zxing-cpp'...")
+    set(BUILD_EXAMPLES OFF CACHE STRING "" FORCE)
+    set(BUILD_BLACKBOX_TESTS OFF CACHE STRING "" FORCE)
+    FetchContent_Declare(
+        zxing-cpp
+        GIT_REPOSITORY "https://github.com/nu-book/zxing-cpp.git"
+        GIT_TAG "2dad8be2466a2bd46037267d9f0e728e08b79140" # v1.2.0
+        )
+    FetchContent_MakeAvailable(zxing-cpp)
+    message("Fetch 'zxing-cpp' done.")
+else()
+    find_package(ZXing REQUIRED)
+endif()
 
 # BEGIN Special case for QtCreator
 list(APPEND QML_DIRS "${CMAKE_CURRENT_BINARY_DIR}")
@@ -133,15 +149,15 @@ target_link_libraries(across PRIVATE
     Qt6::DBus
     Qt6::Core5Compat
     Qt6::Sql
+    ACross::jsoncpp
     CURL::libcurl
     fmt::fmt
     gRPC::grpc++
     gRPC::grpc++_reflection
-    jsoncpp
     magic_enum
-    pthread
     semver
     spdlog::spdlog
+    Threads::Threads
     ZXing
     )
 
@@ -156,7 +172,7 @@ qt_add_qml_module(across
 qt_add_translations(across
     RESOURCE_PREFIX "/i18n"
     TS_FILES
-        ${CMAKE_SOURCE_DIR}/i18n/across_zh_CN.ts
+    ${CMAKE_SOURCE_DIR}/i18n/across_zh_CN.ts
     )
 
 qt_add_resources(across misc
@@ -171,6 +187,19 @@ qt_add_resources(across misc
 qt_import_qml_plugins(across)
 qt_finalize_executable(across)
 add_dependencies(across across_lupdate)
+
+set_target_properties(across PROPERTIES
+    WIN32_EXECUTABLE TRUE)
+
+if (WIN32)
+    add_custom_command(
+        TARGET across
+        POST_BUILD
+        COMMAND "${Qt6_DIR}/../../../bin/windeployqt" "${CMAKE_BINARY_DIR}/across.exe" "--qmldir" "${CMAKE_SOURCE_DIR}/src/views"
+        COMMENT "Deploying Qt..."
+        )
+endif()
+
 ######## UNIT_TEST ########
 enable_testing()
 find_package(GTest REQUIRED)
