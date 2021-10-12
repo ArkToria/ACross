@@ -1,10 +1,10 @@
 #ifndef DBUSTOOLS_H
 #define DBUSTOOLS_H
 
-#include <QtDBus/QDBusConnection>
-#include <QtDBus/QDBusInterface>
-#include <QtDBus/QDBusMessage>
-#include <QtDBus/QDBusReply>
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QDBusMessage>
+#include <QDBusReply>
 
 namespace across {
 namespace utils {
