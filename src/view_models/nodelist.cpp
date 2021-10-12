@@ -98,6 +98,7 @@ NodeList::init(QSharedPointer<LogView> log_view,
 bool
 NodeList::run()
 {
+  bool res = false;
   do {
     if (m_node.raw.isEmpty()) {
       p_logger->error("Failed to load current node");
@@ -121,9 +122,10 @@ NodeList::run()
 
     p_core->setConfig(QString::fromStdString(config.toStyledString()));
     p_core->run();
+    res = true;
   } while (false);
 
-  return false;
+  return res;
 }
 
 void

@@ -38,7 +38,7 @@ Item {
                 hoverEnabled: true
 
                 onClicked: {
-                    if (searchTextField.model.text !== "")
+                    if (searchTextField.text !== "")
                         acrossGroups.search(searchTextField.text)
                     else
                         acrossGroups.clearSearch()
