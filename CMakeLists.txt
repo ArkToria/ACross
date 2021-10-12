@@ -140,9 +140,9 @@ target_link_libraries(across PRIVATE
     jsoncpp
     magic_enum
     pthread
+    semver
     spdlog::spdlog
     ZXing
-    semver
     )
 
 qt_add_qml_module(across
@@ -170,7 +170,7 @@ qt_add_resources(across misc
 
 qt_import_qml_plugins(across)
 qt_finalize_executable(across)
-
+add_dependencies(across across_lupdate)
 ######## UNIT_TEST ########
 enable_testing()
 find_package(GTest REQUIRED)

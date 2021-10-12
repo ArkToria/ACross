@@ -424,12 +424,12 @@
 <context>
     <name>GroupListPanel</name>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="27"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="28"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="28"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="29"/>
         <source>Confirm to remove group from database</source>
         <translation>确认从数据库中移除组</translation>
     </message>
@@ -781,7 +781,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="327"/>
+        <location filename="../src/view_models/grouplist.cpp" line="333"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -789,7 +789,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="375"/>
+        <location filename="../src/view_models/nodelist.cpp" line="409"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
