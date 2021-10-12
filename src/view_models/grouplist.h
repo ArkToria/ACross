@@ -40,6 +40,9 @@ public:
 
   Q_INVOKABLE void checkAllUpdate(bool force = false);
   Q_INVOKABLE void checkUpdate(int index, bool force = true);
+
+  Q_INVOKABLE void testTcpPing(int index);
+
   Q_INVOKABLE int getIndexByID(int id);
   Q_INVOKABLE void search(const QString& value);
   Q_INVOKABLE void clearSearch();

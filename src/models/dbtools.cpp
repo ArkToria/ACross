@@ -71,6 +71,7 @@ DBTools::reload()
                       result.text().toStdString());
       break;
     }
+
   } while (false);
 }
 
