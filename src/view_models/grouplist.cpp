@@ -16,24 +16,10 @@ GroupList::init(QSharedPointer<LogView> log_view,
                 QSharedPointer<across::network::CURLTools> curl)
 {
   p_config = config;
-
   p_logger = std::make_shared<LogTools>(log_view, "group_list");
-
   p_db = db;
-  if (p_db == nullptr) {
-    p_logger->error("Failed to get the database");
-    return;
-  }
-
   p_curl = curl;
-  if (p_curl == nullptr) {
-    p_logger->warn("Failed to get the downloader");
-  }
-
   p_nodes = nodes;
-  if (p_nodes == nullptr) {
-    p_logger->error("Failed to get the nodes");
-  }
 
   connect(p_nodes.get(),
           &NodeList::itemsSizeChanged,
@@ -41,50 +27,24 @@ GroupList::init(QSharedPointer<LogView> log_view,
           &GroupList::handleItemsChanged);
 
   reloadItems();
-
-  // TEST: Auto checking for updates
   checkAllUpdate();
 }
 
 bool
-GroupList::insert(GroupInfo& group_info, const QString& content)
+GroupList::insert(const GroupInfo& group_info, const QString& content)
 {
-  emit preItemAppended();
-
-  bool insert_result = false;
-  do {
-    if (auto err = p_db->insert(group_info); err.type() != QSqlError::NoError) {
-      p_logger->error("Failed to insert group: {}",
-                      group_info.name.toStdString());
+  bool result = false;
+  switch (group_info.type) {
+    case sip008:
+      result = this->insertSIP008(group_info, content);
       break;
-    }
-
-    bool result = false;
-    switch (group_info.type) {
-      case sip008:
-        result = this->insertSIP008(group_info, content);
-        break;
-      case base64:
-        result = this->insertBase64(group_info, content);
-        break;
-      default:
-        break;
-    }
-
-    if (!result) {
-      emit preLastItemRemoved();
-      p_db->removeGroupFromID(group_info.id);
-      emit postLastItemRemoved();
+    case base64:
+      result = this->insertBase64(group_info, content);
       break;
-    }
-
-    insert_result = true;
-  } while (false);
-
-  reloadItems();
-  emit postItemAppended();
-
-  return insert_result;
+    default:
+      break;
+  }
+  return result;
 }
 
 QList<GroupInfo>
@@ -108,18 +68,19 @@ GroupList::checkUpdate(int index, bool force)
     if (index >= m_groups.size())
       break;
 
-    auto item = m_groups.at(index);
-    if (!item.isSubscription || item.url.isEmpty())
+    auto group = m_groups.at(index);
+    if (!group.isSubscription || group.url.isEmpty())
       break;
 
-    if (item.cycle_time >
-          item.modified_time.daysTo(QDateTime::currentDateTime()) &&
+    if (group.cycle_time >
+          group.modified_time.daysTo(QDateTime::currentDateTime()) &&
         !force)
       break;
 
     DownloadTask task = {
-      .filename = item.name,
-      .url = item.url,
+      .id = group.id,
+      .name = group.name,
+      .url = group.url,
       .user_agent = p_config->networkUserAgent(),
     };
 
@@ -132,11 +93,12 @@ GroupList::checkUpdate(int index, bool force)
   } while (false);
 }
 
-Q_INVOKABLE int GroupList::getIndexByID(int id) 
+Q_INVOKABLE int
+GroupList::getIndexByID(int id)
 {
   for (auto iter = 0; iter < m_groups.size(); ++iter) {
     auto& item = m_groups[iter];
-    if(item.id == id) {
+    if (item.id == id) {
       return iter;
     }
   }
@@ -149,12 +111,13 @@ GroupList::search(const QString& value)
   QList<GroupInfo> temp_groups;
   auto iter = m_origin_groups.begin();
   auto results = p_db->search(value);
-  auto keys = results.keys();
 
-  for (auto& key : keys) {
+  for (auto& result : results.toStdMap()) {
     for (; iter != m_origin_groups.end(); ++iter) {
-      if (iter->id == key) {
-        temp_groups.append(*iter);
+      if (iter->id == result.first) {
+        auto group = *iter;
+        group.items = result.second.size();
+        temp_groups.append(group);
         ++iter;
         break;
       }
@@ -180,7 +143,7 @@ GroupList::clearSearch()
 }
 
 void
-GroupList::reloadItems(bool reopen_db, bool reload_nodes)
+GroupList::reloadItems(bool reopen_db)
 {
   if (reopen_db) {
     p_db->reload();
@@ -200,9 +163,7 @@ GroupList::reloadItems(bool reopen_db, bool reload_nodes)
     }
   }
 
-  if (reload_nodes) {
-    p_nodes->reloadItems();
-  }
+  p_nodes->reloadItems();
 }
 
 bool
@@ -295,7 +256,7 @@ GroupList::appendItem(const QString& group_name,
                       int cycle_time)
 {
   DownloadTask task = {
-    .filename = group_name,
+    .name = group_name,
     .url = url,
     .user_agent = p_config->networkUserAgent(),
   };
@@ -327,6 +288,11 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
     .type = base64,
   };
 
+  if (auto result = p_db->insert(group_info);
+      result.type() != QSqlError::NoError) {
+    return;
+  }
+
   if (!insert(group_info, node_items)) {
     p_logger->error("Failed to parse url");
   }
@@ -336,15 +302,11 @@ void
 GroupList::removeItem(int index)
 {
   if (m_groups.size() > index) {
+    emit preItemsReset();
     setDisplayGroupID(m_groups.at(index - 1).id);
-
-    emit preItemRemoved(index);
-
     p_db->removeGroupFromID(m_groups.at(index).id);
-
     m_groups.removeAt(index);
-
-    emit postItemRemoved();
+    emit postItemsReset();
   }
 }
 
@@ -358,10 +320,8 @@ void
 GroupList::copyUrlToClipboard(int index)
 {
   auto item = m_groups.at(index);
-
   NotifyTools().send(item.url,
                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
-
   ClipboardTools().send(item.url);
 }
 
@@ -385,11 +345,23 @@ GroupList::handleDownloaded(const QVariant& content)
   if (task.content.isEmpty())
     return;
 
-  for (auto i = m_pre_groups.size() - 1; i >= 0; --i) {
-    if (auto item = m_pre_groups.at(i); task.filename == item.name)
-      if (insert(item, task.content))
-        m_pre_groups.removeAt(i);
+  for (auto i = 0; i < m_pre_groups.size(); ++i) {
+    if (m_pre_groups.at(i).name == task.name) {
+      auto group = m_pre_groups.at(i);
+
+      if (auto result = p_db->insert(group);
+          result.type() != QSqlError::NoError)
+        break;
+
+      if (!insert(group, task.content))
+        break;
+
+      m_pre_groups.remove(i);
+      break;
+    }
   }
+
+  reloadItems();
 }
 
 void
@@ -399,48 +371,22 @@ GroupList::handleUpdated(const QVariant& content)
   if (task.content.isEmpty())
     return;
 
-  for (auto iter = 0; iter < m_groups.size(); ++iter) {
-    auto& item = m_groups[iter];
-    if (task.filename == item.name) {
-      item.modified_time = QDateTime::currentDateTime();
-      do {
-        if (auto err = p_db->update(item); err.type() != QSqlError::NoError) {
-          p_logger->error("Failed to update group: {}",
-                          item.name.toStdString());
-          break;
-        }
+  for (auto group : m_groups) {
+    if (group.id == task.id) {
+      if (auto result = p_db->removeGroupFromID(group.id, true);
+          result.type() != QSqlError::NoError)
+        break;
+      if (!insert(group, task.content))
+        break;
+      if (auto result = p_db->update(group);
+          result.type() != QSqlError::NoError)
+        break;
 
-        if (auto err = p_db->removeGroupFromID(item.id, true);
-            err.type() != QSqlError::NoError) {
-          p_logger->error("Failed to remove old table: {}",
-                          item.name.toStdString());
-          break;
-        }
-
-        bool result = false;
-        switch (item.type) {
-          case sip008:
-            result = this->insertSIP008(item, task.content);
-            break;
-          case base64:
-            result = this->insertBase64(item, task.content);
-            break;
-          default:
-            break;
-        }
-
-        if (!result) {
-          p_logger->error("Failed to insert nodes");
-          break;
-        }
-
-        p_db->update(item);
-      } while (false);
-
-      reloadItems();
-      emit itemInfoChanged(iter);
+      break;
     }
   }
+
+  reloadItems();
 }
 
 void

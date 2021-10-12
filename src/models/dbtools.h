@@ -109,6 +109,7 @@ public:
   QSqlError update(QList<NodeInfo>& nodes);
   QSqlError insert(GroupInfo& group);
   QSqlError update(GroupInfo& group);
+  QSqlError update(QList<GroupInfo>& groups);
   QSqlError removeNodeFromID(qint64 id);
   QSqlError removeGroupFromID(qint64 id, bool keep_group = false);
   QSqlError reloadAllGroupsInfo();
@@ -125,7 +126,7 @@ public:
   qint64 getDefaultNodeID();
   qint64 getDefaultGroupID();
   qsizetype getSizeFromGroupID(qint64 group_id);
-  QString getGroupNameFromGroupID(qint64 group_id);
+  std::optional<GroupInfo> getGroupFromID(qint64 group_id);
   QList<GroupInfo> getAllGroupsInfo();
   QList<NodeInfo> listAllNodesFromGroupID(qint64 group_id);
   QMap<qint64, QList<qint64>> search(const QString& value);
@@ -133,10 +134,6 @@ public:
 public slots:
   void close();
   void beginTransaction();
-  void endTransaction();
-
-  void beginTransaction();
-
   void endTransaction();
 
 signals:

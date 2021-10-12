@@ -19,7 +19,7 @@ Item {
 
             onTextChanged: {
                 if (this.text === "") {
-                    acrossGroups.restore()
+                    acrossGroups.clearSearch()
                 } else {
                     acrossGroups.search(text)
                 }
@@ -40,6 +40,8 @@ Item {
                 onClicked: {
                     if (searchTextField.model.text !== "")
                         acrossGroups.search(searchTextField.text)
+                    else
+                        acrossGroups.clearSearch()
                 }
 
                 onEntered: {

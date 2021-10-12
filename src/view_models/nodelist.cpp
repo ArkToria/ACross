@@ -239,7 +239,7 @@ void
 NodeList::appendNode(NodeInfo node)
 {
   node.group_id = displayGroupID();
-  node.group_name = p_db->getGroupNameFromGroupID(node.group_id);
+  node.group_name = p_db->getGroupFromID(node.group_id).value().name;
 
   if (auto err = p_db->insert(node); err.type() != QSqlError::NoError) {
     p_logger->error("Failed to add node: {}", node.name.toStdString());
@@ -252,17 +252,17 @@ NodeList::appendNode(NodeInfo node)
 void
 NodeList::removeNodeByID(int id)
 {
-  if (auto result = p_db->removeNodeFromID(id);
-      result.type() != QSqlError::NoError) {
-    p_logger->error("Failed to remove node: {}", id);
-  } else {
-    reloadItems();
-
-    for (auto& node : m_nodes) {
-      if (id == node.id) {
-        emit itemsSizeChanged(node.group_id, m_nodes.size());
-        break;
+  for (const auto& node : m_nodes) {
+    if (id == node.id) {
+      auto group_id = node.group_id;
+      if (auto result = p_db->removeNodeFromID(id);
+          result.type() != QSqlError::NoError) {
+        p_logger->error("Failed to remove node: {}", id);
+      } else {
+        reloadItems();
       }
+      emit itemsSizeChanged(group_id, m_nodes.size());
+      break;
     }
   }
 }

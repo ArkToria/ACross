@@ -69,7 +69,8 @@ private:
 
 struct DownloadTask
 {
-  QString filename;
+  qint64 id;
+  QString name;
   QString url;
   QString user_agent;
   QString proxy;

@@ -293,7 +293,7 @@ void
 ConfigTools::checkUpdate()
 {
   if (p_curl != nullptr) {
-    DownloadTask task = { .filename = "github_api.json",
+    DownloadTask task = { .name = "github_api.json",
                           .url = apiURL(),
                           .user_agent = networkUserAgent() };
 

@@ -96,27 +96,6 @@ GroupModel::connectItems()
     emit dataChanged(topLeft, bottomRight);
   });
 
-  connect(p_list, &GroupList::preItemAppended, this, [&] {
-    const int index = p_list->items().size();
-    beginInsertRows(QModelIndex(), index, index);
-  });
-
-  connect(p_list, &GroupList::postItemAppended, this, [&] { endInsertRows(); });
-
-  connect(p_list, &GroupList::preItemRemoved, this, [&](int index) {
-    beginRemoveRows(QModelIndex(), index, index);
-  });
-
-  connect(p_list, &GroupList::postItemRemoved, this, [&] { endRemoveRows(); });
-
-  connect(p_list, &GroupList::preLastItemRemoved, this, [&]() {
-    int index = p_list->items().size();
-    beginRemoveRows(QModelIndex(), index, index);
-  });
-
-  connect(
-    p_list, &GroupList::postLastItemRemoved, this, [&] { endRemoveRows(); });
-
   connect(p_list, &GroupList::itemInfoChanged, this, [&](int index) {
     emit dataChanged(createIndex(index, 0), createIndex(index + 1, 0));
   });

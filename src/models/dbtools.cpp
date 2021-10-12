@@ -71,7 +71,6 @@ DBTools::reload()
                       result.text().toStdString());
       break;
     }
-
   } while (false);
 }
 
@@ -79,10 +78,10 @@ QSqlError
 DBTools::createDefaultTables()
 {
   QSqlError result;
-  const QList<QString> tables = {
+  const QStringList tables = {
     { "CREATE TABLE IF NOT EXISTS groups("
       "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-      "Name TEXT NOT NULL,"
+      "Name TEXT UNIQUE NOT NULL,"
       "IsSubscription BOOLEAN NOT NULL,"
       "Type INTEGER NOT NULL,"
       "Url TEXT,"
@@ -141,7 +140,6 @@ QSqlError
 DBTools::createDefaultValues()
 {
   QSqlError result;
-
   const QList<RuntimeValue> values = {
     RuntimeValue(CURRENT_NODE_ID, 0LL),
     RuntimeValue(CURRENT_GROUP_ID, 0LL),
@@ -149,12 +147,9 @@ DBTools::createDefaultValues()
     RuntimeValue(DEFAULT_GROUP_ID, 0LL),
   };
 
-  for (auto& value : values) {
-    if (result = createRuntimeValue(value);
-        result.type() != QSqlError::NoError) {
+  for (auto& value : values)
+    if (result = createRuntimeValue(value); result.type() != QSqlError::NoError)
       break;
-    }
-  }
 
   return result;
 }
@@ -194,7 +189,6 @@ DBTools::stepExec(const QString& sql_str,
     }
 
     if (outputCollections != nullptr) {
-      outputCollections->clear();
       while (query.next()) {
         QVariantList temp;
         for (auto i = 0; i < outputColumns; ++i) {
@@ -269,7 +263,6 @@ QSqlError
 DBTools::updateRuntimeValue(const RuntimeValue& value)
 {
   QString update_str("UPDATE runtime SET Type = ?, Value = ? WHERE Name = ?");
-
   QVariantList input_collection = { value.type, value.value, value.key };
 
   return stepExec(update_str, &input_collection).first;
@@ -325,11 +318,8 @@ DBTools::getDefaultGroupID()
 bool
 DBTools::isTableExists(const QString& table_name)
 {
-  for (auto& table : m_db.tables()) {
-    if (table == table_name)
-      return true;
-  }
-
+  if (m_db.tables().contains(table_name))
+    return true;
   return false;
 }
 
@@ -341,11 +331,9 @@ DBTools::isGroupExists(const QString& group_name)
   if (query.prepare("SELECT * FROM groups WHERE Name = ?")) {
     query.addBindValue(group_name);
 
-    if (query.exec()) {
-      if (query.next()) {
+    if (query.exec())
+      if (query.next())
         return true;
-      }
-    }
   }
 
   return false;
@@ -386,9 +374,7 @@ DBTools::insert(NodeInfo& node)
   };
 
   auto [result, id] = stepExec(insert_str, &input_collection);
-  if (result.type() == QSqlError::NoError) {
-    node.id = id;
-  }
+  node.id = id;
 
   return result;
 }
@@ -398,11 +384,9 @@ DBTools::insert(QList<NodeInfo>& nodes)
 {
   QSqlError result;
   beginTransaction();
-  for (auto& node : nodes) {
-    if (result = insert(node); result.type() != QSqlError::NoError) {
+  for (auto& node : nodes)
+    if (result = insert(node); result.type() != QSqlError::NoError)
       break;
-    }
-  }
   endTransaction();
   return result;
 }
@@ -415,7 +399,7 @@ DBTools::update(NodeInfo& node)
                            "Name = ?, GroupID = ?, GroupName = ?, "
                            "Protocol = ?, Address = ?, Port = ?, Password = ?, "
                            "Raw = ?, URL = ?, Latency = ?, Upload = ?, "
-                           "Download = ?, CreatedAt = ?, ModifiedAt = ? "
+                           "Download = ?, ModifiedAt = ? "
                            "WHERE ID = ?;");
 
   node.modified_time = QDateTime::currentDateTime();
@@ -432,7 +416,6 @@ DBTools::update(NodeInfo& node)
     node.latency,
     node.upload,
     node.download,
-    node.created_time.toSecsSinceEpoch(),
     node.modified_time.toSecsSinceEpoch(),
     node.id,
   };
@@ -440,8 +423,6 @@ DBTools::update(NodeInfo& node)
   if (result = stepExec(update_str, &input_collection).first;
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to update node: {}", node.id);
-  } else {
-    result = reloadAllGroupsInfo();
   }
 
   return result;
@@ -452,11 +433,9 @@ DBTools::update(QList<NodeInfo>& nodes)
 {
   QSqlError result;
   beginTransaction();
-  for (auto& node : nodes) {
-    if (result = update(node); result.type() != QSqlError::NoError) {
+  for (auto& node : nodes)
+    if (result = update(node); result.type() != QSqlError::NoError)
       break;
-    }
-  }
   endTransaction();
   return result;
 }
@@ -488,15 +467,10 @@ DBTools::insert(GroupInfo& group)
   };
 
   auto [result, id] = stepExec(insert_str, &input_collection);
-  if (result.type() == QSqlError::NoError) {
-    group.id = id;
-
-    result = reloadAllGroupsInfo();
-  }
+  group.id = id;
 
   return result;
 }
-
 
 QSqlError
 DBTools::update(GroupInfo& group)
@@ -506,6 +480,7 @@ DBTools::update(GroupInfo& group)
                            "Name = ?, IsSubscription = ?, Type = ?, "
                            "Url = ?, CycleTime = ?, ModifiedAt = ? "
                            "WHERE ID = ?;");
+  group.modified_time = QDateTime::currentDateTime();
 
   QVariantList input_collection = {
     group.name, group.isSubscription, group.type,
@@ -516,10 +491,20 @@ DBTools::update(GroupInfo& group)
   if (result = stepExec(update_str, &input_collection).first;
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to update group: {}", group.id);
-  } else {
-    result = reloadAllGroupsInfo();
   }
 
+  return result;
+}
+
+QSqlError
+DBTools::update(QList<GroupInfo>& groups)
+{
+  QSqlError result;
+  beginTransaction();
+  for (auto& group : groups)
+    if (result = update(group); result.type() != QSqlError::NoError)
+      break;
+  endTransaction();
   return result;
 }
 
@@ -554,8 +539,6 @@ DBTools::removeGroupFromID(qint64 id, bool keep_group)
   if (result = stepExec(remove_str, &input_collection).first;
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to remove nodes: {}", result.text().toStdString());
-  } else {
-    result = reloadAllGroupsInfo();
   }
 
   return result;
@@ -578,16 +561,16 @@ DBTools::getSizeFromGroupID(qint64 group_id)
   return 0;
 }
 
-QString
-DBTools::getGroupNameFromGroupID(qint64 group_id)
+std::optional<GroupInfo>
+DBTools::getGroupFromID(qint64 group_id)
 {
   for (auto& group : m_groups) {
     if (group_id == group.id) {
-      return group.name;
+      return group;
     }
   }
 
-  return "";
+  return {};
 }
 
 QSqlError

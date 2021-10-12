@@ -32,7 +32,7 @@ public:
             QSharedPointer<across::NodeList> nodes,
             QSharedPointer<across::network::CURLTools> curl);
 
-  bool insert(GroupInfo& group_info, const QString& content);
+  bool insert(const GroupInfo& group_info, const QString& content);
   bool insertSIP008(const GroupInfo& group_info, const QString& content);
   bool insertBase64(const GroupInfo& group_info, const QString& content);
 
@@ -45,7 +45,7 @@ public:
   Q_INVOKABLE void clearSearch();
 
 public slots:
-  void reloadItems(bool reopen_db = false, bool reload_nodes = true);
+  void reloadItems(bool reopen_db = false);
   void appendItem(const QString& group_name,
                   const QString& url,
                   int type,
@@ -62,15 +62,6 @@ public slots:
 signals:
   void preItemsReset();
   void postItemsReset();
-
-  void preItemAppended();
-  void postItemAppended();
-
-  void preItemRemoved(int index);
-  void postItemRemoved();
-
-  void preLastItemRemoved();
-  void postLastItemRemoved();
 
   void itemInfoChanged(int index);
 
