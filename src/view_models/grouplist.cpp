@@ -95,30 +95,34 @@ GroupList::checkUpdate(int index, bool force)
 
 Q_INVOKABLE void GroupList::testTcpPing(int index) 
 {
-  /*
   QFuture<void> waitFuture = QtConcurrent::run([&,index]{
     do{
-      if (index >= m_items.size())
+      if (index >= m_groups.size())
         break;
-      auto item = m_items.at(index);    
+      auto group = m_groups.at(index);    
 
-
-      p_nodes->setDisplayGroupID(item.id);
-      qint64 len = p_nodes->items().size();
+      auto nodes = p_db->listAllNodesFromGroupID(group.id);
+      qint64 len = nodes.size();
       QVector<QFuture<void>> setFuture(len);
-      QVector<NodeInfo> nodes(len);
       for (int i=0; i<len;i++){
-        nodes[i]=p_nodes->items().at(i);
-        setFuture[i] = QtConcurrent::run(&NodeList::setLatency,
-                                                    p_nodes.get(),
-                                                    nodes[i].id);
+        auto &node = nodes[i];
+        setFuture[i] = QtConcurrent::run([&]{
+          across::network::TCPPing tcpPingTool(node.address, node.port);
+
+          int latency = tcpPingTool.getAvgLatency();
+
+          node.latency = latency;
+        });
       }
       for (int i=0; i<len;i++){
         setFuture[i].waitForFinished();
       }
+      for (int i=0; i<len;i++){
+        p_db->update(nodes[i]);
+      }
+      p_nodes->reloadItems();
     } while(false);
   });
-  */
 }
 
 Q_INVOKABLE int GroupList::getIndexByID(int id) 
