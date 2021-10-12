@@ -148,6 +148,10 @@ public:
 public slots:
   void close();
 
+  void beginTransaction();
+
+  void endTransaction();
+
 signals:
   void destroy();
 

@@ -677,6 +677,18 @@ DBTools::close()
   }
 }
 
+void
+DBTools::beginTransaction()
+{
+  directExec("BEGIN");
+}
+
+void
+DBTools::endTransaction()
+{
+  directExec("END;");
+}
+
 RuntimeValue::RuntimeValue(const QString& key, const QVariant& value)
   : key(key)
   , type(value.typeId())
