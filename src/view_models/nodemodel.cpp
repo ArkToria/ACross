@@ -31,7 +31,7 @@ NodeModel::data(const QModelIndex& index, int role) const
 
   switch (role) {
     case IDRole:
-      return QVariant().fromValue(item.id);
+      return QVariant::fromValue(item.id);
     case NameRole:
       return item.name;
     case GroupRole:
