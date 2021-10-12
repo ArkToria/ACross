@@ -72,7 +72,6 @@ public:
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
-  Q_INVOKABLE void setAvgLatency(int id);
 
 public:
   QList<NodeInfo> items();
