@@ -33,45 +33,30 @@ public:
             QSharedPointer<across::network::CURLTools> curl);
 
   bool insert(GroupInfo& group_info, const QString& content);
-
   bool insertSIP008(const GroupInfo& group_info, const QString& content);
-
   bool insertBase64(const GroupInfo& group_info, const QString& content);
 
   QList<GroupInfo> items() const;
 
   Q_INVOKABLE void checkAllUpdate(bool force = false);
-
   Q_INVOKABLE void checkUpdate(int index, bool force = true);
-
   Q_INVOKABLE int getIndexByID(int id);
-
   Q_INVOKABLE void search(const QString& value);
-
-  Q_INVOKABLE void restore();
+  Q_INVOKABLE void clearSearch();
 
 public slots:
   void reloadItems(bool reopen_db = false, bool reload_nodes = true);
-
   void appendItem(const QString& group_name,
                   const QString& url,
                   int type,
                   int cycle_time);
-
   void appendItem(const QString& group_name, const QString& node_items);
-
   void removeItem(int index);
-
   void setDisplayGroupID(int id);
-
   void copyUrlToClipboard(int index);
-
   void editItem(int index);
-
   void handleDownloaded(const QVariant& content);
-
   void handleUpdated(const QVariant& content);
-
   void handleItemsChanged(int64_t group_id, int size);
 
 signals:

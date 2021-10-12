@@ -114,23 +114,25 @@ DBTools::createDefaultTables()
       "USING fts5(ID, Name, GroupID, GroupName, Address);" },
     { "CREATE TRIGGER IF NOT EXISTS search_a_i AFTER INSERT ON nodes BEGIN "
       "INSERT INTO search VALUES (new.ID, new.Name, new.GroupID, "
-      "new.GroupName, new.Address);"
+      "new.GroupName, new.Address); "
       "END;" },
     { "CREATE TRIGGER IF NOT EXISTS search_a_d AFTER DELETE ON nodes BEGIN "
-      "DELETE FROM search WHERE ID = old.ID;"
+      "DELETE FROM search WHERE ID = old.ID; "
       "END;" },
     { "CREATE TRIGGER IF NOT EXISTS search_a_u AFTER UPDATE ON nodes BEGIN "
       "UPDATE OR REPLACE search SET Name = new.Name,GroupID = "
       "new.GroupID,GroupName = new.GroupName, Address = new.Address WHERE ID = "
-      "old.ID;"
+      "old.ID; "
       "END;" },
   };
 
+  beginTransaction();
   for (auto& table : tables) {
     if (result = directExec(table); result.type() != QSqlError::NoError) {
       break;
     }
   }
+  endTransaction();
 
   return result;
 }
@@ -192,6 +194,7 @@ DBTools::stepExec(const QString& sql_str,
     }
 
     if (outputCollections != nullptr) {
+      outputCollections->clear();
       while (query.next()) {
         QVariantList temp;
         for (auto i = 0; i < outputColumns; ++i) {
@@ -391,14 +394,28 @@ DBTools::insert(NodeInfo& node)
 }
 
 QSqlError
+DBTools::insert(QList<NodeInfo>& nodes)
+{
+  QSqlError result;
+  beginTransaction();
+  for (auto& node : nodes) {
+    if (result = insert(node); result.type() != QSqlError::NoError) {
+      break;
+    }
+  }
+  endTransaction();
+  return result;
+}
+
+QSqlError
 DBTools::update(NodeInfo& node)
 {
   QSqlError result;
   const QString update_str("UPDATE nodes SET "
                            "Name = ?, GroupID = ?, GroupName = ?, "
-                           "Protocol = ?, Address = ?, Port = ? Password = ?, "
+                           "Protocol = ?, Address = ?, Port = ?, Password = ?, "
                            "Raw = ?, URL = ?, Latency = ?, Upload = ?, "
-                           "Download = ?, CreatedAt = ?, ModifiedAt = ?"
+                           "Download = ?, CreatedAt = ?, ModifiedAt = ? "
                            "WHERE ID = ?;");
 
   node.modified_time = QDateTime::currentDateTime();
@@ -427,6 +444,20 @@ DBTools::update(NodeInfo& node)
     result = reloadAllGroupsInfo();
   }
 
+  return result;
+}
+
+QSqlError
+DBTools::update(QList<NodeInfo>& nodes)
+{
+  QSqlError result;
+  beginTransaction();
+  for (auto& node : nodes) {
+    if (result = update(node); result.type() != QSqlError::NoError) {
+      break;
+    }
+  }
+  endTransaction();
   return result;
 }
 

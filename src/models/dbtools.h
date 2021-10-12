@@ -66,21 +66,7 @@ struct GroupInfo
 enum RunTimeValues : int
 {
   CURRENT_NODE_ID = 0,
-  CURRENT_NODE_NAME,
   CURRENT_GROUP_ID,
-  CURRENT_GROUP_NAME,
-  CURRENT_NODE_PROTOCOL,
-  CURRENT_NODE_ADDRESS,
-  CURRENT_NODE_PORT,
-  CURRENT_NODE_PASSWORD,
-  CURRENT_NODE_RAW,
-  CURRENT_NODE_URL,
-  CURRENT_NODE_LATENCY,
-  CURRENT_NODE_UPLOAD,
-  CURRENT_NODE_DOWNLOAD,
-  CURRENT_NODE_CREATED_TIME,
-  CURRENT_NODE_MODIFIED_TIME,
-
   DEFAULT_NODE_ID,
   DEFAULT_GROUP_ID,
 
@@ -109,12 +95,23 @@ public:
 
   void init(QSharedPointer<LogView> log_view,
             QSharedPointer<across::setting::ConfigTools> config);
-
   void reload();
+  bool isTableExists(const QString& table_name);
+  bool isGroupExists(const QString& group_name);
 
   QSqlError createDefaultTables();
   QSqlError createDefaultValues();
   QSqlError createDefaultGroup();
+
+  QSqlError insert(NodeInfo& node);
+  QSqlError insert(QList<NodeInfo>& nodes);
+  QSqlError update(NodeInfo& node);
+  QSqlError update(QList<NodeInfo>& nodes);
+  QSqlError insert(GroupInfo& group);
+  QSqlError update(GroupInfo& group);
+  QSqlError removeNodeFromID(qint64 id);
+  QSqlError removeGroupFromID(qint64 id, bool keep_group = false);
+  QSqlError reloadAllGroupsInfo();
 
   QSqlError createRuntimeValue(const RuntimeValue& value);
   std::optional<RuntimeValue> readRuntimeValue(const QString& key);
@@ -127,26 +124,16 @@ public:
   qint64 getCurrentGroupID();
   qint64 getDefaultNodeID();
   qint64 getDefaultGroupID();
-
-  bool isTableExists(const QString& table_name);
-  bool isGroupExists(const QString& group_name);
-
-  QSqlError insert(NodeInfo& node);
-  QSqlError update(NodeInfo& node);
-  QSqlError insert(GroupInfo& group);
-  QSqlError update(GroupInfo& group);
-  QSqlError removeNodeFromID(qint64 id);
-  QSqlError removeGroupFromID(qint64 id, bool keep_group = false);
-
   qsizetype getSizeFromGroupID(qint64 group_id);
   QString getGroupNameFromGroupID(qint64 group_id);
-  QSqlError reloadAllGroupsInfo();
   QList<GroupInfo> getAllGroupsInfo();
   QList<NodeInfo> listAllNodesFromGroupID(qint64 group_id);
   QMap<qint64, QList<qint64>> search(const QString& value);
 
 public slots:
   void close();
+  void beginTransaction();
+  void endTransaction();
 
   void beginTransaction();
 

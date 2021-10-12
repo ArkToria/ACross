@@ -170,7 +170,7 @@ GroupList::search(const QString& value)
 }
 
 void
-GroupList::restore()
+GroupList::clearSearch()
 {
   emit preItemsReset();
   m_groups = m_origin_groups;
@@ -208,13 +208,17 @@ GroupList::reloadItems(bool reopen_db, bool reload_nodes)
 bool
 GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
 {
-  auto result = SerializeTools::sip008Parser(content.toStdString());
-  if (!result.has_value()) {
+  if (p_db == nullptr)
+    return false;
+
+  auto sip008 = SerializeTools::sip008Parser(content.toStdString());
+  if (!sip008.has_value()) {
     p_logger->error("Failed to parse download subscription");
     return false;
   }
 
-  for (auto& server : result.value().servers) {
+  QList<NodeInfo> nodes;
+  for (auto& server : sip008.value().servers) {
     auto sip002 = SerializeTools::sip002Encode(server).value().toString();
 
     ShadowsocksObject::OutboundSettingObject shadows_object;
@@ -223,23 +227,25 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
     OutboundObject outbound_object;
     outbound_object.appendShadowsocksObject(shadows_object);
 
-    if (p_db != nullptr) {
-      NodeInfo node = {
-        .id = 0,
-        .name = QString::fromStdString(server.remarks),
-        .group_id = group_info.id,
-        .group_name = group_info.name,
-        .protocol = across::EntryType::shadowsocks,
-        .address = QString::fromStdString(server.server),
-        .port = server.server_port,
-        .password = QString::fromStdString(server.password),
-        .raw =
-          QString::fromStdString(outbound_object.toObject().toStyledString()),
-        .url = QString(QUrl(sip002).toEncoded()),
-      };
+    NodeInfo node = {
+      .id = 0,
+      .name = QString::fromStdString(server.remarks),
+      .group_id = group_info.id,
+      .group_name = group_info.name,
+      .protocol = across::EntryType::shadowsocks,
+      .address = QString::fromStdString(server.server),
+      .port = server.server_port,
+      .password = QString::fromStdString(server.password),
+      .raw =
+        QString::fromStdString(outbound_object.toObject().toStyledString()),
+      .url = QString(QUrl(sip002).toEncoded()),
+    };
 
-      p_db->insert(node);
-    }
+    nodes.append(node);
+  }
+
+  if (auto err = p_db->insert(nodes); err.type() != QSqlError::NoError) {
+    return false;
   }
 
   reloadItems();
@@ -249,41 +255,37 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
 bool
 GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
 {
-  bool result = false;
-
-  if (p_db == nullptr) {
-    return result;
-  }
+  if (p_db == nullptr)
+    return false;
 
   QString temp_data;
-  if (!content.contains("://")) {
+  if (!content.contains("://"))
     temp_data = QByteArray::fromBase64(content.toUtf8());
-  } else {
+  else
     temp_data = content;
-  }
 
+  QList<NodeInfo> nodes;
   for (auto& item : temp_data.split("\n")) {
     item.remove("\r");
-    if (item.isEmpty()) {
+    if (item.isEmpty())
       break;
-    }
 
     NodeInfo node = {
       .group_id = group_info.id,
       .group_name = group_info.name,
     };
 
-    result = SerializeTools::decodeOutboundFromURL(node, item);
-
-    if (!result) {
-      break;
-    } else {
-      p_db->insert(node);
-    }
+    if (!SerializeTools::decodeOutboundFromURL(node, item))
+      return false;
+    else
+      nodes.append(node);
   }
 
+  if (auto result = p_db->insert(nodes); result.type() != QSqlError::NoError)
+    return false;
+
   reloadItems();
-  return result;
+  return true;
 }
 
 void
@@ -432,7 +434,6 @@ GroupList::handleUpdated(const QVariant& content)
           break;
         }
 
-        //        item.id = p_db->getLastID();
         p_db->update(item);
       } while (false);
 
