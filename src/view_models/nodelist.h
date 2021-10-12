@@ -65,8 +65,8 @@ public:
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
-  void setLatency(int id);
 
+  Q_INVOKABLE void testLatency(int index);
   Q_INVOKABLE void setCurrentNodeByID(int id);
   Q_INVOKABLE void removeNodeByID(int id);
   Q_INVOKABLE QString getQRCode(int id);
@@ -94,10 +94,11 @@ public slots:
   void copyUrlToClipboard(int id);
 
 signals:
-  void itemsSizeChanged(qint64 group_id, int size);
+  void itemReset(int index);
 
   void preItemsReset();
   void postItemsReset();
+  void groupSizeChanged(qint64 group_id, int size);
 
   void preItemAppended();
   void postItemAppended();

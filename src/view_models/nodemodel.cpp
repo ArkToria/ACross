@@ -90,13 +90,18 @@ NodeModel::list() const
 void
 NodeModel::connectItems()
 {
+  connect(p_list, &NodeList::itemReset, this, [&](int index) {
+    QModelIndex topLeft = createIndex(index, 0);
+    QModelIndex bottomRight = createIndex(index + 1, 0);
+    emit dataChanged(topLeft, bottomRight);
+  });
+
   connect(p_list, &NodeList::preItemsReset, this, [&]() {
     m_old_rows = p_list->items().size();
   });
 
   connect(p_list, &NodeList::postItemsReset, this, [&]() {
     int index = p_list->items().size();
-
     QModelIndex topLeft = createIndex(0, 0);
     QModelIndex bottomRight = createIndex(index, 0);
 

@@ -5,6 +5,7 @@ using namespace across::core;
 using namespace across::config;
 using namespace across::setting;
 using namespace across::utils;
+using namespace across::network;
 
 NodeList::NodeList(QObject* parent)
   : QObject(parent)
@@ -253,7 +254,7 @@ NodeList::appendNode(NodeInfo node)
     p_logger->error("Failed to add node: {}", node.name.toStdString());
   } else {
     reloadItems();
-    emit itemsSizeChanged(node.group_id, m_nodes.size());
+    emit groupSizeChanged(node.group_id, m_nodes.size());
   }
 }
 
@@ -269,7 +270,7 @@ NodeList::removeNodeByID(int id)
       } else {
         reloadItems();
       }
-      emit itemsSizeChanged(group_id, m_nodes.size());
+      emit groupSizeChanged(group_id, m_nodes.size());
       break;
     }
   }
@@ -447,46 +448,22 @@ NodeList::setAsDefault(int id)
   p_db->updateRuntimeValue(
     RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, displayGroupID()));
 }
-void
-NodeList::setAvgLatency(int id)
-{
-  QFuture<void> waitFuture = QtConcurrent::run([&,id]{
-    QFuture<void> setFuture = QtConcurrent::run(&NodeList::setLatency,
-                                                this,
-                                                id);
-    setFuture.waitForFinished();
-
-    auto iter = std::find_if(m_nodes.begin(), m_nodes.end(), [&](NodeInfo& item) {
-      return item.id == id;
-    });
-    if (iter == m_nodes.end()) {
-      p_logger->error("Failed to load node info: {}", id);
-      return;
-    }
-    auto &node = *iter;
-
-    p_db->update(node);
-    reloadItems();
-  });
-}
 
 void
-NodeList::setLatency(int id)
+NodeList::testLatency(int index)
 {
-  auto iter = std::find_if(m_nodes.begin(), m_nodes.end(), [&](NodeInfo& item) {
-    return item.id == id;
-  });
-  if (iter == m_nodes.end()) {
-    p_logger->error("Failed to load node info: {}", id);
+  if (index >= m_nodes.size())
     return;
+
+  TCPPing ping;
+  if (auto& node = m_nodes[index]; !node.address.isEmpty()) {
+    ping.setAddr(node.address);
+    ping.setPort(node.port);
+    ping.setTimes(1);
+    node.latency = ping.getAvgLatency();
+    emit itemReset(index);
+    p_db->update(node);
   }
-  auto &node = *iter;
-
-  across::network::TCPPing tcpPingTool(node.address, node.port);
-
-  int latency = tcpPingTool.getAvgLatency();
-
-  node.latency = latency;
 }
 
 QString

@@ -22,7 +22,7 @@ GroupList::init(QSharedPointer<LogView> log_view,
   p_nodes = nodes;
 
   connect(p_nodes.get(),
-          &NodeList::itemsSizeChanged,
+          &NodeList::groupSizeChanged,
           this,
           &GroupList::handleItemsChanged);
 
@@ -93,36 +93,33 @@ GroupList::checkUpdate(int index, bool force)
   } while (false);
 }
 
-Q_INVOKABLE void GroupList::testTcpPing(int index) 
+Q_INVOKABLE void
+GroupList::testTcpPing(int index)
 {
-  QFuture<void> waitFuture = QtConcurrent::run([&,index]{
-    do{
-      if (index >= m_groups.size())
-        break;
-      auto group = m_groups.at(index);    
+  if (index >= m_groups.size())
+    return;
 
-      auto nodes = p_db->listAllNodesFromGroupID(group.id);
-      qint64 len = nodes.size();
-      QVector<QFuture<void>> setFuture(len);
-      for (int i=0; i<len;i++){
-        auto &node = nodes[i];
-        setFuture[i] = QtConcurrent::run([&]{
-          across::network::TCPPing tcpPingTool(node.address, node.port);
+  if (auto& group = m_groups[index]; group.items != 0) {
+    bool refresh = false;
+    if (group.id == p_nodes->currentGroupID())
+      refresh = true;
 
-          int latency = tcpPingTool.getAvgLatency();
+    auto nodes = p_db->listAllNodesFromGroupID(group.id);
+    TCPPing ping;
+    ping.setTimes(1);
 
-          node.latency = latency;
-        });
+    for (int i = 0; i < nodes.size(); ++i) {
+      auto& node = nodes[i];
+      ping.setAddr(node.address);
+      ping.setPort(node.port);
+      node.latency = ping.getAvgLatency();
+      if (refresh) {
+        emit p_nodes->itemReset(i);
       }
-      for (int i=0; i<len;i++){
-        setFuture[i].waitForFinished();
-      }
-      for (int i=0; i<len;i++){
-        p_db->update(nodes[i]);
-      }
-      p_nodes->reloadItems();
-    } while(false);
-  });
+    }
+
+    p_db->update(nodes);
+  }
 }
 
 Q_INVOKABLE int GroupList::getIndexByID(int id) 
