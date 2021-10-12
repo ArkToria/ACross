@@ -56,6 +56,8 @@ public:
             QSharedPointer<across::DBTools> db);
 
   bool run();
+  void setFilter(const QMap<qint64, QList<qint64>>& search_results);
+  void clearFilter();
   void reloadItems();
   Json::Value generateConfig();
   void appendNode(NodeInfo node);
@@ -69,7 +71,7 @@ public:
   Q_INVOKABLE void setAsDefault(int id);
 
 public:
-  QVector<NodeInfo> items();
+  QList<NodeInfo> items();
   qint64 currentNodeID();
   qint64 currentGroupID();
   qint64 displayGroupID();
@@ -122,10 +124,12 @@ private:
   QSharedPointer<across::setting::ConfigTools> p_config;
   QSharedPointer<across::core::CoreTools> p_core;
 
-  QVector<NodeInfo> m_nodes;
-  NodeInfo m_node;
-
+  QMap<qint64, QList<qint64>> m_search_results;
   int m_display_group_id = 1;
+
+  NodeInfo m_node;
+  QList<NodeInfo> m_nodes;
+  QList<NodeInfo> m_origin_nodes;
   across::core::TrafficInfo m_traffic = { 0, 0 };
   across::core::TrafficInfo m_traffic_last = { 0, 0 };
   across::core::TrafficInfo m_traffic_last_rate = { 0, 0 };

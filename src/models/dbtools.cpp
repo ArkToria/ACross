@@ -79,7 +79,7 @@ QSqlError
 DBTools::createDefaultTables()
 {
   QSqlError result;
-  const QVector<QString> tables = {
+  const QList<QString> tables = {
     { "CREATE TABLE IF NOT EXISTS groups("
       "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
       "Name TEXT NOT NULL,"
@@ -140,7 +140,7 @@ DBTools::createDefaultValues()
 {
   QSqlError result;
 
-  const QVector<RuntimeValue> values = {
+  const QList<RuntimeValue> values = {
     RuntimeValue(CURRENT_NODE_ID, 0LL),
     RuntimeValue(CURRENT_GROUP_ID, 0LL),
     RuntimeValue(DEFAULT_NODE_ID, 0LL),
@@ -161,7 +161,7 @@ QPair<QSqlError, qint64>
 DBTools::stepExec(const QString& sql_str,
                   QVariantList* inputCollection,
                   int outputColumns,
-                  QVector<QVariantList>* outputCollections)
+                  QList<QVariantList>* outputCollections)
 {
   QSqlError result;
   QSqlQuery query(m_db);
@@ -242,7 +242,7 @@ std::optional<RuntimeValue>
 DBTools::readRuntimeValue(const QString& key)
 {
   QVariantList input_collection = { key };
-  QVector<QVariantList> output_collections;
+  QList<QVariantList> output_collections;
   QString select_str("SELECT Type,Value FROM runtime WHERE Name = ?");
 
   if (auto result =
@@ -533,7 +533,7 @@ DBTools::removeGroupFromID(qint64 id, bool keep_group)
 qsizetype
 DBTools::getSizeFromGroupID(qint64 group_id)
 {
-  QVector<QVariantList> collections;
+  QList<QVariantList> collections;
   QVariantList input_collection = { group_id };
   const QString select_str("SELECT ID FROM nodes WHERE GroupID = ?");
   if (auto result =
@@ -565,7 +565,7 @@ DBTools::reloadAllGroupsInfo()
   QSqlError result;
   GroupInfo temp;
   const QString select_str("SELECT * FROM groups");
-  QVector<QVariantList> collections;
+  QList<QVariantList> collections;
 
   if (result = stepExec(select_str, nullptr, 8, &collections).first;
       result.type() != QSqlError::NoError) {
@@ -594,17 +594,17 @@ DBTools::reloadAllGroupsInfo()
   return result;
 }
 
-QVector<GroupInfo>
+QList<GroupInfo>
 DBTools::getAllGroupsInfo()
 {
   return m_groups;
 }
 
-QVector<NodeInfo>
+QList<NodeInfo>
 DBTools::listAllNodesFromGroupID(qint64 group_id)
 {
-  QVector<NodeInfo> nodes;
-  QVector<QVariantList> collections;
+  QList<NodeInfo> nodes;
+  QList<QVariantList> collections;
   QVariantList input_collection = { group_id };
   const QString select_str("SELECT * FROM nodes WHERE GroupID = ?");
 
@@ -641,11 +641,11 @@ DBTools::listAllNodesFromGroupID(qint64 group_id)
   return nodes;
 }
 
-QMap<qint64, QVector<qint64>>
+QMap<qint64, QList<qint64>>
 DBTools::search(const QString& value)
 {
-  QVector<QVariantList> collections;
-  QMap<qint64, QVector<qint64>> search_results;
+  QList<QVariantList> collections;
+  QMap<qint64, QList<qint64>> search_results;
   QVariantList input_collection = { value.toHtmlEscaped().append("*") };
   const QString search_str("SELECT GroupID,GROUP_CONCAT(ID) FROM search WHERE "
                            "search = ? GROUP BY GroupID;");
@@ -656,7 +656,7 @@ DBTools::search(const QString& value)
     p_logger->error("Failed to list all nodes");
   } else {
     for (auto& item : collections) {
-      QVector<qint64> nodes_id;
+      QList<qint64> nodes_id;
       for (auto& node_id : item.at(1).toString().split(",")) {
         nodes_id.append(node_id.toLongLong());
       }

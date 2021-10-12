@@ -122,7 +122,27 @@ NodeList::run()
   return false;
 }
 
-QVector<NodeInfo>
+void
+NodeList::setFilter(const QMap<qint64, QList<qint64>>& search_results)
+{
+  if (search_results.isEmpty())
+    return;
+
+  m_search_results = search_results;
+  setDisplayGroupID(m_search_results.firstKey());
+}
+
+void
+NodeList::clearFilter()
+{
+  m_search_results.clear();
+
+  emit preItemsReset();
+  m_nodes = m_origin_nodes;
+  emit postItemsReset();
+}
+
+QList<NodeInfo>
 NodeList::items()
 {
   return m_nodes;
@@ -132,9 +152,26 @@ void
 NodeList::reloadItems()
 {
   emit preItemsReset();
-
   m_nodes = p_db->listAllNodesFromGroupID(displayGroupID());
+  m_origin_nodes = m_nodes;
 
+  if (!m_search_results.isEmpty() &&
+      m_search_results.contains(m_display_group_id)) {
+    QList<NodeInfo> temp_nodes;
+    auto nodes_id = m_search_results.value(m_display_group_id);
+    auto iter = m_origin_nodes.begin();
+    for (auto& node_id : nodes_id) {
+      for (; iter != m_origin_nodes.end(); ++iter) {
+        if (iter->id == node_id) {
+          temp_nodes.append(*iter);
+          ++iter;
+          break;
+        }
+      }
+    }
+
+    m_nodes = temp_nodes;
+  }
   emit postItemsReset();
 }
 
@@ -309,6 +346,7 @@ NodeList::setDisplayGroupID(int group_id)
     if (group_id <= 0 || group_id == m_display_group_id) {
       return;
     }
+
     m_display_group_id = group_id;
 
     reloadItems();

@@ -166,7 +166,7 @@ GroupModel::setData(const QModelIndex& index, const QVariant& value, int role)
   }
 
   if (data(index, role) != value) {
-    emit dataChanged(index, index, QVector<int>() << role);
+    emit dataChanged(index, index, QList<int>() << role);
     return true;
   }
   return false;

@@ -141,9 +141,9 @@ public:
   qsizetype getSizeFromGroupID(qint64 group_id);
   QString getGroupNameFromGroupID(qint64 group_id);
   QSqlError reloadAllGroupsInfo();
-  QVector<GroupInfo> getAllGroupsInfo();
-  QVector<NodeInfo> listAllNodesFromGroupID(qint64 group_id);
-  QMap<qint64, QVector<qint64>> search(const QString& value);
+  QList<GroupInfo> getAllGroupsInfo();
+  QList<NodeInfo> listAllNodesFromGroupID(qint64 group_id);
+  QMap<qint64, QList<qint64>> search(const QString& value);
 
 public slots:
   void close();
@@ -157,11 +157,11 @@ private:
     const QString& sql_str,
     QVariantList* inputCollection = nullptr,
     int outputColumns = 0,
-    QVector<QVariantList>* outputCollections = nullptr);
+    QList<QVariantList>* outputCollections = nullptr);
 
 private:
   QSqlDatabase m_db;
-  QVector<GroupInfo> m_groups;
+  QList<GroupInfo> m_groups;
 
   std::shared_ptr<across::utils::LogTools> p_logger;
   QSharedPointer<across::setting::ConfigTools> p_config = nullptr;

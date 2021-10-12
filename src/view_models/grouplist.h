@@ -38,7 +38,7 @@ public:
 
   bool insertBase64(const GroupInfo& group_info, const QString& content);
 
-  QVector<GroupInfo> items() const;
+  QList<GroupInfo> items() const;
 
   Q_INVOKABLE void checkAllUpdate(bool force = false);
 
@@ -96,9 +96,9 @@ private:
   QSharedPointer<across::network::CURLTools> p_curl;
   std::shared_ptr<across::utils::LogTools> p_logger;
 
-  QVector<GroupInfo> m_groups;
-  QVector<GroupInfo> m_origin_groups;
-  QVector<GroupInfo> m_pre_groups;
+  QList<GroupInfo> m_groups;
+  QList<GroupInfo> m_origin_groups;
+  QList<GroupInfo> m_pre_groups;
   int64_t m_current_group_id;
 };
 }

@@ -87,7 +87,7 @@ GroupList::insert(GroupInfo& group_info, const QString& content)
   return insert_result;
 }
 
-QVector<GroupInfo>
+QList<GroupInfo>
 GroupList::items() const
 {
   return m_groups;
@@ -146,11 +146,12 @@ Q_INVOKABLE int GroupList::getIndexByID(int id)
 void
 GroupList::search(const QString& value)
 {
-  QVector<GroupInfo> temp_groups;
+  QList<GroupInfo> temp_groups;
   auto iter = m_origin_groups.begin();
   auto results = p_db->search(value);
+  auto keys = results.keys();
 
-  for (auto& key : results.keys()) {
+  for (auto& key : keys) {
     for (; iter != m_origin_groups.end(); ++iter) {
       if (iter->id == key) {
         temp_groups.append(*iter);
@@ -163,6 +164,9 @@ GroupList::search(const QString& value)
   emit preItemsReset();
   m_groups = temp_groups;
   emit postItemsReset();
+
+  p_nodes->setFilter(results);
+  p_nodes->reloadItems();
 }
 
 void
@@ -171,6 +175,8 @@ GroupList::restore()
   emit preItemsReset();
   m_groups = m_origin_groups;
   emit postItemsReset();
+
+  p_nodes->clearFilter();
 }
 
 void
