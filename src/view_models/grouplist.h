@@ -75,7 +75,6 @@ private:
   QList<GroupInfo> m_groups;
   QList<GroupInfo> m_origin_groups;
   QList<GroupInfo> m_pre_groups;
-  int64_t m_current_group_id;
 };
 }
 

@@ -58,6 +58,7 @@ public:
   bool run();
   void setFilter(const QMap<qint64, QList<qint64>>& search_results);
   void clearFilter();
+  void clearItems();
   void reloadItems();
   Json::Value generateConfig();
   void appendNode(NodeInfo node);

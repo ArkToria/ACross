@@ -142,6 +142,14 @@ NodeList::clearFilter()
   emit postItemsReset();
 }
 
+void
+NodeList::clearItems()
+{
+  emit preItemsReset();
+  m_nodes.clear();
+  emit postItemsReset();
+}
+
 QList<NodeInfo>
 NodeList::items()
 {

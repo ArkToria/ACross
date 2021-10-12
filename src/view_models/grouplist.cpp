@@ -112,6 +112,14 @@ GroupList::search(const QString& value)
   auto iter = m_origin_groups.begin();
   auto results = p_db->search(value);
 
+  if (results.isEmpty()) {
+    emit preItemsReset();
+    m_groups.clear();
+    emit postItemsReset();
+    p_nodes->clearItems();
+    return;
+  }
+
   for (auto& result : results.toStdMap()) {
     for (; iter != m_origin_groups.end(); ++iter) {
       if (iter->id == result.first) {
@@ -130,6 +138,7 @@ GroupList::search(const QString& value)
 
   p_nodes->setFilter(results);
   p_nodes->reloadItems();
+  setDisplayGroupID(results.firstKey());
 }
 
 void
