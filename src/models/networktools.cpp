@@ -120,7 +120,7 @@ TCPPing::getAvgLatency()
   int result = -1;
   std::vector<int> sum;
 
-  for (int i = 0; i < m_times; ++i) {
+  for (unsigned int i = 0; i < m_times; ++i) {
     latency = getLatency(m_addr, m_port);
 
     if (latency >= 0) {
