@@ -380,19 +380,24 @@ GroupList::handleUpdated(const QVariant& content)
   if (task.content.isEmpty())
     return;
 
-  for (auto group : m_groups) {
-    if (group.id == task.id) {
+  QList<GroupInfo> temp_groups;
+  for (auto& item : m_groups) {
+    if (item.id == task.id) {
+      auto group = item;
       if (auto result = p_db->removeGroupFromID(group.id, true);
           result.type() != QSqlError::NoError)
         break;
       if (!insert(group, task.content))
         break;
-      if (auto result = p_db->update(group);
-          result.type() != QSqlError::NoError)
-        break;
 
+      temp_groups.append(group);
       break;
     }
+  }
+
+  if (auto result = p_db->update(temp_groups);
+      result.type() != QSqlError::NoError) {
+    return;
   }
 
   reloadItems();
