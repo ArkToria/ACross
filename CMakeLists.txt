@@ -150,6 +150,7 @@ target_link_libraries(across PRIVATE
     Qt6::Core5Compat
     Qt6::Sql
     Qt6::Concurrent
+    ACross::jsoncpp
     CURL::libcurl
     fmt::fmt
     gRPC::grpc++
@@ -157,9 +158,8 @@ target_link_libraries(across PRIVATE
     magic_enum
     semver
     spdlog::spdlog
-    ZXing
     Threads::Threads
-    ACross::jsoncpp
+    ZXing
     )
 
 qt_add_qml_module(across
