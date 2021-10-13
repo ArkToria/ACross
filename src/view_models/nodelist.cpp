@@ -60,11 +60,8 @@ NodeList::init(QSharedPointer<LogView> log_view,
     }
   });
 
-  connect(this,
-          &NodeList::itemLatencyChanged,
-          this,
-          &NodeList::handleLatencyChanged);
-
+  connect(
+    this, &NodeList::itemLatencyChanged, this, &NodeList::handleLatencyChanged);
 
   if (p_config->apiEnable()) {
     p_api =
@@ -417,16 +414,17 @@ NodeList::copyUrlToClipboard(int id)
   ClipboardTools().send(item.url);
 }
 
-void NodeList::handleLatencyChanged(qint64 group_id,int index,NodeInfo node) 
+void
+NodeList::handleLatencyChanged(qint64 group_id, int index, NodeInfo node)
 {
   p_db->update(node);
-  if(group_id == currentGroupID())
-    emit itemReset(index);
-
-  // Remove this
-  reloadItems();
+  if (group_id == displayGroupID()) {
+    if (index < m_nodes.size()) {
+      m_nodes[index] = node;
+      emit itemReset(index);
+    }
+  }
 }
-
 
 void
 NodeList::saveQRCodeToFile(int id, const QUrl& url)
@@ -479,14 +477,13 @@ NodeList::testLatency(int id)
   int index = iter - m_nodes.begin();
 
   if (auto& node = *iter; !node.address.isEmpty()) {
-    auto work_task = QtConcurrent::run([this,index,node]{
+    auto work_task = QtConcurrent::run([this, index, node] {
       auto current_node = node;
       TCPPing ping;
       ping.setAddr(node.address);
       ping.setPort(node.port);
-      ping.setTimes(10);
       current_node.latency = ping.getAvgLatency();
-      emit itemLatencyChanged(node.group_id,index,current_node);
+      emit itemLatencyChanged(node.group_id, index, current_node);
     });
   }
 }
