@@ -411,12 +411,12 @@
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="82"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="89"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="92"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -598,7 +598,7 @@
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="89"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="93"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -781,7 +781,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="333"/>
+        <location filename="../src/view_models/grouplist.cpp" line="356"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -789,7 +789,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="409"/>
+        <location filename="../src/view_models/nodelist.cpp" line="414"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
