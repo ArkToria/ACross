@@ -15,8 +15,8 @@ namespace across {
     }
 
     inline static const QString getBuildInfo() {
-        QString buildInfo("@BUILD_INFO@");
-        return buildInfo;
+      QString buildInfo("@BUILD_INFO@");
+      return buildInfo;
     }
 
     inline static const QString
@@ -71,6 +71,33 @@ namespace across {
     getReleaseURL()
     {
       return QString("https://github.com/ArkToria/ACross/releases");
+    }
+
+    inline static const QStringList
+    getFonts()
+    {
+      QString fonts_fallback("@FONTS_FALLBACK@");
+      const QStringList default_fonts = {
+        "Noto Sans",     "Segoe UI Variable", "Segoe UI",
+        "Noto Sans CJK", "PingFang SC",       "Microsoft YaHei UI",
+      };
+
+      do {
+        if (fonts_fallback.isEmpty())
+          break;
+
+        QStringList temp_fonts;
+        for (auto& font : fonts_fallback.split(",")) {
+          temp_fonts.append(font.trimmed());
+        }
+
+        if (temp_fonts.isEmpty())
+          break;
+
+        return temp_fonts;
+      } while (false);
+
+      return default_fonts;
     }
 }
 
