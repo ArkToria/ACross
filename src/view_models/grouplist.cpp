@@ -107,7 +107,7 @@ GroupList::testTcpPing(int index)
       auto work_task = QtConcurrent::run([&,node,i]{
         auto current_node = node;
         TCPPing ping;
-        ping.setTimes(1);
+        ping.setTimes(10);
         ping.setAddr(node.address);
         ping.setPort(node.port);
         current_node.latency = ping.getAvgLatency();

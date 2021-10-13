@@ -484,7 +484,7 @@ NodeList::testLatency(int id)
       TCPPing ping;
       ping.setAddr(node.address);
       ping.setPort(node.port);
-      ping.setTimes(1);
+      ping.setTimes(10);
       current_node.latency = ping.getAvgLatency();
       emit itemLatencyChanged(node.group_id,index,current_node);
     });
