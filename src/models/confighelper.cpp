@@ -1,5 +1,9 @@
 #include "confighelper.h"
 
+#include <QDir>
+#include <QStandardPaths>
+#include <QCoreApplication>
+
 using namespace google::protobuf::util;
 using namespace across;
 using namespace across::setting;
@@ -38,6 +42,16 @@ ConfigHelper::defaultPrintOptions()
 config::Config
 ConfigHelper::defaultConfig()
 {
+  auto data_path =
+    QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+  Q_ASSERT(!data_path.isEmpty());
+
+  auto working_path = QCoreApplication::applicationDirPath();
+  Q_ASSERT(!working_path.isEmpty());
+
+  QDir data_dir(data_path), working_dir(working_path);
+  Q_ASSERT(data_dir.mkpath("."));
+
   across::config::Config config;
   config.set_title("ACross Configuration Example");
   config.set_config_version("0.1.0");
@@ -47,7 +61,7 @@ ConfigHelper::defaultConfig()
 
     if (auto theme = interface->mutable_theme()) {
       theme->set_theme("default-light");
-      theme->set_include_dir("$HOME/.local/share/across/themes/");
+      theme->set_include_dir((data_dir.filePath("themes") + QDir::separator()).toStdString());
     }
 
     if (auto tray = interface->mutable_tray()) {
@@ -64,7 +78,7 @@ ConfigHelper::defaultConfig()
   }
 
   if (auto database = config.mutable_database()) {
-    database->set_db_path("$HOME/.local/share/across/across.db");
+    database->set_db_path((data_dir.filePath("across.db")).toStdString());
     database->set_db_backend("sqlite3");
 
     if (auto auth = database->mutable_auth(); database->has_auth()) {
@@ -77,8 +91,14 @@ ConfigHelper::defaultConfig()
   }
 
   if (auto core = config.mutable_core()) {
+#if !defined Q_OS_WIN
     core->set_core_path("/usr/bin/v2ray");
     core->set_assets_path("/usr/share/v2ray/");
+#else
+    auto v2ray_dir = working_dir.filePath("v2ray").toStdString();
+    core->set_core_path(v2ray_dir);
+    core->set_assets_path(v2ray_dir);
+#endif
     core->set_log_level("warning");
     core->set_log_lines(50);
 
