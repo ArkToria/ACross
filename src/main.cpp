@@ -7,7 +7,13 @@ main(int argc, char* argv[])
   QApplication::setApplicationName(APP_NAME);
   QApplication::setOrganizationDomain("arktoria.org");
   QApplication::setApplicationDisplayName("V2Ray Client");
-  QApplication::setFont(QFont("Noto Sans", 10));
+  QApplication::setFont(QFont({ "Noto Sans",
+                                "Segoe UI Variable",
+                                "Segoe UI",
+                                "Noto Sans CJK",
+                                "PingFang SC",
+                                "Microsoft YaHei UI" },
+                              10));
 
   across::Application app(argc, argv);
 
