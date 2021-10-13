@@ -25,7 +25,7 @@ GroupList::init(QSharedPointer<LogView> log_view,
           &NodeList::groupSizeChanged,
           this,
           &GroupList::handleItemsChanged);
-
+  
   reloadItems();
   checkAllUpdate();
 }
@@ -100,25 +100,20 @@ GroupList::testTcpPing(int index)
     return;
 
   if (auto& group = m_groups[index]; group.items != 0) {
-    bool refresh = false;
-    if (group.id == p_nodes->currentGroupID())
-      refresh = true;
-
     auto nodes = p_db->listAllNodesFromGroupID(group.id);
-    TCPPing ping;
-    ping.setTimes(1);
 
     for (int i = 0; i < nodes.size(); ++i) {
-      auto& node = nodes[i];
-      ping.setAddr(node.address);
-      ping.setPort(node.port);
-      node.latency = ping.getAvgLatency();
-      if (refresh) {
-        emit p_nodes->itemReset(i);
-      }
+      auto &node = nodes[i];
+      auto work_task = QtConcurrent::run([&,node,i]{
+        auto current_node = node;
+        TCPPing ping;
+        ping.setTimes(1);
+        ping.setAddr(node.address);
+        ping.setPort(node.port);
+        current_node.latency = ping.getAvgLatency();
+        emit p_nodes->itemLatencyChanged(group.id,i,current_node);
+      });
     }
-
-    p_db->update(nodes);
   }
 }
 

@@ -66,7 +66,7 @@ public:
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
 
-  Q_INVOKABLE void testLatency(int index);
+  Q_INVOKABLE void testLatency(int id);
   Q_INVOKABLE void setCurrentNodeByID(int id);
   Q_INVOKABLE void removeNodeByID(int id);
   Q_INVOKABLE QString getQRCode(int id);
@@ -91,9 +91,11 @@ public:
 public slots:
   void setDisplayGroupID(int group_id);
   void copyUrlToClipboard(int id);
+  void handleLatencyChanged(qint64 group_id,int index,NodeInfo node);
 
 signals:
   void itemReset(int index);
+  void itemLatencyChanged(qint64 group_id,int index,NodeInfo node);
 
   void preItemsReset();
   void postItemsReset();
