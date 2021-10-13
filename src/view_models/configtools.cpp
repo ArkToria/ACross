@@ -63,18 +63,24 @@ ConfigTools::loadConfigPath(const QString& file_path)
       break;
     }
 
-    QDir xdg_path;
+    QDir config_dir;
+#if !defined Q_OS_WIN
     if (auto env_config_home = m_envs.get("XDG_CONFIG_HOME");
         env_config_home.isEmpty()) {
-      xdg_path = m_envs.get("HOME").append("/.config").append("/across/");
+      config_dir = m_envs.get("HOME").append("/.config").append("/across/");
     } else {
-      xdg_path = env_config_home.append("/across/");
+      config_dir = env_config_home.append("/across/");
     }
+#else
+    auto data_path =
+      QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    Q_ASSERT(!data_path.isEmpty());
 
-    this->m_config_path = xdg_path.filePath(m_config_name);
-    if (!xdg_path.exists()) {
-      xdg_path.mkdir(xdg_path.path());
-    }
+    config_dir = data_path;
+#endif
+
+    Q_ASSERT(config_dir.mkpath("."));
+    this->m_config_path = config_dir.filePath(m_config_name);
 
     if (!isFileExist(this->m_config_path)) {
       ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
