@@ -5,7 +5,7 @@
 #include <QString>
 #include <QUrl>
 
-#ifdef Q_OS_WIN
+#ifdef USE_FETCH_ZXING_CPP
 #include <BarcodeFormat.h>
 #include <BitMatrix.h>
 #include <MultiFormatWriter.h>
