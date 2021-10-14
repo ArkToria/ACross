@@ -8,6 +8,12 @@ using namespace across::network;
 
 GroupList::GroupList(QObject* parent) {}
 
+GroupList::~GroupList()
+{
+  while (!work_tasks.isEmpty())
+    work_tasks.dequeue().waitForFinished();
+}
+
 void
 GroupList::init(QSharedPointer<LogView> log_view,
                 QSharedPointer<across::setting::ConfigTools> config,
@@ -25,7 +31,7 @@ GroupList::init(QSharedPointer<LogView> log_view,
           &NodeList::groupSizeChanged,
           this,
           &GroupList::handleItemsChanged);
-  
+
   reloadItems();
   checkAllUpdate();
 }
@@ -103,21 +109,22 @@ GroupList::testTcpPing(int index)
     auto nodes = p_db->listAllNodesFromGroupID(group.id);
 
     for (int i = 0; i < nodes.size(); ++i) {
-      auto &node = nodes[i];
-      auto work_task = QtConcurrent::run([&,node,i]{
+      auto& node = nodes[i];
+      work_tasks.enqueue(QtConcurrent::run([&, node, i, group] {
         auto current_node = node;
         TCPPing ping;
         ping.setTimes(10);
         ping.setAddr(node.address);
         ping.setPort(node.port);
         current_node.latency = ping.getAvgLatency();
-        emit p_nodes->itemLatencyChanged(group.id,i,current_node);
-      });
+        emit p_nodes->itemLatencyChanged(group.id, i, current_node);
+      }));
     }
   }
 }
 
-Q_INVOKABLE int GroupList::getIndexByID(int id) 
+Q_INVOKABLE int
+GroupList::getIndexByID(int id)
 {
   for (auto iter = 0; iter < m_groups.size(); ++iter) {
     auto& item = m_groups[iter];

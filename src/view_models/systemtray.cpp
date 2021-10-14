@@ -128,14 +128,26 @@ SystemTray::init(QSharedPointer<LogView> log_view,
     actionInboundToggleSocks->setCheckable(true);
     actionInboundToggleHttp->setChecked(p_config->httpEnable());
     actionInboundToggleSocks->setChecked(p_config->socksEnable());
-    connect(actionInboundToggleHttp, &QAction::triggered, p_config.get(), &ConfigTools::setHttpEnable);
-    connect(actionInboundToggleSocks, &QAction::triggered, p_config.get(), &ConfigTools::setSocksEnable);
-    connect(p_config.get(), &ConfigTools::httpEnableChanged, actionInboundToggleHttp, [this]() {
-      actionInboundToggleHttp->setChecked(p_config->httpEnable());
-    });
-    connect(p_config.get(), &ConfigTools::httpEnableChanged, actionInboundToggleSocks, [this]() {
-      actionInboundToggleSocks->setChecked(p_config->socksEnable());
-    });
+    connect(actionInboundToggleHttp,
+            &QAction::triggered,
+            p_config.get(),
+            &ConfigTools::setHttpEnable);
+    connect(actionInboundToggleSocks,
+            &QAction::triggered,
+            p_config.get(),
+            &ConfigTools::setSocksEnable);
+    connect(p_config.get(),
+            &ConfigTools::httpEnableChanged,
+            actionInboundToggleHttp,
+            [this]() {
+              actionInboundToggleHttp->setChecked(p_config->httpEnable());
+            });
+    connect(p_config.get(),
+            &ConfigTools::httpEnableChanged,
+            actionInboundToggleSocks,
+            [this]() {
+              actionInboundToggleSocks->setChecked(p_config->socksEnable());
+            });
   }
 
   rootMenu->addSeparator();
@@ -167,7 +179,8 @@ SystemTray::loadTrayIcons(const QString& stylish, const QString& color)
   onRunningChanged();
 }
 
-void SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
+void
+SystemTray::iconActivated(QSystemTrayIcon::ActivationReason reason)
 {
   switch (reason) {
     case QSystemTrayIcon::Trigger:
@@ -200,9 +213,11 @@ SystemTray::onRunningChanged()
     actionStart->setEnabled(true);
     actionStop->setEnabled(false);
   }
-    actionRestart->setEnabled(true);
+  actionRestart->setEnabled(true);
 }
-void SystemTray::retranslate(){
+void
+SystemTray::retranslate()
+{
   actionToggleVisibility->setText(tr("Show"));
   actionStart->setText(tr("Connect"));
   actionStop->setText(tr("Disconnect"));

@@ -26,6 +26,8 @@ class GroupList : public QObject
 public:
   explicit GroupList(QObject* parent = nullptr);
 
+  ~GroupList();
+
   void init(QSharedPointer<LogView> log_view,
             QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::DBTools> db,
@@ -74,6 +76,8 @@ private:
   QSharedPointer<across::NodeList> p_nodes;
   QSharedPointer<across::network::CURLTools> p_curl;
   std::shared_ptr<across::utils::LogTools> p_logger;
+
+  QQueue<QFuture<void>> work_tasks;
 
   QList<GroupInfo> m_groups;
   QList<GroupInfo> m_origin_groups;

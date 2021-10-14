@@ -1,8 +1,8 @@
 #ifndef NODELIST_H
 #define NODELIST_H
 
-#include "../models/clipboardtools.h"
 #include "../models/apitools.h"
+#include "../models/clipboardtools.h"
 #include "../models/coretools.h"
 #include "../models/dbtools.h"
 #include "../models/jsontools.h"
@@ -51,6 +51,8 @@ class NodeList : public QObject
 public:
   explicit NodeList(QObject* parent = nullptr);
 
+  ~NodeList();
+
   void init(QSharedPointer<LogView> log_view,
             QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::core::CoreTools> core,
@@ -91,11 +93,11 @@ public:
 public slots:
   void setDisplayGroupID(int group_id);
   void copyUrlToClipboard(int id);
-  void handleLatencyChanged(qint64 group_id,int index,NodeInfo node);
+  void handleLatencyChanged(qint64 group_id, int index, NodeInfo node);
 
 signals:
   void itemReset(int index);
-  void itemLatencyChanged(qint64 group_id,int index,NodeInfo node);
+  void itemLatencyChanged(qint64 group_id, int index, NodeInfo node);
 
   void preItemsReset();
   void postItemsReset();
@@ -118,7 +120,7 @@ signals:
   void currentNodePasswordChanged();
   void currentNodeURLChanged();
 
-  void nodeLatencyChanged(int id,const QString &group,int latency);
+  void nodeLatencyChanged(int id, const QString& group, int latency);
 
   void updateQRCode(const QString& id, const QString& content);
   void uploadTrafficChanged(const QString& uploadTraffic);
@@ -131,6 +133,8 @@ private:
   QSharedPointer<across::core::APITools> p_api;
   QSharedPointer<across::setting::ConfigTools> p_config;
   QSharedPointer<across::core::CoreTools> p_core;
+
+  QQueue<QFuture<void>> work_tasks;
 
   QMap<qint64, QList<qint64>> m_search_results;
   int m_display_group_id = 1;
