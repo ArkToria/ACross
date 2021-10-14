@@ -11,7 +11,7 @@ Item {
     implicitWidth: 312
     implicitHeight: 96
 
-    property int groupID:group_id
+    property int groupID: group_id
 
     state: groupItemCard.ListView.isCurrentItem ? "ClickState" : "NormalState"
 
@@ -39,7 +39,7 @@ Item {
             name: "HoverState"
             PropertyChanges {
                 target: background
-                color: Qt.lighter(acrossConfig.backgroundColor, 0.9)
+                color: Qt.lighter(acrossConfig.backgroundColor, 0.97)
             }
             PropertyChanges {
                 target: groupNameText
@@ -143,7 +143,7 @@ Item {
                         = groupItemCard.ListView.isCurrentItem ? "ClickState" : "NormalState"
             }
 
-            onClicked: (mouse) => {
+            onClicked: function (mouse) {
                 if (mouse.button === Qt.RightButton) {
                     if (groupItemPopMenuComponent == null) {
                         groupItemPopMenuComponent = Qt.createComponent(
@@ -167,7 +167,7 @@ Item {
             target: listScrollView
 
             function onCurrentIndexChanged() {
-                if (listScrollView.currentIndex === index){
+                if (listScrollView.currentIndex === index) {
                     groupItemCard.state = "ClickState"
                 } else {
                     groupItemCard.state = "NormalState"

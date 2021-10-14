@@ -18,12 +18,9 @@ Item {
         return false
     }
 
-
     property Component popMenuComponent: null
     property color backgroundColor: isCurrent(
-                                        ) ? Qt.lighter(
-                                                acrossConfig.highlightColor,
-                                                0.9) : acrossConfig.backgroundColor
+                                        ) ? acrossConfig.highlightColor : acrossConfig.backgroundColor
     property color textColor: isCurrent(
                                   ) ? acrossConfig.highlightTextColor : acrossConfig.textColor
 
@@ -40,7 +37,7 @@ Item {
             name: "HoverState"
             PropertyChanges {
                 target: background
-                color: Qt.lighter(backgroundColor, 0.9)
+                color: Qt.lighter(backgroundColor, 0.97)
             }
         }
     ]
@@ -123,7 +120,7 @@ Item {
 
             Label {
                 id: latencyDisplayText
-                text: latency === -1 ? "-- ms" : latency + " ms"
+                text: this.latency === -1 ? "-- ms" : latency + " ms"
                 font.pixelSize: 14
                 color: textColor
             }
