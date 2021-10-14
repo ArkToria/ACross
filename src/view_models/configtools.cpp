@@ -63,21 +63,12 @@ ConfigTools::loadConfigPath(const QString& file_path)
       break;
     }
 
-    QDir config_dir;
-#if !defined Q_OS_WIN
-    if (auto env_config_home = m_envs.get("XDG_CONFIG_HOME");
-        env_config_home.isEmpty()) {
-      config_dir = m_envs.get("HOME").append("/.config").append("/across/");
-    } else {
-      config_dir = env_config_home.append("/across/");
-    }
-#else
-    auto data_path =
-      QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    Q_ASSERT(!data_path.isEmpty());
+    QDir config_dir("./");
 
-    config_dir = data_path;
-#endif
+    if (auto temp_path =
+          QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+        !temp_path.isEmpty())
+      config_dir = temp_path;
 
     Q_ASSERT(config_dir.mkpath("."));
     this->m_config_path = config_dir.filePath(m_config_name);

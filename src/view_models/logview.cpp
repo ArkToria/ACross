@@ -141,22 +141,24 @@ LogView::getLogsInfo()
   QString core_file;
   QDir log_dir;
 
-#ifdef Q_OS_LINUX
   if (auto data_home = EnvTools().getInfo().ACROSS_DATA_DIR;
       !data_home.isEmpty()) {
     log_dir = QDir(data_home).filePath("logs");
     app_file = log_dir.filePath(APP_FILE_NAME);
     core_file = log_dir.filePath(CORE_FILE_NAME);
-  } else if (auto home = EnvTools().get("HOME"); !home.isEmpty()) {
-    log_dir = QDir(home).filePath(".local/share/across/logs");
+  } else {
+    QDir config_dir("./");
+    if (auto temp_path = QStandardPaths::writableLocation(
+          QStandardPaths::AppLocalDataLocation);
+        !temp_path.isEmpty()) {
+      config_dir = temp_path;
+    }
+    Q_ASSERT(config_dir.mkpath("logs"));
+
+    log_dir = config_dir.filePath("logs");
     app_file = log_dir.filePath(APP_FILE_NAME);
     core_file = log_dir.filePath(CORE_FILE_NAME);
   }
-#else
-  log_dir = QDir("./");
-  app_file = QDir("./").filePath(APP_FILE_NAME);
-  core_file = QDir("./").filePath(CORE_FILE_NAME);
-#endif
 
   return { app_file, core_file, log_dir.absolutePath() };
 }
