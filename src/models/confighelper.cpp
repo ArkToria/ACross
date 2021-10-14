@@ -296,18 +296,18 @@ ConfigHelper::defaultConfig()
     }
 
     if (auto colors = theme->mutable_colors()) {
-      colors->set_text_color("#755c99");
-      colors->set_background_color("#f0e6ef");
-      colors->set_highlight_color("#c29bbf");
-      colors->set_highlight_text_color("#f5edf5");
-      colors->set_warn_color("#f0a5bf");
+      colors->set_text_color("#9e92a0");
+      colors->set_background_color("#fefefe");
+      colors->set_highlight_color("#f4b3cb");
+      colors->set_highlight_text_color("#ffffff");
+      colors->set_warn_color("#f1a983");
       colors->set_warn_text_color("#ffffff");
       colors->set_shadow_color("#29000000");
-      colors->set_border_color("#3381a1c1");
-      colors->set_deep_color("#f0a6ca");
-      colors->set_deep_text_color("#584573");
-      colors->set_style_color("#b4a6c9");
-      colors->set_style_text_color("#fefefe");
+      colors->set_border_color("#bcb995c1");
+      colors->set_deep_color("#fafafa");
+      colors->set_deep_text_color("#9e92a0");
+      colors->set_style_color("#f9d7e5");
+      colors->set_style_text_color("#ffffff");
     }
 
     if (auto border = theme->mutable_border()) {

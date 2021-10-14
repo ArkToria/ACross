@@ -17,9 +17,28 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
   if (loadConfigPath()) {
     if (auto json_str = ConfigHelper::readFromFile(m_config_path.toStdString());
         !json_str.empty()) {
-      // replace old themes
-      this->m_conf.mutable_themes()->Clear();
-      this->m_conf.MergeFrom(ConfigHelper::fromJson(json_str));
+      auto default_themes = m_conf.themes();
+
+      m_conf.mutable_themes()->Clear();
+      m_conf.MergeFrom(ConfigHelper::fromJson(json_str));
+
+      for (auto& default_theme : default_themes) {
+        auto iter = std::find_if(
+          m_conf.themes().begin(), m_conf.themes().end(), [&](Theme theme) {
+            if (theme.SerializeAsString() == default_theme.SerializeAsString())
+              return true;
+            else
+              return false;
+          });
+
+        if (iter == m_conf.themes().end()) {
+          temp_themes.emplace_back(default_theme);
+        }
+      }
+
+      for (auto& theme : temp_themes) {
+        m_conf.mutable_themes()->AddAllocated(&theme);
+      }
     }
   } else {
     qDebug() << "Create new config on :" << m_config_path;
@@ -87,14 +106,13 @@ void
 ConfigTools::loadThemeConfig()
 {
   auto interface_theme = p_interface->mutable_theme();
+
   for (auto& theme : *m_conf.mutable_themes()) {
     if (interface_theme->theme() == theme.name()) {
       p_theme = &theme;
       break;
     }
   }
-
-  auto debug = p_theme->name();
 
   freshColors();
   emit currentThemeChanged();

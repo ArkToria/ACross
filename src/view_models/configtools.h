@@ -348,6 +348,7 @@ private:
   const QString m_config_name = "across.json";
   QString m_config_path = "./" + m_config_name;
   QString m_api_result_text = "";
+  QList<across::config::Theme> temp_themes;
 
   EnvTools m_envs;
   QSharedPointer<across::network::CURLTools> p_curl;
