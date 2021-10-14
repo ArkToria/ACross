@@ -45,7 +45,10 @@ Menu {
     Action {
         text: qsTr("Edit")
         onTriggered: {
-            acrossGroups.editItem(index)
+            var groupInfo = acrossGroups.getGroupInfo(index)
+            for (var prop in groupInfo) {
+                console.log("groupInfo item:", prop, "=", groupInfo[prop])
+            }
         }
     }
 

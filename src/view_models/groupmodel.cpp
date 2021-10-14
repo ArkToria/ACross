@@ -30,7 +30,7 @@ GroupModel::data(const QModelIndex& index, int role) const
     case NameRole:
       return item.name;
     case IsSubscriptionRole:
-      return item.isSubscription;
+      return item.is_subscription;
     case TypeRole:
       return item.type;
     case UrlRole:
@@ -131,7 +131,7 @@ GroupModel::setData(const QModelIndex& index, const QVariant& value, int role)
       item.name = value.toString();
       break;
     case IsSubscriptionRole:
-      item.isSubscription = value.toBool();
+      item.is_subscription = value.toBool();
       break;
     case UrlRole:
       item.url = value.toString();

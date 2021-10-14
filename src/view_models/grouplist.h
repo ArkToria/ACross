@@ -46,6 +46,7 @@ public:
   Q_INVOKABLE int getIndexByID(int id);
   Q_INVOKABLE void search(const QString& value);
   Q_INVOKABLE void clearSearch();
+  Q_INVOKABLE QVariantMap getGroupInfo(int index);
 
 public slots:
   void reloadItems(bool reopen_db = false);

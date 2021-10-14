@@ -10,6 +10,8 @@ Item {
     implicitWidth: 312
     implicitHeight: 720
 
+    property Component groupFormComponent: null
+
     function setIndexByID(group_id) {
         let index = acrossGroups.getIndexByID(group_id)
         if (index === -1)
@@ -19,8 +21,15 @@ Item {
         acrossGroups.setDisplayGroupID(group_id)
     }
 
-    GroupForm {
-        id: updateGroupForm
+    function openGroupForm() {
+        darkBackground.show()
+        if (groupFormComponent == null) {
+            groupFormComponent = Qt.createComponent(
+                        "qrc:/ACross/src/views/home/GroupForm.qml")
+        }
+        if (groupFormComponent.status === Component.Ready) {
+            groupFormComponent.createObject(groupListPanel).open()
+        }
     }
 
     RemoveConfirmDialog {
@@ -116,17 +125,8 @@ Item {
             sourceHeight: sourceWidth
         }
 
-        property Component appendGroupFormComponent: null
-
         onClicked: {
-            darkBackground.show()
-            if (appendGroupFormComponent == null) {
-                appendGroupFormComponent = Qt.createComponent(
-                            "qrc:/ACross/src/views/home/GroupForm.qml")
-            }
-            if (appendGroupFormComponent.status === Component.Ready) {
-                appendGroupFormComponent.createObject(groupListPanel).open()
-            }
+            openGroupForm()
         }
     }
 }

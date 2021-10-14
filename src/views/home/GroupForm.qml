@@ -16,6 +16,7 @@ Popup {
 
     property int spacingWidth: 16
     property int fontSize: 14
+    property string title: qsTr("Create a new group")
 
     modal: true
     focus: true
@@ -40,7 +41,7 @@ Popup {
                 Layout.fillWidth: true
                 Layout.columnSpan: 4
 
-                text: qsTr("Create a new group")
+                text: title
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: Math.round(fontSize * 1.1)
                 color: acrossConfig.textColor
