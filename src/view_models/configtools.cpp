@@ -1008,6 +1008,18 @@ ConfigTools::enableBanner()
   return p_theme->banner().enable();
 }
 
+bool
+ConfigTools::enableAutoConnect()
+{
+  return p_interface->auto_connect();
+}
+
+bool
+ConfigTools::enableAutoStart()
+{
+  return p_interface->auto_start();
+}
+
 void
 ConfigTools::setEnableBanner(bool val)
 {
@@ -1017,6 +1029,28 @@ ConfigTools::setEnableBanner(bool val)
 
   emit configChanged();
   emit enableBannerChanged();
+}
+
+void
+ConfigTools::setEnableAutoConnect(bool val)
+{
+  if (val == p_interface->auto_connect())
+    return;
+  p_interface->set_auto_connect(val);
+
+  emit configChanged();
+  emit enableAutoConnectChanged();
+}
+
+void
+ConfigTools::setEnableAutoStart(bool val)
+{
+  if (val == p_interface->auto_start())
+    return;
+  p_interface->set_auto_start(val);
+
+  emit configChanged();
+  emit enableAutoStartChanged();
 }
 
 double

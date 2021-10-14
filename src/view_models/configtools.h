@@ -118,6 +118,10 @@ class ConfigTools : public QObject
                enableTrayChanged)
   Q_PROPERTY(bool enableBanner READ enableBanner WRITE setEnableBanner NOTIFY
                enableBannerChanged)
+  Q_PROPERTY(bool enableAutoConnect READ enableAutoConnect WRITE
+               setEnableAutoConnect NOTIFY enableAutoConnectChanged)
+  Q_PROPERTY(bool enableAutoStart READ enableAutoStart WRITE setEnableAutoStart
+               NOTIFY enableAutoStartChanged)
   Q_PROPERTY(QString backgroundImage READ backgroundImage WRITE
                setBackgroundImage NOTIFY backgroundImageChanged)
   Q_PROPERTY(double backgroundOpacity READ backgroundOpacity WRITE
@@ -211,6 +215,8 @@ public:
   QString currentLanguage();
   bool enableTray();
   bool enableBanner();
+  bool enableAutoConnect();
+  bool enableAutoStart();
   QString backgroundImage();
   double backgroundOpacity();
 
@@ -268,6 +274,8 @@ public slots:
   void setCurrentLanguage(const QString& val);
   void setEnableTray(bool val);
   void setEnableBanner(bool val);
+  void setEnableAutoConnect(bool val);
+  void setEnableAutoStart(bool val);
   void setBackgroundImage(const QString& val);
   void setBackgroundOpacity(double val);
 
@@ -320,6 +328,8 @@ signals:
   void currentThemeChanged();
   void currentLanguageChanged(const QString& lang);
   void enableTrayChanged();
+  void enableAutoConnectChanged();
+  void enableAutoStartChanged();
   void buildInfoChanged();
   void configChanged();
   void enableBannerChanged();

@@ -49,7 +49,7 @@ ConfigHelper::defaultConfig()
   auto working_path = QCoreApplication::applicationDirPath();
   Q_ASSERT(!working_path.isEmpty());
 
-  QDir data_dir(data_path), working_dir(working_path);
+  QDir data_dir(data_path);
   Q_ASSERT(data_dir.mkpath("."));
 
   across::config::Config config;
@@ -58,6 +58,8 @@ ConfigHelper::defaultConfig()
 
   if (auto interface = config.mutable_interface()) {
     interface->set_language("en_US");
+    interface->set_auto_connect(false);
+    interface->set_auto_start(false);
 
     if (auto theme = interface->mutable_theme()) {
       theme->set_theme("default-light");
@@ -66,7 +68,7 @@ ConfigHelper::defaultConfig()
 
     if (auto tray = interface->mutable_tray()) {
       tray->set_enable(false);
-      tray->set_close_to_minimize(false);
+      tray->set_start_from_minimize(false);
     }
   }
 
@@ -95,6 +97,7 @@ ConfigHelper::defaultConfig()
     core->set_core_path("/usr/bin/v2ray");
     core->set_assets_path("/usr/share/v2ray/");
 #else
+    QDir working_dir(working_path);
     auto v2ray_dir = working_dir.filePath("v2ray").toStdString();
     core->set_core_path(v2ray_dir);
     core->set_assets_path(v2ray_dir);
