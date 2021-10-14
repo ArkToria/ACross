@@ -2,3 +2,5 @@ zxing-*
 magic_enum-*
 semver-*
 spdlog-*
+curl-*
+fmt-*
