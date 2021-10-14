@@ -327,57 +327,57 @@
 <context>
     <name>GroupForm</name>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="43"/>
+        <location filename="../src/views/home/GroupForm.qml" line="19"/>
         <source>Create a new group</source>
         <translation>创建新组</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="50"/>
+        <location filename="../src/views/home/GroupForm.qml" line="51"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="59"/>
+        <location filename="../src/views/home/GroupForm.qml" line="60"/>
         <source>Enter the unique group name</source>
         <translation>输入唯一的组名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="63"/>
+        <location filename="../src/views/home/GroupForm.qml" line="64"/>
         <source>Subscription</source>
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="83"/>
+        <location filename="../src/views/home/GroupForm.qml" line="84"/>
         <source>From Paste</source>
         <translation>从剪贴板粘贴</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="106"/>
+        <location filename="../src/views/home/GroupForm.qml" line="107"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="122"/>
+        <location filename="../src/views/home/GroupForm.qml" line="123"/>
         <source>Cycle (days)</source>
         <translation>更新周期（天）</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="139"/>
+        <location filename="../src/views/home/GroupForm.qml" line="140"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="149"/>
+        <location filename="../src/views/home/GroupForm.qml" line="150"/>
         <source>Enter the unique subscription url</source>
         <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="169"/>
+        <location filename="../src/views/home/GroupForm.qml" line="170"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="187"/>
+        <location filename="../src/views/home/GroupForm.qml" line="188"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -406,7 +406,7 @@
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="55"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="58"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
@@ -415,17 +415,17 @@
         <translation type="vanished">ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="63"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="66"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="81"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="84"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="88"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="91"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -433,12 +433,12 @@
 <context>
     <name>GroupListPanel</name>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="28"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="37"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="29"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="38"/>
         <source>Confirm to remove group from database</source>
         <translation>确认从数据库中移除组</translation>
     </message>
@@ -789,7 +789,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="349"/>
+        <location filename="../src/view_models/grouplist.cpp" line="365"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

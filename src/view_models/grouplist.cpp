@@ -69,7 +69,7 @@ GroupList::checkUpdate(int index, bool force)
       break;
 
     auto group = m_groups.at(index);
-    if (!group.isSubscription || group.url.isEmpty())
+    if (!group.is_subscription || group.url.isEmpty())
       break;
 
     if (group.cycle_time >
@@ -165,6 +165,22 @@ GroupList::clearSearch()
   emit postItemsReset();
 
   p_nodes->clearFilter();
+}
+
+QVariantMap
+GroupList::getGroupInfo(int index)
+{
+  QVariantMap info;
+
+  if (index < m_groups.size()) {
+    auto& group = m_groups.at(index);
+    info.insert("Name", group.name);
+    info.insert("isSubscription", group.is_subscription);
+    info.insert("url", group.url);
+    info.insert("cycleTime", group.cycle_time);
+  }
+
+  return info;
 }
 
 void
@@ -288,7 +304,7 @@ GroupList::appendItem(const QString& group_name,
 
   GroupInfo group_info = {
     .name = group_name,
-    .isSubscription = true,
+    .is_subscription = true,
     .type = magic_enum::enum_value<SubscriptionType>(type),
     .url = url,
     .cycle_time = cycle_time,
@@ -309,7 +325,7 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
 {
   GroupInfo group_info = {
     .name = group_name,
-    .isSubscription = false,
+    .is_subscription = false,
     .type = base64,
   };
 

@@ -54,7 +54,7 @@ struct GroupInfo
 {
   qint64 id = 0;
   QString name = "";
-  bool isSubscription = false;
+  bool is_subscription = false;
   SubscriptionType type = none;
   QString url = "";
   int cycle_time = 0;

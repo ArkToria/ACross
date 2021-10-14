@@ -459,7 +459,7 @@ DBTools::insert(GroupInfo& group)
 
   QVariantList input_collection = {
     group.name,
-    group.isSubscription,
+    group.is_subscription,
     group.type,
     group.url,
     group.cycle_time,
@@ -484,7 +484,7 @@ DBTools::update(GroupInfo& group)
   group.modified_time = QDateTime::currentDateTime();
 
   QVariantList input_collection = {
-    group.name, group.isSubscription, group.type,
+    group.name, group.is_subscription, group.type,
     group.url,  group.cycle_time,     group.modified_time.toSecsSinceEpoch(),
     group.id,
   };
@@ -592,7 +592,7 @@ DBTools::reloadAllGroupsInfo()
       GroupInfo group = {
         .id = item.at(0).toLongLong(),
         .name = item.at(1).toString(),
-        .isSubscription = item.at(2).toBool(),
+        .is_subscription = item.at(2).toBool(),
         .type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt()),
         .url = item.at(4).toString(),
         .cycle_time = item.at(5).toInt(),
