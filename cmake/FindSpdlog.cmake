@@ -7,5 +7,5 @@ if(FETCH_SPDLOG)
         GIT_TAG eb3220622e73a4889eee355ffa37972b3cac3df5 # v1.9.2
         )
 else()
-    find_package(spdlog REQUIRED NO_DEFAULT_PATH)
+    find_package(spdlog CONFIG REQUIRED NO_DEFAULT_PATH)
 endif()
