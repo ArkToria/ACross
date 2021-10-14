@@ -44,13 +44,11 @@ ConfigHelper::defaultConfig()
 {
   auto data_path =
     QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-  Q_ASSERT(!data_path.isEmpty());
-
-  auto working_path = QCoreApplication::applicationDirPath();
-  Q_ASSERT(!working_path.isEmpty());
 
   QDir data_dir(data_path);
-  Q_ASSERT(data_dir.mkpath("."));
+  if (!data_dir.mkpath(".")) {
+    qFatal("Failed to create data_path");
+  }
 
   across::config::Config config;
   config.set_title("ACross Configuration Example");
@@ -97,7 +95,7 @@ ConfigHelper::defaultConfig()
     core->set_core_path("/usr/bin/v2ray");
     core->set_assets_path("/usr/share/v2ray/");
 #else
-    QDir working_dir(working_path);
+    QDir working_dir(QCoreApplication::applicationDirPath());
     auto v2ray_dir = working_dir.filePath("v2ray").toStdString();
     core->set_core_path(v2ray_dir);
     core->set_assets_path(v2ray_dir);

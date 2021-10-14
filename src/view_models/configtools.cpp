@@ -90,7 +90,7 @@ ConfigTools::loadConfigPath(const QString& file_path)
       config_dir = temp_path;
 
     if (result = config_dir.mkpath("."); result == false) {
-      qDebug() << "Failed to create config_dir";
+      qFatal("Failed to create config_dir");
       break;
     }
 
