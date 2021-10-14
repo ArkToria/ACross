@@ -1,15 +1,11 @@
 option(FETCH_SEMVER "Download Semver" OFF)
 
 if(FETCH_SEMVER)
-    message("Fetching 'semver'...")
-
     CPMAddPackage(
         NAME semver
         GITHUB_REPOSITORY Neargye/semver
         GIT_TAG v0.3.0
         )
-
-    message("Fetch 'semver' done.")
 else()
     set(SEMVER_DIR ${CMAKE_SOURCE_DIR}/3rdpart/semver)
 

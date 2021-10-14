@@ -1,14 +1,10 @@
 option(FETCH_MAGIC_ENUM "Download magic_enum" OFF)
 if (FETCH_MAGIC_ENUM)
-    message("Fetching 'magic_enum'...")
-
     CPMAddPackage(
         NAME magic_enum
         GITHUB_REPOSITORY Neargye/magic_enum
         GIT_TAG v0.7.3
         )
-
-    message("Fetch 'magic_enum' done.")
 else()
     set(MAGIC_ENUM_DIR ${CMAKE_SOURCE_DIR}/3rdpart/magic_enum)
 
