@@ -36,12 +36,12 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
         }
       }
 
-      for (auto& theme : temp_themes) {
-        m_conf.mutable_themes()->AddAllocated(&theme);
+      for (uint i = 0; i < temp_themes.size(); ++i) {
+        m_conf.mutable_themes()->AddAllocated(&temp_themes[i]);
       }
     }
   } else {
-    qDebug() << "Create new config on :" << m_config_path;
+    qDebug() << "Create new config on: " << m_config_path;
   }
 
   if (curl != nullptr) {
