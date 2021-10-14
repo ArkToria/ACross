@@ -25,7 +25,9 @@ NodeModel::data(const QModelIndex& index, int role) const
     return QVariant();
   }
 
-  Q_ASSERT(index.model() == this);
+  if (index.model() != this) {
+    return {};
+  }
 
   const NodeInfo item = p_list->items().at(index.row());
 

@@ -153,7 +153,10 @@ LogView::getLogsInfo()
         !temp_path.isEmpty()) {
       config_dir = temp_path;
     }
-    Q_ASSERT(config_dir.mkpath("logs"));
+
+    if (!config_dir.mkpath("logs")) {
+      qFatal("Failed to create logs_dir");
+    }
 
     log_dir = config_dir.filePath("logs");
     app_file = log_dir.filePath(APP_FILE_NAME);
