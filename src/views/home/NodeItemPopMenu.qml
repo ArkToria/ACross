@@ -71,10 +71,6 @@ Menu {
     }
 
     Action {
-        text: qsTr("ICMP Ping")
-    }
-
-    Action {
         text: qsTr("TCP Ping")
 
         onTriggered: {

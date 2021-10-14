@@ -190,10 +190,7 @@ if (WIN32)
 endif()
 
 ######## UNIT_TEST ########
-enable_testing()
-find_package(GTest REQUIRED)
 
-add_subdirectory(tests)
 ###########################
 
 #########################
