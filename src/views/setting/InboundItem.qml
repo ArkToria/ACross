@@ -63,7 +63,9 @@ Item {
             }
 
             Component.onCompleted: {
-                checked = acrossConfig.socksEnable
+                checked = Qt.binding(function () {
+                                    return acrossConfig.socksEnable
+                })
             }
         }
 
@@ -85,7 +87,9 @@ Item {
             }
 
             Component.onCompleted: {
-                checked = acrossConfig.httpEnable
+                checked = Qt.binding(function () {
+                                    return acrossConfig.httpEnable
+                })
             }
         }
 

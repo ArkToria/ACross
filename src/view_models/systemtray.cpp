@@ -108,10 +108,36 @@ SystemTray::init(QSharedPointer<LogView> log_view,
   connect(actionQuit, &QAction::triggered, this, &SystemTray::signalQuit);
 
   rootMenu->addAction(actionToggleVisibility);
+
   rootMenu->addSeparator();
+
   rootMenu->addAction(actionStart);
   rootMenu->addAction(actionStop);
   rootMenu->addAction(actionRestart);
+
+  rootMenu->addSeparator();
+
+  inboundMenuAction = rootMenu->addMenu(inboundMenu);
+  inboundMenuAction->setText(tr("Inbounds"));
+  {
+    inboundMenu->addAction(actionInboundToggleHttp);
+    inboundMenu->addAction(actionInboundToggleSocks);
+    actionInboundToggleHttp->setText("HTTP");
+    actionInboundToggleSocks->setText("SOCKS5");
+    actionInboundToggleHttp->setCheckable(true);
+    actionInboundToggleSocks->setCheckable(true);
+    actionInboundToggleHttp->setChecked(p_config->httpEnable());
+    actionInboundToggleSocks->setChecked(p_config->socksEnable());
+    connect(actionInboundToggleHttp, &QAction::triggered, p_config.get(), &ConfigTools::setHttpEnable);
+    connect(actionInboundToggleSocks, &QAction::triggered, p_config.get(), &ConfigTools::setSocksEnable);
+    connect(p_config.get(), &ConfigTools::httpEnableChanged, actionInboundToggleHttp, [this]() {
+      actionInboundToggleHttp->setChecked(p_config->httpEnable());
+    });
+    connect(p_config.get(), &ConfigTools::httpEnableChanged, actionInboundToggleSocks, [this]() {
+      actionInboundToggleSocks->setChecked(p_config->socksEnable());
+    });
+  }
+
   rootMenu->addSeparator();
   rootMenu->addAction(actionQuit);
 
@@ -177,11 +203,12 @@ SystemTray::onRunningChanged()
     actionRestart->setEnabled(true);
 }
 void SystemTray::retranslate(){
-    actionToggleVisibility->setText(tr("Show"));
-    actionStart->setText(tr("Connect"));
-    actionStop->setText(tr("Disconnect"));
-    actionRestart->setText(tr("Reconnect"));
-    actionQuit->setText(tr("Quit"));
+  actionToggleVisibility->setText(tr("Show"));
+  actionStart->setText(tr("Connect"));
+  actionStop->setText(tr("Disconnect"));
+  actionRestart->setText(tr("Reconnect"));
+  actionQuit->setText(tr("Quit"));
+  inboundMenuAction->setText(tr("Inbounds"));
 }
 
 QString

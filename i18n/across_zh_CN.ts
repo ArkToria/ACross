@@ -451,25 +451,25 @@
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="71"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="73"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="94"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="112"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="98"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="116"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="129"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="146"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="133"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="150"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="163"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="188"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="167"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="192"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
@@ -796,42 +796,48 @@
     <name>across::SystemTray</name>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="90"/>
-        <location filename="../src/view_models/systemtray.cpp" line="159"/>
-        <location filename="../src/view_models/systemtray.cpp" line="180"/>
+        <location filename="../src/view_models/systemtray.cpp" line="185"/>
+        <location filename="../src/view_models/systemtray.cpp" line="206"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="91"/>
-        <location filename="../src/view_models/systemtray.cpp" line="181"/>
+        <location filename="../src/view_models/systemtray.cpp" line="207"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="92"/>
-        <location filename="../src/view_models/systemtray.cpp" line="182"/>
+        <location filename="../src/view_models/systemtray.cpp" line="208"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="93"/>
-        <location filename="../src/view_models/systemtray.cpp" line="183"/>
+        <location filename="../src/view_models/systemtray.cpp" line="209"/>
         <source>Reconnect</source>
         <translation>重连</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="94"/>
-        <location filename="../src/view_models/systemtray.cpp" line="184"/>
+        <location filename="../src/view_models/systemtray.cpp" line="210"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="161"/>
+        <location filename="../src/view_models/systemtray.cpp" line="121"/>
+        <location filename="../src/view_models/systemtray.cpp" line="211"/>
+        <source>Inbounds</source>
+        <translation>入站</translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/systemtray.cpp" line="187"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="196"/>
+        <location filename="../src/view_models/systemtray.cpp" line="223"/>
         <source>OFF</source>
         <translation>关闭</translation>
     </message>

@@ -74,6 +74,11 @@ private:
   DECL_ACTION(rootMenu, actionStop);
   DECL_ACTION(rootMenu, actionRestart);
   DECL_ACTION(rootMenu, actionQuit);
+
+  QMenu* inboundMenu = new QMenu();
+  QAction* inboundMenuAction = nullptr;
+  DECL_ACTION(inboundMenu, actionInboundToggleHttp);
+  DECL_ACTION(inboundMenu, actionInboundToggleSocks);
 };
 }
 
