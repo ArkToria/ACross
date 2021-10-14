@@ -33,7 +33,7 @@ find_package(jsoncpp REQUIRED)
 find_package(Threads REQUIRED)
 find_package(MagicEnum REQUIRED)
 find_package(Semver REQUIRED)
-find_package(spdlog REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 find_package(ZXingCPP REQUIRED)
 
 # BEGIN Special case for QtCreator
