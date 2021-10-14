@@ -296,7 +296,7 @@ ConfigHelper::defaultConfig()
     }
 
     if (auto colors = theme->mutable_colors()) {
-      colors->set_text_color("#9e92a0");
+      colors->set_text_color("#5e4270");
       colors->set_background_color("#fefefe");
       colors->set_highlight_color("#f4b3cb");
       colors->set_highlight_text_color("#ffffff");
@@ -305,7 +305,7 @@ ConfigHelper::defaultConfig()
       colors->set_shadow_color("#29000000");
       colors->set_border_color("#bcb995c1");
       colors->set_deep_color("#fafafa");
-      colors->set_deep_text_color("#9e92a0");
+      colors->set_deep_text_color("#5e4270");
       colors->set_style_color("#f9d7e5");
       colors->set_style_text_color("#ffffff");
     }
