@@ -523,12 +523,12 @@
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ManualSetting.qml" line="70"/>
+        <location filename="../src/views/home/ManualSetting.qml" line="71"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ManualSetting.qml" line="83"/>
+        <location filename="../src/views/home/ManualSetting.qml" line="84"/>
         <source>Protocol</source>
         <translation>协议</translation>
     </message>
