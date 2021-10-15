@@ -22,6 +22,8 @@ set(CPM_USE_LOCAL_PACKAGES ON)
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/protobuf.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Semver.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MagicEnum.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
@@ -67,9 +69,6 @@ CPMAddPackage(
     )
 
 find_package(Threads REQUIRED)
-
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Semver.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MagicEnum.cmake")
 
 # BEGIN Special case for QtCreator
 list(APPEND QML_DIRS "${CMAKE_CURRENT_BINARY_DIR}")
