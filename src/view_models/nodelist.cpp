@@ -98,6 +98,32 @@ NodeList::init(QSharedPointer<LogView> log_view,
             });
   }
 
+  if (p_config->enableAutoConnect()) {
+    NodeInfo node;
+    if (auto id = p_db->getCurrentNodeID(); id) {
+      auto nodes = p_db->listAllNodesFromGroupID(p_db->getCurrentGroupID());
+      for (auto& nodeItem : nodes) {
+        if (id == nodeItem.id) {
+          node = nodeItem;
+        }
+      }
+    }
+    if (auto id = p_db->getDefaultNodeID(); id) {
+      auto nodes = p_db->listAllNodesFromGroupID(p_db->getDefaultGroupID());
+      for (auto& nodeItem : nodes) {
+        if (id == nodeItem.id) {
+          node = nodeItem;
+        }
+      }
+    }
+    m_node = node;
+    if (!run()) {
+      p_logger->error("Failed to start current node: {} {}",
+                      node.id,
+                      node.name.toStdString());
+    }
+  }
+
   reloadItems();
 }
 
@@ -360,6 +386,18 @@ NodeList::currentNodeURL()
   return m_node.url;
 }
 
+Q_INVOKABLE qint64
+NodeList::getIndexByNode(qint64 node_id, qint64 group_id)
+{
+  auto nodes = p_db->listAllNodesFromGroupID(group_id);
+  for (qint64 index = 0; index < nodes.size(); index++) {
+    if (node_id == nodes.at(index).id) {
+      return index;
+    }
+  }
+  return -1;
+}
+
 void
 NodeList::setDisplayGroupID(int group_id)
 {
@@ -433,7 +471,7 @@ NodeList::handleLatencyChanged(qint64 group_id, int index, NodeInfo node)
     }
   }
 
-  while (!work_tasks.isEmpty()&&work_tasks.head().isFinished())
+  while (!work_tasks.isEmpty() && work_tasks.head().isFinished())
     work_tasks.dequeue();
 }
 
@@ -472,7 +510,7 @@ NodeList::setAsDefault(int id)
 {
   p_db->updateRuntimeValue(RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, id));
   p_db->updateRuntimeValue(
-    RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, displayGroupID()));
+    RuntimeValue(RunTimeValues::DEFAULT_GROUP_ID, displayGroupID()));
 }
 
 Q_INVOKABLE void
@@ -488,11 +526,13 @@ NodeList::testLatency(int id)
   int index = iter - m_nodes.begin();
 
   if (auto& node = *iter; !node.address.isEmpty()) {
-    testLatency(node,index);
+    testLatency(node, index);
   }
 }
 
-void NodeList::testLatency(NodeInfo node,int index){
+void
+NodeList::testLatency(NodeInfo node, int index)
+{
   work_tasks.enqueue(QtConcurrent::run([this, index, node] {
     auto current_node = node;
     TCPPing ping;

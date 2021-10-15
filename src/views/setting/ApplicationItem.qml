@@ -244,6 +244,48 @@ Item {
         }
 
         Label {
+            text: qsTr("Start From Minimized")
+            color: acrossConfig.textColor
+            font.pointSize: 12
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+        }
+
+        SwitchBox {
+            id: enableStartFromMinimized
+            Layout.alignment: Qt.AlignRight
+
+            checked: acrossConfig.enableStartFromMinimized
+            onCheckedChanged: {
+                acrossConfig.enableStartFromMinimized = checked
+            }
+        }
+
+        Label {
+            text: qsTr("Auto Connect")
+            color: acrossConfig.textColor
+            font.pointSize: 12
+        }
+
+        Item {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+        }
+
+        SwitchBox {
+            id: enableAutoConnect
+            Layout.alignment: Qt.AlignRight
+
+            checked: acrossConfig.enableAutoConnect
+            onCheckedChanged: {
+                acrossConfig.enableAutoConnect = checked
+            }
+        }
+
+        Label {
             text: qsTr("Enable Background Image")
             color: acrossConfig.textColor
             font.pointSize: 12
@@ -263,9 +305,9 @@ Item {
                 acrossConfig.enableBanner = checked
 
                 if (checked) {
-                    applicationItemCard.implicitHeight = 430
+                    applicationItemCard.implicitHeight = 530
                 } else {
-                    applicationItemCard.implicitHeight = 400
+                    applicationItemCard.implicitHeight = 500
                 }
             }
         }

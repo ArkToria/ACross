@@ -146,7 +146,7 @@
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="162"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="292"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="334"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
@@ -156,21 +156,31 @@
         <translation>文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="247"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="268"/>
+        <source>Auto Connect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="289"/>
         <source>Enable Background Image</source>
         <translation>启用背景图</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="247"/>
+        <source>Start From Minimized</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Image</source>
         <translation type="obsolete">图片</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="276"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="318"/>
         <source>Background Image</source>
         <translation>背景图</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="302"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="344"/>
         <source>Opacity</source>
         <translation>不透明度</translation>
     </message>
@@ -787,7 +797,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="420"/>
+        <location filename="../src/view_models/nodelist.cpp" line="458"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

@@ -144,8 +144,6 @@ Item {
         onDoubleClicked: function (mouse) {
             if (mouse.button === Qt.LeftButton) {
                 acrossNodes.setCurrentNodeByID(nodeID)
-
-                root.setIndex(index)
             }
         }
 

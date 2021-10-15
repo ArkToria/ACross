@@ -104,7 +104,7 @@ GroupList::testTcpPing(int index)
 
     for (int i = 0; i < nodes.size(); ++i) {
       auto& node = nodes[i];
-      p_nodes->testLatency(node,i);
+      p_nodes->testLatency(node, i);
     }
   }
 }

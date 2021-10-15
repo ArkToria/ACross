@@ -985,6 +985,12 @@ ConfigTools::enableTray()
   return p_interface->tray().enable();
 }
 
+bool
+ConfigTools::enableStartFromMinimized()
+{
+  return p_interface->tray().start_from_minimize();
+}
+
 QString
 ConfigTools::networkTestMethod()
 {
@@ -1022,6 +1028,17 @@ ConfigTools::setEnableTray(bool val)
   p_interface->mutable_tray()->set_enable(val);
   emit configChanged();
   emit enableTrayChanged();
+}
+
+void
+ConfigTools::setEnableStartFromMinimized(bool val)
+{
+  void setEnableStartFromMinimized(bool val);
+  if (val == p_interface->tray().start_from_minimize())
+    return;
+  p_interface->mutable_tray()->set_start_from_minimize(val);
+  emit configChanged();
+  emit enableStartFromMinimizedChanged();
 }
 
 bool

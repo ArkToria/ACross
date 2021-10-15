@@ -14,6 +14,10 @@ ApplicationWindow {
     visible: true
     title: qsTr("ACross")
 
+    Component.onCompleted:{
+        visible = !acrossConfig.enableStartFromMinimized
+    }
+    
     onVisibilityChanged: {
         acrossTray.toggleVisibilitySetText(mainWindow.visible)
     }

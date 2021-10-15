@@ -256,7 +256,7 @@ Item {
                 onClicked: {
                     groupListPanel.setIndexByID(acrossNodes.currentGroupID)
 
-                    nodeListPanel.locate(nodeListPanel.currentIndex)
+                    nodeListPanel.locateCurrent()
                 }
             }
         }

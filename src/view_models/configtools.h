@@ -116,6 +116,9 @@ class ConfigTools : public QObject
                setCurrentLanguage NOTIFY currentLanguageChanged)
   Q_PROPERTY(bool enableTray READ enableTray WRITE setEnableTray NOTIFY
                enableTrayChanged)
+  Q_PROPERTY(
+    bool enableStartFromMinimized READ enableStartFromMinimized WRITE
+      setEnableStartFromMinimized NOTIFY enableStartFromMinimizedChanged)
   Q_PROPERTY(bool enableBanner READ enableBanner WRITE setEnableBanner NOTIFY
                enableBannerChanged)
   Q_PROPERTY(bool enableAutoConnect READ enableAutoConnect WRITE
@@ -214,6 +217,7 @@ public:
   QString currentTheme();
   QString currentLanguage();
   bool enableTray();
+  bool enableStartFromMinimized();
   bool enableBanner();
   bool enableAutoConnect();
   bool enableAutoStart();
@@ -273,6 +277,7 @@ public slots:
   void setCurrentTheme(const QString& val);
   void setCurrentLanguage(const QString& val);
   void setEnableTray(bool val);
+  void setEnableStartFromMinimized(bool val);
   void setEnableBanner(bool val);
   void setEnableAutoConnect(bool val);
   void setEnableAutoStart(bool val);
@@ -328,6 +333,7 @@ signals:
   void currentThemeChanged();
   void currentLanguageChanged(const QString& lang);
   void enableTrayChanged();
+  void enableStartFromMinimizedChanged();
   void enableAutoConnectChanged();
   void enableAutoStartChanged();
   void buildInfoChanged();

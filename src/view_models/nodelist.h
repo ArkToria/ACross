@@ -67,7 +67,7 @@ public:
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
-  void testLatency(NodeInfo node,int index);
+  void testLatency(NodeInfo node, int index);
 
   Q_INVOKABLE void testLatency(int id);
   Q_INVOKABLE void setCurrentNodeByID(int id);
@@ -75,6 +75,7 @@ public:
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
+  Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
 
 public:
   QList<NodeInfo> items();

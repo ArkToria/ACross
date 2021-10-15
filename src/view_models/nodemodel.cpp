@@ -75,7 +75,7 @@ NodeModel::roleNames() const
     { PasswordRole, "password" },
     { URLRole, "url" },
     { ProtocolTypeRole, "protocol" },
-    { LatencyRole, "latency"},
+    { LatencyRole, "latency" },
     { CreatedAtRole, "createdAt" },
     { ModifiedAtRole, "modifiedAt" },
   };

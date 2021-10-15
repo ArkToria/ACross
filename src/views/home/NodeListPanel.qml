@@ -28,10 +28,8 @@ Item {
         }
     }
 
-    property int currentIndex : nodeGridView.currentIndex
-    function setIndex(index){
-        currentIndex = index;
-        nodeGridView.currentIndex = index;
+    function locateCurrent() {
+        locate(acrossNodes.getIndexByNode(acrossNodes.currentNodeID,acrossNodes.currentGroupID))
     }
     function locate(index) {
         if(index < nodeGridView.count) {
