@@ -2,7 +2,7 @@ option(FETCH_MAGIC_ENUM "Download magic_enum" OFF)
 if (FETCH_MAGIC_ENUM)
     CPMAddPackage(
         NAME magic_enum
-        GITHUB_REPOSITORY Neargye/magic_enum
+        GITHUB_REPOSITORY "Neargye/magic_enum"
         GIT_TAG v0.7.3
         )
 else()

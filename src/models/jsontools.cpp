@@ -12,14 +12,14 @@ JsonTools::setData(const std::string& data_str)
 {
   m_data = data_str;
 
-  Json::String msg;
+  Json::string_t msg;
 
   auto err = jsonParse(m_data, m_root, msg);
 
   return err;
 }
 
-Json::Value
+Json
 JsonTools::getRoot()
 {
   return m_root;
@@ -27,32 +27,25 @@ JsonTools::getRoot()
 
 bool
 JsonTools::jsonParse(const std::string& raw_json,
-                     Json::Value& result,
-                     Json::String& err_msg)
+                     Json& result,
+                     Json::string_t& err_msg)
 {
-  Json::CharReaderBuilder reader_builder;
-
-  const std::unique_ptr<Json::CharReader> reader(
-    reader_builder.newCharReader());
-  const auto rawJsonLength = static_cast<int>(raw_json.length());
-  bool err = reader->parse(
-    raw_json.c_str(), raw_json.c_str() + rawJsonLength, &result, &err_msg);
-
-  return err;
+  result = Json::parse(raw_json);
+  return !result.is_null();
 }
 
-Json::Value
+Json
 SIP008::toObject(int index)
 {
-  Json::Value root;
+  Json root;
 
   do {
     if (index >= this->servers.size()) {
       break;
     }
 
-    Json::Value server_object;
-    Json::Value servers(Json::arrayValue);
+    Json server_object;
+    Json::array_t servers;
 
     auto node = this->servers.at(index);
 
@@ -61,7 +54,7 @@ SIP008::toObject(int index)
     server_object["password"] = node.password;
     server_object["port"] = node.server_port;
     server_object["email"] = node.email;
-    servers.append(server_object);
+    servers.emplace_back(server_object);
 
     root["protocol"] = "shadowsocks";
     root["settings"]["servers"] = servers;
@@ -77,17 +70,17 @@ LogObject::setLogLevel(LogLevel level)
 }
 
 void
-LogObject::setObject(Json::Value& root)
+LogObject::setObject(Json& root)
 {
   root["log"]["loglevel"] = this->log_level;
   root["log"]["access"] = this->access_log_path;
   root["log"]["error"] = this->error_log_path;
 }
 
-Json::Value
+Json
 HttpObject::AccountObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["user"] = this->username;
   root["pass"] = this->password;
@@ -98,25 +91,25 @@ HttpObject::AccountObject::toObject()
 void
 HttpObject::InboundSettingObject::appendAccountObject(AccountObject account)
 {
-  this->accounts.append(account.toObject());
+  this->accounts.emplace_back(account.toObject());
 }
 
 void
-HttpObject::InboundSettingObject::appendAccountObject(Json::Value account)
+HttpObject::InboundSettingObject::appendAccountObject(Json account)
 {
-  this->accounts.append(account);
+  this->accounts.emplace_back(account);
 }
 
-Json::Value
+Json
 HttpObject::InboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["timeout"] = this->timeout;
   root["allowTransparent"] = this->allow_transparent;
   root["userLevel"] = this->user_level;
 
-  if (!this->accounts.isNull() && !this->accounts.empty()) {
+  if (!this->accounts.empty()) {
     root["accounts"] = this->accounts;
   }
 
@@ -126,34 +119,34 @@ HttpObject::InboundSettingObject::toObject()
 void
 HttpObject::OutboundSettingObject::appendUserObject(AccountObject user)
 {
-  this->users.append(user.toObject());
+  this->users.emplace_back(user.toObject());
 }
 
 void
-HttpObject::OutboundSettingObject::appendUserObject(Json::Value user)
+HttpObject::OutboundSettingObject::appendUserObject(Json user)
 {
-  this->users.append(user);
+  this->users.emplace_back(user);
 }
 
-Json::Value
+Json
 HttpObject::OutboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["address"] = this->address;
   root["port"] = this->port;
 
-  if (!this->users.isNull() && !this->users.empty()) {
+  if (!this->users.empty()) {
     root["users"] = this->users;
   }
 
   return root;
 }
 
-Json::Value
+Json
 SocksObject::AccountObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["user"] = this->username;
   root["pass"] = this->password;
@@ -164,27 +157,27 @@ SocksObject::AccountObject::toObject()
 void
 SocksObject::InboundSettingObject::appendAccountObject(AccountObject account)
 {
-  this->accounts.append(account.toObject());
+  this->accounts.emplace_back(account.toObject());
   this->auth = "password";
 }
 
 void
-SocksObject::InboundSettingObject::appendAccountObject(Json::Value account)
+SocksObject::InboundSettingObject::appendAccountObject(Json account)
 {
-  this->accounts.append(account);
+  this->accounts.emplace_back(account);
   this->auth = "password";
 }
 
-Json::Value
+Json
 SocksObject::InboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   if (!this->auth.empty()) {
     root["auth"] = this->auth;
   }
 
-  if (!this->accounts.isNull() && !this->accounts.empty()) {
+  if (!this->accounts.empty()) {
     root["accounts"] = this->accounts;
   }
 
@@ -202,25 +195,25 @@ SocksObject::InboundSettingObject::toObject()
 void
 SocksObject::OutboundSettingObject::appendUserObject(AccountObject user)
 {
-  this->users.append(user.toObject());
+  this->users.emplace_back(user.toObject());
 }
 
 void
-SocksObject::OutboundSettingObject::appendUserObject(Json::Value user)
+SocksObject::OutboundSettingObject::appendUserObject(Json user)
 {
-  this->users.append(user);
+  this->users.emplace_back(user);
 }
 
-Json::Value
+Json
 SocksObject::OutboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["address"] = this->address;
 
   root["port"] = this->port;
 
-  if (!this->users.isNull() && !this->users.empty()) {
+  if (!this->users.empty()) {
     root["users"] = this->users;
   }
 
@@ -270,10 +263,10 @@ ShadowsocksObject::InboundSettingObject::setMethod(const std::string& method)
   return result;
 }
 
-Json::Value
+Json
 ShadowsocksObject::InboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["method"] = this->method;
   root["password"] = this->password;
@@ -314,10 +307,10 @@ ShadowsocksObject::OutboundSettingObject::fromSIP008Server(
   return result;
 }
 
-Json::Value
+Json
 ShadowsocksObject::OutboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["method"] = this->method;
   root["password"] = this->password;
@@ -333,10 +326,10 @@ ShadowsocksObject::OutboundSettingObject::toObject()
   return root;
 }
 
-Json::Value
+Json
 VMessObject::ClientObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["id"] = this->id;
   root["level"] = this->level;
@@ -349,10 +342,10 @@ VMessObject::ClientObject::toObject()
   return root;
 }
 
-Json::Value
+Json
 VMessObject::DefaultObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["level"] = this->level;
   root["alterId"] = this->alter_id;
@@ -360,10 +353,10 @@ VMessObject::DefaultObject::toObject()
   return root;
 }
 
-Json::Value
+Json
 VMessObject::DetourObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["to"] = this->tag;
 
@@ -371,31 +364,31 @@ VMessObject::DetourObject::toObject()
 }
 
 void
-VMessObject::InboundSettingObject::appendClientObject(Json::Value client)
+VMessObject::InboundSettingObject::appendClientObject(Json client)
 {
-  this->client_objects.append(client);
+  this->client_objects.emplace_back(client);
 }
 
 void
 VMessObject::InboundSettingObject::appendClientObject(ClientObject client)
 {
-  this->client_objects.append(client.toObject());
+  this->client_objects.emplace_back(client.toObject());
 }
 
-Json::Value
+Json
 VMessObject::InboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
-  if (!client_objects.isNull() && !client_objects.empty()) {
+  if (!client_objects.empty()) {
     root["clients"] = this->client_objects;
   }
 
-  if (!default_object.isNull() && !default_object.empty()) {
+  if (!default_object.is_null() && !default_object.empty()) {
     root["default"] = this->default_object;
   }
 
-  if (!detour_object.isNull() && !detour_object.empty()) {
+  if (!detour_object.is_null() && !detour_object.empty()) {
     root["detour"] = this->detour_object;
   }
 
@@ -421,10 +414,10 @@ VMessObject::UserObject::setMethod(const std::string& method)
   }
 }
 
-Json::Value
+Json
 VMessObject::UserObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["id"] = this->id;
   root["alterId"] = this->alter_id;
@@ -435,21 +428,21 @@ VMessObject::UserObject::toObject()
 }
 
 void
-VMessObject::OutboundSettingObject::appendUserObject(Json::Value user)
+VMessObject::OutboundSettingObject::appendUserObject(Json user)
 {
-  this->user_objects.append(user);
+  this->user_objects.emplace_back(user);
 }
 
 void
 VMessObject::OutboundSettingObject::appendUserObject(UserObject user)
 {
-  this->user_objects.append(user.toObject());
+  this->user_objects.emplace_back(user.toObject());
 }
 
-Json::Value
+Json
 VMessObject::OutboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["address"] = this->address;
   root["port"] = this->port;
@@ -468,7 +461,7 @@ SniffingObject::appendDestOverride(const std::string& type)
   if (type == "fakedns+others") {
     this->metadata_only = false; // [v4.38.0+] supported
 
-    this->dest_override.append(type);
+    this->dest_override.emplace_back(type);
 
     return true;
   }
@@ -476,7 +469,7 @@ SniffingObject::appendDestOverride(const std::string& type)
   auto iter = std::find(types.begin(), types.end(), type);
 
   if (iter != types.end()) {
-    this->dest_override.append(type);
+    this->dest_override.emplace_back(type);
 
     return true;
   } else {
@@ -484,10 +477,10 @@ SniffingObject::appendDestOverride(const std::string& type)
   }
 }
 
-Json::Value
+Json
 SniffingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["enabled"] = this->enabled;
   root["destOverride"] = this->dest_override;
@@ -556,10 +549,10 @@ AllocateObject::setConcurrency(uint num, std::string port_info)
   return result;
 }
 
-Json::Value
+Json
 AllocateObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["strategy"] = this->strategy;
   root["refresh"] = this->refresh;
@@ -583,7 +576,7 @@ InboundObject::createAllocateObject(const std::string& strategy,
 }
 
 void
-InboundObject::setSniffingObject(Json::Value sniffing_object)
+InboundObject::setSniffingObject(Json sniffing_object)
 {
   this->sniffing = sniffing_object;
 }
@@ -605,7 +598,7 @@ InboundObject::setAllocate(const std::string& strategy,
 }
 
 void
-InboundObject::setAllocateObject(Json::Value allocate_object)
+InboundObject::setAllocateObject(Json allocate_object)
 {
   this->allocate = allocate_object;
 }
@@ -616,10 +609,10 @@ InboundObject::setAllocateObject(AllocateObject allocate_object)
   this->allocate = allocate_object.toObject();
 }
 
-Json::Value
+Json
 InboundObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   if (this->listen.size() != 0) {
     root["listen"] = this->listen;
@@ -633,20 +626,20 @@ InboundObject::toObject()
     root["tag"] = this->tag;
   }
 
-  if (!this->settings.isNull() && !this->settings.empty()) {
+  if (!this->settings.is_null() && !this->settings.empty()) {
     root["settings"] = this->settings;
   }
 
-  if (!this->stream_settings.isNull() && !this->stream_settings.empty()) {
+  if (!this->stream_settings.is_null() && !this->stream_settings.empty()) {
     root["streamSettings"] = this->stream_settings;
   }
 
-  if (!this->sniffing.isNull() && !this->sniffing.empty()) {
+  if (!this->sniffing.is_null() && !this->sniffing.empty()) {
     root["sniffing"] = this->sniffing;
   }
 
-  if (!this->allocate.isNull() && !this->allocate.empty() &&
-      this->allocate["concurrency"].asUInt() != 0) {
+  if (!this->allocate.is_null() && !this->allocate.empty() &&
+      this->allocate["concurrency"] != 0) {
     root["allocate"] = this->allocate;
   }
 
@@ -654,27 +647,27 @@ InboundObject::toObject()
 }
 
 void
-InboundObjects::appendInboundObject(Json::Value inbound_object)
+InboundObjects::appendInboundObject(Json inbound_object)
 {
-  this->inbounds.append(inbound_object);
+  this->inbounds.emplace_back(inbound_object);
 }
 
 void
 InboundObjects::appendInboundObject(InboundObject inbound_object)
 {
-  this->inbounds.append(inbound_object.toObject());
+  this->inbounds.emplace_back(inbound_object.toObject());
 }
 
 void
-InboundObjects::setObject(Json::Value& root)
+InboundObjects::setObject(Json& root)
 {
   root["inbounds"] = this->inbounds;
 }
 
-Json::Value
+Json
 ProxySettingsObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["tag"] = this->tag;
 
@@ -683,10 +676,10 @@ ProxySettingsObject::toObject()
   return root;
 }
 
-Json::Value
+Json
 MuxObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["enabled"] = this->enabled;
 
@@ -701,7 +694,7 @@ MuxObject::toObject()
 }
 
 void
-OutboundObject::setProxySettingsObject(Json::Value proxy_settings_object)
+OutboundObject::setProxySettingsObject(Json proxy_settings_object)
 {
   this->proxy_settings = proxy_settings_object;
 }
@@ -714,7 +707,7 @@ OutboundObject::setProxySettingsObject(
 }
 
 void
-OutboundObject::setMuxObject(Json::Value mux_object)
+OutboundObject::setMuxObject(Json mux_object)
 {
   this->mux = mux_object;
 }
@@ -731,7 +724,7 @@ OutboundObject::appendShadowsocksObject(
 {
   this->protocol = "shadowsocks";
 
-  servers.append(shadowsocks_object.toObject());
+  servers.emplace_back(shadowsocks_object.toObject());
 }
 
 void
@@ -740,7 +733,7 @@ OutboundObject::appendTrojanObject(
 {
   this->protocol = "trojan";
 
-  servers.append(trojan_object.toObject());
+  servers.emplace_back(trojan_object.toObject());
 }
 
 void
@@ -749,7 +742,7 @@ OutboundObject::appendVMessObject(
 {
   this->protocol = "vmess";
 
-  servers.append(vmess_object.toObject());
+  servers.emplace_back(vmess_object.toObject());
 }
 
 void
@@ -759,16 +752,16 @@ OutboundObject::setTransportStreamObject(
   this->stream_settings = trojan_stream_object.toObject();
 }
 
-Json::Value
+Json
 OutboundObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["sendThrough"] = this->send_through;
 
   root["protocol"] = this->protocol;
 
-  if (!this->servers.isNull() && !this->servers.empty()) {
+  if (!this->servers.empty()) {
     if (this->protocol == "vmess") {
       root["settings"]["vnext"] = this->servers;
     } else {
@@ -780,15 +773,15 @@ OutboundObject::toObject()
     root["tag"] = this->tag;
   }
 
-  if (!this->stream_settings.isNull() && !this->stream_settings.empty()) {
+  if (!this->stream_settings.is_null() && !this->stream_settings.empty()) {
     root["streamSettings"] = this->stream_settings;
   }
 
-  if (!this->proxy_settings.isNull() && !this->proxy_settings.empty()) {
+  if (!this->proxy_settings.is_null() && !this->proxy_settings.empty()) {
     root["proxySettings"] = this->proxy_settings;
   }
 
-  if (!this->mux.isNull() && !this->mux.empty()) {
+  if (!this->mux.is_null() && !this->mux.empty()) {
     root["mux"] = this->mux;
   }
 
@@ -796,27 +789,27 @@ OutboundObject::toObject()
 }
 
 void
-OutboundObjects::appendOutboundObject(Json::Value outbound_object)
+OutboundObjects::appendOutboundObject(Json outbound_object)
 {
-  this->outbounds.append(outbound_object);
+  this->outbounds.emplace_back(outbound_object);
 }
 
 void
 OutboundObjects::appendOutboundObject(OutboundObject outbound_object)
 {
-  this->outbounds.append(outbound_object.toObject());
+  this->outbounds.emplace_back(outbound_object.toObject());
 }
 
 void
-OutboundObjects::setObject(Json::Value& root)
+OutboundObjects::setObject(Json& root)
 {
   root["outbounds"] = this->outbounds;
 }
 
-Json::Value
+Json
 TrojanObject::ClientObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["password"] = this->password;
   root["level"] = this->level;
@@ -828,10 +821,10 @@ TrojanObject::ClientObject::toObject()
   return root;
 }
 
-Json::Value
+Json
 TrojanObject::FallbackObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["alpn"] = this->alpn;
   root["path"] = this->path;
@@ -842,50 +835,50 @@ TrojanObject::FallbackObject::toObject()
 }
 
 void
-TrojanObject::InboundSettingObject::appendClientObject(Json::Value client)
+TrojanObject::InboundSettingObject::appendClientObject(Json client)
 {
-  this->client_objects.append(client);
+  this->client_objects.emplace_back(client);
 }
 
 void
 TrojanObject::InboundSettingObject::appendClientObject(ClientObject client)
 {
-  this->client_objects.append(client.toObject());
+  this->client_objects.emplace_back(client.toObject());
 }
 
 void
-TrojanObject::InboundSettingObject::appendFallbackObject(Json::Value fallback)
+TrojanObject::InboundSettingObject::appendFallbackObject(Json fallback)
 {
-  this->fallback_objects.append(fallback);
+  this->fallback_objects.emplace_back(fallback);
 }
 
 void
 TrojanObject::InboundSettingObject::appendFallbackObject(
   FallbackObject fallback)
 {
-  this->fallback_objects.append(fallback.toObject());
+  this->fallback_objects.emplace_back(fallback.toObject());
 }
 
-Json::Value
+Json
 TrojanObject::InboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
-  if (!client_objects.isNull() && !client_objects.empty()) {
+  if (!client_objects.empty()) {
     root["clients"] = this->client_objects;
   }
 
-  if (!fallback_objects.isNull() && !fallback_objects.empty()) {
+  if (!fallback_objects.empty()) {
     root["fallbacks"] = this->fallback_objects;
   }
 
   return root;
 }
 
-Json::Value
+Json
 TrojanObject::OutboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["address"] = this->address;
   root["port"] = this->port;
@@ -903,37 +896,37 @@ void
 TransportObject::TLSObject::appendAlpn(const std::string& value)
 {
   if (!value.empty()) {
-    this->alpn_object.append(value);
+    this->alpn_object.emplace_back(value);
   }
 }
 
 void
-TransportObject::TLSObject::appendCertificateObject(Json::Value certificate)
+TransportObject::TLSObject::appendCertificateObject(Json certificate)
 {
-  this->certificate_objects.append(certificate);
+  this->certificate_objects.emplace_back(certificate);
 }
 
 void
 TransportObject::TLSObject::appendCertificateObject(
   CertificateObject certificate)
 {
-  this->certificate_objects.append(certificate.toObject());
+  this->certificate_objects.emplace_back(certificate.toObject());
 }
 
-Json::Value
+Json
 TransportObject::TLSObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["serverName"] = this->server_name;
   root["allowInsecure"] = this->allow_insecure;
   root["disableSystemRoot"] = this->disable_system_root;
 
-  if (!alpn_object.isNull() && !alpn_object.empty()) {
+  if (!alpn_object.is_null() && !alpn_object.empty()) {
     root["alpn"] = this->alpn_object;
   }
 
-  if (!certificate_objects.isNull() && !certificate_objects.empty()) {
+  if (!certificate_objects.empty()) {
     root["certificates"] = this->certificate_objects;
   }
 
@@ -944,7 +937,7 @@ void
 TransportObject::CertificateObject::appendCertificate(const std::string& value)
 {
   if (!value.empty()) {
-    this->certificate_objects.append(value);
+    this->certificate_objects.emplace_back(value);
   }
 }
 
@@ -952,25 +945,24 @@ void
 TransportObject::CertificateObject::appendKey(const std::string& value)
 {
   if (!value.empty()) {
-    this->key_objects.append(value);
+    this->key_objects.emplace_back(value);
   }
 }
 
-Json::Value
+Json
 TransportObject::CertificateObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["usage"] = this->usage;
   root["certificateFile"] = this->certificate_file;
   root["keyFile"] = this->key_file;
 
-  if (!this->certificate_objects.isNull() &&
-      !this->certificate_objects.empty()) {
+  if (!this->certificate_objects.empty()) {
     root["certificate"] = this->certificate_objects;
   }
 
-  if (!this->key_objects.isNull() && !this->key_objects.empty()) {
+  if (!this->key_objects.empty()) {
     root["key"] = this->key_objects;
   }
 
@@ -978,7 +970,7 @@ TransportObject::CertificateObject::toObject()
 }
 
 void
-TransportObject::OutboundStreamObject::setTLSSetting(Json::Value tls_object)
+TransportObject::OutboundStreamObject::setTLSSetting(Json tls_object)
 {
   this->tls_setting = tls_object;
 }
@@ -991,7 +983,7 @@ TransportObject::OutboundStreamObject::setTLSSetting(TLSObject tls_object)
 
 void
 TransportObject::OutboundStreamObject::setWebsocketSetting(
-  Json::Value websocket_object)
+  Json websocket_object)
 {
   this->websocket_setting = websocket_object;
 }
@@ -1003,10 +995,10 @@ TransportObject::OutboundStreamObject::setWebsocketSetting(
   this->websocket_setting = websocket_object.toObject();
 }
 
-Json::Value
+Json
 TransportObject::OutboundStreamObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["network"] = magic_enum::enum_name(this->network).data();
 
@@ -1034,10 +1026,10 @@ TransportObject::WebSocketObject::setHost(const std::string& value)
   this->headers["Host"] = value;
 }
 
-Json::Value
+Json
 TransportObject::WebSocketObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["acceptProxyProtocol"] = this->accept_proxy_protocol;
   root["path"] = this->path;
@@ -1065,21 +1057,21 @@ APIObject::APIObject()
                       "HandlerService",
                       "LoggerService",
                       "StatsService" }) {
-    services.append(item);
+    services.emplace_back(item);
   }
 }
 
 void
-APIObject::setObject(Json::Value& root)
+APIObject::setObject(Json& root)
 {
   root["api"]["tag"] = this->tag.toStdString();
   root["api"]["services"] = this->services;
 }
 
-Json::Value
+Json
 DokodemoDoorObject::InboundSettingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["address"] = this->address;
   root["port"] = this->port;
@@ -1091,10 +1083,10 @@ DokodemoDoorObject::InboundSettingObject::toObject()
   return root;
 }
 
-Json::Value
+Json
 RuleObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   if (!this->domain_matche.empty())
     root["domainMatcher"] = this->domain_matche;
@@ -1102,10 +1094,10 @@ RuleObject::toObject()
   if (!this->type.empty())
     root["type"] = this->type;
 
-  if (checkJsonArray(this->domains))
+  if (!this->domains.empty())
     root["domains"] = this->domains;
 
-  if (checkJsonArray(this->ip))
+  if (!this->ip.empty())
     root["ip"] = this->ip;
 
   if (!this->port.empty() && this->port != "0")
@@ -1117,16 +1109,16 @@ RuleObject::toObject()
   if (!this->network.empty())
     root["network"] = this->network;
 
-  if (checkJsonArray(this->source))
+  if (!this->source.empty())
     root["source"] = this->source;
 
-  if (checkJsonArray(this->user))
+  if (!this->user.empty())
     root["user"] = this->user;
 
-  if (checkJsonArray(this->inbound_tag))
+  if (!this->inbound_tag.empty())
     root["inboundTag"] = this->inbound_tag;
 
-  if (checkJsonArray(this->protocol))
+  if (!this->protocol.empty())
     root["protocol"] = this->protocol;
 
   if (!this->attrs.empty())
@@ -1144,31 +1136,31 @@ RuleObject::toObject()
 void
 RoutingObject::appendRuleObject(RuleObject rule_object)
 {
-  this->rules.append(rule_object.toObject());
+  this->rules.emplace_back(rule_object.toObject());
 }
 
 void
-RoutingObject::appendRuleObject(Json::Value rule_object)
+RoutingObject::appendRuleObject(Json rule_object)
 {
-  this->rules.append(rule_object);
+  this->rules.emplace_back(rule_object);
 }
 
 void
 RoutingObject::appendBalancerObject(BalancerObject balancer_object)
 {
-  this->balancers.append(balancer_object.toObject());
+  this->balancers.emplace_back(balancer_object.toObject());
 }
 
 void
-RoutingObject::appendBalancerObject(Json::Value balancer_object)
+RoutingObject::appendBalancerObject(Json balancer_object)
 {
-  this->balancers.append(balancer_object);
+  this->balancers.emplace_back(balancer_object);
 }
 
-Json::Value
+Json
 RoutingObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   if (!this->domain_strategy.empty()) {
     root["domainStrategy"] = this->domain_strategy;
@@ -1178,11 +1170,10 @@ RoutingObject::toObject()
     root["domainMatcher"] = this->domain_matche;
   }
 
-  if (!this->rules.isNull() && !this->rules.empty() && this->rules.isArray()) {
+  if (!this->rules.empty()) {
     root["rules"] = this->rules;
   }
-  if (!this->balancers.isNull() && !this->balancers.empty() &&
-      this->balancers.isArray()) {
+  if (!this->balancers.empty()) {
     root["balancers"] = this->balancers;
   }
 
@@ -1190,15 +1181,15 @@ RoutingObject::toObject()
 }
 
 void
-RoutingObject::setObject(Json::Value& root)
+RoutingObject::setObject(Json& root)
 {
   root["routing"] = this->toObject();
 }
 
-Json::Value
+Json
 StrategyObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["type"] = this->type;
 
@@ -1212,15 +1203,15 @@ BalancerObject::setStrategyObject(StrategyObject strategy_object)
 }
 
 void
-BalancerObject::setStrategyObject(Json::Value strategy_object)
+BalancerObject::setStrategyObject(Json strategy_object)
 {
   this->strategy = strategy_object;
 }
 
-Json::Value
+Json
 BalancerObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["tag"] = this->tag;
   root["selector"] = this->selector;
@@ -1230,16 +1221,16 @@ BalancerObject::toObject()
 }
 
 void
-Stats::setObject(Json::Value& root)
+Stats::setObject(Json& root)
 {
-  Json::Value empty = Json::objectValue;
+  Json empty = Json::object();
   root["stats"] = empty;
 }
 
-Json::Value
+Json
 LevelObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["handshake"] = this->handshake;
   root["connIdle"] = this->conn_idle;
@@ -1260,21 +1251,21 @@ LevelPolicyObject::insertLevelObject(LevelObject& level_object)
 }
 
 void
-LevelPolicyObject::insertLevelObject(Json::Value& level_object, int level)
+LevelPolicyObject::insertLevelObject(Json& level_object, int level)
 {
   this->level_policy_object[std::to_string(level)] = level_object;
 }
 
-Json::Value
+Json
 LevelPolicyObject::toObject()
 {
   return this->level_policy_object;
 }
 
-Json::Value
+Json
 SystemPolicyObject::toObject()
 {
-  Json::Value root;
+  Json root;
 
   root["statsInboundUplink"] = this->stats_inbound_uplink;
   root["statsInboundDownlink"] = this->stats_inbound_downlink;
@@ -1285,7 +1276,7 @@ SystemPolicyObject::toObject()
 }
 
 void
-PolicyObject::setLevelPolicyObject(Json::Value& level_policy_object)
+PolicyObject::setLevelPolicyObject(Json& level_policy_object)
 {
   this->level_policy_object = level_policy_object;
 }
@@ -1297,7 +1288,7 @@ PolicyObject::setLevelPolicyObject(LevelPolicyObject& level_policy_object)
 }
 
 void
-PolicyObject::setSystemPolicyObject(Json::Value& system_policy_object)
+PolicyObject::setSystemPolicyObject(Json& system_policy_object)
 {
   this->system_policy_object = system_policy_object;
 }
@@ -1309,11 +1300,11 @@ PolicyObject::setSystemPolicyObject(SystemPolicyObject& system_policy_object)
 }
 
 void
-PolicyObject::setObject(Json::Value& root)
+PolicyObject::setObject(Json& root)
 {
-  if (!this->level_policy_object.isNull())
+  if (!this->level_policy_object.is_null())
     root["policy"]["levels"] = this->level_policy_object;
 
-  if (!this->system_policy_object.isNull())
+  if (!this->system_policy_object.is_null())
     root["policy"]["system"] = this->system_policy_object;
 }

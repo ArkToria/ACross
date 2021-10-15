@@ -1,6 +1,16 @@
 #ifndef CONFIGTOOLS_H
 #define CONFIGTOOLS_H
 
+#include "../models/apitools.h"
+#include "../models/confighelper.h"
+#include "../models/envtools.h"
+#include "../models/jsontools.h"
+#include "../models/networktools.h"
+#include "buildinfo.h"
+#include "logtools.h"
+
+#include "nlohmann/json.hpp"
+
 #include <QDateTime>
 #include <QDir>
 #include <QFile>
@@ -18,16 +28,10 @@
 #include <wordexp.h>
 #endif
 
-#include "../models/apitools.h"
-#include "../models/confighelper.h"
-#include "../models/envtools.h"
-#include "../models/jsontools.h"
-#include "../models/networktools.h"
-#include "buildinfo.h"
-#include "logtools.h"
-
 namespace across {
 namespace setting {
+using Json = nlohmann::json;
+
 class ConfigTools : public QObject
 {
   Q_OBJECT
@@ -155,7 +159,7 @@ public:
   bool loadConfigPath(const QString& file_path = "");
   void loadThemeConfig();
   across::config::Config* configPtr();
-  void setInboundObject(Json::Value& root);
+  void setInboundObject(Json& root);
 
   Q_INVOKABLE QString getConfigVersion();
   Q_INVOKABLE QString getLanguage();

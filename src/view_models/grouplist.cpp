@@ -238,8 +238,7 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
       .address = QString::fromStdString(server.server),
       .port = server.server_port,
       .password = QString::fromStdString(server.password),
-      .raw =
-        QString::fromStdString(outbound_object.toObject().toStyledString()),
+      .raw = QString::fromStdString(outbound_object.toObject().dump()),
       .url = QString(QUrl(sip002).toEncoded()),
     };
 
