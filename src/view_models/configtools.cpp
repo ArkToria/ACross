@@ -17,32 +17,10 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
   if (loadConfigPath()) {
     if (auto json_str = ConfigHelper::readFromFile(m_config_path.toStdString());
         !json_str.empty()) {
-      auto default_themes = m_conf.themes();
-
-      m_conf.mutable_themes()->Clear();
-      m_conf.MergeFrom(ConfigHelper::fromJson(json_str));
-
-      for (auto& default_theme : default_themes) {
-        auto iter = std::find_if(
-          m_conf.themes().begin(), m_conf.themes().end(), [&](Theme theme) {
-            if (theme.SerializeAsString() == default_theme.SerializeAsString())
-              return true;
-            else
-              return false;
-          });
-
-        if (iter == m_conf.themes().end()) {
-          temp_themes.emplace_back(default_theme);
-        }
-      }
-
-      for (uint i = 0; i < temp_themes.size(); ++i) {
-        m_conf.mutable_themes()->AddAllocated(&temp_themes[i]);
-      }
+      mergeConfigFromJSON(json_str);
+    } else {
+      qDebug() << "Create a new config on: " << m_config_path;
     }
-  } else {
-    qDebug() << "Create new config on: " << m_config_path;
-  }
 
   if (curl != nullptr) {
     p_curl = curl;
@@ -53,12 +31,14 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
   p_core = m_conf.mutable_core();
   p_db = m_conf.mutable_database();
   p_interface = m_conf.mutable_interface();
-  p_inbound = m_conf.mutable_inbound();
   p_network = m_conf.mutable_network();
+  p_inbound = m_conf.mutable_inbound();
+
   setDBPath("", true);
   loadThemeConfig();
   emit configChanged();
   return true;
+  }
 }
 
 bool
@@ -1237,4 +1217,43 @@ QString
 ConfigTools::releaseURL()
 {
   return getReleaseURL();
+}
+
+void
+ConfigTools::mergeConfigFromJSON(const std::string& json_str)
+{
+  QList<Theme> temp_themes;
+  auto default_themes = m_conf.themes();
+  auto origin_conf = ConfigHelper::fromJson(json_str);
+
+  m_conf.mutable_themes()->Clear();
+  m_conf.MergeFrom(origin_conf);
+
+  for (auto& default_theme : default_themes) {
+    auto iter = std::find_if(
+      m_conf.themes().begin(), m_conf.themes().end(), [&](Theme theme) {
+        if (theme.SerializeAsString() == default_theme.SerializeAsString())
+          return true;
+        else
+          return false;
+      });
+
+    if (iter == m_conf.themes().end()) {
+      temp_themes.emplace_back(default_theme);
+    }
+  }
+
+  for (uint i = 0; i < temp_themes.size(); ++i) {
+    m_conf.mutable_themes()->UnsafeArenaAddAllocated(&temp_themes[i]);
+  }
+
+  if (auto inbound = m_conf.mutable_inbound(); inbound != nullptr) {
+    inbound->mutable_socks5()->set_enable(
+      origin_conf.inbound().socks5().enable());
+    inbound->mutable_http()->set_enable(origin_conf.inbound().http().enable());
+  }
+
+  if (auto core = m_conf.mutable_core(); core != nullptr) {
+    core->mutable_api()->set_enable(origin_conf.core().api().enable());
+  }
 }
