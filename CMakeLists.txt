@@ -32,13 +32,13 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat Sql LinguistTools Concurrent REQUIRED)
 
 # curl
-CPMAddPackage("gh:curl/curl#c7aef0a945f9b6fb6d3f91716a21dfe2f4ea635f") # curl-7_79_1
+CPMAddPackage("gh:curl/curl#c7aef0a945f9b6fb6d3f91716a21dfe2f4ea635f@7.79.1") # curl-7_79_1
 
 # fmt
-CPMAddPackage("gh:fmtlib/fmt#d141cdbeb0fb422a3fb7173b285fd38e0d1772dc") # 8.0.1
+CPMAddPackage("gh:fmtlib/fmt#d141cdbeb0fb422a3fb7173b285fd38e0d1772dc@8.0.1") # 8.0.1
 
 # spdlog
-CPMAddPackage("gh:gabime/spdlog#eb3220622e73a4889eee355ffa37972b3cac3df5") # v1.9.2
+CPMAddPackage("gh:gabime/spdlog#eb3220622e73a4889eee355ffa37972b3cac3df5@1.9.2") # v1.9.2
 
 # ZXing
 find_package(ZXing QUIET)
@@ -46,7 +46,7 @@ if(NOT ZXing_FOUND)
     add_definitions(-DUSE_FETCH_ZXING_CPP)
     set(BUILD_EXAMPLES OFF CACHE STRING "" FORCE)
     set(BUILD_BLACKBOX_TESTS OFF CACHE STRING "" FORCE)
-    CPMAddPackage("gh:nu-book/zxing-cpp#2dad8be2466a2bd46037267d9f0e728e08b79140") # v1.2.0
+    CPMAddPackage("gh:nu-book/zxing-cpp#2dad8be2466a2bd46037267d9f0e728e08b79140@1.2.0") # v1.2.0
 endif()
 
 find_package(jsoncpp REQUIRED)
