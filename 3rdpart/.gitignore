@@ -4,3 +4,4 @@ semver-*
 spdlog-*
 curl-*
 fmt-*
+nlohmann_json-*
