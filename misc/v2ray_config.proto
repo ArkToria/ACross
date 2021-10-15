@@ -1,0 +1,31 @@
+syntax = "proto3";
+package v2ray.config;
+
+message LogObject {
+    enum LogLevel {
+        debug = 0;
+        info = 1;
+        warning = 2;
+        error = 3;
+        none = 4;
+    };
+
+    LogLevel log_level = 0; // warning
+    string access_log_path = 1; // none
+    string error_log_path = 2; // none
+}
+
+message OutboundObject {
+    enum Protocols {
+        vmess = 0;
+        shadowsocks = 1;
+        trojan = 2;
+    }
+
+    string send_throudh = 0;
+    string protocol = 1;
+}
+
+message V2rayConfig {
+    LogObject log = 0;
+}

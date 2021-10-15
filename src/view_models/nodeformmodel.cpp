@@ -196,8 +196,7 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node)
   outbound_object.appendTrojanObject(outbound_setting);
   outbound_object.setTransportStreamObject(outbound_stream);
 
-  node.raw =
-    QString::fromStdString(outbound_object.toObject().toStyledString());
+  node.raw = QString::fromStdString(outbound_object.toObject().dump());
 
   URLMetaObject meta = {
     .name = node.name.toStdString(),
@@ -229,8 +228,7 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node)
   OutboundObject outbound_object;
   outbound_object.appendShadowsocksObject(outbound_setting);
 
-  node.raw =
-    QString::fromStdString(outbound_object.toObject().toStyledString());
+  node.raw = QString::fromStdString(outbound_object.toObject().dump());
 
   SIP008::Server server = {
     .remarks = node.name.toStdString(),
@@ -288,8 +286,7 @@ NodeFormModel::setVMessOutboud(NodeInfo& node)
   outbound_object.appendVMessObject(outbound_setting);
   outbound_object.setTransportStreamObject(outbound_stream);
 
-  node.raw =
-    QString::fromStdString(outbound_object.toObject().toStyledString());
+  node.raw = QString::fromStdString(outbound_object.toObject().dump());
 
   URLMetaObject meta = {
     .name = node.name.toStdString(),
@@ -315,7 +312,8 @@ NodeFormModel::setRawOutbound(NodeInfo& node)
   json_tools.setData(p_raw->rawText().toStdString());
   auto root = json_tools.getRoot();
 
-  auto protocol = magic_enum::enum_cast<EntryType>(root["protocol"].asString());
+  auto protocol =
+    magic_enum::enum_cast<EntryType>(root["protocol"].get<std::string>());
   if (protocol.has_value()) {
     node.protocol = protocol.value();
   } else {

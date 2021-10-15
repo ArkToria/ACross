@@ -9,7 +9,7 @@ url='https://github.com/ArkToria/ACross'
 license=('GPL3')
 depends=('hicolor-icon-theme' 'qt6-base' 'qt6-svg' 'qt6-quickcontrols2' 'qt6-translations'
     'qt6-tools' 'qt6-imageformats' 'qt6-5compat' 'curl' 'fmt' 'grpc'
-    'jsoncpp' 'protobuf' 'spdlog' 'zxing-cpp' 'clang')
+    'nlohmann-json' 'protobuf' 'spdlog' 'zxing-cpp' 'clang')
 makedepends=('git' 'cmake' 'clang' 'ninja' 'gcc' 'gtest')
 optdepends=('v2ray: use system v2ray core.'
     'noto-fonts: default display fonts')

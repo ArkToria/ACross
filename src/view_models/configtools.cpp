@@ -136,53 +136,53 @@ ConfigTools::configPtr()
 }
 
 void
-ConfigTools::setInboundObject(Json::Value& root)
+ConfigTools::setInboundObject(Json& root)
 {
-  Json::Value inbounds = Json::arrayValue;
+  Json::array_t inbounds;
   if (auto http = p_inbound->http(); http.enable()) {
-    Json::Value http_object;
+    Json http_object;
     http_object["listen"] = p_inbound->http().listen();
     http_object["port"] = p_inbound->http().port();
     http_object["protocol"] = "http";
     http_object["tag"] = "http_IN";
 
-    Json::Value settings;
+    Json settings;
     settings["allowTransparent"] = http.allow_transparent();
     settings["timeout"] = http.timeout();
     settings["userLevel"] = http.user_level();
 
     if (auto auth = http.auth(); auth.enable()) {
-      Json::Value account;
+      Json account;
       account["user"] = auth.username();
       account["pass"] = auth.password();
 
-      Json::Value accounts = Json::arrayValue;
-      accounts.append(account);
+      Json::array_t accounts;
+      accounts.emplace_back(account);
       settings["accounts"] = accounts;
     }
 
     http_object["settings"] = settings;
-    inbounds.append(http_object);
+    inbounds.emplace_back(http_object);
   }
 
   if (auto socks5 = p_inbound->socks5(); socks5.enable()) {
-    Json::Value socks5_object;
+    Json socks5_object;
     socks5_object["listen"] = socks5.listen();
     socks5_object["port"] = socks5.port();
     socks5_object["protocol"] = "socks";
     socks5_object["tag"] = "socks5_IN";
 
-    Json::Value settings;
+    Json settings;
     settings["userLevel"] = socks5.user_level();
     if (auto auth = socks5.auth(); auth.enable()) {
       settings["auth"] = "password";
 
-      Json::Value account;
+      Json account;
       account["user"] = auth.username();
       account["pass"] = auth.password();
 
-      Json::Value accounts = Json::arrayValue;
-      accounts.append(account);
+      Json::array_t accounts;
+      accounts.emplace_back(account);
       settings["accounts"] = accounts;
     }
 
@@ -192,18 +192,18 @@ ConfigTools::setInboundObject(Json::Value& root)
     }
 
     socks5_object["settings"] = settings;
-    inbounds.append(socks5_object);
+    inbounds.emplace_back(socks5_object);
   }
 
   if (auto api = p_core->api(); api.enable()) {
-    Json::Value api_object;
+    Json api_object;
     api_object["listen"] = api.listen();
     api_object["port"] = api.port();
     api_object["protocol"] = "dokodemo-door";
     api_object["settings"]["address"] = api.listen();
     api_object["tag"] = "ACROSS_API_INBOUND";
 
-    inbounds.append(api_object);
+    inbounds.emplace_back(api_object);
   }
 
   root["inbounds"] = inbounds;

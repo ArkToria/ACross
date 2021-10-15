@@ -21,6 +21,8 @@
 
 namespace across {
 namespace network {
+using Json = nlohmann::json;
+
 class DNSTools : QObject
 {
   Q_OBJECT;

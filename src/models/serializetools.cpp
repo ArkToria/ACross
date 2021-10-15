@@ -16,30 +16,52 @@ SerializeTools::sip008Parser(const std::string& data)
   SIP008 sip008;
 
   try {
-    if (root.empty() || !root.isMember("version")) {
+    if (root.is_null() || root.empty() || !root.contains("version")) {
       return {};
     }
-  } catch (Json::Exception e) {
+  } catch (Json::exception e) {
     return {};
   }
 
-  sip008.version = root["version"].asInt();
-  sip008.username = root["username"].asString();
-  sip008.user_uuid = root["id"].asString();
-  sip008.bytes_used = root["bytes_used"].asLargestUInt();
-  sip008.bytes_remaining = root["bytes_remaining"].asLargestUInt();
+  sip008.version = root["version"];
+
+  if (root.contains("username"))
+    sip008.username = root["username"];
+
+  if (root.contains("id"))
+    sip008.user_uuid = root["id"];
+
+  if (root.contains("bytes_used"))
+    sip008.bytes_used = root["bytes_used"];
+
+  if (root.contains("bytes_reminging"))
+    sip008.bytes_remaining = root["bytes_reminging"];
 
   for (auto& item : root["servers"]) {
-    SIP008::Server server{
-      .id = item["id"].asString(),
-      .remarks = item["remarks"].asString(),
-      .server = item["server"].asString(),
-      .server_port = item["server_port"].asUInt(),
-      .password = item["password"].asString(),
-      .method = item["method"].asString(),
-      .plugin = item["plugin"].asString(),
-      .plugin_opts = item["plugin_opts"].asString(),
-    };
+    SIP008::Server server;
+
+    if (item.contains("id"))
+      server.id = item["id"];
+
+    if (item.contains("remarks"))
+      server.remarks = item["remarks"];
+
+    if (item.contains("server") && item.contains("server_port") &&
+        item.contains("password") && item.contains("method")) {
+      server.server = item["server"];
+      server.server_port = item["server_port"];
+      server.password = item["password"];
+      server.method = item["method"];
+    } else {
+      continue;
+    }
+
+    if (item.contains("plugin")) {
+      server.plugin = item["plugin"];
+
+      if (item.contains("plugin_opts"))
+        server.plugin_opts = item["plugin_opts"];
+    }
 
     sip008.servers.emplace_back(server);
   }
@@ -102,8 +124,7 @@ SerializeTools::setShadowsocksOutboundFromURL(NodeInfo& node, const QUrl& url)
     node.address = QString::fromStdString(outbound_setting.address);
     node.port = outbound_setting.port;
     node.password = QString::fromStdString(outbound_setting.password);
-    node.raw =
-      QString::fromStdString(outbound_object.toObject().toStyledString());
+    node.raw = QString::fromStdString(outbound_object.toObject().dump());
 
     result = true;
   } while (false);
@@ -130,8 +151,7 @@ SerializeTools::setVMessOutboundFromBase64(NodeInfo& node,
     node.address = QString::fromStdString(vmess_meta->address);
     node.port = vmess_meta->port;
     node.password = QString::fromStdString(vmess_meta->password);
-    node.raw =
-      QString::fromStdString(outbound_object.toObject().toStyledString());
+    node.raw = QString::fromStdString(outbound_object.toObject().dump());
 
     result = true;
   } while (false);
@@ -156,8 +176,7 @@ SerializeTools::setTrojanOutboundFromURL(NodeInfo& node, const QUrl& url)
     node.address = QString::fromStdString(trojan_meta->address);
     node.port = trojan_meta->port;
     node.password = QString::fromStdString(trojan_meta->password);
-    node.raw =
-      QString::fromStdString(outbound_object.toObject().toStyledString());
+    node.raw = QString::fromStdString(outbound_object.toObject().dump());
 
     result = true;
   } while (false);
@@ -292,27 +311,28 @@ SerializeTools::trojanEncode(const URLMetaObject& meta)
   url.setUserInfo(QString::fromStdString(meta.password));
   url.setFragment(QString::fromStdString(meta.name));
 
-  if (auto stream = meta.outbound_object.stream_settings; !stream.isNull()) {
-    if (auto tls = stream["tlsSettings"]; !tls.isNull()) {
-      if (auto sni = tls["serverName"]; !sni.isNull() && sni.isString()) {
-        query.addQueryItem("sni", QString::fromStdString(sni.asString()));
+  if (auto stream = meta.outbound_object.stream_settings; !stream.is_null()) {
+    if (auto tls = stream["tlsSettings"]; !tls.is_null()) {
+      if (auto sni = tls["serverName"]; !sni.is_null() && sni.is_string()) {
+        query.addQueryItem("sni", QString::fromStdString(sni));
       }
 
       if (auto allow_insecure = tls["allowInsecure"];
-          !allow_insecure.isNull() && allow_insecure.isBool()) {
-        if (allow_insecure.asBool()) {
+          !allow_insecure.is_null() && allow_insecure.is_boolean()) {
+        if (allow_insecure.get<bool>()) {
           query.addQueryItem("allowinsecure", "true");
         } else {
           query.addQueryItem("allowinsecure", "false");
         }
       }
 
-      if (auto alpn = tls["alpn"]; !alpn.isNull() && alpn.isArray()) {
+      if (auto alpn = tls["alpn"]; !alpn.is_null() && alpn.is_array()) {
         QString alpn_string;
         auto alpn_size = alpn.size();
 
         for (auto& alpn_item : alpn) {
-          alpn_string.append(QString::fromStdString(alpn_item.asString()));
+          alpn_string.append(
+            QString::fromStdString(alpn_item.get<std::string>()));
 
           if (alpn_size > 1) {
             alpn_string.append("%0A");
@@ -348,17 +368,17 @@ SerializeTools::vmessBase64Decode(const std::string& data)
     auto root = json_tools.getRoot();
 
     VMessObject::UserObject user_object;
-    user_object.id = root["id"].asString();
-    user_object.alter_id = root["aid"].asInt();
+    user_object.id = root["id"];
+    user_object.alter_id = root["aid"];
 
     VMessObject::OutboundSettingObject outbound_setting;
-    outbound_setting.address = root["add"].asString();
-    outbound_setting.port = root["port"].asInt();
+    outbound_setting.address = root["add"];
+    outbound_setting.port = root["port"];
     outbound_setting.appendUserObject(user_object);
 
     TransportObject::OutboundStreamObject outbound_stream;
-    auto network =
-      magic_enum::enum_cast<TransportObject::Network>(root["net"].asString());
+    auto network = magic_enum::enum_cast<TransportObject::Network>(
+      root["net"].get<std::string>());
     if (!network.has_value()) {
       break;
     } else {
@@ -369,20 +389,20 @@ SerializeTools::vmessBase64Decode(const std::string& data)
 
     switch (outbound_stream.network) {
       case TransportObject::Network::ws:
-        websocket.setHost(root["host"].asString());
-        websocket.path = root["path"].asString();
+        websocket.setHost(root["host"]);
+        websocket.path = root["path"];
         outbound_stream.setWebsocketSetting(websocket);
       default:
         break;
     }
 
-    if (!root["tls"].empty()) {
-      outbound_stream.security = root["tls"].asString();
+    if (!root["tls"].is_null() || !root["tls"].empty()) {
+      outbound_stream.security = root["tls"].get<std::string>();
     }
 
-    if (!root["sni"].empty()) {
+    if (!root["sni"].is_null() || !root["sni"].empty()) {
       TransportObject::TLSObject tls;
-      tls.server_name = root["sni"].asString();
+      tls.server_name = root["sni"].get<std::string>();
       outbound_stream.setTLSSetting(tls);
     }
 
@@ -390,7 +410,7 @@ SerializeTools::vmessBase64Decode(const std::string& data)
     outbound_object.appendVMessObject(outbound_setting);
     outbound_object.setTransportStreamObject(outbound_stream);
 
-    return URLMetaObject{ root["ps"].asString(),
+    return URLMetaObject{ root["ps"].get<std::string>(),
                           outbound_setting.address,
                           outbound_setting.port,
                           user_object.id,
@@ -424,7 +444,7 @@ SerializeTools::vmessBase64Encode(const URLMetaObject& meta)
   QUrl url;
   url.setScheme("vmess");
 
-  Json::Value root;
+  Json root;
   root["v"] = "2";
   root["ps"] = meta.name;
   root["add"] = meta.address;
@@ -432,16 +452,15 @@ SerializeTools::vmessBase64Encode(const URLMetaObject& meta)
   root["id"] = meta.password;
   root["sni"] = meta.address;
 
-  if (auto vnext = meta.outbound_object.servers;
-      !vnext.isNull() && vnext.isArray() && vnext.size() > 0) {
-    if (auto user_object = vnext[0]; !user_object.isNull()) {
-      if (auto aid = user_object["aid"]; !aid.isNull()) {
+  if (auto vnext = meta.outbound_object.servers; !vnext.empty()) {
+    if (auto user_object = vnext[0]; !user_object.is_null()) {
+      if (auto aid = user_object["aid"]; !aid.is_null()) {
         root["aid"] = aid;
       } else {
         root["aid"] = 0;
       }
 
-      if (auto scy = user_object["security"]; !scy.isNull()) {
+      if (auto scy = user_object["security"]; !scy.is_null()) {
         root["scy"] = scy;
       } else {
         root["scy"] = "auto";
@@ -449,17 +468,17 @@ SerializeTools::vmessBase64Encode(const URLMetaObject& meta)
     }
   }
 
-  if (auto stream = meta.outbound_object.stream_settings; !stream.isNull()) {
+  if (auto stream = meta.outbound_object.stream_settings; !stream.is_null()) {
     if (auto network = stream["network"];
-        !network.isNull() && network.isString()) {
-      root["net"] = network.asString();
+        !network.is_null() && network.is_string()) {
+      root["net"] = network.get<std::string>();
 
-      if (network.asString() == "ws") {
-        if (auto ws_setting = stream["wsSetting"]; !ws_setting.isNull()) {
-          if (auto host = ws_setting["headers"]["Host"]; !host.isNull()) {
+      if (network.get<std::string>() == "ws") {
+        if (auto ws_setting = stream["wsSetting"]; !ws_setting.is_null()) {
+          if (auto host = ws_setting["headers"]["Host"]; !host.is_null()) {
             root["host"] = host;
           }
-          if (auto path = ws_setting["path"]; !path.isNull()) {
+          if (auto path = ws_setting["path"]; !path.is_null()) {
             root["path"] = path;
           }
         }
@@ -469,7 +488,7 @@ SerializeTools::vmessBase64Encode(const URLMetaObject& meta)
       }
     }
 
-    if (auto security = stream["security"]; !security.isNull()) {
+    if (auto security = stream["security"]; !security.is_null()) {
       root["tls"] = "tls";
     } else {
       root["tls"] = "none";
@@ -480,7 +499,7 @@ SerializeTools::vmessBase64Encode(const URLMetaObject& meta)
   root["type"] = "none";
 
   url.setUserInfo(
-    QString::fromStdString(root.toStyledString()).toUtf8().toBase64());
+    QString::fromStdString(root.get<std::string>()).toUtf8().toBase64());
 
   return url;
 }

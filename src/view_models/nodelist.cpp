@@ -120,7 +120,7 @@ NodeList::run()
 
     auto config = generateConfig();
 
-    p_core->setConfig(QString::fromStdString(config.toStyledString()));
+    p_core->setConfig(QString::fromStdString(config.dump()));
     p_core->run();
     res = true;
   } while (false);
@@ -189,10 +189,10 @@ NodeList::reloadItems()
   emit postItemsReset();
 }
 
-Json::Value
+Json
 NodeList::generateConfig()
 {
-  Json::Value root;
+  Json root;
   {
     LogObject log_object;
     if (auto level = magic_enum::enum_cast<LogObject::LogLevel>(
@@ -212,7 +212,7 @@ NodeList::generateConfig()
       .type = "field",
       .outbound_tag = "ACROSS_API",
     };
-    api_rule_object.inbound_tag.append("ACROSS_API_INBOUND");
+    api_rule_object.inbound_tag.emplace_back("ACROSS_API_INBOUND");
 
     RoutingObject routing_object;
     routing_object.appendRuleObject(api_rule_object);
@@ -240,9 +240,7 @@ NodeList::generateConfig()
 
 #ifdef QT_DEBUG
   std::ofstream file("generation_test.json");
-  Json::StreamWriterBuilder builder;
-  std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-  writer->write(root, &file);
+  file << root;
   file.close();
 #endif
 

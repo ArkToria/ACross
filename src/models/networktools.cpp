@@ -324,12 +324,12 @@ CURLTools::handleResult(const QVariant& content)
 QString
 UpdateTools::getVersion(const QString& content)
 {
-  Json::Value root;
-  Json::String err_msg;
+  Json root;
+  Json::string_t err_msg;
 
   if (JsonTools::jsonParse(content.toStdString(), root, err_msg)) {
-    if (auto tag = root["tag_name"]; !tag.isNull() && tag.isString()) {
-      auto result = QString::fromStdString(tag.asString());
+    if (auto tag = root["tag_name"]; !tag.is_null() && tag.is_string()) {
+      auto result = QString::fromStdString(tag.get<std::string>());
       return result.remove("v");
     }
   }

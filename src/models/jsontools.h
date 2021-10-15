@@ -2,7 +2,7 @@
 #define JSONTOOLS_H
 
 #include "magic_enum.hpp"
-#include "json/json.h"
+#include "nlohmann/json.hpp"
 #include <QString>
 #include <QUrl>
 #include <algorithm>
@@ -10,13 +10,7 @@
 
 namespace across {
 namespace config {
-static inline bool
-checkJsonArray(Json::Value& array)
-{
-  if (!array.isNull() && !array.empty() && array.isArray())
-    return true;
-  return false;
-}
+using Json = nlohmann::json;
 
 struct LogObject
 {
@@ -33,7 +27,7 @@ struct LogObject
   std::string error_log_path = "";
 
   void setLogLevel(LogLevel level);
-  void setObject(Json::Value& root);
+  void setObject(Json& root);
 
 private:
   std::string log_level = "warning";
@@ -42,10 +36,10 @@ private:
 struct APIObject
 {
   const QString tag = "ACROSS_API";
-  Json::Value services = Json::arrayValue;
+  Json::array_t services;
 
   APIObject();
-  void setObject(Json::Value& root);
+  void setObject(Json& root);
 };
 
 struct TransportObject
@@ -67,11 +61,11 @@ struct TransportObject
 
     void appendCertificate(const std::string& value);
     void appendKey(const std::string& value);
-    Json::Value toObject();
+    Json toObject();
 
   private:
-    Json::Value certificate_objects = Json::arrayValue;
-    Json::Value key_objects = Json::arrayValue;
+    Json::array_t certificate_objects;
+    Json::array_t key_objects;
   };
 
   struct TLSObject
@@ -81,13 +75,13 @@ struct TransportObject
     bool disable_system_root = false;
 
     void appendAlpn(const std::string& value);
-    void appendCertificateObject(Json::Value certificate);
+    void appendCertificateObject(Json certificate);
     void appendCertificateObject(CertificateObject certificate);
-    Json::Value toObject();
+    Json toObject();
 
   private:
-    Json::Value alpn_object = Json::arrayValue;
-    Json::Value certificate_objects = Json::arrayValue;
+    Json alpn_object = Json::array();
+    Json::array_t certificate_objects;
   };
 
   struct WebSocketObject
@@ -99,7 +93,7 @@ struct TransportObject
     std::string early_data_header_name = "";
 
     void setHost(const std::string& value);
-    Json::Value toObject();
+    Json toObject();
 
   private:
     std::map<std::string, std::string> headers;
@@ -109,14 +103,14 @@ struct TransportObject
   {
     Network network = Network::tcp;
     std::string security = "tls";
-    Json::Value tls_setting;
-    Json::Value websocket_setting;
+    Json tls_setting;
+    Json websocket_setting;
 
-    void setTLSSetting(Json::Value tls_object);
+    void setTLSSetting(Json tls_object);
     void setTLSSetting(TLSObject tls_object);
-    void setWebsocketSetting(Json::Value websocket_object);
+    void setWebsocketSetting(Json websocket_object);
     void setWebsocketSetting(WebSocketObject websocket_object);
-    Json::Value toObject();
+    Json toObject();
   };
 };
 
@@ -139,14 +133,14 @@ struct SIP008
 
   uint version = 1;
   std::vector<Server> servers;
-  unsigned long long bytes_used = 0;
-  unsigned long long bytes_remaining = 0;
+  quint64 bytes_used = 0;
+  quint64 bytes_remaining = 0;
 
   // Other custom fields
   std::string username = "";
   std::string user_uuid = "";
 
-  Json::Value toObject(int index = 0);
+  Json toObject(int index = 0);
 };
 
 struct DokodemoDoorObject
@@ -160,7 +154,7 @@ struct DokodemoDoorObject
     bool follow_redirect = false;
     int user_level = 0;
 
-    Json::Value toObject();
+    Json toObject();
   };
 };
 
@@ -171,7 +165,7 @@ struct HttpObject
     std::string username = "";
     std::string password = "";
 
-    Json::Value toObject();
+    Json toObject();
   };
 
   struct InboundSettingObject
@@ -181,11 +175,11 @@ struct HttpObject
     int user_level = 0;
 
     void appendAccountObject(AccountObject account);
-    void appendAccountObject(Json::Value account);
-    Json::Value toObject();
+    void appendAccountObject(Json account);
+    Json toObject();
 
   private:
-    Json::Value accounts = Json::arrayValue;
+    Json::array_t accounts;
   };
 
   struct OutboundSettingObject
@@ -194,11 +188,11 @@ struct HttpObject
     uint port;
 
     void appendUserObject(AccountObject user);
-    void appendUserObject(Json::Value user);
-    Json::Value toObject();
+    void appendUserObject(Json user);
+    Json toObject();
 
   private:
-    Json::Value users = Json::arrayValue;
+    Json::array_t users;
   };
 };
 
@@ -209,7 +203,7 @@ struct SocksObject
     std::string username = "";
     std::string password = "";
 
-    Json::Value toObject();
+    Json toObject();
   };
 
   struct InboundSettingObject
@@ -220,11 +214,11 @@ struct SocksObject
     int user_level = 0;
 
     void appendAccountObject(AccountObject account);
-    void appendAccountObject(Json::Value account);
-    Json::Value toObject();
+    void appendAccountObject(Json account);
+    Json toObject();
 
   private:
-    Json::Value accounts = Json::arrayValue;
+    Json::array_t accounts;
   };
 
   struct OutboundSettingObject
@@ -233,11 +227,11 @@ struct SocksObject
     uint port = 0;
 
     void appendUserObject(AccountObject user);
-    void appendUserObject(Json::Value user);
-    Json::Value toObject();
+    void appendUserObject(Json user);
+    Json toObject();
 
   private:
-    Json::Value users = Json::arrayValue;
+    Json::array_t users;
   };
 };
 
@@ -254,7 +248,7 @@ struct ShadowsocksObject
 
     bool setNetwork(const std::string& type);
     bool setMethod(const std::string& method);
-    Json::Value toObject();
+    Json toObject();
 
   private:
     std::string network = "tcp";
@@ -272,7 +266,7 @@ struct ShadowsocksObject
 
     bool setMethod(const std::string& method);
     bool fromSIP008Server(const SIP008::Server& server);
-    Json::Value toObject();
+    Json toObject();
 
   private:
     std::string method;
@@ -288,7 +282,7 @@ struct VMessObject
     int alter_id = 0;
     std::string email;
 
-    Json::Value toObject();
+    Json toObject();
   };
 
   struct DefaultObject
@@ -296,28 +290,28 @@ struct VMessObject
     int level = 0;
     int alter_id = 0;
 
-    Json::Value toObject();
+    Json toObject();
   };
 
   struct DetourObject
   {
     std::string tag = "";
 
-    Json::Value toObject();
+    Json toObject();
   };
 
   struct InboundSettingObject
   {
-    Json::Value detour_object;
-    Json::Value default_object;
+    Json detour_object;
+    Json default_object;
     bool disable_insecure_encryption = false;
 
-    void appendClientObject(Json::Value client);
+    void appendClientObject(Json client);
     void appendClientObject(ClientObject client);
-    Json::Value toObject();
+    Json toObject();
 
   private:
-    Json::Value client_objects = Json::arrayValue;
+    Json::array_t client_objects;
   };
 
   struct UserObject
@@ -327,7 +321,7 @@ struct VMessObject
     int level = 0;
 
     bool setMethod(const std::string& method);
-    Json::Value toObject();
+    Json toObject();
 
   private:
     std::string method = "auto";
@@ -338,12 +332,12 @@ struct VMessObject
     std::string address = "";
     uint port = 0;
 
-    void appendUserObject(Json::Value user);
+    void appendUserObject(Json user);
     void appendUserObject(UserObject user);
-    Json::Value toObject();
+    Json toObject();
 
   private:
-    Json::Value user_objects = Json::arrayValue;
+    Json::array_t user_objects;
   };
 };
 
@@ -355,7 +349,7 @@ struct TrojanObject
     std::string email = "";
     int level = 0;
 
-    Json::Value toObject();
+    Json toObject();
   };
 
   struct FallbackObject
@@ -365,20 +359,20 @@ struct TrojanObject
     int dest = 80;
     int xver = 0;
 
-    Json::Value toObject();
+    Json toObject();
   };
 
   struct InboundSettingObject
   {
-    void appendClientObject(Json::Value client);
+    void appendClientObject(Json client);
     void appendClientObject(ClientObject client);
-    void appendFallbackObject(Json::Value fallback);
+    void appendFallbackObject(Json fallback);
     void appendFallbackObject(FallbackObject fallback);
-    Json::Value toObject();
+    Json toObject();
 
   private:
-    Json::Value client_objects = Json::arrayValue;
-    Json::Value fallback_objects = Json::arrayValue;
+    Json::array_t client_objects;
+    Json::array_t fallback_objects;
   };
 
   struct OutboundSettingObject
@@ -389,7 +383,7 @@ struct TrojanObject
     std::string email = "";
     int level = 0;
 
-    Json::Value toObject();
+    Json toObject();
   } outbound_setting_object;
 
   TransportObject::CertificateObject certificate_object;
@@ -403,10 +397,10 @@ struct SniffingObject
   bool metadata_only = false;
 
   bool appendDestOverride(const std::string& type);
-  Json::Value toObject();
+  Json toObject();
 
 private:
-  Json::Value dest_override = Json::arrayValue;
+  Json::array_t dest_override;
 };
 
 struct AllocateObject
@@ -414,7 +408,7 @@ struct AllocateObject
   bool setStrategy(const std::string& type);
   bool setRefresh(uint min);
   bool setConcurrency(uint num, std::string port);
-  Json::Value toObject();
+  Json toObject();
 
 private:
   uint refresh = 5;
@@ -427,22 +421,22 @@ struct RuleObject
   // domain_matche: "linear" | "mph"
   std::string domain_matche = "mph";
   std::string type = "field";
-  Json::Value domains = Json::arrayValue;
-  Json::Value ip = Json::arrayValue;
+  Json::array_t domains;
+  Json::array_t ip;
   std::string port = "0";
   std::string source_port = "0";
   // network: "tcp" | "udp" | "tcp,udp"
   std::string network = "tcp";
-  Json::Value source = Json::arrayValue;
-  Json::Value user = Json::arrayValue;
-  Json::Value inbound_tag = Json::arrayValue;
+  Json::array_t source;
+  Json::array_t user;
+  Json::array_t inbound_tag;
   // protocol: "http" | "tls" | "bittorrent"
-  Json::Value protocol = Json::arrayValue;
+  Json::array_t protocol;
   std::string attrs = "";
   std::string outbound_tag = "";
   std::string balancer_tag = "";
 
-  Json::Value toObject();
+  Json toObject();
 };
 
 struct StrategyObject
@@ -450,20 +444,20 @@ struct StrategyObject
   // "random" | "leastPing"
   std::string type = "random";
 
-  Json::Value toObject();
+  Json toObject();
 };
 
 struct BalancerObject
 {
   std::string tag = "balancer";
-  Json::Value selector = Json::arrayValue;
+  Json::array_t selector;
 
   void setStrategyObject(StrategyObject strategy_object);
-  void setStrategyObject(Json::Value strategy_object);
-  Json::Value toObject();
+  void setStrategyObject(Json strategy_object);
+  Json toObject();
 
 private:
-  Json::Value strategy;
+  Json strategy;
 };
 
 struct RoutingObject
@@ -475,15 +469,15 @@ struct RoutingObject
   std::string domain_matche = "mph";
 
   void appendRuleObject(RuleObject rule_object);
-  void appendRuleObject(Json::Value rule_object);
+  void appendRuleObject(Json rule_object);
   void appendBalancerObject(BalancerObject balancer_object);
-  void appendBalancerObject(Json::Value balancer_object);
-  Json::Value toObject();
-  void setObject(Json::Value& root);
+  void appendBalancerObject(Json balancer_object);
+  Json toObject();
+  void setObject(Json& root);
 
 private:
-  Json::Value rules = Json::arrayValue;
-  Json::Value balancers = Json::arrayValue;
+  Json::array_t rules;
+  Json::array_t balancers;
 };
 
 struct LevelObject
@@ -497,17 +491,17 @@ struct LevelObject
   bool stats_user_downlink = true;
   int buffer_size = 10240;
 
-  Json::Value toObject();
+  Json toObject();
 };
 
 struct LevelPolicyObject
 {
   void insertLevelObject(LevelObject& level_object);
-  void insertLevelObject(Json::Value& level_object, int level);
-  Json::Value toObject();
+  void insertLevelObject(Json& level_object, int level);
+  Json toObject();
 
 private:
-  Json::Value level_policy_object;
+  Json level_policy_object;
 };
 
 struct SystemPolicyObject
@@ -517,25 +511,25 @@ struct SystemPolicyObject
   bool stats_outbound_uplink = true;
   bool stats_outbound_downlink = true;
 
-  Json::Value toObject();
+  Json toObject();
 };
 
 struct PolicyObject
 {
-  void setLevelPolicyObject(Json::Value& level_policy_object);
+  void setLevelPolicyObject(Json& level_policy_object);
   void setLevelPolicyObject(LevelPolicyObject& level_policy_object);
-  void setSystemPolicyObject(Json::Value& system_policy_object);
+  void setSystemPolicyObject(Json& system_policy_object);
   void setSystemPolicyObject(SystemPolicyObject& system_policy_object);
-  void setObject(Json::Value& root);
+  void setObject(Json& root);
 
 private:
-  Json::Value level_policy_object;
-  Json::Value system_policy_object;
+  Json level_policy_object;
+  Json system_policy_object;
 };
 
 struct Stats
 {
-  void setObject(Json::Value& root);
+  void setObject(Json& root);
 };
 
 struct InboundObject
@@ -543,34 +537,34 @@ struct InboundObject
   std::string listen = "127.0.0.1";
   std::string port = "1080";
   std::string protocol = "";
-  Json::Value settings;
-  Json::Value stream_settings;
+  Json settings;
+  Json stream_settings;
   std::string tag = "";
 
-  void setSniffingObject(Json::Value sniffing_object);
+  void setSniffingObject(Json sniffing_object);
   void setSniffingObject(SniffingObject sniffing_object);
 
   void setAllocate(const std::string& strategy, int refresh, uint concurrency);
   AllocateObject createAllocateObject(const std::string& strategy,
                                       int refresh,
                                       uint concurrency);
-  void setAllocateObject(Json::Value allocate_object);
+  void setAllocateObject(Json allocate_object);
   void setAllocateObject(AllocateObject allocate_object);
-  Json::Value toObject();
+  Json toObject();
 
 private:
-  Json::Value sniffing;
-  Json::Value allocate;
+  Json sniffing;
+  Json allocate;
 };
 
 struct InboundObjects
 {
-  void appendInboundObject(Json::Value inbound_object);
+  void appendInboundObject(Json inbound_object);
   void appendInboundObject(InboundObject inbound_object);
-  void setObject(Json::Value& root);
+  void setObject(Json& root);
 
 private:
-  Json::Value inbounds = Json::arrayValue;
+  Json::array_t inbounds;
 };
 
 struct ProxySettingsObject
@@ -578,7 +572,7 @@ struct ProxySettingsObject
   std::string tag = "";
   bool transport_layer = false;
 
-  Json::Value toObject();
+  Json toObject();
 };
 
 struct MuxObject
@@ -586,7 +580,7 @@ struct MuxObject
   bool enabled = false;
   int concurrency = 8;
 
-  Json::Value toObject();
+  Json toObject();
 };
 
 struct OutboundObject
@@ -594,14 +588,14 @@ struct OutboundObject
   std::string send_through = "0.0.0.0";
   std::string protocol = "";
   std::string tag = "PROXY";
-  Json::Value servers = Json::arrayValue;
-  Json::Value stream_settings;
-  Json::Value proxy_settings;
-  Json::Value mux;
+  Json::array_t servers;
+  Json stream_settings;
+  Json proxy_settings;
+  Json mux;
 
-  void setProxySettingsObject(Json::Value proxy_settings_object);
+  void setProxySettingsObject(Json proxy_settings_object);
   void setProxySettingsObject(ProxySettingsObject proxy_settings_object);
-  void setMuxObject(Json::Value mux_object);
+  void setMuxObject(Json mux_object);
   void setMuxObject(MuxObject mux_object);
   void appendShadowsocksObject(
     ShadowsocksObject::OutboundSettingObject& shadowsocks_object);
@@ -609,17 +603,17 @@ struct OutboundObject
   void appendVMessObject(VMessObject::OutboundSettingObject& vmess_object);
   void setTransportStreamObject(
     TransportObject::OutboundStreamObject& trojan_stream_object);
-  Json::Value toObject();
+  Json toObject();
 };
 
 struct OutboundObjects
 {
-  void appendOutboundObject(Json::Value outbound_object);
+  void appendOutboundObject(Json outbound_object);
   void appendOutboundObject(OutboundObject outbound_object);
-  void setObject(Json::Value& root);
+  void setObject(Json& root);
 
 private:
-  Json::Value outbounds = Json::arrayValue;
+  Json::array_t outbounds;
 };
 
 enum SchemeType : int
@@ -648,15 +642,15 @@ public:
 
   bool setData(const std::string& data_str);
 
-  Json::Value getRoot();
+  Json getRoot();
 
   static bool jsonParse(const std::string& raw_json,
-                        Json::Value& result,
-                        Json::String& err_msg);
+                        Json& result,
+                        Json::string_t& err_msg);
 
 private:
   std::string m_data = "";
-  Json::Value m_root;
+  Json m_root;
 };
 }
 }

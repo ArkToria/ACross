@@ -21,6 +21,8 @@
 #include <QtConcurrent>
 
 namespace across {
+using Json = nlohmann::json;
+
 class NodeList : public QObject
 {
   Q_OBJECT
@@ -61,7 +63,7 @@ public:
   void clearFilter();
   void clearItems();
   void reloadItems();
-  Json::Value generateConfig();
+  Json generateConfig();
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
