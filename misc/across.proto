@@ -80,7 +80,7 @@ message Inbound
 {
   message Auth
   {
-      bool enable = 1;
+    bool enable = 1;
     string username = 2;
     string password = 3;
   }
