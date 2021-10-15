@@ -120,7 +120,7 @@ Item {
 
             Label {
                 id: latencyDisplayText
-                text: this.latency === -1 ? "-- ms" : latency + " ms"
+                text: model.latency === -1 ? "-- ms" : model.latency + " ms"
                 font.pixelSize: 14
                 color: textColor
             }

@@ -432,6 +432,9 @@ NodeList::handleLatencyChanged(qint64 group_id, int index, NodeInfo node)
       emit itemReset(index);
     }
   }
+
+  while (!work_tasks.isEmpty()&&work_tasks.head().isFinished())
+    work_tasks.dequeue();
 }
 
 void
@@ -485,15 +488,19 @@ NodeList::testLatency(int id)
   int index = iter - m_nodes.begin();
 
   if (auto& node = *iter; !node.address.isEmpty()) {
-    work_tasks.enqueue(QtConcurrent::run([this, index, node] {
-      auto current_node = node;
-      TCPPing ping;
-      ping.setAddr(node.address);
-      ping.setPort(node.port);
-      current_node.latency = ping.getAvgLatency();
-      emit itemLatencyChanged(node.group_id, index, current_node);
-    }));
+    testLatency(node,index);
   }
+}
+
+void NodeList::testLatency(NodeInfo node,int index){
+  work_tasks.enqueue(QtConcurrent::run([this, index, node] {
+    auto current_node = node;
+    TCPPing ping;
+    ping.setAddr(node.address);
+    ping.setPort(node.port);
+    current_node.latency = ping.getAvgLatency();
+    emit itemLatencyChanged(node.group_id, index, current_node);
+  }));
 }
 
 QString

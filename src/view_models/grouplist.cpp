@@ -8,12 +8,6 @@ using namespace across::network;
 
 GroupList::GroupList(QObject* parent) {}
 
-GroupList::~GroupList()
-{
-  while (!work_tasks.isEmpty())
-    work_tasks.dequeue().waitForFinished();
-}
-
 void
 GroupList::init(QSharedPointer<LogView> log_view,
                 QSharedPointer<across::setting::ConfigTools> config,
@@ -110,15 +104,7 @@ GroupList::testTcpPing(int index)
 
     for (int i = 0; i < nodes.size(); ++i) {
       auto& node = nodes[i];
-      work_tasks.enqueue(QtConcurrent::run([&, node, i, group] {
-        auto current_node = node;
-        TCPPing ping;
-        ping.setTimes(10);
-        ping.setAddr(node.address);
-        ping.setPort(node.port);
-        current_node.latency = ping.getAvgLatency();
-        emit p_nodes->itemLatencyChanged(group.id, i, current_node);
-      }));
+      p_nodes->testLatency(node,i);
     }
   }
 }

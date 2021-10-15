@@ -67,6 +67,7 @@ public:
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
+  void testLatency(NodeInfo node,int index);
 
   Q_INVOKABLE void testLatency(int id);
   Q_INVOKABLE void setCurrentNodeByID(int id);
