@@ -1,31 +1,142 @@
 syntax = "proto3";
 package v2ray.config;
 
-message LogObject {
-    enum LogLevel {
-        debug = 0;
-        info = 1;
-        warning = 2;
-        error = 3;
-        none = 4;
-    };
+import "google/protobuf/any.proto";
 
-    LogLevel log_level = 0; // warning
-    string access_log_path = 1; // none
-    string error_log_path = 2; // none
+enum Tags {
+  ACROSS_API = 1;
+  HTTP_IN = 2;
+  SOCKS5_IN = 3;
+  ACROSS_API_INBOUND = 4;
+  PROXY = 5;
 }
 
-message OutboundObject {
-    enum Protocols {
-        vmess = 0;
-        shadowsocks = 1;
-        trojan = 2;
+enum ProtocolType
+{
+  socks = 1;
+  http = 2;
+  dokodemo_door = 3; // replace _ to -
+  vmess = 4;
+  shadowsocks = 5;
+  trojan = 6;
+}
+
+enum NetworkType {
+  tcp = 1;
+  kcp = 2;
+  ws = 3;
+  http = 4;
+  domainsocket = 5;
+  quic = 6;
+  grpc = 7;
+}
+
+message LogObject
+{
+  enum LogLevel
+  {
+    debug = 1;
+    info = 2;
+    warning = 3;
+    error = 4;
+    none = 5;
+  }
+
+  string error = 1;
+  string access = 2;
+  string loglevel = 3;
+}
+
+message APIObject
+{
+    enum ServiceType{
+      ReflectionService = 1;
+      HandlerService = 2;
+      LoggerService = 3;
+      StatsService = 4;
     }
 
-    string send_throudh = 0;
-    string protocol = 1;
+  repeated string services = 1;
+  string tag = 2;
 }
 
-message V2rayConfig {
-    LogObject log = 0;
+message TrojanObject {
+  message ServerObject {
+    string address = 1;
+    uint32 port = 2;
+    string password = 3;
+    string email = 4;
+    int32 level = 5;
+  }
+
+  message OutboundConfigurationObject {
+    repeated ServerObject servers = 1;
+  }
+}
+
+message InboundObjectSettings
+{
+  bool allowTransparent = 1;
+  int32 timeout = 2;
+  int32 userLevel = 3;
+}
+
+message InboundObject
+{
+  string listen = 1;
+  uint32 port = 2;
+  string protocol = 3;
+  InboundObjectSettings settings = 4;
+  string tag = 5;
+}
+
+message OutboundObjectSettings {
+  repeated Struct settings = 1;
+}
+
+message TLSObject {
+  bool allowInsecure = 1;
+  bool disableSystemRoot = 2;
+  string serverName = 3;
+}
+
+message OutboundObjectStreamSettings {
+  string network = 1;
+  string security = 2;
+  TLSObject tlsSettings = 3;
+}
+
+message OutboundObject
+{
+  string send_throudh = 1;
+  string protocol = 2;
+  OutboundObjectSettings settings = 3;
+  OutboundObjectStreamSettings streamSettings = 4;
+  string tag = 5;
+}
+
+message SystemPolicyObject {
+  bool statsInboundDownlink = 1;
+  bool statsInboundUplink = 2;
+  bool statsOutboundDownlink = 3;
+  bool statsOutboundUplink = 4;
+}
+
+message PolicyObject {
+  SystemPolicyObject system = 1;
+}
+
+message RoutingObject {}
+
+message StatsObject {}
+
+message V2rayConfig
+{
+  LogObject log = 1;
+  APIObject api = 2;
+  repeated InboundObject inbounds = 3;
+  repeated OutboundObject outbounds = 4;
+  PolicyObject policy = 5;
+  RoutingObject routing = 6;
+  StatsObject stats = 7;
 }
