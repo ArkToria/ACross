@@ -52,6 +52,7 @@ Item {
                 }
 
                 TextFieldBox {
+                    Layout.preferredWidth: 128
 
                     placeholderText: nodeFormModel.port
                     validator: IntValidator {
@@ -98,7 +99,8 @@ Item {
                         streamSettingLoader.source = "qrc:/ACross/src/views/home/VMESSSetting.qml"
                         break
                     case "shadowsocks":
-                        streamSettingLoader.source = "qrc:/ACross/src/views/home/ShadowsocksSetting.qml"
+                        streamSettingLoader.source
+                                = "qrc:/ACross/src/views/home/ShadowsocksSetting.qml"
                         break
                     case "trojan":
                         streamSettingLoader.source = "qrc:/ACross/src/views/home/TrojanSetting.qml"
