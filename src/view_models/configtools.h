@@ -157,6 +157,7 @@ public:
   void loadThemeConfig();
   across::config::Config* configPtr();
   void setInboundObject(Json& root);
+  void mergeConfigFromJSON(const std::string& json_str);
 
   Q_INVOKABLE QString getConfigVersion();
   Q_INVOKABLE QString getLanguage();
