@@ -26,8 +26,9 @@
         across = final.stdenv.mkDerivation {
           name = "across";
           src = final.lib.cleanSource ./.;
+          cmakeFlags = [ "-DCPM_LOCAL_PACKAGES_ONLY=ON" ];
           nativeBuildInputs = with final; [ cmake ninja pkg-config ];
-          buildInputs = with final;[ qt6 libGL curl jsoncpp spdlog zxing-cpp protobuf grpc gtest c-ares ];
+          buildInputs = with final;[ qt6 libGL curl spdlog zxing-cpp protobuf grpc gtest c-ares libxkbcommon nlohmann_json ];
           prePatch = ''
             rm -rf 3rdpart/*
             ln -s ${magic_enum} 3rdpart/magic_enum
