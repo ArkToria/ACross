@@ -63,6 +63,7 @@ CPMAddPackage(
     NAME nlohmann_json
     GITHUB_REPOSITORY "nlohmann/json"
     VERSION 3.9.1
+    OPTIONS "JSON_BuildTests OFF"
     )
 
 find_package(Threads REQUIRED)
