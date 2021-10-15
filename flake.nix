@@ -11,7 +11,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
     flake-utils.url = "github:numtide/flake-utils";
   };
-  outputs = { self, nixpkgs, flake-utils, magic_enum, semver }:
+  outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
       (system:
         let
@@ -28,12 +28,17 @@
           src = final.lib.cleanSource ./.;
           cmakeFlags = [ "-DCPM_LOCAL_PACKAGES_ONLY=ON" ];
           nativeBuildInputs = with final; [ cmake ninja pkg-config ];
-          buildInputs = with final;[ qt6 libGL curl spdlog zxing-cpp protobuf grpc gtest c-ares libxkbcommon nlohmann_json ];
-          prePatch = ''
-            rm -rf 3rdpart/*
-            ln -s ${magic_enum} 3rdpart/magic_enum
-            ln -s ${semver} 3rdpart/semver
-          '';
+          buildInputs = with final;[ qt6 libGL curl spdlog zxing-cpp protobuf grpc gtest c-ares libxkbcommon nlohmann_json magic_enum semver ];
+        };
+        magic_enum = final.stdenv.mkDerivation {
+          name = "magic_enum";
+          src = inputs.magic_enum;
+          nativeBuildInputs = with final; [ cmake ninja ];
+        };
+        semver = final.stdenv.mkDerivation {
+          name = "semver";
+          src = inputs.semver;
+          nativeBuildInputs = with final; [ cmake ninja ];
         };
         qt6 = final.stdenv.mkDerivation rec {
           pname = "qt";
