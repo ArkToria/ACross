@@ -1,4 +1,4 @@
-option(FETCH_MAGIC_ENUM "Download magic_enum" OFF)
+option(FETCH_MAGIC_ENUM "Download magic_enum" ON)
 if (FETCH_MAGIC_ENUM)
     CPMAddPackage(
         NAME magic_enum

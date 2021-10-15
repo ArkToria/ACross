@@ -1,4 +1,4 @@
-option(FETCH_SEMVER "Download Semver" OFF)
+option(FETCH_SEMVER "Download Semver" ON)
 
 if(FETCH_SEMVER)
     CPMAddPackage(
