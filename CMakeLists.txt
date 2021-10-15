@@ -66,8 +66,9 @@ CPMAddPackage(
     )
 
 find_package(Threads REQUIRED)
-find_package(MagicEnum REQUIRED)
-find_package(Semver REQUIRED)
+
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Semver.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MagicEnum.cmake")
 
 # BEGIN Special case for QtCreator
 list(APPEND QML_DIRS "${CMAKE_CURRENT_BINARY_DIR}")
