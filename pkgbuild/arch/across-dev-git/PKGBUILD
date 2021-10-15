@@ -23,11 +23,6 @@ pkgver() {
     printf "%s.r%s.%s" $(cat ./misc/VERSION) $(git rev-list --count HEAD) $(git rev-parse --short HEAD)
 }
 
-prepare() {
-    cd "${srcdir}/${pkgname}/"
-    git submodule update --init --recursive
-}
-
 build() {
     cd "${srcdir}/${pkgname}/"
 
