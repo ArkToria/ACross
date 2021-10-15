@@ -37,8 +37,8 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
   setDBPath("", true);
   loadThemeConfig();
   emit configChanged();
-  return true;
   }
+  return true;
 }
 
 bool
