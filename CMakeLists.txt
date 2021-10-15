@@ -57,9 +57,6 @@ CPMAddPackage(
     VERSION 1.2.0
     OPTIONS "BUILD_EXAMPLES OFF" "BUILD_BLACKBOX_TESTS OFF"
     )
-if(ZXing_ADDED)
-    add_definitions(-DUSE_FETCH_ZXING_CPP)
-endif()
 
 # JSON
 CPMAddPackage(
@@ -163,6 +160,7 @@ qt_add_executable(across
     ${PROJECT_HEADERS}
     )
 
+target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
@@ -183,7 +181,7 @@ target_link_libraries(across PRIVATE
     semver
     spdlog::spdlog
     Threads::Threads
-    ZXing
+    ZXing::Core
     )
 
 qt_add_qml_module(across
