@@ -9,9 +9,20 @@ using namespace across::network;
 using namespace across::setting;
 
 Application::Application(int& argc, char** argv)
-  : QApplication(argc, argv)
+  : SingleApplication(argc, argv, true, User | ExcludeAppPath | ExcludeAppVersion)
 {
   setWindowIcon(QIcon(":misc/design/logo.svg"));
+}
+
+bool
+Application::initialize(){
+  connect(this, &SingleApplication::receivedMessage, this, &Application::onMessageReceived, Qt::QueuedConnection);
+  if (isSecondary())
+  {
+    sendMessage("Display mainWindow");
+    exitReason = EXIT_SECONDARY_INSTANCE;
+    return false;
+  }
 
   p_logview = QSharedPointer<LogView>(new LogView());
   p_config = QSharedPointer<ConfigTools>(new ConfigTools(this));
@@ -39,6 +50,12 @@ Application::Application(int& argc, char** argv)
           &across::NodeList::updateQRCode,
           p_image_provider,
           &across::ImageProvider::setContent);
+  return true;
+}
+
+ACrossExitReason Application::getExitReason() 
+{
+  return exitReason;
 }
 
 Application::~Application()
@@ -80,6 +97,8 @@ Application::setRootContext()
                                              p_groups.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              p_tray.get());
+  m_engine.rootContext()->setContextProperty(QStringLiteral("mainWindowVisible"),
+                                             !p_config->enableStartFromMinimized());
   m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
                             p_image_provider);
   m_engine.load(url);
@@ -125,4 +144,13 @@ Application::registerModels()
     APP_NAME, 1, 0, "RawOutboundFormModel");
   qmlRegisterType<across::URLSchemeFormModel>(
     APP_NAME, 1, 0, "URLSchemeFormModel");
+}
+
+void
+Application::onMessageReceived(quint32 clientId, const QByteArray &msg) 
+{
+  if (clientId == instanceId())
+    return;
+
+  m_engine.rootContext()->setContextProperty(QStringLiteral("mainWindowVisible"),true);
 }

@@ -24,6 +24,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/protobuf.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/grpc.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Semver.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MagicEnum.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
@@ -180,6 +181,7 @@ target_link_libraries(across PRIVATE
     magic_enum
     nlohmann_json::nlohmann_json
     semver
+    SingleApplication::SingleApplication
     spdlog::spdlog
     Threads::Threads
     ZXing::Core

@@ -10,6 +10,8 @@
 #include <QTranslator>
 #include <QUrl>
 
+#include "singleapplication.h"
+
 #ifdef QT_DEBUG
 #include "models/confighelper.h"
 #endif
@@ -34,13 +36,23 @@
 namespace across {
 #define APP_NAME "ACross"
 
-class Application : public QApplication
+enum ACrossExitReason
+{
+  EXIT_NORMAL = 0,
+  EXIT_SECONDARY_INSTANCE = EXIT_NORMAL + 2,
+};
+
+class Application : public SingleApplication
 {
   Q_OBJECT
 public:
   explicit Application(int& argc, char** argv);
 
   ~Application();
+
+  bool initialize();
+
+  ACrossExitReason getExitReason();
 
   int run();
 
@@ -52,6 +64,9 @@ public:
 
   static void removeImageProvider(ImageProvider* img_provider);
 
+private slots:
+  void onMessageReceived(quint32 clientId, const QByteArray &msg);
+
 private:
   QSharedPointer<LogView> p_logview;
   QSharedPointer<across::setting::ConfigTools> p_config;
@@ -62,6 +77,8 @@ private:
   QSharedPointer<across::GroupList> p_groups;
   QSharedPointer<across::SystemTray> p_tray;
   across::ImageProvider *p_image_provider;
+
+  ACrossExitReason exitReason = EXIT_NORMAL;
 
   const QString m_app_name = APP_NAME;
   QTranslator m_translator;

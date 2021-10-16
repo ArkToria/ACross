@@ -11,13 +11,9 @@ ApplicationWindow {
     height: 720
     minimumWidth: 960
     minimumHeight: 520
-    visible: true
+    visible: mainWindowVisible
     title: qsTr("ACross")
 
-    Component.onCompleted:{
-        visible = !acrossConfig.enableStartFromMinimized
-    }
-    
     onVisibilityChanged: {
         acrossTray.toggleVisibilitySetText(mainWindow.visible)
     }

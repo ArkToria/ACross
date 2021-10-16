@@ -4,3 +4,6 @@
 [submodule "3rdpart/semver"]
 	path = 3rdpart/semver
 	url = https://github.com/Neargye/semver
+[submodule "3rdpart/SingleApplication"]
+	path = 3rdpart/SingleApplication
+	url = https://github.com/itay-grudev/SingleApplication
