@@ -9,16 +9,23 @@ using namespace across::network;
 using namespace across::setting;
 
 Application::Application(int& argc, char** argv)
-  : SingleApplication(argc, argv, true, User | ExcludeAppPath | ExcludeAppVersion)
+  : SingleApplication(argc,
+                      argv,
+                      true,
+                      User | ExcludeAppPath | ExcludeAppVersion)
 {
   setWindowIcon(QIcon(":misc/design/logo.svg"));
 }
 
 bool
-Application::initialize(){
-  connect(this, &SingleApplication::receivedMessage, this, &Application::onMessageReceived, Qt::QueuedConnection);
-  if (isSecondary())
-  {
+Application::initialize()
+{
+  connect(this,
+          &SingleApplication::receivedMessage,
+          this,
+          &Application::onMessageReceived,
+          Qt::QueuedConnection);
+  if (isSecondary()) {
     sendMessage("Display mainWindow");
     exitReason = EXIT_SECONDARY_INSTANCE;
     return false;
@@ -53,7 +60,8 @@ Application::initialize(){
   return true;
 }
 
-ACrossExitReason Application::getExitReason() 
+ACrossExitReason
+Application::getExitReason()
 {
   return exitReason;
 }
@@ -97,8 +105,8 @@ Application::setRootContext()
                                              p_groups.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              p_tray.get());
-  m_engine.rootContext()->setContextProperty(QStringLiteral("mainWindowVisible"),
-                                             !p_config->enableStartFromMinimized());
+  m_engine.rootContext()->setContextProperty(
+    QStringLiteral("mainWindowVisible"), !p_config->enableStartFromMinimized());
   m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
                             p_image_provider);
   m_engine.load(url);
@@ -147,10 +155,11 @@ Application::registerModels()
 }
 
 void
-Application::onMessageReceived(quint32 clientId, const QByteArray &msg) 
+Application::onMessageReceived(quint32 clientId, const QByteArray& msg)
 {
   if (clientId == instanceId())
     return;
 
-  m_engine.rootContext()->setContextProperty(QStringLiteral("mainWindowVisible"),true);
+  m_engine.rootContext()->setContextProperty(
+    QStringLiteral("mainWindowVisible"), true);
 }

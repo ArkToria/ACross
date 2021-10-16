@@ -10,7 +10,7 @@ main(int argc, char* argv[])
   QApplication::setFont(QFont(fonts, 10));
 
   across::Application app(argc, argv);
-  if(!app.initialize()){
+  if (!app.initialize()) {
     return app.getExitReason();
   }
 

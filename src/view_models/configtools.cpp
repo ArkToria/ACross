@@ -22,21 +22,21 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
       qDebug() << "Create a new config on: " << m_config_path;
     }
 
-  if (curl != nullptr) {
-    p_curl = curl;
-  } else {
-    return false;
-  }
+    if (curl != nullptr) {
+      p_curl = curl;
+    } else {
+      return false;
+    }
 
-  p_core = m_conf.mutable_core();
-  p_db = m_conf.mutable_database();
-  p_interface = m_conf.mutable_interface();
-  p_network = m_conf.mutable_network();
-  p_inbound = m_conf.mutable_inbound();
+    p_core = m_conf.mutable_core();
+    p_db = m_conf.mutable_database();
+    p_interface = m_conf.mutable_interface();
+    p_network = m_conf.mutable_network();
+    p_inbound = m_conf.mutable_inbound();
 
-  setDBPath("", true);
-  loadThemeConfig();
-  emit configChanged();
+    setDBPath("", true);
+    loadThemeConfig();
+    emit configChanged();
   }
   return true;
 }

@@ -485,7 +485,7 @@ DBTools::update(GroupInfo& group)
 
   QVariantList input_collection = {
     group.name, group.is_subscription, group.type,
-    group.url,  group.cycle_time,     group.modified_time.toSecsSinceEpoch(),
+    group.url,  group.cycle_time,      group.modified_time.toSecsSinceEpoch(),
     group.id,
   };
 

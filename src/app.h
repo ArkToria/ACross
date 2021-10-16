@@ -65,7 +65,7 @@ public:
   static void removeImageProvider(ImageProvider* img_provider);
 
 private slots:
-  void onMessageReceived(quint32 clientId, const QByteArray &msg);
+  void onMessageReceived(quint32 clientId, const QByteArray& msg);
 
 private:
   QSharedPointer<LogView> p_logview;
@@ -76,7 +76,7 @@ private:
   QSharedPointer<across::NodeList> p_nodes;
   QSharedPointer<across::GroupList> p_groups;
   QSharedPointer<across::SystemTray> p_tray;
-  across::ImageProvider *p_image_provider;
+  across::ImageProvider* p_image_provider;
 
   ACrossExitReason exitReason = EXIT_NORMAL;
 

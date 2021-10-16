@@ -1,8 +1,8 @@
 #include "confighelper.h"
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QStandardPaths>
-#include <QCoreApplication>
 
 using namespace google::protobuf::util;
 using namespace across;
@@ -61,7 +61,8 @@ ConfigHelper::defaultConfig()
 
     if (auto theme = interface->mutable_theme()) {
       theme->set_theme("default-light");
-      theme->set_include_dir((data_dir.filePath("themes") + QDir::separator()).toStdString());
+      theme->set_include_dir(
+        (data_dir.filePath("themes") + QDir::separator()).toStdString());
     }
 
     if (auto tray = interface->mutable_tray()) {
