@@ -9,10 +9,10 @@
       flake = false;
     };
     single_application = {
-      url = "github:itay-grudev/SingleApplication/v3.2.0";
+      url = "github:itay-grudev/SingleApplication/0d7b2630bda26f7dd4752c90faa9719455cab433";
       flake = false;
     };
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:NixOS/nixpkgs?ref=pull/141883/head";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
@@ -27,15 +27,40 @@
         }
       ) // {
       overlay = final: prev: {
-        across = final.stdenv.mkDerivation {
+        across = final.qt6.mkDerivation {
           name = "across";
           src = self;
+          inherit (final.qt6.qtbase) qtDocPrefix qtQmlPrefix qtPluginPrefix;
           cmakeFlags = [ "-DFETCH_SINGLE_APPLICATION=OFF" ];
-          nativeBuildInputs = with final; [ cmake pkg-config ];
-          buildInputs = with final;[ qt6 libGL curl spdlog zxing-cpp protobuf grpc gtest c-ares libxkbcommon nlohmann_json magic_enum semver ];
+          nativeBuildInputs = with final; [
+            cmake
+            pkg-config
+            qt6.wrapQtAppsHook
+          ];
+          buildInputs = with final;[
+            curl
+            spdlog
+            zxing-cpp
+            protobuf
+            grpc
+            gtest
+            c-ares
+            nlohmann_json
+            magic_enum
+            semver
+            qt6.qtwayland
+            qt6.qt5compat
+            qt6.qttools
+            qt6.qttranslations
+            qt6.qtsvg
+          ];
           postPatch = ''
             rm -fr 3rdpart/*
             ln -s ${inputs.single_application} 3rdpart/SingleApplication
+          '';
+          dontWrapQtApps = true;
+          preFixup = with final.qt6;''
+            wrapQtApp "$out/bin/across" --prefix QML2_IMPORT_PATH : "${qtdeclarative}/qml:${qt5compat}/qml:${qtimageformats}/qml"
           '';
         };
         magic_enum = final.stdenv.mkDerivation {
@@ -48,148 +73,6 @@
           src = inputs.semver;
           nativeBuildInputs = with final; [ cmake ];
         };
-        qt6 = final.stdenv.mkDerivation rec {
-          pname = "qt";
-          version = "6.2.1";
-          src = final.fetchurl {
-            url = "https://download.qt.io/official_releases/qt/${final.lib.versions.majorMinor version}/${version}/single/qt-everywhere-src-${version}.tar.xz";
-            sha256 = "sha256-4D//xcO1/qCdzBYURN99+74k6KjOk3cBTsIbZvSNQ80=";
-          };
-          nativeBuildInputs = with final; [ cmake perl python pkg-config xmlstarlet ];
-          buildInputs = with final; [
-            xorg.libxcb
-            xorg.libX11
-            xorg.libXau
-            xorg.libXdmcp
-            xorg.libXtst
-            xorg.xrandr
-            xorg.libXext
-            xorg.libXi
-            xorg.libXft
-            xorg.libICE
-            xorg.libSM
-            xorg.libXres
-            xorg.libXaw
-            xorg.libXcomposite
-            xorg.libXcursor
-            xorg.libXinerama
-            xorg.libXmu
-            xorg.libXpm
-            xorg.libXrandr
-            xorg.libXt
-            xorg.libXv
-            xorg.libXxf86misc
-            xorg.libxkbfile
-            xorg.xcbproto
-            xorg.xcbutilcursor
-            xorg.xcbutilimage
-            xorg.xcbutil
-            xorg.xcbutilwm
-            xorg.xcbutilrenderutil
-            xorg.xcbutilerrors
-            xorg.xcbutilkeysyms
-            xorg.xkbutils
-            xorg.xkbevd
-            xorg.xkbprint
-            xorg.xkbevd
-            xorg.xkbcomp
-            xorg.libXext
-            xorg.libXdmcp
-            xorg.libXi
-            xorg.libXau
-            xorg.libxshmfence
-            xorg.libXtst
-            xorg.xcbutilwm
-            libthai
-            libdatrie
-            epoxy
-            libselinux
-            libsepol
-            sqlite
-            libxkbcommon
-            libiconv
-            mtdev
-            util-linux
-            directfb
-            md4c
-            libdrm
-            at-spi2-core
-            gtk3
-            libinput
-            snappy
-            nss
-            libxslt
-            libxml2
-            valgrind
-            libGL
-            double-conversion
-            glib
-            icu
-            libb2
-            lttng-ust
-            re2
-            pcre
-            pcre2
-            libjpeg
-            brotli
-            openssl
-            freetype
-            fontconfig
-            wayland
-            zstd
-            dbus
-            systemdMinimal
-            libproxy
-            mesa
-            harfbuzz
-          ];
-          cmakeFlags = [
-            "-Wno-dev"
-          ] ++ builtins.map (x: "-DBUILD_${x}=OFF") [
-            "qtwebengine"
-            "qtwebview"
-            "qtwebchannel"
-            "qtwebsockets"
-            "qtvirtualkeyboard"
-            "qttranslations"
-            "qtserialbus"
-            "qtsensors"
-            "qtimageformats"
-            "qt3d"
-            "qtactiveqt"
-            "qtmultimedia"
-            "qtcharts"
-            "qtcoap"
-            "qtconnectivity"
-            "qtdatavis3d"
-            "qtdoc"
-            "qtserialport"
-            "qtlocation"
-            "qtlottie"
-            "qtmqtt"
-            "qtnetworkauth"
-            "qtopcua"
-            "qtquicktimeline"
-            "qtquick3d"
-            "qtremoteobjects"
-            "qtscxml"
-            "qtwayland"
-          ];
-          preBuild = ''
-            export LD_LIBRARY_PATH="$PWD/qtbase/lib''${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH"
-          '';
-        };
-        zxing-cpp = (prev.zxing-cpp.overrideAttrs (attrs: {
-          version = "master";
-          src = final.fetchFromGitHub {
-            owner = "nu-book";
-            repo = "zxing-cpp";
-            rev = "b6938ec2ae8dae387b4db0d148b57218a0ee8616";
-            hash = "sha256-ALhYpjyH5Ts5Ofx3P1ptdT7Ah606IhzO6C1K7KnEC0w=";
-          };
-          cmakeFlags = attrs.cmakeFlags ++ [ "-DBUILD_SYSTEM_DEPS=ALWAYS" ];
-          buildInputs = [ final.fmt_8 ];
-        }));
       };
     };
 }
