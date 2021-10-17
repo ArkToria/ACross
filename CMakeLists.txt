@@ -1,5 +1,5 @@
 ######## CMAKE CONFIG ########
-cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.18)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
@@ -41,7 +41,7 @@ CPMAddPackage(
 CPMAddPackage(
     NAME fmt
     GITHUB_REPOSITORY "fmtlib/fmt"
-    VERSION 8.0.0
+    VERSION 7.1.3
     )
 
 # spdlog
