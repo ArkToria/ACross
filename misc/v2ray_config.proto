@@ -169,6 +169,17 @@ message VMESSObject {
   }
 }
 
+message DokodemoDoorObject {
+  message InboundConfigurationObject {
+    string address = 1;
+    uint32 port = 2;
+    string network = 3;
+    int32 timeout = 4;
+    bool followRedirect = 5;
+    int32 userLevel = 6;
+  }
+}
+
 message InboundConfigurationObject
 {
   bool allowTransparent = 1;
