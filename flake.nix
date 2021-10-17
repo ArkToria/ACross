@@ -8,6 +8,10 @@
       url = "github:Neargye/semver/2a8aa6a50fdb6a9a7ea519cbfdedb5d313b7844c";
       flake = false;
     };
+    single_application = {
+      url = "github:itay-grudev/SingleApplication/v3.2.0";
+      flake = false;
+    };
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable-small";
     flake-utils.url = "github:numtide/flake-utils";
   };
@@ -18,7 +22,7 @@
           pkgs = import nixpkgs { inherit system; overlays = [ self.overlay ]; };
         in
         rec {
-          packages = { inherit (pkgs) across qt6 spdlog; };
+          packages = { inherit (pkgs) across qt6; };
           checks = packages;
         }
       ) // {
@@ -26,9 +30,13 @@
         across = final.stdenv.mkDerivation {
           name = "across";
           src = final.lib.cleanSource ./.;
-          cmakeFlags = [ "-DCPM_LOCAL_PACKAGES_ONLY=ON" ];
+          cmakeFlags = [ "-DFETCH_SINGLE_APPLICATION=OFF" ];
           nativeBuildInputs = with final; [ cmake ninja pkg-config ];
           buildInputs = with final;[ qt6 libGL curl spdlog zxing-cpp protobuf grpc gtest c-ares libxkbcommon nlohmann_json magic_enum semver ];
+          postPatch = ''
+            rm -fr 3rdpart/*
+            ln -s ${inputs.single_application} 3rdpart/SingleApplication
+          '';
         };
         magic_enum = final.stdenv.mkDerivation {
           name = "magic_enum";
@@ -182,17 +190,6 @@
         })).override {
           fmt = final.fmt_8;
         };
-        zxing-cpp = (prev.zxing-cpp.overrideAttrs (attrs: {
-          version = "master";
-          src = final.fetchFromGitHub {
-            owner = "nu-book";
-            repo = "zxing-cpp";
-            rev = "b6938ec2ae8dae387b4db0d148b57218a0ee8616";
-            hash = "sha256-ALhYpjyH5Ts5Ofx3P1ptdT7Ah606IhzO6C1K7KnEC0w=";
-          };
-          cmakeFlags = attrs.cmakeFlags ++ [ "-DBUILD_SYSTEM_DEPS=ALWAYS" ];
-          buildInputs = [ final.fmt_8 ];
-        }));
       };
     };
 }

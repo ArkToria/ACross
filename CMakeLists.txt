@@ -177,9 +177,9 @@ target_link_libraries(across PRIVATE
     fmt::fmt
     gRPC::grpc++
     gRPC::grpc++_reflection
-    magic_enum
+    magic_enum::magic_enum
     nlohmann_json::nlohmann_json
-    semver
+    semver::semver
     SingleApplication::SingleApplication
     spdlog::spdlog
     Threads::Threads

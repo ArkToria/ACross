@@ -53,7 +53,8 @@
         "flake-utils": "flake-utils",
         "magic_enum": "magic_enum",
         "nixpkgs": "nixpkgs",
-        "semver": "semver"
+        "semver": "semver",
+        "single_application": "single_application"
       }
     },
     "semver": {
@@ -70,6 +71,23 @@
         "owner": "Neargye",
         "repo": "semver",
         "rev": "2a8aa6a50fdb6a9a7ea519cbfdedb5d313b7844c",
+        "type": "github"
+      }
+    },
+    "single_application": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1606133031,
+        "narHash": "sha256-qjpPYPe1Oism6TetD/dMvTo1qyZKOsOPW+MzzNpJf3A=",
+        "owner": "itay-grudev",
+        "repo": "SingleApplication",
+        "rev": "aede311d28d20179216c5419b581087be2a8409f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "itay-grudev",
+        "ref": "v3.2.0",
+        "repo": "SingleApplication",
         "type": "github"
       }
     }
