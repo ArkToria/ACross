@@ -27,7 +27,8 @@ private:
   uint m_size = 256;
   uint m_margin = 2;
   int m_ecc_level = -1;
-  ZXing::BarcodeFormat m_format = ZXing::BarcodeFormat::QRCode;
+  ZXing::BarcodeFormat m_format = ZXing::BarcodeFormat::QR_CODE;
+  // QR_CODE is a deprecated name, kept for compatibility at the moment
 };
 }
 }

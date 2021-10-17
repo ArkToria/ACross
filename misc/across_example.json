@@ -9,8 +9,10 @@
         },
         "tray": {
             "enable": false,
-            "close_to_minimize": false
-        }
+            "start_from_minimize": false
+        },
+        "auto_connect": false,
+        "auto_start": false
     },
     "update": {
         "auto_update": false,
