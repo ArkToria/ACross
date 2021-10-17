@@ -1,25 +1,8 @@
-option(FETCH_GRPC "Download grpc" OFF)
-if (FETCH_GRPC)
-    CPMAddPackage(
-        NAME gRPC
-        GITHUB_REPOSITORY grpc/grpc
-        GIT_TAG        v1.41.0
-        )
-else()
-    # Find gRPC Package
-    find_package(gRPC CONFIG REQUIRED)
-
-    # Find Generator Executable Plugin
-    find_program(GRPC_CC_PLUGIN_EXECUTABLE grpc_cpp_plugin)
-
-    if(UNIX)
-        # Find PkgConfig
-        find_package(PkgConfig REQUIRED)
-
-        # Check Modules
-        pkg_check_modules(GRPC REQUIRED grpc++ grpc)
-    endif()
-endif()
+CPMAddPackage(
+    NAME gRPC
+    GITHUB_REPOSITORY grpc/grpc
+    VERSION 1.30.2
+    )
 
 # Set Source Files
 set(API_GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${API_PROTO_NAME}.grpc.pb.cc")

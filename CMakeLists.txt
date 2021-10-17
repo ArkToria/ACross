@@ -26,7 +26,6 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Semver.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MagicEnum.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
 
 # Qt 6.2
 find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat Sql LinguistTools Concurrent REQUIRED)
@@ -57,7 +56,7 @@ CPMAddPackage(
 CPMAddPackage(
     NAME ZXing
     GITHUB_REPOSITORY "nu-book/zxing-cpp"
-    VERSION 1.2.0
+    VERSION 1.1.1
     OPTIONS "BUILD_EXAMPLES OFF" "BUILD_BLACKBOX_TESTS OFF"
     )
 
