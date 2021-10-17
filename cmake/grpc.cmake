@@ -4,6 +4,8 @@ CPMAddPackage(
     VERSION 1.30.2
     )
 
+find_program(GRPC_CC_PLUGIN_EXECUTABLE grpc_cpp_plugin)
+
 # Set Source Files
 set(API_GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${API_PROTO_NAME}.grpc.pb.cc")
 set(API_GRPC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${API_PROTO_NAME}.grpc.pb.h")
