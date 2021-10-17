@@ -429,6 +429,8 @@ GroupList::handleUpdated(const QVariant& content)
   if (auto result = p_db->update(temp_groups);
       result.type() != QSqlError::NoError) {
     return;
+  } else {
+    p_db->updateRuntimeValue(RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, 0));
   }
 
   reloadItems();
