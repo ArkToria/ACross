@@ -1,4 +1,4 @@
-option(FETCH_SINGLE_APPLICATION "Download SingleApplication" OFF)
+option(FETCH_SINGLE_APPLICATION "Download SingleApplication" ON)
 
 set(QAPPLICATION_CLASS QApplication)
 set(QT_DEFAULT_MAJOR_VERSION 6)
