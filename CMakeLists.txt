@@ -164,7 +164,6 @@ qt_add_executable(across
 target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
 target_link_libraries(across PRIVATE
     Qt6::Core
     Qt6::Quick

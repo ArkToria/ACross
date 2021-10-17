@@ -20,3 +20,7 @@ else()
         ${MAGIC_ENUM_INCLUDE_PATH}
         )
 endif()
+
+if (NOT TARGET magic_enum::magic_enum)
+    add_library(magic_enum::magic_enum ALIAS magic_enum)
+endif()

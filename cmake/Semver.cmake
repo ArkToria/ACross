@@ -21,3 +21,7 @@ else()
         ${SEMVER_INCLUDE_PATH}
         )
 endif()
+
+if (NOT TARGET semver::semver)
+    add_library(semver::semver ALIAS semver)
+endif()
