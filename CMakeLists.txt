@@ -78,7 +78,8 @@ set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import path
 ##################################
 
 ######## SOURCE FILES ########
-include_directories(${CMAKE_BINARY_DIR}/generated/)
+include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated/)
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(PROJECT_HEADERS
     src/app.h
@@ -110,12 +111,6 @@ set(PROJECT_HEADERS
     src/models/dbustools.h
     src/models/coretools.h
     src/models/confighelper.h
-    ${ACROSS_PROTO_HEADER}
-    ${ACROSS_GRPC_HEADER}
-    ${V2RAY_API_PROTO_HEADER}
-    ${V2RAY_API_GRPC_HEADER}
-    ${V2RAY_CONFIG_PROTO_HEADER}
-    ${V2RAY_CONFIG_GRPC_HEADER}
     )
 
 set(PROJECT_SOURCES
@@ -149,20 +144,19 @@ set(PROJECT_SOURCES
     src/models/coretools.cpp
     src/models/confighelper.cpp
     ${ACROSS_QM_FILES}
-    ${ACROSS_PROTO_SOURCE}
-    ${ACROSS_GRPC_SOURCE}
-    ${V2RAY_API_PROTO_SOURCE}
-    ${V2RAY_API_GRPC_SOURCE}
-    ${V2RAY_CONFIG_PROTO_SOURCE}
-    ${V2RAY_CONFIG_GRPC_SOURCE}
     )
 ##############################
 
 ######## COMPILE ########
+message(${PROTO_HEADERS})
 qt_add_executable(across
     MANUAL_FINALIZATION
-    ${PROJECT_SOURCES}
     ${PROJECT_HEADERS}
+    ${PROJECT_SOURCES}
+    ${PROTO_HEADERS}
+    ${PROTO_SOURCE}
+    ${GRPC_HEADERS}
+    ${GRPC_SOURCES}
     )
 
 target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
@@ -245,9 +239,9 @@ install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_running.svg DESTINAT
 install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.stop.svg)
 
 ######## DEBUG ALL VARIABLES ########
-get_cmake_property(_variableNames VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
+#get_cmake_property(_variableNames VARIABLES)
+#list (SORT _variableNames)
+#foreach (_variableName ${_variableNames})
+#    message(STATUS "${_variableName}=${${_variableName}}")
+#endforeach()
 #################################

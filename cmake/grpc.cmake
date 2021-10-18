@@ -6,44 +6,22 @@ CPMAddPackage(
 
 find_program(GRPC_CC_PLUGIN_EXECUTABLE grpc_cpp_plugin)
 
-# Set Source Files
-set(V2RAY_API_GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${V2RAY_API_PROTO_NAME}.grpc.pb.cc")
-set(V2RAY_API_GRPC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${V2RAY_API_PROTO_NAME}.grpc.pb.h")
-set(V2RAY_CONFIG_GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${V2RAY_CONFIG_PROTO_NAME}.grpc.pb.cc")
-set(V2RAY_CONFIG_GRPC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${V2RAY_CONFIG_PROTO_NAME}.grpc.pb.h")
-set(ACROSS_GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${ACROSS_PROTO_NAME}.grpc.pb.cc")
-set(ACROSS_GRPC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${ACROSS_PROTO_NAME}.grpc.pb.h")
-
 # Generate gRPC Sources
-add_custom_command(
-    OUTPUT "${V2RAY_API_GRPC_SOURCE}" "${V2RAY_API_GRPC_HEADER}"
-    COMMAND "${PROTOBUF_PROTOC_EXECUTABLE}"
-    ARGS --grpc_out="${CMAKE_CURRENT_BINARY_DIR}"
-    --cpp_out="${CMAKE_CURRENT_BINARY_DIR}"
-    -I="${PROTO_DIR}"
-    --plugin=protoc-gen-grpc="${GRPC_CC_PLUGIN_EXECUTABLE}"
-    "${V2RAY_API_PROTO}"
-    DEPENDS "${V2RAY_API_PROTO}"
-    )
+foreach(PROTO_NAME IN LISTS PROTO_NAME_LISTS)
+    set(GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.cc")
+    set(GRPC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.h")
 
-add_custom_command(
-    OUTPUT "${V2RAY_CONFIG_GRPC_SOURCE}" "${V2RAY_CONFIG_GRPC_HEADER}"
-    COMMAND "${PROTOBUF_PROTOC_EXECUTABLE}"
-    ARGS --grpc_out="${CMAKE_CURRENT_BINARY_DIR}"
-    --cpp_out="${CMAKE_CURRENT_BINARY_DIR}"
-    -I="${PROTO_DIR}"
-    --plugin=protoc-gen-grpc="${GRPC_CC_PLUGIN_EXECUTABLE}"
-    "${V2RAY_CONFIG_PROTO}"
-    DEPENDS "${V2RAY_CONFIG_PROTO}"
-    )
+    add_custom_command(
+        OUTPUT "${GRPC_SOURCE}" "${GRPC_HEADER}"
+        COMMAND "${PROTOBUF_PROTOC_EXECUTABLE}"
+        ARGS --grpc_out="${CMAKE_CURRENT_BINARY_DIR}"
+        --cpp_out="${CMAKE_CURRENT_BINARY_DIR}"
+        -I="${PROTO_DIR}"
+        --plugin=protoc-gen-grpc="${GRPC_CC_PLUGIN_EXECUTABLE}"
+        "${V2RAY_API_PROTO}"
+        DEPENDS "${PROTO_NAME}.proto"
+        )
 
-add_custom_command(
-    OUTPUT "${ACROSS_GRPC_SOURCE}" "${ACROSS_GRPC_HEADER}"
-    COMMAND "${PROTOBUF_PROTOC_EXECUTABLE}"
-    ARGS --grpc_out="${CMAKE_CURRENT_BINARY_DIR}"
-    --cpp_out="${CMAKE_CURRENT_BINARY_DIR}"
-    -I="${PROTO_DIR}"
-    --plugin=protoc-gen-grpc="${GRPC_CC_PLUGIN_EXECUTABLE}"
-    "${ACROSS_PROTO}"
-    DEPENDS "${ACROSS_PROTO}"
-    )
+    list(APPEND GRPC_SOURCES ${GRPC_SOURCE})
+    list(APPEND GRPC_HEADERS ${GRPC_HEADER})
+endforeach()
