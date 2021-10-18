@@ -442,10 +442,11 @@ NodeList::setCurrentNodeByID(int id)
 void
 NodeList::copyUrlToClipboard(int id)
 {
-  auto iter = std::find_if(m_nodes.begin(), m_nodes.end(), [&](NodeInfo& item) {
+  auto nodes = p_db->listAllNodesFromGroupID(currentGroupID());
+  auto iter = std::find_if(nodes.begin(), nodes.end(), [&](NodeInfo& item) {
     return item.id == id;
   });
-  if (iter == m_nodes.end()) {
+  if (iter == nodes.end()) {
     p_logger->error("Failed to copy node url: {}", id);
     return;
   }

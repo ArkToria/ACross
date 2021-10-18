@@ -47,7 +47,7 @@ Item {
             list: acrossNodes
         }
 
-        cellWidth: Math.round(width / nodeGridViewColumns)
+        cellWidth: Math.floor(width / nodeGridViewColumns)
         cellHeight: 192
 
         delegate: NodeItemCard {

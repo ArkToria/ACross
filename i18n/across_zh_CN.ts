@@ -257,78 +257,78 @@
 <context>
     <name>CoreItem</name>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="13"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="14"/>
         <source>Select V2Ray Core Path</source>
         <translation>选择 V2Ray 核心路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="26"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="27"/>
         <source>Select Assets Directory</source>
         <translation>选择 Assets 目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="44"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="45"/>
         <source>Core Configuration</source>
         <translation>核心配置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="50"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="51"/>
         <source>Core path</source>
         <translation>核心路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="58"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="59"/>
         <source>Enter V2Ray Core Executable Path Here</source>
         <translation>在此输入 V2Ray 核心可执行文件路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="62"/>
-        <location filename="../src/views/setting/CoreItem.qml" line="82"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="63"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="83"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="70"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="71"/>
         <source>Assets path</source>
         <translation>Assets 路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="78"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="79"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
         <translation>在此输入 GeoIP 和 GeoSite 目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="89"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="90"/>
         <source>Core Info</source>
         <translation>核心信息</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="104"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="105"/>
         <source>Check</source>
         <translation>检查</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="112"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="113"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="125"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="126"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="145"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="146"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="157"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="158"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="168"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="169"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
@@ -842,7 +842,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="456"/>
+        <location filename="../src/view_models/nodelist.cpp" line="457"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

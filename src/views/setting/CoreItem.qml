@@ -1,5 +1,6 @@
 import QtQuick
-import QtQuick.Dialogs
+//import QtQuick.Dialogs
+import Qt.labs.platform
 import QtQuick.Layouts
 import QtQuick.Controls
 
@@ -17,7 +18,7 @@ Item {
         nameFilters: ["Select V2Ray core (v2ray*)", "All files (*)"]
 
         onAccepted: {
-            acrossConfig.corePath = fileUrl
+            acrossConfig.corePath = file
         }
     }
 
@@ -29,7 +30,7 @@ Item {
         //        selectExisting: true
         //        selectMultiple: false
         onAccepted: {
-            acrossConfig.assetsPath = fileUrl
+            acrossConfig.assetsPath = file
         }
     }
 
