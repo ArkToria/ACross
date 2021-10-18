@@ -28,21 +28,23 @@ Item {
         clip: true
         contentHeight: column.height
 
-        ColumnLayout {
-            id: column
-            spacing: acrossConfig.itemSpacing
-            width: scrollView.availableWidth
+        Flickable {
+            ColumnLayout {
+                id: column
+                spacing: acrossConfig.itemSpacing
+                width: scrollView.availableWidth
 
-            About {
-                Layout.fillWidth: true
-            }
+                About {
+                    Layout.fillWidth: true
+                }
 
-            Licenses {
-                Layout.fillWidth: true
-            }
+                Licenses {
+                    Layout.fillWidth: true
+                }
 
-            ChangeLog {
-                Layout.fillWidth: true
+                ChangeLog {
+                    Layout.fillWidth: true
+                }
             }
         }
     }

@@ -66,126 +66,128 @@ Window {
             contentHeight: column.height
             clip: true
 
-            Column {
-                id: column
-                spacing: acrossConfig.itemSpacing
+            Flickable {
+                Column {
+                    id: column
+                    spacing: acrossConfig.itemSpacing
 
-                CardBox {
-                    id: outboundSetting
-                    implicitWidth: scrollView.availableWidth
-                    implicitHeight: 64
+                    CardBox {
+                        id: outboundSetting
+                        implicitWidth: scrollView.availableWidth
+                        implicitHeight: 64
 
-                    layer.enabled: false
+                        layer.enabled: false
 
-                    ColumnLayout {
-                        anchors.fill: parent
-                        spacing: 0
+                        ColumnLayout {
+                            anchors.fill: parent
+                            spacing: 0
 
-                        RowLayout {
-                            Layout.fillWidth: true
-                            Layout.margins: acrossConfig.itemSpacing
-
-                            spacing: acrossConfig.itemSpacing
-
-                            Label {
+                            RowLayout {
+                                Layout.fillWidth: true
                                 Layout.margins: acrossConfig.itemSpacing
 
-                                text: qsTr("Outbound")
-                                font.pixelSize: 24
-                                color: acrossConfig.textColor
+                                spacing: acrossConfig.itemSpacing
+
+                                Label {
+                                    Layout.margins: acrossConfig.itemSpacing
+
+                                    text: qsTr("Outbound")
+                                    font.pixelSize: 24
+                                    color: acrossConfig.textColor
+                                }
+
+                                Item {
+                                    Layout.fillWidth: true
+                                }
+
+                                DropDownBox {
+                                    model: ["url", "manual", "outbound"]
+
+                                    onEditTextChanged: {
+                                        var height = 64
+                                        manualSetting.visible = false
+
+                                        switch (editText) {
+                                        case "manual":
+                                            nodeFormModel.protocol = "vmess"
+                                            height += manualSetting.implicitHeight
+                                            manualSetting.visible = true
+                                            streamSettingLoader.source
+                                                    = "qrc:/ACross/src/views/home/VMESSSetting.qml"
+                                            break
+                                        case "outbound":
+                                            nodeFormModel.protocol = "raw"
+                                            streamSettingLoader.source = "qrc:/ACross/src/views/home/RawOutboundSetting.qml"
+                                            break
+                                        case "url":
+                                            nodeFormModel.protocol = "scheme"
+                                            streamSettingLoader.source
+                                                    = "qrc:/ACross/src/views/home/URLSchemeSetting.qml"
+                                            break
+                                        default:
+                                            console.log("unknown setting")
+                                        }
+
+                                        outboundSetting.implicitHeight = height
+                                    }
+                                }
                             }
 
                             Item {
-                                Layout.fillWidth: true
+                                Layout.fillHeight: true
                             }
 
-                            DropDownBox {
-                                model: ["url", "manual", "outbound"]
+                            ManualSetting {
+                                id: manualSetting
+                                Layout.fillWidth: true
 
-                                onEditTextChanged: {
-                                    var height = 64
-                                    manualSetting.visible = false
-
-                                    switch (editText) {
-                                    case "manual":
-                                        nodeFormModel.protocol = "vmess"
-                                        height += manualSetting.implicitHeight
-                                        manualSetting.visible = true
-                                        streamSettingLoader.source
-                                                = "qrc:/ACross/src/views/home/VMESSSetting.qml"
-                                        break
-                                    case "outbound":
-                                        nodeFormModel.protocol = "raw"
-                                        streamSettingLoader.source = "qrc:/ACross/src/views/home/RawOutboundSetting.qml"
-                                        break
-                                    case "url":
-                                        nodeFormModel.protocol = "scheme"
-                                        streamSettingLoader.source
-                                                = "qrc:/ACross/src/views/home/URLSchemeSetting.qml"
-                                        break
-                                    default:
-                                        console.log("unknown setting")
-                                    }
-
-                                    outboundSetting.implicitHeight = height
-                                }
+                                visible: false
                             }
                         }
+                    }
+
+                    CardBox {
+                        implicitWidth: scrollView.availableWidth
+                        implicitHeight: streamSettingLoader.implicitHeight
+
+                        layer.enabled: false
+
+                        Loader {
+                            id: streamSettingLoader
+                            anchors.fill: parent
+
+                            signal acceptAll
+                        }
+                    }
+
+                    RowLayout {
+                        spacing: acrossConfig.itemSpacing
+                        width: scrollView.availableWidth
 
                         Item {
-                            Layout.fillHeight: true
-                        }
-
-                        ManualSetting {
-                            id: manualSetting
                             Layout.fillWidth: true
-
-                            visible: false
                         }
-                    }
-                }
 
-                CardBox {
-                    implicitWidth: scrollView.availableWidth
-                    implicitHeight: streamSettingLoader.implicitHeight
+                        ButtonBox {
+                            id: acceptFormButton
 
-                    layer.enabled: false
-
-                    Loader {
-                        id: streamSettingLoader
-                        anchors.fill: parent
-
-                        signal acceptAll
-                    }
-                }
-
-                RowLayout {
-                    spacing: acrossConfig.itemSpacing
-                    width: scrollView.availableWidth
-
-                    Item {
-                        Layout.fillWidth: true
-                    }
-
-                    ButtonBox {
-                        id: acceptFormButton
-
-                        text: qsTr("Accept")
-                        onClicked: {
-                            streamSettingLoader.acceptAll()
-                            nodeFormModel.accept()
-                            nodeFormPopWindow.close()
+                            text: qsTr("Accept")
+                            onClicked: {
+                                streamSettingLoader.acceptAll()
+                                nodeFormModel.accept()
+                                nodeFormPopWindow.close()
+                            }
                         }
-                    }
 
-                    ButtonBox {
-                        text: qsTr("Cancel")
-                        basicColor: acrossConfig.warnColor
-                        basicState: "WarnState"
+                        ButtonBox {
+                            text: qsTr("Cancel")
+                            basicColor: acrossConfig.warnColor
+                            basicState: "WarnState"
 
-                        onClicked: {
-                            nodeFormModel.cancel()
-                            nodeFormPopWindow.close()
+                            onClicked: {
+                                nodeFormModel.cancel()
+                                nodeFormPopWindow.close()
+                            }
                         }
                     }
                 }

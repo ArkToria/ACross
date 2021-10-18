@@ -17,46 +17,48 @@ Item {
         clip: true
         contentHeight: column.height
 
-        ColumnLayout {
-            id: column
-            width: scrollView.availableWidth
-            spacing: acrossConfig.itemSpacing
+        Flickable {
+            ColumnLayout {
+                id: column
+                width: scrollView.availableWidth
+                spacing: acrossConfig.itemSpacing
 
-            CardBox {
-                Layout.fillWidth: true
-                implicitHeight: 260
+                CardBox {
+                    Layout.fillWidth: true
+                    implicitHeight: 260
 
-                CoreItem {
-                    anchors.fill: parent
+                    CoreItem {
+                        anchors.fill: parent
+                    }
                 }
-            }
 
-            CardBox {
-                Layout.fillWidth: true
-                implicitHeight: 280
+                CardBox {
+                    Layout.fillWidth: true
+                    implicitHeight: 280
 
-                InboundItem {
-                    anchors.fill: parent
+                    InboundItem {
+                        anchors.fill: parent
+                    }
                 }
-            }
 
-            CardBox {
-                id: applicationItemCard
-                Layout.fillWidth: true
-                implicitHeight: 320
+                CardBox {
+                    id: applicationItemCard
+                    Layout.fillWidth: true
+                    implicitHeight: 320
 
-                ApplicationItem {
-                    anchors.fill: parent
+                    ApplicationItem {
+                        anchors.fill: parent
+                    }
                 }
-            }
 
-            CardBox {
-                id: appearanceItemCard
-                Layout.fillWidth: true
-                implicitHeight: 180
+                CardBox {
+                    id: appearanceItemCard
+                    Layout.fillWidth: true
+                    implicitHeight: 180
 
-                AppearanceItem {
-                    anchors.fill: parent
+                    AppearanceItem {
+                        anchors.fill: parent
+                    }
                 }
             }
         }

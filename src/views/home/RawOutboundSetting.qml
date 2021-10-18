@@ -45,8 +45,8 @@ Item {
             clip: true
             TextAreaBox {
                 id: rawOutboundText
-                implicitWidth: parent.availableWidth
-                implicitHeight: parent.availableHeight
+                implicitWidth: parent.width
+                implicitHeight: parent.height
 
                 wrapMode: Text.NoWrap
             }

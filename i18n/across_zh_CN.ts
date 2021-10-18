@@ -609,17 +609,17 @@
         <translation>创建新配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="93"/>
+        <location filename="../src/views/home/NodeForm.qml" line="94"/>
         <source>Outbound</source>
         <translation>出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="173"/>
+        <location filename="../src/views/home/NodeForm.qml" line="174"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeForm.qml" line="182"/>
+        <location filename="../src/views/home/NodeForm.qml" line="183"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
