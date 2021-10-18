@@ -19,7 +19,7 @@ foreach(PROTO_NAME PROTO_FILE IN ZIP_LISTS PROTO_NAME_LISTS PTORO_FILES)
         -I="${PROTO_DIR}"
         --plugin=protoc-gen-grpc="${GRPC_CC_PLUGIN_EXECUTABLE}"
         "${PROTO_FILE}"
-        DEPENDS "${PROTO_NAME}.proto"
+        DEPENDS "${PROTO_FILE}"
         )
 
     list(APPEND GRPC_SOURCES ${GRPC_SOURCE})
