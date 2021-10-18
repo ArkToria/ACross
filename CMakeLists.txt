@@ -79,7 +79,6 @@ set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import path
 
 ######## SOURCE FILES ########
 include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated/)
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(PROJECT_HEADERS
     src/app.h
@@ -148,13 +147,12 @@ set(PROJECT_SOURCES
 ##############################
 
 ######## COMPILE ########
-message(${PROTO_HEADERS})
 qt_add_executable(across
     MANUAL_FINALIZATION
     ${PROJECT_HEADERS}
     ${PROJECT_SOURCES}
     ${PROTO_HEADERS}
-    ${PROTO_SOURCE}
+    ${PROTO_SOURCES}
     ${GRPC_HEADERS}
     ${GRPC_SOURCES}
     )

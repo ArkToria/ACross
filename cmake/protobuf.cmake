@@ -17,6 +17,8 @@ set(PROTOBUF_LIBPROTOBUF_LIB protobuf::libprotobuf)
 set(Protobuf_USE_STATIC_LIBS ON)
 
 # Generated Sources
+get_filename_component(PROTO_DIR "${CMAKE_SOURCE_DIR}/misc/" ABSOLUTE)
+
 foreach(PROTO_NAME IN LISTS PROTO_NAME_LISTS)
     get_filename_component(PROTO_FILE "${PROTO_DIR}/${PROTO_NAME}.proto" ABSOLUTE)
     protobuf_generate_cpp(PROTO_SOURCE PROTO_HEADER "${PROTO_FILE}")
