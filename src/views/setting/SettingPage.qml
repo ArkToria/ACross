@@ -43,9 +43,19 @@ Item {
             CardBox {
                 id: applicationItemCard
                 Layout.fillWidth: true
-                implicitHeight: 400
+                implicitHeight: 320
 
                 ApplicationItem {
+                    anchors.fill: parent
+                }
+            }
+
+            CardBox {
+                id: appearanceItemCard
+                Layout.fillWidth: true
+                implicitHeight: 180
+
+                AppearanceItem {
                     anchors.fill: parent
                 }
             }

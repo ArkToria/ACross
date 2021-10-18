@@ -33,18 +33,6 @@ Item {
         }
     }
 
-    FileDialog {
-        id: backgroundImageDialog
-        title: qsTr("Select Image")
-        fileMode: FileDialog.OpenFile
-
-        nameFilters: ["Image Files (*.jpg *.jpeg *.png *.svg)", "All files (*)"]
-
-        onAccepted: {
-            acrossConfig.backgroundImage = file
-        }
-    }
-
     GridLayout {
         anchors.fill: parent
 
@@ -175,62 +163,16 @@ Item {
         }
 
         Label {
-            text: qsTr("Theme")
-            horizontalAlignment: Text.AlignLeft
-            color: acrossConfig.textColor
-        }
-
-        DropDownBox {
-            id: themeDropDownBox
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            displayText: acrossConfig.currentTheme
-            model: ["current", "default-light", "dark", "nord-dark", "pure-pink"]
-
-            onEditTextChanged: {
-                if (model.editText !== "current") {
-                    acrossConfig.currentTheme = editText
-                }
-            }
-        }
-
-        Label {
-            text: qsTr("Language")
-            color: acrossConfig.textColor
-        }
-
-        DropDownBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            displayText: acrossConfig.currentLanguage
-            model: ["current", "en_US", "zh_CN"]
-
-            onEditTextChanged: {
-                acrossConfig.currentLanguage = editText
-            }
-        }
-
-        Label {
             text: qsTr("Enable Tray Icon")
             color: acrossConfig.textColor
-            font.pointSize: 12
         }
 
-        Item {
-            id: item1
+        Label {
             Layout.fillWidth: true
-            Layout.columnSpan: 4
 
-            Label {
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-
-                visible: acrossTray.isSystemTrayAvailable() ? false : true
-                text: qsTr("System tray is not available")
-                color: acrossConfig.warnColor
-            }
+            text: acrossTray.isSystemTrayAvailable(
+                      ) ? "" : qsTr("System tray is not available")
+            color: acrossConfig.warnColor
         }
 
         SwitchBox {
@@ -246,12 +188,10 @@ Item {
         Label {
             text: qsTr("Start From Minimized")
             color: acrossConfig.textColor
-            font.pointSize: 12
         }
 
         Item {
             Layout.fillWidth: true
-            Layout.columnSpan: 4
         }
 
         SwitchBox {
@@ -267,12 +207,13 @@ Item {
         Label {
             text: qsTr("Auto Connect")
             color: acrossConfig.textColor
-            font.pointSize: 12
         }
 
-        Item {
+        Label {
             Layout.fillWidth: true
             Layout.columnSpan: 4
+            text: qsTr("Default Node > Last Connected. (The default node will be reset after the subscription is updated)")
+            color: acrossConfig.highlightColor
         }
 
         SwitchBox {
@@ -283,91 +224,6 @@ Item {
             onCheckedChanged: {
                 acrossConfig.enableAutoConnect = checked
             }
-        }
-
-        Label {
-            text: qsTr("Enable Background Image")
-            color: acrossConfig.textColor
-            font.pointSize: 12
-        }
-
-        Item {
-            Layout.fillWidth: true
-            Layout.columnSpan: 4
-        }
-
-        SwitchBox {
-            id: enableBannerSwitch
-            Layout.alignment: Qt.AlignRight
-
-            checked: acrossConfig.enableBanner
-            onCheckedChanged: {
-                acrossConfig.enableBanner = checked
-
-                if (checked) {
-                    applicationItemCard.implicitHeight = 530
-                } else {
-                    applicationItemCard.implicitHeight = 500
-                }
-            }
-        }
-
-        Label {
-            visible: enableBannerSwitch.checked
-
-            text: qsTr("Background Image")
-            color: acrossConfig.textColor
-        }
-
-        TextFieldBox {
-            visible: enableBannerSwitch.checked
-            Layout.fillWidth: true
-            Layout.columnSpan: 4
-
-            placeholderText: acrossConfig.backgroundImage
-        }
-
-        ButtonBox {
-            visible: enableBannerSwitch.checked
-            Layout.fillWidth: true
-
-            text: qsTr("Open File")
-
-            onClicked: {
-                backgroundImageDialog.open()
-            }
-        }
-
-        Label {
-            visible: enableBannerSwitch.checked
-
-            text: qsTr("Opacity")
-            color: acrossConfig.textColor
-        }
-
-        SliderBox {
-            id: backgroundOpacitySlider
-            visible: enableBannerSwitch.checked
-            Layout.fillWidth: true
-            Layout.columnSpan: 4
-
-            value: acrossConfig.backgroundOpacity
-            from: 0.0
-            to: 1.0
-            stepSize: 0.05
-            snapMode: Slider.SnapOnRelease
-
-            onValueChanged: {
-                acrossConfig.backgroundOpacity = value.toFixed(2)
-            }
-        }
-
-        Label {
-            visible: enableBannerSwitch.checked
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
-
-            text: backgroundOpacitySlider.value.toFixed(2)
-            color: acrossConfig.textColor
         }
     }
 }

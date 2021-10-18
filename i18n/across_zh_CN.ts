@@ -63,6 +63,49 @@
     </message>
 </context>
 <context>
+    <name>AppearanceItem</name>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="18"/>
+        <source>Select Image</source>
+        <translation>选择图片</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="39"/>
+        <source>Appearance Settings</source>
+        <translation>外观设置</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="45"/>
+        <source>Language</source>
+        <translation>语言</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="62"/>
+        <source>Theme</source>
+        <translation>主题</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="83"/>
+        <source>Enable Background Image</source>
+        <translation>启用背景图</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="112"/>
+        <source>Background Image</source>
+        <translation>背景图</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="128"/>
+        <source>Open File</source>
+        <translation>打开文件</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="138"/>
+        <source>Opacity</source>
+        <translation>不透明度</translation>
+    </message>
+</context>
+<context>
     <name>ApplicationItem</name>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="18"/>
@@ -75,114 +118,116 @@
         <translation type="vanished">应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="216"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="166"/>
         <source>Enable Tray Icon</source>
         <translation>启用托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="231"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="174"/>
         <source>System tray is not available</source>
         <translation>系统托盘不可用</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="65"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="53"/>
         <source>Set UserAgent</source>
         <translation>设置 UserAgent</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="178"/>
         <source>Theme</source>
-        <translation>主题</translation>
+        <translation type="vanished">主题</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="199"/>
         <source>Language</source>
-        <translation>语言</translation>
+        <translation type="vanished">语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="82"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="70"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="38"/>
         <source>Select Image</source>
-        <translation>设置图片</translation>
+        <translation type="vanished">设置图片</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="59"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="47"/>
         <source>Application Settings</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="102"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="90"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="120"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="108"/>
         <source>Log Output</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="132"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="120"/>
         <source>Log File</source>
         <translation>日志文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="140"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="128"/>
         <source>Open Folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="147"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="135"/>
         <source>DB Path</source>
         <translation>数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="156"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="144"/>
         <source>Enter Database Path Here</source>
         <translation>在此输入数据库路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="162"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="334"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="150"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="171"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="159"/>
         <source>Folder</source>
         <translation>文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="268"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="208"/>
         <source>Auto Connect</source>
+        <translation>自动连接</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="215"/>
+        <source>Default Node &gt; Last Connected. (The default node will be reset after the subscription is updated)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="289"/>
+        <source>Default &gt; Last Connected. (The default node will be reset after the subscription is updated)</source>
+        <translation type="vanished">默认 &gt; 上次连接（订阅更新后会重置默认节点）</translation>
+    </message>
+    <message>
         <source>Enable Background Image</source>
-        <translation>启用背景图</translation>
+        <translation type="vanished">启用背景图</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="247"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="189"/>
         <source>Start From Minimized</source>
-        <translation type="unfinished"></translation>
+        <translation>最小化启动</translation>
     </message>
     <message>
         <source>Image</source>
         <translation type="obsolete">图片</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="318"/>
         <source>Background Image</source>
-        <translation>背景图</translation>
+        <translation type="vanished">背景图</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="344"/>
         <source>Opacity</source>
-        <translation>不透明度</translation>
+        <translation type="vanished">不透明度</translation>
     </message>
     <message>
         <source>Background Opacity</source>
