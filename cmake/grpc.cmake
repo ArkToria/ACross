@@ -7,7 +7,7 @@ CPMAddPackage(
 find_program(GRPC_CC_PLUGIN_EXECUTABLE grpc_cpp_plugin)
 
 # Generate gRPC Sources
-foreach(PROTO_NAME IN LISTS PROTO_NAME_LISTS)
+foreach(PROTO_NAME PROTO_FILE IN ZIP_LISTS PROTO_NAME_LISTS PTORO_FILES)
     set(GRPC_SOURCE "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.cc")
     set(GRPC_HEADER "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.grpc.pb.h")
 
@@ -18,7 +18,7 @@ foreach(PROTO_NAME IN LISTS PROTO_NAME_LISTS)
         --cpp_out="${CMAKE_CURRENT_BINARY_DIR}"
         -I="${PROTO_DIR}"
         --plugin=protoc-gen-grpc="${GRPC_CC_PLUGIN_EXECUTABLE}"
-        "${V2RAY_API_PROTO}"
+        "${PROTO_FILE}"
         DEPENDS "${PROTO_NAME}.proto"
         )
 

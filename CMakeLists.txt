@@ -110,6 +110,7 @@ set(PROJECT_HEADERS
     src/models/dbustools.h
     src/models/coretools.h
     src/models/confighelper.h
+    ${GRPC_HEADERS}
     )
 
 set(PROJECT_SOURCES
@@ -143,6 +144,7 @@ set(PROJECT_SOURCES
     src/models/coretools.cpp
     src/models/confighelper.cpp
     ${ACROSS_QM_FILES}
+    ${GRPC_SOURCES}
     )
 ##############################
 
@@ -151,10 +153,6 @@ qt_add_executable(across
     MANUAL_FINALIZATION
     ${PROJECT_HEADERS}
     ${PROJECT_SOURCES}
-    ${PROTO_HEADERS}
-    ${PROTO_SOURCES}
-    ${GRPC_HEADERS}
-    ${GRPC_SOURCES}
     )
 
 target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
