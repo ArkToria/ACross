@@ -6,3 +6,4 @@ curl-*
 fmt-*
 nlohmann_json-*
 grpc-*
+singleapplication-*
