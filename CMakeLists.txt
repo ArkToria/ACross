@@ -110,10 +110,12 @@ set(PROJECT_HEADERS
     src/models/dbustools.h
     src/models/coretools.h
     src/models/confighelper.h
-    ${API_PROTO_HEADER}
-    ${API_GRPC_HEADER}
     ${ACROSS_PROTO_HEADER}
     ${ACROSS_GRPC_HEADER}
+    ${V2RAY_API_PROTO_HEADER}
+    ${V2RAY_API_GRPC_HEADER}
+    ${V2RAY_CONFIG_PROTO_HEADER}
+    ${V2RAY_CONFIG_GRPC_HEADER}
     )
 
 set(PROJECT_SOURCES
@@ -149,8 +151,10 @@ set(PROJECT_SOURCES
     ${ACROSS_QM_FILES}
     ${ACROSS_PROTO_SOURCE}
     ${ACROSS_GRPC_SOURCE}
-    ${API_PROTO_SOURCE}
-    ${API_GRPC_SOURCE}
+    ${V2RAY_API_PROTO_SOURCE}
+    ${V2RAY_API_GRPC_SOURCE}
+    ${V2RAY_CONFIG_PROTO_SOURCE}
+    ${V2RAY_CONFIG_GRPC_SOURCE}
     )
 ##############################
 
@@ -239,3 +243,11 @@ install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_running.svg DESTINA
 install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.light.stop.svg)
 install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_running.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.running.svg)
 install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.stop.svg)
+
+######## DEBUG ALL VARIABLES ########
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
+#################################

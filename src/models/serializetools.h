@@ -1,6 +1,9 @@
 #ifndef SERIALIZETOOLS_H
 #define SERIALIZETOOLS_H
 
+#include "../models/dbtools.h"
+#include "jsontools.h"
+
 #include "magic_enum.hpp"
 #include <QString>
 #include <QStringList>
@@ -8,8 +11,7 @@
 #include <QUrlQuery>
 #include <optional>
 
-#include "../models/dbtools.h"
-#include "jsontools.h"
+#include "v2ray_config.grpc.pb.h"
 
 namespace across {
 namespace config {
