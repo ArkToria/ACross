@@ -212,7 +212,7 @@ Item {
         Label {
             Layout.fillWidth: true
             Layout.columnSpan: 4
-            text: qsTr("Default Node > Last Connected. (The default node will be reset after the subscription is updated)")
+            text: qsTr("Default Node > Last Connected. (Subscription updates will reset the default node)")
             color: acrossConfig.highlightColor
         }
 

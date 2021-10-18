@@ -201,8 +201,8 @@
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="215"/>
-        <source>Default Node &gt; Last Connected. (The default node will be reset after the subscription is updated)</source>
-        <translation type="unfinished"></translation>
+        <source>Default Node &gt; Last Connected. (Subscription updates will reset the default node)</source>
+        <translation>默认节点 &gt; 上次连接（订阅更新会重置默认节点）</translation>
     </message>
     <message>
         <source>Default &gt; Last Connected. (The default node will be reset after the subscription is updated)</source>
