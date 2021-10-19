@@ -70,22 +70,78 @@ message APIObject
   repeated string services = 2;
 }
 
+message SOCKSObject
+{
+  message AccountObject
+  {
+    string user = 1;
+    string pass = 2;
+  }
+
+  message InboundConfigurationObject
+  {
+    string auth = 1;
+    repeated AccountObject accounts = 2;
+    bool udp = 3;
+    string ip = 4;
+    int32 userLevel = 5;
+  }
+
+  message UserObject
+  {
+    string user = 1;
+    string pass = 2;
+    int32 level = 3;
+  }
+
+  message ServerObject
+  {
+    string address = 1;
+    uint32 port = 2;
+    repeated UserObject users = 3;
+  }
+
+  message OutboundConfigurationObject { repeated ServerObject servers = 1; }
+}
+
+message HTTPObject
+{
+  message AccountObject
+  {
+    string user = 1;
+    string pass = 2;
+  }
+
+  message InboundConfigurationObject
+  {
+    uint32 timeout = 1;
+    repeated AccountObject accounts = 2;
+    bool allowTransparent = 3;
+    int32 userLevel = 4;
+  }
+
+  message OutboundConfigurationObject { repeated AccountObject servers = 1; }
+}
+
 message TrojanObject
 {
-  message ClientObject {
-    string password =  1;
+  message ClientObject
+  {
+    string password = 1;
     string email = 2;
     int32 level = 3;
   }
 
-  message FallbackObject {
+  message FallbackObject
+  {
     string alpn = 1;
     string path = 2;
     int64 dest = 3;
     int64 xver = 4;
   }
 
-  message InboundConfigurationObject {
+  message InboundConfigurationObject
+  {
     repeated ClientObject clients = 1;
     repeated FallbackObject fallbacks = 2;
   }
@@ -102,8 +158,10 @@ message TrojanObject
   message OutboundConfigurationObject { repeated ServerObject servers = 1; }
 }
 
-message ShadowsocksObject {
-  message InboundConfigurationObject {
+message ShadowsocksObject
+{
+  message InboundConfigurationObject
+  {
     string email = 1;
     string method = 2;
     string password = 3;
@@ -112,7 +170,8 @@ message ShadowsocksObject {
     bool ivCheck = 6;
   }
 
-  message ServerObject {
+  message ServerObject
+  {
     string email = 1;
     string address = 2;
     uint32 port = 3;
@@ -122,55 +181,57 @@ message ShadowsocksObject {
     bool ivCheck = 7;
   }
 
-  message OutboundConfigurationObject {
-    repeated ServerObject servers = 1;
-  }
+  message OutboundConfigurationObject { repeated ServerObject servers = 1; }
 }
 
-message VMESSObject {
-  message ClientObject {
+message VMESSObject
+{
+  message ClientObject
+  {
     string id = 1;
     int32 level = 2;
     int32 alterId = 3;
     string email = 4;
   }
 
-  message DefaultObject {
+  message DefaultObject
+  {
     int32 level = 1;
     int32 alterId = 2;
   }
 
-  message DetourObject {
-    string to = 1;
-  }
+  message DetourObject { string to = 1; }
 
-  message InboundConfigurationObject {
+  message InboundConfigurationObject
+  {
     repeated ClientObject clients = 1;
     DefaultObject default = 2;
     DetourObject detour = 3;
     bool disableInsecureEncryption = 4;
   }
 
-  message UserObject {
+  message UserObject
+  {
     string id = 1;
     int32 alterId = 2;
     string security = 3;
     int32 level = 4;
   }
 
-  message ServerObject {
+  message ServerObject
+  {
     string address = 1;
     uint32 port = 2;
     repeated UserObject users = 3;
   }
 
-  message OutboundConfigurationObject {
-    repeated ServerObject vnext = 1;
-  }
+  message OutboundConfigurationObject { repeated ServerObject vnext = 1; }
 }
 
-message DokodemoDoorObject {
-  message InboundConfigurationObject {
+message DokodemoDoorObject
+{
+  message InboundConfigurationObject
+  {
     string address = 1;
     uint32 port = 2;
     string network = 3;
@@ -180,11 +241,17 @@ message DokodemoDoorObject {
   }
 }
 
-message InboundConfigurationObject
+message InboundConfigurationValue
 {
-  bool allowTransparent = 1;
-  int32 timeout = 2;
-  int32 userLevel = 3;
+  oneof kind
+  {
+    SOCKSObject.InboundConfigurationObject socks = 1;
+    HTTPObject.InboundConfigurationObject http = 2;
+    DokodemoDoorObject.InboundConfigurationObject dokodemoDoor = 3;
+    TrojanObject.InboundConfigurationObject trojan = 4;
+    ShadowsocksObject.InboundConfigurationObject shadowsocks = 5;
+    VMESSObject.InboundConfigurationObject vmess = 6;
+  }
 }
 
 message InboundObject
@@ -192,20 +259,31 @@ message InboundObject
   string listen = 1;
   uint32 port = 2;
   string protocol = 3;
-  InboundConfigurationObject settings = 4;
+  InboundConfigurationValue settings = 4;
   string tag = 5;
 }
 
-message OutboundConfigurationObject
+message OutboundConfigurationValue
 {
-  repeated Value settings = 1;
+  oneof kind
+  {
+    SOCKSObject.OutboundConfigurationObject socks = 1;
+    HTTPObject.OutboundConfigurationObject http = 2;
+    TrojanObject.OutboundConfigurationObject trojan = 3;
+    ShadowsocksObject.OutboundConfigurationObject shadowsocks = 4;
+    VMESSObject.OutboundConfigurationObject vmess = 5;
+  }
 }
 
 message TLSObject
 {
-  bool allowInsecure = 1;
-  bool disableSystemRoot = 2;
-  string serverName = 3;
+  string serverName = 1;
+  repeated string alpn = 2;
+  bool allowInsecure = 3;
+  bool disableSystemRoot = 4;
+  repeated string certificates = 5;
+  bool verifyClientCertificate = 6;
+  string pinnedPeerCertificateChainSha256 = 7;
 }
 
 message StreamSettingsObject
@@ -217,9 +295,9 @@ message StreamSettingsObject
 
 message OutboundObject
 {
-  string send_throudh = 1;
+  string sendThrough = 1;
   string protocol = 2;
-  OutboundConfigurationObject settings = 3;
+  OutboundConfigurationValue settings = 3;
   StreamSettingsObject streamSettings = 4;
   string tag = 5;
 }

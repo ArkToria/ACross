@@ -110,7 +110,6 @@ set(PROJECT_HEADERS
     src/models/dbustools.h
     src/models/coretools.h
     src/models/confighelper.h
-    ${GRPC_HEADERS}
     )
 
 set(PROJECT_SOURCES
@@ -144,6 +143,10 @@ set(PROJECT_SOURCES
     src/models/coretools.cpp
     src/models/confighelper.cpp
     ${ACROSS_QM_FILES}
+    )
+
+add_library(across_proto STATIC
+    ${GRPC_HEADERS}
     ${GRPC_SOURCES}
     )
 ##############################
@@ -159,6 +162,7 @@ target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFAC
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(across PRIVATE
+    across_proto
     Qt6::Core
     Qt6::Quick
     Qt6::Widgets
