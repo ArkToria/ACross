@@ -1,45 +1,6 @@
 syntax = "proto3";
 package v2ray.config;
 
-// ########## google/protobuf/struct.proto ##########
-enum NullValue
-{
-  NULL_VALUE = 0;
-}
-
-message ListValue
-{
-  // Repeated field of dynamically typed values.
-  repeated Value values = 1;
-}
-
-message Struct
-{
-  // Unordered map of dynamically typed values.
-  map<string, Value> fields = 1;
-}
-
-message Value
-{
-  // The kind of value.
-  oneof kind
-  {
-    // Represents a null value.
-    NullValue null_value = 1;
-    // Represents a double value.
-    double number_value = 2;
-    // Represents a string value.
-    string string_value = 3;
-    // Represents a boolean value.
-    bool bool_value = 4;
-    // Represents a structured value.
-    Struct struct_value = 5;
-    // Represents a repeated `Value`.
-    ListValue list_value = 6;
-  }
-}
-// ########## google/protobuf/struct.proto ##########
-
 enum Tags
 {
   ACROSS_API = 0;
@@ -68,6 +29,102 @@ message APIObject
 
   string tag = 1;
   repeated string services = 2;
+}
+
+message DNSObject {}
+
+message RoutingObject
+{
+  message RuleObject
+  {
+    string domainMatcher = 1;
+    string type = 2;
+    repeated string domains = 3;
+    repeated string ip = 4;
+    string port = 5;
+    string sourcePort = 6;
+    string network = 7;
+    repeated string source = 8;
+    repeated string user = 9;
+    repeated string inboundTag = 10;
+    repeated string protocol = 11;
+    string attrs = 12;
+    string outboundTag = 13;
+    string balancerTag = 14;
+  }
+
+  message BalancerObject
+  {
+    message StrategyObject { string type = 1; }
+
+    string tag = 1;
+    repeated string selector = 2;
+    StrategyObject strategy = 3;
+  }
+
+  string domainMatcher = 1;
+  string domainStrategy = 2;
+  repeated RuleObject rules = 3;
+  repeated BalancerObject balancers = 4;
+}
+
+message PolicyObject
+{
+  message LevelPolicyObject
+  {
+    int32 handshake = 1;
+    int32 connIdle = 2;
+    int32 uplinkOnly = 3;
+    int32 downlinkOnly = 4;
+    bool statsUserUplink = 5;
+    bool statsUserDownlink = 6;
+    int64 bufferSize = 7;
+  }
+
+  message SystemPolicyObject
+  {
+    bool statsInboundDownlink = 1;
+    bool statsInboundUplink = 2;
+    bool statsOutboundDownlink = 3;
+    bool statsOutboundUplink = 4;
+  }
+
+  map<string, LevelPolicyObject> levels = 1;
+  SystemPolicyObject system = 2;
+}
+
+message StreamSettingsObject
+{
+  message TLSObject
+  {
+    string serverName = 1;
+    repeated string alpn = 2;
+    bool allowInsecure = 3;
+    bool disableSystemRoot = 4;
+    repeated string certificates = 5;
+    bool verifyClientCertificate = 6;
+    string pinnedPeerCertificateChainSha256 = 7;
+  }
+
+message SockoptObject {
+    int32 mark = 1;
+    bool fcpFastOpen = 2;
+    int32 tcpFastOpenQueueLength = 3;
+    string tproxy = 4;
+    int32 tcpKeepAliveInterval = 5;
+}
+
+  string network = 1;
+  string security = 2;
+  TLSObject tlsSettings = 3;
+  TransportObject.TCPObject tcpSettings = 4;
+  TransportObject.KCPObject kcpSettings = 5;
+  TransportObject.WebSocketObject wsSettings = 6;
+  TransportObject.HTTPObject httpSettings = 7;
+  TransportObject.QUICObject QuicSettings = 8;
+  TransportObject.DomainSocketObject dsSettings = 9;
+  TransportObject.GRPCObject grpcSettings = 10;
+  SockoptObject sockopt = 11;
 }
 
 message SOCKSObject
@@ -241,126 +298,196 @@ message DokodemoDoorObject
   }
 }
 
-message InboundConfigurationValue
-{
-  oneof kind
-  {
-    SOCKSObject.InboundConfigurationObject socks = 1;
-    HTTPObject.InboundConfigurationObject http = 2;
-    DokodemoDoorObject.InboundConfigurationObject dokodemoDoor = 3;
-    TrojanObject.InboundConfigurationObject trojan = 4;
-    ShadowsocksObject.InboundConfigurationObject shadowsocks = 5;
-    VMESSObject.InboundConfigurationObject vmess = 6;
-  }
-}
-
 message InboundObject
 {
+  message InboundSettings
+  {
+    oneof kind
+    {
+      SOCKSObject.InboundConfigurationObject socks = 1;
+      HTTPObject.InboundConfigurationObject http = 2;
+      DokodemoDoorObject.InboundConfigurationObject dokodemoDoor = 3;
+      TrojanObject.InboundConfigurationObject trojan = 4;
+      ShadowsocksObject.InboundConfigurationObject shadowsocks = 5;
+      VMESSObject.InboundConfigurationObject vmess = 6;
+    }
+  }
+
+  message SniffingObject
+  {
+    bool enabled = 1;
+    repeated string destOverride = 2;
+    bool metadataOnly = 3;
+  }
+
+  message AllocateObject
+  {
+    string strategy = 1;
+    int32 refresh = 2;
+    int32 concurrency = 3;
+  }
+
   string listen = 1;
   uint32 port = 2;
   string protocol = 3;
-  InboundConfigurationValue settings = 4;
-  string tag = 5;
-}
-
-message OutboundConfigurationValue
-{
-  oneof kind
-  {
-    SOCKSObject.OutboundConfigurationObject socks = 1;
-    HTTPObject.OutboundConfigurationObject http = 2;
-    TrojanObject.OutboundConfigurationObject trojan = 3;
-    ShadowsocksObject.OutboundConfigurationObject shadowsocks = 4;
-    VMESSObject.OutboundConfigurationObject vmess = 5;
-  }
-}
-
-message TLSObject
-{
-  string serverName = 1;
-  repeated string alpn = 2;
-  bool allowInsecure = 3;
-  bool disableSystemRoot = 4;
-  repeated string certificates = 5;
-  bool verifyClientCertificate = 6;
-  string pinnedPeerCertificateChainSha256 = 7;
-}
-
-message StreamSettingsObject
-{
-  string network = 1;
-  string security = 2;
-  TLSObject tlsSettings = 3;
+  InboundSettings settings = 4;
+  StreamSettingsObject streamSettings = 5;
+  string tag = 6;
+  SniffingObject sniffing = 7;
+  AllocateObject allocate = 8;
 }
 
 message OutboundObject
 {
+  message OutboundSettings
+  {
+    oneof kind
+    {
+      SOCKSObject.OutboundConfigurationObject socks = 1;
+      HTTPObject.OutboundConfigurationObject http = 2;
+      TrojanObject.OutboundConfigurationObject trojan = 3;
+      ShadowsocksObject.OutboundConfigurationObject shadowsocks = 4;
+      VMESSObject.OutboundConfigurationObject vmess = 5;
+    }
+  }
+
+  message ProxySettingsObject
+  {
+    string tag = 1;
+    bool transportLayer = 2;
+  }
+
+  message MuxObject
+  {
+    bool enabled = 1;
+    int32 concurrency = 2;
+  }
+
   string sendThrough = 1;
   string protocol = 2;
-  OutboundConfigurationValue settings = 3;
-  StreamSettingsObject streamSettings = 4;
-  string tag = 5;
+  OutboundSettings settings = 3;
+  string tag = 4;
+  StreamSettingsObject streamSettings = 5;
+  ProxySettingsObject proxySettings = 6;
+  MuxObject mux = 7;
 }
 
-message SystemPolicyObject
+message TransportObject
 {
-  bool statsInboundDownlink = 1;
-  bool statsInboundUplink = 2;
-  bool statsOutboundDownlink = 3;
-  bool statsOutboundUplink = 4;
-}
+  message Headers { repeated string headers = 1; }
 
-message PolicyObject
-{
-  SystemPolicyObject system = 1;
-}
+  message TCPObject
+  {
+    message HeaderObject
+    {
+      message HTTPRequestObject
+      {
+        string version = 1;
+        string method = 2;
+        repeated string path = 3;
+        map<string, Headers> headers = 4;
+      }
 
-message RuleObject
-{
-  string domainMatcher = 1;
-  string type = 2;
-  repeated string domains = 3;
-  repeated string ip = 4;
-  string port = 5;
-  string sourcePort = 6;
-  string network = 7;
-  repeated string source = 8;
-  repeated string user = 9;
-  repeated string inboundTag = 10;
-  repeated string protocol = 11;
-  string attrs = 12;
-  string outboundTag = 13;
-  string balancerTag = 14;
-}
+      message HTTPResponseObject
+      {
+        string version = 1;
+        string status = 2;
+        string reason = 3;
+        map<string, Headers> headers = 4;
+      }
 
-message StrategyObject
-{
-  string type = 1;
-}
+      string type = 1;
+      HTTPRequestObject request = 2;
+      HTTPResponseObject response = 3;
+    }
 
-message BalancerObject
-{
-  string tag = 1;
-  repeated string selector = 2;
-  StrategyObject strategy = 3;
-}
+    bool accpetProxyProtocol = 1;
+    HeaderObject header = 2;
+  }
 
-message RoutingObject
-{
-  string domainMatcher = 1;
-  string domainStrategy = 2;
-  repeated RuleObject rules = 3;
+  message KCPObject
+  {
+    message HeaderObject { string type = 1; }
+
+    uint32 mtu = 1;
+    uint32 tti = 2;
+    uint32 uplinkCapacity = 3;
+    uint32 downlinkCpacity = 4;
+    bool congestion = 5;
+    uint32 readBufferSize = 6;
+    uint32 writeBufferSize = 7;
+    HeaderObject header = 8;
+    string seed = 9;
+  }
+
+  message WebSocketObject
+  {
+    bool accpetProxyProtocol = 1;
+    string path = 2;
+    map<string, string> headers = 3;
+    int32 maxEarlyData = 4;
+    bool useBrowserForwarding = 5;
+    string earlyDataHeaderName = 6;
+  }
+
+  message HTTPObject
+  {
+    repeated string host = 1;
+    string path = 2;
+    string method = 3;
+    map<string, Headers> headers = 4;
+  }
+
+  message QUICObject
+  {
+    message HeaderObject { string type = 1; }
+
+    string security = 1;
+    string key = 2;
+    HeaderObject header = 3;
+  }
+
+  message DomainSocketObject
+  {
+    string path = 1;
+    bool abstract = 2;
+    bool padding = 3;
+  }
+
+  message GRPCObject { string serviceName = 1; }
+
+  TCPObject tcpSettings = 1;
+  KCPObject kcpSettings = 2;
+  WebSocketObject wsSettings = 3;
+  HTTPObject httpSettings = 4;
+  QUICObject QuicSettings = 5;
+  DomainSocketObject dsSettings = 6;
+  GRPCObject grpcSettings = 7;
 }
 
 message StatsObject {}
+
+message ReverseObject {}
+
+message FakeDNSObject {}
+
+message BrowserForwarderObject {}
+
+message ObservatoryObject {}
 
 message V2rayConfig
 {
   LogObject log = 1;
   APIObject api = 2;
-  repeated InboundObject inbounds = 3;
-  repeated OutboundObject outbounds = 4;
+  DNSObject dns = 3;
+  RoutingObject routing = 4;
   PolicyObject policy = 5;
-  RoutingObject routing = 6;
-  StatsObject stats = 7;
+  repeated InboundObject inbounds = 6;
+  repeated OutboundObject outbounds = 7;
+  TransportObject transport = 8;
+  StatsObject stats = 9;
+  ReverseObject reverse = 10;
+  repeated FakeDNSObject fakedns = 11;
+  BrowserForwarderObject browserForwarder = 12;
+  ObservatoryObject observatory = 13;
 }
