@@ -146,9 +146,8 @@ set(PROJECT_SOURCES
     )
 
 add_library(across_proto STATIC
-    ${GRPC_HEADERS}
     ${GRPC_SOURCES}
-    )
+    ${GRPC_HEADERS})
 ##############################
 
 ######## COMPILE ########

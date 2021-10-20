@@ -22,4 +22,12 @@ get_filename_component(PROTO_DIR "${CMAKE_SOURCE_DIR}/misc/" ABSOLUTE)
 foreach(PROTO_NAME IN LISTS PROTO_NAME_LISTS)
     get_filename_component(PROTO_FILE "${PROTO_DIR}/${PROTO_NAME}.proto" ABSOLUTE)
     list(APPEND PTORO_FILES ${PROTO_FILE})
+
+    list(APPEND PROTO_SOURCES
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.cc"
+        )
+
+    list(APPEND PTORO_HEADERS
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROTO_NAME}.pb.h"
+        )
 endforeach()
