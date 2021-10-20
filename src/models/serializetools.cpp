@@ -55,7 +55,9 @@ SerializeTools::sip002Decode(const std::string& url_str)
   // ss://<websafe-base64-encode-utf8(method:password)>@hostname:port/?plugin"#"tag
 
   QUrl url(url_str.c_str());
+
   URLMetaObject meta;
+  meta.name = url.fragment(QUrl::FullyDecoded).toStdString();
 
   auto outbound = &meta.outbound;
   outbound->set_protocol("shadowsocks");
@@ -72,7 +74,6 @@ SerializeTools::sip002Decode(const std::string& url_str)
   server->set_port(url.port());
   server->set_password(user_info.split(":").last().toStdString());
   server->set_method(user_info.split(":").first().toStdString());
-  meta.name = url.fragment(QUrl::FullyDecoded).toStdString();
 
   return meta;
 }
@@ -111,7 +112,9 @@ SerializeTools::trojanDecode(const std::string& url_str)
   // trojan://<password>@<host>:<port>?sni=<server_name>&allowinsecure=<allow_insecure>&alpn=h2%0Ahttp/1.1#<name>
 
   QUrl url(url_str.c_str());
+
   URLMetaObject meta;
+  meta.name = url.fragment(QUrl::FullyDecoded).toStdString();
 
   auto outbound = &meta.outbound;
   outbound->set_protocol("trojan");
