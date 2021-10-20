@@ -65,7 +65,7 @@ public:
   void clearFilter();
   void clearItems();
   void reloadItems();
-  Json generateConfig();
+  QString generateConfig();
   void appendNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);

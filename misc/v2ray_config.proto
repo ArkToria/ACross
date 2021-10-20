@@ -306,7 +306,7 @@ message InboundObject
     {
       SOCKSObject.InboundConfigurationObject socks = 1;
       HTTPObject.InboundConfigurationObject http = 2;
-      DokodemoDoorObject.InboundConfigurationObject dokodemoDoor = 3;
+      DokodemoDoorObject.InboundConfigurationObject dokodemo_door = 3;
       TrojanObject.InboundConfigurationObject trojan = 4;
       ShadowsocksObject.InboundConfigurationObject shadowsocks = 5;
       VMESSObject.InboundConfigurationObject vmess = 6;

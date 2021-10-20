@@ -168,7 +168,7 @@ ConfigTools::setInboundObject(v2ray::config::V2rayConfig& config)
     inbound->set_protocol("dokodemo-door");
     inbound->set_tag("ACROSS_API_INBOUND");
 
-    auto dokodemo_door = inbound->mutable_settings()->mutable_dokodemodoor();
+    auto dokodemo_door = inbound->mutable_settings()->mutable_dokodemo_door();
     dokodemo_door->set_address(api_setting.listen());
   }
 }
@@ -521,8 +521,9 @@ ConfigTools::setAssetsPath(const QUrl& val)
 void
 ConfigTools::setLogLevel(const QString& log_level)
 {
-  if (log_level == p_core->log_level().c_str())
+  if (log_level == p_core->log_level().c_str() || log_level == "current")
     return;
+
   p_core->set_log_level(log_level.toStdString());
   emit configChanged();
   emit logLevelChanged();

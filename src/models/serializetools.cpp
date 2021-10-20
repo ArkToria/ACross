@@ -23,6 +23,9 @@ SerializeTools::sip008Parser(const std::string& url_str)
   for (auto& item : root["servers"]) {
     URLMetaObject meta;
     auto outbound = &meta.outbound;
+    outbound->set_protocol("shadowsocks");
+    outbound->set_sendthrough("0.0.0.0");
+
     auto shadowsocks = outbound->mutable_settings()->mutable_shadowsocks();
     auto server = shadowsocks->add_servers();
 
@@ -53,7 +56,11 @@ SerializeTools::sip002Decode(const std::string& url_str)
 
   QUrl url(url_str.c_str());
   URLMetaObject meta;
+
   auto outbound = &meta.outbound;
+  outbound->set_protocol("shadowsocks");
+  outbound->set_sendthrough("0.0.0.0");
+
   auto shadowsocks = outbound->mutable_settings()->mutable_shadowsocks();
   auto server = shadowsocks->add_servers();
 
@@ -105,7 +112,11 @@ SerializeTools::trojanDecode(const std::string& url_str)
 
   QUrl url(url_str.c_str());
   URLMetaObject meta;
+
   auto outbound = &meta.outbound;
+  outbound->set_protocol("trojan");
+  outbound->set_sendthrough("0.0.0.0");
+
   auto trojan = outbound->mutable_settings()->mutable_trojan();
   auto server = trojan->add_servers();
 
@@ -242,6 +253,9 @@ SerializeTools::vmessBase64Decode(const std::string& url_str)
 
   URLMetaObject meta;
   auto outbound = &meta.outbound;
+  outbound->set_protocol("vmess");
+  outbound->set_sendthrough("0.0.0.0");
+
   auto vmess = outbound->mutable_settings()->mutable_vmess();
   auto server = vmess->add_vnext();
   auto user = server->add_users();
@@ -467,11 +481,7 @@ google::protobuf::util::JsonPrintOptions
 SerializeTools::defaultPrintOptions()
 {
   google::protobuf::util::JsonPrintOptions options;
-
-#ifdef QT_DEBUG
   options.add_whitespace = true;
-#endif
-
   options.always_print_primitive_fields = false;
   options.preserve_proto_field_names = true;
   options.always_print_enums_as_ints = true;
@@ -510,4 +520,28 @@ SerializeTools::JsonToOutbound(const std::string& json_str)
   v2ray::config::OutboundObject outbound;
   google::protobuf::util::JsonStringToMessage(json_str, &outbound);
   return outbound;
+}
+
+std::string
+SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config)
+{
+  auto root = Json::parse(MessageToJson(origin_config));
+
+  if (!root.contains("outbounds") || !root["outbounds"].is_array() ||
+      !root.contains("inbounds") || !root["inbounds"].is_array())
+    return "";
+
+  for (auto key : { "inbounds", "outbounds" }) {
+    for (size_t i = 0; i < root[key].size(); ++i) {
+      auto protocol =
+        QString::fromStdString(root[key][i]["protocol"].get<std::string>())
+          .replace("_", "-")
+          .toStdString();
+
+      auto setting = root[key][i]["settings"][protocol];
+      root[key][i]["settings"] = setting;
+    }
+  }
+
+  return root.dump();
 }

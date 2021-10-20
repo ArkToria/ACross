@@ -144,9 +144,7 @@ NodeList::run()
       p_logger->error("Failed to load core tools");
     };
 
-    auto config = generateConfig();
-
-    p_core->setConfig(QString::fromStdString(config.dump()));
+    p_core->setConfig(generateConfig());
     p_core->run();
     res = true;
   } while (false);
@@ -215,7 +213,7 @@ NodeList::reloadItems()
   emit postItemsReset();
 }
 
-Json
+QString
 NodeList::generateConfig()
 {
   v2ray::config::V2rayConfig config;
@@ -250,13 +248,13 @@ NodeList::generateConfig()
     across::SerializeTools::JsonToOutbound(m_node.raw.toStdString());
   outbound->CopyFrom(temp_outbound);
 
-  std::string json_str;
-  MessageToJsonString(config, &json_str, SerializeTools::defaultPrintOptions());
+  auto json_str =
+    QString::fromStdString(across::SerializeTools::ConfigToJson(config));
 
 #ifdef QT_DEBUG
   QFile file("generation_test.json");
-  if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-    file.write(json_str.c_str());
+  if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    file.write(json_str.toUtf8());
     file.close();
   }
 #endif

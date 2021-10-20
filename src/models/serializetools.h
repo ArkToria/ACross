@@ -11,6 +11,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 #include <optional>
+#include <string>
 
 #include "across.grpc.pb.h"
 #include "v2ray_config.grpc.pb.h"
@@ -59,6 +60,7 @@ public:
   static across::config::Config JsonToACrossConfig(const std::string& json_str);
   static v2ray::config::OutboundObject JsonToOutbound(
     const std::string& json_str);
+  static std::string ConfigToJson(v2ray::config::V2rayConfig& origin_config);
 };
 }
 

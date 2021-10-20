@@ -77,7 +77,7 @@ Item {
             Layout.columnSpan: 2
 
             displayText: acrossConfig.logLevel
-            model: ["current", "debug", "info", "warn", "error", "none"]
+            model: ["current", "debug", "info", "warning", "error", "none"]
 
             onEditTextChanged: {
                 if (model.editText !== "current") {
