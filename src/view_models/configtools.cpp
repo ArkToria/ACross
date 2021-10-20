@@ -15,7 +15,7 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
     this, &ConfigTools::configChanged, this, [&]() { this->saveConfig(); });
 
   if (loadConfigPath()) {
-    if (auto json_str = ConfigHelper::readFromFile(m_config_path.toStdString());
+    if (auto json_str = ConfigHelper::readFromFile(m_config_path);
         !json_str.empty()) {
       mergeConfigFromJSON(json_str);
     } else {
@@ -77,8 +77,7 @@ ConfigTools::loadConfigPath(const QString& file_path)
     this->m_config_path = config_dir.filePath(m_config_name);
 
     if (!isFileExist(this->m_config_path)) {
-      ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
-                               this->m_config_path.toStdString());
+      saveConfig();
       result = false;
     }
   } while (false);
@@ -264,12 +263,12 @@ ConfigTools::freshInbound()
 void
 ConfigTools::saveConfig(QString config_path)
 {
+  auto json_str = SerializeTools::MessageToJson(m_conf);
+
   if (!config_path.isEmpty()) {
-    ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
-                             config_path.toStdString());
+    ConfigHelper::saveToFile(json_str, config_path);
   } else {
-    ConfigHelper::saveToFile(ConfigHelper::toJson(m_conf),
-                             m_config_path.toStdString());
+    ConfigHelper::saveToFile(json_str, m_config_path);
   }
 }
 
@@ -1209,7 +1208,7 @@ ConfigTools::mergeConfigFromJSON(const std::string& json_str)
 {
   QList<Theme> temp_themes;
   auto default_themes = m_conf.themes();
-  auto origin_conf = ConfigHelper::fromJson(json_str);
+  auto origin_conf = SerializeTools::JsonToACrossConfig(json_str);
 
   m_conf.mutable_themes()->Clear();
   m_conf.MergeFrom(origin_conf);

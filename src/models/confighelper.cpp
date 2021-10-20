@@ -8,37 +8,6 @@ using namespace google::protobuf::util;
 using namespace across;
 using namespace across::setting;
 
-std::string
-ConfigHelper::toJson(config::Config& config,
-                     google::protobuf::util::JsonPrintOptions options)
-{
-  std::string json_string;
-
-  MessageToJsonString(config, &json_string, options);
-
-  return json_string;
-}
-
-across::config::Config
-ConfigHelper::fromJson(const std::string& json_string)
-{
-  config::Config config;
-  JsonStringToMessage(json_string, &config);
-
-  return config;
-}
-
-JsonPrintOptions
-ConfigHelper::defaultPrintOptions()
-{
-  google::protobuf::util::JsonPrintOptions options;
-  options.add_whitespace = true;
-  options.always_print_primitive_fields = true;
-  options.preserve_proto_field_names = true;
-
-  return options;
-}
-
 config::Config
 ConfigHelper::defaultConfig()
 {
@@ -327,19 +296,26 @@ ConfigHelper::defaultConfig()
 }
 
 void
-ConfigHelper::saveToFile(const std::string& content,
-                         const std::string& file_path)
+ConfigHelper::saveToFile(const std::string& content, const QString& file_path)
 {
-  std::ofstream file(file_path);
-  file << content;
-  file.close();
+  QFile file(file_path);
+  if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+    file.write(content.c_str());
+    file.close();
+  }
 }
 
 std::string
-ConfigHelper::readFromFile(const std::string& file_path)
+ConfigHelper::readFromFile(const QString& file_path)
 {
-  std::ifstream file(file_path);
-  std::ostringstream ss;
-  ss << file.rdbuf();
-  return ss.str();
+  std::string content_str;
+
+  QFile file(file_path);
+  if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    auto content = file.readAll();
+    content_str = content.toStdString();
+    file.close();
+  }
+
+  return content_str;
 }
