@@ -116,77 +116,62 @@ ConfigTools::configPtr()
 }
 
 void
-ConfigTools::setInboundObject(Json& root)
+ConfigTools::setInboundObject(v2ray::config::V2rayConfig& config)
 {
-  Json::array_t inbounds;
-  if (auto http = p_inbound->http(); http.enable()) {
-    Json http_object;
-    http_object["listen"] = p_inbound->http().listen();
-    http_object["port"] = p_inbound->http().port();
-    http_object["protocol"] = "http";
-    http_object["tag"] = "http_IN";
+  if (auto http_setting = p_inbound->http(); http_setting.enable()) {
+    auto inbound = config.add_inbounds();
+    auto http = inbound->mutable_settings()->mutable_http();
 
-    Json settings;
-    settings["allowTransparent"] = http.allow_transparent();
-    settings["timeout"] = http.timeout();
-    settings["userLevel"] = http.user_level();
+    inbound->set_listen(http_setting.listen());
+    inbound->set_port(http_setting.port());
+    inbound->set_protocol("http");
+    inbound->set_tag("HTTP_IN");
 
-    if (auto auth = http.auth(); auth.enable()) {
-      Json account;
-      account["user"] = auth.username();
-      account["pass"] = auth.password();
+    http->set_allowtransparent(http_setting.allow_transparent());
+    http->set_timeout(http_setting.timeout());
+    http->set_userlevel(http_setting.user_level());
 
-      Json::array_t accounts;
-      accounts.emplace_back(account);
-      settings["accounts"] = accounts;
+    if (auto auth_setting = http_setting.auth(); auth_setting.enable()) {
+      auto auth = http->add_accounts();
+      auth->set_user(auth_setting.username());
+      auth->set_pass(auth_setting.password());
     }
-
-    http_object["settings"] = settings;
-    inbounds.emplace_back(http_object);
   }
 
-  if (auto socks5 = p_inbound->socks5(); socks5.enable()) {
-    Json socks5_object;
-    socks5_object["listen"] = socks5.listen();
-    socks5_object["port"] = socks5.port();
-    socks5_object["protocol"] = "socks";
-    socks5_object["tag"] = "socks5_IN";
+  if (auto socks5_setting = p_inbound->socks5(); socks5_setting.enable()) {
+    auto inbound = config.add_inbounds();
+    auto socks = inbound->mutable_settings()->mutable_socks();
 
-    Json settings;
-    settings["userLevel"] = socks5.user_level();
-    if (auto auth = socks5.auth(); auth.enable()) {
-      settings["auth"] = "password";
+    inbound->set_listen(socks5_setting.listen());
+    inbound->set_port(socks5_setting.port());
+    inbound->set_protocol("socks");
+    inbound->set_tag("SOCKS_IN");
 
-      Json account;
-      account["user"] = auth.username();
-      account["pass"] = auth.password();
+    socks->set_userlevel(socks5_setting.user_level());
 
-      Json::array_t accounts;
-      accounts.emplace_back(account);
-      settings["accounts"] = accounts;
+    if (auto auth_setting = socks5_setting.auth(); auth_setting.enable()) {
+      auto auth = socks->add_accounts();
+      auth->set_user(auth_setting.username());
+      auth->set_pass(auth_setting.password());
     }
 
-    if (socks5.udp_enable()) {
-      settings["udp"] = true;
-      settings["ip"] = socks5.udp_ip();
+    if (socks5_setting.udp_enable()) {
+      socks->set_udp(true);
+      socks->set_ip(socks5_setting.udp_ip());
     }
-
-    socks5_object["settings"] = settings;
-    inbounds.emplace_back(socks5_object);
   }
 
-  if (auto api = p_core->api(); api.enable()) {
-    Json api_object;
-    api_object["listen"] = api.listen();
-    api_object["port"] = api.port();
-    api_object["protocol"] = "dokodemo-door";
-    api_object["settings"]["address"] = api.listen();
-    api_object["tag"] = "ACROSS_API_INBOUND";
+  if (auto api_setting = p_core->api(); api_setting.enable()) {
+    auto inbound = config.add_inbounds();
 
-    inbounds.emplace_back(api_object);
+    inbound->set_listen(api_setting.listen());
+    inbound->set_port(api_setting.port());
+    inbound->set_protocol("dokodemo-door");
+    inbound->set_tag("ACROSS_API_INBOUND");
+
+    auto dokodemo_door = inbound->mutable_settings()->mutable_dokodemodoor();
+    dokodemo_door->set_address(api_setting.listen());
   }
-
-  root["inbounds"] = inbounds;
 }
 
 QString

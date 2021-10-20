@@ -4,7 +4,6 @@
 #include <QObject>
 
 #include "../models/dbtools.h"
-#include "../models/jsontools.h"
 #include "../models/serializetools.h"
 #include "nodelist.h"
 #include "rawoutboundformmodel.h"
@@ -118,6 +117,7 @@ private:
   int m_port = 443;
   QString m_password = "";
   QString m_protocol = "vmess";
+  v2ray::config::V2rayConfig m_config;
 
   NodeList* p_list;
   TrojanFormModel* p_trojan;

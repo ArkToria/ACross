@@ -1,7 +1,6 @@
 #ifndef DBTOOLS_H
 #define DBTOOLS_H
 
-#include "../view_models/configtools.h"
 #include "../view_models/logtools.h"
 
 #include <QDateTime>
@@ -93,8 +92,7 @@ public:
 
   ~DBTools();
 
-  void init(QSharedPointer<LogView> log_view,
-            QSharedPointer<across::setting::ConfigTools> config);
+  void init(QSharedPointer<LogView> log_view, const QString& db_path);
   void reload();
   bool isTableExists(const QString& table_name);
   bool isGroupExists(const QString& group_name);
@@ -152,7 +150,7 @@ private:
   QList<GroupInfo> m_groups;
 
   std::shared_ptr<across::utils::LogTools> p_logger;
-  QSharedPointer<across::setting::ConfigTools> p_config = nullptr;
+  QString m_db_path = "across.db";
 };
 }
 

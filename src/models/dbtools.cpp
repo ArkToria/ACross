@@ -1,7 +1,6 @@
 #include "dbtools.h"
 
 using namespace across;
-using namespace across::setting;
 using namespace across::utils;
 
 DBTools::DBTools(QObject* parent) {}
@@ -12,12 +11,10 @@ DBTools::~DBTools()
 }
 
 void
-DBTools::init(QSharedPointer<LogView> log_view,
-              QSharedPointer<ConfigTools> config)
+DBTools::init(QSharedPointer<LogView> log_view, const QString& db_path)
 {
   p_logger = std::make_shared<LogTools>(log_view, "database");
-  p_config = config;
-
+  m_db_path = db_path;
   reload();
 }
 
@@ -27,21 +24,18 @@ DBTools::reload()
   close();
 
   do {
-    if (p_config == nullptr)
-      break;
 
-    auto db_path = p_config->dbPath();
-    if (db_path.isEmpty()) {
+    if (m_db_path.isEmpty()) {
       p_logger->error("Failed to load database on path");
       break;
     } else {
-      p_logger->info("Open database on path: {}", db_path.toStdString());
+      p_logger->info("Open database on path: {}", m_db_path.toStdString());
     }
 
     QSqlError result;
     if (QSqlDatabase::isDriverAvailable("QSQLITE")) {
       m_db = QSqlDatabase::addDatabase("QSQLITE");
-      m_db.setDatabaseName(db_path);
+      m_db.setDatabaseName(m_db_path);
       if (!m_db.open()) {
         p_logger->error("Failed to open database");
         break;

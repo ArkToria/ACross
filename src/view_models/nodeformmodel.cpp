@@ -1,8 +1,6 @@
 #include "nodeformmodel.h"
 
 using namespace across;
-using namespace across::config;
-using namespace across::utils;
 
 NodeFormModel::NodeFormModel(QObject* parent)
   : QObject(parent)
@@ -171,39 +169,38 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node)
     return false;
   }
 
-  TrojanObject::OutboundSettingObject outbound_setting;
-  outbound_setting.address = node.address.toStdString();
-  outbound_setting.port = node.port;
-  outbound_setting.password = node.password.toStdString();
+  auto outbound = m_config.add_outbounds();
+  outbound->set_protocol("trojan");
+  outbound->set_sendthrough("0.0.0.0");
+  outbound->set_tag("PROXY");
 
-  TransportObject::TLSObject tls;
-  tls.server_name = p_trojan->serverName().toStdString();
+  auto setting = outbound->mutable_settings()->mutable_trojan();
+
+  auto server = setting->add_servers();
+  server->set_address(node.address.toStdString());
+  server->set_password(node.password.toStdString());
+  server->set_port(node.port);
+
+  auto stream = outbound->mutable_streamsettings();
+  stream->set_network(p_trojan->network().toStdString());
+  stream->set_security(p_trojan->security().toStdString());
+
+  auto tls = stream->mutable_tlssettings();
+  tls->set_allowinsecure(false);
+  tls->set_servername(p_trojan->serverName().toStdString());
+
   if (p_trojan->alpn() == "h2+http/1.1") {
-    tls.appendAlpn("h2");
-    tls.appendAlpn("http/1.1");
+    tls->add_alpn("h2");
+    tls->add_alpn("http/1.1");
   } else {
-    tls.appendAlpn(p_trojan->alpn().toStdString());
+    tls->add_alpn(p_trojan->alpn().toStdString());
   }
 
-  TransportObject::OutboundStreamObject outbound_stream;
-  outbound_stream.network = magic_enum::enum_cast<TransportObject::Network>(
-                              p_trojan->network().toStdString())
-                              .value();
-  outbound_stream.security = p_trojan->security().toStdString();
-  outbound_stream.setTLSSetting(tls);
-
-  OutboundObject outbound_object;
-  outbound_object.appendTrojanObject(outbound_setting);
-  outbound_object.setTransportStreamObject(outbound_stream);
-
-  node.raw = QString::fromStdString(outbound_object.toObject().dump());
+  node.raw = SerializeTools::MessageToJson(*outbound).c_str();
 
   URLMetaObject meta = {
     .name = node.name.toStdString(),
-    .address = node.address.toStdString(),
-    .port = node.port,
-    .password = node.password.toStdString(),
-    .outbound_object = outbound_object,
+    .outbound = *outbound,
   };
 
   node.url = SerializeTools::trojanEncode(meta)->toEncoded();
@@ -218,27 +215,28 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node)
     return false;
   }
 
-  ShadowsocksObject::OutboundSettingObject outbound_setting;
-  outbound_setting.address = node.address.toStdString();
-  outbound_setting.port = node.port;
-  outbound_setting.password = node.password.toStdString();
-  outbound_setting.setMethod(p_shadowsocks->security().toStdString());
-  outbound_setting.iv_check = p_shadowsocks->ivCheck();
+  auto outbound = m_config.add_outbounds();
+  outbound->set_protocol("shadowsocks");
+  outbound->set_sendthrough("0.0.0.0");
+  outbound->set_tag("PROXY");
 
-  OutboundObject outbound_object;
-  outbound_object.appendShadowsocksObject(outbound_setting);
+  auto setting = outbound->mutable_settings()->mutable_shadowsocks();
 
-  node.raw = QString::fromStdString(outbound_object.toObject().dump());
+  auto server = setting->add_servers();
+  server->set_address(node.address.toStdString());
+  server->set_port(node.port);
+  server->set_password(node.password.toStdString());
+  server->set_method(p_shadowsocks->security().toStdString());
+  server->set_ivcheck(p_shadowsocks->ivCheck());
 
-  SIP008::Server server = {
-    .remarks = node.name.toStdString(),
-    .server = node.address.toStdString(),
-    .server_port = node.port,
-    .password = node.password.toStdString(),
-    .method = p_shadowsocks->security().toStdString(),
+  node.raw = SerializeTools::MessageToJson(*outbound).c_str();
+
+  URLMetaObject meta = {
+    .name = node.name.toStdString(),
+    .outbound = *outbound,
   };
 
-  node.url = SerializeTools::sip002Encode(server)->toEncoded();
+  node.url = SerializeTools::sip002Encode(meta)->toEncoded();
 
   return true;
 }
@@ -250,50 +248,41 @@ NodeFormModel::setVMessOutboud(NodeInfo& node)
     return false;
   }
 
-  VMessObject::UserObject user_object;
-  user_object.id = node.password.toStdString();
-  user_object.alter_id = p_vmess->alterID().toInt();
-  user_object.setMethod(p_vmess->security().toStdString());
+  auto outbound = m_config.add_outbounds();
+  outbound->set_protocol("vmess");
+  outbound->set_sendthrough("0.0.0.0");
+  outbound->set_tag("PROXY");
 
-  VMessObject::OutboundSettingObject outbound_setting;
-  outbound_setting.address = node.address.toStdString();
-  outbound_setting.port = node.port;
-  outbound_setting.appendUserObject(user_object);
+  auto setting = outbound->mutable_settings()->mutable_vmess();
 
-  TransportObject::OutboundStreamObject outbound_stream;
-  outbound_stream.network = magic_enum::enum_cast<TransportObject::Network>(
-                              p_vmess->network().toStdString())
-                              .value();
+  auto server = setting->add_vnext();
+
+  auto user = server->add_users();
+  user->set_id(node.password.toStdString());
+  user->set_alterid(p_vmess->alterID().toInt());
+  user->set_security(p_vmess->security().toStdString());
+
+  auto stream = outbound->mutable_streamsettings();
+  stream->set_network(p_vmess->network().toStdString());
   if (p_vmess->tlsEnable()) {
-    outbound_stream.security = "tls"; // default value
+    stream->set_security("tls");
   } else {
-    outbound_stream.security = "none"; // default value
+    stream->set_security("none");
   }
 
-  TransportObject::WebSocketObject websocket_object;
+  if (stream->network() == "ws") {
+    auto websocket = stream->mutable_wssettings();
+    websocket->set_path(p_vmess->path().toStdString());
 
-  switch (outbound_stream.network) {
-    case TransportObject::Network::ws:
-      websocket_object.setHost(p_vmess->host().toStdString());
-      websocket_object.path = p_vmess->path().toStdString();
-      outbound_stream.setWebsocketSetting(websocket_object);
-      break;
-    default:
-      break;
+    auto headers = websocket->mutable_headers();
+    headers->insert({ "Host", p_vmess->host().toStdString() });
   }
 
-  OutboundObject outbound_object;
-  outbound_object.appendVMessObject(outbound_setting);
-  outbound_object.setTransportStreamObject(outbound_stream);
-
-  node.raw = QString::fromStdString(outbound_object.toObject().dump());
+  node.raw = SerializeTools::MessageToJson(*outbound).c_str();
 
   URLMetaObject meta = {
     .name = node.name.toStdString(),
-    .address = node.address.toStdString(),
-    .port = node.port,
-    .password = node.password.toStdString(),
-    .outbound_object = outbound_object,
+    .outbound = *outbound,
   };
 
   node.url = SerializeTools::vmessBase64Encode(meta)->toEncoded();
@@ -304,23 +293,21 @@ NodeFormModel::setVMessOutboud(NodeInfo& node)
 bool
 NodeFormModel::setRawOutbound(NodeInfo& node)
 {
-  if (p_raw->rawText().isEmpty()) {
+  if (p_raw->rawText().isEmpty())
     return false;
-  }
 
-  JsonTools json_tools;
-  json_tools.setData(p_raw->rawText().toStdString());
-  auto root = json_tools.getRoot();
+  auto root = Json::parse(p_raw->rawText().toStdString());
+  if (!root.contains("protocol"))
+    return false;
+  else
+    node.raw = root.dump().c_str();
 
-  auto protocol =
-    magic_enum::enum_cast<EntryType>(root["protocol"].get<std::string>());
-  if (protocol.has_value()) {
+  if (auto protocol =
+        magic_enum::enum_cast<EntryType>(root["protocol"].get<std::string>());
+      protocol.has_value())
     node.protocol = protocol.value();
-  } else {
+  else
     node.protocol = EntryType::unknown;
-  }
-
-  node.raw = p_raw->rawText();
 
   return true;
 }
@@ -336,7 +323,7 @@ NodeFormModel::decodeOutboundFromURL(NodeInfo& node)
       break;
     }
 
-    result = SerializeTools::decodeOutboundFromURL(node, data);
+    result = SerializeTools::decodeOutboundFromURL(node, data.toStdString());
   } while (false);
 
   return result;

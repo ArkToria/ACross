@@ -5,9 +5,9 @@
 #include "../models/clipboardtools.h"
 #include "../models/coretools.h"
 #include "../models/dbtools.h"
-#include "../models/jsontools.h"
 #include "../models/notifytools.h"
 #include "../models/qrcodetools.h"
+#include "../models/serializetools.h"
 
 #include "configtools.h"
 #include "logtools.h"
@@ -132,7 +132,6 @@ signals:
 
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;
-  std::shared_ptr<across::config::JsonTools> p_json;
   QSharedPointer<DBTools> p_db;
   QSharedPointer<across::core::APITools> p_api;
   QSharedPointer<across::setting::ConfigTools> p_config;

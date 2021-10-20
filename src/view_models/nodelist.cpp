@@ -25,8 +25,6 @@ NodeList::init(QSharedPointer<LogView> log_view,
 {
   p_logger = std::make_shared<LogTools>(log_view, "node_list");
 
-  p_json = std::make_shared<JsonTools>();
-
   p_db = db;
 
   p_config = config;
@@ -142,10 +140,6 @@ NodeList::run()
       break;
     }
 
-    if (p_json == nullptr) {
-      p_logger->error("Failed to load json tools");
-    };
-
     if (p_core == nullptr) {
       p_logger->error("Failed to load core tools");
     };
@@ -224,59 +218,50 @@ NodeList::reloadItems()
 Json
 NodeList::generateConfig()
 {
-  Json root;
-  {
-    LogObject log_object;
-    if (auto level = magic_enum::enum_cast<LogObject::LogLevel>(
-          p_config->logLevel().toStdString())) {
-      log_object.setLogLevel(level.value());
-      log_object.setObject(root);
-    }
-  }
+  v2ray::config::V2rayConfig config;
 
-  {
-    APIObject api_object;
-    api_object.setObject(root);
-  }
+  auto log_object = config.mutable_log();
+  log_object->set_loglevel(p_config->logLevel().toStdString());
 
-  {
-    RuleObject api_rule_object = {
-      .type = "field",
-      .outbound_tag = "ACROSS_API",
-    };
-    api_rule_object.inbound_tag.emplace_back("ACROSS_API_INBOUND");
+  auto api_object = config.mutable_api();
+  api_object->set_tag("ACROSS_API");
+  api_object->add_services("LoggerService");
+  api_object->add_services("StatsService");
 
-    RoutingObject routing_object;
-    routing_object.appendRuleObject(api_rule_object);
-    routing_object.setObject(root);
+  auto routing = config.mutable_routing();
+  auto rule = routing->add_rules();
+  rule->set_type("field");
+  rule->set_outboundtag("ACROSS_API");
+  rule->add_inboundtag("ACROSS_API_INBOUND");
 
-    Stats().setObject(root);
+  auto stats = config.mutable_stats();
 
-    SystemPolicyObject system_policy_object;
-    PolicyObject policy_object;
-    policy_object.setSystemPolicyObject(system_policy_object);
-    policy_object.setObject(root);
-  }
+  auto policy = config.mutable_policy();
+  auto system = policy->mutable_system();
+  system->set_statsinbounddownlink(true);
+  system->set_statsinbounduplink(true);
+  system->set_statsoutbounddownlink(true);
+  system->set_statsoutbounduplink(true);
 
-  {
-    p_config->setInboundObject(root);
-  }
+  p_config->setInboundObject(config);
 
-  {
-    p_json->setData(m_node.raw.toStdString());
+  auto outbound = config.add_outbounds();
+  auto temp_outbound =
+    across::SerializeTools::JsonToOutbound(m_node.raw.toStdString());
+  outbound->CopyFrom(temp_outbound);
 
-    OutboundObjects outbound_objects;
-    outbound_objects.appendOutboundObject(p_json->getRoot());
-    outbound_objects.setObject(root);
-  }
+  std::string json_str;
+  MessageToJsonString(config, &json_str, SerializeTools::defaultPrintOptions());
 
 #ifdef QT_DEBUG
-  std::ofstream file("generation_test.json");
-  file << root;
-  file.close();
+  QFile file("generation_test.json");
+  if (file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+    file.write(json_str.c_str());
+    file.close();
+  }
 #endif
 
-  return root;
+  return json_str;
 }
 
 void

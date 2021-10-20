@@ -111,7 +111,7 @@ Application::setRootContext()
                             p_image_provider);
   m_engine.load(url);
 
-  p_db->init(p_logview, p_config);
+  p_db->init(p_logview, p_config->dbPath());
   p_core->init(p_logview, p_config);
   p_nodes->init(p_logview, p_config, p_core, p_db);
   p_groups->init(p_logview, p_config, p_db, p_nodes, p_curl);

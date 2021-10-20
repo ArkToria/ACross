@@ -213,33 +213,32 @@ GroupList::insertSIP008(const GroupInfo& group_info, const QString& content)
   if (p_db == nullptr)
     return false;
 
-  auto sip008 = SerializeTools::sip008Parser(content.toStdString());
-  if (!sip008.has_value()) {
+  auto meta_objects = SerializeTools::sip008Parser(content.toStdString());
+  if (!meta_objects.has_value()) {
     p_logger->error("Failed to parse download subscription");
     return false;
   }
 
   QList<NodeInfo> nodes;
-  for (auto& server : sip008.value().servers) {
-    auto sip002 = SerializeTools::sip002Encode(server).value().toString();
+  for (auto& meta : meta_objects.value()) {
+    auto url = SerializeTools::sip002Encode(meta).value();
+    auto outbound = meta.outbound;
+    auto shadowsocks = outbound.settings().shadowsocks();
+    auto server = shadowsocks.servers(0);
 
-    ShadowsocksObject::OutboundSettingObject shadows_object;
-    shadows_object.fromSIP008Server(server);
-
-    OutboundObject outbound_object;
-    outbound_object.appendShadowsocksObject(shadows_object);
+    std::string json_str;
 
     NodeInfo node = {
       .id = 0,
-      .name = QString::fromStdString(server.remarks),
+      .name = QString::fromStdString(meta.name),
       .group_id = group_info.id,
       .group_name = group_info.name,
       .protocol = across::EntryType::shadowsocks,
-      .address = QString::fromStdString(server.server),
-      .port = server.server_port,
-      .password = QString::fromStdString(server.password),
-      .raw = QString::fromStdString(outbound_object.toObject().dump()),
-      .url = QString(QUrl(sip002).toEncoded()),
+      .address = server.address().c_str(),
+      .port = server.port(),
+      .password = server.password().c_str(),
+      .raw = QString::fromStdString(SerializeTools::MessageToJson(outbound)),
+      .url = QString(url.toEncoded()),
     };
 
     nodes.append(node);
@@ -276,7 +275,7 @@ GroupList::insertBase64(const GroupInfo& group_info, const QString& content)
       .group_name = group_info.name,
     };
 
-    if (!SerializeTools::decodeOutboundFromURL(node, item))
+    if (!SerializeTools::decodeOutboundFromURL(node, item.toStdString()))
       return false;
     else
       nodes.append(node);

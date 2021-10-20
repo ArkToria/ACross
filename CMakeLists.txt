@@ -103,7 +103,6 @@ set(PROJECT_HEADERS
     src/models/envtools.h
     src/models/qrcodetools.h
     src/models/networktools.h
-    src/models/jsontools.h
     src/models/serializetools.h
     src/models/clipboardtools.h
     src/models/notifytools.h
@@ -137,7 +136,6 @@ set(PROJECT_SOURCES
     src/models/envtools.cpp
     src/models/qrcodetools.cpp
     src/models/networktools.cpp
-    src/models/jsontools.cpp
     src/models/serializetools.cpp
     src/models/clipboardtools.cpp
     src/models/notifytools.cpp

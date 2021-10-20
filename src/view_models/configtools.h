@@ -4,8 +4,8 @@
 #include "../models/apitools.h"
 #include "../models/confighelper.h"
 #include "../models/envtools.h"
-#include "../models/jsontools.h"
 #include "../models/networktools.h"
+#include "../models/serializetools.h"
 #include "buildinfo.h"
 #include "logtools.h"
 
@@ -159,7 +159,7 @@ public:
   bool loadConfigPath(const QString& file_path = "");
   void loadThemeConfig();
   across::config::Config* configPtr();
-  void setInboundObject(Json& root);
+  void setInboundObject(v2ray::config::V2rayConfig& config);
   void mergeConfigFromJSON(const std::string& json_str);
 
   Q_INVOKABLE QString getConfigVersion();

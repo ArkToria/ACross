@@ -1,9 +1,8 @@
 #ifndef NETWORKTOOLS_H
 #define NETWORKTOOLS_H
 
-#include "jsontools.h"
-
 #include "curl/curl.h"
+#include "nlohmann/json.hpp"
 #include "semver.hpp"
 
 #include <QDnsLookup>
