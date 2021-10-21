@@ -28,9 +28,11 @@ jobs:
         with:
           target: "pkgbuild"
           pkgname: "pkgbuild/arch/across-dev-git"
+      - name: Export Package Name
+        run: echo "across_package_name=$(ls pkgbuild/arch/across-dev-git/ | grep pkg.tar.zst)" >> $GITHUB_ENV
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:
-          name: arch-artifact
+          name: ${{ env.across_package_name }}
           path: "pkgbuild/arch/across-dev-git/*.pkg.tar.zst"
           if-no-files-found: error
