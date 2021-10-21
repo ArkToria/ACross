@@ -394,27 +394,27 @@
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="110"/>
         <source>Subscription</source>
-        <translation type="unfinished">订阅</translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="123"/>
         <source>Type</source>
-        <translation type="unfinished">类型</translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="139"/>
         <source>Cycle (days)</source>
-        <translation type="unfinished">更新周期（天）</translation>
+        <translation>更新周期（天）</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="156"/>
         <source>Address</source>
-        <translation type="unfinished">地址</translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="166"/>
         <source>Enter the unique subscription url</source>
-        <translation type="unfinished">输入唯一的订阅链接</translation>
+        <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="180"/>
