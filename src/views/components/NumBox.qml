@@ -13,6 +13,7 @@ SpinBox {
     property int controlWidth: 10
     property int controlHeight: 8
 
+    editable: true
     contentItem: TextInput {
         text: spinBox.value
         verticalAlignment: Text.AlignVCenter
