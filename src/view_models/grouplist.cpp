@@ -440,6 +440,21 @@ GroupList::copyUrlToClipboard(int index)
 }
 
 void
+GroupList::copyNodesToClipboard(int index)
+{
+  auto item = m_groups.at(index);
+
+  QString nodes_url;
+  for (auto& node : p_db->listAllNodesFromGroupID(item.id)) {
+    nodes_url.append(node.url);
+    nodes_url.append("\n");
+  }
+  NotifyTools().send(nodes_url,
+                     QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
+  ClipboardTools().send(nodes_url);
+}
+
+void
 GroupList::handleDownloaded(const QVariant& content)
 {
   auto task = content.value<DownloadTask>();

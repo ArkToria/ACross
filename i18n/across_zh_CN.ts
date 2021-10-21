@@ -373,7 +373,7 @@
     <name>GroupEditForm</name>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="17"/>
-        <source>Edit group</source>
+        <source>Edit Group</source>
         <translation>编辑组</translation>
     </message>
     <message>
@@ -392,37 +392,37 @@
         <translation>节点链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="110"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="150"/>
         <source>Subscription</source>
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="123"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="164"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="139"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="180"/>
         <source>Cycle (days)</source>
         <translation>更新周期（天）</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="156"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="197"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="166"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="210"/>
         <source>Enter the unique subscription url</source>
         <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="180"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="266"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="193"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="279"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -893,6 +893,7 @@
     <name>across::GroupList</name>
     <message>
         <location filename="../src/view_models/grouplist.cpp" line="438"/>
+        <location filename="../src/view_models/grouplist.cpp" line="453"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

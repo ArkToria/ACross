@@ -14,7 +14,7 @@ Popup {
     x: Math.round((mainWindow.width - width) / 2 - mainPanel.width)
     y: Math.round((mainWindow.height - height) / 2)
 
-    property string title: qsTr("Edit group")
+    property string title: qsTr("Edit Group")
     property int fontSize: 14
     property var groupInfo
     property int index
@@ -82,11 +82,51 @@ Popup {
             }
             Label {
                 Layout.fillWidth: true
-                Layout.columnSpan: 4
+                Layout.columnSpan: 3
 
                 text: qsTr("Nodes URL")
                 color: acrossConfig.textColor
                 font.pointSize: fontSize
+            }
+
+            CardBox {
+                Layout.alignment: Qt.AlignRight
+                Layout.columnSpan: 1
+                Layout.preferredWidth: 30
+                Layout.preferredHeight: 30
+
+                layer.enabled: false
+                color: "transparent"
+
+                RowLayout {
+                    id: groupEditFormURLCopy
+                    anchors.centerIn: parent
+
+                    SVGBox {
+                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/copy.svg"
+                        sourceWidth: 22
+                        sourceHeight: 22
+                    }
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    hoverEnabled: true
+                    acceptedButtons: Qt.LeftButton
+
+                    onEntered: {
+                        parent.color = acrossConfig.deepColor
+                    }
+
+                    onExited: {
+                        parent.color = "transparent"
+                    }
+
+                    onClicked: {
+                        acrossGroups.copyNodesToClipboard(index)
+                    }
+                }
             }
 
             ScrollView {
@@ -108,6 +148,7 @@ Popup {
                 Layout.columnSpan: 3
 
                 text: qsTr("Subscription")
+                color: acrossConfig.textColor
                 font.pointSize: fontSize
             }
 
@@ -157,14 +198,59 @@ Popup {
                 color: acrossConfig.textColor
             }
 
-            TextFieldBox {
-                id: subscriptionUrl
+            RowLayout {
                 Layout.fillWidth: true
                 Layout.columnSpan: 3
-                visible: fromSubscriptionSwitcher.checked
 
-                placeholderText: qsTr("Enter the unique subscription url")
+                TextFieldBox {
+                    id: subscriptionUrl
+                    Layout.fillWidth: true
+                    visible: fromSubscriptionSwitcher.checked
+
+                    placeholderText: qsTr("Enter the unique subscription url")
+                }
+
+                CardBox {
+                    Layout.alignment: Qt.AlignRight
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    visible: fromSubscriptionSwitcher.checked
+
+                    layer.enabled: false
+                    color: "transparent"
+
+                    RowLayout {
+                        id: groupEditFormAddressCopy
+                        anchors.centerIn: parent
+
+                        SVGBox {
+                            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/copy.svg"
+                            sourceWidth: 22
+                            sourceHeight: 22
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+
+                        hoverEnabled: true
+                        acceptedButtons: Qt.LeftButton
+
+                        onEntered: {
+                            parent.color = acrossConfig.deepColor
+                        }
+
+                        onExited: {
+                            parent.color = "transparent"
+                        }
+
+                        onClicked: {
+                            acrossGroups.copyUrlToClipboard(index)
+                        }
+                    }
+                }
             }
+            
 
             RowLayout {
                 Layout.fillWidth: true
