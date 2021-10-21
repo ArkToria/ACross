@@ -43,7 +43,7 @@ public:
   }
 
   template<typename... Args>
-  inline void warn(fmt::format_string<Args...> fmt, Args&&... args)
+  inline void warning(fmt::format_string<Args...> fmt, Args&&... args)
   {
     p_logger->warn(fmt, std::forward<Args>(args)...);
   }

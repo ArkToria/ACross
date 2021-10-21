@@ -38,6 +38,10 @@ Item {
         contentText: qsTr("Confirm to remove group from database")
     }
 
+    GroupEditForm {
+        id: groupEditForm
+    }
+
     ColumnLayout {
         anchors.fill: parent
 

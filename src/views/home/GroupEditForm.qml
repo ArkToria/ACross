@@ -8,18 +8,39 @@ import ACross
 Popup {
     id: popWindow
     implicitWidth: 480
-    implicitHeight: 300
+    implicitHeight: 500
     contentHeight: implicitHeight
     contentWidth: implicitWidth
     x: Math.round((mainWindow.width - width) / 2 - mainPanel.width)
     y: Math.round((mainWindow.height - height) / 2)
 
-    property string title: qsTr("Create a new group")
+    property string title: qsTr("Edit group")
     property int fontSize: 14
+    property var groupInfo
+    property int index
+    property bool isSubscriotion: false
 
     modal: true
     focus: true
     closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutsideParent
+
+    onOpened: {
+        isSubscriotion = groupInfo["isSubscription"]
+        groupName.text = groupInfo["Name"]
+        pasteItemText.text = groupInfo["nodesURL"]
+
+        if (isSubscriotion) {
+            pasteItemText.readOnly = true
+            subscriptionUrl.text = groupInfo["url"]
+            subscriptionType.currentIndex = groupInfo["type"]
+            subscriptionCycleTime.value = groupInfo["cycleTime"]
+        } else {
+            pasteItemText.readOnly = false
+            subscriptionUrl.text = ""
+            subscriptionType.currentIndex = 0
+            subscriptionCycleTime.value = 1
+        }
+    }
 
     onClosed: {
         darkBackground.close()
@@ -59,29 +80,11 @@ Popup {
 
                 placeholderText: qsTr("Enter the unique group name")
             }
-
-            Label {
-                text: qsTr("Subscription")
-                color: acrossConfig.textColor
-                font.pointSize: fontSize
-            }
-
-            Item {
-                Layout.fillWidth: true
-                Layout.columnSpan: 2
-            }
-
-            SwitchBox {
-                id: fromSubscriptionSwitcher
-                Layout.alignment: Qt.AlignRight
-            }
-
             Label {
                 Layout.fillWidth: true
                 Layout.columnSpan: 4
-                visible: !fromSubscriptionSwitcher.checked
 
-                text: qsTr("From Paste")
+                text: qsTr("Nodes URL")
                 color: acrossConfig.textColor
                 font.pointSize: fontSize
             }
@@ -91,8 +94,6 @@ Popup {
                 Layout.fillHeight: true
                 Layout.columnSpan: 4
 
-                visible: !fromSubscriptionSwitcher.checked
-
                 TextAreaBox {
                     id: pasteItemText
                     implicitHeight: 72
@@ -100,6 +101,21 @@ Popup {
                     placeholderText: "ss://\n" + "vmess://\n" + "v2ray json config"
                     wrapMode: Text.NoWrap
                 }
+            }
+
+            Label {
+                Layout.fillWidth: true
+                Layout.columnSpan: 3
+
+                text: qsTr("Subscription")
+                font.pointSize: fontSize
+            }
+
+            SwitchBox {
+                id: fromSubscriptionSwitcher
+                Layout.alignment: Qt.AlignRight
+                checked: isSubscriotion
+                checkable: index !== 0
             }
 
             Label {
@@ -150,12 +166,6 @@ Popup {
                 placeholderText: qsTr("Enter the unique subscription url")
             }
 
-            Item {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                Layout.columnSpan: 4
-            }
-
             RowLayout {
                 Layout.fillWidth: true
                 Layout.columnSpan: 4
@@ -170,16 +180,11 @@ Popup {
                     text: qsTr("Accept")
 
                     onClicked: {
-                        if (fromSubscriptionSwitcher.checked) {
-                            acrossGroups.appendItem(
-                                        groupName.text, subscriptionUrl.text,
-                                        subscriptionType.currentIndex,
-                                        subscriptionCycleTime.value)
-                        } else {
-                            acrossGroups.appendItem(groupName.text,
-                                                    pasteItemText.text)
-                        }
-
+                        acrossGroups.editItem(index, groupName.text,
+                                              subscriptionUrl.text,
+                                              subscriptionType.currentIndex,
+                                              subscriptionCycleTime.value,
+                                              pasteItemText.text)
                         popWindow.close()
                     }
                 }

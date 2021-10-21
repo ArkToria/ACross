@@ -168,7 +168,7 @@ CoreTools::onReadData()
 
   if (content.contains("[Warning]")) {
     content.replace("[Warning]", "");
-    p_logger->warn("{}", content.toStdString());
+    p_logger->warning("{}", content.toStdString());
     return;
   }
 

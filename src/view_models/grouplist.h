@@ -55,10 +55,15 @@ public slots:
                   int type,
                   int cycle_time);
   void appendItem(const QString& group_name, const QString& node_items);
+  void editItem(int index,
+                const QString& group_name,
+                const QString& url,
+                int type,
+                int cycle_time,
+                const QString& node_items);
   void removeItem(int index);
   void setDisplayGroupID(int id);
   void copyUrlToClipboard(int index);
-  void editItem(int index);
   void handleDownloaded(const QVariant& content);
   void handleUpdated(const QVariant& content);
   void handleItemsChanged(int64_t group_id, int size);

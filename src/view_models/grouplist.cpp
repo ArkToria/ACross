@@ -171,13 +171,24 @@ QVariantMap
 GroupList::getGroupInfo(int index)
 {
   QVariantMap info;
+  QString nodes_url;
 
   if (index < m_groups.size()) {
+    nodes_url.clear();
+
     auto& group = m_groups.at(index);
     info.insert("Name", group.name);
     info.insert("isSubscription", group.is_subscription);
+    info.insert("type", group.type);
     info.insert("url", group.url);
     info.insert("cycleTime", group.cycle_time);
+
+    for (auto& node : p_db->listAllNodesFromGroupID(group.id)) {
+      nodes_url.append(node.url);
+      nodes_url.append("\n");
+    }
+
+    info.insert("nodesURL", nodes_url);
   }
 
   return info;
@@ -197,7 +208,7 @@ GroupList::reloadItems(bool reopen_db)
     emit postItemsReset();
 
     if (m_groups.isEmpty()) {
-      p_logger->warn("No group items from database");
+      p_logger->warning("No group items from database");
       return;
     } else {
       m_origin_groups = m_groups;
@@ -338,6 +349,70 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
 }
 
 void
+GroupList::editItem(int index,
+                    const QString& group_name,
+                    const QString& url,
+                    int type,
+                    int cycle_time,
+                    const QString& node_items)
+{
+  if (index >= m_groups.size())
+    return;
+
+  QString nodes_url;
+  auto group = m_groups.at(index);
+
+  for (auto& node : p_db->listAllNodesFromGroupID(group.id)) {
+    nodes_url.append(node.url);
+    nodes_url.append("\n");
+  }
+
+  if (group.name == group_name && group.is_subscription == !url.isEmpty() &&
+      group.type == type && group.url == url &&
+      group.cycle_time == cycle_time && nodes_url == node_items) {
+    return;
+  } else {
+    group.name = group_name;
+    group.is_subscription = !url.isEmpty();
+    group.type = magic_enum::enum_value<SubscriptionType>(type);
+    group.url = url;
+    group.cycle_time = cycle_time;
+    m_groups[index] = group;
+  }
+
+  if (auto result = p_db->update(group); result.type() != QSqlError::NoError)
+    return;
+
+  if (auto result = p_db->removeGroupFromID(group.id, true);
+      result.type() != QSqlError::NoError)
+    return;
+
+  if (group.is_subscription) {
+    DownloadTask task = {
+      .id = group.id,
+      .name = group.name,
+      .url = group.url,
+      .user_agent = p_config->networkUserAgent(),
+    };
+
+    connect(p_curl.get(),
+            &across::network::CURLTools::downloadFinished,
+            this,
+            &GroupList::handleUpdated);
+
+    p_curl->download(task);
+  } else if (!node_items.isEmpty()) {
+    if (!insert(group, node_items))
+      return;
+  } else {
+    if (!insert(group, nodes_url))
+      return;
+  }
+
+  emit itemInfoChanged(index);
+}
+
+void
 GroupList::removeItem(int index)
 {
   if (m_groups.size() > index) {
@@ -362,19 +437,6 @@ GroupList::copyUrlToClipboard(int index)
   NotifyTools().send(item.url,
                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
   ClipboardTools().send(item.url);
-}
-
-void
-GroupList::editItem(int index)
-{
-  if (index < m_groups.size()) {
-    m_groups[index].modified_time = QDateTime::currentDateTime();
-    auto item = m_groups.at(index);
-    p_db->update(item);
-    emit itemInfoChanged(index);
-  } else {
-    p_logger->error("GroupList out of index: {}", index);
-  }
 }
 
 void

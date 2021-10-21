@@ -45,10 +45,12 @@ Menu {
     Action {
         text: qsTr("Edit")
         onTriggered: {
+            darkBackground.show()
             var groupInfo = acrossGroups.getGroupInfo(index)
-            for (var prop in groupInfo) {
-                console.log("groupInfo item:", prop, "=", groupInfo[prop])
-            }
+
+            groupEditForm.groupInfo = groupInfo
+            groupEditForm.index = index
+            groupEditForm.open()
         }
     }
 

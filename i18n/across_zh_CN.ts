@@ -370,14 +370,72 @@
     </message>
 </context>
 <context>
+    <name>GroupEditForm</name>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="17"/>
+        <source>Edit group</source>
+        <translation>编辑组</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="71"/>
+        <source>Name</source>
+        <translation>名称</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="81"/>
+        <source>Enter the unique group name</source>
+        <translation>输入唯一的组名称</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="87"/>
+        <source>Nodes URL</source>
+        <translation>节点链接</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="110"/>
+        <source>Subscription</source>
+        <translation type="unfinished">订阅</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="123"/>
+        <source>Type</source>
+        <translation type="unfinished">类型</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="139"/>
+        <source>Cycle (days)</source>
+        <translation type="unfinished">更新周期（天）</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="156"/>
+        <source>Address</source>
+        <translation type="unfinished">地址</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="166"/>
+        <source>Enter the unique subscription url</source>
+        <translation type="unfinished">输入唯一的订阅链接</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="180"/>
+        <source>Accept</source>
+        <translation>接受</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupEditForm.qml" line="193"/>
+        <source>Cancel</source>
+        <translation>取消</translation>
+    </message>
+</context>
+<context>
     <name>GroupForm</name>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="19"/>
+        <location filename="../src/views/home/GroupForm.qml" line="17"/>
         <source>Create a new group</source>
         <translation>创建新组</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupForm.qml" line="51"/>
+        <location filename="../src/views/home/GroupForm.qml" line="50"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
@@ -451,7 +509,7 @@
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="58"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="60"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
@@ -460,17 +518,17 @@
         <translation type="vanished">ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="66"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="68"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="84"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="86"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="91"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="93"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -834,7 +892,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="363"/>
+        <location filename="../src/view_models/grouplist.cpp" line="438"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
