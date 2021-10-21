@@ -57,6 +57,7 @@ public slots:
   void appendItem(const QString& group_name, const QString& node_items);
   void editItem(int index,
                 const QString& group_name,
+                bool is_subscription,
                 const QString& url,
                 int type,
                 int cycle_time,

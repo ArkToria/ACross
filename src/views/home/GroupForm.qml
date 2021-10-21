@@ -114,7 +114,7 @@ Popup {
                 visible: fromSubscriptionSwitcher.checked
 
                 // defined at dbtools.h SubscriptionType enum class
-                model: ["SIP008", "Base64", "JSON"]
+                model: ["Base64", "SIP008", "JSON"]
             }
 
             Label {

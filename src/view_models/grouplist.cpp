@@ -35,12 +35,13 @@ GroupList::insert(const GroupInfo& group_info, const QString& content)
 {
   bool result = false;
   switch (group_info.type) {
-    case sip008:
-      result = this->insertSIP008(group_info, content);
-      break;
     case base64:
       result = this->insertBase64(group_info, content);
       break;
+    case sip008:
+      result = this->insertSIP008(group_info, content);
+      break;
+
     default:
       break;
   }
@@ -351,43 +352,44 @@ GroupList::appendItem(const QString& group_name, const QString& node_items)
 void
 GroupList::editItem(int index,
                     const QString& group_name,
+                    bool is_subscription,
                     const QString& url,
                     int type,
                     int cycle_time,
                     const QString& node_items)
 {
+  // disable edit for default group
   if (index >= m_groups.size())
     return;
 
-  QString nodes_url;
   auto group = m_groups.at(index);
+  group.is_subscription = is_subscription;
 
-  for (auto& node : p_db->listAllNodesFromGroupID(group.id)) {
-    nodes_url.append(node.url);
-    nodes_url.append("\n");
-  }
-
-  if (group.name == group_name && group.is_subscription == !url.isEmpty() &&
-      group.type == type && group.url == url &&
-      group.cycle_time == cycle_time && nodes_url == node_items) {
-    return;
-  } else {
+  if (!group_name.isEmpty() && index != 0)
     group.name = group_name;
-    group.is_subscription = !url.isEmpty();
+
+  bool is_url_changed = false;
+  if (group.is_subscription) {
     group.type = magic_enum::enum_value<SubscriptionType>(type);
-    group.url = url;
     group.cycle_time = cycle_time;
-    m_groups[index] = group;
+
+    if (group.url != url || node_items.isEmpty()) {
+      is_url_changed = true;
+      group.url = url;
+    }
   }
 
-  if (auto result = p_db->update(group); result.type() != QSqlError::NoError)
-    return;
+  m_groups[index] = group;
 
-  if (auto result = p_db->removeGroupFromID(group.id, true);
-      result.type() != QSqlError::NoError)
+  if (auto result = p_db->update(group); result.type() == QSqlError::NoError) {
+    if (auto result = p_db->removeGroupFromID(group.id, true);
+        result.type() != QSqlError::NoError)
+      return;
+  } else {
     return;
+  }
 
-  if (group.is_subscription) {
+  if (is_url_changed) {
     DownloadTask task = {
       .id = group.id,
       .name = group.name,
@@ -402,14 +404,8 @@ GroupList::editItem(int index,
 
     p_curl->download(task);
   } else if (!node_items.isEmpty()) {
-    if (!insert(group, node_items))
-      return;
-  } else {
-    if (!insert(group, nodes_url))
-      return;
+    this->insertBase64(group, node_items);
   }
-
-  emit itemInfoChanged(index);
 }
 
 void
@@ -449,6 +445,7 @@ GroupList::copyNodesToClipboard(int index)
     nodes_url.append(node.url);
     nodes_url.append("\n");
   }
+
   NotifyTools().send(nodes_url,
                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
   ClipboardTools().send(nodes_url);

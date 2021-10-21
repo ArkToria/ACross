@@ -65,6 +65,14 @@ Menu {
     }
 
     Action {
+        text: qsTr("Copy Nodes")
+
+        onTriggered: {
+            acrossGroups.copyNodesToClipboard(index)
+        }
+    }
+
+    Action {
         text: qsTr("TCP Ping")
         onTriggered: {
             acrossGroups.testTcpPing(index)

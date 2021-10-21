@@ -14,10 +14,9 @@
 namespace across {
 enum SubscriptionType : int
 {
-  sip008 = 0,
-  base64,
-  jsonraw,
-  none
+  base64 = 0,
+  sip008 = 1,
+  jsonraw = 2,
 };
 
 enum EntryType : int
@@ -54,7 +53,7 @@ struct GroupInfo
   qint64 id = 0;
   QString name = "";
   bool is_subscription = false;
-  SubscriptionType type = none;
+  SubscriptionType type = base64;
   QString url = "";
   int cycle_time = 0;
   QDateTime created_time;

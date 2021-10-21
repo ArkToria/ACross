@@ -78,6 +78,7 @@ Popup {
                 Layout.columnSpan: 3
                 Layout.fillWidth: true
 
+                readOnly: index === 0
                 placeholderText: qsTr("Enter the unique group name")
             }
             Label {
@@ -155,8 +156,17 @@ Popup {
             SwitchBox {
                 id: fromSubscriptionSwitcher
                 Layout.alignment: Qt.AlignRight
+
                 checked: isSubscriotion
                 checkable: index !== 0
+                onCheckedChanged: {
+                    if (checked) {
+                        pasteItemText.readOnly = true
+                        subscriptionUrl.text = groupInfo["url"]
+                        subscriptionType.currentIndex = groupInfo["type"]
+                        subscriptionCycleTime.value = groupInfo["cycleTime"]
+                    }
+                }
             }
 
             Label {
@@ -171,7 +181,7 @@ Popup {
                 visible: fromSubscriptionSwitcher.checked
 
                 // defined at dbtools.h SubscriptionType enum class
-                model: ["SIP008", "Base64", "JSON"]
+                model: ["Base64", "SIP008", "JSON"]
             }
 
             Label {
@@ -208,6 +218,12 @@ Popup {
                     visible: fromSubscriptionSwitcher.checked
 
                     placeholderText: qsTr("Enter the unique subscription url")
+
+                    onTextChanged: {
+                        if (text !== "") {
+                            placeholderTextColor: acrossConfig.deepTextColor
+                        }
+                    }
                 }
 
                 CardBox {
@@ -250,7 +266,6 @@ Popup {
                     }
                 }
             }
-            
 
             RowLayout {
                 Layout.fillWidth: true
@@ -266,7 +281,16 @@ Popup {
                     text: qsTr("Accept")
 
                     onClicked: {
+                        if (fromSubscriptionSwitcher.checked
+                                && subscriptionUrl.text === "") {
+                            subscriptionUrl.placeholderText = qsTr(
+                                        "URL cannot be empty!")
+                            subscriptionUrl.placeholderTextColor = acrossConfig.warnColor
+                            return
+                        }
+
                         acrossGroups.editItem(index, groupName.text,
+                                              fromSubscriptionSwitcher.checked,
                                               subscriptionUrl.text,
                                               subscriptionType.currentIndex,
                                               subscriptionCycleTime.value,
