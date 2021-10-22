@@ -31,9 +31,8 @@ EnvTools::getEnvs(const QProcessEnvironment& envs, const QString& key)
 {
   QString val;
 
-  if (envs.contains(key)) {
+  if (envs.contains(key))
     val = envs.value(key);
-  }
 
   return val;
 }

@@ -24,6 +24,11 @@ CoreTools::init(QSharedPointer<LogView> log_view,
 {
   p_config = config;
 
+  p_logger = std::make_shared<LogTools>(log_view, "core", LoggerEnum::core);
+
+  p_process->setProcessChannelMode(QProcess::MergedChannels);
+
+  // lambda
   auto setCore = [&]() { p_core = p_config->configPtr()->mutable_core(); };
 
   auto setWorkingDirectory = [&]() {
@@ -37,10 +42,6 @@ CoreTools::init(QSharedPointer<LogView> log_view,
 
   setWorkingDirectory();
 
-  p_logger = std::make_shared<LogTools>(log_view, "core", LoggerEnum::core);
-
-  p_process->setProcessChannelMode(QProcess::MergedChannels);
-
   connect(p_config.get(),
           &across::setting::ConfigTools::coreInfoChanged,
           this,
@@ -53,13 +54,13 @@ CoreTools::init(QSharedPointer<LogView> log_view,
 
   connect(
     p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
+
   connect(p_process,
           &QProcess::stateChanged,
           this,
           [&](QProcess::ProcessState state) {
-            if (state == QProcess::NotRunning) {
+            if (state == QProcess::NotRunning)
               this->setIsRunning(false);
-            }
           });
 
   return true;
@@ -68,23 +69,26 @@ CoreTools::init(QSharedPointer<LogView> log_view,
 void
 CoreTools::setConfig(const QString& stdin_str)
 {
-  if (!stdin_str.isEmpty() && m_config != stdin_str) {
+  if (!stdin_str.isEmpty() && m_config != stdin_str)
     m_config = stdin_str;
-  }
 }
 
 int
 CoreTools::run()
 {
-  if (m_config.isEmpty()) {
+  if (m_config.isEmpty())
     return -1;
-  }
+
+  if (m_running)
+    this->stop();
 
   if (p_process == nullptr) {
     p_process = new QProcess();
     p_process->setProcessChannelMode(QProcess::MergedChannels);
+
     connect(
       p_process, SIGNAL(readyReadStandardOutput()), this, SLOT(onReadData()));
+
     connect(p_process,
             &QProcess::stateChanged,
             this,
@@ -93,10 +97,6 @@ CoreTools::run()
                 this->setIsRunning(false);
               }
             });
-  }
-
-  if (m_running) {
-    this->stop();
   }
 
   p_process->setProcessEnvironment(m_env);
@@ -125,7 +125,9 @@ CoreTools::stop()
       p_process->state() == QProcess::ProcessState::Running) {
     p_process->kill();
     p_process->waitForFinished();
+
     this->setIsRunning(false);
+
     return p_process->exitCode();
   }
 
@@ -155,6 +157,7 @@ CoreTools::setIsRunning(bool value)
 {
   if (value == m_running)
     return;
+
   m_running = value;
   emit isRunningChanged();
 }
@@ -163,12 +166,13 @@ void
 CoreTools::onReadData()
 {
   QString content = QString::fromUtf8(p_process->readAllStandardOutput());
-  content.remove(
-    QRegularExpression("(\\d+/?)*\\s(\\d+:?)*\\s")); // remove origin datetime
 
+  // remove datetime
+  content.remove(QRegularExpression("(\\d+/?)*\\s(\\d+:?)*\\s"));
+
+  // replace warning
   if (content.contains("[Warning]")) {
-    content.replace("[Warning]", "");
-    p_logger->warning("{}", content.toStdString());
+    p_logger->warning("{}", content.replace("[Warning]", "").toStdString());
     return;
   }
 

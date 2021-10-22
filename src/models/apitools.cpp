@@ -6,7 +6,7 @@ using namespace across::core;
 
 APITools::APITools(uint port)
 {
-  p_channel = grpc::CreateChannel("127.0.0.1:" + std::to_string(port),
+  p_channel = grpc::CreateChannel(LOCAL_HOST + ":" + std::to_string(port),
                                   grpc::InsecureChannelCredentials());
 
   // create thread
@@ -14,7 +14,7 @@ APITools::APITools(uint port)
   p_worker = new APIWorker(p_channel);
   p_worker->moveToThread(p_thread);
 
-  // connect signals
+  // control signals
   connect(this, &APITools::operate, p_worker, &APIWorker::start);
   connect(
     p_worker, &APIWorker::trafficChanged, this, &APITools::handleTrafficResult);
@@ -67,6 +67,7 @@ APITools::isOk() const
   SysStatsRequest request;
   SysStatsResponse response;
 
+  // check response stats
   if (auto stats = p_stub->GetSysStats(&context, request, &response);
       stats.ok() && response.uptime() > 0) {
     isOk = true;
@@ -91,12 +92,14 @@ APIWorker::APIWorker(std::shared_ptr<grpc::Channel> channel)
 void
 APIWorker::start(const QString& tag)
 {
-  if (!tag.isEmpty()) {
+  // use old tag on restart
+  if (!tag.isEmpty())
     m_tag = tag;
-  }
 
+  // initialize the stop handle
   m_stop = false;
 
+  // lambda
   auto call_api = [&](const QString& type) -> int64_t {
     ClientContext context;
     GetStatsResponse response;
@@ -104,6 +107,7 @@ APIWorker::start(const QString& tag)
 
     request.set_name(
       QString("outbound>>>%1>>>traffic>>>%2").arg(m_tag, type).toStdString());
+    
     request.set_reset(false);
 
     if (auto status = p_stub->GetStats(&context, request, &response);
@@ -122,18 +126,16 @@ APIWorker::start(const QString& tag)
 
     emit trafficChanged(QVariant::fromValue<TrafficInfo>(traffic_info));
 
-    if (traffic_info.upload < 0 || traffic_info.download < 0) {
+    if (traffic_info.upload < 0 || traffic_info.download < 0)
       break;
-    } else {
-      QThread::msleep(1000);
-    }
+    else
+      QThread::msleep(1000); // once per second
   }
 }
 
 void
 APIWorker::stop()
 {
-  // failed to notify this
   this->m_stop = true;
 }
 

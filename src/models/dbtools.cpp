@@ -15,6 +15,7 @@ DBTools::init(QSharedPointer<LogView> log_view, const QString& db_path)
 {
   p_logger = std::make_shared<LogTools>(log_view, "database");
   m_db_path = db_path;
+
   reload();
 }
 
@@ -24,7 +25,6 @@ DBTools::reload()
   close();
 
   do {
-
     if (m_db_path.isEmpty()) {
       p_logger->error("Failed to load database on path");
       break;
@@ -33,20 +33,20 @@ DBTools::reload()
     }
 
     QSqlError result;
-    if (QSqlDatabase::isDriverAvailable("QSQLITE")) {
-      m_db = QSqlDatabase::addDatabase("QSQLITE");
-      m_db.setDatabaseName(m_db_path);
-      if (!m_db.open()) {
-        p_logger->error("Failed to open database");
-        break;
-      } else {
-        p_logger->info("Opened successfully");
-      }
-    } else {
+    if (!QSqlDatabase::isDriverAvailable("QSQLITE")) {
       p_logger->error("Database driver is unavailable: {}",
                       m_db.driverName().toStdString());
       break;
     }
+
+    m_db = QSqlDatabase::addDatabase("QSQLITE");
+    m_db.setDatabaseName(m_db_path);
+    if (!m_db.open()) {
+      p_logger->error("Database open failed");
+      break;
+    }
+
+    p_logger->info("Successfully opened the database");
 
     if (result = createDefaultTables(); result.type() != QSqlError::NoError) {
       p_logger->error("Failed to create tables: {}",
@@ -120,13 +120,11 @@ DBTools::createDefaultTables()
       "END;" },
   };
 
-  beginTransaction();
+  TransactionWrap(this);
   for (auto& table : tables) {
-    if (result = directExec(table); result.type() != QSqlError::NoError) {
+    if (result = directExec(table); result.type() != QSqlError::NoError)
       break;
-    }
   }
-  endTransaction();
 
   return result;
 }
@@ -378,11 +376,10 @@ QSqlError
 DBTools::insert(QList<NodeInfo>& nodes)
 {
   QSqlError result;
-  beginTransaction();
+  TransactionWrap(this);
   for (auto& node : nodes)
     if (result = insert(node); result.type() != QSqlError::NoError)
       break;
-  endTransaction();
   return result;
 }
 
@@ -427,11 +424,10 @@ QSqlError
 DBTools::update(QList<NodeInfo>& nodes)
 {
   QSqlError result;
-  beginTransaction();
+  TransactionWrap(this);
   for (auto& node : nodes)
     if (result = update(node); result.type() != QSqlError::NoError)
       break;
-  endTransaction();
   return result;
 }
 
@@ -495,11 +491,10 @@ QSqlError
 DBTools::update(QList<GroupInfo>& groups)
 {
   QSqlError result;
-  beginTransaction();
+  TransactionWrap(this);
   for (auto& group : groups)
     if (result = update(group); result.type() != QSqlError::NoError)
       break;
-  endTransaction();
   return result;
 }
 
@@ -545,6 +540,7 @@ DBTools::getSizeFromGroupID(qint64 group_id)
   QList<QVariantList> collections;
   QVariantList input_collection = { group_id };
   const QString select_str("SELECT ID FROM nodes WHERE GroupID = ?");
+
   if (auto result =
         stepExec(select_str, &input_collection, 1, &collections).first;
       result.type() != QSqlError::NoError) {
@@ -579,25 +575,26 @@ DBTools::reloadAllGroupsInfo()
   if (result = stepExec(select_str, nullptr, 8, &collections).first;
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to list all groups");
-  } else {
-    m_groups.clear();
+    return result;
+  }
 
-    for (auto& item : collections) {
-      GroupInfo group = {
-        .id = item.at(0).toLongLong(),
-        .name = item.at(1).toString(),
-        .is_subscription = item.at(2).toBool(),
-        .type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt()),
-        .url = item.at(4).toString(),
-        .cycle_time = item.at(5).toInt(),
-        .created_time = QDateTime::fromSecsSinceEpoch(item.at(6).toLongLong()),
-        .modified_time = QDateTime::fromSecsSinceEpoch(item.at(7).toLongLong()),
-      };
+  m_groups.clear();
 
-      group.items = getSizeFromGroupID(group.id);
+  for (auto& item : collections) {
+    GroupInfo group = {
+      .id = item.at(0).toLongLong(),
+      .name = item.at(1).toString(),
+      .is_subscription = item.at(2).toBool(),
+      .type = magic_enum::enum_value<SubscriptionType>(item.at(3).toInt()),
+      .url = item.at(4).toString(),
+      .cycle_time = item.at(5).toInt(),
+      .created_time = QDateTime::fromSecsSinceEpoch(item.at(6).toLongLong()),
+      .modified_time = QDateTime::fromSecsSinceEpoch(item.at(7).toLongLong()),
+    };
 
-      m_groups.emplace_back(group);
-    }
+    group.items = getSizeFromGroupID(group.id);
+
+    m_groups.emplace_back(group);
   }
 
   return result;
@@ -620,31 +617,32 @@ DBTools::listAllNodesFromGroupID(qint64 group_id)
   if (auto result =
         stepExec(select_str, &input_collection, 15, &collections).first;
       result.type() != QSqlError::NoError) {
+
     p_logger->error("Failed to list all nodes");
-  } else {
-    for (auto& item : collections) {
-      NodeInfo node;
 
-      node.id = item.at(0).toLongLong();
-      node.name = item.at(1).toString();
-      node.group_id = item.at(2).toLongLong();
-      node.group_name = item.at(3).toString();
-      node.protocol = magic_enum::enum_value<EntryType>(item.at(4).toInt());
-      node.address = item.at(5).toString();
-      node.port = item.at(6).toInt();
-      node.password = item.at(7).toString();
-      node.raw = item.at(8).toString();
-      node.url = item.at(9).toString();
-      node.latency = item.at(10).toLongLong();
-      node.upload = item.at(11).toLongLong();
-      node.download = item.at(12).toLongLong();
-      node.created_time =
-        QDateTime::fromSecsSinceEpoch(item.at(13).toLongLong());
-      node.modified_time =
-        QDateTime::fromSecsSinceEpoch(item.at(14).toLongLong());
+    return nodes;
+  }
 
-      nodes.emplace_back(node);
-    }
+  for (auto& item : collections) {
+    NodeInfo node = {
+      .id = item.at(0).toLongLong(),
+      .name = item.at(1).toString(),
+      .group_id = item.at(2).toLongLong(),
+      .group_name = item.at(3).toString(),
+      .protocol = magic_enum::enum_value<EntryType>(item.at(4).toInt()),
+      .address = item.at(5).toString(),
+      .port = item.at(6).toUInt(),
+      .password = item.at(7).toString(),
+      .raw = item.at(8).toString(),
+      .url = item.at(9).toString(),
+      .latency = item.at(10).toLongLong(),
+      .upload = item.at(11).toLongLong(),
+      .download = item.at(12).toLongLong(),
+      .created_time = QDateTime::fromSecsSinceEpoch(item.at(13).toLongLong()),
+      .modified_time = QDateTime::fromSecsSinceEpoch(item.at(14).toLongLong()),
+    };
+
+    nodes.emplace_back(node);
   }
 
   return nodes;
@@ -663,15 +661,17 @@ DBTools::search(const QString& value)
         stepExec(search_str, &input_collection, 2, &collections).first;
       result.type() != QSqlError::NoError) {
     p_logger->error("Failed to list all nodes");
-  } else {
-    for (auto& item : collections) {
-      QList<qint64> nodes_id;
-      for (auto& node_id : item.at(1).toString().split(",")) {
-        nodes_id.append(node_id.toLongLong());
-      }
 
-      search_results.insert(item.at(0).toLongLong(), nodes_id);
-    }
+    return search_results;
+  }
+
+  for (auto& item : collections) {
+    QList<qint64> nodes_id;
+
+    for (auto& node_id : item.at(1).toString().split(","))
+      nodes_id.append(node_id.toLongLong());
+
+    search_results.insert(item.at(0).toLongLong(), nodes_id);
   }
 
   return search_results;
@@ -684,18 +684,6 @@ DBTools::close()
     m_db.close();
     emit destroy();
   }
-}
-
-void
-DBTools::beginTransaction()
-{
-  directExec("BEGIN");
-}
-
-void
-DBTools::endTransaction()
-{
-  directExec("END;");
 }
 
 RuntimeValue::RuntimeValue(const QString& key, const QVariant& value)

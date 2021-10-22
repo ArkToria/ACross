@@ -18,32 +18,30 @@ DBusTools::sendNotify(const QString& message, const QString& summary)
 void
 DBusTools::sendNotify(NotifyDBus& notifyDBus)
 {
-  do {
-    if (!QDBusConnection::sessionBus().isConnected()) {
-      break;
-    }
+  if (!QDBusConnection::sessionBus().isConnected())
+    return;
 
-    QDBusInterface dbus_interface(notifyDBus.server,
-                                  notifyDBus.path,
-                                  notifyDBus.interface,
-                                  QDBusConnection::sessionBus());
+  QDBusInterface dbus_interface = {
+    notifyDBus.server,
+    notifyDBus.path,
+    notifyDBus.interface,
+    QDBusConnection::sessionBus(),
+  };
 
-    if (!dbus_interface.isValid()) {
-      break;
-    }
+  if (!dbus_interface.isValid())
+    return;
 
-    QDBusReply<QString> reply = dbus_interface.call(notifyDBus.method,
-                                                    notifyDBus.app_name,
-                                                    notifyDBus.replace_id,
-                                                    notifyDBus.app_icon,
-                                                    notifyDBus.summary,
-                                                    notifyDBus.body,
-                                                    notifyDBus.actions,
-                                                    notifyDBus.hints,
-                                                    notifyDBus.timeout);
+  QDBusReply<QString> reply;
+  reply = dbus_interface.call(notifyDBus.method,
+                              notifyDBus.app_name,
+                              notifyDBus.replace_id,
+                              notifyDBus.app_icon,
+                              notifyDBus.summary,
+                              notifyDBus.body,
+                              notifyDBus.actions,
+                              notifyDBus.hints,
+                              notifyDBus.timeout);
 
-    if (!reply.isValid()) {
-      break;
-    }
-  } while (false);
+  if (!reply.isValid())
+    return;
 }

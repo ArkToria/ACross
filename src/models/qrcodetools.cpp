@@ -51,9 +51,8 @@ QRCodeTools::setSize(uint size)
 void
 QRCodeTools::setFormat(ZXing::BarcodeFormat format)
 {
-  if (m_format == format) {
+  if (m_format == format)
     return;
-  }
 
   m_format = format;
 }
@@ -61,9 +60,8 @@ QRCodeTools::setFormat(ZXing::BarcodeFormat format)
 void
 QRCodeTools::setEccLevel(int level)
 {
-  if (m_ecc_level == level) {
+  if (m_ecc_level == level)
     return;
-  }
 
   m_ecc_level = level;
 }

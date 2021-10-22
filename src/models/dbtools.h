@@ -130,14 +130,13 @@ public:
 
 public slots:
   void close();
-  void beginTransaction();
-  void endTransaction();
 
 signals:
   void destroy();
 
 private:
   QSqlError directExec(const QString& sql_str);
+
   QPair<QSqlError, qint64> stepExec(
     const QString& sql_str,
     QVariantList* inputCollection = nullptr,
@@ -145,11 +144,34 @@ private:
     QList<QVariantList>* outputCollections = nullptr);
 
 private:
+  friend class TransactionWrap;
+
   QSqlDatabase m_db;
   QList<GroupInfo> m_groups;
 
   std::shared_ptr<across::utils::LogTools> p_logger;
   QString m_db_path = "across.db";
+};
+
+class TransactionWrap
+{
+public:
+  inline TransactionWrap(DBTools* db_tools)
+    : p_db(db_tools)
+  {
+    mutex.lock();
+    p_db->directExec("BEGIN");
+  }
+
+  inline ~TransactionWrap()
+  {
+    p_db->directExec("END;");
+    mutex.unlock();
+  }
+
+private:
+  QPointer<DBTools> p_db;
+  QMutex mutex;
 };
 }
 

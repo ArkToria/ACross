@@ -92,6 +92,8 @@ signals:
   void trafficChanged(const QVariant& data);
 
 private:
+  const std::string LOCAL_HOST = "127.0.0.1";
+
   std::shared_ptr<Channel> p_channel;
   QThread* p_thread = nullptr;
   APIWorker* p_worker = nullptr;
