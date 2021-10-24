@@ -232,7 +232,7 @@ NodeList::generateConfig()
   rule->set_outboundtag("ACROSS_API");
   rule->add_inboundtag("ACROSS_API_INBOUND");
 
-  auto stats = config.mutable_stats();
+  auto _ = config.mutable_stats();
 
   auto policy = config.mutable_policy();
   auto system = policy->mutable_system();
@@ -302,20 +302,7 @@ NodeList::getNodeInfoByIndex(int index)
 
   auto node = m_nodes.at(index);
 
-  return QVariantMap{
-    { "nodeID", node.id },
-    { "name", node.name },
-    { "group", node.group_name },
-    { "address", node.address },
-    { "port", node.port },
-    { "password", node.password },
-    { "raw", node.raw },
-    { "url", node.url },
-    { "protocol", node.protocol },
-    { "latency", node.latency },
-    { "createdAt", node.created_time.toSecsSinceEpoch() },
-    { "modifiedAt", node.modified_time.toSecsSinceEpoch() },
-  };
+  return node.toVariantMap();
 }
 
 QVariantMap
@@ -325,12 +312,12 @@ NodeList::getCurrentNodeInfo()
 }
 
 QString
-NodeList::getQRCode(int id)
+NodeList::getQRCode(int node_id)
 {
-  for (auto& item : m_nodes) {
-    if (item.id == id) {
-      emit updateQRCode(item.name, item.url);
-      return item.name;
+  for (auto& node : m_nodes) {
+    if (node.id == node_id) {
+      emit updateQRCode(node.name, node.url);
+      return node.name;
     }
   }
 

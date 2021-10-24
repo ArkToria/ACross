@@ -16,8 +16,8 @@ Item {
         let index = acrossGroups.getIndexByID(group_id)
         if (index === -1)
             return
-        listScrollView.currentIndex = index
 
+        listScrollView.currentIndex = index
         acrossGroups.setDisplayGroupID(group_id)
     }
 

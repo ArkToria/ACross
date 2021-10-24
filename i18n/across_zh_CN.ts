@@ -685,7 +685,7 @@
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="14"/>
         <source>Edit Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑配置</translation>
     </message>
 </context>
 <context>
@@ -714,17 +714,17 @@
 <context>
     <name>NodeItemPopMenu</name>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="43"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="44"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="50"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="51"/>
         <source>Set as default</source>
         <translation>设置为默认</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="66"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="67"/>
         <source>Share Config</source>
         <translation>分享配置</translation>
     </message>
@@ -733,12 +733,12 @@
         <translation type="vanished">ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="74"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="75"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemPopMenu.qml" line="89"/>
+        <location filename="../src/views/home/NodeItemPopMenu.qml" line="90"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -930,7 +930,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="470"/>
+        <location filename="../src/view_models/nodelist.cpp" line="457"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

@@ -21,23 +21,24 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
     } else {
       qDebug() << "Create a new config on: " << m_config_path;
     }
-
-    if (curl != nullptr) {
-      p_curl = curl;
-    } else {
-      return false;
-    }
-
-    p_core = m_conf.mutable_core();
-    p_db = m_conf.mutable_database();
-    p_interface = m_conf.mutable_interface();
-    p_network = m_conf.mutable_network();
-    p_inbound = m_conf.mutable_inbound();
-
-    setDBPath("", true);
-    loadThemeConfig();
-    emit configChanged();
   }
+
+  if (curl != nullptr) {
+    p_curl = curl;
+  } else {
+    return false;
+  }
+
+  p_core = m_conf.mutable_core();
+  p_db = m_conf.mutable_database();
+  p_interface = m_conf.mutable_interface();
+  p_network = m_conf.mutable_network();
+  p_inbound = m_conf.mutable_inbound();
+
+  setDBPath("", true);
+  loadThemeConfig();
+  emit configChanged();
+
   return true;
 }
 
@@ -119,13 +120,12 @@ ConfigTools::setInboundObject(v2ray::config::V2rayConfig& config)
 {
   if (auto http_setting = p_inbound->http(); http_setting.enable()) {
     auto inbound = config.add_inbounds();
-    auto http = inbound->mutable_settings()->mutable_http();
-
     inbound->set_listen(http_setting.listen());
     inbound->set_port(http_setting.port());
     inbound->set_protocol("http");
     inbound->set_tag("HTTP_IN");
 
+    auto http = inbound->mutable_settings()->mutable_http();
     http->set_allowtransparent(http_setting.allow_transparent());
     http->set_timeout(http_setting.timeout());
     http->set_userlevel(http_setting.user_level());
@@ -139,13 +139,12 @@ ConfigTools::setInboundObject(v2ray::config::V2rayConfig& config)
 
   if (auto socks5_setting = p_inbound->socks5(); socks5_setting.enable()) {
     auto inbound = config.add_inbounds();
-    auto socks = inbound->mutable_settings()->mutable_socks();
-
     inbound->set_listen(socks5_setting.listen());
     inbound->set_port(socks5_setting.port());
     inbound->set_protocol("socks");
     inbound->set_tag("SOCKS_IN");
 
+    auto socks = inbound->mutable_settings()->mutable_socks();
     socks->set_userlevel(socks5_setting.user_level());
 
     if (auto auth_setting = socks5_setting.auth(); auth_setting.enable()) {
@@ -170,6 +169,7 @@ ConfigTools::setInboundObject(v2ray::config::V2rayConfig& config)
 
     auto dokodemo_door = inbound->mutable_settings()->mutable_dokodemo_door();
     dokodemo_door->set_address(api_setting.listen());
+    dokodemo_door->set_port(api_setting.port());
   }
 }
 
@@ -1207,9 +1207,12 @@ ConfigTools::releaseURL()
 void
 ConfigTools::mergeConfigFromJSON(const std::string& json_str)
 {
+  auto origin_conf = SerializeTools::JsonToACrossConfig(json_str);
+  if (!origin_conf.IsInitialized())
+    return;
+
   QList<Theme> temp_themes;
   auto default_themes = m_conf.themes();
-  auto origin_conf = SerializeTools::JsonToACrossConfig(json_str);
 
   m_conf.mutable_themes()->Clear();
   m_conf.MergeFrom(origin_conf);
