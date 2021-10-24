@@ -46,6 +46,8 @@ NodeModel::data(const QModelIndex& index, int role) const
       return item.port;
     case PasswordRole:
       return item.password;
+    case RawRole:
+      return item.raw;
     case URLRole:
       return item.url;
     case LatencyRole:
@@ -73,6 +75,7 @@ NodeModel::roleNames() const
     { AddressRole, "address" },
     { PortRole, "port" },
     { PasswordRole, "password" },
+    { RawRole, "raw" },
     { URLRole, "url" },
     { ProtocolTypeRole, "protocol" },
     { LatencyRole, "latency" },

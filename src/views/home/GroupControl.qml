@@ -11,23 +11,6 @@ Item {
 
     property Component popMenuComponent: null
     property Component nodeShareFormComponent: null
-    function openShareForm(nodeID, name, address, port, password, url) {
-        if (nodeShareFormComponent == null) {
-            nodeShareFormComponent = Qt.createComponent(
-                        "qrc:/ACross/src/views/home/NodeShareForm.qml")
-        }
-        if (nodeShareFormComponent.status === Component.Ready) {
-            var window = nodeShareFormComponent.createObject(mainWindow, {
-                                                                 "nodeID": nodeID,
-                                                                 "name": name,
-                                                                 "address": address,
-                                                                 "port": port,
-                                                                 "password": password,
-                                                                 "url": url
-                                                             })
-            window.show()
-        }
-    }
 
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
@@ -171,12 +154,22 @@ Item {
                 }
 
                 onClicked: {
-                    openShareForm(acrossNodes.currentNodeID,
-                                  acrossNodes.currentNodeName,
-                                  acrossNodes.currentNodeAddress,
-                                  acrossNodes.currentNodePort,
-                                  acrossNodes.currentNodePassword,
-                                  acrossNodes.currentNodeURL)
+                    var nodeModel = acrossNodes.getCurrentNodeInfo()
+                    if (nodeModel === null)
+                        return
+
+                    if (nodeShareFormComponent == null) {
+                        nodeShareFormComponent = Qt.createComponent(
+                                    "qrc:/ACross/src/views/home/NodeShareForm.qml")
+                    }
+
+                    if (nodeShareFormComponent.status === Component.Ready) {
+                        var window = nodeShareFormComponent.createObject(
+                                    groupControlBar, {
+                                        "nodeModel": nodeModel
+                                    })
+                        window.show()
+                    }
                 }
             }
         }

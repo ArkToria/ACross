@@ -46,6 +46,8 @@ struct NodeInfo
   qint64 download = 0;
   QDateTime created_time;
   QDateTime modified_time;
+
+  QVariantMap toVariantMap();
 };
 
 struct GroupInfo
@@ -59,6 +61,8 @@ struct GroupInfo
   QDateTime created_time;
   QDateTime modified_time;
   int items = 0;
+
+  QVariantMap toVariantMap();
 };
 
 enum RunTimeValues : int

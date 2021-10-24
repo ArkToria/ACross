@@ -9,35 +9,56 @@ Item {
     implicitWidth: 648
     implicitHeight: 480
 
+    property int nodeGridViewColumns: 2
     property Component nodeShareFormComponent: null
-    function openShareForm(nodeID, name, address, port, password, url) {
+    property Component nodeEditFormComponent: null
+
+    function openShareForm(nodeModel) {
+        if (nodeModel === null)
+            return
+
         if (nodeShareFormComponent == null) {
             nodeShareFormComponent = Qt.createComponent(
                         "qrc:/ACross/src/views/home/NodeShareForm.qml")
         }
+
         if (nodeShareFormComponent.status === Component.Ready) {
-            var window = nodeShareFormComponent.createObject(mainWindow, {
-                                                                 "nodeID": nodeID,
-                                                                 "name": name,
-                                                                 "address": address,
-                                                                 "port": port,
-                                                                 "password": password,
-                                                                 "url": url
+            var window = nodeShareFormComponent.createObject(root, {
+                                                                 "nodeModel": nodeModel
                                                              })
             window.show()
         }
     }
 
-    function locateCurrent() {
-        locate(acrossNodes.getIndexByNode(acrossNodes.currentNodeID,acrossNodes.currentGroupID))
-    }
-    function locate(index) {
-        if(index < nodeGridView.count) {
-            nodeGridView.contentY = nodeGridView.cellHeight * Math.floor(index / nodeGridViewColumns)
+    function openEditForm(nodeModel) {
+        if (nodeModel === null)
+            return
+
+        if (nodeEditFormComponent == null) {
+            nodeEditFormComponent = Qt.createComponent(
+                        "qrc:/ACross/src/views/home/NodeEditForm.qml")
+        }
+
+        if (nodeEditFormComponent.status === Component.Ready) {
+            var window = nodeEditFormComponent.createObject(root, {
+                                                                "nodeModel": nodeModel
+                                                            })
+            window.show()
         }
     }
 
-    property int nodeGridViewColumns : 2
+    function locateCurrent() {
+        locate(acrossNodes.getIndexByNode(acrossNodes.currentNodeID,
+                                          acrossNodes.currentGroupID))
+    }
+
+    function locate(index) {
+        if (index < nodeGridView.count) {
+            nodeGridView.contentY = nodeGridView.cellHeight * Math.floor(
+                        index / nodeGridViewColumns)
+        }
+    }
+
     GridView {
         id: nodeGridView
         anchors.fill: parent

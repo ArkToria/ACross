@@ -294,6 +294,36 @@ NodeList::removeNodeByID(int id)
   }
 }
 
+QVariantMap
+NodeList::getNodeInfoByIndex(int index)
+{
+  if (index >= m_nodes.size())
+    return {};
+
+  auto node = m_nodes.at(index);
+
+  return QVariantMap{
+    { "nodeID", node.id },
+    { "name", node.name },
+    { "group", node.group_name },
+    { "address", node.address },
+    { "port", node.port },
+    { "password", node.password },
+    { "raw", node.raw },
+    { "url", node.url },
+    { "protocol", node.protocol },
+    { "latency", node.latency },
+    { "createdAt", node.created_time.toSecsSinceEpoch() },
+    { "modifiedAt", node.modified_time.toSecsSinceEpoch() },
+  };
+}
+
+QVariantMap
+NodeList::getCurrentNodeInfo()
+{
+  return m_node.toVariantMap();
+}
+
 QString
 NodeList::getQRCode(int id)
 {

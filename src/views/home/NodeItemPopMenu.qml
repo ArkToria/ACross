@@ -10,6 +10,7 @@ Menu {
     bottomPadding: 8
 
     property real menuWidth: 168
+
     onClosed: {
         nodeItemPopMenu.close()
         nodeItemPopMenu.destroy()
@@ -42,7 +43,7 @@ Menu {
     Action {
         text: qsTr("Edit")
         onTriggered: {
-
+            openEditForm(model)
         }
     }
 
@@ -66,7 +67,7 @@ Menu {
         text: qsTr("Share Config")
 
         onTriggered: {
-            openShareForm(nodeID, name, address, port, password, url)
+            openShareForm(model)
         }
     }
 

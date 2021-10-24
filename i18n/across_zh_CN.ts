@@ -344,27 +344,27 @@
 <context>
     <name>GroupControl</name>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="62"/>
+        <location filename="../src/views/home/GroupControl.qml" line="45"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="111"/>
+        <location filename="../src/views/home/GroupControl.qml" line="94"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="154"/>
+        <location filename="../src/views/home/GroupControl.qml" line="137"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="202"/>
+        <location filename="../src/views/home/GroupControl.qml" line="195"/>
         <source>Search</source>
         <translation>搜索</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupControl.qml" line="239"/>
+        <location filename="../src/views/home/GroupControl.qml" line="232"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -674,6 +674,21 @@
     </message>
 </context>
 <context>
+    <name>NewNodeForm</name>
+    <message>
+        <source>Create New Configuration</source>
+        <translation type="obsolete">创建新配置</translation>
+    </message>
+</context>
+<context>
+    <name>NodeEditForm</name>
+    <message>
+        <location filename="../src/views/home/NodeEditForm.qml" line="14"/>
+        <source>Edit Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>NodeForm</name>
     <message>
         <location filename="../src/views/home/NodeForm.qml" line="14"/>
@@ -736,43 +751,43 @@
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="47"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="41"/>
         <source>Save QRCode to local path</source>
         <translation>保存二维码到本地</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="100"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="94"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="106"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="100"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="117"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="111"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="128"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="122"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="139"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="133"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="153"/>
-        <location filename="../src/views/home/NodeShareForm.qml" line="183"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="147"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="177"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="176"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="170"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>
@@ -915,7 +930,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="440"/>
+        <location filename="../src/view_models/nodelist.cpp" line="470"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

@@ -19,6 +19,7 @@ Item {
     }
 
     property Component popMenuComponent: null
+
     property color backgroundColor: isCurrent(
                                         ) ? acrossConfig.highlightColor : acrossConfig.backgroundColor
     property color textColor: isCurrent(
@@ -153,6 +154,7 @@ Item {
                     popMenuComponent = Qt.createComponent(
                                 "qrc:/ACross/src/views/home/NodeItemPopMenu.qml")
                 }
+
                 if (popMenuComponent.status === Component.Ready) {
                     popMenuComponent.createObject(nodeItemCard).popup()
                 }

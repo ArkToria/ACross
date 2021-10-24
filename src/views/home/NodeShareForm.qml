@@ -18,13 +18,7 @@ Window {
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
-    property string nodeID
-    property string name
-    property string address
-    property int port
-    property string password
-    property string url
-    property string qrcode
+    property var nodeModel: null
 
     onVisibilityChanged: {
         if (!visible) {
@@ -34,7 +28,7 @@ Window {
     }
 
     function getQRCode() {
-        var name = acrossNodes.getQRCode(nodeID)
+        var name = acrossNodes.getQRCode(nodeModel.nodeID)
         if (name === "") {
             return "qrc:/misc/icons/" + acrossConfig.iconStyle + "/repo_qr_code.svg"
         } else {
@@ -49,7 +43,7 @@ Window {
         defaultSuffix: "png"
         fileMode: FileDialog.SaveFile
         onAccepted: {
-            acrossNodes.saveQRCodeToFile(nodeID, file)
+            acrossNodes.saveQRCodeToFile(nodeModel.nodeID, file)
         }
     }
 
@@ -110,7 +104,7 @@ Window {
                         TextFieldBox {
                             Layout.fillWidth: true
 
-                            text: name
+                            text: nodeModel.name
                         }
 
                         Label {
@@ -121,7 +115,7 @@ Window {
                         TextFieldBox {
                             Layout.fillWidth: true
 
-                            text: address
+                            text: nodeModel.address
                         }
 
                         Label {
@@ -132,7 +126,7 @@ Window {
                         TextFieldBox {
                             Layout.fillWidth: true
 
-                            text: port
+                            text: nodeModel.port
                         }
 
                         Label {
@@ -143,7 +137,7 @@ Window {
                         TextFieldBox {
                             Layout.fillWidth: true
 
-                            text: password
+                            text: nodeModel.password
                         }
 
                         Label {
@@ -161,7 +155,7 @@ Window {
                             Layout.fillHeight: true
 
                             wrapMode: Text.WrapAnywhere
-                            text: url
+                            text: nodeModel.url
                         }
 
                         RowLayout {
@@ -182,7 +176,8 @@ Window {
                             ButtonBox {
                                 text: qsTr("Copy URL")
                                 onClicked: {
-                                    acrossNodes.copyUrlToClipboard(nodeID)
+                                    acrossNodes.copyUrlToClipboard(
+                                                nodeModel.nodeID)
                                 }
                             }
                         }

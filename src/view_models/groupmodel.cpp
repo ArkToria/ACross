@@ -55,12 +55,14 @@ GroupModel::roleNames() const
 {
   static const QHash<int, QByteArray> roles{
     { GroupIDRole, "group_id" },
-    { UrlRole, "url" },
     { NameRole, "name" },
-    { ItemsRole, "items" },
+    { IsSubscriptionRole, "isSubscription" },
+    { TypeRole, "type" },
+    { UrlRole, "url" },
+    { CycleTimeRole, "cycleTime" },
     { CreatedAtRole, "createdAt" },
     { ModifiedAtRole, "modifiedAt" },
-    { IsSubscriptionRole, "isSubscription" },
+    { ItemsRole, "items" },
   };
 
   return roles;

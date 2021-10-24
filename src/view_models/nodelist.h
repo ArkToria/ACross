@@ -74,6 +74,8 @@ public:
   Q_INVOKABLE void testLatency(int id);
   Q_INVOKABLE void setCurrentNodeByID(int id);
   Q_INVOKABLE void removeNodeByID(int id);
+  Q_INVOKABLE QVariantMap getNodeInfoByIndex(int index);
+  Q_INVOKABLE QVariantMap getCurrentNodeInfo();
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
