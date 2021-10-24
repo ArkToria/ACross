@@ -538,7 +538,7 @@ SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config)
     for (size_t i = 0; i < root[key].size(); ++i) {
       auto protocol =
         QString::fromStdString(root[key][i]["protocol"].get<std::string>())
-          .replace("_", "-")
+          .replace("-", "_")
           .toStdString();
 
       auto setting = root[key][i]["settings"][protocol];
