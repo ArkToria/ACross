@@ -683,34 +683,23 @@
 <context>
     <name>NodeEditForm</name>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="14"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="15"/>
         <source>Edit Configuration</source>
         <translation>编辑配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="62"/>
-        <source>URL</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="65"/>
-        <source>Manual</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="68"/>
         <source>Outbound</source>
-        <translation type="unfinished">出站</translation>
+        <translation type="obsolete">出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="109"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="137"/>
         <source>Accept</source>
-        <translation type="unfinished">接受</translation>
+        <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="116"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="144"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
 </context>
 <context>

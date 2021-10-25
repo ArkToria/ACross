@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 
 import ACross
 
@@ -58,14 +59,41 @@ Window {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop
 
-                    TabButton {
-                        text: qsTr("URL")
-                    }
-                    TabButton {
-                        text: qsTr("Manual")
-                    }
-                    TabButton {
-                        text: qsTr("Outbound")
+                    Repeater {
+                        model: ["URL", "Manual", "Outbound"]
+
+                        TabButton {
+                            id: tabButton
+
+                            contentItem: Text {
+                                text: modelData
+                                color: bar.currentIndex == index ? acrossConfig.textColor : acrossConfig.deepTextColor
+                                font.pointSize: fontSize
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+
+                            background: Rectangle {
+                                implicitHeight: 24
+                                color: bar.currentIndex == index ? acrossConfig.backgroundColor : acrossConfig.deepColor
+                            }
+
+                            MouseArea {
+                                anchors.fill: tabButton
+                                hoverEnabled: true
+
+                                onEntered: {
+                                    cursorShape = Qt.PointingHandCursor
+                                }
+
+                                onExited: {
+                                    cursorShape = Qt.ArrowCursor
+                                }
+
+                                onClicked: {
+                                    bar.currentIndex = index
+                                }
+                            }
+                        }
                     }
                 }
 
