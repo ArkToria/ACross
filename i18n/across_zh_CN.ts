@@ -687,6 +687,31 @@
         <source>Edit Configuration</source>
         <translation>编辑配置</translation>
     </message>
+    <message>
+        <location filename="../src/views/home/NodeEditForm.qml" line="62"/>
+        <source>URL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeEditForm.qml" line="65"/>
+        <source>Manual</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeEditForm.qml" line="68"/>
+        <source>Outbound</source>
+        <translation type="unfinished">出站</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeEditForm.qml" line="109"/>
+        <source>Accept</source>
+        <translation type="unfinished">接受</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeEditForm.qml" line="116"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
 </context>
 <context>
     <name>NodeForm</name>
@@ -930,7 +955,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="457"/>
+        <location filename="../src/view_models/nodelist.cpp" line="476"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

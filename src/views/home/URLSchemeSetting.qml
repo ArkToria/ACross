@@ -32,6 +32,10 @@ Item {
             wrapMode: Text.NoWrap
             placeholderText: "support url scheme: ss:// vmess:// trojan://"
         }
+
+        Item {
+            Layout.fillHeight: true
+        }
     }
 
     Connections {

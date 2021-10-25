@@ -396,6 +396,25 @@ NodeList::getIndexByNode(qint64 node_id, qint64 group_id)
   return -1;
 }
 
+QString
+NodeList::jsonHighlighting(const QString& json_str)
+{
+  QProcess process;
+
+  // TODO: check binary path
+  process.start("/usr/bin/source-highlight",
+                { "-o", "STDOUT", "-s", "json" },
+                QIODevice::ReadWrite | QIODevice::Text);
+  process.write(json_str.toUtf8());
+  process.waitForBytesWritten();
+  process.closeWriteChannel();
+  process.waitForStarted();
+  process.waitForFinished();
+  auto html_out = process.readAllStandardOutput();
+
+  return html_out;
+}
+
 void
 NodeList::setDisplayGroupID(int group_id)
 {

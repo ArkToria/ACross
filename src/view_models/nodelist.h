@@ -80,6 +80,7 @@ public:
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
   Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
+  Q_INVOKABLE static QString jsonHighlighting(const QString& json_str);
 
 public:
   QList<NodeInfo> items();

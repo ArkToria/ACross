@@ -3,9 +3,9 @@
 
 #include "nodelist.h"
 
-#include <QAbstractListModel>
-
 #include "magic_enum.hpp"
+#include <QAbstractListModel>
+#include <QProcess>
 
 namespace across {
 class NodeModel : public QAbstractListModel
