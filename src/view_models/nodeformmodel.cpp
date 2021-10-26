@@ -85,48 +85,6 @@ NodeFormModel::cancel()
 //}
 
 // bool
-// NodeFormModel::setShadowsocksOutbound(NodeInfo& node)
-//{
-//  if (p_shadowsocks == nullptr) {
-//    return false;
-//  }
-
-//  auto outbound = m_config.add_outbounds();
-//  outbound->set_protocol("shadowsocks");
-//  outbound->set_sendthrough("0.0.0.0");
-//  outbound->set_tag("PROXY");
-
-//  auto setting = outbound->mutable_settings()->mutable_shadowsocks();
-
-//  auto server = setting->add_servers();
-//  server->set_address(node.address.toStdString());
-//  server->set_port(node.port);
-//  server->set_password(node.password.toStdString());
-//  server->set_method(p_shadowsocks->security().toStdString());
-//  server->set_ivcheck(p_shadowsocks->ivCheck());
-
-//  node.raw = SerializeTools::MessageToJson(*outbound).c_str();
-
-//  URLMetaObject meta = {
-//    .name = node.name.toStdString(),
-//    .outbound = *outbound,
-//  };
-
-//  node.url = SerializeTools::sip002Encode(meta)->toEncoded();
-
-//  return true;
-//}
-
-// bool
-// NodeFormModel::setVMessOutboud(NodeInfo& node)
-//{
-//  if (p_vmess == nullptr) {
-//    return false;
-//  }
-
-//}
-
-// bool
 // NodeFormModel::setRawOutbound(NodeInfo& node)
 //{
 //  if (p_raw->rawText().isEmpty())
@@ -202,6 +160,12 @@ NodeFormModel::manualSetting(NodeInfo& node, const QVariantMap& values)
           return setVMessOutboud(node, vmess);
         }
         break;
+      case EntryType::shadowsocks:
+        if (values.contains("shadowsocks") &&
+            !values.value("shadowsocks").isNull()) {
+          auto shadowsocks = values.value("shadowsocks").toMap();
+          return setShadowsocksOutbound(node, shadowsocks);
+        }
       default:
         break;
     }
@@ -211,56 +175,84 @@ NodeFormModel::manualSetting(NodeInfo& node, const QVariantMap& values)
 }
 
 bool
+NodeFormModel::setShadowsocksOutbound(NodeInfo& node, const QVariantMap& values)
+{
+  auto outbound = m_config.add_outbounds();
+  outbound->set_protocol("shadowsocks");
+  outbound->set_sendthrough("0.0.0.0");
+  outbound->set_tag("PROXY");
+
+  auto setting = outbound->mutable_settings()->mutable_shadowsocks();
+  auto server = setting->add_servers();
+  server->set_address(node.address.toStdString());
+  server->set_port(node.port);
+  server->set_password(node.password.toStdString());
+
+  if (values.contains("security"))
+    server->set_method(values.value("security").toString().toStdString());
+  else
+    return false;
+
+  if (values.contains("ivCheck"))
+    server->set_ivcheck(values.value("ivCheck").toBool());
+  else
+    return false;
+
+  node.raw = SerializeTools::MessageToJson(*outbound).c_str();
+
+  URLMetaObject meta = {
+    .name = node.name.toStdString(),
+    .outbound = *outbound,
+  };
+
+  node.url = SerializeTools::sip002Encode(meta)->toEncoded();
+
+  return true;
+}
+
+bool
 NodeFormModel::setVMessOutboud(NodeInfo& node, const QVariantMap& values)
 {
   auto outbound = m_config.add_outbounds();
-  {
-    outbound->set_protocol("vmess");
-    outbound->set_sendthrough("0.0.0.0");
-    outbound->set_tag("PROXY");
-  }
+  outbound->set_protocol("vmess");
+  outbound->set_sendthrough("0.0.0.0");
+  outbound->set_tag("PROXY");
 
   auto setting = outbound->mutable_settings()->mutable_vmess();
   auto server = setting->add_vnext();
-  {
-    server->set_address(node.address.toStdString());
-    server->set_port(node.port);
+  server->set_address(node.address.toStdString());
+  server->set_port(node.port);
+
+  auto user = server->add_users();
+  user->set_id(node.password.toStdString());
+
+  if (values.contains("alterID"))
+    user->set_alterid(values.value("alterID").toInt());
+
+  if (values.contains("secutiry"))
+    user->set_security(values.value("secutiry").toString().toStdString());
+
+  auto stream = outbound->mutable_streamsettings();
+  if (values.contains("network"))
+    stream->set_network(values.value("network").toString().toStdString());
+
+  if (values.contains("enableTLS") && values.value("enableTLS").toBool()) {
+    stream->set_security("tls");
+  } else {
+    stream->set_security("none");
   }
 
-  {
-    auto user = server->add_users();
-    user->set_id(node.password.toStdString());
+  if (stream->network() == "ws") {
+    auto websocket = stream->mutable_wssettings();
 
-    if (values.contains("alterID"))
-      user->set_alterid(values.value("alterID").toInt());
-
-    if (values.contains("secutiry"))
-      user->set_security(values.value("secutiry").toString().toStdString());
-  }
-
-  {
-    auto stream = outbound->mutable_streamsettings();
-    if (values.contains("network"))
-      stream->set_network(values.value("network").toString().toStdString());
-
-    if (values.contains("enableTLS") && values.value("enableTLS").toBool()) {
-      stream->set_security("tls");
-    } else {
-      stream->set_security("none");
+    if (values.contains("host")) {
+      auto headers = websocket->mutable_headers();
+      headers->insert(
+        { "Host", values.value("host").toString().toStdString() });
     }
 
-    if (stream->network() == "ws") {
-      auto websocket = stream->mutable_wssettings();
-
-      if (values.contains("host")) {
-        auto headers = websocket->mutable_headers();
-        headers->insert(
-          { "Host", values.value("host").toString().toStdString() });
-      }
-
-      if (values.contains("path"))
-        websocket->set_path(values.value("path").toString().toStdString());
-    }
+    if (values.contains("path"))
+      websocket->set_path(values.value("path").toString().toStdString());
   }
 
   node.raw = SerializeTools::MessageToJson(*outbound).c_str();

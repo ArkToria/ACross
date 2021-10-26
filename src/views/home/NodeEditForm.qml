@@ -250,6 +250,7 @@ Window {
 
                                 signal acceptAll
                                 property var vmessSetting: null
+                                property var shadowsocksSetting: null
                             }
 
                             Item {
@@ -266,7 +267,8 @@ Window {
                                 "port": manualPortText.text,
                                 "password": manualPasswordText.text,
                                 "protocol": manualProtocolType.currentIndex,
-                                "vmess": protocolSettingsLoader.vmessSetting
+                                "vmess": protocolSettingsLoader.vmessSetting,
+                                "shadowsocks": protocolSettingsLoader.shadowsocksSetting
                             }
                         }
                     }

@@ -34,8 +34,8 @@ private:
   NodeList* p_list;
 
   bool manualSetting(NodeInfo& node, const QVariantMap& values);
-  bool setTrojanOutbound(NodeInfo& node);
-  bool setShadowsocksOutbound(NodeInfo& node);
+  bool setTrojanOutbound(NodeInfo& node, const QVariantMap& values);
+  bool setShadowsocksOutbound(NodeInfo& node, const QVariantMap& values);
   bool setVMessOutboud(NodeInfo& node, const QVariantMap& values);
   bool setRawOutbound(NodeInfo& node);
   bool decodeOutboundFromURL(NodeInfo& node, const QString& url_str);

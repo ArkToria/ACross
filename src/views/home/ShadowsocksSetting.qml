@@ -57,4 +57,15 @@ Item {
             Layout.fillHeight: true
         }
     }
+
+    Connections {
+        target: protocolSettingsLoader
+
+        function onAcceptAll() {
+            shadowsocksSetting = {
+                "ivCheck": ivCheckSelect.checked,
+                "security": securitySelect.currentText
+            }
+        }
+    }
 }

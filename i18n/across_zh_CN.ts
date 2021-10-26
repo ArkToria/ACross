@@ -698,7 +698,7 @@
         <translation type="vanished">从文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="278"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="280"/>
         <source>Import v2ray config from file</source>
         <translation>从文件导入 v2ray 配置</translation>
     </message>
@@ -768,32 +768,32 @@
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="292"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="294"/>
         <source>Node Name</source>
         <translation>节点名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="305"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="307"/>
         <source>Config File</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="314"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="316"/>
         <source>Enter Config Path Here</source>
         <translation>在此输入配置路径</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="318"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="320"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="350"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="352"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="364"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="366"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

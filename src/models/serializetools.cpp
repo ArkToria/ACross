@@ -89,12 +89,10 @@ SerializeTools::sip002Encode(const URLMetaObject& meta)
   auto setting = outbound->settings().shadowsocks();
   auto server = setting.servers(0);
 
-  QString password(server.password().c_str());
-  auto password_encode =
-    password.toUtf8().toBase64(QByteArray::Base64UrlEncoding);
-
-  QString user_info =
-    QString("%1:%2").arg(server.method().c_str(), password_encode);
+  QString user_info = QString("%1:%2")
+                        .arg(server.method().c_str(), server.password().c_str())
+                        .toUtf8()
+                        .toBase64(QByteArray::Base64UrlEncoding);
 
   url.setScheme("ss");
   url.setHost(server.address().c_str());
