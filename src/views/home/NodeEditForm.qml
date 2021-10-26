@@ -22,7 +22,15 @@ Window {
     property int fontSize: 14
 
     onVisibilityChanged: {
-        if (!visible) {
+        if (visible) {
+            urlTextField.text = nodeModel.url
+            manualNameText.text = nodeModel.name
+            manualAddressText.text = nodeModel.address
+            manualPortText.text = nodeModel.port
+            manualPasswordText.text = nodeModel.password
+            manualProtocolType.currentIndex = nodeModel.protocol
+            importConfigName.text = nodeModel.name
+        } else {
             nodeEditFormPopWindow.close()
             nodeEditFormPopWindow.destroy()
         }
@@ -123,7 +131,6 @@ Window {
                                 id: urlTextField
                                 Layout.fillWidth: true
                                 wrapMode: Text.WrapAnywhere
-                                //                                text: nodeModel.url
                                 placeholderText: "support url scheme: ss:// vmess:// trojan://"
                             }
 
@@ -165,8 +172,6 @@ Window {
                                 id: manualNameText
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
-
-                                //                                placeholderText: nodeModel.name
                             }
 
                             Label {
@@ -177,8 +182,6 @@ Window {
                             TextFieldBox {
                                 id: manualAddressText
                                 Layout.fillWidth: true
-
-                                //                                placeholderText: nodeModel.address
                             }
 
                             Label {
@@ -190,7 +193,6 @@ Window {
                                 id: manualPortText
                                 Layout.minimumWidth: 72
 
-                                //                                placeholderText: nodeModel.port
                                 placeholderText: "443"
                                 validator: IntValidator {
                                     bottom: 0
@@ -207,8 +209,6 @@ Window {
                                 id: manualPasswordText
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
-
-                                //                                placeholderText: nodeModel.password
                             }
 
                             Label {
@@ -223,7 +223,6 @@ Window {
 
                                 model: ["vmess", "shadowsocks", "trojan"]
 
-                                //                                currentIndex: nodeModel.protocol
                                 onEditTextChanged: {
                                     switch (currentIndex) {
                                     case 0:
@@ -301,8 +300,6 @@ Window {
                                 id: importConfigName
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
-
-                                //                                placeholderText: nodeModel.name
                             }
 
                             Label {

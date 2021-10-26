@@ -147,7 +147,7 @@ private:
 
   QQueue<QFuture<void>> work_tasks;
 
-  across::jsonHighlighter jsonHighlighter;
+  across::JSONHighlighter jsonHighlighter;
 
   QMap<qint64, QList<qint64>> m_search_results;
   int m_display_group_id = 1;

@@ -69,12 +69,12 @@ Item {
             Layout.fillWidth: true
             Layout.columnSpan: 2
 
-            displayText: acrossConfig.currentTheme
+            displayText: acrossConfig.currentThemeName
             model: ["current", "default-light", "dark", "nord-dark", "pure-pink"]
 
             onEditTextChanged: {
                 if (model.editText !== "current") {
-                    acrossConfig.currentTheme = editText
+                    acrossConfig.currentThemeName = editText
                 }
             }
         }

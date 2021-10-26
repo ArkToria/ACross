@@ -441,7 +441,7 @@ ConfigTools::iconStyle()
 }
 
 QString
-ConfigTools::currentTheme()
+ConfigTools::currentThemeName()
 {
   return p_interface->theme().theme().c_str();
 }
@@ -1244,4 +1244,10 @@ ConfigTools::mergeConfigFromJSON(const std::string& json_str)
   if (auto core = m_conf.mutable_core(); core != nullptr) {
     core->mutable_api()->set_enable(origin_conf.core().api().enable());
   }
+}
+
+Theme*
+ConfigTools::currentTheme()
+{
+  return p_theme;
 }

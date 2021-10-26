@@ -698,7 +698,7 @@
         <translation type="vanished">从文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="282"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="281"/>
         <source>Import v2ray config from file</source>
         <translation>从文件导入 v2ray 配置</translation>
     </message>
@@ -715,7 +715,7 @@
         <translation type="vanished">导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="74"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="82"/>
         <source>Decode URL</source>
         <translation>解析链接</translation>
     </message>
@@ -728,37 +728,37 @@
         <translation type="vanished">从配置文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="74"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="82"/>
         <source>Manual Setting</source>
         <translation>手动设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="75"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="83"/>
         <source>Import Config</source>
         <translation>导入配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="154"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="161"/>
         <source>Outbound Config</source>
         <translation>出站配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="160"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="167"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="173"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="178"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="185"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="188"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="202"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="204"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
@@ -768,32 +768,32 @@
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="296"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="295"/>
         <source>Node Name</source>
         <translation>节点名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="309"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="306"/>
         <source>Config File</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="318"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="315"/>
         <source>Enter Config Path Here</source>
         <translation>在此输入配置路径</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="322"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="319"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="354"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="351"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="368"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="365"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>

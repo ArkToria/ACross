@@ -522,10 +522,14 @@ NodeList::setAsDefault(int id)
   p_db->updateRuntimeValue(
     RuntimeValue(RunTimeValues::DEFAULT_GROUP_ID, displayGroupID()));
 }
+
 void
 NodeList::setDocument(QVariant& v)
 {
   const auto ptr = qvariant_cast<QQuickTextDocument*>(v)->textDocument();
+
+  jsonHighlighter.setTheme(p_config->currentTheme());
+  jsonHighlighter.init();
   jsonHighlighter.setDocument(ptr);
 }
 

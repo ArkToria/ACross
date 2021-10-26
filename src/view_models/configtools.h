@@ -114,7 +114,7 @@ class ConfigTools : public QObject
                itemSpacingChanged)
   Q_PROPERTY(
     QString iconStyle READ iconStyle WRITE setIconStyle NOTIFY iconStyleChanged)
-  Q_PROPERTY(QString currentTheme READ currentTheme WRITE setCurrentTheme NOTIFY
+  Q_PROPERTY(QString currentThemeName READ currentThemeName WRITE setCurrentTheme NOTIFY
                currentThemeChanged)
   Q_PROPERTY(QString currentLanguage READ currentLanguage WRITE
                setCurrentLanguage NOTIFY currentLanguageChanged)
@@ -161,6 +161,7 @@ public:
   across::config::Config* configPtr();
   void setInboundObject(v2ray::config::V2rayConfig& config);
   void mergeConfigFromJSON(const std::string& json_str);
+  across::config::Theme* currentTheme();
 
   Q_INVOKABLE QString getConfigVersion();
   Q_INVOKABLE QString getLanguage();
@@ -219,7 +220,7 @@ public:
   int borderWidth();
   int itemSpacing();
   QString iconStyle();
-  QString currentTheme();
+  QString currentThemeName();
   QString currentLanguage();
   bool enableTray();
   bool enableStartFromMinimized();
