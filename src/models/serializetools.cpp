@@ -375,17 +375,13 @@ SerializeTools::vmessBase64Encode(const URLMetaObject& meta)
       root["path"] = websocket.path();
     }
 
-    if (stream.has_tlssettings())
-      root["tls"] = "tls";
-    else
-      root["tls"] = "none";
+    root["tls"] = stream.security();
   }
 
   // TODO: support fake stream type
   root["type"] = "none";
 
-  url.setUserInfo(
-    QString::fromStdString(root.get<std::string>()).toUtf8().toBase64());
+  url.setUserInfo(QString::fromStdString(root.dump()).toUtf8().toBase64());
 
   return url;
 }

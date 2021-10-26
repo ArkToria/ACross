@@ -28,24 +28,9 @@ Window {
         }
     }
 
-    ShadowsocksFormModel {
-        id: shadowsocksFormModel
-    }
-
-    TrojanFormModel {
-        id: trojanFormModel
-    }
-
-    VMessFormModel {
-        id: vmessFormModel
-    }
-
-    RawOutboundFormModel {
-        id: rawOutboundFormModel
-    }
-
-    URLSchemeFormModel {
-        id: urlSchemeFormModel
+    NodeFormModel {
+        id: nodeFormModel
+        list: acrossNodes
     }
 
     Rectangle {
@@ -71,7 +56,7 @@ Window {
                     Layout.preferredWidth: parent.width / 2
                     Layout.rowSpan: 3
 
-                    text: acrossNodes.jsonHighlighting(nodeModel.raw)
+                    //                    text: acrossNodes.jsonHighlighting(nodeModel.raw)
                     textFormat: Text.RichText
                     selectByMouse: true
                     readOnly: true
@@ -127,13 +112,15 @@ Window {
                     currentIndex: bar.currentIndex
 
                     Item {
+                        id: urlSetting
                         ColumnLayout {
                             anchors.fill: parent
 
                             TextFieldBox {
+                                id: urlTextField
                                 Layout.fillWidth: true
                                 wrapMode: Text.WrapAnywhere
-                                text: nodeModel.url
+                                //                                text: nodeModel.url
                                 placeholderText: "support url scheme: ss:// vmess:// trojan://"
                             }
 
@@ -141,9 +128,15 @@ Window {
                                 Layout.fillHeight: true
                             }
                         }
+
+                        function accept() {
+                            return urlTextField.text
+                        }
                     }
 
                     Item {
+                        id: manualSetting
+
                         GridLayout {
                             anchors.fill: parent
                             columns: 4
@@ -166,10 +159,11 @@ Window {
                             }
 
                             TextFieldBox {
+                                id: manualNameText
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
 
-                                placeholderText: nodeModel.name
+                                //                                placeholderText: nodeModel.name
                             }
 
                             Label {
@@ -178,9 +172,10 @@ Window {
                             }
 
                             TextFieldBox {
+                                id: manualAddressText
                                 Layout.fillWidth: true
 
-                                placeholderText: nodeModel.address
+                                //                                placeholderText: nodeModel.address
                             }
 
                             Label {
@@ -189,8 +184,11 @@ Window {
                             }
 
                             TextFieldBox {
-                                placeholderText: nodeModel.port
+                                id: manualPortText
+                                Layout.minimumWidth: 72
 
+                                //                                placeholderText: nodeModel.port
+                                placeholderText: "443"
                                 validator: IntValidator {
                                     bottom: 0
                                     top: 65535
@@ -203,10 +201,11 @@ Window {
                             }
 
                             TextFieldBox {
+                                id: manualPasswordText
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
 
-                                placeholderText: nodeModel.password
+                                //                                placeholderText: nodeModel.password
                             }
 
                             Label {
@@ -215,12 +214,13 @@ Window {
                             }
 
                             DropDownBox {
+                                id: manualProtocolType
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
 
                                 model: ["vmess", "shadowsocks", "trojan"]
-                                currentIndex: nodeModel.protocol
 
+                                //                                currentIndex: nodeModel.protocol
                                 onEditTextChanged: {
                                     switch (currentIndex) {
                                     case 0:
@@ -244,23 +244,40 @@ Window {
                                 id: protocolSettingsLoader
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 4
+
+                                signal acceptAll
+                                property var vmessSetting: null
                             }
 
                             Item {
                                 Layout.fillHeight: true
                             }
                         }
+
+                        function accept() {
+                            protocolSettingsLoader.acceptAll()
+
+                            return {
+                                "name": manualNameText.text,
+                                "address": manualAddressText.text,
+                                "port": manualPortText.text,
+                                "password": manualPasswordText.text,
+                                "protocol": manualProtocolType.currentIndex,
+                                "vmess": protocolSettingsLoader.vmessSetting
+                            }
+                        }
                     }
 
                     Item {
+                        id: importConfigSetting
                         FileDialog {
-                            id: importFileDialog
+                            id: importConfigDialog
                             title: qsTr("Import v2ray config from file")
                             fileMode: FileDialog.OpenFile
 
                             nameFilters: ["v2ray config (*.conf)", "All files (*)"]
                             onAccepted: {
-
+                                importConfigPath.text = file
                             }
                         }
 
@@ -274,10 +291,11 @@ Window {
                             }
 
                             TextFieldBox {
+                                id: importConfigName
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
 
-                                placeholderText: nodeModel.name
+                                //                                placeholderText: nodeModel.name
                             }
 
                             Label {
@@ -286,6 +304,7 @@ Window {
                             }
 
                             TextFieldBox {
+                                id: importConfigPath
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 2
 
@@ -295,12 +314,19 @@ Window {
                             ButtonBox {
                                 text: qsTr("Open File")
                                 onClicked: {
-
+                                    importConfigDialog.open()
                                 }
                             }
 
                             Item {
                                 Layout.fillHeight: true
+                            }
+                        }
+
+                        function accept() {
+                            return {
+                                "name": importConfigName.text,
+                                "filePath": importConfigPath.text
                             }
                         }
                     }
@@ -320,7 +346,14 @@ Window {
 
                         text: qsTr("Accept")
                         onClicked: {
-
+                            let variantMap = {
+                                "type": bar.currentIndex,
+                                "url": urlSetting.accept(),
+                                "manual": manualSetting.accept(),
+                                "config": importConfigSetting.accept()
+                            }
+                            nodeFormModel.accept(variantMap)
+                            nodeEditFormPopWindow.close()
                         }
                     }
 

@@ -90,11 +90,6 @@ set(PROJECT_HEADERS
     src/view_models/nodelist.h
     src/view_models/nodemodel.h
     src/view_models/nodeformmodel.h
-    src/view_models/trojanformmodel.h
-    src/view_models/shadowsocksformmodel.h
-    src/view_models/vmessformmodel.h
-    src/view_models/rawoutboundformmodel.h
-    src/view_models/urlschemeformmodel.h
     src/view_models/buildinfo.h.in
     src/view_models/systemtray.h
     src/view_models/imageprovider.h
@@ -124,11 +119,6 @@ set(PROJECT_SOURCES
     src/view_models/nodelist.cpp
     src/view_models/nodemodel.cpp
     src/view_models/nodeformmodel.cpp
-    src/view_models/trojanformmodel.cpp
-    src/view_models/shadowsocksformmodel.cpp
-    src/view_models/vmessformmodel.cpp
-    src/view_models/rawoutboundformmodel.cpp
-    src/view_models/urlschemeformmodel.cpp
     src/view_models/systemtray.cpp
     src/view_models/imageprovider.cpp
     src/models/apitools.cpp

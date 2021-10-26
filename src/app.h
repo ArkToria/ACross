@@ -26,12 +26,7 @@
 #include "view_models/nodeformmodel.h"
 #include "view_models/nodelist.h"
 #include "view_models/nodemodel.h"
-#include "view_models/rawoutboundformmodel.h"
-#include "view_models/shadowsocksformmodel.h"
 #include "view_models/systemtray.h"
-#include "view_models/trojanformmodel.h"
-#include "view_models/urlschemeformmodel.h"
-#include "view_models/vmessformmodel.h"
 
 namespace across {
 #define APP_NAME "ACross"

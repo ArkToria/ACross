@@ -144,14 +144,6 @@ Application::registerModels()
   qmlRegisterType<across::GroupModel>(APP_NAME, 1, 0, "GroupModel");
   qmlRegisterType<across::NodeModel>(APP_NAME, 1, 0, "NodeModel");
   qmlRegisterType<across::NodeFormModel>(APP_NAME, 1, 0, "NodeFormModel");
-  qmlRegisterType<across::VMessFormModel>(APP_NAME, 1, 0, "VMessFormModel");
-  qmlRegisterType<across::TrojanFormModel>(APP_NAME, 1, 0, "TrojanFormModel");
-  qmlRegisterType<across::ShadowsocksFormModel>(
-    APP_NAME, 1, 0, "ShadowsocksFormModel");
-  qmlRegisterType<across::RawOutboundFormModel>(
-    APP_NAME, 1, 0, "RawOutboundFormModel");
-  qmlRegisterType<across::URLSchemeFormModel>(
-    APP_NAME, 1, 0, "URLSchemeFormModel");
 }
 
 void

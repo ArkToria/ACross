@@ -27,7 +27,6 @@ Item {
         }
 
         Label {
-
             text: qsTr("Enable TLS")
             color: acrossConfig.textColor
         }
@@ -81,7 +80,7 @@ Item {
             Layout.fillWidth: true
             Layout.columnSpan: 3
 
-            model: ["ws", "quic", "tcp", "kcp", "http"]
+            model: ["tcp", "kcp", "ws", "http", "domainsocket", "quic", "grpc"]
         }
 
         Label {
@@ -112,6 +111,21 @@ Item {
 
         Item {
             Layout.fillHeight: true
+        }
+    }
+
+    Connections {
+        target: protocolSettingsLoader
+
+        function onAcceptAll() {
+            vmessSetting = {
+                "enableTLS": tlsEnableSelect.checked,
+                "alterID": alterIDText.text,
+                "secutiry": securitySelect.currentText,
+                "network": networkSelect.currentText,
+                "host": hostText.text,
+                "path": pathText.text
+            }
         }
     }
 }
