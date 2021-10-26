@@ -48,8 +48,11 @@ Item {
     }
 
     function locateCurrent() {
-        locate(acrossNodes.getIndexByNode(acrossNodes.currentNodeID,
-                                          acrossNodes.currentGroupID))
+        let index = acrossNodes.getIndexByNode(acrossNodes.currentNodeID,
+                                          acrossNodes.currentGroupID)
+        if(index !== -1){
+            locate(index)
+        }
     }
 
     function locate(index) {
