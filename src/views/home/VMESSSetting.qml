@@ -8,121 +8,110 @@ Item {
     implicitWidth: 680
     implicitHeight: 300
 
-    ColumnLayout {
+    property int fontSize: 14
+
+    GridLayout {
         anchors.fill: parent
-        anchors.margins: acrossConfig.itemSpacing
-        spacing: 0
+
+        columns: 4
+        rowSpacing: acrossConfig.itemSpacing
+        columnSpacing: acrossConfig.itemSpacing
 
         Label {
-            Layout.margins: acrossConfig.itemSpacing
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
 
             text: qsTr("VMESS Setting")
-            font.pixelSize: 24
+            font.pointSize: fontSize
             color: acrossConfig.textColor
         }
 
-        GridLayout {
-            columns: 2
-            rowSpacing: acrossConfig.itemSpacing
+        Label {
+
+            text: qsTr("Enable TLS")
+            color: acrossConfig.textColor
+        }
+
+        Item {
             Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
+            Layout.columnSpan: 2
+        }
 
-            Label {
+        SwitchBox {
+            id: tlsEnableSelect
+        }
 
-                text: qsTr("AlterID")
-                color: acrossConfig.textColor
-            }
+        Label {
+            text: qsTr("AlterID")
+            color: acrossConfig.textColor
+        }
 
-            RowLayout {
-                TextFieldBox {
-                    id: alterIDText
-                    Layout.fillWidth: true
+        TextFieldBox {
+            id: alterIDText
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
 
-                    placeholderText: "[0-65535] 0: auto enable VMessAEAD"
-                    validator: IntValidator {
-                        bottom: 0
-                        top: 65535
-                    }
-                }
-
-                Label {
-
-                    text: qsTr("Enable TLS")
-                    color: acrossConfig.textColor
-                }
-
-                SwitchBox {
-                    id: tlsEnableSelect
-                }
-            }
-
-            Label {
-                text: qsTr("Security")
-                color: acrossConfig.textColor
-            }
-
-            RowLayout {
-                DropDownBox {
-                    id: securitySelect
-                    Layout.fillWidth: true
-
-                    model: ["auto", "aes-128-gcm", "chacha20-poly1305", "none", "zero"]
-                }
-
-                Label {
-
-                    text: qsTr("Network")
-                    horizontalAlignment: Text.AlignHCenter
-                    color: acrossConfig.textColor
-                }
-
-                DropDownBox {
-                    id: networkSelect
-                    Layout.fillWidth: true
-
-                    //              model: [ "ws", "quic", "tcp", "kcp", "http" ]
-                    model: ["ws"]
-                }
-            }
-
-            Label {
-
-                text: qsTr("Host")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                id: hostText
-                Layout.fillWidth: true
-
-                color: acrossConfig.textColor
-            }
-
-            Label {
-
-                text: qsTr("Path")
-                color: acrossConfig.textColor
-            }
-
-            TextFieldBox {
-                id: pathText
-                Layout.fillWidth: true
-
-                color: acrossConfig.textColor
+            placeholderText: "[0-65535] 0: auto enable VMessAEAD"
+            validator: IntValidator {
+                bottom: 0
+                top: 65535
             }
         }
-    }
 
-    Connections {
-        target: streamSettingLoader
+        Label {
+            text: qsTr("Security")
+            color: acrossConfig.textColor
+        }
 
-        function onAcceptAll() {
-            vmessFormModel.alterID = alterIDText.text
-            vmessFormModel.tlsEnable = tlsEnableSelect.checked
-            vmessFormModel.security = securitySelect.editText
-            vmessFormModel.network = networkSelect.editText
-            vmessFormModel.host = hostText.text
-            vmessFormModel.path = pathText.text
+        DropDownBox {
+            id: securitySelect
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            model: ["auto", "aes-128-gcm", "chacha20-poly1305", "none", "zero"]
+        }
+
+        Label {
+            text: qsTr("Network")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            id: networkSelect
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            model: ["ws", "quic", "tcp", "kcp", "http"]
+        }
+
+        Label {
+            text: qsTr("Host")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            id: hostText
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            color: acrossConfig.textColor
+        }
+
+        Label {
+            text: qsTr("Path")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            id: pathText
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            color: acrossConfig.textColor
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
     }
 }

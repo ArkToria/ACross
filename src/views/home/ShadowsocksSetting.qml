@@ -8,65 +8,53 @@ Item {
     implicitWidth: 680
     implicitHeight: 160
 
-    ColumnLayout {
+    property int fontSize: 14
+
+    GridLayout {
         anchors.fill: parent
-        anchors.margins: acrossConfig.itemSpacing
-        spacing: 0
+
+        columns: 4
+        rowSpacing: acrossConfig.itemSpacing
+        columnSpacing: acrossConfig.itemSpacing
 
         Label {
-            Layout.margins: acrossConfig.itemSpacing
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
 
             text: qsTr("Shadowsocks Setting")
-            font.pixelSize: 24
+            font.pointSize: fontSize
             color: acrossConfig.textColor
         }
 
-        RowLayout {
-            Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
-
-            Label {
-                text: qsTr("Security")
-                color: acrossConfig.textColor
-            }
-
-            DropDownBox {
-                id: securitySelect
-                Layout.fillWidth: true
-
-                model: ["aes-256-gcm", "aes-128-gcm", "chacha20-ietf-poly1305", "chacha20-poly1305", "plain", "none"]
-            }
+        Label {
+            text: qsTr("IVCheck")
+            color: acrossConfig.textColor
         }
 
-        RowLayout {
+        Item {
             Layout.fillWidth: true
-            Layout.margins: acrossConfig.itemSpacing
-
-            spacing: acrossConfig.itemSpacing
-
-            Label {
-                text: qsTr("IVCheck")
-                color: acrossConfig.textColor
-            }
-
-            Item {
-                Layout.fillWidth: true
-            }
-
-            SwitchBox {
-                id: ivCheckSelect
-            }
+            Layout.columnSpan: 2
         }
-    }
 
-    Connections {
-        target: streamSettingLoader
+        SwitchBox {
+            id: ivCheckSelect
+        }
 
-        function onAcceptAll() {
-            shadowsocksFormModel.security = securitySelect.editText
-            shadowsocksFormModel.ivCheck = ivCheckSelect.checked
+        Label {
+            text: qsTr("Security")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            id: securitySelect
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            model: ["aes-256-gcm", "aes-128-gcm", "chacha20-ietf-poly1305", "chacha20-poly1305", "plain", "none"]
+        }
+
+        Item {
+            Layout.fillHeight: true
         }
     }
 }

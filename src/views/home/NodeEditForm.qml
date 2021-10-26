@@ -28,6 +28,18 @@ Window {
         }
     }
 
+    ShadowsocksFormModel {
+        id: shadowsocksFormModel
+    }
+
+    TrojanFormModel {
+        id: trojanFormModel
+    }
+
+    VMessFormModel {
+        id: vmessFormModel
+    }
+
     Rectangle {
         anchors.fill: parent
         color: acrossConfig.deepColor
@@ -73,7 +85,6 @@ Window {
                             contentItem: Text {
                                 text: modelData
                                 color: bar.currentIndex === model.index ? acrossConfig.textColor : acrossConfig.deepTextColor
-                                font.pointSize: fontSize
                                 horizontalAlignment: Text.AlignHCenter
                             }
 
@@ -124,6 +135,7 @@ Window {
                             }
                         }
                     }
+
                     Item {
                         GridLayout {
                             anchors.fill: parent
@@ -131,6 +143,15 @@ Window {
 
                             rowSpacing: acrossConfig.itemSpacing
                             columnSpacing: acrossConfig.itemSpacing
+
+                            Label {
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 4
+
+                                text: qsTr("Outbound")
+                                color: acrossConfig.textColor
+                                font.pointSize: fontSize
+                            }
 
                             Label {
                                 text: qsTr("Name")
@@ -191,7 +212,31 @@ Window {
                                 Layout.columnSpan: 3
 
                                 model: ["vmess", "shadowsocks", "trojan"]
-                                displayText: nodeModel.protocol
+                                currentIndex: nodeModel.protocol
+
+                                onEditTextChanged: {
+                                    switch (currentIndex) {
+                                    case 0:
+                                        protocolSettingsLoader.source
+                                                = "qrc:/ACross/src/views/home/VMESSSetting.qml"
+                                        break
+                                    case 1:
+                                        protocolSettingsLoader.source = "qrc:/ACross/src/views/home/ShadowsocksSetting.qml"
+                                        break
+                                    case 2:
+                                        protocolSettingsLoader.source
+                                                = "qrc:/ACross/src/views/home/TrojanSetting.qml"
+                                        break
+                                    default:
+                                        console.log("unknown protocol")
+                                    }
+                                }
+                            }
+
+                            Loader {
+                                id: protocolSettingsLoader
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 4
                             }
 
                             Item {
@@ -199,6 +244,7 @@ Window {
                             }
                         }
                     }
+
                     Item {
                         FileDialog {
                             id: importFileDialog

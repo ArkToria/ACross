@@ -9,6 +9,8 @@ Item {
     implicitWidth: 240
     implicitHeight: 192
 
+    property int fontSize: 12
+
     function isCurrent() {
         if (acrossNodes.currentNodeGroup === group
                 && acrossNodes.currentNodeID === Number(nodeID)
@@ -16,6 +18,23 @@ Item {
             return true
         }
         return false
+    }
+
+    function displayProtocolText(protocol) {
+        switch (protocol) {
+        case 0:
+            return "vmess"
+        case 1:
+            return "shadowsocks"
+        case 2:
+            return "trojan"
+        case 4:
+            return "raw"
+        case 5:
+            return "scheme"
+        case 6:
+            return "unknown"
+        }
     }
 
     property Component popMenuComponent: null
@@ -66,7 +85,7 @@ Item {
                 elide: Text.ElideRight
                 color: textColor
                 maximumLineCount: 2
-                font.pixelSize: 16
+                font.pointSize: fontSize
             }
 
             Rectangle {
@@ -98,16 +117,14 @@ Item {
 
                 text: address
                 color: textColor
-                font.pixelSize: 14
             }
 
             Label {
                 id: protocolText
                 Layout.fillWidth: true
 
-                text: protocol
+                text: displayProtocolText(protocol)
                 color: textColor
-                font.pixelSize: 14
             }
 
             Label {
@@ -115,14 +132,12 @@ Item {
                 Layout.fillWidth: true
 
                 text: "Bypass CN"
-                font.pixelSize: 14
                 color: textColor
             }
 
             Label {
                 id: latencyDisplayText
                 text: model.latency === -1 ? "-- ms" : model.latency + " ms"
-                font.pixelSize: 14
                 color: textColor
             }
         }
