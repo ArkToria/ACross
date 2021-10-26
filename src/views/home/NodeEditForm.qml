@@ -40,6 +40,14 @@ Window {
         id: vmessFormModel
     }
 
+    RawOutboundFormModel {
+        id: rawOutboundFormModel
+    }
+
+    URLSchemeFormModel {
+        id: urlSchemeFormModel
+    }
+
     Rectangle {
         anchors.fill: parent
         color: acrossConfig.deepColor
@@ -60,9 +68,8 @@ Window {
                 TextAreaBox {
                     id: jsonPreview
                     Layout.fillHeight: true
-                    Layout.fillWidth: true
+                    Layout.preferredWidth: parent.width / 2
                     Layout.rowSpan: 3
-                    Layout.maximumWidth: parent.width / 2
 
                     text: acrossNodes.jsonHighlighting(nodeModel.raw)
                     textFormat: Text.RichText
@@ -148,7 +155,7 @@ Window {
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 4
 
-                                text: qsTr("Outbound")
+                                text: qsTr("Outbound Config")
                                 color: acrossConfig.textColor
                                 font.pointSize: fontSize
                             }

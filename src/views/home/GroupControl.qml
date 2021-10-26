@@ -20,7 +20,7 @@ Item {
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredWidth: 32
+            Layout.preferredWidth: 72
         }
 
         CardBox {
@@ -64,7 +64,7 @@ Item {
                 onClicked: {
                     if (popMenuComponent == null) {
                         popMenuComponent = Qt.createComponent(
-                                    "qrc:/ACross/src/views/home/NodeForm.qml")
+                                    "qrc:/ACross/src/views/home/NodeEditForm.qml")
                     }
                     if (popMenuComponent.status === Component.Ready) {
                         popMenuComponent.createObject(appendNodeButton).show()
@@ -170,43 +170,6 @@ Item {
                                     })
                         window.show()
                     }
-                }
-            }
-        }
-
-        CardBox {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
-            layer.enabled: false
-            color: "transparent"
-
-            RowLayout {
-                id: groupContorlSearch
-                anchors.centerIn: parent
-
-                SVGBox {
-                    source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/search.svg"
-                    sourceWidth: 22
-                    sourceHeight: 22
-                }
-
-                Label {
-                    text: qsTr("Search")
-                    color: acrossConfig.textColor
-                }
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-
-                onEntered: {
-                    parent.color = acrossConfig.backgroundColor
-                }
-
-                onExited: {
-                    parent.color = "transparent"
                 }
             }
         }
