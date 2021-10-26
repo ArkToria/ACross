@@ -3,6 +3,7 @@ import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
+import QtQuick.Dialogs
 
 import ACross
 
@@ -45,6 +46,7 @@ Window {
                 rowSpacing: acrossConfig.itemSpacing
 
                 TextAreaBox {
+                    id: jsonPreview
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     Layout.rowSpan: 3
@@ -52,6 +54,8 @@ Window {
 
                     text: acrossNodes.jsonHighlighting(nodeModel.raw)
                     textFormat: Text.RichText
+                    selectByMouse: true
+                    readOnly: true
                 }
 
                 TabBar {
@@ -60,7 +64,8 @@ Window {
                     Layout.alignment: Qt.AlignTop
 
                     Repeater {
-                        model: ["URL", "Manual", "Outbound"]
+                        model: [qsTr("Decode URL"), qsTr(
+                                "Manual Setting"), qsTr("Import Config")]
 
                         TabButton {
                             id: tabButton
@@ -106,12 +111,6 @@ Window {
                     Item {
                         ColumnLayout {
                             anchors.fill: parent
-                            anchors.margins: acrossConfig.itemSpacing
-
-                            Label {
-                                text: qsTr("Import From URL")
-                                font.pointSize: fontSize
-                            }
 
                             TextFieldBox {
                                 Layout.fillWidth: true
@@ -125,16 +124,131 @@ Window {
                             }
                         }
                     }
-                    Rectangle {
-                        Label {
-                            text: "Manual"
-                            font.pointSize: fontSize * 2
+                    Item {
+                        GridLayout {
+                            anchors.fill: parent
+                            columns: 4
+
+                            rowSpacing: acrossConfig.itemSpacing
+                            columnSpacing: acrossConfig.itemSpacing
+
+                            Label {
+                                text: qsTr("Name")
+                                color: acrossConfig.textColor
+                            }
+
+                            TextFieldBox {
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 3
+
+                                placeholderText: nodeModel.name
+                            }
+
+                            Label {
+                                text: qsTr("Address")
+                                color: acrossConfig.textColor
+                            }
+
+                            TextFieldBox {
+                                Layout.fillWidth: true
+
+                                placeholderText: nodeModel.address
+                            }
+
+                            Label {
+                                text: qsTr("Port")
+                                color: acrossConfig.textColor
+                            }
+
+                            TextFieldBox {
+                                placeholderText: nodeModel.port
+
+                                validator: IntValidator {
+                                    bottom: 0
+                                    top: 65535
+                                }
+                            }
+
+                            Label {
+                                text: qsTr("Password")
+                                color: acrossConfig.textColor
+                            }
+
+                            TextFieldBox {
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 3
+
+                                placeholderText: nodeModel.password
+                            }
+
+                            Label {
+                                text: qsTr("Protocol")
+                                color: acrossConfig.textColor
+                            }
+
+                            DropDownBox {
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 3
+
+                                model: ["vmess", "shadowsocks", "trojan"]
+                                displayText: nodeModel.protocol
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
                         }
                     }
-                    Rectangle {
-                        Label {
-                            text: "Outbound"
-                            font.pointSize: fontSize * 2
+                    Item {
+                        FileDialog {
+                            id: importFileDialog
+                            title: qsTr("Import v2ray config from file")
+                            fileMode: FileDialog.OpenFile
+
+                            nameFilters: ["v2ray config (*.conf)", "All files (*)"]
+                            onAccepted: {
+
+                            }
+                        }
+
+                        GridLayout {
+                            anchors.fill: parent
+                            columns: 4
+
+                            Label {
+                                text: qsTr("Node Name")
+                                color: acrossConfig.textColor
+                            }
+
+                            TextFieldBox {
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 3
+
+                                placeholderText: nodeModel.name
+                            }
+
+                            Label {
+                                text: qsTr("Config File")
+                                color: acrossConfig.textColor
+                            }
+
+                            TextFieldBox {
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 2
+
+                                placeholderText: qsTr("Enter Config Path Here")
+                            }
+
+                            ButtonBox {
+                                text: qsTr("Open File")
+                                onClicked: {
+
+                                }
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
                         }
                     }
                 }
