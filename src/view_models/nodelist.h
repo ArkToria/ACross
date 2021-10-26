@@ -10,11 +10,13 @@
 #include "../models/serializetools.h"
 
 #include "configtools.h"
+#include "jsonhighlighter.h"
 #include "logtools.h"
 
 #include "magic_enum.hpp"
 #include <QObject>
 #include <QPointer>
+#include <QQuickTextDocument>
 #include <QSharedPointer>
 #include <QUrl>
 #include <QVariant>
@@ -79,8 +81,9 @@ public:
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
+  Q_INVOKABLE void setDocument(QVariant& v);
   Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
-  Q_INVOKABLE static QString jsonHighlighting(const QString& json_str);
+  Q_INVOKABLE static QString jsonFormat(const QString& json_str);
   Q_INVOKABLE static void copyURLToClipboard(const QString& node_name,
                                              const QString& node_url);
   Q_INVOKABLE void copyCurrentNodeURLToClipboard();
@@ -143,6 +146,8 @@ private:
   QSharedPointer<across::core::CoreTools> p_core;
 
   QQueue<QFuture<void>> work_tasks;
+
+  across::jsonHighlighter jsonHighlighter;
 
   QMap<qint64, QList<qint64>> m_search_results;
   int m_display_group_id = 1;

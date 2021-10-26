@@ -56,10 +56,13 @@ Window {
                     Layout.preferredWidth: parent.width / 2
                     Layout.rowSpan: 3
 
-                    //                    text: acrossNodes.jsonHighlighting(nodeModel.raw)
-                    textFormat: Text.RichText
+                    text: acrossNodes.jsonFormat(nodeModel.raw)
                     selectByMouse: true
                     readOnly: true
+
+                    Component.onCompleted: {
+                        acrossNodes.setDocument(jsonPreview.textDocument)
+                    }
                 }
 
                 TabBar {

@@ -27,7 +27,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 
 # Qt 6.2
-find_package(Qt6 6.2 COMPONENTS Core Quick Widgets DBus Core5Compat Sql LinguistTools Concurrent REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Gui Core Quick Widgets DBus Core5Compat Sql LinguistTools Concurrent REQUIRED)
 
 # curl
 CPMAddPackage(
@@ -93,6 +93,7 @@ set(PROJECT_HEADERS
     src/view_models/buildinfo.h.in
     src/view_models/systemtray.h
     src/view_models/imageprovider.h
+    src/view_models/jsonhighlighter.h
     src/models/apitools.h
     src/models/dbtools.h
     src/models/envtools.h
@@ -121,6 +122,7 @@ set(PROJECT_SOURCES
     src/view_models/nodeformmodel.cpp
     src/view_models/systemtray.cpp
     src/view_models/imageprovider.cpp
+    src/view_models/jsonhighlighter.cpp
     src/models/apitools.cpp
     src/models/dbtools.cpp
     src/models/envtools.cpp

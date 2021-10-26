@@ -397,22 +397,16 @@ NodeList::getIndexByNode(qint64 node_id, qint64 group_id)
 }
 
 QString
-NodeList::jsonHighlighting(const QString& json_str)
+NodeList::jsonFormat(const QString& json_str)
 {
-  QProcess process;
-
-  // TODO: check binary path
-  process.start("/usr/bin/source-highlight",
-                { "-o", "STDOUT", "-s", "json" },
-                QIODevice::ReadWrite | QIODevice::Text);
-  process.write(json_str.toUtf8());
-  process.waitForBytesWritten();
-  process.closeWriteChannel();
-  process.waitForStarted();
-  process.waitForFinished();
-  auto html_out = process.readAllStandardOutput();
-
-  return html_out;
+  auto json =
+    nlohmann::json::parse(json_str.toStdString(), nullptr, false, false);
+  if (json == nlohmann::json::value_t::null) {
+    return json_str;
+  }
+  std::string&& res = json.dump(2);
+  QString result = QString::fromStdString(res);
+  return result;
 }
 
 void
@@ -527,6 +521,12 @@ NodeList::setAsDefault(int id)
   p_db->updateRuntimeValue(RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, id));
   p_db->updateRuntimeValue(
     RuntimeValue(RunTimeValues::DEFAULT_GROUP_ID, displayGroupID()));
+}
+void
+NodeList::setDocument(QVariant& v)
+{
+  const auto ptr = qvariant_cast<QQuickTextDocument*>(v)->textDocument();
+  jsonHighlighter.setDocument(ptr);
 }
 
 Q_INVOKABLE void
