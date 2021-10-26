@@ -251,6 +251,7 @@ Window {
                                 signal acceptAll
                                 property var vmessSetting: null
                                 property var shadowsocksSetting: null
+                                property var trojanSetting: null
                             }
 
                             Item {
@@ -268,7 +269,8 @@ Window {
                                 "password": manualPasswordText.text,
                                 "protocol": manualProtocolType.currentIndex,
                                 "vmess": protocolSettingsLoader.vmessSetting,
-                                "shadowsocks": protocolSettingsLoader.shadowsocksSetting
+                                "shadowsocks": protocolSettingsLoader.shadowsocksSetting,
+                                "trojan": protocolSettingsLoader.trojanSetting
                             }
                         }
                     }

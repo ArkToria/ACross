@@ -17,8 +17,6 @@ public:
 
   Q_INVOKABLE void accept(const QVariantMap& values);
 
-  Q_INVOKABLE void cancel();
-
 public:
   NodeList* list() const;
 
@@ -30,7 +28,6 @@ signals:
 
 private:
   v2ray::config::V2rayConfig m_config;
-
   NodeList* p_list;
 
   bool manualSetting(NodeInfo& node, const QVariantMap& values);

@@ -121,7 +121,7 @@ Item {
             vmessSetting = {
                 "enableTLS": tlsEnableSelect.checked,
                 "alterID": alterIDText.text,
-                "secutiry": securitySelect.currentText,
+                "security": securitySelect.currentText,
                 "network": networkSelect.currentText,
                 "host": hostText.text,
                 "path": pathText.text

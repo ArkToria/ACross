@@ -34,56 +34,6 @@ NodeFormModel::accept(const QVariantMap& values)
   return;
 }
 
-void
-NodeFormModel::cancel()
-{}
-
-// bool
-// NodeFormModel::setTrojanOutbound(NodeInfo& node)
-//{
-//  if (p_trojan == nullptr) {
-//    return false;
-//  }
-
-//  auto outbound = m_config.add_outbounds();
-//  outbound->set_protocol("trojan");
-//  outbound->set_sendthrough("0.0.0.0");
-//  outbound->set_tag("PROXY");
-
-//  auto setting = outbound->mutable_settings()->mutable_trojan();
-
-//  auto server = setting->add_servers();
-//  server->set_address(node.address.toStdString());
-//  server->set_password(node.password.toStdString());
-//  server->set_port(node.port);
-
-//  auto stream = outbound->mutable_streamsettings();
-//  stream->set_network(p_trojan->network().toStdString());
-//  stream->set_security(p_trojan->security().toStdString());
-
-//  auto tls = stream->mutable_tlssettings();
-//  tls->set_allowinsecure(false);
-//  tls->set_servername(p_trojan->serverName().toStdString());
-
-//  if (p_trojan->alpn() == "h2+http/1.1") {
-//    tls->add_alpn("h2");
-//    tls->add_alpn("http/1.1");
-//  } else {
-//    tls->add_alpn(p_trojan->alpn().toStdString());
-//  }
-
-//  node.raw = SerializeTools::MessageToJson(*outbound).c_str();
-
-//  URLMetaObject meta = {
-//    .name = node.name.toStdString(),
-//    .outbound = *outbound,
-//  };
-
-//  node.url = SerializeTools::trojanEncode(meta)->toEncoded();
-
-//  return true;
-//}
-
 // bool
 // NodeFormModel::setRawOutbound(NodeInfo& node)
 //{
@@ -104,23 +54,6 @@ NodeFormModel::cancel()
 //    node.protocol = EntryType::unknown;
 
 //  return true;
-//}
-
-// bool
-// NodeFormModel::decodeOutboundFromURL(NodeInfo& node)
-//{
-//  bool result = false;
-
-//  do {
-//    auto data = p_urlScheme->urlScheme();
-//    if (data.isEmpty()) {
-//      break;
-//    }
-
-//    result = SerializeTools::decodeOutboundFromURL(node, data.toStdString());
-//  } while (false);
-
-//  return result;
 //}
 
 NodeList*
@@ -153,6 +86,9 @@ NodeFormModel::manualSetting(NodeInfo& node, const QVariantMap& values)
     node.protocol =
       magic_enum::enum_value<EntryType>(values.value("protocol").toInt());
 
+    if (node.port == 0)
+      node.port = 443;
+
     switch (node.protocol) {
       case EntryType::vmess:
         if (values.contains("vmess") && !values.value("vmess").isNull()) {
@@ -166,12 +102,71 @@ NodeFormModel::manualSetting(NodeInfo& node, const QVariantMap& values)
           auto shadowsocks = values.value("shadowsocks").toMap();
           return setShadowsocksOutbound(node, shadowsocks);
         }
+      case EntryType::trojan:
+        if (values.contains("trojan") && !values.value("trojan").isNull()) {
+          auto trojan = values.value("trojan").toMap();
+          return setTrojanOutbound(node, trojan);
+        }
       default:
         break;
     }
   }
 
   return false;
+}
+
+bool
+NodeFormModel::setTrojanOutbound(NodeInfo& node, const QVariantMap& values)
+{
+  auto outbound = m_config.add_outbounds();
+  outbound->set_protocol("trojan");
+  outbound->set_sendthrough("0.0.0.0");
+  outbound->set_tag("PROXY");
+
+  auto setting = outbound->mutable_settings()->mutable_trojan();
+  auto server = setting->add_servers();
+  server->set_address(node.address.toStdString());
+  server->set_password(node.password.toStdString());
+  server->set_port(node.port);
+
+  auto stream = outbound->mutable_streamsettings();
+
+  if (values.contains("network"))
+    stream->set_network(values.value("network").toString().toStdString());
+  else
+    return false;
+
+  if (values.contains("security"))
+    stream->set_security(values.value("security").toString().toStdString());
+  else
+    return false;
+
+  auto tls = stream->mutable_tlssettings();
+  tls->set_allowinsecure(false);
+
+  if (values.contains("serverName"))
+    tls->set_servername(values.value("serverName").toString().toStdString());
+
+  if (values.contains("alpn")) {
+    auto alpn_str = values.value("alpn").toString();
+    if (alpn_str == "h2+http/1.1") {
+      tls->add_alpn("h2");
+      tls->add_alpn("http/1.1");
+    } else {
+      tls->add_alpn(alpn_str.toStdString());
+    }
+  }
+
+  node.raw = SerializeTools::MessageToJson(*outbound).c_str();
+
+  URLMetaObject meta = {
+    .name = node.name.toStdString(),
+    .outbound = *outbound,
+  };
+
+  node.url = SerializeTools::trojanEncode(meta)->toEncoded();
+
+  return true;
 }
 
 bool
@@ -229,8 +224,8 @@ NodeFormModel::setVMessOutboud(NodeInfo& node, const QVariantMap& values)
   if (values.contains("alterID"))
     user->set_alterid(values.value("alterID").toInt());
 
-  if (values.contains("secutiry"))
-    user->set_security(values.value("secutiry").toString().toStdString());
+  if (values.contains("security"))
+    user->set_security(values.value("security").toString().toStdString());
 
   auto stream = outbound->mutable_streamsettings();
   if (values.contains("network"))

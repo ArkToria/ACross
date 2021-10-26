@@ -78,4 +78,17 @@ Item {
             Layout.fillHeight: true
         }
     }
+
+    Connections {
+        target: protocolSettingsLoader
+
+        function onAcceptAll() {
+            trojanSetting = {
+                "serverName": serverNameText.text,
+                "network": networkSelect.currentText,
+                "security": securitySelect.currentText,
+                "alpn": alpnSelect.currentText
+            }
+        }
+    }
 }
