@@ -416,6 +416,24 @@ NodeList::jsonHighlighting(const QString& json_str)
 }
 
 void
+NodeList::copyURLToClipboard(const QString& node_name, const QString& node_url)
+{
+  NotifyTools().send(node_url,
+                     QString(tr("Copy [%1] URL to clipboard")).arg(node_name));
+
+  ClipboardTools().send(node_url);
+}
+
+void
+NodeList::copyCurrentNodeURLToClipboard()
+{
+  if (m_node.name.isEmpty())
+    return;
+
+  copyURLToClipboard(m_node.name, m_node.url);
+}
+
+void
 NodeList::setDisplayGroupID(int group_id)
 {
   if (group_id <= 0 || group_id == m_display_group_id) {
@@ -456,26 +474,6 @@ NodeList::setCurrentNodeByID(int id)
       }
     }
   }
-}
-
-void
-NodeList::copyUrlToClipboard(int id)
-{
-  auto nodes = p_db->listAllNodesFromGroupID(currentGroupID());
-  auto iter = std::find_if(nodes.begin(), nodes.end(), [&](NodeInfo& item) {
-    return item.id == id;
-  });
-  if (iter == nodes.end()) {
-    p_logger->error("Failed to copy node url: {}", id);
-    return;
-  }
-
-  auto item = *iter;
-
-  NotifyTools().send(item.url,
-                     QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
-
-  ClipboardTools().send(item.url);
 }
 
 void

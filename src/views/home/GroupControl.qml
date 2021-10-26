@@ -111,7 +111,7 @@ Item {
                 }
 
                 onClicked: {
-                    acrossNodes.copyUrlToClipboard(acrossNodes.currentNodeID)
+                    acrossNodes.copyCurrentNodeURLToClipboard()
                 }
             }
         }

@@ -692,12 +692,17 @@
         <translation type="obsolete">出站</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="137"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="112"/>
+        <source>Import From URL</source>
+        <translation type="unfinished">从链接导入</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeEditForm.qml" line="154"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="144"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="161"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -796,12 +801,12 @@
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="147"/>
-        <location filename="../src/views/home/NodeShareForm.qml" line="177"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="178"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="170"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="171"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>
@@ -944,7 +949,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="476"/>
+        <location filename="../src/view_models/nodelist.cpp" line="422"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

@@ -156,6 +156,7 @@ Window {
 
                             wrapMode: Text.WrapAnywhere
                             text: nodeModel.url
+                            readOnly: true
                         }
 
                         RowLayout {
@@ -176,8 +177,8 @@ Window {
                             ButtonBox {
                                 text: qsTr("Copy URL")
                                 onClicked: {
-                                    acrossNodes.copyUrlToClipboard(
-                                                nodeModel.nodeID)
+                                    acrossNodes.copyURLToClipboard(
+                                                nodeModel.name, nodeModel.url)
                                 }
                             }
                         }

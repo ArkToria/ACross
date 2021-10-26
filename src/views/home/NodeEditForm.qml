@@ -67,14 +67,14 @@ Window {
 
                             contentItem: Text {
                                 text: modelData
-                                color: bar.currentIndex == index ? acrossConfig.textColor : acrossConfig.deepTextColor
+                                color: bar.currentIndex === model.index ? acrossConfig.textColor : acrossConfig.deepTextColor
                                 font.pointSize: fontSize
                                 horizontalAlignment: Text.AlignHCenter
                             }
 
                             background: Rectangle {
                                 implicitHeight: 24
-                                color: bar.currentIndex == index ? acrossConfig.backgroundColor : acrossConfig.deepColor
+                                color: bar.currentIndex === model.index ? acrossConfig.backgroundColor : acrossConfig.deepColor
                             }
 
                             MouseArea {
@@ -102,10 +102,27 @@ Window {
                     Layout.alignment: Qt.AlignTop
 
                     currentIndex: bar.currentIndex
-                    Rectangle {
-                        Label {
-                            text: "URL"
-                            font.pointSize: fontSize * 2
+
+                    Item {
+                        ColumnLayout {
+                            anchors.fill: parent
+                            anchors.margins: acrossConfig.itemSpacing
+
+                            Label {
+                                text: qsTr("Import From URL")
+                                font.pointSize: fontSize
+                            }
+
+                            TextFieldBox {
+                                Layout.fillWidth: true
+                                wrapMode: Text.WrapAnywhere
+                                text: nodeModel.url
+                                placeholderText: "support url scheme: ss:// vmess:// trojan://"
+                            }
+
+                            Item {
+                                Layout.fillHeight: true
+                            }
                         }
                     }
                     Rectangle {

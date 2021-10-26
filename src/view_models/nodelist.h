@@ -81,6 +81,9 @@ public:
   Q_INVOKABLE void setAsDefault(int id);
   Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
   Q_INVOKABLE static QString jsonHighlighting(const QString& json_str);
+  Q_INVOKABLE static void copyURLToClipboard(const QString& node_name,
+                                             const QString& node_url);
+  Q_INVOKABLE void copyCurrentNodeURLToClipboard();
 
 public:
   QList<NodeInfo> items();
@@ -99,7 +102,6 @@ public:
 
 public slots:
   void setDisplayGroupID(int group_id);
-  void copyUrlToClipboard(int id);
   void handleLatencyChanged(qint64 group_id, int index, NodeInfo node);
 
 signals:
