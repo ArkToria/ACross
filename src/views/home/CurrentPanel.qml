@@ -10,13 +10,31 @@ Item {
     implicitWidth: 648
     implicitHeight: 230
 
+    function displayProtocolText(protocol) {
+        switch (protocol) {
+        case 0:
+            return "vmess"
+        case 1:
+            return "shadowsocks"
+        case 2:
+            return "trojan"
+        case 4:
+            return "raw"
+        case 5:
+            return "scheme"
+        case 6:
+            return "unknown"
+        }
+    }
+
     Connections {
         target: acrossNodes
 
         function onCurrentNodeInfoChanged(nodeModel) {
             currentNodeName.text = nodeModel["name"]
             currentGroupText.text = nodeModel["group"]
-            currentNodeProtocol.text = nodeModel["protocol"]
+            currentNodeProtocol.text = displayProtocolText(
+                        nodeModel["protocol"])
             currentNodeAddress.text = nodeModel["address"]
             currentNodePort.text = nodeModel["port"]
         }
