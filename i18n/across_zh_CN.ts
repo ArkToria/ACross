@@ -951,27 +951,27 @@
 <context>
     <name>TrojanSetting</name>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="22"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="66"/>
         <source>Trojan Setting</source>
         <translation>Trojan 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="28"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="72"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="39"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="83"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="52"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="96"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="65"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="109"/>
         <source>ALPN</source>
         <translation>ALPN</translation>
     </message>

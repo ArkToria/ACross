@@ -8,6 +8,50 @@ Item {
     implicitWidth: 680
     implicitHeight: 260
 
+    property int fontSize: 14
+
+    onVisibleChanged: {
+        if (visible) {
+            let raw = JSON.parse(nodeModel.raw)
+
+            if (raw.hasOwnProperty("protocol")
+                    && raw["protocol"] === "trojan") {
+                if (!raw.hasOwnProperty("streamSettings")) {
+                    return
+                }
+
+                let streamSettings = raw["streamSettings"]
+
+                if (streamSettings.hasOwnProperty("network")) {
+                    networkSelect.currentIndex = networkSelect.find(
+                                streamSettings["network"])
+                }
+
+                if (streamSettings.hasOwnProperty("security")) {
+                    securitySelect.currentIndex = securitySelect.find(
+                                streamSettings["security"])
+                }
+
+                if (streamSettings.hasOwnProperty("tlsSettings")) {
+                    if (streamSettings["tlsSettings"].hasOwnProperty(
+                                "serverName")) {
+                        serverNameText.text = streamSettings["tlsSettings"]["serverName"]
+                    }
+
+                    if (streamSettings["tlsSettings"].hasOwnProperty("alpn")) {
+                        let alpn = streamSettings["tlsSettings"]
+                        let alpn_size = alpn.property("length").toInt()
+                        if (alpn_size > 1) {
+                            alpnSelect.currentIndex = 0
+                        } else if (alpn_size > 0) {
+                            alpnSelect.currentIndex = alpnSelect.find(alpn[0])
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     GridLayout {
         anchors.fill: parent
 

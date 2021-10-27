@@ -14,17 +14,17 @@ Item {
         if (visible) {
             let raw = JSON.parse(nodeModel.raw)
 
-            if (raw["protocol"] !== "shadowsocks") {
-                return
-            }
+            if (raw.hasOwnProperty("protocol")
+                    && raw["protocol"] === "shadowsocks") {
+                let shadowsocks = raw["settings"]["shadowsocks"]
+                let server = shadowsocks["servers"][0]
 
-            let shadowsocks = raw["settings"]["shadowsocks"]
-            let server = shadowsocks["servers"][0]
+                securitySelect.currentIndex = securitySelect.find(
+                            server["method"])
 
-            securitySelect.currentIndex = securitySelect.find(server["method"])
-
-            if (server.hasOwnProperty("ivCheck")) {
-                ivCheckSelect.checked = server["ivCheck"]
+                if (server.hasOwnProperty("ivCheck")) {
+                    ivCheckSelect.checked = server["ivCheck"]
+                }
             }
         }
     }
