@@ -342,7 +342,7 @@ NodeFormModel::setRawOutbound(NodeInfo& node, const QVariantMap& values)
       node.address = server["address"].get<std::string>().c_str();
       node.port = server["port"].get<uint>();
       node.password = user["id"].get<std::string>().c_str();
-      node.raw = outbounds.dump().c_str();
+      node.raw = outbound.dump().c_str();
       node.url = "custom configuration encoding to url is not supported";
       break;
     }
@@ -368,7 +368,7 @@ NodeFormModel::setRawOutbound(NodeInfo& node, const QVariantMap& values)
       node.address = server["address"].get<std::string>().c_str();
       node.port = server["port"].get<uint>();
       node.password = server["password"].get<std::string>().c_str();
-      node.raw = outbounds.dump().c_str();
+      node.raw = outbound.dump().c_str();
       node.url =
         QString(tr("custom configuration encoding to url is not supported"));
       break;

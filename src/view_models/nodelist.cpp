@@ -244,7 +244,7 @@ NodeList::generateConfig()
   p_config->setInboundObject(config);
 
   QString json_str;
-  if (!m_node.raw.contains("://")) {
+  if (!m_node.url.contains("://")) {
     json_str = QString::fromStdString(
       across::SerializeTools::ConfigToJson(config, m_node.raw));
   } else {

@@ -21,8 +21,12 @@ Item {
                 return
             }
 
-            let shadowsocks = raw["settings"]["shadowsocks"]
-            let server = shadowsocks["servers"][0]
+            let server
+            if (raw["settings"].hasOwnProperty("shadowsocks")) {
+                server = raw["settings"]["shadowsocks"]["servers"][0]
+            } else {
+                server = raw["settings"]["servers"][0]
+            }
 
             securitySelect.currentIndex = securitySelect.find(server["method"])
 

@@ -22,7 +22,12 @@ Item {
             }
 
             if (raw.hasOwnProperty("settings")) {
-                let vmess = raw["settings"]["vmess"]["vnext"]
+                let vmess
+                if (raw["settings"].hasOwnProperty("vmess"))
+                    vmess = raw["settings"]["vmess"]["vnext"]
+                else
+                    vmess = raw["settings"]["vnext"]
+
                 if (Object.keys(vmess).length > 0) {
                     let server = vmess[0]
                     if (server.hasOwnProperty("users") && Object.keys(

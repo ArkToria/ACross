@@ -933,17 +933,17 @@
 <context>
     <name>ShadowsocksSetting</name>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="46"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="50"/>
         <source>Shadowsocks Setting</source>
         <translation>Shadowsocks 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="66"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="70"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="52"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="56"/>
         <source>IVCheck</source>
         <translation>IV 检查</translation>
     </message>
@@ -986,37 +986,37 @@
 <context>
     <name>VMESSSetting</name>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="91"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="96"/>
         <source>VMESS Setting</source>
         <translation>VMESS 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="111"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="116"/>
         <source>AlterID</source>
         <translation>AlterID</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="97"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="102"/>
         <source>Enable TLS</source>
         <translation>启用 TLS</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="128"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="133"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="141"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="146"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="154"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="159"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="167"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="172"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>

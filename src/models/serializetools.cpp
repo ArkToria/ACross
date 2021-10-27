@@ -521,7 +521,7 @@ SerializeTools::JsonToOutbound(const std::string& json_str)
 
 std::string
 SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config,
-                             const QString& outbounds_str)
+                             const QString& outbound_str)
 {
   auto root = Json::parse(MessageToJson(origin_config));
 
@@ -542,13 +542,13 @@ SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config,
     }
   };
 
-  if (outbounds_str.isEmpty()) {
+  if (outbound_str.isEmpty()) {
     fix_format({ "inbounds", "outbounds" });
   } else {
     fix_format({ "inbounds" });
-    if (auto outbounds = Json::parse(outbounds_str.toStdString());
-        !outbounds.is_null())
-      root["outbounds"] = outbounds;
+    if (auto outbound = Json::parse(outbound_str.toStdString());
+        !outbound.is_null())
+      root["outbounds"][0] = outbound;
   }
 
   return root.dump();
