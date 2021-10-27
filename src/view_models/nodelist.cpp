@@ -243,13 +243,18 @@ NodeList::generateConfig()
 
   p_config->setInboundObject(config);
 
-  auto outbound = config.add_outbounds();
-  auto temp_outbound =
-    across::SerializeTools::JsonToOutbound(m_node.raw.toStdString());
-  outbound->CopyFrom(temp_outbound);
-
-  auto json_str =
-    QString::fromStdString(across::SerializeTools::ConfigToJson(config));
+  QString json_str;
+  if (!m_node.raw.contains("://")) {
+    json_str = QString::fromStdString(
+      across::SerializeTools::ConfigToJson(config, m_node.raw));
+  } else {
+    auto outbound = config.add_outbounds();
+    auto temp_outbound =
+      across::SerializeTools::JsonToOutbound(m_node.raw.toStdString());
+    outbound->CopyFrom(temp_outbound);
+    json_str =
+      QString::fromStdString(across::SerializeTools::ConfigToJson(config));
+  }
 
 #ifdef QT_DEBUG
   QFile file("generation_test.json");

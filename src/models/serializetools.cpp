@@ -520,24 +520,35 @@ SerializeTools::JsonToOutbound(const std::string& json_str)
 }
 
 std::string
-SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config)
+SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config,
+                             const QString& outbounds_str)
 {
   auto root = Json::parse(MessageToJson(origin_config));
 
-  if (!root.contains("outbounds") || !root["outbounds"].is_array() ||
-      !root.contains("inbounds") || !root["inbounds"].is_array())
+  if (!root.contains("inbounds") || !root["inbounds"].is_array())
     return "";
 
-  for (auto key : { "inbounds", "outbounds" }) {
-    for (size_t i = 0; i < root[key].size(); ++i) {
-      auto protocol =
-        QString::fromStdString(root[key][i]["protocol"].get<std::string>())
-          .replace("-", "_")
-          .toStdString();
+  auto fix_format = [&root](const std::vector<std::string>& keys) {
+    for (auto& key : keys) {
+      for (size_t i = 0; i < root[key].size(); ++i) {
+        auto protocol =
+          QString::fromStdString(root[key][i]["protocol"].get<std::string>())
+            .replace("-", "_")
+            .toStdString();
 
-      auto setting = root[key][i]["settings"][protocol];
-      root[key][i]["settings"] = setting;
+        auto setting = root[key][i]["settings"][protocol];
+        root[key][i]["settings"] = setting;
+      }
     }
+  };
+
+  if (outbounds_str.isEmpty()) {
+    fix_format({ "inbounds", "outbounds" });
+  } else {
+    fix_format({ "inbounds" });
+    if (auto outbounds = Json::parse(outbounds_str.toStdString());
+        !outbounds.is_null())
+      root["outbounds"] = outbounds;
   }
 
   return root.dump();

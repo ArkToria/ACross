@@ -60,7 +60,8 @@ public:
   static across::config::Config JsonToACrossConfig(const std::string& json_str);
   static v2ray::config::OutboundObject JsonToOutbound(
     const std::string& json_str);
-  static std::string ConfigToJson(v2ray::config::V2rayConfig& origin_config);
+  static std::string ConfigToJson(v2ray::config::V2rayConfig& origin_config,
+                                  const QString& outbounds_str = "");
 };
 }
 

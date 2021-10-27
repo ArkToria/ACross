@@ -3,7 +3,9 @@ import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
-import QtQuick.Dialogs
+
+//import QtQuick.Dialogs
+import Qt.labs.platform
 
 import ACross
 
@@ -281,7 +283,7 @@ Window {
                             title: qsTr("Import v2ray config from file")
                             fileMode: FileDialog.OpenFile
 
-                            nameFilters: ["v2ray config (*.conf)", "All files (*)"]
+                            nameFilters: ["v2ray config (*.json)", "All files (*)"]
                             onAccepted: {
                                 importConfigPath.text = file
                             }

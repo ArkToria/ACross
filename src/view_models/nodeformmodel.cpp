@@ -27,19 +27,25 @@ NodeFormModel::accept(const QVariantMap& values)
   if (!values.contains("type"))
     return;
 
+  auto result = false;
   switch (values.value("type").toInt()) {
     case 0:
       if (values.contains("url"))
-        SerializeTools::decodeOutboundFromURL(
+        result = SerializeTools::decodeOutboundFromURL(
           node, values.value("url").toString().toStdString());
       break;
     case 1:
       if (values.contains("manual"))
-        manualSetting(node, values.value("manual").toMap());
+        result = manualSetting(node, values.value("manual").toMap());
       break;
     case 2:
+      if (values.contains("config"))
+        result = setRawOutbound(node, values.value("config").toMap());
       break;
   }
+
+  if (!result)
+    return;
 
   if (is_new) {
     p_list->appendNode(node);
@@ -49,28 +55,6 @@ NodeFormModel::accept(const QVariantMap& values)
 
   return;
 }
-
-// bool
-// NodeFormModel::setRawOutbound(NodeInfo& node)
-//{
-//  if (p_raw->rawText().isEmpty())
-//    return false;
-
-//  auto root = Json::parse(p_raw->rawText().toStdString());
-//  if (!root.contains("protocol"))
-//    return false;
-//  else
-//    node.raw = root.dump().c_str();
-
-//  if (auto protocol =
-//        magic_enum::enum_cast<EntryType>(root["protocol"].get<std::string>());
-//      protocol.has_value())
-//    node.protocol = protocol.value();
-//  else
-//    node.protocol = EntryType::unknown;
-
-//  return true;
-//}
 
 NodeList*
 NodeFormModel::list() const
@@ -134,6 +118,9 @@ NodeFormModel::manualSetting(NodeInfo& node, const QVariantMap& values)
 bool
 NodeFormModel::setTrojanOutbound(NodeInfo& node, const QVariantMap& values)
 {
+  if (values.isEmpty())
+    return false;
+
   auto outbound = m_config.add_outbounds();
   outbound->set_protocol("trojan");
   outbound->set_sendthrough("0.0.0.0");
@@ -174,6 +161,8 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node, const QVariantMap& values)
   }
 
   node.raw = SerializeTools::MessageToJson(*outbound).c_str();
+  if (node.raw.isEmpty())
+    return false;
 
   URLMetaObject meta = {
     .name = node.name.toStdString(),
@@ -181,6 +170,8 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node, const QVariantMap& values)
   };
 
   node.url = SerializeTools::trojanEncode(meta)->toEncoded();
+  if (node.url.isEmpty())
+    return false;
 
   return true;
 }
@@ -188,6 +179,9 @@ NodeFormModel::setTrojanOutbound(NodeInfo& node, const QVariantMap& values)
 bool
 NodeFormModel::setShadowsocksOutbound(NodeInfo& node, const QVariantMap& values)
 {
+  if (values.isEmpty())
+    return false;
+
   auto outbound = m_config.add_outbounds();
   outbound->set_protocol("shadowsocks");
   outbound->set_sendthrough("0.0.0.0");
@@ -210,6 +204,8 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node, const QVariantMap& values)
     return false;
 
   node.raw = SerializeTools::MessageToJson(*outbound).c_str();
+  if (node.raw.isEmpty())
+    return false;
 
   URLMetaObject meta = {
     .name = node.name.toStdString(),
@@ -217,6 +213,8 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node, const QVariantMap& values)
   };
 
   node.url = SerializeTools::sip002Encode(meta)->toEncoded();
+  if (node.url.isEmpty())
+    return false;
 
   return true;
 }
@@ -224,6 +222,9 @@ NodeFormModel::setShadowsocksOutbound(NodeInfo& node, const QVariantMap& values)
 bool
 NodeFormModel::setVMessOutboud(NodeInfo& node, const QVariantMap& values)
 {
+  if (values.isEmpty())
+    return false;
+
   auto outbound = m_config.add_outbounds();
   outbound->set_protocol("vmess");
   outbound->set_sendthrough("0.0.0.0");
@@ -267,6 +268,8 @@ NodeFormModel::setVMessOutboud(NodeInfo& node, const QVariantMap& values)
   }
 
   node.raw = SerializeTools::MessageToJson(*outbound).c_str();
+  if (node.raw.isEmpty())
+    return false;
 
   URLMetaObject meta = {
     .name = node.name.toStdString(),
@@ -274,6 +277,106 @@ NodeFormModel::setVMessOutboud(NodeInfo& node, const QVariantMap& values)
   };
 
   node.url = SerializeTools::vmessBase64Encode(meta)->toEncoded();
+  if (node.url.isEmpty())
+    return false;
+
+  return true;
+}
+
+bool
+NodeFormModel::setRawOutbound(NodeInfo& node, const QVariantMap& values)
+{
+  if (values.isEmpty() || !values.contains("filePath"))
+    return false;
+
+  auto config_path = values.value("filePath").toString();
+  if (config_path.isEmpty())
+    return false;
+
+  QString content;
+  QString config_name;
+  QFile config(QUrl(config_path).toLocalFile());
+
+  if (!config.exists())
+    return false;
+
+  if (config.open(QIODevice::ReadOnly | QIODevice::Text)) {
+    content = config.readAll();
+    config.close();
+  }
+
+  if (values.contains("name") && !values.value("name").toString().isEmpty()) {
+    config_name = values.value("name").toString();
+  } else {
+    config_name = QFileInfo(config).fileName();
+  }
+
+  auto root = Json::parse(content.toStdString());
+  if (!root.contains("outbounds"))
+    return false;
+
+  auto outbounds = root["outbounds"];
+  for (auto& outbound : outbounds) {
+    if (!outbound.contains("protocol"))
+      continue;
+
+    if (auto protocol = outbound["protocol"]; protocol == "vmess") {
+      if (!outbound.contains("settings") ||
+          !outbound["settings"].contains("vnext") ||
+          !outbound["settings"]["vnext"].is_array())
+        continue;
+
+      auto server = outbound["settings"]["vnext"][0];
+      if (server.is_null())
+        continue;
+
+      if (!server.contains("users") || !server["users"].is_array())
+        continue;
+
+      auto user = server["users"][0];
+      if (user.is_null())
+        continue;
+
+      node.name = config_name;
+      node.protocol = EntryType::vmess;
+      node.address = server["address"].get<std::string>().c_str();
+      node.port = server["port"].get<uint>();
+      node.password = user["id"].get<std::string>().c_str();
+      node.raw = outbounds.dump().c_str();
+      node.url = "custom configuration encoding to url is not supported";
+      break;
+    }
+
+    if (auto protocol = outbound["protocol"];
+        protocol == "trojan" || protocol == "shadowsocks") {
+      if (!outbound.contains("settings") ||
+          !outbound["settings"].contains("servers") ||
+          !outbound["settings"]["servers"].is_array())
+        continue;
+
+      auto server = outbound["settings"]["servers"][0];
+      if (server.is_null() || !server.contains("address") ||
+          !server.contains("password") || !server.contains("port"))
+        continue;
+
+      if (protocol == "trojan")
+        node.protocol = EntryType::trojan;
+      else
+        node.protocol = EntryType::shadowsocks;
+
+      node.name = config_name;
+      node.address = server["address"].get<std::string>().c_str();
+      node.port = server["port"].get<uint>();
+      node.password = server["password"].get<std::string>().c_str();
+      node.raw = outbounds.dump().c_str();
+      node.url =
+        QString(tr("custom configuration encoding to url is not supported"));
+      break;
+    }
+  }
+
+  if (node.address.isEmpty() || node.password.isEmpty())
+    return false;
 
   return true;
 }

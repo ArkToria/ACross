@@ -34,7 +34,7 @@ private:
   bool setTrojanOutbound(NodeInfo& node, const QVariantMap& values);
   bool setShadowsocksOutbound(NodeInfo& node, const QVariantMap& values);
   bool setVMessOutboud(NodeInfo& node, const QVariantMap& values);
-  bool setRawOutbound(NodeInfo& node);
+  bool setRawOutbound(NodeInfo& node, const QVariantMap& values);
   bool decodeOutboundFromURL(NodeInfo& node, const QString& url_str);
 };
 }
