@@ -10,6 +10,25 @@ Item {
 
     property int fontSize: 14
 
+    onVisibleChanged: {
+        if (visible) {
+            let raw = JSON.parse(nodeModel.raw)
+
+            if (raw["protocol"] !== "shadowsocks") {
+                return
+            }
+
+            let shadowsocks = raw["settings"]["shadowsocks"]
+            let server = shadowsocks["servers"][0]
+
+            securitySelect.currentIndex = securitySelect.find(server["method"])
+
+            if (server.hasOwnProperty("ivCheck")) {
+                ivCheckSelect.checked = server["ivCheck"]
+            }
+        }
+    }
+
     GridLayout {
         anchors.fill: parent
 

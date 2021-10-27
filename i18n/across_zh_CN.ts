@@ -933,17 +933,17 @@
 <context>
     <name>ShadowsocksSetting</name>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="24"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="43"/>
         <source>Shadowsocks Setting</source>
         <translation>Shadowsocks 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="44"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="63"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="30"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="49"/>
         <source>IVCheck</source>
         <translation>IV 检查</translation>
     </message>
