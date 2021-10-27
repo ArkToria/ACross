@@ -277,6 +277,18 @@ NodeList::appendNode(NodeInfo node)
 }
 
 void
+NodeList::updateNode(NodeInfo node)
+{
+  node.modified_time = QDateTime::currentDateTime();
+
+  if (auto err = p_db->update(node); err.type() != QSqlError::NoError) {
+    p_logger->error("Failed to update node info: {}", node.name.toStdString());
+  } else {
+    reloadItems();
+  }
+}
+
+void
 NodeList::removeNodeByID(int id)
 {
   for (const auto& node : m_nodes) {

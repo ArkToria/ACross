@@ -356,6 +356,11 @@ Window {
                                 "manual": manualSetting.accept(),
                                 "config": importConfigSetting.accept()
                             }
+
+                            if (nodeModel !== null) {
+                                variantMap["nodeID"] = nodeModel.nodeID
+                            }
+
                             nodeFormModel.accept(variantMap)
                             nodeEditFormPopWindow.close()
                         }

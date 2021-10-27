@@ -793,7 +793,7 @@
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="365"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="370"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1033,7 +1033,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="368"/>
+        <location filename="../src/view_models/nodelist.cpp" line="380"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

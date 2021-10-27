@@ -57,6 +57,7 @@ public:
   void reloadItems();
   QString generateConfig();
   void appendNode(NodeInfo node);
+  void updateNode(NodeInfo node);
   void setUploadTraffic(double newUploadTraffic);
   void setDownloadTraffic(double newDownloadTraffic);
   void testLatency(NodeInfo node, int index);

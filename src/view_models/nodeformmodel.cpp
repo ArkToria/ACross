@@ -11,6 +11,18 @@ void
 NodeFormModel::accept(const QVariantMap& values)
 {
   NodeInfo node;
+  bool is_new = true;
+
+  if (values.contains("nodeID")) {
+    qint64 node_id = values.value("nodeID").toLongLong();
+
+    for (auto& item : p_list->items()) {
+      if (node_id == item.id) {
+        node = item;
+        is_new = false;
+      }
+    }
+  }
 
   if (!values.contains("type"))
     return;
@@ -29,7 +41,11 @@ NodeFormModel::accept(const QVariantMap& values)
       break;
   }
 
-  p_list->appendNode(node);
+  if (is_new) {
+    p_list->appendNode(node);
+  } else {
+    p_list->updateNode(node);
+  }
 
   return;
 }
