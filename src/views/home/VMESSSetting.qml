@@ -10,6 +10,69 @@ Item {
 
     property int fontSize: 14
 
+    onVisibleChanged: {
+        if (visible) {
+            let raw = JSON.parse(nodeModel.raw)
+            console.log(nodeModel.raw)
+
+            if (raw.hasOwnProperty("protocol") && raw["protocol"] === "vmess") {
+
+            } else {
+                return
+            }
+
+            if (raw.hasOwnProperty("settings")) {
+                let vmess = raw["settings"]["vmess"]["vnext"]
+                if (Object.keys(vmess).length > 0) {
+                    let server = vmess[0]
+                    if (server.hasOwnProperty("alterId")) {
+                        alterIDText.text = server["alterId"]
+                    }
+
+                    if (server.hasOwnProperty("security")) {
+                        securitySelect.currentIndex = securitySelect.find(
+                                    server["security"])
+                    }
+                }
+            }
+
+            if (!raw.hasOwnProperty("streamSettings")) {
+                return
+            }
+
+            let streamSettings = raw["streamSettings"]
+            if (streamSettings.hasOwnProperty("network")) {
+                let network = streamSettings["network"]
+                networkSelect.currentIndex = networkSelect.find(network)
+
+                switch (network) {
+                case "ws":
+                    if (streamSettings.hasOwnProperty("wsSettings")) {
+                        let wsSettings = streamSettings["wsSettings"]
+
+                        if (wsSettings.hasOwnProperty("path")) {
+                            pathText.text = wsSettings["path"]
+                        }
+
+                        if (wsSettings.hasOwnProperty("headers")
+                                && wsSettings["headers"].hasOwnProperty(
+                                    "Host")) {
+                            hostText.text = wsSettings["headers"]["Host"]
+                        }
+                    }
+                    break
+                default:
+                    break
+                }
+            }
+
+            if (streamSettings.hasOwnProperty("security")) {
+                if (streamSettings["security"] === "tls")
+                    tlsEnableSelect.checked = true
+            }
+        }
+    }
+
     GridLayout {
         anchors.fill: parent
 

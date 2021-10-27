@@ -16,15 +16,18 @@ Item {
 
             if (raw.hasOwnProperty("protocol")
                     && raw["protocol"] === "shadowsocks") {
-                let shadowsocks = raw["settings"]["shadowsocks"]
-                let server = shadowsocks["servers"][0]
 
-                securitySelect.currentIndex = securitySelect.find(
-                            server["method"])
+            } else {
+                return
+            }
 
-                if (server.hasOwnProperty("ivCheck")) {
-                    ivCheckSelect.checked = server["ivCheck"]
-                }
+            let shadowsocks = raw["settings"]["shadowsocks"]
+            let server = shadowsocks["servers"][0]
+
+            securitySelect.currentIndex = securitySelect.find(server["method"])
+
+            if (server.hasOwnProperty("ivCheck")) {
+                ivCheckSelect.checked = server["ivCheck"]
             }
         }
     }

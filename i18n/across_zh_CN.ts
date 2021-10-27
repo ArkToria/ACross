@@ -933,17 +933,17 @@
 <context>
     <name>ShadowsocksSetting</name>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="43"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="46"/>
         <source>Shadowsocks Setting</source>
         <translation>Shadowsocks 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="63"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="66"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="49"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="52"/>
         <source>IVCheck</source>
         <translation>IV 检查</translation>
     </message>
@@ -951,27 +951,27 @@
 <context>
     <name>TrojanSetting</name>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="66"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="70"/>
         <source>Trojan Setting</source>
         <translation>Trojan 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="72"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="76"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="83"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="87"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="96"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="100"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="109"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="113"/>
         <source>ALPN</source>
         <translation>ALPN</translation>
     </message>
@@ -986,37 +986,37 @@
 <context>
     <name>VMESSSetting</name>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="24"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="87"/>
         <source>VMESS Setting</source>
         <translation>VMESS 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="44"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="107"/>
         <source>AlterID</source>
         <translation>AlterID</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="30"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="93"/>
         <source>Enable TLS</source>
         <translation>启用 TLS</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="61"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="124"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="74"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="137"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="87"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="150"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="100"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="163"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>
