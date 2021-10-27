@@ -25,13 +25,17 @@ Item {
                 let vmess = raw["settings"]["vmess"]["vnext"]
                 if (Object.keys(vmess).length > 0) {
                     let server = vmess[0]
-                    if (server.hasOwnProperty("alterId")) {
-                        alterIDText.text = server["alterId"]
-                    }
+                    if (server.hasOwnProperty("users") && Object.keys(
+                                server["users"]).length > 0) {
+                        let user = server["users"][0]
+                        if (user.hasOwnProperty("alterId")) {
+                            alterIDText.text = user["alterId"]
+                        }
 
-                    if (server.hasOwnProperty("security")) {
-                        securitySelect.currentIndex = securitySelect.find(
-                                    server["security"])
+                        if (user.hasOwnProperty("security")) {
+                            securitySelect.currentIndex = securitySelect.find(
+                                        user["security"])
+                        }
                     }
                 }
             }
