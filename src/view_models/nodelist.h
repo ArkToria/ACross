@@ -35,23 +35,11 @@ class NodeList : public QObject
   Q_PROPERTY(qint64 displayGroupID READ displayGroupID WRITE setDisplayGroupID
                NOTIFY displayGroupIDChanged)
   Q_PROPERTY(
-    QString currentNodeName READ currentNodeName NOTIFY currentNodeNameChanged)
-  Q_PROPERTY(QString currentNodeGroup READ currentNodeGroup NOTIFY
-               currentNodeGroupChanged)
-  Q_PROPERTY(QString currentNodeProtocol READ currentNodeProtocol NOTIFY
-               currentNodeProtocolChanged)
-  Q_PROPERTY(QString currentNodeAddress READ currentNodeAddress NOTIFY
-               currentNodeAddressChanged)
-  Q_PROPERTY(
-    int currentNodePort READ currentNodePort NOTIFY currentNodePortChanged)
-  Q_PROPERTY(QString currentNodePassword READ currentNodePassword NOTIFY
-               currentNodePasswordChanged)
-  Q_PROPERTY(
-    QString currentNodeURL READ currentNodeURL NOTIFY currentNodeURLChanged)
-  Q_PROPERTY(
     QString uploadTraffic READ uploadTraffic NOTIFY uploadTrafficChanged)
   Q_PROPERTY(
     QString downloadTraffic READ downloadTraffic NOTIFY downloadTrafficChanged)
+  Q_PROPERTY(QVariantMap currentNodeInfo READ currentNodeInfo NOTIFY
+               currentNodeInfoChanged)
 public:
   explicit NodeList(QObject* parent = nullptr);
 
@@ -77,7 +65,6 @@ public:
   Q_INVOKABLE void setCurrentNodeByID(int id);
   Q_INVOKABLE void removeNodeByID(int id);
   Q_INVOKABLE QVariantMap getNodeInfoByIndex(int index);
-  Q_INVOKABLE QVariantMap getCurrentNodeInfo();
   Q_INVOKABLE QString getQRCode(int id);
   Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
   Q_INVOKABLE void setAsDefault(int id);
@@ -93,15 +80,9 @@ public:
   qint64 currentNodeID();
   qint64 currentGroupID();
   qint64 displayGroupID();
-  QString currentNodeName();
-  QString currentNodeGroup();
-  QString currentNodeProtocol();
-  QString currentNodeAddress();
-  int currentNodePort();
-  QString currentNodePassword();
-  QString currentNodeURL();
   QString uploadTraffic();
   QString downloadTraffic();
+  QVariantMap currentNodeInfo();
 
 public slots:
   void setDisplayGroupID(int group_id);
@@ -124,19 +105,13 @@ signals:
   void currentNodeIDChanged();
   void currentGroupIDChanged();
   void displayGroupIDChanged();
-  void currentNodeNameChanged();
-  void currentNodeGroupChanged();
-  void currentNodeProtocolChanged();
-  void currentNodeAddressChanged();
-  void currentNodePortChanged();
-  void currentNodePasswordChanged();
-  void currentNodeURLChanged();
 
   void nodeLatencyChanged(int id, const QString& group, int latency);
 
   void updateQRCode(const QString& id, const QString& content);
   void uploadTrafficChanged(const QString& uploadTraffic);
   void downloadTrafficChanged(const QString& downloadTraffic);
+  void currentNodeInfoChanged(const QVariantMap& nodeModel);
 
 private:
   std::shared_ptr<across::utils::LogTools> p_logger;

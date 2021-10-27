@@ -305,12 +305,6 @@ NodeList::getNodeInfoByIndex(int index)
   return node.toVariantMap();
 }
 
-QVariantMap
-NodeList::getCurrentNodeInfo()
-{
-  return m_node.toVariantMap();
-}
-
 QString
 NodeList::getQRCode(int node_id)
 {
@@ -340,48 +334,6 @@ qint64
 NodeList::displayGroupID()
 {
   return m_display_group_id;
-}
-
-QString
-NodeList::currentNodeName()
-{
-  return m_node.name;
-}
-
-QString
-NodeList::currentNodeGroup()
-{
-  return m_node.group_name;
-}
-
-QString
-NodeList::currentNodeProtocol()
-{
-  return magic_enum::enum_name(m_node.protocol).data();
-}
-
-QString
-NodeList::currentNodeAddress()
-{
-  return m_node.address;
-}
-
-int
-NodeList::currentNodePort()
-{
-  return m_node.port;
-}
-
-QString
-NodeList::currentNodePassword()
-{
-  return m_node.password;
-}
-
-QString
-NodeList::currentNodeURL()
-{
-  return m_node.url;
 }
 
 Q_INVOKABLE qint64
@@ -451,21 +403,17 @@ NodeList::setCurrentNodeByID(int id)
       p_db->updateRuntimeValue(
         RuntimeValue(RunTimeValues::CURRENT_GROUP_ID, node.group_id));
 
-      emit currentNodeIDChanged();
-      emit currentNodeNameChanged();
-      emit currentNodeGroupChanged();
-      emit currentNodeProtocolChanged();
-      emit currentNodeAddressChanged();
-      emit currentNodePortChanged();
-      emit currentNodePasswordChanged();
-      emit currentNodeURLChanged();
       emit currentGroupIDChanged();
+      emit currentNodeIDChanged();
+      emit currentNodeInfoChanged(m_node.toVariantMap());
 
       if (!run()) {
         p_logger->error("Failed to start current node: {} {}",
                         node.id,
                         node.name.toStdString());
       }
+
+      break;
     }
   }
 }
@@ -591,4 +539,10 @@ NodeList::setDownloadTraffic(double newDownloadTraffic)
     return;
   m_traffic.download = newDownloadTraffic;
   emit downloadTrafficChanged(APITools::unitConvert(m_traffic.download));
+}
+
+QVariantMap
+NodeList::currentNodeInfo()
+{
+  return m_node.toVariantMap();
 }

@@ -10,6 +10,18 @@ Item {
     implicitWidth: 648
     implicitHeight: 230
 
+    Connections {
+        target: acrossNodes
+
+        function onCurrentNodeInfoChanged(nodeModel) {
+            currentNodeName.text = nodeModel["name"]
+            currentGroupText.text = nodeModel["group"]
+            currentNodeProtocol.text = nodeModel["protocol"]
+            currentNodeAddress.text = nodeModel["address"]
+            currentNodePort.text = nodeModel["port"]
+        }
+    }
+
     Item {
         anchors.fill: parent
         anchors.topMargin: acrossConfig.itemSpacing
@@ -56,13 +68,13 @@ Item {
                     Layout.preferredHeight: parent.height / 3
 
                     Label {
+                        id: currentNodeName
                         anchors.fill: parent
                         anchors.left: parent.left
                         anchors.top: parent.top
                         anchors.leftMargin: acrossConfig.itemSpacing
                         anchors.topMargin: acrossConfig.itemSpacing
 
-                        text: acrossNodes.currentNodeName
                         color: acrossConfig.textColor
                         font.pointSize: 14
                         textFormat: Text.AutoText
@@ -129,7 +141,7 @@ Item {
                         }
 
                         Label {
-                            text: acrossNodes.currentNodeGroup
+                            id: currentGroupText
                             color: acrossConfig.textColor
                             font.pointSize: 12
                         }
@@ -141,7 +153,7 @@ Item {
                         }
 
                         Label {
-                            text: acrossNodes.currentNodeProtocol
+                            id: currentNodeProtocol
                             color: acrossConfig.textColor
                             font.pointSize: 12
                         }
@@ -153,7 +165,7 @@ Item {
                         }
 
                         Label {
-                            text: acrossNodes.currentNodeAddress
+                            id: currentNodeAddress
                             color: acrossConfig.textColor
                             font.pointSize: 12
                             textFormat: Text.AutoText
@@ -169,7 +181,7 @@ Item {
                         }
 
                         Label {
-                            text: acrossNodes.currentNodePort
+                            id: currentNodePort
                             color: acrossConfig.textColor
                             font.pointSize: 12
                         }
