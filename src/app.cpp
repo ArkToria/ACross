@@ -105,6 +105,8 @@ Application::setRootContext()
                                              p_groups.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                              p_tray.get());
+  m_engine.rootContext()->setContextProperty(QStringLiteral("fixedFont"),
+                                             QFontDatabase::systemFont(QFontDatabase::FixedFont));
   m_engine.rootContext()->setContextProperty(
     QStringLiteral("mainWindowVisible"), !p_config->enableStartFromMinimized());
   m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
