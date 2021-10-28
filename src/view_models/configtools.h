@@ -152,6 +152,9 @@ class ConfigTools : public QObject
   Q_PROPERTY(QString apiURL READ apiURL CONSTANT)
   Q_PROPERTY(QString releaseURL READ releaseURL CONSTANT)
 
+  // font settings
+  Q_PROPERTY(QFont monospaceFont READ getMonospaceFont CONSTANT)
+
 public:
   explicit ConfigTools(QObject* parent = nullptr);
   bool init(QSharedPointer<across::network::CURLTools> curl,
@@ -244,6 +247,9 @@ public:
   QString licenseURL();
   QString apiURL();
   QString releaseURL();
+
+  // font settings
+  QFont getMonospaceFont();
 
 public slots:
   void setDBPath(const QString& val = "", bool init = false);
@@ -371,6 +377,8 @@ private:
   across::config::Theme* p_theme;
   across::config::Inbound* p_inbound;
   across::config::Network* p_network;
+
+  QFont monospaceFont = QFont("Ubuntu Mono");
 };
 }
 }

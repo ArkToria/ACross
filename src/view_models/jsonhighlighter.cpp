@@ -12,21 +12,6 @@ JSONHighlighter::init()
 {
   HighlightingRule rule;
 
-  // for string types
-  rule.pattern =
-    QRegularExpression(R"((")([^"]+)(")(\s*:)(\s*")((?:\\"|.)*?)("))");
-  rule.formats =
-    QVector<QTextCharFormat>{ keyquote_format, key_format,     keyquote_format,
-                              colon_format,     valquote_format, string_format,
-                              valquote_format };
-  highlighting_rules.append(rule);
-
-  // for string primitives
-  rule.pattern = QRegularExpression(R"((^")((?:\\"|.)*?)("$))");
-  rule.formats =
-    QVector<QTextCharFormat>{ valquote_format, string_format, valquote_format };
-  highlighting_rules.append(rule);
-
   // for non-string types and string values (array of strings)
   rule.pattern = QRegularExpression(R"((")([^"]+)(")(\s*:\s*))");
   rule.formats = QVector<QTextCharFormat>{
@@ -41,6 +26,21 @@ JSONHighlighter::init()
   // Number
   rule.pattern = QRegularExpression(R"(\b(0b|0x){0,1}[\d.']+\b)");
   rule.formats = QVector<QTextCharFormat>{ number_format };
+  highlighting_rules.append(rule);
+
+  // for string types
+  rule.pattern =
+    QRegularExpression(R"((")([^"]+)(")(\s*:)(\s*")((?:\\"|.)*?)("))");
+  rule.formats =
+    QVector<QTextCharFormat>{ keyquote_format, key_format,     keyquote_format,
+                              colon_format,     valquote_format, string_format,
+                              valquote_format };
+  highlighting_rules.append(rule);
+
+  // for string primitives
+  rule.pattern = QRegularExpression(R"((^")((?:\\"|.)*?)("$))");
+  rule.formats =
+    QVector<QTextCharFormat>{ valquote_format, string_format, valquote_format };
   highlighting_rules.append(rule);
 }
 
