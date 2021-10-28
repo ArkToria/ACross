@@ -354,7 +354,15 @@ NodeFormModel::setRawOutbound(NodeInfo& node, const QVariantMap& values)
     config_name = QFileInfo(config).fileName();
   }
 
-  auto root = Json::parse(content.toStdString());
+  Json root;
+
+  try {
+    root = Json::parse(content.toStdString());
+  } catch (Json::exception e) {
+    qDebug() << e.what();
+    return false;
+  }
+
   if (!root.contains("outbounds"))
     return false;
 

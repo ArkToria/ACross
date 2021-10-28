@@ -3,9 +3,7 @@
 namespace across {
 JSONHighlighter::JSONHighlighter(QTextDocument* parent)
   : QSyntaxHighlighter(parent)
-{
-
-}
+{}
 
 void
 JSONHighlighter::init()
@@ -32,8 +30,8 @@ JSONHighlighter::init()
   rule.pattern =
     QRegularExpression(R"((")([^"]+)(")(\s*:)(\s*")((?:\\"|.)*?)("))");
   rule.formats =
-    QVector<QTextCharFormat>{ keyquote_format, key_format,     keyquote_format,
-                              colon_format,     valquote_format, string_format,
+    QVector<QTextCharFormat>{ keyquote_format, key_format,      keyquote_format,
+                              colon_format,    valquote_format, string_format,
                               valquote_format };
   highlighting_rules.append(rule);
 

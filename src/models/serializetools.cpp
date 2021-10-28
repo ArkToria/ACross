@@ -5,13 +5,15 @@ using namespace across;
 std::optional<std::vector<URLMetaObject>>
 SerializeTools::sip008Parser(const std::string& url_str)
 {
-  auto root = Json::parse(url_str);
-
+  Json root;
   try {
-    if (root.is_null() || root.empty() || !root.contains("version")) {
-      return {};
-    }
+    root = Json::parse(url_str);
   } catch (Json::exception e) {
+    qDebug() << e.what();
+    return {};
+  }
+
+  if (root.is_null() || root.empty() || !root.contains("version")) {
     return {};
   }
 
@@ -248,7 +250,14 @@ SerializeTools::vmessBase64Decode(const std::string& url_str)
 
   QString base64_str = QByteArray::fromBase64(info.toUtf8());
 
-  auto root = Json::parse(base64_str.toStdString());
+  Json root;
+  try {
+    root = Json::parse(base64_str.toStdString());
+  } catch (Json::exception e) {
+    qDebug() << e.what();
+    return {};
+  }
+
   if (root.empty())
     return {};
 
@@ -523,7 +532,13 @@ std::string
 SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config,
                              const QString& outbound_str)
 {
-  auto root = Json::parse(MessageToJson(origin_config));
+  Json root;
+  try {
+    root = Json::parse(MessageToJson(origin_config));
+  } catch (Json::exception e) {
+    qDebug() << e.what();
+    return "";
+  }
 
   if (!root.contains("inbounds") || !root["inbounds"].is_array())
     return "";
@@ -546,8 +561,16 @@ SerializeTools::ConfigToJson(v2ray::config::V2rayConfig& origin_config,
     fix_format({ "inbounds", "outbounds" });
   } else {
     fix_format({ "inbounds" });
-    if (auto outbound = Json::parse(outbound_str.toStdString());
-        !outbound.is_null())
+
+    Json outbound;
+    try {
+      outbound = Json::parse(outbound_str.toStdString());
+    } catch (Json::exception e) {
+      qDebug() << e.what();
+      fix_format({ "outbounds" });
+    }
+
+    if (!outbound.is_null())
       root["outbounds"][0] = outbound;
   }
 

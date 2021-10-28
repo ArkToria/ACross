@@ -114,8 +114,8 @@ class ConfigTools : public QObject
                itemSpacingChanged)
   Q_PROPERTY(
     QString iconStyle READ iconStyle WRITE setIconStyle NOTIFY iconStyleChanged)
-  Q_PROPERTY(QString currentThemeName READ currentThemeName WRITE setCurrentTheme NOTIFY
-               currentThemeChanged)
+  Q_PROPERTY(QString currentThemeName READ currentThemeName WRITE
+               setCurrentTheme NOTIFY currentThemeChanged)
   Q_PROPERTY(QString currentLanguage READ currentLanguage WRITE
                setCurrentLanguage NOTIFY currentLanguageChanged)
   Q_PROPERTY(bool enableTray READ enableTray WRITE setEnableTray NOTIFY

@@ -107,7 +107,7 @@ APIWorker::start(const QString& tag)
 
     request.set_name(
       QString("outbound>>>%1>>>traffic>>>%2").arg(m_tag, type).toStdString());
-    
+
     request.set_reset(false);
 
     if (auto status = p_stub->GetStats(&context, request, &response);
