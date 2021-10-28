@@ -1204,12 +1204,6 @@ ConfigTools::releaseURL()
   return getReleaseURL();
 }
 
-QFont
-ConfigTools::getMonospaceFont()
-{
-  return monospaceFont;
-}
-
 void
 ConfigTools::mergeConfigFromJSON(const std::string& json_str)
 {

@@ -85,8 +85,7 @@ Window {
 
                     selectByMouse: true
                     readOnly: true
-
-                    font: acrossConfig.monospaceFont
+                    font.family: "Mono"
 
                     Component.onCompleted: {
                         acrossNodes.setDocument(jsonPreview.textDocument)
