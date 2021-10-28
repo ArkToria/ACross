@@ -16,15 +16,16 @@ Window {
     minimumWidth: 680
     minimumHeight: 420
     title: qsTr("Edit Configuration")
-
     flags: Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
     property var nodeModel: null
     property int fontSize: 14
+    signal configChanged
 
     onVisibilityChanged: {
-        if (visible) {
+        if (visible && nodeModel !== null) {
+            jsonPreview.text = acrossNodes.jsonFormat(nodeModel.raw)
             urlTextField.text = nodeModel.url
             manualNameText.text = nodeModel.name
             manualAddressText.text = nodeModel.address
@@ -36,6 +37,22 @@ Window {
             nodeEditFormPopWindow.close()
             nodeEditFormPopWindow.destroy()
         }
+    }
+
+    onConfigChanged: {
+        let variantMap = {
+            "type": bar.currentIndex,
+            "url": urlSetting.accept(),
+            "manual": manualSetting.accept(),
+            "config": importConfigSetting.accept()
+        }
+
+        if (nodeModel !== null) {
+            variantMap["nodeID"] = nodeModel.nodeID
+        }
+
+        jsonPreview.text = acrossNodes.jsonFormat(nodeFormModel.refreshPreview(
+                                                      variantMap))
     }
 
     NodeFormModel {
@@ -66,7 +83,6 @@ Window {
                     Layout.preferredWidth: parent.width / 2
                     Layout.rowSpan: 3
 
-                    text: acrossNodes.jsonFormat(nodeModel.raw)
                     selectByMouse: true
                     readOnly: true
 
@@ -174,6 +190,10 @@ Window {
                                 id: manualNameText
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
+
+                                onTextChanged: {
+                                    configChanged()
+                                }
                             }
 
                             Label {
@@ -184,6 +204,10 @@ Window {
                             TextFieldBox {
                                 id: manualAddressText
                                 Layout.fillWidth: true
+
+                                onTextChanged: {
+                                    configChanged()
+                                }
                             }
 
                             Label {

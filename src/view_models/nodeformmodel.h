@@ -16,6 +16,7 @@ public:
   explicit NodeFormModel(QObject* parent = nullptr);
 
   Q_INVOKABLE void accept(const QVariantMap& values);
+  Q_INVOKABLE QString refreshPreview(const QVariantMap& values);
 
 public:
   NodeList* list() const;

@@ -20,6 +20,7 @@ NodeFormModel::accept(const QVariantMap& values)
       if (node_id == item.id) {
         node = item;
         is_new = false;
+        break;
       }
     }
   }
@@ -54,6 +55,48 @@ NodeFormModel::accept(const QVariantMap& values)
   }
 
   return;
+}
+
+QString
+NodeFormModel::refreshPreview(const QVariantMap& values)
+{
+  NodeInfo node;
+
+  if (!values.contains("type"))
+    return "";
+
+  if (values.contains("nodeID")) {
+    qint64 node_id = values.value("nodeID").toLongLong();
+
+    for (auto& item : p_list->items()) {
+      if (node_id == item.id) {
+        node = item;
+        break;
+      }
+    }
+  }
+
+  auto result = false;
+  switch (values.value("type").toInt()) {
+    case 0:
+      if (values.contains("url"))
+        result = SerializeTools::decodeOutboundFromURL(
+          node, values.value("url").toString().toStdString());
+      break;
+    case 1:
+      if (values.contains("manual"))
+        result = manualSetting(node, values.value("manual").toMap());
+      break;
+    case 2:
+      if (values.contains("config"))
+        result = setRawOutbound(node, values.value("config").toMap());
+      break;
+  }
+
+  if (!result)
+    return "";
+  else
+    return node.raw;
 }
 
 NodeList*

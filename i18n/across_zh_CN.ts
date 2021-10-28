@@ -698,7 +698,7 @@
         <translation type="vanished">从文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="283"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="307"/>
         <source>Import v2ray config from file</source>
         <translation>从文件导入 v2ray 配置</translation>
     </message>
@@ -715,7 +715,7 @@
         <translation type="vanished">导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="84"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="100"/>
         <source>Decode URL</source>
         <translation>解析链接</translation>
     </message>
@@ -728,72 +728,72 @@
         <translation type="vanished">从配置文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="84"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="100"/>
         <source>Manual Setting</source>
         <translation>手动设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="85"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="101"/>
         <source>Import Config</source>
         <translation>导入配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="163"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="179"/>
         <source>Outbound Config</source>
         <translation>出站配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="169"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="185"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="180"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="200"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="190"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="214"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="206"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="230"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="217"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="241"/>
         <source>Protocol</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="297"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="321"/>
         <source>Node Name</source>
         <translation>节点名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="308"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="332"/>
         <source>Config File</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="317"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="341"/>
         <source>Enter Config Path Here</source>
         <translation>在此输入配置路径</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="321"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="345"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="353"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="377"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="372"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="396"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1033,7 +1033,7 @@
 <context>
     <name>across::NodeFormModel</name>
     <message>
-        <location filename="../src/view_models/nodeformmodel.cpp" line="373"/>
+        <location filename="../src/view_models/nodeformmodel.cpp" line="416"/>
         <source>custom configuration encoding to url is not supported</source>
         <translation>未支持自定义配置编码到链接格式</translation>
     </message>
