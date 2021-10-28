@@ -698,7 +698,7 @@
         <translation type="vanished">从文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="308"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="324"/>
         <source>Import v2ray config from file</source>
         <translation>从文件导入 v2ray 配置</translation>
     </message>
@@ -715,7 +715,7 @@
         <translation type="vanished">导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="101"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="103"/>
         <source>Decode URL</source>
         <translation>解析链接</translation>
     </message>
@@ -728,72 +728,72 @@
         <translation type="vanished">从配置文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="101"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="103"/>
         <source>Manual Setting</source>
         <translation>手动设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="102"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="104"/>
         <source>Import Config</source>
         <translation>导入配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="180"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="186"/>
         <source>Outbound Config</source>
         <translation>出站配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="186"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="192"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="201"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="207"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="215"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="221"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="231"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="241"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="242"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="256"/>
         <source>Protocol</source>
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="322"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="339"/>
         <source>Node Name</source>
         <translation>节点名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="333"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="354"/>
         <source>Config File</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="342"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="363"/>
         <source>Enter Config Path Here</source>
         <translation>在此输入配置路径</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="346"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="371"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="378"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="403"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="397"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="422"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -938,7 +938,7 @@
         <translation>Shadowsocks 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="70"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="74"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
@@ -961,17 +961,17 @@
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="87"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="91"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="100"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="108"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="113"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="125"/>
         <source>ALPN</source>
         <translation>ALPN</translation>
     </message>
@@ -991,7 +991,7 @@
         <translation>VMESS 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="116"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="120"/>
         <source>AlterID</source>
         <translation>AlterID</translation>
     </message>
@@ -1001,22 +1001,22 @@
         <translation>启用 TLS</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="133"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="141"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="146"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="158"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="159"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="175"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="172"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="192"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>

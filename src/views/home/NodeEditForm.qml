@@ -24,15 +24,17 @@ Window {
     signal configChanged
 
     onVisibilityChanged: {
-        if (visible && nodeModel !== null) {
-            jsonPreview.text = acrossNodes.jsonFormat(nodeModel.raw)
-            urlTextField.text = nodeModel.url
-            manualNameText.text = nodeModel.name
-            manualAddressText.text = nodeModel.address
-            manualPortText.text = nodeModel.port
-            manualPasswordText.text = nodeModel.password
-            manualProtocolType.currentIndex = nodeModel.protocol
-            importConfigName.text = nodeModel.name
+        if (visible) {
+            if (nodeModel !== null) {
+                jsonPreview.text = acrossNodes.jsonFormat(nodeModel.raw)
+                urlTextField.text = nodeModel.url
+                manualNameText.text = nodeModel.name
+                manualAddressText.text = nodeModel.address
+                manualPortText.text = nodeModel.port
+                manualPasswordText.text = nodeModel.password
+                manualProtocolType.currentIndex = nodeModel.protocol
+                importConfigName.text = nodeModel.name
+            }
         } else {
             nodeEditFormPopWindow.close()
             nodeEditFormPopWindow.destroy()
@@ -151,6 +153,10 @@ Window {
                                 Layout.fillWidth: true
                                 wrapMode: Text.WrapAnywhere
                                 placeholderText: "support url scheme: ss:// vmess:// trojan://"
+
+                                onTextChanged: {
+                                    configChanged()
+                                }
                             }
 
                             Item {
@@ -225,6 +231,10 @@ Window {
                                     bottom: 0
                                     top: 65535
                                 }
+
+                                onTextChanged: {
+                                    configChanged()
+                                }
                             }
 
                             Label {
@@ -236,6 +246,10 @@ Window {
                                 id: manualPasswordText
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
+
+                                onTextChanged: {
+                                    configChanged()
+                                }
                             }
 
                             Label {
@@ -265,6 +279,8 @@ Window {
                                         break
                                     default:
                                         console.log("unknown protocol")
+
+                                        configChanged()
                                     }
                                 }
                             }
@@ -311,6 +327,7 @@ Window {
                             nameFilters: ["v2ray config (*.json)", "All files (*)"]
                             onAccepted: {
                                 importConfigPath.text = file
+                                configChanged()
                             }
                         }
 
@@ -327,6 +344,10 @@ Window {
                                 id: importConfigName
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
+
+                                onTextChanged: {
+                                    configChanged()
+                                }
                             }
 
                             Label {
@@ -340,6 +361,10 @@ Window {
                                 Layout.columnSpan: 2
 
                                 placeholderText: qsTr("Enter Config Path Here")
+
+                                onTextChanged: {
+                                    configChanged()
+                                }
                             }
 
                             ButtonBox {

@@ -81,6 +81,10 @@ Item {
             id: serverNameText
             Layout.fillWidth: true
             Layout.columnSpan: 3
+
+            onTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -94,6 +98,10 @@ Item {
             Layout.columnSpan: 3
 
             model: ["tcp"]
+
+            onEditTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -107,6 +115,10 @@ Item {
             Layout.columnSpan: 3
 
             model: ["tls", "none"]
+
+            onEditTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -120,6 +132,10 @@ Item {
             Layout.columnSpan: 3
 
             model: ["h2+http/1.1", "h2", "http/1.1"]
+
+            onEditTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Item {

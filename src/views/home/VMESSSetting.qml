@@ -110,6 +110,10 @@ Item {
 
         SwitchBox {
             id: tlsEnableSelect
+
+            onCheckedChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -127,6 +131,10 @@ Item {
                 bottom: 0
                 top: 65535
             }
+
+            onTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -140,6 +148,10 @@ Item {
             Layout.columnSpan: 3
 
             model: ["auto", "aes-128-gcm", "chacha20-poly1305", "none", "zero"]
+
+            onEditTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -153,6 +165,10 @@ Item {
             Layout.columnSpan: 3
 
             model: ["tcp", "kcp", "ws", "http", "domainsocket", "quic", "grpc"]
+
+            onEditTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -166,6 +182,10 @@ Item {
             Layout.columnSpan: 3
 
             color: acrossConfig.textColor
+
+            onTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Label {
@@ -179,6 +199,10 @@ Item {
             Layout.columnSpan: 3
 
             color: acrossConfig.textColor
+
+            onTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
         }
 
         Item {
