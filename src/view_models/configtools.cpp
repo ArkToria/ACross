@@ -173,6 +173,27 @@ ConfigTools::setInboundObject(v2ray::config::V2rayConfig& config)
   }
 }
 
+QUrl
+ConfigTools::getInboundProxy()
+{
+  QUrl proxy;
+
+  if (p_inbound->has_http() && p_inbound->http().enable()) {
+    auto http = p_inbound->http();
+    proxy.setScheme("http");
+    proxy.setHost(http.listen().c_str());
+    proxy.setPort(http.port());
+  } else if (p_inbound->has_socks5() && p_inbound->socks5().enable()) {
+    auto socks5 = p_inbound->socks5();
+
+    proxy.setScheme("socks5");
+    proxy.setHost(socks5.listen().c_str());
+    proxy.setPort(socks5.port());
+  }
+
+  return proxy;
+}
+
 QString
 ConfigTools::getConfigVersion()
 {

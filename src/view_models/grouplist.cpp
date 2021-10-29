@@ -85,6 +85,8 @@ GroupList::checkUpdate(int index, bool force)
       .user_agent = p_config->networkUserAgent(),
     };
 
+    p_nodes->setDownloadProxy(task);
+
     connect(p_curl.get(),
             &across::network::CURLTools::downloadFinished,
             this,
@@ -312,6 +314,8 @@ GroupList::appendItem(const QString& group_name,
     .user_agent = p_config->networkUserAgent(),
   };
 
+  p_nodes->setDownloadProxy(task);
+
   GroupInfo group_info = {
     .name = group_name,
     .is_subscription = true,
@@ -396,6 +400,8 @@ GroupList::editItem(int index,
       .url = group.url,
       .user_agent = p_config->networkUserAgent(),
     };
+
+    p_nodes->setDownloadProxy(task);
 
     connect(p_curl.get(),
             &across::network::CURLTools::downloadFinished,

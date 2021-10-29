@@ -160,6 +160,7 @@ public:
   void loadThemeConfig();
   across::config::Config* configPtr();
   void setInboundObject(v2ray::config::V2rayConfig& config);
+  QUrl getInboundProxy();
   void mergeConfigFromJSON(const std::string& json_str);
   across::config::Theme* currentTheme();
 

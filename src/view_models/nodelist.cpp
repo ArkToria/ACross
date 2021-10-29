@@ -528,6 +528,25 @@ NodeList::testLatency(NodeInfo node, int index)
   }));
 }
 
+bool
+NodeList::isRunning()
+{
+  if (p_core != nullptr)
+    return p_core->isRunning();
+
+  return false;
+}
+
+void
+NodeList::setDownloadProxy(network::DownloadTask& task)
+{
+  if (isRunning()) {
+    if (QUrl proxy = p_config->getInboundProxy(); !proxy.isEmpty()) {
+      task.proxy = proxy.toString();
+    }
+  }
+}
+
 QString
 NodeList::uploadTraffic()
 {
