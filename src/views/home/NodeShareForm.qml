@@ -28,7 +28,7 @@ Window {
     }
 
     function getQRCode() {
-        var name = acrossNodes.getQRCode(nodeModel.nodeID)
+        let name = acrossNodes.getQRCode(nodeModel.nodeID)
         if (name === "") {
             return "qrc:/misc/icons/" + acrossConfig.iconStyle + "/repo_qr_code.svg"
         } else {

@@ -10,7 +10,7 @@ ImageProvider::ImageProvider(ImageType type, Flags flags)
 void
 ImageProvider::setContent(const QString& id, const QString& content)
 {
-  m_id = id;
+  m_id = QUrl(id).toString(QUrl::FullyEncoded);
   m_content = content;
 }
 
@@ -19,7 +19,7 @@ ImageProvider::requestImage(const QString& id,
                             QSize* size,
                             const QSize& requestedSize)
 {
-  if (id == m_id) {
+  if (QUrl(id).toString(QUrl::FullyEncoded) == m_id) {
     return QRCodeTools().write(m_content);
   }
 
