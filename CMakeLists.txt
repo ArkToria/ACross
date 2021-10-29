@@ -68,7 +68,6 @@ CPMAddPackage(
     )
 
 find_package(Threads REQUIRED)
-find_library(SROUCE_HIGHLIGHT_LIB source-highlight)
 
 # BEGIN Special case for QtCreator
 list(APPEND QML_DIRS "${CMAKE_CURRENT_BINARY_DIR}")
@@ -170,7 +169,6 @@ target_link_libraries(across PRIVATE
     spdlog::spdlog
     Threads::Threads
     ZXing::Core
-    ${SROUCE_HIGHLIGHT_LIB}
     )
 
 qt_add_qml_module(across
