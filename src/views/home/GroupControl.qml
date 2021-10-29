@@ -154,7 +154,7 @@ Item {
                 }
 
                 onClicked: {
-                    var nodeModel = acrossNodes.getCurrentNodeInfo()
+                    let nodeModel = acrossNodes.currentNodeInfo
                     if (nodeModel === null)
                         return
 
