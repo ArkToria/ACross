@@ -38,6 +38,8 @@ NodeModel::data(const QModelIndex& index, int role) const
       return item.name;
     case GroupRole:
       return item.group_name;
+    case GroupIDRole:
+      return item.group_id;
     case ProtocolTypeRole:
       return item.protocol;
     case AddressRole:
@@ -72,6 +74,7 @@ NodeModel::roleNames() const
     { IDRole, "nodeID" },
     { NameRole, "name" },
     { GroupRole, "group" },
+    { GroupIDRole, "groupID" },
     { AddressRole, "address" },
     { PortRole, "port" },
     { PasswordRole, "password" },

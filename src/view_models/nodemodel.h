@@ -20,6 +20,7 @@ public:
     IDRole = Qt::UserRole,
     NameRole,
     GroupRole,
+    GroupIDRole,
     ProtocolTypeRole,
     AddressRole,
     PortRole,

@@ -711,6 +711,7 @@ NodeInfo::toVariantMap()
     { "nodeID", this->id },
     { "name", this->name },
     { "group", this->group_name },
+    { "groupID", this->group_id },
     { "address", this->address },
     { "port", this->port },
     { "password", this->password },

@@ -12,7 +12,7 @@ Item {
     property int fontSize: 12
 
     function isCurrent() {
-        if (acrossNodes.currentNodeGroup === group
+        if (acrossNodes.currentGroupID === groupID
                 && acrossNodes.currentNodeID === Number(nodeID)
                 && acrossCore.isRunning) {
             return true
