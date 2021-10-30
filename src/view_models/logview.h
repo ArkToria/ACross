@@ -68,6 +68,8 @@ public:
   Q_INVOKABLE QString logDir();
 
 public slots:
+  void setTheme(const across::config::Theme& theme);
+
   void setAppLogItem(QQuickItem* newAppLogItem);
 
   void setCoreLogItem(QQuickItem* newCoreLogItem);
@@ -90,6 +92,7 @@ protected:
 
   across::LogHighlighter coreLogHighlighter;
   across::LogHighlighter appLogHighlighter;
+  across::config::Theme m_theme;
 };
 
 #endif // LOGVIEW_H

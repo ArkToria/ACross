@@ -337,7 +337,7 @@ signals:
   void borderWidthChanged();
   void itemSpacingChanged();
   void iconStyleChanged();
-  void currentThemeChanged();
+  void currentThemeChanged(const across::config::Theme& theme);
   void currentLanguageChanged(const QString& lang);
   void enableTrayChanged();
   void enableStartFromMinimizedChanged();

@@ -99,7 +99,7 @@ ConfigTools::loadThemeConfig()
   }
 
   freshColors();
-  emit currentThemeChanged();
+  emit currentThemeChanged(*p_theme);
   emit trayColorChanged();
   emit trayStylishChanged();
   emit borderColorChanged();

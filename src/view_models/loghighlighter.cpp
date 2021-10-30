@@ -8,17 +8,6 @@ LogHighlighter::LogHighlighter(QTextDocument* parent)
 void
 LogHighlighter::init()
 {
-  info_format.setForeground(QColor("#94cbff"));
-  warning_format.setForeground(QColor("#ff716a"));
-  highlight_format.setForeground(QColor("#63a7d7"));
-  ip_host_format.setForeground(Qt::yellow);
-  logger_format.setForeground(Qt::darkGreen);
-  date_format.setForeground(Qt::cyan);
-  time_format.setForeground(Qt::cyan);
-
-  tcp_udp_format.setForeground(QColor(0, 52, 130));
-  tcp_udp_format.setFontWeight(QFont::Bold);
-
   HighlightingRule rule;
   // logger
   rule.pattern = QRegularExpression(R"((\[)([^\]]+)(\]))");
@@ -81,6 +70,22 @@ LogHighlighter::init()
     rule.formats = QVector<QTextCharFormat>{ keyword.second };
     highlighting_rules.append(rule);
   }
+}
+
+void
+LogHighlighter::setTheme(const config::Theme& theme)
+{
+  auto colors = theme.colors();
+
+  info_format.setForeground(QColor(colors.text_color().c_str()));
+  warning_format.setForeground(QColor(colors.warn_color().c_str()));
+  highlight_format.setForeground(QColor(colors.highlight_color().c_str()));
+  ip_host_format.setForeground(QColor(colors.style_color().c_str()));
+  logger_format.setForeground(QColor(colors.highlight_color().c_str()));
+  date_format.setForeground(QColor(colors.text_color().c_str()));
+  time_format.setForeground(QColor(colors.text_color().c_str()));
+  tcp_udp_format.setForeground(QColor(colors.style_color().c_str()));
+  tcp_udp_format.setFontWeight(QFont::Bold);
 }
 
 void

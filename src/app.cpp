@@ -1,6 +1,4 @@
 #include "app.h"
-#include <fstream>
-#include <sstream>
 
 using namespace across;
 using namespace across::core;
@@ -33,6 +31,13 @@ Application::initialize()
 
   p_logview = QSharedPointer<LogView>(new LogView());
   p_config = QSharedPointer<ConfigTools>(new ConfigTools(this));
+
+  // dynamic change display theme
+  connect(p_config.get(),
+          &ConfigTools::currentThemeChanged,
+          p_logview.get(),
+          &LogView::setTheme);
+
   p_db = QSharedPointer<DBTools>(new DBTools());
   p_core = QSharedPointer<CoreTools>(new CoreTools());
   p_curl = QSharedPointer<CURLTools>(new CURLTools);
@@ -57,6 +62,7 @@ Application::initialize()
           &across::NodeList::updateQRCode,
           p_image_provider,
           &across::ImageProvider::setContent);
+
   return true;
 }
 

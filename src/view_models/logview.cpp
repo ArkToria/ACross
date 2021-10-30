@@ -92,13 +92,16 @@ LogView::appLogItem() const
 void
 LogView::setAppLogItem(QQuickItem* newAppLogItem)
 {
-  if (p_app_text_editor == newAppLogItem)
+  if (newAppLogItem == nullptr)
     return;
 
   const auto ptr =
     qvariant_cast<QQuickTextDocument*>(newAppLogItem->property("textDocument"))
       ->textDocument();
 
+  if (m_theme.IsInitialized()) {
+    appLogHighlighter.setTheme(m_theme);
+  }
   appLogHighlighter.init();
   appLogHighlighter.setDocument(ptr);
 
@@ -121,13 +124,16 @@ LogView::coreLogItem() const
 void
 LogView::setCoreLogItem(QQuickItem* newCoreLogItem)
 {
-  if (p_core_text_editor == newCoreLogItem)
+  if (newCoreLogItem == nullptr)
     return;
 
   const auto ptr =
     qvariant_cast<QQuickTextDocument*>(newCoreLogItem->property("textDocument"))
       ->textDocument();
 
+  if (m_theme.IsInitialized()) {
+    coreLogHighlighter.setTheme(m_theme);
+  }
   coreLogHighlighter.init();
   coreLogHighlighter.setDocument(ptr);
 
@@ -184,4 +190,14 @@ QString
 LogView::logDir()
 {
   return QUrl::fromLocalFile(getLogsInfo().log_dir).toString();
+}
+
+void
+LogView::setTheme(const across::config::Theme& theme)
+{
+  m_theme.Clear();
+  m_theme.CopyFrom(theme);
+
+  setAppLogItem(p_app_text_editor);
+  setCoreLogItem(p_core_text_editor);
 }

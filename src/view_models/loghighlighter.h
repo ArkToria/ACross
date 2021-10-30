@@ -20,6 +20,8 @@ public:
 
   void init();
 
+  void setTheme(const across::config::Theme& theme);
+
 protected:
   void highlightBlock(const QString& text) override;
 
