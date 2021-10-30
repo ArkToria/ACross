@@ -95,6 +95,13 @@ LogView::setAppLogItem(QQuickItem* newAppLogItem)
   if (p_app_text_editor == newAppLogItem)
     return;
 
+  const auto ptr =
+    qvariant_cast<QQuickTextDocument*>(newAppLogItem->property("textDocument"))
+      ->textDocument();
+
+  appLogHighlighter.init();
+  appLogHighlighter.setDocument(ptr);
+
   p_app_text_editor = newAppLogItem;
 
   spdlog::sink_ptr app_qt_sink = std::make_shared<spdlog::sinks::qt_sink_mt>(
@@ -116,6 +123,13 @@ LogView::setCoreLogItem(QQuickItem* newCoreLogItem)
 {
   if (p_core_text_editor == newCoreLogItem)
     return;
+
+  const auto ptr =
+    qvariant_cast<QQuickTextDocument*>(newCoreLogItem->property("textDocument"))
+      ->textDocument();
+
+  coreLogHighlighter.init();
+  coreLogHighlighter.setDocument(ptr);
 
   p_core_text_editor = newCoreLogItem;
 

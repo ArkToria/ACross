@@ -93,6 +93,7 @@ set(PROJECT_HEADERS
     src/view_models/systemtray.h
     src/view_models/imageprovider.h
     src/view_models/jsonhighlighter.h
+    src/view_models/loghighlighter.h
     src/models/apitools.h
     src/models/dbtools.h
     src/models/envtools.h
@@ -122,6 +123,7 @@ set(PROJECT_SOURCES
     src/view_models/systemtray.cpp
     src/view_models/imageprovider.cpp
     src/view_models/jsonhighlighter.cpp
+    src/view_models/loghighlighter.cpp
     src/models/apitools.cpp
     src/models/dbtools.cpp
     src/models/envtools.cpp

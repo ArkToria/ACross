@@ -7,11 +7,14 @@
 #include <QMetaProperty>
 #include <QObject>
 #include <QQuickItem>
+#include <QQuickTextDocument>
 #include <QStandardPaths>
 #include <QString>
 #include <QUrl>
 
 #include <string>
+
+#include "loghighlighter.h"
 
 #include "spdlog/async.h"
 #include "spdlog/sinks/qt_sinks.h"
@@ -84,6 +87,9 @@ protected:
   std::vector<spdlog::sink_ptr> core_sinks;
   QQuickItem* p_app_text_editor = nullptr;
   QQuickItem* p_core_text_editor = nullptr;
+
+  across::LogHighlighter coreLogHighlighter;
+  across::LogHighlighter appLogHighlighter;
 };
 
 #endif // LOGVIEW_H
