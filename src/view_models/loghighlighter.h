@@ -26,6 +26,7 @@ protected:
 private:
   struct HighlightingRule
   {
+    bool capture_groups = true;
     QRegularExpression pattern;
     QVector<QTextCharFormat> formats;
   };
@@ -39,6 +40,8 @@ private:
   QTextCharFormat dateFormat;
   QTextCharFormat timeFormat;
   QTextCharFormat loggerFormat;
+  QTextCharFormat ipHostFormat;
+  QTextCharFormat tcpudpFormat;
 };
 }
 
