@@ -77,10 +77,10 @@ LogHighlighter::setTheme(const config::Theme& theme)
 {
   auto colors = theme.colors();
 
-  info_format.setForeground(QColor(colors.text_color().c_str()));
+  info_format.setForeground(QColor(colors.style_color().c_str()));
   warning_format.setForeground(QColor(colors.warn_color().c_str()));
-  highlight_format.setForeground(QColor(colors.style_color().c_str()));
-  ip_host_format.setForeground(QColor(colors.highlight_color().c_str()));
+  highlight_format.setForeground(QColor(colors.highlight_color().c_str()));
+  ip_host_format.setForeground(QColor(colors.text_color().c_str()));
   logger_format.setForeground(QColor(colors.text_color().c_str()));
   date_format.setForeground(QColor(colors.text_color().c_str()));
   time_format.setForeground(QColor(colors.text_color().c_str()));
