@@ -33,15 +33,15 @@ private:
 
   QVector<HighlightingRule> highlighting_rules;
 
-  QTextCharFormat noneFormat;
-  QTextCharFormat infoFormat;
-  QTextCharFormat warningFormat;
-  QTextCharFormat highlightFormat;
-  QTextCharFormat dateFormat;
-  QTextCharFormat timeFormat;
-  QTextCharFormat loggerFormat;
-  QTextCharFormat ipHostFormat;
-  QTextCharFormat tcpudpFormat;
+  QTextCharFormat none_format;
+  QTextCharFormat info_format;
+  QTextCharFormat warning_format;
+  QTextCharFormat highlight_format;
+  QTextCharFormat date_format;
+  QTextCharFormat time_format;
+  QTextCharFormat logger_format;
+  QTextCharFormat ip_host_format;
+  QTextCharFormat tcp_udp_format;
 };
 }
 
