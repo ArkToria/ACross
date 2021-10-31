@@ -60,25 +60,24 @@ private:
 
   std::shared_ptr<across::utils::LogTools> p_logger;
 
-  QString uploadTraffic = "";
-  QString downloadTraffic = "";
+  QString upload_traffic = "";
+  QString download_traffic = "";
 
-  QIcon connectedIcon;
-  QIcon disconnectedIcon;
+  QIcon connected_icon;
+  QIcon disconnected_icon;
 
-#define DECL_ACTION(parent, name) QAction* name = new QAction(parent)
-  QMenu* rootMenu = new QMenu();
+  QMenu *tray_root_menu;
 
-  DECL_ACTION(rootMenu, actionToggleVisibility);
-  DECL_ACTION(rootMenu, actionStart);
-  DECL_ACTION(rootMenu, actionStop);
-  DECL_ACTION(rootMenu, actionRestart);
-  DECL_ACTION(rootMenu, actionQuit);
+  QAction *tray_action_toggle_visibility;
+  QAction *tray_action_start;
+  QAction *tray_action_stop;
+  QAction *tray_action_restart;
+  QAction *tray_action_quit;
 
-  QMenu* inboundMenu = new QMenu();
-  QAction* inboundMenuAction = nullptr;
-  DECL_ACTION(inboundMenu, actionInboundToggleHttp);
-  DECL_ACTION(inboundMenu, actionInboundToggleSocks);
+  QMenu *tray_inbound_menu;
+  QAction *tray_inbound_menu_action;
+  QAction *tray_inbound_toggle_http;
+  QAction *tray_inbound_toggle_socks;
 };
 }
 
