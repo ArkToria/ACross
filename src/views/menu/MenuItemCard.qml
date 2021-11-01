@@ -58,7 +58,7 @@ Item {
                 id: menuItemName
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
 
-                text: name
+                text: qsTr(name)
                 font.pointSize: fontSize
             }
         }

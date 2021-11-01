@@ -85,6 +85,10 @@
         <translation>主题</translation>
     </message>
     <message>
+        <source>Enable Banner</source>
+        <translation type="obsolete">启用横幅</translation>
+    </message>
+    <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="83"/>
         <source>Enable Background Image</source>
         <translation>启用背景图</translation>
@@ -619,6 +623,25 @@
         <location filename="../src/views/help/Licenses.qml" line="18"/>
         <source>Libraries and Licenses</source>
         <translation>依赖和许可</translation>
+    </message>
+</context>
+<context>
+    <name>MainPanel</name>
+    <message>
+        <source>Home</source>
+        <translation type="obsolete">主页</translation>
+    </message>
+    <message>
+        <source>Logs</source>
+        <translation type="obsolete">日志</translation>
+    </message>
+    <message>
+        <source>Setting</source>
+        <translation type="obsolete">设置</translation>
+    </message>
+    <message>
+        <source>Help</source>
+        <translation type="obsolete">帮助</translation>
     </message>
 </context>
 <context>
