@@ -102,11 +102,13 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
+# IDE
 .idea
 .vscode
 
 # Nix
 /result*
+.envrc
 
 # ---> Windows
 .vs/
