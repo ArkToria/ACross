@@ -18,13 +18,6 @@ SystemTray::SystemTray(QObject* parent)
     tray_action_stop = new QAction(tray_root_menu);
     tray_action_restart = new QAction(tray_root_menu);
     tray_action_quit = new QAction(tray_root_menu);
-
-    tray_inbound_menu = new QMenu;
-    {
-      tray_inbound_menu_action = new QAction(this);
-      tray_inbound_toggle_http = new QAction(this);
-      tray_inbound_toggle_socks = new QAction(this);
-    }
   }
 }
 
@@ -131,41 +124,7 @@ SystemTray::init(QSharedPointer<LogView> log_view,
     tray_root_menu->addAction(tray_action_restart);
 
     tray_root_menu->addSeparator();
-
-    tray_inbound_menu_action = tray_root_menu->addMenu(tray_inbound_menu);
-    tray_inbound_menu_action->setText(tr("Inbounds"));
-    {
-      tray_inbound_menu->addAction(tray_inbound_toggle_http);
-      tray_inbound_menu->addAction(tray_inbound_toggle_socks);
-      tray_inbound_toggle_http->setText("HTTP");
-      tray_inbound_toggle_socks->setText("SOCKS5");
-      tray_inbound_toggle_http->setCheckable(true);
-      tray_inbound_toggle_socks->setCheckable(true);
-      tray_inbound_toggle_http->setChecked(p_config->httpEnable());
-      tray_inbound_toggle_socks->setChecked(p_config->socksEnable());
-      connect(tray_inbound_toggle_http,
-              &QAction::triggered,
-              p_config.get(),
-              &ConfigTools::setHttpEnable);
-      connect(tray_inbound_toggle_socks,
-              &QAction::triggered,
-              p_config.get(),
-              &ConfigTools::setSocksEnable);
-      connect(p_config.get(),
-              &ConfigTools::httpEnableChanged,
-              tray_inbound_toggle_http,
-              [this]() {
-                tray_inbound_toggle_http->setChecked(p_config->httpEnable());
-              });
-      connect(p_config.get(),
-              &ConfigTools::httpEnableChanged,
-              tray_inbound_toggle_socks,
-              [this]() {
-                tray_inbound_toggle_socks->setChecked(p_config->socksEnable());
-              });
-    }
-
-    tray_root_menu->addSeparator();
+    
     tray_root_menu->addAction(tray_action_quit);
 
     p_tray_icon->setContextMenu(tray_root_menu);
@@ -240,7 +199,6 @@ SystemTray::retranslate()
   tray_action_stop->setText(tr("Disconnect"));
   tray_action_restart->setText(tr("Reconnect"));
   tray_action_quit->setText(tr("Quit"));
-  tray_inbound_menu_action->setText(tr("Inbounds"));
 }
 
 QString

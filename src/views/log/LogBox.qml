@@ -43,7 +43,7 @@ ScrollView {
             selectedTextColor: acrossConfig.highlightTextColor
             selectionColor: acrossConfig.highlightColor
 
-            font.family: "Mono"
+            font: fixedFont
             wrapMode: Text.NoWrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
 

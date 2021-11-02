@@ -73,11 +73,6 @@ private:
   QAction *tray_action_stop;
   QAction *tray_action_restart;
   QAction *tray_action_quit;
-
-  QMenu *tray_inbound_menu;
-  QAction *tray_inbound_menu_action;
-  QAction *tray_inbound_toggle_http;
-  QAction *tray_inbound_toggle_socks;
 };
 }
 
