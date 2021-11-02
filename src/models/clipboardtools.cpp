@@ -2,8 +2,6 @@
 
 using namespace across::utils;
 
-ClipboardTools::ClipboardTools() {}
-
 void
 ClipboardTools::send(const QString& msg)
 {

@@ -2,8 +2,6 @@
 
 using namespace across::utils;
 
-DBusTools::DBusTools() {}
-
 void
 DBusTools::sendNotify(const QString& message, const QString& summary)
 {

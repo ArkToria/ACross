@@ -28,10 +28,8 @@ struct NotifyDBus
 class DBusTools
 {
 public:
-  DBusTools();
-
-  void sendNotify(const QString& message, const QString& summary = "");
-  void sendNotify(NotifyDBus& notifyDBus);
+  static void sendNotify(const QString& message, const QString& summary = "");
+  static void sendNotify(NotifyDBus& notifyDBus);
 
 private:
 };

@@ -2,10 +2,6 @@
 
 using namespace across::utils;
 
-NotifyTools::NotifyTools(QObject* parent)
-  : QObject(parent)
-{}
-
 void
 NotifyTools::send(const QString& msg, const QString& summary)
 {

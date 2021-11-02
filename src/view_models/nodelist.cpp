@@ -381,10 +381,10 @@ NodeList::jsonFormat(const QString& json_str)
 void
 NodeList::copyURLToClipboard(const QString& node_name, const QString& node_url)
 {
-  NotifyTools().send(node_url,
-                     QString(tr("Copy [%1] URL to clipboard")).arg(node_name));
+  NotifyTools::send(node_url,
+                    QString(tr("Copy [%1] URL to clipboard")).arg(node_name));
 
-  ClipboardTools().send(node_url);
+  ClipboardTools::send(node_url);
 }
 
 void

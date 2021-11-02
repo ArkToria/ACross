@@ -11,11 +11,9 @@ namespace utils {
 class ClipboardTools
 {
 public:
-  ClipboardTools();
+  static void send(const QString& msg);
 
-  void send(const QString& msg);
-
-  void send(const QImage& img);
+  static void send(const QImage& img);
 };
 }
 }

@@ -436,9 +436,9 @@ void
 GroupList::copyUrlToClipboard(int index)
 {
   auto item = m_groups.at(index);
-  NotifyTools().send(item.url,
-                     QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
-  ClipboardTools().send(item.url);
+  NotifyTools::send(item.url,
+                    QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
+  ClipboardTools::send(item.url);
 }
 
 void
@@ -452,9 +452,9 @@ GroupList::copyNodesToClipboard(int index)
     nodes_url.append("\n");
   }
 
-  NotifyTools().send(nodes_url,
-                     QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
-  ClipboardTools().send(nodes_url);
+  NotifyTools::send(nodes_url,
+                    QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
+  ClipboardTools::send(nodes_url);
 }
 
 void
