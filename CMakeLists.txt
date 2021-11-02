@@ -59,10 +59,6 @@ CPMAddPackage(
     OPTIONS "BUILD_EXAMPLES OFF" "BUILD_BLACKBOX_TESTS OFF"
     )
 
-if(ZXing_ADDED)
-else()
-    target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
-endif()
 
 # JSON
 CPMAddPackage(
@@ -153,6 +149,11 @@ qt_add_executable(across
     ${PROJECT_HEADERS}
     ${PROJECT_SOURCES}
     )
+
+if(ZXing_ADDED)
+else()
+    target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
+endif()
 
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
