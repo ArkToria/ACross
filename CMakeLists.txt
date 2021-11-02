@@ -55,9 +55,14 @@ CPMAddPackage(
 CPMAddPackage(
     NAME ZXing
     GITHUB_REPOSITORY "nu-book/zxing-cpp"
-    VERSION 1.1.1
+    VERSION 1.2.0
     OPTIONS "BUILD_EXAMPLES OFF" "BUILD_BLACKBOX_TESTS OFF"
     )
+
+if(ZXing_ADDED)
+else()
+    target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
+endif()
 
 # JSON
 CPMAddPackage(
@@ -149,7 +154,6 @@ qt_add_executable(across
     ${PROJECT_SOURCES}
     )
 
-target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(across PRIVATE
@@ -230,9 +234,9 @@ install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_running.svg DESTINAT
 install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.stop.svg)
 
 ######## DEBUG ALL VARIABLES ########
-#get_cmake_property(_variableNames VARIABLES)
-#list (SORT _variableNames)
-#foreach (_variableName ${_variableNames})
-#    message(STATUS "${_variableName}=${${_variableName}}")
-#endforeach()
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 #################################
