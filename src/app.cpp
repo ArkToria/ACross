@@ -38,13 +38,13 @@ Application::initialize()
           p_logview.get(),
           &LogView::setTheme);
 
-  p_db = QSharedPointer<DBTools>(new DBTools());
-  p_core = QSharedPointer<CoreTools>(new CoreTools());
-  p_curl = QSharedPointer<CURLTools>(new CURLTools);
-  p_nodes = QSharedPointer<NodeList>(new NodeList());
-  p_groups = QSharedPointer<GroupList>(new GroupList);
-  p_tray = QSharedPointer<SystemTray>(new SystemTray());
-  p_image_provider = new ImageProvider();
+  p_db = QSharedPointer<DBTools>::create();
+  p_core = QSharedPointer<CoreTools>::create();
+  p_curl = QSharedPointer<CURLTools>::create();
+  p_nodes = QSharedPointer<NodeList>::create();
+  p_groups = QSharedPointer<GroupList>::create();
+  p_tray = QSharedPointer<SystemTray>::create();
+  p_image_provider = new ImageProvider; // free by qml engine
   p_config->init(p_curl);
 
   registerModels();
