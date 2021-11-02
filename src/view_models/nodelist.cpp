@@ -68,8 +68,7 @@ NodeList::init(QSharedPointer<LogView> log_view,
     this, &NodeList::itemLatencyChanged, this, &NodeList::handleLatencyChanged);
 
   if (p_config->apiEnable()) {
-    p_api =
-      QSharedPointer<APITools>(new APITools(p_config->apiPort().toUInt()));
+    p_api = QSharedPointer<APITools>::create(p_config->apiPort().toUInt());
 
     connect(p_api.get(),
             &APITools::trafficChanged,

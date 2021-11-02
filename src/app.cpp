@@ -29,8 +29,8 @@ Application::initialize()
     return false;
   }
 
-  p_logview = QSharedPointer<LogView>(new LogView());
-  p_config = QSharedPointer<ConfigTools>(new ConfigTools(this));
+  p_logview = QSharedPointer<LogView>::create();
+  p_config = QSharedPointer<ConfigTools>::create(this);
 
   // dynamic change display theme
   connect(p_config.get(),

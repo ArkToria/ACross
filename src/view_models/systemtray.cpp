@@ -10,7 +10,7 @@ using namespace across::utils;
 SystemTray::SystemTray(QObject* parent)
   : QObject(parent)
 {
-  p_tray_icon = QSharedPointer<QSystemTrayIcon>(new QSystemTrayIcon());
+  p_tray_icon = QSharedPointer<QSystemTrayIcon>::create();
   {
     tray_root_menu = new QMenu;
     tray_action_toggle_visibility = new QAction(tray_root_menu);
