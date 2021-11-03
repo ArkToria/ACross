@@ -21,9 +21,6 @@ jobs:
           install: >-
             git
             make
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-ninja
             mingw-w64_x86_64-qt6-base
             mingw-w64_x86_64-qt6-translations
             mingw-w64_x86_64-qt6-imageformats
@@ -35,6 +32,10 @@ jobs:
             mingw-w64_x86_64-protobuf
             mingw-w64_x86_64-grpc
             mingw-w64_x86_64-nlohmann-json
+            mingw-w64-x86_64-toolchain
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+
       - name: MINGW64-Build
         run: |
           cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release
