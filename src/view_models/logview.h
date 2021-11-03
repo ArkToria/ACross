@@ -20,6 +20,7 @@
 #include "spdlog/sinks/qt_sinks.h"
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/spdlog.h"
 
 constexpr auto THREAD_NUMS = 2;
 constexpr auto QUEUE_SIZE = 8192;
