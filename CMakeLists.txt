@@ -27,7 +27,8 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 
 # Qt 6.2
-find_package(Qt6 6.2 COMPONENTS Gui Core Quick Widgets DBus Core5Compat Sql LinguistTools Concurrent REQUIRED)
+find_package(Qt6 6.2 COMPONENTS Gui Core Quick Widgets DBus 
+    Core5Compat Sql LinguistTools Concurrent ToolsTools REQUIRED)
 
 # curl
 CPMAddPackage(
@@ -158,13 +159,13 @@ endif()
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 target_link_libraries(across PRIVATE
-    Qt6::Core
-    Qt6::Quick
-    Qt6::Widgets
-    Qt6::DBus
-    Qt6::Core5Compat
-    Qt6::Sql
-    Qt6::Concurrent
+    Qt::Core
+    Qt::Quick
+    Qt::Widgets
+    Qt::DBus
+    Qt::Core5Compat
+    Qt::Sql
+    Qt::Concurrent
     CURL::libcurl
     fmt::fmt
     gRPC::grpc++
@@ -210,17 +211,10 @@ set_target_properties(across PROPERTIES
     WIN32_EXECUTABLE TRUE)
 
 if (WIN32)
-    find_program(WIN_DEPLOY_EXECUTABLE "windeployqt-qt6"
-        PATHS
-            "${CMAKE_PREFIX_PATH}/bin/"
-            "${CMAKE_SYSTEM_PROGRAM_PATH}"
-            "${Qt6_DIR}/../../../bin/"
-        )
-
     add_custom_command(
         TARGET across
         POST_BUILD
-        COMMAND "${QWIN_DEPLOY_EXECUTABLE}" "${CMAKE_BINARY_DIR}/across.exe" "--qmldir" "${CMAKE_SOURCE_DIR}/src/views"
+        COMMAND Qt::windeployqt "${CMAKE_BINARY_DIR}/across.exe" "--qmldir" "${CMAKE_SOURCE_DIR}/src/views"
         COMMENT "Deploying Qt..."
         )
 endif()
