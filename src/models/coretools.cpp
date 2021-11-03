@@ -108,7 +108,7 @@ CoreTools::run()
   p_process->waitForStarted();
 
   auto exit_code = p_process->exitCode();
-  if (exit_code != 0) {
+  if (exit_code != 0 || p_process->state() == QProcess::NotRunning) {
     p_logger->error("Failed to start v2ray process");
   } else {
     p_logger->info("Core is running...");
