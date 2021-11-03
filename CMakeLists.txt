@@ -153,6 +153,7 @@ qt_add_executable(across
 
 if(ZXing_ADDED)
 else()
+    # Include header files from system package or fetch content with the sample path
     target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
 endif()
 
@@ -207,16 +208,19 @@ qt_import_qml_plugins(across)
 qt_finalize_executable(across)
 add_dependencies(across across_lupdate)
 
-set_target_properties(across PROPERTIES
-    WIN32_EXECUTABLE TRUE)
-
 if (WIN32)
-    add_custom_command(
-        TARGET across
-        POST_BUILD
-        COMMAND Qt::windeployqt "${CMAKE_BINARY_DIR}/across.exe" "--qmlimport" "${QML_IMPORT_PATH}"
-        COMMENT "Deploying Qt..."
-        )
+    set_target_properties(across PROPERTIES WIN32_EXECUTABLE TRUE)
+
+    set(ENABLE_QT_AUTO_DEPLOY OFF)
+    
+    if(ENABLE_QT_AUTO_DEPLOY)
+        add_custom_command(
+            TARGET across
+            POST_BUILD
+            COMMAND Qt::windeployqt "${CMAKE_BINARY_DIR}/across.exe" "--qmlimport" "${QML_IMPORT_PATH}"
+            COMMENT "Deploying Qt..."
+            )
+    endif()
 endif()
 
 ######## UNIT_TEST ########
