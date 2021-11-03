@@ -210,6 +210,13 @@ set_target_properties(across PROPERTIES
     WIN32_EXECUTABLE TRUE)
 
 if (WIN32)
+    find_program(WIN_DEPLOY_EXECUTABLE "windeployqt-qt6"
+        PATHS 
+            "${CMAKE_PREFIX_PATH}/bin/"
+            "${CMAKE_SYSTEM_PROGRAM_PATH}"
+            "${Qt6_DIR}/../../../bin/"
+        )
+
     add_custom_command(
         TARGET across
         POST_BUILD
