@@ -21,7 +21,7 @@ Item {
         nameFilters: ["Image Files (*.jpg *.jpeg *.png *.svg)", "All files (*)"]
 
         onAccepted: {
-            acrossConfig.backgroundImage = file
+            acrossConfig.backgroundImage = currentFile
         }
     }
 

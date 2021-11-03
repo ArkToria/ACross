@@ -20,16 +20,16 @@ Item {
 
         nameFilters: ["SQLite3 Database (*.db)", "All files (*)"]
         onAccepted: {
-            acrossConfig.dbPath = file
+            acrossConfig.dbPath = currentFile
         }
     }
 
-    FileDialog {
+    FolderDialog {
         id: dbFileDirDialog
         title: qsTr("Select Database Path")
 
         onAccepted: {
-            acrossConfig.dbPath = file
+            acrossConfig.dbPath = currentFolder
         }
     }
 

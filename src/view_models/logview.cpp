@@ -151,6 +151,12 @@ std::pair<std::shared_ptr<spdlog::async_logger>,
           std::shared_ptr<spdlog::async_logger>>
 LogView::raw()
 {
+  if (p_app_logger == nullptr)
+    emit appLogItemChanged();
+
+  if (p_core_logger == nullptr)
+    emit coreLogItemChanged();
+
   return { this->p_app_logger, this->p_core_logger };
 }
 

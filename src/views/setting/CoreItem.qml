@@ -12,25 +12,19 @@ Item {
     FileDialog {
         id: coreFileDialog
         title: qsTr("Select V2Ray Core Path")
-        //        selectFolder: false
-        //        selectExisting: true
-        //        selectMultiple: false
         nameFilters: ["Select V2Ray core (v2ray*)", "All files (*)"]
 
         onAccepted: {
-            acrossConfig.corePath = file
+            acrossConfig.corePath = currentFile
         }
     }
 
-    FileDialog {
+    FolderDialog {
         id: assetsFileDialog
         title: qsTr("Select Assets Directory")
 
-        //        selectFolder: true
-        //        selectExisting: true
-        //        selectMultiple: false
         onAccepted: {
-            acrossConfig.assetsPath = file
+            acrossConfig.assetsPath = currentFolder
         }
     }
 
