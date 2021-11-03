@@ -222,7 +222,9 @@ endif()
 #########################
 ######## INSTALL ########
 #########################
-if(WIN32)
+option(ENABLE_DEPLOYMENT "Enable fixup_bundle and windeployqt when installing." ON)
+
+if(WIN32 AND ENABLE_DEPLOYMENT)
     install(TARGETS across RUNTIME DESTINATION .)
 
     # For Global Target
