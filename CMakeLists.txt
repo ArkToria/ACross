@@ -211,7 +211,7 @@ set_target_properties(across PROPERTIES
 
 if (WIN32)
     find_program(WIN_DEPLOY_EXECUTABLE "windeployqt-qt6"
-        PATHS 
+        PATHS
             "${CMAKE_PREFIX_PATH}/bin/"
             "${CMAKE_SYSTEM_PROGRAM_PATH}"
             "${Qt6_DIR}/../../../bin/"
@@ -220,7 +220,7 @@ if (WIN32)
     add_custom_command(
         TARGET across
         POST_BUILD
-        COMMAND "${Qt6_DIR}/../../../bin/windeployqt" "${CMAKE_BINARY_DIR}/across.exe" "--qmldir" "${CMAKE_SOURCE_DIR}/src/views"
+        COMMAND "${QWIN_DEPLOY_EXECUTABLE}" "${CMAKE_BINARY_DIR}/across.exe" "--qmldir" "${CMAKE_SOURCE_DIR}/src/views"
         COMMENT "Deploying Qt..."
         )
 endif()
