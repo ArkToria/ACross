@@ -1,8 +1,7 @@
 #include "app.h"
-#include "buildinfo.h"
 
 int
-main(int argc, char* argv[])
+run_app(int argc, char* argv[])
 {
   auto fonts = across::getFonts();
   QApplication::setApplicationName(APP_NAME);
@@ -15,4 +14,15 @@ main(int argc, char* argv[])
   }
 
   return app.run();
+}
+
+int
+main(int argc, char* argv[])
+{
+  int exit_code = run_app(argc, argv);
+
+#ifdef Q_CC_MINGW
+  std::exit(exit_code);
+#endif
+  return exit_code;
 }
