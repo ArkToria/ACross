@@ -52,6 +52,9 @@ CPMAddPackage(
     OPTIONS "SPDLOG_BUILD_BENCH OFF" "SPDLOG_FMT_EXTERNAL ON" "SPDLOG_BUILD_SHARED ON" "SPDLOG_BUILD_TESTS OFF"
     )
 
+# A hack to prevent installing ZXing stuffs.
+install(CODE [[set(CMAKE_INSTALL_LOCAL_ONLY ON)]])
+
 # ZXing
 CPMAddPackage(
     NAME ZXing
@@ -210,17 +213,6 @@ add_dependencies(across across_lupdate)
 
 if (WIN32)
     set_target_properties(across PROPERTIES WIN32_EXECUTABLE TRUE)
-
-    set(ENABLE_QT_AUTO_DEPLOY OFF)
-    
-    if(ENABLE_QT_AUTO_DEPLOY)
-        add_custom_command(
-            TARGET across
-            POST_BUILD
-            COMMAND Qt::windeployqt "${CMAKE_BINARY_DIR}/across.exe" "--qmlimport" "${QML_IMPORT_PATH}"
-            COMMENT "Deploying Qt..."
-            )
-    endif()
 endif()
 
 ######## UNIT_TEST ########
@@ -230,14 +222,47 @@ endif()
 #########################
 ######## INSTALL ########
 #########################
-install(TARGETS across RUNTIME DESTINATION bin)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/org.arktoria.across.desktop DESTINATION share/applications)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/across_example.json DESTINATION share/across/)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/design/logo.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.svg)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_running.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.light.running.svg)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.light.stop.svg)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_running.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.running.svg)
-install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.stop.svg)
+if(WIN32)
+    install(TARGETS across RUNTIME DESTINATION .)
+
+    # For Global Target
+    list(APPEND DIRS "${CMAKE_BINARY_DIR}")
+    list(APPEND DIRS "${CMAKE_CURRENT_BINARY_DIR}")
+    list(APPEND DIRS "${Qt6Core_DIR}/../../")
+    list(APPEND DIRS "${Qt6Core_DIR}/../../../bin/")
+
+    if(CMAKE_PREFIX_PATH)
+        foreach(dir ${CMAKE_PREFIX_PATH})
+            list(APPEND DIRS "${dir}/bin" "${dir}/lib")
+        endforeach()
+    endif()
+
+    list(APPEND DIRS "${Qt6Core_DIR}/../..")
+
+    foreach(d ${DIRS})
+        string(REPLACE "\\" "/" newd ${d})
+        list(APPEND NEW_DIRS ${newd})
+    endforeach()
+    set(DIRS ${NEW_DIRS})
+
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION .)
+
+    set(APP "${CMAKE_INSTALL_PREFIX}/across.exe")
+    install(CODE "include(BundleUtilities)")
+    install(CODE "fixup_bundle(\"${APP}\"   \"\"   \"${DIRS}\")")
+    install(CODE "message(\"\")")
+    install(CODE "execute_process(COMMAND \"${Qt6_DIR}/../../../bin/windeployqt.exe\" \"${APP}\" --no-virtualkeyboard --no-compiler-runtime --no-opengl-sw -qmldir=${CMAKE_CURRENT_SOURCE_DIR}/src/views/ -qmlimport=.)")
+    install(CODE "message(\"Completed\")")
+else()
+    install(TARGETS across RUNTIME DESTINATION bin)
+    install(FILES ${CMAKE_SOURCE_DIR}/misc/org.arktoria.across.desktop DESTINATION share/applications)
+    install(FILES ${CMAKE_SOURCE_DIR}/misc/across_example.json DESTINATION share/across/)
+    install(FILES ${CMAKE_SOURCE_DIR}/misc/design/logo.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.svg)
+    install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_running.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.light.running.svg)
+    install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/light/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.light.stop.svg)
+    install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_running.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.running.svg)
+    install(FILES ${CMAKE_SOURCE_DIR}/misc/icons/dark/tray_logo_stop.svg DESTINATION share/icons/hicolor/scalable/apps/ RENAME org.arktoria.across.dark.stop.svg)
+endif()
 
 ######## DEBUG ALL VARIABLES ########
 #get_cmake_property(_variableNames VARIABLES)
