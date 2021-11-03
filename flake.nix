@@ -31,7 +31,7 @@
           name = "across";
           src = final.lib.cleanSource ./.;
           cmakeFlags = [ "-DFETCH_SINGLE_APPLICATION=OFF" ];
-          nativeBuildInputs = with final; [ cmake ninja pkg-config ];
+          nativeBuildInputs = with final; [ cmake pkg-config ];
           buildInputs = with final;[ qt6 libGL curl spdlog zxing-cpp protobuf grpc gtest c-ares libxkbcommon nlohmann_json magic_enum semver ];
           postPatch = ''
             rm -fr 3rdpart/*
@@ -41,21 +41,21 @@
         magic_enum = final.stdenv.mkDerivation {
           name = "magic_enum";
           src = inputs.magic_enum;
-          nativeBuildInputs = with final; [ cmake ninja ];
+          nativeBuildInputs = with final; [ cmake ];
         };
         semver = final.stdenv.mkDerivation {
           name = "semver";
           src = inputs.semver;
-          nativeBuildInputs = with final; [ cmake ninja ];
+          nativeBuildInputs = with final; [ cmake ];
         };
         qt6 = final.stdenv.mkDerivation rec {
           pname = "qt";
-          version = "6.2.0";
+          version = "6.2.1";
           src = final.fetchurl {
             url = "https://download.qt.io/official_releases/qt/${final.lib.versions.majorMinor version}/${version}/single/qt-everywhere-src-${version}.tar.xz";
-            sha256 = "sha256-YMLcDuht0zjlxRlL2Vkiq/wJeEHj6FVpPftPWq8NtNs=";
+            sha256 = "sha256-4D//xcO1/qCdzBYURN99+74k6KjOk3cBTsIbZvSNQ80=";
           };
-          nativeBuildInputs = with final; [ cmake ninja perl python pkg-config xmlstarlet ];
+          nativeBuildInputs = with final; [ cmake perl python pkg-config xmlstarlet ];
           buildInputs = with final; [
             xorg.libxcb
             xorg.libX11
@@ -190,6 +190,17 @@
         })).override {
           fmt = final.fmt_8;
         };
+        zxing-cpp = (prev.zxing-cpp.overrideAttrs (attrs: {
+          version = "master";
+          src = final.fetchFromGitHub {
+            owner = "nu-book";
+            repo = "zxing-cpp";
+            rev = "b6938ec2ae8dae387b4db0d148b57218a0ee8616";
+            hash = "sha256-ALhYpjyH5Ts5Ofx3P1ptdT7Ah606IhzO6C1K7KnEC0w=";
+          };
+          cmakeFlags = attrs.cmakeFlags ++ [ "-DBUILD_SYSTEM_DEPS=ALWAYS" ];
+          buildInputs = [ final.fmt_8 ];
+        }));
       };
     };
 }
