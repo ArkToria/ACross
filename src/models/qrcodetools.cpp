@@ -33,10 +33,6 @@ QRCodeTools::write(const QString& text)
     }
   }
 
-#ifdef QT_DEBUG
-  img.save("test.png");
-#endif
-
   return img;
 }
 
