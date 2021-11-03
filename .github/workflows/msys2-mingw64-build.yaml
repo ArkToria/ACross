@@ -1,42 +1,95 @@
-name: MSYS2 MINGW64 Build Test
+name: MSYS2 PKGBUILD build test
 
 on:
   push:
-    branches: [master]
   pull_request:
-    branches: [master]
+  schedule:
+    - cron: "0 0 * * 3"
+  workflow_dispatch:
 
 jobs:
-  build:
+  win-makepkg:
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: "🟦", sys: mingw64, env: x86_64 }
+    name: 🚧${{ matrix.icon }} ${{ matrix.sys }} | makepkg
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      MINGW_ARCH: ${{ matrix.sys }}
+    steps:
+      - name: "⚙️ git config"
+        run: git config --global core.autocrlf input
+        shell: bash
+
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: "${{ matrix.icon }} Setup MSYS2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.sys }}
+          update: true
+          install: >
+            git
+            base-devel
+            tree
+            mingw-w64-${{ matrix.env }}-toolchain
+
+      - name: "🚧 Build package"
+        run: |
+          cd ./pkgbuild/msys2/
+          makepkg-mingw --noconfirm --noprogressbar -sCLf
+
+      - name: "📤 Upload artifact: package"
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.sys }}-TOOL
+          path: ./pkgbuild/msys2/*${{ matrix.env }}*.zst
+
+      - name: "🔍 Show package content"
+        run: |
+          mkdir tmp
+          cd tmp
+          tar -xf ../pkgbuild/msys2/*.zst
+          tree .
+          cd ../
+          rmdir ./tmp --ignore-fail-on-non-empty
+
+  win-test:
+    needs: win-makepkg
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: "⬛", sys: mingw32, env: i686 }
+          - { icon: "🟦", sys: mingw64, env: x86_64 }
+    name: 🚦${{ matrix.icon }} ${{ matrix.sys }} | test
     defaults:
       run:
         shell: msys2 {0}
     steps:
-      - uses: actions/checkout@v2
-      - uses: msys2/setup-msys2@v2
+      - name: "${{ matrix.icon }} Setup MSYS2"
+        uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: ${{ matrix.sys }}
           update: true
-          install: >-
-            git
-            make
-            mingw-w64_x86_64-qt6-base
-            mingw-w64_x86_64-qt6-translations
-            mingw-w64_x86_64-qt6-imageformats
-            mingw-w64_x86_64-qt6-5compat
-            mingw-w64_x86_64-qt6-tools
-            mingw-w64_x86_64-curl
-            mingw-w64_x86_64-fmt
-            mingw-w64_x86_64-spdlog
-            mingw-w64_x86_64-protobuf
-            mingw-w64_x86_64-grpc
-            mingw-w64_x86_64-nlohmann-json
-            mingw-w64-x86_64-toolchain
-            mingw-w64-x86_64-cmake
-            mingw-w64-x86_64-ninja
 
-      - name: MINGW64-Build
-        run: |
-          cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release
-          cmake --build build
+      - name: "📥 Download artifact: package"
+        uses: actions/download-artifact@v2
+        with:
+          path: .
+          name: ${{ matrix.sys }}-TOOL
+
+      - name: "🛠️ Install package"
+        run: pacman -U --noconfirm --noprogressbar *.zst
+
+      - name: "🚦 Test package"
+        run: TOOL

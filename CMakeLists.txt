@@ -214,7 +214,7 @@ if (WIN32)
     add_custom_command(
         TARGET across
         POST_BUILD
-        COMMAND Qt::windeployqt "${CMAKE_BINARY_DIR}/across.exe" "--qmldir" "${CMAKE_SOURCE_DIR}/src/views"
+        COMMAND Qt::windeployqt "${CMAKE_BINARY_DIR}/across.exe" "--qmlimport" "${QML_IMPORT_PATH}"
         COMMENT "Deploying Qt..."
         )
 endif()
