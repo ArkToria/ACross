@@ -60,38 +60,8 @@ jobs:
         run: |
           mkdir tmp
           cd tmp
+          sha256sum ../pkgbuild/msys2/*.zst
           tar -xf ../pkgbuild/msys2/*.zst
           tree .
           cd ../
           rmdir ./tmp --ignore-fail-on-non-empty
-
-  win-test:
-    needs: win-makepkg
-    runs-on: windows-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - { icon: "🟦", sys: mingw64, env: x86_64 }
-    name: 🚦${{ matrix.icon }} ${{ matrix.sys }} | test
-    defaults:
-      run:
-        shell: msys2 {0}
-    steps:
-      - name: "${{ matrix.icon }} Setup MSYS2"
-        uses: msys2/setup-msys2@v2
-        with:
-          msystem: ${{ matrix.sys }}
-          update: true
-
-      - name: "📥 Download artifact: package"
-        uses: actions/download-artifact@v2
-        with:
-          path: .
-          name: ${{ matrix.sys }}-across-dev-git
-
-      - name: "🛠️ Install package"
-        run: pacman -U --noconfirm --noprogressbar *.zst
-
-      - name: "🚦 Test package"
-        run: sha256sum *.zst
