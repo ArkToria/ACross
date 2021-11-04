@@ -15,7 +15,7 @@ Window {
     minimumHeight: 420
     title: qsTr("Share Configuration")
 
-    flags: Qt.WindowStaysOnTopHint
+    flags: Qt.WindowStaysOnTopHint | Qt.MSWindowsFixedSizeDialogHint | Qt.CustomizeWindowHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint
     modality: Qt.ApplicationModal
 
     property var nodeModel: null
