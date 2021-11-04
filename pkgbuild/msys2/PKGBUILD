@@ -19,7 +19,7 @@ makedepends=("git" "${MINGW_PACKAGE_PREFIX}-cmake" "${MINGW_PACKAGE_PREFIX}-clan
 optdepends=("v2ray: use system v2ray core."
     "noto-fonts: default display fonts")
 
-source=("across-dev-git::git+https://github.com/ArkToria/ACross.git")
+source=("${_realname}::git+https://github.com/ArkToria/ACross.git")
 
 sha512sums=("SKIP")
 
@@ -29,6 +29,8 @@ pkgver() {
 }
 
 build() {
+  tree . -L 3
+  
   # Shared Build
   [[ -d "build-${MINGW_CHOST}" ]] && rm -rf "build-${MINGW_CHOST}"
 

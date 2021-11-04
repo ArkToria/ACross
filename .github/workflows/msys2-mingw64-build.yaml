@@ -50,7 +50,7 @@ jobs:
       - name: "📤 Upload artifact: package"
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.sys }}-TOOL
+          name: ${{ matrix.sys }}-across-dev-git
           path: ./pkgbuild/msys2/*${{ matrix.env }}*.zst
 
       - name: "🔍 Show package content"
@@ -69,7 +69,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { icon: "⬛", sys: mingw32, env: i686 }
           - { icon: "🟦", sys: mingw64, env: x86_64 }
     name: 🚦${{ matrix.icon }} ${{ matrix.sys }} | test
     defaults:
@@ -86,10 +85,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           path: .
-          name: ${{ matrix.sys }}-TOOL
+          name: ${{ matrix.sys }}-across-dev-git
 
       - name: "🛠️ Install package"
         run: pacman -U --noconfirm --noprogressbar *.zst
 
       - name: "🚦 Test package"
-        run: TOOL
+        run: sha256sum *.zst
