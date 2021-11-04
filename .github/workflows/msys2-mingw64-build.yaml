@@ -47,10 +47,13 @@ jobs:
           cd ./pkgbuild/msys2/
           makepkg-mingw --noconfirm --noprogressbar -sCLf
 
+      - name: Export Package Name
+        run: echo "across_package_name=$(ls pkgbuild/arch/across-dev-git/ | grep pkg.tar.zst)" >> $GITHUB_ENV
+
       - name: "📤 Upload artifact: package"
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.sys }}-across-dev-git
+          name: ${{ env.across_package_name }}
           path: ./pkgbuild/msys2/*${{ matrix.env }}*.zst
 
       - name: "🔍 Show package content"
