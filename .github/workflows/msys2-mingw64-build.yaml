@@ -48,7 +48,7 @@ jobs:
           makepkg-mingw --noconfirm --noprogressbar -sCLf
 
       - name: Export Package Name
-        run: echo "across_package_name=$(ls pkgbuild/arch/across-dev-git/ | grep pkg.tar.zst)" >> $GITHUB_ENV
+        run: echo "across_package_name=$(ls pkgbuild/msys2/ | grep pkg.tar.zst)" >> $GITHUB_ENV
 
       - name: "📤 Upload artifact: package"
         uses: actions/upload-artifact@v2
