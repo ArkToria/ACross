@@ -2,7 +2,7 @@
 _realname=across-dev-git
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=0.1.0.r507.57a54a6
+pkgver=0.1.0.r539.84ccd94
 pkgrel=1
 pkgdesc="The next GUI client for v2ray core (Development Branch)"
 arch=("any")
@@ -49,6 +49,6 @@ build() {
 
 package() {
   # Shared Install
-  cd "${srcdir}"
-  ninja -C "build-${MINGW_CHOST}" install
+  cd "${srcdir}/build-${MINGW_CHOST}"
+  ninja install
 }

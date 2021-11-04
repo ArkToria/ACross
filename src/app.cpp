@@ -75,6 +75,8 @@ Application::getExitReason()
 Application::~Application()
 {
   m_engine.removeImageProvider("acrossImageProvider");
+
+  spdlog::shutdown();
 }
 
 int
