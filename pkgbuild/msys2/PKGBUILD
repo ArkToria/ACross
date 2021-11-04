@@ -29,8 +29,6 @@ pkgver() {
 }
 
 build() {
-  tree . -L 3
-  
   # Shared Build
   [[ -d "build-${MINGW_CHOST}" ]] && rm -rf "build-${MINGW_CHOST}"
 
