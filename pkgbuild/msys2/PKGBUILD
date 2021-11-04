@@ -41,6 +41,7 @@ build() {
   -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=OFF \
+  -DENABLE_DEPLOYMENT=OFF \
   "../${_realname}"
 
   cmake --build .
@@ -49,5 +50,5 @@ build() {
 package() {
   # Shared Install
   cd "${srcdir}/build-${MINGW_CHOST}"
-  cmake --install .
+  DESTDIR="${pkgdir}" cmake --install .
 }
