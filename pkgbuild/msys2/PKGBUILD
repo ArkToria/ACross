@@ -49,5 +49,5 @@ build() {
 package() {
   # Shared Install
   cd "${srcdir}/build-${MINGW_CHOST}"
-  ninja install
+  cmake --install .
 }
