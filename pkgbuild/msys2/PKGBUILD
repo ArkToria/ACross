@@ -2,7 +2,7 @@
 _realname=across-dev-git
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=0.1.0.r539.84ccd94
+pkgver=0.1.0.r507.57a54a6
 pkgrel=1
 pkgdesc="The next GUI client for v2ray core (Development Branch)"
 arch=("any")
@@ -41,8 +41,7 @@ build() {
   -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=OFF \
-  -DENABLE_DEPLOYMENT=OFF
-  ../${_realname}
+  "../${_realname}"
 
   cmake --build .
 }
