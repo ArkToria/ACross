@@ -1,0 +1,86 @@
+name: MSVC build
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 0 * * 3"
+  workflow_dispatch:
+jobs:
+  win-makepkg:
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: "🟦", sys: msvc, env: x86_64 }
+    name: 🚧${{ matrix.icon }} ${{ matrix.sys }} | makepkg
+    env:
+      MINGW_ARCH: ${{ matrix.sys }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: "⚙️ git config"
+        run: git config --global core.autocrlf input
+        shell: bash
+
+      - name: "🧰 Checkout"
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install ninja-build tool
+        uses: seanmiddleditch/gha-setup-ninja@v3
+
+      - name: Install MSVC compiler
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2.13.2
+        with:
+          version: 6.2.1
+          arch: win64_msvc2019_64
+          aqtversion: ==1.2.2
+<<<<<<< HEAD
+<<<<<<< HEAD
+          modules: 'qt5compat'
+=======
+          modules: 'qt5compat qtimageformats'
+>>>>>>> 01c2ec6 (Fix qt modules)
+=======
+          modules: 
+            - qt5compat
+            - qtimageformats
+>>>>>>> 4107608 (Update path)
+
+      - name: run-vcpkg
+        uses: lukka/run-vcpkg@v7.3
+        with:
+          vcpkgArguments: protobuf grpc libuv uvw curl fmt spdlog nlohmann-json
+          vcpkgGitCommitId: 40a0fb232833dbc1b526394929f10b71627c2269
+          vcpkgTriplet: x64-windows
+
+      - name: Build
+        run: |
+          cmake -S . -B ./out \
+            -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake \
+            -DVCPKG_TARGET_TRIPLET=x64-windows \
+            "-DVCPKG_CHAINLOAD_TOOLCHAIN_FILE=$Qt6_DIR/lib/cmake/Qt6/qt.toolchain.cmake" \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_INSTALL_PREFIX=./out/deploy
+          cmake --build ./out --parallel --config Release
+        shell: bash
+
+      - name: Deploy Dependencies
+        run: |
+          cmake --install ./out
+
+      - name: Export Package Name
+        run: echo "across_package_name=msvc-x86_64-across-dev-git-$(cat ./misc/VERSION).r$(git rev-list --count HEAD).$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: "📤 Upload artifact: package"
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.across_package_name }}
+          path: ./out/deploy/

@@ -53,7 +53,15 @@ jobs:
       - name: "📤 Upload artifact: package"
         uses: actions/upload-artifact@v2
         with:
+<<<<<<< HEAD
+<<<<<<< HEAD
           name: ${{ env.across_package_name }}
+=======
+          name: ${{ matrix.sys }}-across-dev-git
+>>>>>>> ae559fc (update package name)
+=======
+          name: ${{ env.across_package_name }}
+>>>>>>> 7c90883 (sync master branch)
           path: ./pkgbuild/msys2/*${{ matrix.env }}*.zst
 
       - name: "🔍 Show package content"
@@ -64,4 +72,46 @@ jobs:
           tar -xf ../pkgbuild/msys2/*.zst
           tree .
           cd ../
+<<<<<<< HEAD
           rmdir ./tmp --ignore-fail-on-non-empty
+<<<<<<< HEAD
+=======
+
+  win-test:
+    needs: win-makepkg
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { icon: "🟦", sys: mingw64, env: x86_64 }
+    name: 🚦${{ matrix.icon }} ${{ matrix.sys }} | test
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: "${{ matrix.icon }} Setup MSYS2"
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: ${{ matrix.sys }}
+          update: true
+
+      - name: "📥 Download artifact: package"
+        uses: actions/download-artifact@v2
+        with:
+          path: .
+          name: ${{ matrix.sys }}-across-dev-git
+
+      - name: "🛠️ Install package"
+        run: pacman -U --noconfirm --noprogressbar *.zst
+
+      - name: "🚦 Test package"
+<<<<<<< HEAD
+        run: TOOL
+>>>>>>> 5c25bb2 (remove mingw32 test)
+=======
+        run: sha256sum *.zst
+>>>>>>> 5827d6d (fix test package run)
+=======
+          rmdir ./tmp --ignore-fail-on-non-empty
+>>>>>>> 7c90883 (sync master branch)
