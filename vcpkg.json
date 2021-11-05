@@ -1,0 +1,17 @@
+{
+  "name": "across",
+  "version-string": "0.1.0",
+  "dependencies": [
+    {
+      "name": "grpc",
+      "features": [ "codegen" ]
+    },
+    "curl",
+    "fmt",
+    {
+      "name": "spdlog",
+      "features": [ "wchar" ]
+    },
+    "nlohmann-json"
+  ]
+}
