@@ -45,10 +45,12 @@ jobs:
           modules: 'qt5compat qtimageformats'
 
       - name: run-vcpkg
-        uses: lukka/run-vcpkg@v7.3
+        uses: lukka/run-vcpkg@v10
         with:
-          vcpkgArguments: protobuf grpc libuv uvw curl fmt spdlog nlohmann-json
-          vcpkgGitCommitId: 40a0fb232833dbc1b526394929f10b71627c2269
+          vcpkgDirectory: '${{ runner.workspace }}/b/vcpkg'
+          vcpkgGitCommitId: 8acb35e27fc52c183e8f450346a073ea1bbce888
+          runVcpkgInstall: true
+          vcpkgJsonGlob: 'vcpkg.json'
           vcpkgTriplet: x64-windows
 
       - name: Build
