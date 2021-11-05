@@ -1,4 +1,4 @@
-name: MSYS2 PKGBUILD build test
+name: MSYS2 Package Build Test
 
 on:
   push:

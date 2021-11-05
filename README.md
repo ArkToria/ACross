@@ -17,6 +17,6 @@
 
 #### Windows
 
-[![MSYS2 MINGW64 Build Test](https://github.com/ArkToria/ACross/actions/workflows/msys2-mingw64-build.yaml/badge.svg)](https://github.com/ArkToria/ACross/actions/workflows/msys2-mingw64-build.yaml)
+[![MSYS2 Package Build Test](https://github.com/ArkToria/ACross/actions/workflows/msys2-mingw64-build.yaml/badge.svg)](https://github.com/ArkToria/ACross/actions/workflows/msys2-mingw64-build.yaml)
 
-[![MSVC build](https://github.com/ArkToria/ACross/actions/workflows/msvc-build.yaml/badge.svg)](https://github.com/ArkToria/ACross/actions/workflows/msvc-build.yaml)
+[![MSVC Portable Build Test](https://github.com/ArkToria/ACross/actions/workflows/msvc-build.yaml/badge.svg)](https://github.com/ArkToria/ACross/actions/workflows/msvc-build.yaml)
