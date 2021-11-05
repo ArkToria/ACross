@@ -525,6 +525,8 @@ ConfigTools::setCorePath(const QUrl& val)
     p_core->set_core_path(path.toStdString());
     emit configChanged();
     emit corePathChanged();
+    emit coreInfoChanged();
+    emit coreVersionChanged();
   }
 }
 
