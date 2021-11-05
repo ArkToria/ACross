@@ -41,18 +41,8 @@ build() {
   -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=OFF \
-<<<<<<< HEAD
-<<<<<<< HEAD
   -DENABLE_DEPLOYMENT=OFF \
   "../${_realname}"
-=======
-  -DENABLE_DEPLOYMENT=OFF
-  ../${_realname}
->>>>>>> 21db660 (rebase from master)
-=======
-  -DENABLE_DEPLOYMENT=OFF \
-  "../${_realname}"
->>>>>>> 7c90883 (sync master branch)
 
   cmake --build .
 }
@@ -60,14 +50,5 @@ build() {
 package() {
   # Shared Install
   cd "${srcdir}/build-${MINGW_CHOST}"
-<<<<<<< HEAD
-<<<<<<< HEAD
-  DESTDIR="${pkgdir}" cmake --install .
-=======
-  ninja install
->>>>>>> 8dc01fe (update msys2 PKGBUILD)
-}
-=======
   DESTDIR="${pkgdir}" cmake --install .
 }
->>>>>>> 7c90883 (sync master branch)

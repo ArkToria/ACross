@@ -42,17 +42,7 @@ jobs:
           version: 6.2.1
           arch: win64_msvc2019_64
           aqtversion: ==1.2.2
-<<<<<<< HEAD
-<<<<<<< HEAD
-          modules: 'qt5compat'
-=======
           modules: 'qt5compat qtimageformats'
->>>>>>> 01c2ec6 (Fix qt modules)
-=======
-          modules: 
-            - qt5compat
-            - qtimageformats
->>>>>>> 4107608 (Update path)
 
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v7.3
