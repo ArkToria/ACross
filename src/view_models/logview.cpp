@@ -55,7 +55,6 @@ LogView::reloadSinks()
       app_sinks.end(),
       p_thread_pool,
       spdlog::async_overflow_policy::block);
-    spdlog::register_logger(p_app_logger);
     p_app_logger->info("app logger initialize...");
   });
 
@@ -66,7 +65,6 @@ LogView::reloadSinks()
       core_sinks.end(),
       p_thread_pool,
       spdlog::async_overflow_policy::block);
-    spdlog::register_logger(p_core_logger);
     p_core_logger->info("core logger initialize...");
   });
 }
