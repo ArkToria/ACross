@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Basic as ControlsBasic
 
 import ACross
 
@@ -130,7 +131,7 @@ Popup {
                 }
             }
 
-            ScrollView {
+            ControlsBasic.ScrollView {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.columnSpan: 4

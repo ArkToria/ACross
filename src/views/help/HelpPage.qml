@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Basic as ControlsBasic
 
 import ACross
 
@@ -20,7 +21,7 @@ Item {
         }
     }
 
-    ScrollView {
+    ControlsBasic.ScrollView {
         id: scrollView
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing

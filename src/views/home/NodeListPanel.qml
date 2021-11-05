@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Basic as ControlsBasic
 
 import ACross
 
@@ -88,7 +89,7 @@ Item {
             border.color: acrossConfig.highlightColor
         }
 
-        ScrollBar.vertical: ScrollBar {
+        ScrollBar.vertical: ControlsBasic.ScrollBar {
             policy: ScrollBar.AsNeeded
             smooth: true
         }

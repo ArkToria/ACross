@@ -1,8 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Basic as ControlsBasic
 
-ScrollView {
+ControlsBasic.ScrollView {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
