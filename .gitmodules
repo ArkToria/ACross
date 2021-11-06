@@ -9,4 +9,4 @@
 	url = https://github.com/itay-grudev/SingleApplication
 [submodule "3rdpart/WinToast"]
 	path = 3rdpart/WinToast
-	url = https://github.com/mohabouje/WinToast
+	url = https://github.com/moodyhunter/WinToast

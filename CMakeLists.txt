@@ -188,7 +188,7 @@ target_link_libraries(across PRIVATE
     )
 
 if (WIN32)
-    target_link_libraries(across PRIVATE win_toast::win_toast)
+    target_link_libraries(across PRIVATE WinToast::WinToast)
 endif()
 
 qt_add_qml_module(across
