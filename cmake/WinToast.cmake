@@ -1,4 +1,4 @@
-option(FETCH_WINTOAST "Download WinToast" ON)
+option(FETCH_WIN_TOAST "Download WinToast" ON)
 
 if(FETCH_WIN_TOAST)
     CPMAddPackage(
