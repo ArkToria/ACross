@@ -1243,7 +1243,7 @@ ConfigTools::mergeConfigFromJSON(const std::string& json_str)
   for (auto& default_theme : default_themes) {
     auto iter = std::find_if(
       m_conf.themes().begin(), m_conf.themes().end(), [&](Theme theme) {
-        if (theme.SerializeAsString() == default_theme.SerializeAsString())
+        if (theme.name() == default_theme.name())
           return true;
         else
           return false;
