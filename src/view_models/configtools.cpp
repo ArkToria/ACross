@@ -1101,30 +1101,32 @@ ConfigTools::setBackgroundOpacity(double val)
 QString
 ConfigTools::backgroundImage()
 {
-  if (auto url =
-        QUrl::fromLocalFile(p_theme->banner().background_image().c_str());
-      !url.isEmpty()) {
-    return url.url();
-  }
+    auto url = QUrl::fromLocalFile(p_theme->banner().background_image().c_str());
+    if (!url.isEmpty())
+        return url.url();
 
-  return QString();
+    return QString();
 }
 
 void
 ConfigTools::setBackgroundImage(const QString& file_url)
 {
-  if (auto url = QUrl(file_url); url.isLocalFile()) {
-    QFileInfo file(url.path());
+    QUrl url(file_url);
+    if (!url.isLocalFile())
+        return ;
 
-    auto val = file.absoluteFilePath();
-    if (val == p_theme->banner().background_image().c_str())
-      return;
+    auto file = QFileInfo(url.toLocalFile());
+    if (!file.exists())
+        return;
 
-    p_theme->mutable_banner()->set_background_image(val.toStdString());
+    auto path = file.absoluteFilePath();
+    if ( path == p_theme->banner().background_image().c_str())
+        return;
+
+    p_theme->mutable_banner()->set_background_image(path.toStdString());
 
     emit configChanged();
     emit backgroundImageChanged();
-  }
 }
 
 void
