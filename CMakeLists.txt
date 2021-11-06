@@ -26,6 +26,10 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/MagicEnum.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 
+if (WIN32)
+    include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/WinToast.cmake")
+endif()
+
 # Qt 6.2
 find_package(Qt6 6.2 COMPONENTS Gui Core Quick Widgets DBus 
     Core5Compat Sql LinguistTools Concurrent ToolsTools REQUIRED)
@@ -182,6 +186,10 @@ target_link_libraries(across PRIVATE
     Threads::Threads
     ZXing::Core
     )
+
+if (WIN32)
+    target_link_libraries(across PRIVATE win_toast::win_toast)
+endif()
 
 qt_add_qml_module(across
     URI "ACross"

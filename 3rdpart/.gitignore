@@ -7,3 +7,4 @@ fmt-*
 nlohmann_json-*
 grpc-*
 singleapplication-*
+WinToast-*
