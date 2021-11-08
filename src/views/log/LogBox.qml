@@ -48,7 +48,7 @@ ControlsBasic.ScrollView {
                 if (maxLines <= 0) {
 
                     // unlimit
-                } else {
+                } else if (lineCount >= maxLines) {
                     clear()
                 }
             }

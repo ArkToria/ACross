@@ -33,44 +33,6 @@ LogView::~LogView()
   spdlog::shutdown();
 }
 
-// LogsInfo
-// LogView::getLogsInfo()
-//{
-//   QString app_file;
-//   QString core_file;
-//   QDir log_dir;
-
-//  if (auto data_home = EnvTools().getInfo().ACROSS_DATA_DIR;
-//      !data_home.isEmpty()) {
-//    log_dir = QDir(data_home).filePath("logs");
-//    app_file = log_dir.filePath(APP_FILE_NAME);
-//    core_file = log_dir.filePath(CORE_FILE_NAME);
-//  } else {
-//    QDir config_dir("./");
-//    if (auto temp_path = QStandardPaths::writableLocation(
-//          QStandardPaths::AppLocalDataLocation);
-//        !temp_path.isEmpty()) {
-//      config_dir = temp_path;
-//    }
-
-//    if (!config_dir.mkpath("logs")) {
-//      qFatal("Failed to create logs_dir");
-//    }
-
-//    log_dir = config_dir.filePath("logs");
-//    app_file = log_dir.filePath(APP_FILE_NAME);
-//    core_file = log_dir.filePath(CORE_FILE_NAME);
-//  }
-
-//  return { app_file, core_file, log_dir.absolutePath() };
-//}
-
-// QString
-// LogView::logDir()
-//{
-//   return QUrl::fromLocalFile(getLogsInfo().log_dir).toString();
-// }
-
 void
 LogView::setTheme(const across::config::Theme& theme)
 {
