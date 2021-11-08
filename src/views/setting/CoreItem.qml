@@ -52,7 +52,13 @@ Item {
             Layout.fillWidth: true
             Layout.columnSpan: 4
 
-            model: ["debug", "info", "warning", "error", "none"]
+            model: ["current", "debug", "info", "warning", "error"]
+
+            displayText: acrossConfig.logLevel
+
+            onEditTextChanged: {
+                acrossConfig.logLevel = editText
+            }
         }
 
         Label {

@@ -5,7 +5,7 @@ message Config
 {
   string title = 1;
   string config_version = 2;
-
+  string data_dir = 3;
   Interface interface = 4;
   Update update = 5;
   Database database = 6;
@@ -15,7 +15,6 @@ message Config
   repeated Theme themes = 10;
   string log_mode = 11;
   int32 log_lines = 12;
-  int32 font_size = 13;
 }
 
 message Interface
@@ -75,8 +74,7 @@ message Core
   string core_path = 1;
   string assets_path = 2;
   string log_level = 3;
-  int64 log_lines = 5;
-  API api = 6;
+  API api = 4;
 }
 
 message Inbound

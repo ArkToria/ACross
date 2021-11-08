@@ -14,23 +14,12 @@ Item {
     property int spacingWidth: acrossConfig.itemSpacing * 2
     property int fontSize: 14
 
-    FileDialog {
-        id: dbFileDialog
-        title: qsTr("Select Database Path")
-        fileMode: FileDialog.OpenFile
-
-        nameFilters: ["SQLite3 Database (*.db)", "All files (*)"]
-        onAccepted: {
-            acrossConfig.dbPath = currentFile
-        }
-    }
-
     FolderDialog {
-        id: dbFileDirDialog
-        title: qsTr("Select Database Path")
+        id: dataDirDialog
+        title: qsTr("Select Data Folder")
 
         onAccepted: {
-            acrossConfig.dbPath = currentFolder
+            acrossConfig.dataDir = currentFolder
         }
     }
 
@@ -59,8 +48,9 @@ Item {
             Layout.fillWidth: true
             Layout.columnSpan: 4
 
-            placeholderText: acrossConfig.dbPath
-                             === "" ? qsTr("Enter Database Path Here") : acrossConfig.dbPath
+            selectByMouse: true
+            readOnly: true
+            placeholderText: acrossConfig.dataDir
         }
 
         ButtonBox {
@@ -68,7 +58,7 @@ Item {
 
             text: qsTr("Open")
             onClicked: {
-                dbFileDirDialog.open()
+                dataDirDialog.open()
             }
         }
 
@@ -203,7 +193,7 @@ Item {
             from: 1
             to: 100000
 
-            onFocusChanged: {
+            onValueChanged: {
                 acrossConfig.logLines = value
             }
         }

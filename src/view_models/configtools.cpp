@@ -29,13 +29,12 @@ ConfigTools::init(QSharedPointer<CURLTools> curl, const QString& file_path)
     return false;
   }
 
-  p_core = m_conf.mutable_core();
-  p_db = m_conf.mutable_database();
-  p_interface = m_conf.mutable_interface();
-  p_network = m_conf.mutable_network();
-  p_inbound = m_conf.mutable_inbound();
+  p_core = m_config.mutable_core();
+  p_db = m_config.mutable_database();
+  p_interface = m_config.mutable_interface();
+  p_network = m_config.mutable_network();
+  p_inbound = m_config.mutable_inbound();
 
-  setDBPath("", true);
   loadThemeConfig();
   emit configChanged();
 
@@ -91,7 +90,7 @@ ConfigTools::loadThemeConfig()
 {
   auto interface_theme = p_interface->mutable_theme();
 
-  for (auto& theme : *m_conf.mutable_themes()) {
+  for (auto& theme : *m_config.mutable_themes()) {
     if (interface_theme->theme() == theme.name()) {
       p_theme = &theme;
       break;
@@ -112,7 +111,7 @@ ConfigTools::loadThemeConfig()
 Config*
 ConfigTools::configPtr()
 {
-  return &m_conf;
+  return &m_config;
 }
 
 void
@@ -197,13 +196,13 @@ ConfigTools::getInboundProxy()
 QString
 ConfigTools::getConfigVersion()
 {
-  return QString::fromStdString(m_conf.config_version());
+  return QString::fromStdString(m_config.config_version());
 }
 
 QString
 ConfigTools::getLanguage()
 {
-  return QString::fromStdString(m_conf.interface().language());
+  return QString::fromStdString(m_config.interface().language());
 }
 
 void
@@ -232,8 +231,8 @@ ConfigTools::testAPI()
 {
   bool result = false;
 
-  if (m_conf.core().api().enable()) {
-    APITools client(m_conf.core().api().port());
+  if (m_config.core().api().enable()) {
+    APITools client(m_config.core().api().port());
     auto [stats, err] = client.isOk();
 
     if (stats) {
@@ -284,7 +283,7 @@ ConfigTools::freshInbound()
 void
 ConfigTools::saveConfig(QString config_path)
 {
-  auto json_str = SerializeTools::MessageToJson(m_conf);
+  auto json_str = SerializeTools::MessageToJson(m_config);
 
   if (!config_path.isEmpty()) {
     ConfigHelper::saveToFile(json_str, config_path);
@@ -311,46 +310,18 @@ ConfigTools::checkUpdate()
 }
 
 void
-ConfigTools::setDBPath(const QString& db_path, bool init)
+ConfigTools::setDataDir(const QString& dir)
 {
-  QString temp_path = db_path;
-  if (db_path.isEmpty())
-    temp_path = p_db->db_path().c_str();
+  auto path = QUrl(dir).toLocalFile();
+  if (path.toStdString() == m_config.data_dir())
+    return;
 
-#ifdef Q_OS_LINUX
-  if ((temp_path == "~") || (temp_path.startsWith("~/"))) {
-    temp_path.replace(0, 1, QDir::homePath());
-  }
-
-  if (temp_path.startsWith("$")) {
-    wordexp_t p;
-    wordexp(temp_path.toStdString().c_str(), &p, 0);
-    temp_path = QString::fromStdString(*p.we_wordv);
-    wordfree(&p);
-  }
-#endif
-
-  if (temp_path.startsWith("file:///")) {
-    temp_path = QUrl(temp_path).toLocalFile();
-  }
-
-  if (!temp_path.split("/").last().contains(".db")) {
-    auto path = QDir(temp_path).relativeFilePath("across.db").toStdString();
-    p_db->set_db_path(path);
-  } else {
-    p_db->set_db_path(QFileInfo(temp_path).filePath().toStdString());
-  }
-
-  if (auto dir = QFileInfo(temp_path).dir(); !dir.exists()) {
-    QDir().mkdir(dir.path());
-  }
-
-  // auto save config
-  if (!init) {
-    emit configChanged();
-  }
+  m_config.set_data_dir(path.toStdString());
+  p_db->set_db_path(QDir(path).filePath("across.db").toStdString());
 
   emit dbPathChanged();
+  emit dataDirChanged();
+  emit configChanged();
 }
 
 QString
@@ -555,9 +526,10 @@ ConfigTools::setLogLevel(const QString& log_level)
 void
 ConfigTools::setLogLines(int log_lines)
 {
-  if (log_lines == p_core->log_lines())
+  if (log_lines == m_config.log_lines())
     return;
-  p_core->set_log_lines(log_lines);
+  m_config.set_log_lines(log_lines);
+
   emit configChanged();
   emit logLinesChanged(log_lines);
 }
@@ -872,6 +844,12 @@ ConfigTools::isFileExist(QString file_path)
 }
 
 QString
+ConfigTools::dataDir()
+{
+  return m_config.data_dir().c_str();
+}
+
+QString
 ConfigTools::guiVersion()
 {
   return getVersion();
@@ -928,7 +906,7 @@ ConfigTools::logLevel()
 int
 ConfigTools::logLines()
 {
-  return p_core->log_lines();
+  return m_config.log_lines();
 }
 
 QString
@@ -1237,36 +1215,36 @@ ConfigTools::mergeConfigFromJSON(const std::string& json_str)
     return;
 
   QList<Theme> temp_themes;
-  auto default_themes = m_conf.themes();
+  auto default_themes = m_config.themes();
 
-  m_conf.mutable_themes()->Clear();
-  m_conf.MergeFrom(origin_conf);
+  m_config.mutable_themes()->Clear();
+  m_config.MergeFrom(origin_conf);
 
   for (auto& default_theme : default_themes) {
     auto iter = std::find_if(
-      m_conf.themes().begin(), m_conf.themes().end(), [&](Theme theme) {
+      m_config.themes().begin(), m_config.themes().end(), [&](Theme theme) {
         if (theme.name() == default_theme.name())
           return true;
         else
           return false;
       });
 
-    if (iter == m_conf.themes().end()) {
+    if (iter == m_config.themes().end()) {
       temp_themes.emplace_back(default_theme);
     }
   }
 
   for (uint i = 0; i < temp_themes.size(); ++i) {
-    m_conf.mutable_themes()->UnsafeArenaAddAllocated(&temp_themes[i]);
+    m_config.mutable_themes()->UnsafeArenaAddAllocated(&temp_themes[i]);
   }
 
-  if (auto inbound = m_conf.mutable_inbound(); inbound != nullptr) {
+  if (auto inbound = m_config.mutable_inbound(); inbound != nullptr) {
     inbound->mutable_socks5()->set_enable(
       origin_conf.inbound().socks5().enable());
     inbound->mutable_http()->set_enable(origin_conf.inbound().http().enable());
   }
 
-  if (auto core = m_conf.mutable_core(); core != nullptr) {
+  if (auto core = m_config.mutable_core(); core != nullptr) {
     core->mutable_api()->set_enable(origin_conf.core().api().enable());
   }
 }
@@ -1275,4 +1253,20 @@ Theme*
 ConfigTools::currentTheme()
 {
   return p_theme;
+}
+
+QString
+ConfigTools::logMode()
+{
+  return m_config.log_mode().c_str();
+}
+
+void
+ConfigTools::setLogMode(const QString& log_mode)
+{
+  if (m_config.log_mode().c_str() == log_mode)
+    return;
+
+  m_config.set_log_mode(log_mode.toStdString());
+  emit logModeChanged(log_mode);
 }

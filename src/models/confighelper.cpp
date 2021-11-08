@@ -14,6 +14,11 @@ ConfigHelper::defaultConfig()
   auto data_path =
     QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
 
+  if (auto env_path = across::EnvTools().getInfo().ACROSS_DATA_DIR;
+      !env_path.isEmpty()) {
+    data_path = env_path;
+  }
+
   QDir data_dir(data_path);
   if (!data_dir.mkpath(".")) {
     qFatal("Failed to create data_path");
@@ -22,6 +27,9 @@ ConfigHelper::defaultConfig()
   across::config::Config config;
   config.set_title("ACross Configuration Example");
   config.set_config_version("0.1.0");
+  config.set_log_lines(5000);
+  config.set_log_mode("stdout");
+  config.set_data_dir(data_dir.absolutePath().toStdString());
 
   if (auto interface = config.mutable_interface()) {
     interface->set_language("en_US");
@@ -71,7 +79,6 @@ ConfigHelper::defaultConfig()
     core->set_assets_path(v2ray_dir);
 #endif
     core->set_log_level("warning");
-    core->set_log_lines(5000);
 
     if (auto api = core->mutable_api(); core->has_api()) {
       api->set_enable(true);

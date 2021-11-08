@@ -36,7 +36,9 @@ class ConfigTools : public QObject
 {
   Q_OBJECT
   // database setting
-  Q_PROPERTY(QString dbPath READ dbPath WRITE setDBPath NOTIFY dbPathChanged)
+  Q_PROPERTY(
+    QString dataDir READ dataDir WRITE setDataDir NOTIFY dataDirChanged)
+  Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathChanged)
 
   // core setting
   Q_PROPERTY(QString coreInfo READ coreInfo NOTIFY coreInfoChanged)
@@ -48,8 +50,6 @@ class ConfigTools : public QObject
                assetsPathChanged)
   Q_PROPERTY(
     QString logLevel READ logLevel WRITE setLogLevel NOTIFY logLevelChanged)
-  Q_PROPERTY(
-    int logLines READ logLines WRITE setLogLines NOTIFY logLinesChanged)
   Q_PROPERTY(
     bool apiEnable READ apiEnable WRITE setApiEnable NOTIFY apiEnableChanged)
   Q_PROPERTY(
@@ -133,6 +133,10 @@ class ConfigTools : public QObject
                setBackgroundImage NOTIFY backgroundImageChanged)
   Q_PROPERTY(double backgroundOpacity READ backgroundOpacity WRITE
                setBackgroundOpacity NOTIFY backgroundOpacityChanged)
+  Q_PROPERTY(
+    QString logMode READ logMode WRITE setLogMode NOTIFY logModeChanged)
+  Q_PROPERTY(
+    int logLines READ logLines WRITE setLogLines NOTIFY logLinesChanged)
 
   // network setting
   Q_PROPERTY(QString networkTestMethod READ networkTestMethod WRITE
@@ -177,6 +181,7 @@ public:
 
 public:
   // database setting
+  QString dataDir();
   QString dbPath();
 
   // core setting
@@ -230,6 +235,7 @@ public:
   bool enableAutoStart();
   QString backgroundImage();
   double backgroundOpacity();
+  QString logMode();
 
   // network setting
   QString networkTestMethod();
@@ -247,11 +253,10 @@ public:
   QString releaseURL();
 
 public slots:
-  void setDBPath(const QString& val = "", bool init = false);
+  void setDataDir(const QString& dir = "");
   void setCorePath(const QUrl& val);
   void setAssetsPath(const QUrl& val);
   void setLogLevel(const QString& val);
-  void setLogLines(int val);
   void setApiEnable(bool val);
   void setApiPort(QString& val);
   void setInboundAddress(const QString& val);
@@ -290,6 +295,8 @@ public slots:
   void setEnableAutoStart(bool val);
   void setBackgroundImage(const QString& val);
   void setBackgroundOpacity(double val);
+  void setLogMode(const QString& log_mode);
+  void setLogLines(int val);
 
   // network setting
   void setNetworkTestMethod(const QString& val);
@@ -300,13 +307,13 @@ public slots:
   void handleUpdated(const QVariant& content);
 
 signals:
+  void dataDirChanged();
   void dbPathChanged();
   void coreInfoChanged();
   void coreVersionChanged();
   void corePathChanged();
   void assetsPathChanged();
   void logLevelChanged();
-  void logLinesChanged(int max_lines);
   void apiEnableChanged();
   void apiPortChanged();
   void apiResultTextChanged();
@@ -348,6 +355,9 @@ signals:
   void enableBannerChanged();
   void backgroundImageChanged();
   void backgroundOpacityChanged();
+  void logLinesChanged(int max_lines);
+  void logModeChanged(const QString& logMode);
+  void fontSizeChanged(int fontSize);
 
   // network setting
   void networkTestMethodChanged();
@@ -365,7 +375,7 @@ private:
 
   EnvTools m_envs;
   QSharedPointer<across::network::CURLTools> p_curl;
-  across::config::Config m_conf = ConfigHelper::defaultConfig();
+  across::config::Config m_config = ConfigHelper::defaultConfig();
   across::config::Core* p_core;
   across::config::Database* p_db;
   across::config::Interface* p_interface;
