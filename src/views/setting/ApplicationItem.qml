@@ -50,6 +50,26 @@ Item {
         }
 
         Label {
+            text: qsTr("Data Directory")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+
+            placeholderText: acrossConfig.dbPath
+                             === "" ? qsTr("Enter Database Path Here") : acrossConfig.dbPath
+        }
+
+        ButtonBox {
+            text: qsTr("Open")
+            onClicked: {
+                dbFileDirDialog.open()
+            }
+        }
+
+        Label {
             text: qsTr("Set UserAgent")
             color: acrossConfig.textColor
         }
@@ -57,33 +77,29 @@ Item {
         TextFieldBox {
             id: userAgentText
             Layout.fillWidth: true
-            Layout.columnSpan: 5
+            Layout.columnSpan: 4
 
             placeholderText: acrossConfig.networkUserAgent
+        }
 
-            onTextChanged: {
-                acrossConfig.networkUserAgent = text
+        ButtonBox {
+            text: qsTr("Accept")
+
+            onClicked: {
+                acrossConfig.networkUserAgent = userAgentText.text
             }
         }
 
         Label {
-            text: qsTr("Log Level")
+            text: qsTr("Log Mode")
             color: acrossConfig.textColor
         }
 
         DropDownBox {
-            id: logLevelText
             Layout.fillWidth: true
             Layout.columnSpan: 2
 
-            displayText: acrossConfig.logLevel
-            model: ["current", "debug", "info", "warning", "error", "none"]
-
-            onEditTextChanged: {
-                if (model.editText !== "current") {
-                    acrossConfig.logLevel = editText
-                }
-            }
+            model: ["stdout", "file", "both"]
         }
 
         Label {
@@ -105,70 +121,13 @@ Item {
         }
 
         Label {
-            text: qsTr("Log Output")
-            color: acrossConfig.textColor
-        }
-
-        DropDownBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            model: ["stdout", "file", "both"]
-        }
-
-        Label {
-            text: qsTr("Log File")
-            color: acrossConfig.textColor
-        }
-
-        ButtonBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            text: qsTr("Open Folder")
-            onClicked: {
-                Qt.openUrlExternally(acrossLogView.logDir())
-            }
-        }
-
-        Label {
-            text: qsTr("DB Path")
-            color: acrossConfig.textColor
-        }
-
-        TextFieldBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
-
-            placeholderText: acrossConfig.dbPath
-                             === "" ? qsTr("Enter Database Path Here") : acrossConfig.dbPath
-        }
-
-        ButtonBox {
-            Layout.fillWidth: true
-
-            text: qsTr("Open File")
-            onClicked: {
-                dbFileDialog.open()
-            }
-        }
-
-        ButtonBox {
-            Layout.fillWidth: true
-
-            text: qsTr("Folder")
-            onClicked: {
-                dbFileDirDialog.open()
-            }
-        }
-
-        Label {
             text: qsTr("Enable Tray Icon")
             color: acrossConfig.textColor
         }
 
         Label {
             Layout.fillWidth: true
+            Layout.columnSpan: 4
 
             text: acrossTray.isSystemTrayAvailable(
                       ) ? "" : qsTr("System tray is not available")
@@ -186,12 +145,13 @@ Item {
         }
 
         Label {
-            text: qsTr("Start From Minimized")
+            text: qsTr("Minimize startup")
             color: acrossConfig.textColor
         }
 
         Item {
             Layout.fillWidth: true
+            Layout.columnSpan: 4
         }
 
         SwitchBox {

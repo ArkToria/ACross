@@ -45,8 +45,7 @@ public:
 
   ~NodeList();
 
-  void init(QSharedPointer<LogView> log_view,
-            QSharedPointer<across::setting::ConfigTools> config,
+  void init(QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::core::CoreTools> core,
             QSharedPointer<across::DBTools> db);
 
@@ -117,7 +116,7 @@ signals:
   void currentNodeInfoChanged(const QVariantMap& nodeModel);
 
 private:
-  std::shared_ptr<across::utils::LogTools> p_logger;
+  std::shared_ptr<spdlog::logger> p_logger;
   QSharedPointer<DBTools> p_db;
   QSharedPointer<across::core::APITools> p_api;
   QSharedPointer<across::setting::ConfigTools> p_config;

@@ -9,6 +9,8 @@ import ACross
 Item {
     anchors.margins: acrossConfig.itemSpacing * 2
 
+    property int fontSize: 14
+
     FileDialog {
         id: coreFileDialog
         title: qsTr("Select V2Ray Core Path")
@@ -30,15 +32,26 @@ Item {
 
     GridLayout {
         anchors.fill: parent
-        columns: 9
+        columns: 5
         rowSpacing: acrossConfig.itemSpacing
         columnSpacing: acrossConfig.itemSpacing
 
         Label {
-            Layout.columnSpan: 9
+            Layout.columnSpan: 5
             text: qsTr("Core Configuration")
-            font.pixelSize: 24
+            font.pointSize: fontSize
             color: acrossConfig.textColor
+        }
+
+        Label {
+            text: qsTr("Log Level")
+        }
+
+        DropDownBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 4
+
+            model: ["debug", "info", "warning", "error", "none"]
         }
 
         Label {
@@ -48,12 +61,14 @@ Item {
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 7
+            Layout.columnSpan: 3
 
             placeholderText: acrossConfig.corePath === "" ? qsTr("Enter V2Ray Core Executable Path Here") : acrossConfig.corePath
         }
 
         ButtonBox {
+            Layout.alignment: Qt.AlignRight
+
             text: qsTr("Select")
             onClicked: {
                 coreFileDialog.open()
@@ -61,19 +76,20 @@ Item {
         }
 
         Label {
-
             text: qsTr("Assets path")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 7
+            Layout.columnSpan: 3
 
             placeholderText: acrossConfig.assetsPath === "" ? qsTr("Enter GeoIP and GeoSite Directory Here") : acrossConfig.assetsPath
         }
 
         ButtonBox {
+            Layout.alignment: Qt.AlignRight
+
             text: qsTr("Select")
             onClicked: {
                 assetsFileDialog.open()
@@ -88,7 +104,7 @@ Item {
         TextFieldBox {
             id: core_info
             Layout.fillWidth: true
-            Layout.columnSpan: 7
+            Layout.columnSpan: 3
 
             text: acrossConfig.coreInfo
             readOnly: true
@@ -96,6 +112,7 @@ Item {
         }
 
         ButtonBox {
+            Layout.alignment: Qt.AlignRight
             text: qsTr("Check")
 
             onClicked: {
@@ -108,8 +125,15 @@ Item {
             color: acrossConfig.textColor
         }
 
+        Item {
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+        }
+
         SwitchBox {
             id: apiSwitch
+            Layout.alignment: Qt.AlignRight
+
             checked: acrossConfig.apiEnable
             onCheckedChanged: {
                 acrossConfig.apiEnable = checked
@@ -117,15 +141,16 @@ Item {
         }
 
         Label {
+            visible: apiSwitch.checked
+
             text: qsTr("API Port")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             id: apiPortText
-
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
+            visible: apiSwitch.checked
+            Layout.preferredWidth: 72
 
             placeholderText: acrossConfig.apiPort
             readOnly: apiSwitch.checked ? false : true
@@ -137,20 +162,23 @@ Item {
         }
 
         Label {
+            visible: apiSwitch.checked
+
             text: qsTr("Test Result")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             id: testResult
-
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+            visible: apiSwitch.checked
         }
 
         ButtonBox {
-            text: qsTr("Test")
+            Layout.alignment: Qt.AlignRight
 
+            visible: apiSwitch.checked
+            text: qsTr("Test")
             enabled: apiSwitch.checked
 
             onClicked: {

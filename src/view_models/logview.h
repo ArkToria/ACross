@@ -39,60 +39,20 @@ struct LogsInfo
 class LogView : public QObject
 {
   Q_OBJECT
-
-  Q_PROPERTY(QQuickItem* appLogItem READ appLogItem WRITE setAppLogItem NOTIFY
-               appLogItemChanged)
-  Q_PROPERTY(QQuickItem* coreLogItem READ coreLogItem WRITE setCoreLogItem
-               NOTIFY coreLogItemChanged)
 public:
-  explicit LogView(LogView* parent = nullptr);
+  explicit LogView(QObject* parent = nullptr);
 
   ~LogView();
 
-  void init();
-
-  void reloadSinks();
-
-  void clean();
-
-  std::pair<std::shared_ptr<spdlog::async_logger>,
-            std::shared_ptr<spdlog::async_logger>>
-  raw();
-
-  static LogsInfo getLogsInfo();
-
-public:
-  QQuickItem* appLogItem() const;
-
-  QQuickItem* coreLogItem() const;
-
-  Q_INVOKABLE QString logDir();
+  Q_INVOKABLE void setLogItem(QQuickItem* item, const QString& name = "app");
 
 public slots:
   void setTheme(const across::config::Theme& theme);
 
-  void setAppLogItem(QQuickItem* newAppLogItem);
-
-  void setCoreLogItem(QQuickItem* newCoreLogItem);
-
-signals:
-  void appLogItemChanged();
-
-  void coreLogItemChanged();
-
 protected:
-  std::string m_app_log_path = APP_FILE_NAME;
-  std::string m_core_log_path = APP_FILE_NAME;
-  std::shared_ptr<spdlog::async_logger> p_app_logger;
-  std::shared_ptr<spdlog::async_logger> p_core_logger;
-  std::shared_ptr<spdlog::details::thread_pool> p_thread_pool;
-  std::vector<spdlog::sink_ptr> app_sinks;
-  std::vector<spdlog::sink_ptr> core_sinks;
-  QQuickItem* p_app_text_editor = nullptr;
-  QQuickItem* p_core_text_editor = nullptr;
+  across::LogHighlighter m_core_highlighter;
+  across::LogHighlighter m_app_highlighter;
 
-  across::LogHighlighter coreLogHighlighter;
-  across::LogHighlighter appLogHighlighter;
   across::config::Theme m_theme;
 };
 

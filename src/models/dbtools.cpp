@@ -11,9 +11,15 @@ DBTools::~DBTools()
 }
 
 void
-DBTools::init(QSharedPointer<LogView> log_view, const QString& db_path)
+DBTools::init(const QString& db_path)
 {
-  p_logger = std::make_shared<LogTools>(log_view, "database");
+  if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
+    p_logger = app_logger->clone("database");
+  } else {
+    qCritical("Failed to start logger");
+    return;
+  }
+
   m_db_path = db_path;
 
   reload();

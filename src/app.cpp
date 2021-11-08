@@ -29,13 +29,12 @@ Application::initialize()
     return false;
   }
 
-  p_logview = QSharedPointer<LogView>::create();
   p_config = QSharedPointer<ConfigTools>::create(this);
 
   // dynamic change display theme
   connect(p_config.get(),
           &ConfigTools::currentThemeChanged,
-          p_logview.get(),
+          &m_log,
           &LogView::setTheme);
 
   p_db = QSharedPointer<DBTools>::create();
@@ -102,7 +101,7 @@ Application::setRootContext()
 
   m_engine.addImportPath(u"qrc:/"_qs);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
-                                             p_logview.get());
+                                             &m_log);
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
                                              p_config.get());
   m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCore"),
@@ -121,11 +120,11 @@ Application::setRootContext()
                             p_image_provider);
   m_engine.load(url);
 
-  p_db->init(p_logview, p_config->dbPath());
-  p_core->init(p_logview, p_config);
-  p_nodes->init(p_logview, p_config, p_core, p_db);
-  p_groups->init(p_logview, p_config, p_db, p_nodes, p_curl);
-  p_tray->init(p_logview, p_config, p_core, p_nodes);
+  p_db->init(p_config->dbPath());
+  p_core->init(p_config);
+  p_nodes->init(p_config, p_core, p_db);
+  p_groups->init(p_config, p_db, p_nodes, p_curl);
+  p_tray->init(p_config, p_core, p_nodes);
 }
 
 void

@@ -7,9 +7,7 @@ ControlsBasic.ScrollView {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-    function getComponent() {
-        return textEdit
-    }
+    property string itemName: "app"
 
     Flickable {
         id: flick
@@ -17,7 +15,6 @@ ControlsBasic.ScrollView {
         contentWidth: textEdit.paintedWidth
         contentHeight: textEdit.paintedHeight
         clip: true
-
 
         function ensureVisible(r) {
             if (contentX >= r.x)
@@ -34,8 +31,6 @@ ControlsBasic.ScrollView {
             id: textEdit
             width: flick.width
 
-            property int maxLines: 100
-
             focus: true
             readOnly: true
             selectByMouse: true
@@ -48,11 +43,19 @@ ControlsBasic.ScrollView {
             wrapMode: Text.NoWrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
 
-            //                onLineCountChanged: {
-            //                    if (lineCount > maxLines) {
-            //                        clear()
-            //                    }
-            //                }
+            onLineCountChanged: {
+                let maxLines = acrossConfig.logLines
+                if (maxLines <= 0) {
+
+                    // unlimit
+                } else {
+                    clear()
+                }
+            }
+
+            Component.onCompleted: {
+                acrossLogView.setLogItem(textEdit, itemName)
+            }
         }
     }
 }

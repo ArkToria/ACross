@@ -13,6 +13,9 @@ message Config
   Inbound inbound = 8;
   Network network = 9;
   repeated Theme themes = 10;
+  string log_mode = 11;
+  int32 log_lines = 12;
+  int32 font_size = 13;
 }
 
 message Interface

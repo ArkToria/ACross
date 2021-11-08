@@ -18,12 +18,16 @@ NodeList::~NodeList()
 }
 
 void
-NodeList::init(QSharedPointer<LogView> log_view,
-               QSharedPointer<across::setting::ConfigTools> config,
+NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
                QSharedPointer<CoreTools> core,
                QSharedPointer<DBTools> db)
 {
-  p_logger = std::make_shared<LogTools>(log_view, "node_list");
+  if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
+    p_logger = app_logger->clone("nodes");
+  } else {
+    qCritical("Failed to start logger");
+    return;
+  }
 
   p_db = db;
 

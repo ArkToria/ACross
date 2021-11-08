@@ -87,7 +87,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/generated/)
 set(PROJECT_HEADERS
     src/app.h
     src/view_models/logview.h
-    src/view_models/logtools.h
     src/view_models/configtools.h
     src/view_models/grouplist.h
     src/view_models/groupmodel.h
@@ -118,7 +117,6 @@ set(PROJECT_SOURCES
     src/main.cpp
     src/app.cpp
     src/view_models/logview.cpp
-    src/view_models/logtools.cpp
     src/view_models/configtools.cpp
     src/view_models/grouplist.cpp
     src/view_models/groupmodel.cpp

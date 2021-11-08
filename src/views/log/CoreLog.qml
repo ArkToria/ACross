@@ -17,14 +17,12 @@ CardBox {
         Label {
             text: qsTr("Core Log")
 
-            font.pixelSize: 24
+            font.pointSize: 12
             color: acrossConfig.textColor
         }
 
         LogBox {
-            Component.onCompleted: {
-                acrossLogView.coreLogItem = getComponent()
-            }
+            itemName: "core"
         }
     }
 }

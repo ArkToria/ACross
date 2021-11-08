@@ -95,7 +95,7 @@ public:
 
   ~DBTools();
 
-  void init(QSharedPointer<LogView> log_view, const QString& db_path);
+  void init(const QString& db_path);
   void reload();
   bool isTableExists(const QString& table_name);
   bool isGroupExists(const QString& group_name);
@@ -153,7 +153,7 @@ private:
   QSqlDatabase m_db;
   QList<GroupInfo> m_groups;
 
-  std::shared_ptr<across::utils::LogTools> p_logger;
+  std::shared_ptr<spdlog::logger> p_logger;
   QString m_db_path = "across.db";
 };
 

@@ -19,12 +19,15 @@ CoreTools::~CoreTools()
 }
 
 bool
-CoreTools::init(QSharedPointer<LogView> log_view,
-                QSharedPointer<ConfigTools> config)
+CoreTools::init(QSharedPointer<ConfigTools> config)
 {
-  p_config = config;
+  p_logger = spdlog::get("core");
+  if (p_logger == nullptr) {
+    qCritical("Failed to start logger");
+    return false;
+  }
 
-  p_logger = std::make_shared<LogTools>(log_view, "core", LoggerEnum::core);
+  p_config = config;
 
   p_process->setProcessChannelMode(QProcess::MergedChannels);
 
@@ -172,7 +175,7 @@ CoreTools::onReadData()
 
   // replace warning
   if (content.contains("[Warning]")) {
-    p_logger->warning("{}", content.replace("[Warning]", "").toStdString());
+    p_logger->warn("{}", content.replace("[Warning]", "").toStdString());
     return;
   }
 

@@ -22,8 +22,7 @@ public:
   };
   explicit SystemTray(QObject* parent = 0);
 
-  void init(QSharedPointer<LogView> log_view,
-            QSharedPointer<across::setting::ConfigTools> config,
+  void init(QSharedPointer<across::setting::ConfigTools> config,
             QSharedPointer<across::core::CoreTools> core,
             QSharedPointer<across::NodeList> nodes);
 
@@ -58,7 +57,7 @@ private:
   QSharedPointer<across::NodeList> p_nodes;
   QSharedPointer<across::core::APITools> p_api;
 
-  std::shared_ptr<across::utils::LogTools> p_logger;
+  std::shared_ptr<spdlog::logger> p_logger;
 
   QString upload_traffic = "";
   QString download_traffic = "";

@@ -22,12 +22,17 @@ SystemTray::SystemTray(QObject* parent)
 }
 
 void
-SystemTray::init(QSharedPointer<LogView> log_view,
-                 QSharedPointer<across::setting::ConfigTools> config,
+SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
                  QSharedPointer<across::core::CoreTools> core,
                  QSharedPointer<across::NodeList> nodes)
 {
-  p_logger = std::make_shared<LogTools>(log_view, "system_tray");
+  if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
+    p_logger = app_logger->clone("tray");
+  } else {
+    qCritical("Failed to start logger");
+    return;
+  }
+
   p_config = config;
   p_core = core;
   p_nodes = nodes;

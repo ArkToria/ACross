@@ -63,7 +63,7 @@ private slots:
   void onMessageReceived(quint32 clientId, const QByteArray& msg);
 
 private:
-  QSharedPointer<LogView> p_logview;
+  LogView m_log;
   QSharedPointer<across::setting::ConfigTools> p_config;
   QSharedPointer<across::DBTools> p_db;
   QSharedPointer<across::core::CoreTools> p_core;

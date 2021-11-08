@@ -9,14 +9,19 @@ using namespace across::network;
 GroupList::GroupList(QObject* parent) {}
 
 void
-GroupList::init(QSharedPointer<LogView> log_view,
-                QSharedPointer<across::setting::ConfigTools> config,
+GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
                 QSharedPointer<across::DBTools> db,
                 QSharedPointer<across::NodeList> nodes,
                 QSharedPointer<across::network::CURLTools> curl)
 {
+  if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
+    p_logger = app_logger->clone("groups");
+  } else {
+    qCritical("Failed to start logger");
+    return;
+  }
+
   p_config = config;
-  p_logger = std::make_shared<LogTools>(log_view, "group_list");
   p_db = db;
   p_curl = curl;
   p_nodes = nodes;
@@ -211,7 +216,7 @@ GroupList::reloadItems(bool reopen_db)
     emit postItemsReset();
 
     if (m_groups.isEmpty()) {
-      p_logger->warning("No group items from database");
+      p_logger->warn("No group items from database");
       return;
     } else {
       m_origin_groups = m_groups;

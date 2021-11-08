@@ -71,7 +71,7 @@ ConfigHelper::defaultConfig()
     core->set_assets_path(v2ray_dir);
 #endif
     core->set_log_level("warning");
-    core->set_log_lines(50);
+    core->set_log_lines(5000);
 
     if (auto api = core->mutable_api(); core->has_api()) {
       api->set_enable(true);
