@@ -7,6 +7,8 @@ Switch {
     implicitWidth: 72
     implicitHeight: 26
 
+    property string foregroundColor: acrossConfig.highlightTextColor
+
     indicator: Rectangle {
         anchors.fill: parent
         x: control.leftPadding
@@ -20,7 +22,7 @@ Switch {
             width: parent.height
             height: parent.height
             radius: parent.height / 2
-            color: acrossConfig.highlightTextColor
+            color: foregroundColor
 
             layer.enabled: true
             layer.effect: DropShadow {

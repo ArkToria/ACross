@@ -12,6 +12,7 @@ Item {
     anchors.margins: spacingWidth
 
     property int spacingWidth: acrossConfig.itemSpacing * 2
+    property int fontSize: 14
 
     FileDialog {
         id: backgroundImageDialog
@@ -37,7 +38,7 @@ Item {
             Layout.columnSpan: 6
 
             text: qsTr("Appearance Settings")
-            font.pixelSize: 24
+            font.pointSize: fontSize * 1.2
             color: acrossConfig.textColor
         }
 
@@ -46,10 +47,11 @@ Item {
             color: acrossConfig.textColor
         }
 
-        DropDownBox {
+        Item {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+        }
 
+        DropDownBox {
             displayText: acrossConfig.currentLanguage
             model: ["current", "en_US", "zh_CN"]
 
@@ -64,10 +66,12 @@ Item {
             color: acrossConfig.textColor
         }
 
+        Item {
+            Layout.fillWidth: true
+        }
+
         DropDownBox {
             id: themeDropDownBox
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
 
             displayText: acrossConfig.currentThemeName
             model: ["current", "default-light", "dark", "nord-dark", "pure-pink"]
@@ -80,9 +84,9 @@ Item {
         }
 
         Label {
-            text: qsTr("Enable Background Image")
+            text: qsTr("Background Image")
             color: acrossConfig.textColor
-            font.pointSize: 12
+            font.pointSize: fontSize
         }
 
         Item {
@@ -109,7 +113,7 @@ Item {
         Label {
             visible: enableBannerSwitch.checked
 
-            text: qsTr("Background Image")
+            text: qsTr("Source File")
             color: acrossConfig.textColor
         }
 
@@ -122,10 +126,10 @@ Item {
         }
 
         ButtonBox {
-            visible: enableBannerSwitch.checked
-            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignRight
 
-            text: qsTr("Open File")
+            visible: enableBannerSwitch.checked
+            text: qsTr("Open")
 
             onClicked: {
                 backgroundImageDialog.open()
@@ -156,12 +160,15 @@ Item {
             }
         }
 
-        Label {
+        TextFieldBox {
             visible: enableBannerSwitch.checked
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+            Layout.alignment: Qt.AlignRight
+            Layout.preferredWidth: 72
+            horizontalAlignment: TextInput.AlignHCenter
 
             text: backgroundOpacitySlider.value.toFixed(2)
             color: acrossConfig.textColor
+            readOnly: true
         }
     }
 }

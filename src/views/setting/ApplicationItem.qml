@@ -12,6 +12,7 @@ Item {
     anchors.margins: spacingWidth
 
     property int spacingWidth: acrossConfig.itemSpacing * 2
+    property int fontSize: 14
 
     FileDialog {
         id: dbFileDialog
@@ -45,7 +46,7 @@ Item {
             Layout.columnSpan: 6
 
             text: qsTr("Application Settings")
-            font.pixelSize: 24
+            font.pointSize: fontSize * 1.2
             color: acrossConfig.textColor
         }
 
@@ -63,6 +64,8 @@ Item {
         }
 
         ButtonBox {
+            Layout.alignment: Qt.AlignRight
+
             text: qsTr("Open")
             onClicked: {
                 dbFileDirDialog.open()
@@ -84,83 +87,10 @@ Item {
 
         ButtonBox {
             text: qsTr("Accept")
+            Layout.alignment: Qt.AlignRight
 
             onClicked: {
                 acrossConfig.networkUserAgent = userAgentText.text
-            }
-        }
-
-        Label {
-            text: qsTr("Log Mode")
-            color: acrossConfig.textColor
-        }
-
-        DropDownBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            model: ["stdout", "file", "both"]
-        }
-
-        Label {
-            text: qsTr("Max Lines")
-            color: acrossConfig.textColor
-        }
-
-        NumBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-
-            value: acrossConfig.logLines
-            from: 1
-            to: 100000
-
-            onFocusChanged: {
-                acrossConfig.logLines = value
-            }
-        }
-
-        Label {
-            text: qsTr("Enable Tray Icon")
-            color: acrossConfig.textColor
-        }
-
-        Label {
-            Layout.fillWidth: true
-            Layout.columnSpan: 4
-
-            text: acrossTray.isSystemTrayAvailable(
-                      ) ? "" : qsTr("System tray is not available")
-            color: acrossConfig.warnColor
-        }
-
-        SwitchBox {
-            id: enableTrayIcon
-            Layout.alignment: Qt.AlignRight
-
-            checked: acrossConfig.enableTray
-            onCheckedChanged: {
-                acrossConfig.enableTray = checked
-            }
-        }
-
-        Label {
-            text: qsTr("Minimize startup")
-            color: acrossConfig.textColor
-        }
-
-        Item {
-            Layout.fillWidth: true
-            Layout.columnSpan: 4
-        }
-
-        SwitchBox {
-            id: enableStartFromMinimized
-            Layout.alignment: Qt.AlignRight
-
-            checked: acrossConfig.enableStartFromMinimized
-            onCheckedChanged: {
-                acrossConfig.enableStartFromMinimized = checked
             }
         }
 
@@ -172,17 +102,109 @@ Item {
         Label {
             Layout.fillWidth: true
             Layout.columnSpan: 4
-            text: qsTr("Default Node > Last Connected. (Subscription updates will reset the default node)")
+
+            text: qsTr("Default > Last Connected (Updating groups will reset the default node)")
             color: acrossConfig.highlightColor
         }
 
         SwitchBox {
             id: enableAutoConnect
+
             Layout.alignment: Qt.AlignRight
 
             checked: acrossConfig.enableAutoConnect
+
             onCheckedChanged: {
                 acrossConfig.enableAutoConnect = checked
+            }
+        }
+
+        Label {
+            text: qsTr("Enable Tray Icon")
+            color: acrossConfig.textColor
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        SwitchBox {
+            id: enableTrayIcon
+
+            Layout.alignment: Qt.AlignRight
+
+            checkable: acrossTray.isSystemTrayAvailable()
+
+            checked: acrossConfig.enableTray
+
+            onCheckedChanged: {
+                if (acrossTray.isSystemTrayAvailable()) {
+                    acrossConfig.enableTray = checked
+                } else {
+                    checked = false
+                }
+            }
+
+            Component.onCompleted: {
+                if (acrossTray.isSystemTrayAvailable()) {
+                    foregroundColor = acrossConfig.highlightTextColor
+                } else {
+                    foregroundColor = Qt.lighter(
+                                acrossConfig.highlightTextColor, 0.5)
+                }
+            }
+        }
+
+        Label {
+            text: qsTr("Minimize startup")
+            color: acrossConfig.textColor
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        SwitchBox {
+            id: enableStartFromMinimized
+
+            Layout.alignment: Qt.AlignRight
+
+            checked: acrossConfig.enableStartFromMinimized
+
+            onCheckedChanged: {
+                acrossConfig.enableStartFromMinimized = checked
+            }
+        }
+
+        Label {
+            text: qsTr("Log Outputs")
+            color: acrossConfig.textColor
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        DropDownBox {
+            model: ["none", "stdout", "file", "stdout & file"]
+        }
+
+        Label {
+            text: qsTr("Max Lines")
+            color: acrossConfig.textColor
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        NumBox {
+            value: acrossConfig.logLines
+            from: 1
+            to: 100000
+
+            onFocusChanged: {
+                acrossConfig.logLines = value
             }
         }
     }

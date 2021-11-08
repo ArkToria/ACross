@@ -7,6 +7,8 @@ import ACross
 Item {
     anchors.margins: acrossConfig.itemSpacing * 2
 
+    property int fontSize: 14
+
     GridLayout {
         anchors.fill: parent
 
@@ -19,7 +21,7 @@ Item {
             Layout.columnSpan: 6
 
             text: qsTr("Inbound Listening")
-            font.pixelSize: 24
+            font.pointSize: fontSize * 1.2
             color: acrossConfig.textColor
         }
 
@@ -47,7 +49,7 @@ Item {
 
         Label {
             text: qsTr("SOCKS5")
-            font.pointSize: 12
+            font.pointSize: fontSize
             color: acrossConfig.textColor
         }
 
@@ -64,14 +66,14 @@ Item {
 
             Component.onCompleted: {
                 checked = Qt.binding(function () {
-                                    return acrossConfig.socksEnable
+                    return acrossConfig.socksEnable
                 })
             }
         }
 
         Label {
             text: qsTr("HTTP")
-            font.pointSize: 12
+            font.pointSize: fontSize
             color: acrossConfig.textColor
         }
 
@@ -88,7 +90,7 @@ Item {
 
             Component.onCompleted: {
                 checked = Qt.binding(function () {
-                                    return acrossConfig.httpEnable
+                    return acrossConfig.httpEnable
                 })
             }
         }

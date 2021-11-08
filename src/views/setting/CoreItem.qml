@@ -39,12 +39,13 @@ Item {
         Label {
             Layout.columnSpan: 5
             text: qsTr("Core Configuration")
-            font.pointSize: fontSize
+            font.pointSize: fontSize * 1.2
             color: acrossConfig.textColor
         }
 
         Label {
             text: qsTr("Log Level")
+            color: acrossConfig.textColor
         }
 
         DropDownBox {
@@ -123,6 +124,7 @@ Item {
         Label {
             text: qsTr("Enable API")
             color: acrossConfig.textColor
+            font.pointSize: fontSize
         }
 
         Item {
@@ -194,8 +196,6 @@ Item {
                     testResult.text = acrossConfig.apiResultText
                     testResult.color = acrossConfig.warnColor
                 }
-
-                testResult.visible = true
             }
         }
     }
