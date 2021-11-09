@@ -55,7 +55,7 @@ Item {
                 CardBox {
                     id: appearanceItemCard
                     Layout.fillWidth: true
-                    implicitHeight: 180
+                    implicitHeight: 230
 
                     AppearanceItem {
                         anchors.fill: parent

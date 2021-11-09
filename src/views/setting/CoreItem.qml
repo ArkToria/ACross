@@ -149,15 +149,12 @@ Item {
         }
 
         Label {
-            visible: apiSwitch.checked
-
             text: qsTr("API Port")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             id: apiPortText
-            visible: apiSwitch.checked
             Layout.preferredWidth: 72
 
             placeholderText: acrossConfig.apiPort
@@ -170,8 +167,6 @@ Item {
         }
 
         Label {
-            visible: apiSwitch.checked
-
             text: qsTr("Test Result")
             color: acrossConfig.textColor
         }
@@ -179,13 +174,13 @@ Item {
         TextFieldBox {
             id: testResult
             Layout.fillWidth: true
-            visible: apiSwitch.checked
+
+            readOnly: true
         }
 
         ButtonBox {
             Layout.alignment: Qt.AlignRight
 
-            visible: apiSwitch.checked
             text: qsTr("Test")
             enabled: apiSwitch.checked
 

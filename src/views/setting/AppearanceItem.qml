@@ -9,6 +9,7 @@ import QtQuick.Controls
 import ACross
 
 Item {
+    id: control
     anchors.margins: spacingWidth
 
     property int spacingWidth: acrossConfig.itemSpacing * 2
@@ -43,35 +44,14 @@ Item {
         }
 
         Label {
-            text: qsTr("Language")
-            color: acrossConfig.textColor
-        }
-
-        Item {
-            Layout.fillWidth: true
-        }
-
-        DropDownBox {
-            displayText: acrossConfig.currentLanguage
-            model: ["current", "en_US", "zh_CN"]
-
-            onEditTextChanged: {
-                acrossConfig.currentLanguage = editText
-            }
-        }
-
-        Label {
             text: qsTr("Theme")
             horizontalAlignment: Text.AlignLeft
             color: acrossConfig.textColor
         }
 
-        Item {
-            Layout.fillWidth: true
-        }
-
         DropDownBox {
-            id: themeDropDownBox
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
 
             displayText: acrossConfig.currentThemeName
             model: ["current", "default-light", "dark", "nord-dark", "pure-pink"]
@@ -84,14 +64,29 @@ Item {
         }
 
         Label {
+            text: qsTr("Language")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+
+            displayText: acrossConfig.currentLanguage
+            model: ["current", "en_US", "zh_CN"]
+
+            onEditTextChanged: {
+                acrossConfig.currentLanguage = editText
+            }
+        }
+
+        Label {
+            Layout.fillWidth: true
+            Layout.columnSpan: 5
+
             text: qsTr("Background Image")
             color: acrossConfig.textColor
             font.pointSize: fontSize
-        }
-
-        Item {
-            Layout.fillWidth: true
-            Layout.columnSpan: 4
         }
 
         SwitchBox {
@@ -101,34 +96,26 @@ Item {
             checked: acrossConfig.enableBanner
             onCheckedChanged: {
                 acrossConfig.enableBanner = checked
-
-                if (checked) {
-                    appearanceItemCard.implicitHeight = 230
-                } else {
-                    appearanceItemCard.implicitHeight = 180
-                }
             }
         }
 
         Label {
-            visible: enableBannerSwitch.checked
-
             text: qsTr("Source File")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
-            visible: enableBannerSwitch.checked
             Layout.fillWidth: true
             Layout.columnSpan: 4
 
+            readOnly: true
             placeholderText: acrossConfig.backgroundImage
         }
 
         ButtonBox {
             Layout.alignment: Qt.AlignRight
 
-            visible: enableBannerSwitch.checked
+            enabled: enableBannerSwitch.checked
             text: qsTr("Open")
 
             onClicked: {
@@ -137,18 +124,16 @@ Item {
         }
 
         Label {
-            visible: enableBannerSwitch.checked
-
             text: qsTr("Opacity")
             color: acrossConfig.textColor
         }
 
         SliderBox {
             id: backgroundOpacitySlider
-            visible: enableBannerSwitch.checked
             Layout.fillWidth: true
             Layout.columnSpan: 4
 
+            enabled: enableBannerSwitch.checked
             value: acrossConfig.backgroundOpacity
             from: 0.0
             to: 1.0
@@ -161,7 +146,6 @@ Item {
         }
 
         TextFieldBox {
-            visible: enableBannerSwitch.checked
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth: 72
             horizontalAlignment: TextInput.AlignHCenter

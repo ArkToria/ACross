@@ -171,11 +171,10 @@ Item {
             color: acrossConfig.textColor
         }
 
-        Item {
-            Layout.fillWidth: true
-        }
-
         DropDownBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+
             model: ["current", "none", "stdout", "file", "stdout & file"]
 
             displayText: acrossConfig.logMode
@@ -191,11 +190,10 @@ Item {
             color: acrossConfig.textColor
         }
 
-        Item {
-            Layout.fillWidth: true
-        }
-
         NumBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 2
+
             value: acrossConfig.logLines
             from: 1
             to: 100000
