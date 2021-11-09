@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 
 Slider {
     id: control
@@ -22,7 +23,7 @@ Slider {
         }
     }
 
-    handle: CardBox {
+    handle: Rectangle {
         x: control.leftPadding + control.visualPosition * (control.availableWidth - width)
         y: control.topPadding + control.availableHeight / 2 - height / 2
         width: 26
@@ -31,5 +32,15 @@ Slider {
         color: control.pressed ? Qt.lighter(
                                      acrossConfig.highlightTextColor,
                                      0.9) : acrossConfig.highlightTextColor
+
+        layer.enabled: true
+        layer.effect: DropShadow {
+            horizontalOffset: 0
+            verticalOffset: 0
+            radius: 6
+            transparentBorder: true
+            color: acrossConfig.shadowColor
+            source: handle
+        }
     }
 }

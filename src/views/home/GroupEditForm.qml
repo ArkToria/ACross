@@ -53,9 +53,9 @@ Popup {
         anchors.fill: parent
         GridLayout {
             anchors.fill: parent
-            anchors.margins: acrossConfig.itemSpacing * 2
-            rowSpacing: acrossConfig.itemSpacing
-            columnSpacing: acrossConfig.itemSpacing
+            anchors.margins: acrossConfig.itemSpacing * 4
+            rowSpacing: acrossConfig.itemSpacing * 2
+            columnSpacing: acrossConfig.itemSpacing * 2
             columns: 4
 
             Label {
@@ -64,7 +64,7 @@ Popup {
 
                 text: title
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: Math.round(fontSize * 1.1)
+                font.pointSize: Math.round(fontSize * 1.2)
                 color: acrossConfig.textColor
             }
 

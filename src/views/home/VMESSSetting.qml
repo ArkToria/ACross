@@ -86,8 +86,8 @@ Item {
         anchors.fill: parent
 
         columns: 4
-        rowSpacing: acrossConfig.itemSpacing
-        columnSpacing: acrossConfig.itemSpacing
+        rowSpacing: acrossConfig.itemSpacing * 2
+        columnSpacing: acrossConfig.itemSpacing * 2
 
         Label {
             Layout.fillWidth: true

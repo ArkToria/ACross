@@ -4,9 +4,9 @@ import QtQuick.Controls
 SpinBox {
     id: spinBox
     implicitWidth: 96
-    implicitHeight: 36
+    implicitHeight: 32
 
-    leftPadding: acrossConfig.itemSpacing
+    leftPadding: acrossConfig.itemSpacing * 3
     rightPadding: acrossConfig.itemSpacing
 
     property int controlSpacing: 0
@@ -81,8 +81,8 @@ SpinBox {
         }
     }
 
-    background: CardBox {
+    background: Rectangle {
         color: acrossConfig.deepColor
-        layer.enabled: false
+        radius: acrossConfig.borderRadius
     }
 }

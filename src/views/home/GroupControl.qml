@@ -16,7 +16,6 @@ Item {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
         anchors.rightMargin: acrossConfig.itemSpacing
         anchors.fill: parent
-        spacing: acrossConfig.itemSpacing
 
         Item {
             Layout.fillWidth: true

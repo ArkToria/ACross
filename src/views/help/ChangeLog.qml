@@ -7,16 +7,16 @@ import ACross
 CardBox {
     implicitHeight: 260
 
-    property int fontSize: 12
+    property int fontSize: 14
 
     ColumnLayout {
         anchors.fill: parent
-        anchors.margins: acrossConfig.itemSpacing * 2
+        anchors.margins: acrossConfig.itemSpacing * 4
         spacing: acrossConfig.itemSpacing
 
         Label {
             text: qsTr("Release News")
-            font.pointSize: 12
+            font.pointSize: fontSize * 1.2
             color: acrossConfig.textColor
         }
 

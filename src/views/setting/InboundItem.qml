@@ -5,15 +5,14 @@ import QtQuick.Layouts
 import ACross
 
 Item {
-    anchors.margins: acrossConfig.itemSpacing * 2
-
     property int fontSize: 14
 
     GridLayout {
         anchors.fill: parent
+        anchors.margins: acrossConfig.itemSpacing * 4
 
-        columnSpacing: acrossConfig.itemSpacing
-        rowSpacing: acrossConfig.itemSpacing
+        columnSpacing: acrossConfig.itemSpacing * 2
+        rowSpacing: acrossConfig.itemSpacing * 2
         columns: 6
 
         Label {

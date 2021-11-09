@@ -42,8 +42,6 @@ Item {
 
     Item {
         anchors.fill: parent
-        anchors.topMargin: acrossConfig.itemSpacing
-        anchors.leftMargin: acrossConfig.itemSpacing / 2
         anchors.rightMargin: acrossConfig.itemSpacing
 
         CardBox {
@@ -53,6 +51,8 @@ Item {
             Image {
                 id: backgroundImage
                 anchors.fill: parent
+                anchors.margins: acrossConfig.itemSpacing
+
                 visible: acrossConfig.enableBanner
 
                 source: acrossConfig.backgroundImage
@@ -65,15 +65,17 @@ Item {
                 }
             }
 
-            CardBox {
+            Rectangle {
                 id: mask
                 anchors.fill: parent
+
                 visible: false
+                radius: parent.radius
             }
 
             GridLayout {
                 anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing
+                anchors.margins: acrossConfig.itemSpacing * 2
 
                 columnSpacing: acrossConfig.itemSpacing
                 rowSpacing: acrossConfig.itemSpacing
@@ -216,7 +218,7 @@ Item {
                         anchors.bottom: parent.bottom
                         anchors.rightMargin: acrossConfig.itemSpacing
                         anchors.bottomMargin: acrossConfig.itemSpacing
-                        implicitWidth: 64
+                        implicitWidth: 64 + 2 * acrossConfig.itemSpacing
                         implicitHeight: width
                         z: 1
 
@@ -230,7 +232,7 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             source: "qrc:/misc/icons/" + acrossConfig.iconStyle
                                     + (acrossCore.isRunning ? "/stop.svg" : "/play.svg")
-                            sourceWidth: 48
+                            sourceWidth: 48 + 2 * acrossConfig.itemSpacing
                             sourceHeight: sourceWidth
                         }
 

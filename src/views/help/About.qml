@@ -8,11 +8,13 @@ CardBox {
     id: aboutItem
     implicitWidth: 680
     implicitHeight: 320
+
+    property int fontSize: 14
     property bool isDev: false
 
     RowLayout {
         anchors.fill: parent
-        anchors.margins: acrossConfig.itemSpacing * 2
+        anchors.margins: acrossConfig.itemSpacing * 4
         spacing: acrossConfig.itemSpacing * 2
 
         Item {
@@ -52,14 +54,15 @@ CardBox {
                 anchors.fill: parent
 
                 columns: 2
-                rowSpacing: acrossConfig.itemSpacing
+                rowSpacing: acrossConfig.itemSpacing * 2
+                columnSpacing: acrossConfig.itemSpacing * 2
 
                 Label {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
 
                     text: "ACross"
-                    font.pixelSize: 24
+                    font.pointSize: fontSize * 1.2
                     color: acrossConfig.textColor
                 }
 
@@ -143,7 +146,7 @@ CardBox {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
 
-                    spacing: acrossConfig.itemSpacing
+                    spacing: acrossConfig.itemSpacing * 2
 
                     Item {
                         Layout.fillWidth: true

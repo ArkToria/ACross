@@ -4,14 +4,14 @@ import QtQuick.Controls
 ComboBox {
     id: comboBox
     implicitWidth: 128
-    implicitHeight: 36
+    implicitHeight: 32
 
     property int controlWidth: 10
     property int controlHeight: 8
 
     contentItem: Text {
         anchors.left: parent.left
-        anchors.leftMargin: acrossConfig.itemSpacing
+        anchors.leftMargin: acrossConfig.itemSpacing * 3
 
         text: comboBox.displayText
         color: acrossConfig.deepTextColor
@@ -31,6 +31,7 @@ ComboBox {
             color: hovered ? acrossConfig.highlightTextColor : acrossConfig.textColor
         }
     }
+
     indicator: Canvas {
         id: canvas
         x: comboBox.width - width - comboBox.rightPadding
@@ -77,13 +78,13 @@ ComboBox {
 
         background: CardBox {
             color: acrossConfig.backgroundColor
-            border.width: acrossConfig.borderWidth
-            border.color: acrossConfig.deepColor
+            borderWidth: acrossConfig.borderWidth
+            borderColor: acrossConfig.deepColor
         }
     }
 
-    background: CardBox {
+    background: Rectangle {
         color: acrossConfig.deepColor
-        layer.enabled: false
+        radius: acrossConfig.borderRadius
     }
 }

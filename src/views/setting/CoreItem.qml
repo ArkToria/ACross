@@ -7,8 +7,6 @@ import QtQuick.Controls
 import ACross
 
 Item {
-    anchors.margins: acrossConfig.itemSpacing * 2
-
     property int fontSize: 14
 
     FileDialog {
@@ -32,9 +30,11 @@ Item {
 
     GridLayout {
         anchors.fill: parent
+        anchors.margins: acrossConfig.itemSpacing * 4
+
         columns: 5
-        rowSpacing: acrossConfig.itemSpacing
-        columnSpacing: acrossConfig.itemSpacing
+        rowSpacing: acrossConfig.itemSpacing * 2
+        columnSpacing: acrossConfig.itemSpacing * 2
 
         Label {
             Layout.columnSpan: 5

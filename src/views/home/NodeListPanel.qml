@@ -50,8 +50,8 @@ Item {
 
     function locateCurrent() {
         let index = acrossNodes.getIndexByNode(acrossNodes.currentNodeID,
-                                          acrossNodes.currentGroupID)
-        if(index !== -1){
+                                               acrossNodes.currentGroupID)
+        if (index !== -1) {
             locate(index)
         }
     }
@@ -86,7 +86,7 @@ Item {
         focus: true
 
         highlight: CardBox {
-            border.color: acrossConfig.highlightColor
+            borderColor: acrossConfig.highlightColor
         }
 
         ScrollBar.vertical: ControlsBasic.ScrollBar {

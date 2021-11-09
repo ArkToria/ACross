@@ -69,7 +69,7 @@ Item {
 
         GridLayout {
             anchors.fill: parent
-            anchors.margins: acrossConfig.itemSpacing
+            anchors.margins: acrossConfig.itemSpacing * 3
             columns: 2
             rows: 4
             clip: true

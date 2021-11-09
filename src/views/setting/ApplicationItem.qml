@@ -9,9 +9,6 @@ import QtQuick.Controls
 import ACross
 
 Item {
-    anchors.margins: spacingWidth
-
-    property int spacingWidth: acrossConfig.itemSpacing * 2
     property int fontSize: 14
 
     FolderDialog {
@@ -25,10 +22,11 @@ Item {
 
     GridLayout {
         anchors.fill: parent
+        anchors.margins: acrossConfig.itemSpacing * 4
 
         columns: 6
-        rowSpacing: acrossConfig.itemSpacing
-        columnSpacing: acrossConfig.itemSpacing
+        rowSpacing: acrossConfig.itemSpacing * 2
+        columnSpacing: acrossConfig.itemSpacing * 2
 
         Label {
             Layout.fillWidth: true

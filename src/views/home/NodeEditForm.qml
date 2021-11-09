@@ -72,12 +72,12 @@ Window {
 
             GridLayout {
                 anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing
+                anchors.margins: acrossConfig.itemSpacing * 4
 
                 columns: 2
                 rows: 3
-                columnSpacing: acrossConfig.itemSpacing
-                rowSpacing: acrossConfig.itemSpacing
+                columnSpacing: acrossConfig.itemSpacing * 2
+                rowSpacing: acrossConfig.itemSpacing * 2
 
                 TextAreaBox {
                     id: jsonPreview
@@ -147,8 +147,9 @@ Window {
                         id: urlSetting
                         ColumnLayout {
                             anchors.fill: parent
+                            spacing: acrossConfig.itemSpacing * 2
 
-                            TextFieldBox {
+                            TextAreaBox {
                                 id: urlTextField
                                 Layout.fillWidth: true
                                 wrapMode: Text.WrapAnywhere
@@ -176,8 +177,8 @@ Window {
                             anchors.fill: parent
                             columns: 4
 
-                            rowSpacing: acrossConfig.itemSpacing
-                            columnSpacing: acrossConfig.itemSpacing
+                            rowSpacing: acrossConfig.itemSpacing * 2
+                            columnSpacing: acrossConfig.itemSpacing * 2
 
                             Label {
                                 Layout.fillWidth: true
@@ -334,6 +335,8 @@ Window {
                         GridLayout {
                             anchors.fill: parent
                             columns: 4
+                            columnSpacing: acrossConfig.itemSpacing * 2
+                            rowSpacing: acrossConfig.itemSpacing * 2
 
                             Label {
                                 text: qsTr("Node Name")
@@ -368,7 +371,7 @@ Window {
                             }
 
                             ButtonBox {
-                                text: qsTr("Open File")
+                                text: qsTr("Open")
                                 onClicked: {
                                     importConfigDialog.open()
                                 }

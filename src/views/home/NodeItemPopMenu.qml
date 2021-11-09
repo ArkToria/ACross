@@ -22,8 +22,8 @@ Menu {
 
         implicitWidth: menuWidth
 
-        border.width: 1
-        border.color: acrossConfig.deepColor
+        borderWidth: 1
+        borderColor: acrossConfig.deepColor
     }
 
     delegate: MenuItem {
@@ -35,7 +35,8 @@ Menu {
         }
 
         background: Rectangle {
-            implicitWidth: menuWidth
+            // TODO: align center
+            implicitWidth: menuWidth - 2 * acrossConfig.itemSpacing
             color: menuItem.highlighted ? acrossConfig.highlightColor : "transparent"
         }
     }

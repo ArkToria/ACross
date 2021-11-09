@@ -147,8 +147,8 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_highlight_text_color("#fefefe");
             colors->set_warn_color("#ff716a");
             colors->set_warn_text_color("#fefefe");
-            colors->set_shadow_color("#29000000");
-            colors->set_border_color("#27707070");
+            colors->set_shadow_color("#20000000");
+            colors->set_border_color("#707070");
             colors->set_deep_color("#f2f2f2");
             colors->set_deep_text_color("#4f4f4f");
             colors->set_style_color("#94cbff");
@@ -161,7 +161,7 @@ config::Config ConfigHelper::defaultConfig() {
         }
 
         if (auto item = theme->mutable_item()) {
-            item->set_spacing(8);
+            item->set_spacing(4);
         }
 
         if (auto icon = theme->mutable_icon()) {
@@ -190,7 +190,7 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_highlight_text_color("#eceff4");
             colors->set_warn_color("#bf616a");
             colors->set_warn_text_color("#ffffff");
-            colors->set_shadow_color("#29000000");
+            colors->set_shadow_color("#20000000");
             colors->set_border_color("#bcb995c1");
             colors->set_deep_color("#1f1f1f");
             colors->set_deep_text_color("#c3c3c3");
@@ -204,7 +204,7 @@ config::Config ConfigHelper::defaultConfig() {
         }
 
         if (auto item = theme->mutable_item()) {
-            item->set_spacing(8);
+            item->set_spacing(4);
         }
 
         if (auto icon = theme->mutable_icon()) {
@@ -233,7 +233,7 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_highlight_text_color("#eceff4");
             colors->set_warn_color("#bf616a");
             colors->set_warn_text_color("#ffffff");
-            colors->set_shadow_color("#29000000");
+            colors->set_shadow_color("#20000000");
             colors->set_border_color("#3381a1c1");
             colors->set_deep_color("#2e3440");
             colors->set_deep_text_color("#e3e3e3");
@@ -247,7 +247,7 @@ config::Config ConfigHelper::defaultConfig() {
         }
 
         if (auto item = theme->mutable_item()) {
-            item->set_spacing(8);
+            item->set_spacing(4);
         }
 
         if (auto icon = theme->mutable_icon()) {
@@ -276,7 +276,7 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_highlight_text_color("#ffffff");
             colors->set_warn_color("#f1a983");
             colors->set_warn_text_color("#ffffff");
-            colors->set_shadow_color("#29000000");
+            colors->set_shadow_color("#20000000");
             colors->set_border_color("#bcb995c1");
             colors->set_deep_color("#fafafa");
             colors->set_deep_text_color("#5e4270");
@@ -290,7 +290,7 @@ config::Config ConfigHelper::defaultConfig() {
         }
 
         if (auto item = theme->mutable_item()) {
-            item->set_spacing(8);
+            item->set_spacing(4);
         }
 
         if (auto icon = theme->mutable_icon()) {

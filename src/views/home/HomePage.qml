@@ -52,7 +52,7 @@ Item {
 
                 GroupControl {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 36
+                    Layout.preferredHeight: 44
                 }
 
                 NodeListPanel {

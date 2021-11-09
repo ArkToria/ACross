@@ -49,7 +49,7 @@ Item {
 
         ToolsBar {
             Layout.fillWidth: true
-            Layout.preferredHeight: 48
+            Layout.preferredHeight: 40
             z: 1
         }
 

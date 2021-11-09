@@ -15,10 +15,12 @@ Window {
     minimumHeight: 420
     title: qsTr("Share Configuration")
 
-    flags: Qt.WindowStaysOnTopHint | Qt.MSWindowsFixedSizeDialogHint | Qt.CustomizeWindowHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint
+    flags: Qt.WindowStaysOnTopHint | Qt.MSWindowsFixedSizeDialogHint
+           | Qt.CustomizeWindowHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint
     modality: Qt.ApplicationModal
 
     property var nodeModel: null
+    property int fontSize: 14
 
     onVisibilityChanged: {
         if (!visible) {
@@ -59,7 +61,7 @@ Window {
 
             RowLayout {
                 anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing
+                anchors.margins: acrossConfig.itemSpacing * 4
 
                 Rectangle {
                     Layout.fillWidth: true
@@ -93,7 +95,7 @@ Window {
 
                             text: qsTr("Node Info")
                             color: acrossConfig.textColor
-                            font.pointSize: 14
+                            font.pointSize: fontSize
                         }
 
                         Label {
@@ -146,7 +148,7 @@ Window {
 
                             text: qsTr("Copy URL")
                             color: acrossConfig.textColor
-                            font.pointSize: 14
+                            font.pointSize: fontSize
                         }
 
                         TextAreaBox {
