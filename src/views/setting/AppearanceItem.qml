@@ -96,15 +96,25 @@ Item {
             checked: acrossConfig.enableBanner
             onCheckedChanged: {
                 acrossConfig.enableBanner = checked
+
+                if (checked) {
+                    appearanceItemCard.implicitHeight = 230
+                } else {
+                    appearanceItemCard.implicitHeight = 180
+                }
             }
         }
 
         Label {
+            visible: enableBannerSwitch.checked
+
             text: qsTr("Source File")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
+            visible: enableBannerSwitch.checked
+
             Layout.fillWidth: true
             Layout.columnSpan: 4
 
@@ -113,6 +123,7 @@ Item {
         }
 
         ButtonBox {
+            visible: enableBannerSwitch.checked
             Layout.alignment: Qt.AlignRight
 
             enabled: enableBannerSwitch.checked
@@ -124,12 +135,15 @@ Item {
         }
 
         Label {
+            visible: enableBannerSwitch.checked
+
             text: qsTr("Opacity")
             color: acrossConfig.textColor
         }
 
         SliderBox {
             id: backgroundOpacitySlider
+            visible: enableBannerSwitch.checked
             Layout.fillWidth: true
             Layout.columnSpan: 4
 
@@ -146,6 +160,7 @@ Item {
         }
 
         TextFieldBox {
+            visible: enableBannerSwitch.checked
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth: 72
             horizontalAlignment: TextInput.AlignHCenter

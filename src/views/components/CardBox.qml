@@ -10,7 +10,7 @@ Rectangle {
     radius: acrossConfig.borderRadius
     color: acrossConfig.backgroundColor
 
-    layer.enabled: true
+    layer.enabled: false
     layer.effect: DropShadow {
         horizontalOffset: 0
         verticalOffset: 2

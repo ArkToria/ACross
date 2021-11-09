@@ -192,6 +192,7 @@ Item {
 
         NumBox {
             Layout.fillWidth: true
+            Layout.preferredWidth: 96
             Layout.columnSpan: 2
 
             value: acrossConfig.logLines

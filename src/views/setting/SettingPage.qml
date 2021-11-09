@@ -25,6 +25,7 @@ Item {
                 spacing: acrossConfig.itemSpacing
 
                 CardBox {
+                    id: coreItemCard
                     Layout.fillWidth: true
                     implicitHeight: 320
 
@@ -55,7 +56,7 @@ Item {
                 CardBox {
                     id: appearanceItemCard
                     Layout.fillWidth: true
-                    implicitHeight: 230
+                    implicitHeight: 180
 
                     AppearanceItem {
                         anchors.fill: parent

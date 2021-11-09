@@ -145,16 +145,25 @@ Item {
             checked: acrossConfig.apiEnable
             onCheckedChanged: {
                 acrossConfig.apiEnable = checked
+
+                if (checked) {
+                    coreItemCard.implicitHeight = 320
+                } else {
+                    coreItemCard.implicitHeight = 280
+                }
             }
         }
 
         Label {
+            visible: apiSwitch.checked
+
             text: qsTr("API Port")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             id: apiPortText
+            visible: apiSwitch.checked
             Layout.preferredWidth: 72
 
             placeholderText: acrossConfig.apiPort
@@ -167,18 +176,22 @@ Item {
         }
 
         Label {
+            visible: apiSwitch.checked
+
             text: qsTr("Test Result")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             id: testResult
+            visible: apiSwitch.checked
             Layout.fillWidth: true
 
             readOnly: true
         }
 
         ButtonBox {
+            visible: apiSwitch.checked
             Layout.alignment: Qt.AlignRight
 
             text: qsTr("Test")

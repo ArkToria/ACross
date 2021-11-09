@@ -85,12 +85,12 @@
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="103"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="111"/>
         <source>Source File</source>
         <translation>源文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="119"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="130"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -112,7 +112,7 @@
         <translation type="vanished">打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="127"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="140"/>
         <source>Opacity</source>
         <translation>不透明度</translation>
     </message>
@@ -356,22 +356,22 @@
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="152"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="160"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="170"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="181"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="184"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="197"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="194"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="207"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
