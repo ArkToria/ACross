@@ -8,53 +8,51 @@
 #include <QProcess>
 
 namespace across {
-class NodeModel : public QAbstractListModel
-{
-  Q_OBJECT
-  Q_PROPERTY(NodeList* list READ list WRITE setList NOTIFY listChanged)
-public:
-  explicit NodeModel(QObject* parent = nullptr);
+class NodeModel : public QAbstractListModel {
+    Q_OBJECT
+    Q_PROPERTY(NodeList *list READ list WRITE setList NOTIFY listChanged)
+  public:
+    explicit NodeModel(QObject *parent = nullptr);
 
-  enum Roles
-  {
-    IDRole = Qt::UserRole,
-    NameRole,
-    GroupRole,
-    GroupIDRole,
-    ProtocolTypeRole,
-    AddressRole,
-    PortRole,
-    PasswordRole,
-    RawRole,
-    URLRole,
-    LatencyRole,
-    UploadRole,
-    DownloadRole,
-    CreatedAtRole,
-    ModifiedAtRole,
-  };
+    enum Roles {
+        IDRole = Qt::UserRole,
+        NameRole,
+        GroupRole,
+        GroupIDRole,
+        ProtocolTypeRole,
+        AddressRole,
+        PortRole,
+        PasswordRole,
+        RawRole,
+        URLRole,
+        LatencyRole,
+        UploadRole,
+        DownloadRole,
+        CreatedAtRole,
+        ModifiedAtRole,
+    };
 
-  int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-  QVariant data(const QModelIndex& index,
-                int role = Qt::DisplayRole) const override;
+    QVariant data(const QModelIndex &index,
+                  int role = Qt::DisplayRole) const override;
 
-  virtual QHash<int, QByteArray> roleNames() const override;
+    virtual QHash<int, QByteArray> roleNames() const override;
 
-  NodeList* list() const;
+    NodeList *list() const;
 
-  void connectItems();
+    void connectItems();
 
-public slots:
-  void setList(NodeList* list);
+  public slots:
+    void setList(NodeList *list);
 
-signals:
-  void listChanged();
+  signals:
+    void listChanged();
 
-private:
-  NodeList* p_list;
-  int m_old_rows;
+  private:
+    NodeList *p_list;
+    int m_old_rows;
 };
-}
+} // namespace across
 
 #endif // NODEMODEL_H

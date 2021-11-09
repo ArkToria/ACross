@@ -28,78 +28,74 @@ using v2ray::core::app::stats::command::SysStatsResponse;
 
 namespace across {
 namespace core {
-struct TrafficInfo
-{
-  qint64 upload = 0;
-  qint64 download = 0;
+struct TrafficInfo {
+    qint64 upload = 0;
+    qint64 download = 0;
 
-  void clear();
+    void clear();
 };
 
-class APIWorker : public QObject
-{
-  Q_OBJECT
-public:
-  APIWorker(std::shared_ptr<grpc::Channel> channel);
+class APIWorker : public QObject {
+    Q_OBJECT
+  public:
+    APIWorker(std::shared_ptr<grpc::Channel> channel);
 
-public slots:
-  void start(const QString& tag);
+  public slots:
+    void start(const QString &tag);
 
-  void stop();
+    void stop();
 
-signals:
-  void trafficChanged(const QVariant& data);
+  signals:
+    void trafficChanged(const QVariant &data);
 
-private:
-  bool m_stop = false;
-  QString m_tag = "ACROSS_INBOUND_API";
-  std::unique_ptr<StatsService::Stub> p_stub;
+  private:
+    bool m_stop = false;
+    QString m_tag = "ACROSS_INBOUND_API";
+    std::unique_ptr<StatsService::Stub> p_stub;
 };
 
-class APITools : public QObject
-{
-  Q_OBJECT
-public:
-  explicit APITools(uint port);
+class APITools : public QObject {
+    Q_OBJECT
+  public:
+    explicit APITools(uint port);
 
-  ~APITools();
+    ~APITools();
 
-  void startMonitoring(const QString& tag);
+    void startMonitoring(const QString &tag);
 
-  void stopMonitoring();
+    void stopMonitoring();
 
-  void restartMonitoring();
+    void restartMonitoring();
 
-  std::pair<bool, std::string> isOk() const;
+    std::pair<bool, std::string> isOk() const;
 
-  static inline QString unitConvert(double bytes)
-  {
-    if (bytes == 0.0)
-      return QString("0 B");
-    QString sizes[] = { "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
-    int index = int(floor(log(bytes) / log(1024)));
-    return QString("%1 %2")
-      .arg(bytes / pow(1024, index), 0, 'f', 2)
-      .arg(sizes[index]);
-  };
+    static inline QString unitConvert(double bytes) {
+        if (bytes == 0.0)
+            return QString("0 B");
+        QString sizes[] = {"B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"};
+        int index = int(floor(log(bytes) / log(1024)));
+        return QString("%1 %2")
+            .arg(bytes / pow(1024, index), 0, 'f', 2)
+            .arg(sizes[index]);
+    };
 
-public slots:
-  void handleTrafficResult(const QVariant& data);
+  public slots:
+    void handleTrafficResult(const QVariant &data);
 
-signals:
-  void operate(const QString& tag);
+  signals:
+    void operate(const QString &tag);
 
-  void trafficChanged(const QVariant& data);
+    void trafficChanged(const QVariant &data);
 
-private:
-  const std::string LOCAL_HOST = "127.0.0.1";
+  private:
+    const std::string LOCAL_HOST = "127.0.0.1";
 
-  std::shared_ptr<Channel> p_channel;
-  QThread* p_thread = nullptr;
-  APIWorker* p_worker = nullptr;
-  QString m_tag;
+    std::shared_ptr<Channel> p_channel;
+    QThread *p_thread = nullptr;
+    APIWorker *p_worker = nullptr;
+    QString m_tag;
 };
-}
-}
+} // namespace core
+} // namespace across
 
 #endif // APITOOLS_H

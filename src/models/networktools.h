@@ -22,132 +22,119 @@ namespace across {
 namespace network {
 using Json = nlohmann::json;
 
-class DNSTools : QObject
-{
-  Q_OBJECT;
+class DNSTools : QObject {
+    Q_OBJECT;
 
-public:
-  DNSTools(QObject* parent = nullptr);
+  public:
+    DNSTools(QObject *parent = nullptr);
 
-  DNSTools(const QString& domain,
-           QDnsLookup::Type type,
-           const QHostAddress& dns_server = QHostAddress::LocalHost);
+    DNSTools(const QString &domain, QDnsLookup::Type type,
+             const QHostAddress &dns_server = QHostAddress::LocalHost);
 
-  void query(const QString& domain,
-             QDnsLookup::Type type,
-             const QHostAddress& dns_server = QHostAddress::LocalHost);
+    void query(const QString &domain, QDnsLookup::Type type,
+               const QHostAddress &dns_server = QHostAddress::LocalHost);
 
-public slots:
-  QList<QString> callback();
+  public slots:
+    QList<QString> callback();
 
-private:
-  std::shared_ptr<QDnsLookup> p_dns = nullptr;
+  private:
+    std::shared_ptr<QDnsLookup> p_dns = nullptr;
 };
 
-class TCPPing : QObject
-{
-  Q_OBJECT
-public:
-  TCPPing(QObject* parent = nullptr);
+class TCPPing : QObject {
+    Q_OBJECT
+  public:
+    TCPPing(QObject *parent = nullptr);
 
-  TCPPing(const QString& addr, unsigned int port);
-  TCPPing(const QHostAddress& addr, unsigned int port);
+    TCPPing(const QString &addr, unsigned int port);
+    TCPPing(const QHostAddress &addr, unsigned int port);
 
-  void setAddr(const QString& addr);
-  void setAddr(const QHostAddress& addr);
-  void setPort(unsigned int port);
-  void setTimes(int times);
-  int getAvgLatency();
+    void setAddr(const QString &addr);
+    void setAddr(const QHostAddress &addr);
+    void setPort(unsigned int port);
+    void setTimes(int times);
+    int getAvgLatency();
 
-  static int getLatency(const QString& addr, unsigned int port);
+    static int getLatency(const QString &addr, unsigned int port);
 
-private:
-  QString m_addr = "127.0.0.1";
-  unsigned int m_port = 80;
-  unsigned int m_times = 3;
-  static const int PING_TIMEOUT = 3000;
+  private:
+    QString m_addr = "127.0.0.1";
+    unsigned int m_port = 80;
+    unsigned int m_times = 3;
+    static const int PING_TIMEOUT = 3000;
 };
 
-struct DownloadTask
-{
-  qint64 id;
-  QString name;
-  QString url;
-  QString user_agent;
-  QString proxy;
-  QString content;
+struct DownloadTask {
+    qint64 id;
+    QString name;
+    QString url;
+    QString user_agent;
+    QString proxy;
+    QString content;
 };
 
-class CURLWorker : public QObject
-{
-  Q_OBJECT
-  Q_PROPERTY(
-    double progress READ progress WRITE setProgress NOTIFY progressChanged)
-  Q_PROPERTY(
-    bool isRunning READ isRunning WRITE setIsRunning NOTIFY isRunningChanged)
-public:
-  double progress() const;
+class CURLWorker : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(
+        double progress READ progress WRITE setProgress NOTIFY progressChanged)
+    Q_PROPERTY(bool isRunning READ isRunning WRITE setIsRunning NOTIFY
+                   isRunningChanged)
+  public:
+    double progress() const;
 
-  bool isRunning() const;
+    bool isRunning() const;
 
-public slots:
-  void run(const QVariant& data);
+  public slots:
+    void run(const QVariant &data);
 
-  void setProgress(double newProgress);
+    void setProgress(double newProgress);
 
-  void setIsRunning(bool newIsRunning);
+    void setIsRunning(bool newIsRunning);
 
-signals:
-  void done(const QVariant& data);
+  signals:
+    void done(const QVariant &data);
 
-  void progressChanged(double progress);
+    void progressChanged(double progress);
 
-  void isRunningChanged(bool isRunning);
+    void isRunningChanged(bool isRunning);
 
-private:
-  static size_t dataCallback(void* contents,
-                             size_t size,
-                             size_t nmemb,
-                             void* p_data);
-  static int xferInfo(void* p,
-                      curl_off_t dltotal,
-                      curl_off_t dlnow,
-                      curl_off_t ultotal,
-                      curl_off_t ulnow);
+  private:
+    static size_t dataCallback(void *contents, size_t size, size_t nmemb,
+                               void *p_data);
+    static int xferInfo(void *p, curl_off_t dltotal, curl_off_t dlnow,
+                        curl_off_t ultotal, curl_off_t ulnow);
 
-  double m_progress = 0.0;
-  bool m_isRunning = false;
+    double m_progress = 0.0;
+    bool m_isRunning = false;
 };
 
-class CURLTools : public QObject
-{
-  Q_OBJECT
-public:
-  CURLTools(QObject* parent = nullptr);
+class CURLTools : public QObject {
+    Q_OBJECT
+  public:
+    CURLTools(QObject *parent = nullptr);
 
-  ~CURLTools();
+    ~CURLTools();
 
-  CURLcode download(DownloadTask& task);
+    CURLcode download(DownloadTask &task);
 
-public slots:
-  void handleResult(const QVariant& content);
+  public slots:
+    void handleResult(const QVariant &content);
 
-signals:
-  void operate(const QVariant& data);
+  signals:
+    void operate(const QVariant &data);
 
-  void downloadFinished(const QVariant& content);
+    void downloadFinished(const QVariant &content);
 
-private:
-  QMap<QString, QThread*> m_threads;
+  private:
+    QMap<QString, QThread *> m_threads;
 };
 
-class UpdateTools
-{
-public:
-  static QString getVersion(const QString& content);
-  static int compareVersion(const QString& ver_a, const QString& ver_b);
+class UpdateTools {
+  public:
+    static QString getVersion(const QString &content);
+    static int compareVersion(const QString &ver_a, const QString &ver_b);
 };
-}
-}
+} // namespace network
+} // namespace across
 
 #endif // NETWORKTOOLS_H

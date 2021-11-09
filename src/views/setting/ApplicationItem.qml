@@ -176,7 +176,14 @@ Item {
         }
 
         DropDownBox {
-            model: ["none", "stdout", "file", "stdout & file"]
+            model: ["current", "none", "stdout", "file", "stdout & file"]
+
+            displayText: acrossConfig.logMode
+
+            onEditTextChanged: {
+                if (currentText !== "current")
+                    acrossConfig.logMode = currentText
+            }
         }
 
         Label {

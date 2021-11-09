@@ -25,118 +25,117 @@
 namespace across {
 using Json = nlohmann::json;
 
-class NodeList : public QObject
-{
-  Q_OBJECT
-  Q_PROPERTY(
-    qint64 currentNodeID READ currentNodeID NOTIFY currentNodeIDChanged)
-  Q_PROPERTY(
-    qint64 currentGroupID READ currentGroupID NOTIFY currentGroupIDChanged)
-  Q_PROPERTY(qint64 displayGroupID READ displayGroupID WRITE setDisplayGroupID
-               NOTIFY displayGroupIDChanged)
-  Q_PROPERTY(
-    QString uploadTraffic READ uploadTraffic NOTIFY uploadTrafficChanged)
-  Q_PROPERTY(
-    QString downloadTraffic READ downloadTraffic NOTIFY downloadTrafficChanged)
-  Q_PROPERTY(QVariantMap currentNodeInfo READ currentNodeInfo NOTIFY
-               currentNodeInfoChanged)
-public:
-  explicit NodeList(QObject* parent = nullptr);
+class NodeList : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(
+        qint64 currentNodeID READ currentNodeID NOTIFY currentNodeIDChanged)
+    Q_PROPERTY(
+        qint64 currentGroupID READ currentGroupID NOTIFY currentGroupIDChanged)
+    Q_PROPERTY(qint64 displayGroupID READ displayGroupID WRITE setDisplayGroupID
+                   NOTIFY displayGroupIDChanged)
+    Q_PROPERTY(
+        QString uploadTraffic READ uploadTraffic NOTIFY uploadTrafficChanged)
+    Q_PROPERTY(QString downloadTraffic READ downloadTraffic NOTIFY
+                   downloadTrafficChanged)
+    Q_PROPERTY(QVariantMap currentNodeInfo READ currentNodeInfo NOTIFY
+                   currentNodeInfoChanged)
+  public:
+    explicit NodeList(QObject *parent = nullptr);
 
-  ~NodeList();
+    ~NodeList();
 
-  void init(QSharedPointer<across::setting::ConfigTools> config,
-            QSharedPointer<across::core::CoreTools> core,
-            QSharedPointer<across::DBTools> db);
+    void init(QSharedPointer<across::setting::ConfigTools> config,
+              QSharedPointer<across::core::CoreTools> core,
+              QSharedPointer<across::DBTools> db);
 
-  bool run();
-  void setFilter(const QMap<qint64, QList<qint64>>& search_results);
-  void clearFilter();
-  void clearItems();
-  void reloadItems();
-  QString generateConfig();
-  void appendNode(NodeInfo node);
-  void updateNode(NodeInfo node);
-  void setUploadTraffic(double newUploadTraffic);
-  void setDownloadTraffic(double newDownloadTraffic);
-  void testLatency(NodeInfo node, int index);
-  bool isRunning();
-  void setDownloadProxy(across::network::DownloadTask& task);
+    bool run();
+    void setFilter(const QMap<qint64, QList<qint64>> &search_results);
+    void clearFilter();
+    void clearItems();
+    void reloadItems();
+    QString generateConfig();
+    void appendNode(NodeInfo node);
+    void updateNode(NodeInfo node);
+    void setUploadTraffic(double newUploadTraffic);
+    void setDownloadTraffic(double newDownloadTraffic);
+    void testLatency(NodeInfo node, int index);
+    bool isRunning();
+    void setDownloadProxy(across::network::DownloadTask &task);
 
-  Q_INVOKABLE void testLatency(int id);
-  Q_INVOKABLE void setCurrentNodeByID(int id);
-  Q_INVOKABLE void removeNodeByID(int id);
-  Q_INVOKABLE QVariantMap getNodeInfoByIndex(int index);
-  Q_INVOKABLE QString getQRCode(int id);
-  Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl& url);
-  Q_INVOKABLE void setAsDefault(int id);
-  Q_INVOKABLE void setDocument(QVariant& v);
-  Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
-  Q_INVOKABLE static QString jsonFormat(const QString& json_str);
-  Q_INVOKABLE static void copyURLToClipboard(const QString& node_name,
-                                             const QString& node_url);
-  Q_INVOKABLE void copyCurrentNodeURLToClipboard();
+    Q_INVOKABLE void testLatency(int id);
+    Q_INVOKABLE void setCurrentNodeByID(int id);
+    Q_INVOKABLE void removeNodeByID(int id);
+    Q_INVOKABLE QVariantMap getNodeInfoByIndex(int index);
+    Q_INVOKABLE QString getQRCode(int id);
+    Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl &url);
+    Q_INVOKABLE void setAsDefault(int id);
+    Q_INVOKABLE void setDocument(QVariant &v);
+    Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
+    Q_INVOKABLE static QString jsonFormat(const QString &json_str);
+    Q_INVOKABLE static void copyURLToClipboard(const QString &node_name,
+                                               const QString &node_url);
+    Q_INVOKABLE void copyCurrentNodeURLToClipboard();
 
-public:
-  QList<NodeInfo> items();
-  qint64 currentNodeID();
-  qint64 currentGroupID();
-  qint64 displayGroupID();
-  QString uploadTraffic();
-  QString downloadTraffic();
-  QVariantMap currentNodeInfo();
+  public:
+    QList<NodeInfo> items();
+    qint64 currentNodeID();
+    qint64 currentGroupID();
+    qint64 displayGroupID();
+    QString uploadTraffic();
+    QString downloadTraffic();
+    QVariantMap currentNodeInfo();
 
-public slots:
-  void setDisplayGroupID(int group_id);
-  void handleLatencyChanged(qint64 group_id, int index, NodeInfo node);
+  public slots:
+    void setDisplayGroupID(int group_id);
+    void handleLatencyChanged(qint64 group_id, int index, NodeInfo node);
 
-signals:
-  void itemReset(int index);
-  void itemLatencyChanged(qint64 group_id, int index, NodeInfo node);
+  signals:
+    void itemReset(int index);
+    void itemLatencyChanged(qint64 group_id, int index, NodeInfo node);
 
-  void preItemsReset();
-  void postItemsReset();
-  void groupSizeChanged(qint64 group_id, int size);
+    void preItemsReset();
+    void postItemsReset();
+    void groupSizeChanged(qint64 group_id, int size);
 
-  void preItemAppended();
-  void postItemAppended();
+    void preItemAppended();
+    void postItemAppended();
 
-  void preItemRemoved(int index);
-  void postItemRemoved();
+    void preItemRemoved(int index);
+    void postItemRemoved();
 
-  void currentNodeIDChanged();
-  void currentGroupIDChanged();
-  void displayGroupIDChanged();
+    void currentNodeIDChanged();
+    void currentGroupIDChanged();
+    void displayGroupIDChanged();
 
-  void nodeLatencyChanged(int id, const QString& group, int latency);
+    void nodeLatencyChanged(int id, const QString &group, int latency);
 
-  void updateQRCode(const QString& id, const QString& content);
-  void uploadTrafficChanged(const QString& uploadTraffic);
-  void downloadTrafficChanged(const QString& downloadTraffic);
-  void currentNodeInfoChanged(const QVariantMap& nodeModel);
+    void updateQRCode(const QString &id, const QString &content);
+    void uploadTrafficChanged(const QString &uploadTraffic);
+    void downloadTrafficChanged(const QString &downloadTraffic);
+    void currentNodeInfoChanged(const QVariantMap &nodeModel);
 
-private:
-  std::shared_ptr<spdlog::logger> p_logger;
-  QSharedPointer<DBTools> p_db;
-  QSharedPointer<across::core::APITools> p_api;
-  QSharedPointer<across::setting::ConfigTools> p_config;
-  QSharedPointer<across::core::CoreTools> p_core;
+  private:
+    std::shared_ptr<spdlog::logger> p_logger;
+    QSharedPointer<DBTools> p_db;
+    QSharedPointer<across::core::APITools> p_api;
+    QSharedPointer<across::setting::ConfigTools> p_config;
+    QSharedPointer<across::core::CoreTools> p_core;
 
-  QQueue<QFuture<void>> work_tasks;
+    QQueue<QFuture<void>> work_tasks;
 
-  across::JSONHighlighter jsonHighlighter;
+    across::JSONHighlighter jsonHighlighter;
 
-  QMap<qint64, QList<qint64>> m_search_results;
-  int m_display_group_id = 1;
+    QMap<qint64, QList<qint64>> m_search_results;
+    int m_display_group_id = 1;
 
-  NodeInfo m_node;
-  QList<NodeInfo> m_nodes;
-  QList<NodeInfo> m_origin_nodes;
-  across::core::TrafficInfo m_traffic = { 0, 0 };
-  across::core::TrafficInfo m_traffic_last = { 0, 0 };
-  across::core::TrafficInfo m_traffic_last_rate = { 0, 0 };
-  across::core::TrafficInfo m_traffic_sum = { 0, 0 };
+    NodeInfo m_node;
+    QList<NodeInfo> m_nodes;
+    QList<NodeInfo> m_origin_nodes;
+    across::core::TrafficInfo m_traffic = {0, 0};
+    across::core::TrafficInfo m_traffic_last = {0, 0};
+    across::core::TrafficInfo m_traffic_last_rate = {0, 0};
+    across::core::TrafficInfo m_traffic_sum = {0, 0};
 };
-}
+} // namespace across
 
 #endif // NODELIST_H

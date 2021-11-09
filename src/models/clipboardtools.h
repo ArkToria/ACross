@@ -8,14 +8,13 @@
 namespace across {
 namespace utils {
 
-class ClipboardTools
-{
-public:
-  static void send(const QString& msg);
+class ClipboardTools {
+  public:
+    static void send(const QString &msg);
 
-  static void send(const QImage& img);
+    static void send(const QImage &img);
 };
-}
-}
+} // namespace utils
+} // namespace across
 
 #endif // CLIPBOARDTOOLS_H

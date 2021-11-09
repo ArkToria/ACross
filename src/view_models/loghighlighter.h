@@ -11,40 +11,38 @@
 #include "across.grpc.pb.h"
 
 namespace across {
-class LogHighlighter : public QSyntaxHighlighter
-{
-  Q_OBJECT
+class LogHighlighter : public QSyntaxHighlighter {
+    Q_OBJECT
 
-public:
-  explicit LogHighlighter(QTextDocument* parent = nullptr);
+  public:
+    explicit LogHighlighter(QTextDocument *parent = nullptr);
 
-  void init();
+    void init();
 
-  void setTheme(const across::config::Theme& theme);
+    void setTheme(const across::config::Theme &theme);
 
-protected:
-  void highlightBlock(const QString& text) override;
+  protected:
+    void highlightBlock(const QString &text) override;
 
-private:
-  struct HighlightingRule
-  {
-    bool capture_groups = true;
-    QRegularExpression pattern;
-    QVector<QTextCharFormat> formats;
-  };
+  private:
+    struct HighlightingRule {
+        bool capture_groups = true;
+        QRegularExpression pattern;
+        QVector<QTextCharFormat> formats;
+    };
 
-  QVector<HighlightingRule> highlighting_rules;
+    QVector<HighlightingRule> highlighting_rules;
 
-  QTextCharFormat none_format;
-  QTextCharFormat info_format;
-  QTextCharFormat warning_format;
-  QTextCharFormat highlight_format;
-  QTextCharFormat date_format;
-  QTextCharFormat time_format;
-  QTextCharFormat logger_format;
-  QTextCharFormat ip_host_format;
-  QTextCharFormat tcp_udp_format;
+    QTextCharFormat none_format;
+    QTextCharFormat info_format;
+    QTextCharFormat warning_format;
+    QTextCharFormat highlight_format;
+    QTextCharFormat date_format;
+    QTextCharFormat time_format;
+    QTextCharFormat logger_format;
+    QTextCharFormat ip_host_format;
+    QTextCharFormat tcp_udp_format;
 };
-}
+} // namespace across
 
 #endif // LOGHIGHLIGHTER_H

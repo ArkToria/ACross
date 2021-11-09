@@ -11,12 +11,11 @@
 
 namespace across {
 namespace utils {
-class NotifyTools
-{
-public:
-  static void send(const QString& msg, const QString& summary = "");
+class NotifyTools {
+  public:
+    static void send(const QString &msg, const QString &summary = "");
 };
-}
-}
+} // namespace utils
+} // namespace across
 
 #endif // NOTIFYTOOLS_H

@@ -31,54 +31,52 @@
 namespace across {
 #define APP_NAME "ACross"
 
-enum ACrossExitReason
-{
-  EXIT_NORMAL = 0,
-  EXIT_SECONDARY_INSTANCE = EXIT_NORMAL + 2,
+enum ACrossExitReason {
+    EXIT_NORMAL = 0,
+    EXIT_SECONDARY_INSTANCE = EXIT_NORMAL + 2,
 };
 
-class Application : public SingleApplication
-{
-  Q_OBJECT
-public:
-  explicit Application(int& argc, char** argv);
+class Application : public SingleApplication {
+    Q_OBJECT
+  public:
+    explicit Application(int &argc, char **argv);
 
-  ~Application();
+    ~Application();
 
-  bool initialize();
+    bool initialize();
 
-  ACrossExitReason getExitReason();
+    ACrossExitReason getExitReason();
 
-  int run();
+    int run();
 
-  void setRootContext();
+    void setRootContext();
 
-  void setTranslator(const QString& lang = "current");
+    void setTranslator(const QString &lang = "current");
 
-  void registerModels();
+    void registerModels();
 
-  static void removeImageProvider(ImageProvider* img_provider);
+    static void removeImageProvider(ImageProvider *img_provider);
 
-private slots:
-  void onMessageReceived(quint32 clientId, const QByteArray& msg);
+  private slots:
+    void onMessageReceived(quint32 clientId, const QByteArray &msg);
 
-private:
-  LogView m_log;
-  QSharedPointer<across::setting::ConfigTools> p_config;
-  QSharedPointer<across::DBTools> p_db;
-  QSharedPointer<across::core::CoreTools> p_core;
-  QSharedPointer<across::network::CURLTools> p_curl;
-  QSharedPointer<across::NodeList> p_nodes;
-  QSharedPointer<across::GroupList> p_groups;
-  QSharedPointer<across::SystemTray> p_tray;
-  across::ImageProvider* p_image_provider;
+  private:
+    LogView m_log;
+    QSharedPointer<across::setting::ConfigTools> p_config;
+    QSharedPointer<across::DBTools> p_db;
+    QSharedPointer<across::core::CoreTools> p_core;
+    QSharedPointer<across::network::CURLTools> p_curl;
+    QSharedPointer<across::NodeList> p_nodes;
+    QSharedPointer<across::GroupList> p_groups;
+    QSharedPointer<across::SystemTray> p_tray;
+    across::ImageProvider *p_image_provider;
 
-  ACrossExitReason exitReason = EXIT_NORMAL;
+    ACrossExitReason exitReason = EXIT_NORMAL;
 
-  const QString m_app_name = APP_NAME;
-  QTranslator m_translator;
-  QQmlApplicationEngine m_engine;
+    const QString m_app_name = APP_NAME;
+    QTranslator m_translator;
+    QQmlApplicationEngine m_engine;
 };
-}
+} // namespace across
 
 #endif // APPLICATION_H

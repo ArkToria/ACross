@@ -16,48 +16,47 @@
 
 namespace across {
 namespace core {
-class CoreTools : public QObject
-{
-  Q_OBJECT
-  Q_PROPERTY(
-    bool isRunning READ isRunning WRITE setIsRunning NOTIFY isRunningChanged)
-public:
-  CoreTools(QObject* parent = nullptr);
+class CoreTools : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(bool isRunning READ isRunning WRITE setIsRunning NOTIFY
+                   isRunningChanged)
+  public:
+    CoreTools(QObject *parent = nullptr);
 
-  ~CoreTools();
+    ~CoreTools();
 
-  bool init(QSharedPointer<across::setting::ConfigTools> config);
+    bool init(QSharedPointer<across::setting::ConfigTools> config);
 
-  void setConfig(const QString& stdin_str);
+    void setConfig(const QString &stdin_str);
 
-  Q_INVOKABLE int run();
+    Q_INVOKABLE int run();
 
-  Q_INVOKABLE int stop();
+    Q_INVOKABLE int stop();
 
-  Q_INVOKABLE int restart();
+    Q_INVOKABLE int restart();
 
-  bool isRunning();
+    bool isRunning();
 
-public slots:
-  void setIsRunning(bool value);
+  public slots:
+    void setIsRunning(bool value);
 
-  void onReadData();
+    void onReadData();
 
-signals:
-  void isRunningChanged();
+  signals:
+    void isRunningChanged();
 
-private:
-  across::config::Core* p_core;
-  QSharedPointer<across::setting::ConfigTools> p_config;
-  std::shared_ptr<spdlog::logger> p_logger;
+  private:
+    across::config::Core *p_core;
+    QSharedPointer<across::setting::ConfigTools> p_config;
+    std::shared_ptr<spdlog::logger> p_logger;
 
-  QString m_config;
-  bool m_running = false;
+    QString m_config;
+    bool m_running = false;
 
-  QProcess* p_process;
-  QProcessEnvironment m_env;
+    QProcess *p_process;
+    QProcessEnvironment m_env;
 };
-}
-}
+} // namespace core
+} // namespace across
 
 #endif // CORETOOLS_H

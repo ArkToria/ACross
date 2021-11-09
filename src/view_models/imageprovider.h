@@ -7,22 +7,20 @@
 #include <QQuickImageProvider>
 
 namespace across {
-class ImageProvider : public QQuickImageProvider
-{
-public:
-  ImageProvider(ImageType type = ImageType::Image, Flags flags = Flags());
+class ImageProvider : public QQuickImageProvider {
+  public:
+    ImageProvider(ImageType type = ImageType::Image, Flags flags = Flags());
 
-public slots:
-  void setContent(const QString& id, const QString& content);
+  public slots:
+    void setContent(const QString &id, const QString &content);
 
-  QImage requestImage(const QString& id,
-                      QSize* size,
-                      const QSize& requestedSize) override;
+    QImage requestImage(const QString &id, QSize *size,
+                        const QSize &requestedSize) override;
 
-private:
-  QString m_id;
-  QString m_content;
+  private:
+    QString m_id;
+    QString m_content;
 };
-}
+} // namespace across
 
 #endif // IMAGEPROVIDER_H
