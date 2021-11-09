@@ -1,4 +1,4 @@
-# ACross [Experiment][Read-only Mirror]
+# ACross [Experimental] [Read-only Mirror]
 
 ![banner](misc/design/banner.png)
 
