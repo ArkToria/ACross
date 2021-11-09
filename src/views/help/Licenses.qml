@@ -16,7 +16,7 @@ CardBox {
 
         Label {
             text: qsTr("Libraries and Licenses")
-            font.pointSize: fontSize * 1.2
+            font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
         }
 

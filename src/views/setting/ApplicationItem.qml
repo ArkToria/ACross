@@ -33,7 +33,7 @@ Item {
             Layout.columnSpan: 6
 
             text: qsTr("Application Settings")
-            font.pointSize: fontSize * 1.2
+            font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
         }
 

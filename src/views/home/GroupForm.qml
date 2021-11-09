@@ -44,7 +44,7 @@ Popup {
 
                 text: title
                 horizontalAlignment: Text.AlignHCenter
-                font.pointSize: Math.round(fontSize * 1.1)
+                font.pointSize: Math.round(fontSize * 1.2)
                 color: acrossConfig.textColor
             }
 
@@ -97,9 +97,9 @@ Popup {
 
                 TextAreaBox {
                     id: pasteItemText
-                    implicitHeight: 72
+                    implicitHeight: 80
 
-                    placeholderText: "ss://\n" + "vmess://\n" + "v2ray json config"
+                    placeholderText: "ss://\n" + "vmess://\n" + "trojan://"
                     wrapMode: Text.NoWrap
                 }
             }

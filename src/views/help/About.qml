@@ -62,7 +62,7 @@ CardBox {
                     Layout.columnSpan: 2
 
                     text: "ACross"
-                    font.pointSize: fontSize * 1.2
+                    font.pointSize: Math.round(fontSize * 1.2)
                     color: acrossConfig.textColor
                 }
 

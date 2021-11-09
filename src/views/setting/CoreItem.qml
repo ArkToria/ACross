@@ -39,7 +39,7 @@ Item {
         Label {
             Layout.columnSpan: 5
             text: qsTr("Core Configuration")
-            font.pointSize: fontSize * 1.2
+            font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
         }
 
