@@ -141,8 +141,12 @@ bool NodeList::run() {
         };
 
         p_core->setConfig(generateConfig());
-        p_core->run();
-        res = true;
+        if (p_core->run() < 0) {
+            p_logger->error("Failed to start core process");
+            res = false;
+        } else {
+            res = true;
+        }
     } while (false);
 
     return res;
