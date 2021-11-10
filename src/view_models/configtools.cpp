@@ -193,6 +193,7 @@ void ConfigTools::freshColors() {
     emit styleColorChanged();
     emit styleTextColorChanged();
     emit bannerTextColorChanged();
+    emit bannerMaskColorChanged();
     emit borderRadiusChanged();
     emit borderWidthChanged();
     emit itemSpacingChanged();
@@ -617,9 +618,12 @@ void ConfigTools::setCurrentTheme(const QString &val) {
     if (val == p_interface->theme().theme().c_str() || val.isEmpty() ||
         val.contains("current"))
         return;
+
     p_interface->mutable_theme()->set_theme(val.toStdString());
-    loadThemeConfig();
+
     emit configChanged();
+
+    loadThemeConfig();
 }
 
 void ConfigTools::setSocksEnable(bool val) {
