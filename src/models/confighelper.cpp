@@ -153,6 +153,7 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_deep_text_color("#4f4f4f");
             colors->set_style_color("#94cbff");
             colors->set_style_text_color("#fefefe");
+            colors->set_banner_text_color(colors->text_color());
         }
 
         if (auto border = theme->mutable_border()) {
@@ -196,6 +197,7 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_deep_text_color("#c3c3c3");
             colors->set_style_color("#cfc29e");
             colors->set_style_text_color("#ffffff");
+            colors->set_banner_text_color(colors->text_color());
         }
 
         if (auto border = theme->mutable_border()) {
@@ -239,6 +241,7 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_deep_text_color("#e3e3e3");
             colors->set_style_color("#bbde5e");
             colors->set_style_text_color("#ffffff");
+            colors->set_banner_text_color(colors->text_color());
         }
 
         if (auto border = theme->mutable_border()) {
@@ -282,6 +285,7 @@ config::Config ConfigHelper::defaultConfig() {
             colors->set_deep_text_color("#5e4270");
             colors->set_style_color("#f9d7e5");
             colors->set_style_text_color("#ffffff");
+            colors->set_banner_text_color(colors->text_color());
         }
 
         if (auto border = theme->mutable_border()) {

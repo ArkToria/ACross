@@ -192,6 +192,7 @@ void ConfigTools::freshColors() {
     emit deepTextColorChanged();
     emit styleColorChanged();
     emit styleTextColorChanged();
+    emit bannerTextColorChanged();
     emit borderRadiusChanged();
     emit borderWidthChanged();
     emit itemSpacingChanged();
@@ -328,6 +329,26 @@ QString ConfigTools::styleColor() {
 
 QString ConfigTools::styleTextColor() {
     return p_theme->colors().style_color().c_str();
+}
+
+QString ConfigTools::bannerTextColor() {
+    if (p_theme->banner().enable())
+        return p_theme->colors().banner_text_color().c_str();
+    else
+        return p_theme->colors().text_color().c_str();
+}
+
+QString ConfigTools::bannerMaskColor() {
+    if (QColor::isValidColor(p_theme->colors().banner_text_color().c_str()) &&
+        p_theme->banner().enable()) {
+        if (QColor text_color(p_theme->colors().banner_text_color().c_str());
+            text_color.toHsl().lightness() > 50)
+            return "black";
+        else
+            return "white";
+    }
+
+    return p_theme->colors().background_color().c_str();
 }
 
 QString ConfigTools::trayStylish() { return p_theme->tray().stylish().c_str(); }
@@ -524,6 +545,16 @@ void ConfigTools::setStyleTextColor(const QString &val) {
         return;
     p_theme->mutable_colors()->set_style_text_color(val.toStdString());
     emit styleTextColorChanged();
+}
+
+void ConfigTools::setBannerTextColor(const QString &val) {
+    if (val == p_theme->colors().banner_text_color().c_str())
+        return;
+    p_theme->mutable_colors()->set_banner_text_color(val.toStdString());
+
+    emit bannerTextColorChanged();
+    emit bannerMaskColorChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setTrayStylish(const QString &val) {
@@ -773,8 +804,9 @@ void ConfigTools::setEnableBanner(bool val) {
         return;
     p_theme->mutable_banner()->set_enable(val);
 
-    emit configChanged();
     emit enableBannerChanged();
+    emit bannerMaskColorChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setEnableAutoConnect(bool val) {

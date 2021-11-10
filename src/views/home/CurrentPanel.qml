@@ -10,6 +10,8 @@ Item {
     implicitWidth: 648
     implicitHeight: 230
 
+    property string textColor: acrossConfig.bannerTextColor
+
     function displayProtocolText(protocol) {
         switch (protocol) {
         case 0:
@@ -47,6 +49,7 @@ Item {
         CardBox {
             id: background
             anchors.fill: parent
+            color: acrossConfig.bannerMaskColor
 
             Image {
                 id: backgroundImage
@@ -95,7 +98,7 @@ Item {
                         anchors.leftMargin: acrossConfig.itemSpacing
                         anchors.topMargin: acrossConfig.itemSpacing
 
-                        color: acrossConfig.textColor
+                        color: textColor
                         font.pointSize: 14
                         textFormat: Text.AutoText
                         wrapMode: Text.WrapAnywhere
@@ -120,14 +123,14 @@ Item {
                             id: uploadText
                             text: "↑ " + acrossNodes.uploadTraffic + "/s"
                             Layout.alignment: Qt.AlignRight | Qt.AlignTop
-                            color: acrossConfig.textColor
+                            color: textColor
                         }
 
                         Rectangle {
                             implicitWidth: Math.max(uploadText.width,
                                                     downloadText.width)
                             Layout.preferredHeight: 2
-                            color: acrossConfig.textColor
+                            color: textColor
                             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
                         }
 
@@ -135,7 +138,7 @@ Item {
                             id: downloadText
                             text: "↓ " + acrossNodes.downloadTraffic + "/s"
                             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
-                            color: acrossConfig.textColor
+                            color: textColor
                         }
 
                         Item {
@@ -156,37 +159,37 @@ Item {
 
                         Label {
                             text: "Group:"
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                         }
 
                         Label {
                             id: currentGroupText
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                         }
 
                         Label {
                             text: "Protocol:"
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                         }
 
                         Label {
                             id: currentNodeProtocol
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                         }
 
                         Label {
                             text: "Address:"
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                         }
 
                         Label {
                             id: currentNodeAddress
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                             textFormat: Text.AutoText
                             wrapMode: Text.WrapAnywhere
@@ -196,13 +199,13 @@ Item {
 
                         Label {
                             text: "Port:"
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                         }
 
                         Label {
                             id: currentNodePort
-                            color: acrossConfig.textColor
+                            color: textColor
                             font.pointSize: 12
                         }
                     }

@@ -148,6 +148,7 @@ message Theme
     string deep_text_color = 10;
     string style_color = 11;
     string style_text_color = 12;
+    string banner_text_color = 13;
   }
 
   message Border

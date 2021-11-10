@@ -101,6 +101,10 @@ class ConfigTools : public QObject {
                    styleColorChanged)
     Q_PROPERTY(QString styleTextColor READ styleTextColor WRITE
                    setStyleTextColor NOTIFY styleTextColorChanged)
+    Q_PROPERTY(QString bannerTextColor READ bannerTextColor WRITE
+                   setBannerTextColor NOTIFY bannerTextColorChanged)
+    Q_PROPERTY(QString bannerMaskColor READ bannerMaskColor NOTIFY
+                   bannerMaskColorChanged)
     Q_PROPERTY(QString trayStylish READ trayStylish WRITE setTrayStylish NOTIFY
                    trayStylishChanged)
     Q_PROPERTY(QString trayColor READ trayColor WRITE setTrayColor NOTIFY
@@ -219,6 +223,8 @@ class ConfigTools : public QObject {
     QString deepTextColor();
     QString styleColor();
     QString styleTextColor();
+    QString bannerTextColor();
+    QString bannerMaskColor();
     QString trayStylish();
     QString trayColor();
     int borderRadius();
@@ -279,6 +285,7 @@ class ConfigTools : public QObject {
     void setDeepTextColor(const QString &val);
     void setStyleColor(const QString &val);
     void setStyleTextColor(const QString &val);
+    void setBannerTextColor(const QString &val);
     void setTrayStylish(const QString &val);
     void setTrayColor(const QString &val);
     void setBorderRadius(int val);
@@ -337,6 +344,8 @@ class ConfigTools : public QObject {
     void deepTextColorChanged();
     void styleColorChanged();
     void styleTextColorChanged();
+    void bannerTextColorChanged();
+    void bannerMaskColorChanged();
     void trayStylishChanged();
     void trayColorChanged();
     void borderRadiusChanged();

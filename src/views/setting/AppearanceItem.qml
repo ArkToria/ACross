@@ -23,6 +23,16 @@ Item {
         }
     }
 
+    ColorDialog {
+        id: colorDialog
+        title: "Please choose a color"
+
+        onAccepted: {
+            acrossConfig.bannerTextColor = colorDialog.color
+            colorPlaceHolder.basicColor = acrossConfig.bannerTextColor
+        }
+    }
+
     GridLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 4
@@ -142,7 +152,7 @@ Item {
             id: backgroundOpacitySlider
             visible: enableBannerSwitch.checked
             Layout.fillWidth: true
-            Layout.columnSpan: 4
+            Layout.columnSpan: 2
 
             enabled: enableBannerSwitch.checked
             value: acrossConfig.backgroundOpacity
@@ -156,7 +166,7 @@ Item {
             }
         }
 
-        TextFieldBox {
+        Label {
             visible: enableBannerSwitch.checked
             Layout.alignment: Qt.AlignRight
             Layout.preferredWidth: 72
@@ -164,7 +174,22 @@ Item {
 
             text: backgroundOpacitySlider.value.toFixed(2)
             color: acrossConfig.textColor
-            readOnly: true
+        }
+
+        Label {
+            visible: enableBannerSwitch.checked
+            text: qsTr("Text Color")
+            color: acrossConfig.textColor
+        }
+
+        ButtonBox {
+            id: colorPlaceHolder
+            visible: enableBannerSwitch.checked
+            basicColor: acrossConfig.bannerTextColor
+
+            onClicked: {
+                colorDialog.open()
+            }
         }
     }
 }
