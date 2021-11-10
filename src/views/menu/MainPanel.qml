@@ -60,6 +60,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.margins: acrossConfig.itemSpacing
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
+            Layout.bottomMargin: acrossConfig.itemSpacing * 4
         }
     }
 }
