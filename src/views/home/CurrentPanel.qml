@@ -113,7 +113,7 @@ Item {
 
                     ColumnLayout {
                         anchors.fill: parent
-                        anchors.rightMargin: acrossConfig.itemSpacing
+                        anchors.rightMargin: acrossConfig.itemSpacing * 3
 
                         Item {
                             Layout.fillHeight: true

@@ -9,7 +9,7 @@ Item {
     implicitWidth: 120
     implicitHeight: 86
 
-    property int fontSize: 12
+    property int fontSize: 14
 
     state: menuItemCard.ListView.isCurrentItem ? "CurrentState" : "NormalState"
 
@@ -44,7 +44,11 @@ Item {
 
         ColumnLayout {
             anchors.fill: parent
-            anchors.margins: acrossConfig.itemSpacing
+            spacing: acrossConfig.itemSpacing
+
+            Item {
+                Layout.fillHeight: true
+            }
 
             SVGBox {
                 Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
@@ -60,6 +64,10 @@ Item {
 
                 text: qsTr(name)
                 font.pointSize: fontSize
+            }
+
+            Item {
+                Layout.fillHeight: true
             }
         }
     }

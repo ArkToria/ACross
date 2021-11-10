@@ -117,6 +117,7 @@ class ConfigTools : public QObject {
                    itemSpacingChanged)
     Q_PROPERTY(QString iconStyle READ iconStyle WRITE setIconStyle NOTIFY
                    iconStyleChanged)
+    Q_PROPERTY(QStringList themeNames READ themeNames NOTIFY themeNamesChanged)
     Q_PROPERTY(QString currentThemeName READ currentThemeName WRITE
                    setCurrentTheme NOTIFY currentThemeChanged)
     Q_PROPERTY(QString currentLanguage READ currentLanguage WRITE
@@ -231,6 +232,7 @@ class ConfigTools : public QObject {
     int borderWidth();
     int itemSpacing();
     QString iconStyle();
+    QStringList themeNames();
     QString currentThemeName();
     QString currentLanguage();
     bool enableTray();
@@ -352,6 +354,7 @@ class ConfigTools : public QObject {
     void borderWidthChanged();
     void itemSpacingChanged();
     void iconStyleChanged();
+    void themeNamesChanged();
     void currentThemeChanged(const across::config::Theme &theme);
     void currentLanguageChanged(const QString &lang);
     void enableTrayChanged();
@@ -379,7 +382,6 @@ class ConfigTools : public QObject {
     const QString m_config_name = "across.json";
     QString m_config_path = "./" + m_config_name;
     QString m_api_result_text = "";
-    QList<across::config::Theme> temp_themes;
 
     QSharedPointer<across::network::CURLTools> p_curl;
     across::config::Config m_config = ConfigHelper::defaultConfig();

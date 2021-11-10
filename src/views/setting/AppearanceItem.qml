@@ -61,7 +61,7 @@ Item {
             Layout.columnSpan: 2
 
             displayText: acrossConfig.currentThemeName
-            model: ["current", "default-light", "dark", "nord-dark", "pure-pink"]
+            model: acrossConfig.themeNames
 
             onEditTextChanged: {
                 if (model.editText !== "current") {

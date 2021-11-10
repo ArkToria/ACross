@@ -364,6 +364,19 @@ int ConfigTools::itemSpacing() { return p_theme->item().spacing(); }
 
 QString ConfigTools::iconStyle() { return p_theme->icon().style().c_str(); }
 
+QStringList ConfigTools::themeNames() {
+    QStringList names = {"current"};
+
+    if (!m_config.themes().empty()) {
+        for (auto &theme : m_config.themes()) {
+            if (theme.IsInitialized() && !theme.name().empty())
+                names.append(theme.name().c_str());
+        }
+    }
+
+    return names;
+}
+
 QString ConfigTools::currentThemeName() {
     return p_interface->theme().theme().c_str();
 }
@@ -935,28 +948,33 @@ void ConfigTools::mergeConfigFromJSON(const std::string &json_str) {
     if (!origin_conf.IsInitialized())
         return;
 
-    QList<Theme> temp_themes;
     auto default_themes = m_config.themes();
 
     m_config.mutable_themes()->Clear();
     m_config.MergeFrom(origin_conf);
 
-    for (auto &default_theme : default_themes) {
-        auto iter = std::find_if(m_config.themes().begin(),
-                                 m_config.themes().end(), [&](Theme theme) {
-                                     if (theme.name() == default_theme.name())
-                                         return true;
-                                     else
-                                         return false;
-                                 });
+    if (m_config.themes().empty()) {
+        m_config.mutable_themes()->Add(default_themes.begin(),
+                                       default_themes.end());
+    } else {
+        QList<across::config::Theme> temp_themes;
 
-        if (iter == m_config.themes().end()) {
-            temp_themes.emplace_back(default_theme);
+        for (const auto &default_theme : default_themes) {
+            size_t i = 0;
+            for (; i < m_config.themes_size(); ++i) {
+                auto &theme = m_config.themes().at(i);
+                if (theme.IsInitialized() && !theme.name().empty() &&
+                    theme.name() == default_theme.name()) {
+                    break;
+                }
+            }
+
+            if (i == m_config.themes_size()) {
+                temp_themes.emplace_back(default_theme);
+            }
         }
-    }
 
-    for (uint i = 0; i < temp_themes.size(); ++i) {
-        m_config.mutable_themes()->UnsafeArenaAddAllocated(&temp_themes[i]);
+        m_config.mutable_themes()->Add(temp_themes.begin(), temp_themes.end());
     }
 
     if (auto inbound = m_config.mutable_inbound(); inbound != nullptr) {
