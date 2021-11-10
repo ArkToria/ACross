@@ -6,8 +6,8 @@ import ACross
 
 Menu {
     id: nodeItemPopMenu
-    topPadding: 8
-    bottomPadding: 8
+    topPadding: acrossConfig.borderRadius * 2
+    bottomPadding: acrossConfig.borderRadius * 2
 
     property real menuWidth: 168
 
@@ -30,13 +30,17 @@ Menu {
         id: menuItem
 
         contentItem: Text {
+            padding: Math.round(acrossConfig.itemSpacing / 2)
+
             text: menuItem.text
             color: menuItem.highlighted ? acrossConfig.highlightTextColor : acrossConfig.textColor
         }
 
         background: Rectangle {
-            // TODO: align center
-            implicitWidth: menuWidth - 2 * acrossConfig.itemSpacing
+            anchors.centerIn: parent
+            width: menuItem.width - acrossConfig.itemSpacing * 2
+            height: menuItem.height
+
             color: menuItem.highlighted ? acrossConfig.highlightColor : "transparent"
         }
     }
