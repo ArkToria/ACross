@@ -6,13 +6,16 @@
 #include "semver.hpp"
 
 #include <QDnsLookup>
+#include <QFuture>
 #include <QHostAddress>
 #include <QList>
 #include <QObject>
+#include <QQueue>
 #include <QString>
 #include <QTcpSocket>
 #include <QThread>
 #include <QTime>
+#include <QtConcurrent>
 
 #include <iostream>
 #include <sstream>
@@ -73,41 +76,6 @@ struct DownloadTask {
     QString content;
 };
 
-class CURLWorker : public QObject {
-    Q_OBJECT
-    Q_PROPERTY(
-        double progress READ progress WRITE setProgress NOTIFY progressChanged)
-    Q_PROPERTY(bool isRunning READ isRunning WRITE setIsRunning NOTIFY
-                   isRunningChanged)
-  public:
-    double progress() const;
-
-    bool isRunning() const;
-
-  public slots:
-    void run(const QVariant &data);
-
-    void setProgress(double newProgress);
-
-    void setIsRunning(bool newIsRunning);
-
-  signals:
-    void done(const QVariant &data);
-
-    void progressChanged(double progress);
-
-    void isRunningChanged(bool isRunning);
-
-  private:
-    static size_t dataCallback(void *contents, size_t size, size_t nmemb,
-                               void *p_data);
-    static int xferInfo(void *p, curl_off_t dltotal, curl_off_t dlnow,
-                        curl_off_t ultotal, curl_off_t ulnow);
-
-    double m_progress = 0.0;
-    bool m_isRunning = false;
-};
-
 class CURLTools : public QObject {
     Q_OBJECT
   public:
@@ -115,7 +83,7 @@ class CURLTools : public QObject {
 
     ~CURLTools();
 
-    CURLcode download(DownloadTask &task);
+    CURLcode download(const DownloadTask &task);
 
   public slots:
     void handleResult(const QVariant &content);
@@ -126,7 +94,10 @@ class CURLTools : public QObject {
     void downloadFinished(const QVariant &content);
 
   private:
-    QMap<QString, QThread *> m_threads;
+    QQueue<QFuture<void>> m_tasks;
+
+    static size_t dataCallback(void *contents, size_t size, size_t nmemb,
+                               void *p_data);
 };
 
 class UpdateTools {

@@ -119,141 +119,68 @@ int TCPPing::getLatency(const QString &addr, unsigned int port) {
     return latency;
 }
 
-size_t CURLWorker::dataCallback(void *contents, size_t size, size_t nmemb,
-                                void *p_data) {
-    size_t real_size = size * nmemb;
-    auto stream = reinterpret_cast<std::stringstream *>(p_data);
-    stream->write(reinterpret_cast<const char *>(contents), real_size);
-    return real_size;
-}
-
-int CURLWorker::xferInfo(void *p, curl_off_t dltotal, curl_off_t dlnow,
-                         curl_off_t ultotal, curl_off_t ulnow) {
-    auto worker = static_cast<CURLWorker *>(p);
-
-    if (!qFuzzyCompare(dltotal, 0.0)) {
-        double result = (double)dlnow / dltotal;
-        worker->setProgress(result);
-    }
-
-    return 0;
-}
-
-void CURLWorker::run(const QVariant &data) {
-    auto task = data.value<DownloadTask>();
-    if (!isRunning()) {
-        setIsRunning(true);
-    } else {
-        return;
-    }
-
-    // create buffer
-    std::stringstream buffer;
-
-    // create handle
-    CURL *handle = curl_easy_init();
-
-    // download setting
-    curl_easy_setopt(handle, CURLOPT_URL, task.url.toStdString().c_str());
-    if (!task.user_agent.isEmpty()) {
-        curl_easy_setopt(handle, CURLOPT_USERAGENT,
-                         task.user_agent.toStdString().c_str());
-    }
-    if (!task.proxy.isEmpty()) {
-        curl_easy_setopt(handle, CURLOPT_PROXY,
-                         task.proxy.toStdString().c_str());
-    }
-
-    // progress callback
-    curl_easy_setopt(handle, CURLOPT_XFERINFOFUNCTION, xferInfo);
-    curl_easy_setopt(handle, CURLOPT_XFERINFODATA, this);
-    curl_easy_setopt(handle, CURLOPT_NOPROGRESS, 0L);
-
-    // data callback
-    curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, dataCallback);
-    curl_easy_setopt(handle, CURLOPT_WRITEDATA, &buffer);
-
-    // execute
-    if (auto err = curl_easy_perform(handle); err == CURLE_OK) {
-        task.content = QString::fromStdString(buffer.str());
-    }
-
-    // notify finished
-    emit done(QVariant::fromValue<DownloadTask>(task));
-
-    // clean
-    curl_easy_cleanup(handle);
-    setIsRunning(false);
-}
-
-double CURLWorker::progress() const { return m_progress; }
-
-void CURLWorker::setProgress(double newProgress) {
-    if (qFuzzyCompare(m_progress, newProgress))
-        return;
-    m_progress = newProgress;
-    emit progressChanged(m_progress);
-}
-
-bool CURLWorker::isRunning() const { return m_isRunning; }
-
-void CURLWorker::setIsRunning(bool newIsRunning) {
-    if (m_isRunning == newIsRunning)
-        return;
-
-    m_isRunning = newIsRunning;
-
-    emit isRunningChanged(m_isRunning);
-}
-
 CURLTools::CURLTools(QObject *parent) : QObject(parent) {
     curl_global_init(CURL_GLOBAL_DEFAULT);
 }
 
 CURLTools::~CURLTools() {
-    // destroy pointer
-    for (auto &p_thread : m_threads) {
-        if (p_thread != nullptr) {
-            p_thread->quit();
-            p_thread->wait();
-        }
-    }
+    for (auto &task : m_tasks)
+        task.cancel();
+
+    m_tasks.clear();
 
     curl_global_cleanup();
 }
 
-CURLcode CURLTools::download(DownloadTask &task) {
-    if (m_threads.contains(task.name)) {
-        if (auto &p_thread = m_threads[task.name]; p_thread != nullptr) {
-            p_thread->quit();
-            p_thread->wait();
-        } else {
-            p_thread = new QThread(this);
+CURLcode CURLTools::download(const DownloadTask &task) {
+    m_tasks.enqueue(QtConcurrent::run([this, task] {
+        auto temp_task = task;
+
+        // create buffer
+        std::stringstream buffer;
+
+        // create handle
+        CURL *handle = curl_easy_init();
+
+        // download setting
+        curl_easy_setopt(handle, CURLOPT_URL,
+                         temp_task.url.toStdString().c_str());
+        if (!temp_task.user_agent.isEmpty()) {
+            curl_easy_setopt(handle, CURLOPT_USERAGENT,
+                             temp_task.user_agent.toStdString().c_str());
         }
-    } else {
-        m_threads.insert(task.name, new QThread(this));
-    }
+        if (!temp_task.proxy.isEmpty()) {
+            curl_easy_setopt(handle, CURLOPT_PROXY,
+                             temp_task.proxy.toStdString().c_str());
+        }
 
-    auto worker = new CURLWorker();
-    worker->moveToThread(m_threads.value(task.name));
+        // data callback
+        curl_easy_setopt(handle, CURLOPT_WRITEFUNCTION, &dataCallback);
+        curl_easy_setopt(handle, CURLOPT_WRITEDATA, &buffer);
 
-    // connect signals
-    connect(this, &CURLTools::operate, worker, &CURLWorker::run);
-    connect(m_threads.value(task.name), &QThread::finished, worker,
-            &QObject::deleteLater);
-    connect(worker, &CURLWorker::done, this, &CURLTools::handleResult);
+        // execute
+        if (auto err = curl_easy_perform(handle); err == CURLE_OK) {
+            temp_task.content = QString::fromStdString(buffer.str());
+        }
 
-    // start thread process
-    m_threads.value(task.name)->start();
+        // clean handle
+        curl_easy_cleanup(handle);
 
-    emit operate(QVariant::fromValue<DownloadTask>(task));
+        emit handleResult(QVariant::fromValue<DownloadTask>(temp_task));
+    }));
 
-    // TODO: handle error
     return CURLE_OK;
 }
 
 void CURLTools::handleResult(const QVariant &content) {
     emit downloadFinished(content);
+}
+size_t CURLTools::dataCallback(void *contents, size_t size, size_t nmemb,
+                               void *p_data) {
+    size_t real_size = size * nmemb;
+    auto stream = reinterpret_cast<std::stringstream *>(p_data);
+    stream->write(reinterpret_cast<const char *>(contents), real_size);
+    return real_size;
 }
 
 QString UpdateTools::getVersion(const QString &content) {
