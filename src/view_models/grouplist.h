@@ -8,6 +8,10 @@
 #include <QPointer>
 #include <QVariant>
 
+#ifdef __MINGW32__
+#include <QSystemTrayIcon>
+#endif
+
 #include "../models/clipboardtools.h"
 #include "../models/dbtools.h"
 #include "../models/networktools.h"
@@ -28,7 +32,12 @@ class GroupList : public QObject {
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::DBTools> db,
               QSharedPointer<across::NodeList> nodes,
-              QSharedPointer<across::network::CURLTools> curl);
+              QSharedPointer<across::network::CURLTools> curl
+#ifdef __MINGW32__
+              ,QSharedPointer<QSystemTrayIcon> tray);
+#else
+              );
+#endif
 
     bool insert(const GroupInfo &group_info, const QString &content);
     bool insertSIP008(const GroupInfo &group_info, const QString &content);
@@ -73,6 +82,10 @@ class GroupList : public QObject {
     QSharedPointer<across::DBTools> p_db;
     QSharedPointer<across::NodeList> p_nodes;
     QSharedPointer<across::network::CURLTools> p_curl;
+#ifdef __MINGW32__
+    QSharedPointer<QSystemTrayIcon> p_tray;
+#endif
+
     std::shared_ptr<spdlog::logger> p_logger;
 
     QList<GroupInfo> m_groups;

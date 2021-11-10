@@ -1095,8 +1095,8 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="394"/>
-        <location filename="../src/view_models/grouplist.cpp" line="408"/>
+        <location filename="../src/view_models/grouplist.cpp" line="402"/>
+        <location filename="../src/view_models/grouplist.cpp" line="421"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1112,7 +1112,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="345"/>
+        <location filename="../src/view_models/nodelist.cpp" line="354"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

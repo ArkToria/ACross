@@ -9,11 +9,20 @@
 #ifdef Q_OS_MSDOS
 #endif
 
+#ifdef __MINGW32__
+#include <QSharedPointer>
+#include <QSystemTrayIcon>
+#endif
+
 namespace across {
 namespace utils {
 class NotifyTools {
   public:
+  #ifndef __MINGW32__
     static void send(const QString &msg, const QString &summary = "");
+  #else
+    static void send(const QString &msg, const QString &summary = "", QSharedPointer<QSystemTrayIcon> tray = nullptr);
+  #endif
 };
 } // namespace utils
 } // namespace across

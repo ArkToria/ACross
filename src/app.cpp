@@ -102,9 +102,14 @@ void Application::setRootContext() {
     p_config->setLogMode();
     p_db->init(p_config->dbPath());
     p_core->init(p_config);
+    p_tray->init(p_config, p_core, p_nodes);
+    #ifndef __MINGW32__
     p_nodes->init(p_config, p_core, p_db);
     p_groups->init(p_config, p_db, p_nodes, p_curl);
-    p_tray->init(p_config, p_core, p_nodes);
+    #else
+    p_nodes->init(p_config, p_core, p_db, p_tray->getTrayIcon());
+    p_groups->init(p_config, p_db, p_nodes, p_curl, p_tray->getTrayIcon());
+    #endif
 }
 
 void Application::setTranslator(const QString &lang) {

@@ -16,7 +16,12 @@ NodeList::~NodeList() {
 
 void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
                     QSharedPointer<CoreTools> core,
-                    QSharedPointer<DBTools> db) {
+                    QSharedPointer<DBTools> db
+#ifdef __MINGW32__
+                    ,QSharedPointer<QSystemTrayIcon> tray) {
+#else
+                    ) {
+#endif
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("nodes");
     } else {
@@ -29,6 +34,10 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
     p_config = config;
 
     p_core = core;
+
+#ifdef __MINGW32__
+    p_tray = tray;
+#endif
 
     connect(p_config.get(), &ConfigTools::apiEnableChanged, this, [&]() {
         if (!p_config->apiEnable() && p_api != nullptr)
@@ -342,7 +351,12 @@ QString NodeList::jsonFormat(const QString &json_str) {
 void NodeList::copyURLToClipboard(const QString &node_name,
                                   const QString &node_url) {
     NotifyTools::send(node_url,
-                      QString(tr("Copy [%1] URL to clipboard")).arg(node_name));
+                      QString(tr("Copy [%1] URL to clipboard")).arg(node_name)
+#ifdef __MINGW32__
+                      , p_tray);
+#else
+                      );
+#endif
 
     ClipboardTools::send(node_url);
 }

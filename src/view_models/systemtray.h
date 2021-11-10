@@ -27,6 +27,10 @@ class SystemTray : public QObject {
     QString titleString();
     QString inboundString();
 
+    QSharedPointer<QSystemTrayIcon> getTrayIcon() {
+      return p_tray_icon;
+    };
+
     Q_INVOKABLE void toggleVisibilitySetText(bool vis);
     Q_INVOKABLE static inline bool isSystemTrayAvailable() {
         return QSystemTrayIcon::isSystemTrayAvailable();

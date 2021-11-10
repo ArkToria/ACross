@@ -11,7 +11,12 @@ GroupList::GroupList(QObject *parent) {}
 void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
                      QSharedPointer<across::DBTools> db,
                      QSharedPointer<across::NodeList> nodes,
-                     QSharedPointer<across::network::CURLTools> curl) {
+                     QSharedPointer<across::network::CURLTools> curl
+#ifdef __MINGW32__
+                    ,QSharedPointer<QSystemTrayIcon> tray) {
+#else
+                    ) {
+#endif
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("groups");
     } else {
@@ -23,6 +28,9 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
     p_db = db;
     p_curl = curl;
     p_nodes = nodes;
+#ifdef __MINGW32__
+    p_tray = tray;
+#endif
 
     connect(p_nodes.get(), &NodeList::groupSizeChanged, this,
             &GroupList::handleItemsChanged);
@@ -391,7 +399,12 @@ void GroupList::setDisplayGroupID(int id) { p_nodes->setDisplayGroupID(id); }
 void GroupList::copyUrlToClipboard(int index) {
     auto item = m_groups.at(index);
     NotifyTools::send(item.url,
-                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
+                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name)
+#ifdef __MINGW32__
+                      , p_tray);
+#else
+                      );
+#endif
     ClipboardTools::send(item.url);
 }
 
@@ -405,7 +418,12 @@ void GroupList::copyNodesToClipboard(int index) {
     }
 
     NotifyTools::send(nodes_url,
-                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
+                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name)
+#ifdef __MINGW32__
+                      , p_tray);
+#else
+                      );
+#endif
     ClipboardTools::send(nodes_url);
 }
 

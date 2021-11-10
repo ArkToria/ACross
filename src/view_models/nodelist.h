@@ -22,6 +22,10 @@
 #include <QVariant>
 #include <QtConcurrent>
 
+#ifdef __MINGW32__
+#include <QSystemTrayIcon>
+#endif
+
 namespace across {
 using Json = nlohmann::json;
 
@@ -46,7 +50,12 @@ class NodeList : public QObject {
 
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,
-              QSharedPointer<across::DBTools> db);
+              QSharedPointer<across::DBTools> db
+#ifdef __MINGW32__
+              ,QSharedPointer<QSystemTrayIcon> tray);
+#else
+              );
+#endif
 
     bool run();
     void setFilter(const QMap<qint64, QList<qint64>> &search_results);
@@ -72,7 +81,7 @@ class NodeList : public QObject {
     Q_INVOKABLE void setDocument(QVariant &v);
     Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
     Q_INVOKABLE static QString jsonFormat(const QString &json_str);
-    Q_INVOKABLE static void copyURLToClipboard(const QString &node_name,
+    Q_INVOKABLE void copyURLToClipboard(const QString &node_name,
                                                const QString &node_url);
     Q_INVOKABLE void copyCurrentNodeURLToClipboard();
 
@@ -120,6 +129,9 @@ class NodeList : public QObject {
     QSharedPointer<across::core::APITools> p_api;
     QSharedPointer<across::setting::ConfigTools> p_config;
     QSharedPointer<across::core::CoreTools> p_core;
+#ifdef __MINGW32__
+    QSharedPointer<QSystemTrayIcon> p_tray;
+#endif
 
     QQueue<QFuture<void>> work_tasks;
 
