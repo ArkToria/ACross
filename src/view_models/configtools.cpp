@@ -824,7 +824,7 @@ void ConfigTools::setEnableBanner(bool val) {
     p_theme->mutable_banner()->set_enable(val);
 
     // restore bannerTextColor when disable banner
-    if (!val) {
+    if (p_theme->banner().enable() && p_theme->has_colors()) {
         p_theme->mutable_colors()->set_banner_text_color(
             p_theme->colors().text_color());
     }

@@ -104,6 +104,7 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
 
     if (p_config->enableAutoConnect()) {
         NodeInfo node;
+
         if (auto id = p_db->getCurrentNodeID(); id) {
             auto nodes =
                 p_db->listAllNodesFromGroupID(p_db->getCurrentGroupID());
@@ -127,6 +128,10 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
             p_logger->error("Failed to start current node: {} {}", node.id,
                             node.name.toStdString());
         }
+
+        emit currentGroupIDChanged();
+        emit currentNodeIDChanged();
+        emit currentNodeInfoChanged(m_node.toVariantMap());
     }
 
     reloadItems();
