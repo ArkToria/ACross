@@ -112,34 +112,24 @@ Item {
             color: acrossConfig.textColor
         }
 
-        Item {
+        Label {
             Layout.fillWidth: true
+
+            text: acrossTray.isSystemTrayAvailable(
+                      ) ? "" : qsTr("System tray is unavailable")
+
+            color: acrossConfig.warnColor
         }
 
         SwitchBox {
             id: enableTrayIcon
-
             Layout.alignment: Qt.AlignRight
 
-            checkable: acrossTray.isSystemTrayAvailable()
-
+            foregroundColor: acrossConfig.highlightTextColor
             checked: acrossConfig.enableTray
 
             onCheckedChanged: {
-                if (acrossTray.isSystemTrayAvailable()) {
-                    acrossConfig.enableTray = checked
-                } else {
-                    checked = false
-                }
-            }
-
-            Component.onCompleted: {
-                if (acrossTray.isSystemTrayAvailable()) {
-                    foregroundColor = acrossConfig.highlightTextColor
-                } else {
-                    foregroundColor = Qt.lighter(
-                                acrossConfig.highlightTextColor, 0.5)
-                }
+                acrossConfig.enableTray = checked
             }
         }
 

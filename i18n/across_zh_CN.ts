@@ -193,21 +193,26 @@
         <translation>默认 &gt; 上次连接 （更新群组会重置默认节点）</translation>
     </message>
     <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="119"/>
+        <source>System tray is unavailable</source>
+        <translation>系统托盘不可用</translation>
+    </message>
+    <message>
         <source>Default &gt; Last Connected. Updating groups will reset the default node)</source>
         <translation type="vanished">默认 &gt; 上次连接</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="147"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="137"/>
         <source>Minimize startup</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="168"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="158"/>
         <source>Log Outputs</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="187"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
