@@ -820,9 +820,17 @@ bool ConfigTools::enableAutoStart() { return p_interface->auto_start(); }
 void ConfigTools::setEnableBanner(bool val) {
     if (val == p_theme->banner().enable())
         return;
+
     p_theme->mutable_banner()->set_enable(val);
 
+    // restore bannerTextColor when disable banner
+    if (!val) {
+        p_theme->mutable_colors()->set_banner_text_color(
+            p_theme->colors().text_color());
+    }
+
     emit enableBannerChanged();
+    emit bannerTextColorChanged();
     emit bannerMaskColorChanged();
     emit configChanged();
 }
