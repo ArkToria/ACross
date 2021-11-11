@@ -13,6 +13,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-qt6-base" "${MINGW_PACKAGE_PREFIX}-qt6-svg" "$
     "${MINGW_PACKAGE_PREFIX}-qt6-tools" "${MINGW_PACKAGE_PREFIX}-qt6-imageformats" "${MINGW_PACKAGE_PREFIX}-qt6-5compat" 
     "${MINGW_PACKAGE_PREFIX}-curl" "${MINGW_PACKAGE_PREFIX}-fmt" "${MINGW_PACKAGE_PREFIX}-grpc"
     "${MINGW_PACKAGE_PREFIX}-nlohmann-json" "${MINGW_PACKAGE_PREFIX}-protobuf" "${MINGW_PACKAGE_PREFIX}-spdlog"
+    "${MINGW_PACKAGE_PREFIX}-zxing-cpp"
     )
 makedepends=("git" "${MINGW_PACKAGE_PREFIX}-cmake" "${MINGW_PACKAGE_PREFIX}-clang" "${MINGW_PACKAGE_PREFIX}-ninja"
     "${MINGW_PACKAGE_PREFIX}-gcc" "${MINGW_PACKAGE_PREFIX}-gtest")
