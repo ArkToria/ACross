@@ -150,12 +150,18 @@ qt_add_executable(across
     MANUAL_FINALIZATION
     ${PROJECT_HEADERS}
     ${PROJECT_SOURCES}
+    misc/across.rc
     )
 
 if(ZXing_ADDED)
 else()
     # Include header files from system package or fetch content with the sample path
     target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
+endif()
+
+# For CppWinRT pregenerated headers in Windows SDK
+if (MSVC)
+target_compile_options(across PRIVATE "/await" "/Zc:twoPhase-")
 endif()
 
 target_compile_definitions(across
@@ -180,6 +186,10 @@ target_link_libraries(across PRIVATE
     Threads::Threads
     ZXing::Core
     )
+
+if (MSVC)
+    target_link_libraries(across PRIVATE WindowsApp.lib)
+endif()
 
 qt_add_qml_module(across
     URI "ACross"

@@ -51,7 +51,6 @@ jobs:
           vcpkgGitCommitId: 8acb35e27fc52c183e8f450346a073ea1bbce888
           runVcpkgInstall: true
           vcpkgJsonGlob: 'vcpkg.json'
-          vcpkgTriplet: x64-windows
 
       - name: Build
         run: |
