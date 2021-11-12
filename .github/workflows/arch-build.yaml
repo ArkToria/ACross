@@ -36,16 +36,3 @@ jobs:
           name: archlinux-${{ env.across_package_name }}
           path: "pkgbuild/arch/across-dev-git/*.pkg.tar.zst"
           if-no-files-found: error
-      - name: IPFS Setup Action
-        uses: ibnesayeed/setup-ipfs@0.6.0
-        with:
-          ipfs_version: ^0.10.0
-      - name: IPFS Pin Package
-        shell: bash
-        run: echo "ipfs_hash=$(ipfs add -r pkgbuild/arch/across-dev-git/*.pkg.tar.zst) | cut -d ' ' -f2" >> $GITHUB_ENV
-      - name: Export IPFS Hash
-        uses: actions/upload-artifact@v2.2.4
-        with:
-          name: archlinux-${{ env.ipfs_hash }}
-          path: "pkgbuild/arch/across-dev-git/empty"
-          if-no-files-found: ignore
