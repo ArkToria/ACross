@@ -6,6 +6,13 @@
 #include "dbustools.h"
 #endif
 
+#ifdef _MSC_VER
+#include <ShObjIdl.h>
+#include <winrt/Windows.Data.Xml.Dom.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.UI.Notifications.h>
+#endif
+
 #include <QSharedPointer>
 #include <QSystemTrayIcon>
 
@@ -17,7 +24,9 @@ class NotifyTools {
                      QSharedPointer<QSystemTrayIcon> tray = nullptr);
 
   private:
+#ifdef _MSC_VER
     inline static bool aumid_initialized{false};
+#endif
 };
 } // namespace utils
 } // namespace across

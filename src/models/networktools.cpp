@@ -103,6 +103,7 @@ int TCPPing::getAvgLatency() {
     return result;
 }
 
+#ifdef Q_OS_UNIX
 int TCPPing::getLatency(const QString &addr, unsigned int port) {
     QTcpSocket socket;
     QTime time = QTime::currentTime();
@@ -118,6 +119,70 @@ int TCPPing::getLatency(const QString &addr, unsigned int port) {
 
     return latency;
 }
+#endif
+
+#ifdef Q_OS_WIN
+int TCPPing::getLatency(const QString &host_name, unsigned int port) {
+    QTime time = QTime::currentTime();
+    WSADATA wsaData;
+    SOCKET ConnectSocket = INVALID_SOCKET;
+    struct addrinfo *result = nullptr,
+                    *ptr = nullptr,
+                    hints;
+    int iResult;
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != 0) {
+        return -1;
+    }
+
+    ZeroMemory(&hints, sizeof(hints));
+
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+
+    // Resolve the server address and port
+    iResult = getaddrinfo(host_name.toStdString().c_str(), std::to_string(port).c_str(), &hints, &result);
+    if ( iResult != 0 ) {
+        WSACleanup();
+        return -1;
+    }
+
+    // Attempt to connect to an address until one succeeds
+    for(ptr=result; ptr != NULL ;ptr=ptr->ai_next) {
+        ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
+            ptr->ai_protocol);
+
+        if (ConnectSocket == INVALID_SOCKET) {
+            WSACleanup();
+            return -1;
+        }
+
+        // Connect to server.
+        iResult = _WINSOCKAPI_::connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+
+        if (iResult == SOCKET_ERROR) {
+            closesocket(ConnectSocket);
+            ConnectSocket = INVALID_SOCKET;
+            continue;
+        }
+        break;
+    }
+
+    freeaddrinfo(result);
+
+    if (ConnectSocket == INVALID_SOCKET) {
+        WSACleanup();
+        return -1;
+    }
+
+    // cleanup
+    closesocket(ConnectSocket);
+    WSACleanup();
+
+    return  time.msecsTo(QTime::currentTime());
+}
+#endif
 
 CURLTools::CURLTools(QObject *parent) : QObject(parent) {
     curl_global_init(CURL_GLOBAL_DEFAULT);

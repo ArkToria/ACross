@@ -187,8 +187,16 @@ target_link_libraries(across PRIVATE
     ZXing::Core
     )
 
-if (MSVC)
-    target_link_libraries(across PRIVATE WindowsApp.lib)
+
+if(WIN32)
+    if (MSVC)
+        target_link_libraries(across PRIVATE WindowsApp.lib)
+    endif()
+
+    target_link_libraries(across PRIVATE
+        wsock32
+        ws2_32
+        )
 endif()
 
 qt_add_qml_module(across
