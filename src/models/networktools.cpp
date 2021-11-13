@@ -11,12 +11,14 @@ DNSTools::DNSTools(const QString &domain, QDnsLookup::Type type,
 
 void DNSTools::query(const QString &domain, QDnsLookup::Type type,
                      const QHostAddress &dns_server) {
-    p_dns = std::make_shared<QDnsLookup>(new QDnsLookup(this));
-    connect(p_dns.get(), SIGNAL(finished()), this, SLOT(callback()));
 
+    p_dns = std::make_shared<QDnsLookup>(new QDnsLookup(this));
     p_dns->setType(type);
     p_dns->setName(domain);
     p_dns->setNameserver(dns_server);
+
+    connect(p_dns.get(), SIGNAL(finished()), this, SLOT(callback()));
+
     p_dns->lookup();
 }
 
@@ -127,10 +129,11 @@ int TCPPing::getLatency(const QString &host_name, unsigned int port) {
     QTime time = QTime::currentTime();
     WSADATA wsa_data;
     SOCKET connect_socket = INVALID_SOCKET;
-    struct addrinfo *result = nullptr, *ptr = nullptr, hints;
+    struct addrinfo* p_result;
+    struct addrinfo hints;
 
     do {
-        if (err = WSAStartup(MAKEWORD(2, 2), &wsaData); err != 0) {
+        if (err = WSAStartup(MAKEWORD(2, 2), &wsa_data); err != 0) {
             break;
         }
 
@@ -141,42 +144,37 @@ int TCPPing::getLatency(const QString &host_name, unsigned int port) {
 
         // Resolve the server address and port
         if (err = getaddrinfo(host_name.toStdString().c_str(),
-                              std::to_string(port).c_str(), &hints, &result);
+                              std::to_string(port).c_str(), &hints, &p_result);
             err != 0) {
             break;
         }
 
         // Attempt to connect to an address until one succeeds
-        for (ptr = result; ptr != nullptr; ptr = ptr->ai_next) {
+        for (auto p_cursor = p_result; p_cursor != nullptr; p_cursor = p_cursor->ai_next) {
             connect_socket =
-                socket(ptr->ai_family, ptr->ai_socktype, ptr->ai_protocol);
+                socket(p_cursor->ai_family, p_cursor->ai_socktype, p_cursor->ai_protocol);
 
             if (connect_socket == INVALID_SOCKET) {
-                err = INVALID_SOCKET;
+                err = SOCKET_ERROR;
                 break;
             }
 
             // Connect to server.
-            if (err = _WINSOCKAPI_::connect(connect_socket, ptr->ai_addr,
-                                            (int)ptr->ai_addrlen);
+            if (err = _WINSOCKAPI_::connect(connect_socket, p_cursor->ai_addr,
+                                            (int)p_cursor->ai_addrlen);
                 err == SOCKET_ERROR) {
                 closesocket(connect_socket);
                 connect_socket = INVALID_SOCKET;
-                err = INVALID_SOCKET;
                 continue;
             }
-
             break;
         }
     } while (false);
 
-    freeaddrinfo(result);
-
-    // cleanup
     closesocket(connect_socket);
     WSACleanup();
 
-    if (err != 0)
+    if (err == 0)
         return time.msecsTo(QTime::currentTime());
     else
         return -1;
