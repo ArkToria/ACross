@@ -153,19 +153,14 @@ qt_add_executable(across
     misc/across.rc
     )
 
-if(ZXing_ADDED)
-else()
+if(NOT ZXing_ADDED)
     # Include header files from system package or fetch content with the sample path
     target_include_directories(across PRIVATE $<TARGET_PROPERTY:ZXing::Core,INTERFACE_INCLUDE_DIRECTORIES>/ZXing)
 endif()
 
-# For CppWinRT pregenerated headers in Windows SDK
-if (MSVC)
-target_compile_options(across PRIVATE "/await" "/Zc:twoPhase-")
-endif()
-
 target_compile_definitions(across
     PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+
 target_link_libraries(across PRIVATE
     Qt::Core
     Qt::Quick
@@ -187,9 +182,13 @@ target_link_libraries(across PRIVATE
     ZXing::Core
     )
 
-
 if(WIN32)
+    set_target_properties(across PROPERTIES WIN32_EXECUTABLE TRUE)
+
     if (MSVC)
+        # For CppWinRT pregenerated headers in Windows SDK
+        target_compile_options(across PRIVATE "/await" "/Zc:twoPhase-")
+
         target_link_libraries(across PRIVATE WindowsApp.lib)
     endif()
 
@@ -224,12 +223,11 @@ qt_add_resources(across misc
     )
 
 qt_import_qml_plugins(across)
-qt_finalize_executable(across)
-add_dependencies(across across_lupdate)
 
-if (WIN32)
-    set_target_properties(across PROPERTIES WIN32_EXECUTABLE TRUE)
-endif()
+qt_finalize_executable(across)
+
+# update translation
+add_dependencies(across across_lupdate)
 
 ######## UNIT_TEST ########
 
