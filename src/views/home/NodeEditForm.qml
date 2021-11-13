@@ -16,7 +16,8 @@ Window {
     minimumWidth: 680
     minimumHeight: 420
     title: qsTr("Edit Configuration")
-    flags: Qt.WindowStaysOnTopHint
+
+    flags: Qt.platform.os === "windows" ? Qt.Window : Qt.WindowStaysOnTopHint
     modality: Qt.ApplicationModal
 
     property var nodeModel: null
@@ -79,18 +80,23 @@ Window {
                 columnSpacing: acrossConfig.itemSpacing * 2
                 rowSpacing: acrossConfig.itemSpacing * 2
 
-                TextAreaBox {
-                    id: jsonPreview
+                ScrollView {
                     Layout.fillHeight: true
                     Layout.preferredWidth: parent.width / 2
                     Layout.rowSpan: 3
 
-                    selectByMouse: true
-                    readOnly: true
-                    font: fixedFont
+                    TextAreaBox {
+                        id: jsonPreview
+                        width: parent.availableWidth
+                        height: parent.availableHeight
 
-                    Component.onCompleted: {
-                        acrossNodes.setDocument(jsonPreview.textDocument)
+                        selectByMouse: true
+                        readOnly: true
+                        font: fixedFont
+
+                        Component.onCompleted: {
+                            acrossNodes.setDocument(jsonPreview.textDocument)
+                        }
                     }
                 }
 
