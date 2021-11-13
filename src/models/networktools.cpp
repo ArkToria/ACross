@@ -121,7 +121,7 @@ int TCPPing::getLatency(const QString &addr, unsigned int port) {
 }
 #endif
 
-#ifdef Q_OS_UNIX
+#ifdef Q_OS_WIN
 int TCPPing::getLatency(const QString &host_name, unsigned int port) {
     int err = 0;
     QTime time = QTime::currentTime();
