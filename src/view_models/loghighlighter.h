@@ -7,6 +7,7 @@
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 #include <QTextDocument>
+#include <QSharedPointer>
 
 #include "across.grpc.pb.h"
 
@@ -28,20 +29,20 @@ class LogHighlighter : public QSyntaxHighlighter {
     struct HighlightingRule {
         bool capture_groups = true;
         QRegularExpression pattern;
-        QVector<QTextCharFormat> formats;
+        QVector<QSharedPointer<QTextCharFormat>> formats;
     };
 
     QVector<HighlightingRule> highlighting_rules;
 
-    QTextCharFormat none_format;
-    QTextCharFormat info_format;
-    QTextCharFormat warning_format;
-    QTextCharFormat highlight_format;
-    QTextCharFormat date_format;
-    QTextCharFormat time_format;
-    QTextCharFormat logger_format;
-    QTextCharFormat ip_host_format;
-    QTextCharFormat tcp_udp_format;
+    QSharedPointer<QTextCharFormat> none_format;
+    QSharedPointer<QTextCharFormat> info_format;
+    QSharedPointer<QTextCharFormat> warning_format;
+    QSharedPointer<QTextCharFormat> highlight_format;
+    QSharedPointer<QTextCharFormat> date_format;
+    QSharedPointer<QTextCharFormat> time_format;
+    QSharedPointer<QTextCharFormat> logger_format;
+    QSharedPointer<QTextCharFormat> ip_host_format;
+    QSharedPointer<QTextCharFormat> tcp_udp_format;
 };
 } // namespace across
 

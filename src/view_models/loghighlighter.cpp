@@ -2,23 +2,33 @@
 
 namespace across {
 LogHighlighter::LogHighlighter(QTextDocument *parent)
-    : QSyntaxHighlighter(parent) {}
+    : QSyntaxHighlighter(parent) {
+    none_format = QSharedPointer<QTextCharFormat>::create();
+    info_format = QSharedPointer<QTextCharFormat>::create();
+    warning_format = QSharedPointer<QTextCharFormat>::create();
+    highlight_format = QSharedPointer<QTextCharFormat>::create();
+    date_format = QSharedPointer<QTextCharFormat>::create();
+    time_format = QSharedPointer<QTextCharFormat>::create();
+    logger_format = QSharedPointer<QTextCharFormat>::create();
+    ip_host_format = QSharedPointer<QTextCharFormat>::create();
+    tcp_udp_format = QSharedPointer<QTextCharFormat>::create();
+}
 
 void LogHighlighter::init() {
     HighlightingRule rule;
     // logger
     rule.pattern = QRegularExpression(R"((\[)([^\]]+)(\]))");
     rule.formats =
-        QVector<QTextCharFormat>{none_format, logger_format, none_format};
+        QVector<QSharedPointer<QTextCharFormat>>{none_format, logger_format, none_format};
     highlighting_rules.append(rule);
     // date
     rule.pattern = QRegularExpression(R"((\d\d\d\d-\d\d-\d\d))");
-    rule.formats = QVector<QTextCharFormat>{date_format};
+    rule.formats = QVector<QSharedPointer<QTextCharFormat>>{date_format};
     highlighting_rules.append(rule);
 
     // time
     rule.pattern = QRegularExpression(R"((\d\d:\d\d:\d\d.\d\d\d))");
-    rule.formats = QVector<QTextCharFormat>{time_format};
+    rule.formats = QVector<QSharedPointer<QTextCharFormat>>{time_format};
     highlighting_rules.append(rule);
 
     // Modified From Qv2ray
@@ -36,14 +46,14 @@ void LogHighlighter::init() {
             QRegularExpression(REGEX_IPV4_ADDR ":" REGEX_PORT_NUMBER);
         rule.pattern.setPatternOptions(
             QRegularExpression::ExtendedPatternSyntaxOption);
-        rule.formats = QVector<QTextCharFormat>{ip_host_format};
+        rule.formats = QVector<QSharedPointer<QTextCharFormat>>{ip_host_format};
         highlighting_rules.append(rule);
         //
         rule.pattern =
             QRegularExpression(REGEX_IPV6_ADDR ":" REGEX_PORT_NUMBER);
         rule.pattern.setPatternOptions(
             QRegularExpression::ExtendedPatternSyntaxOption);
-        rule.formats = QVector<QTextCharFormat>{ip_host_format};
+        rule.formats = QVector<QSharedPointer<QTextCharFormat>>{ip_host_format};
         highlighting_rules.append(rule);
         //
         rule.pattern = QRegularExpression(
@@ -51,13 +61,13 @@ void LogHighlighter::init() {
             "a-zA-Z]{2,6}(/|):" REGEX_PORT_NUMBER);
         rule.pattern.setPatternOptions(
             QRegularExpression::PatternOption::ExtendedPatternSyntaxOption);
-        rule.formats = QVector<QTextCharFormat>{ip_host_format};
+        rule.formats = QVector<QSharedPointer<QTextCharFormat>>{ip_host_format};
         highlighting_rules.append(rule);
 
         rule.capture_groups = true;
     }
 
-    QList<QPair<QString, QTextCharFormat>> keywords{
+    QList<QPair<QString, QSharedPointer<QTextCharFormat>>> keywords{
         qMakePair("info", info_format),
         qMakePair("warning", warning_format),
         qMakePair("error", warning_format),
@@ -68,7 +78,7 @@ void LogHighlighter::init() {
     for (auto &&keyword : keywords) {
         rule.pattern =
             QRegularExpression(QString(R"((\b%1\b))").arg(keyword.first));
-        rule.formats = QVector<QTextCharFormat>{keyword.second};
+        rule.formats = QVector<QSharedPointer<QTextCharFormat>>{keyword.second};
         highlighting_rules.append(rule);
     }
 }
@@ -76,15 +86,17 @@ void LogHighlighter::init() {
 void LogHighlighter::setTheme(const config::Theme &theme) {
     auto colors = theme.colors();
 
-    info_format.setForeground(QColor(colors.style_color().c_str()));
-    warning_format.setForeground(QColor(colors.warn_color().c_str()));
-    highlight_format.setForeground(QColor(colors.highlight_color().c_str()));
-    ip_host_format.setForeground(QColor(colors.text_color().c_str()));
-    logger_format.setForeground(QColor(colors.highlight_color().c_str()));
-    date_format.setForeground(QColor(colors.text_color().c_str()));
-    time_format.setForeground(QColor(colors.text_color().c_str()));
-    tcp_udp_format.setForeground(QColor(colors.text_color().c_str()));
-    tcp_udp_format.setFontWeight(QFont::Bold);
+    info_format->setForeground(QColor(colors.style_color().c_str()));
+    warning_format->setForeground(QColor(colors.warn_color().c_str()));
+    highlight_format->setForeground(QColor(colors.highlight_color().c_str()));
+    ip_host_format->setForeground(QColor(colors.text_color().c_str()));
+    logger_format->setForeground(QColor(colors.highlight_color().c_str()));
+    date_format->setForeground(QColor(colors.text_color().c_str()));
+    time_format->setForeground(QColor(colors.text_color().c_str()));
+    tcp_udp_format->setForeground(QColor(colors.text_color().c_str()));
+    tcp_udp_format->setFontWeight(QFont::Bold);
+
+    rehighlight();
 }
 
 void LogHighlighter::highlightBlock(const QString &text) {
@@ -98,11 +110,11 @@ void LogHighlighter::highlightBlock(const QString &text) {
                 for (int index = 1; index <= rule.formats.size(); index++) {
                     setFormat(match.capturedStart(index),
                               match.capturedLength(index),
-                              rule.formats[index - 1]);
+                              *rule.formats[index - 1]);
                 }
             } else {
                 setFormat(match.capturedStart(), match.capturedLength(),
-                          rule.formats[0]);
+                          *rule.formats[0]);
             }
         }
     }

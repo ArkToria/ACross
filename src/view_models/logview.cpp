@@ -28,6 +28,9 @@ LogView::~LogView() {
 void LogView::setTheme(const across::config::Theme &theme) {
     m_theme.Clear();
     m_theme.CopyFrom(theme);
+    
+    m_core_highlighter.setTheme(theme);
+    m_app_highlighter.setTheme(theme);
 }
 
 void LogView::setLogItem(QQuickItem *item, const QString &name) {
