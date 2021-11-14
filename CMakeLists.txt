@@ -190,6 +190,11 @@ if(WIN32)
         target_compile_options(across PRIVATE "/await" "/Zc:twoPhase-")
 
         target_link_libraries(across PRIVATE WindowsApp.lib)
+
+        # For MSIX packaging
+        include_external_msproject(MsixBuild
+		"${CMAKE_CURRENT_SOURCE_DIR}/msixbuild/MsixBuild.wapproj"
+		TYPE "C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5")
     endif()
 
     target_link_libraries(across PRIVATE
