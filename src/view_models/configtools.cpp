@@ -93,7 +93,7 @@ void ConfigTools::loadThemeConfig() {
     emit backgroundOpacityChanged();
 }
 
-Config *ConfigTools::configPtr() { return &m_config; }
+Config *ConfigTools::config() { return &m_config; }
 
 void ConfigTools::setInboundObject(v2ray::config::V2rayConfig &config) {
     if (auto http_setting = p_inbound->http(); http_setting.enable()) {
@@ -136,20 +136,59 @@ void ConfigTools::setInboundObject(v2ray::config::V2rayConfig &config) {
             socks->set_ip(socks5_setting.udp_ip());
         }
     }
+}
 
-    if (auto api_setting = p_core->api(); api_setting.enable()) {
-        auto inbound = config.add_inbounds();
+void ConfigTools::setAPIObject(v2ray::config::V2rayConfig &config) {
+    if (auto api = p_core->api(); api.enable()) {
+        // listening port on dokodemo_door
+        {
+            auto inbound = config.add_inbounds();
+            inbound->set_listen(api.listen());
+            inbound->set_port(api.port());
+            inbound->set_protocol("dokodemo-door");
+            inbound->set_tag("ACROSS_API_INBOUND");
 
-        inbound->set_listen(api_setting.listen());
-        inbound->set_port(api_setting.port());
-        inbound->set_protocol("dokodemo-door");
-        inbound->set_tag("ACROSS_API_INBOUND");
+            auto dokodemo_door =
+                inbound->mutable_settings()->mutable_dokodemo_door();
+            dokodemo_door->set_address(api.listen());
+            dokodemo_door->set_port(api.port());
+        }
 
-        auto dokodemo_door =
-            inbound->mutable_settings()->mutable_dokodemo_door();
-        dokodemo_door->set_address(api_setting.listen());
-        dokodemo_door->set_port(api_setting.port());
+        // enable grpc services on api object
+        {
+            auto api_object = config.mutable_api();
+            api_object->set_tag("ACROSS_API");
+            api_object->add_services("LoggerService");
+            api_object->add_services("StatsService");
+        }
+
+        // api tags on routing
+        {
+            auto routing = config.mutable_routing();
+            auto rule = routing->add_rules();
+            rule->set_type("field");
+            rule->set_outboundtag("ACROSS_API");
+            rule->add_inboundtag("ACROSS_API_INBOUND");
+        }
+
+        // enable statistics
+        { auto _ = config.mutable_stats(); }
+
+        // statistics object
+        {
+            auto policy = config.mutable_policy();
+            auto system = policy->mutable_system();
+            system->set_statsinbounddownlink(true);
+            system->set_statsinbounduplink(true);
+            system->set_statsoutbounddownlink(true);
+            system->set_statsoutbounduplink(true);
+        }
     }
+}
+
+void ConfigTools::setLogObject(v2ray::config::V2rayConfig &config) {
+    auto log_object = config.mutable_log();
+    log_object->set_loglevel(p_core->log_level());
 }
 
 QUrl ConfigTools::getInboundProxy() {

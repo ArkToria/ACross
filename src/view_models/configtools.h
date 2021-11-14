@@ -164,22 +164,28 @@ class ConfigTools : public QObject {
     explicit ConfigTools(QObject *parent = nullptr);
     bool init(QSharedPointer<across::network::CURLTools> curl,
               const QString &file_path = "");
-    bool loadConfigPath(const QString &file_path = "");
+
     void loadThemeConfig();
-    across::config::Config *configPtr();
-    void setInboundObject(v2ray::config::V2rayConfig &config);
-    QUrl getInboundProxy();
+    bool loadConfigPath(const QString &file_path = "");
     void mergeConfigFromJSON(const std::string &json_str);
-    across::config::Theme *currentTheme();
+
+    void setAPIObject(v2ray::config::V2rayConfig &config);
+    void setLogObject(v2ray::config::V2rayConfig &config);
+    void setInboundObject(v2ray::config::V2rayConfig &config);
 
     Q_INVOKABLE QString getConfigVersion();
     Q_INVOKABLE QString getLanguage();
+    Q_INVOKABLE QUrl getInboundProxy();
+
     Q_INVOKABLE void freshColors();
     Q_INVOKABLE bool testAPI();
     Q_INVOKABLE bool testAndSetAddr(const QString &addr);
     Q_INVOKABLE void freshInbound();
     Q_INVOKABLE void saveConfig(QString config_path = "");
     Q_INVOKABLE void checkUpdate();
+
+    across::config::Config *config();
+    across::config::Theme *currentTheme();
 
     static bool isFileExist(QString file_path);
 

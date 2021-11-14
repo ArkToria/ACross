@@ -26,7 +26,7 @@ bool CoreTools::init(QSharedPointer<ConfigTools> config) {
     p_process->setProcessChannelMode(QProcess::MergedChannels);
 
     // lambda
-    auto setCore = [&]() { p_core = p_config->configPtr()->mutable_core(); };
+    auto setCore = [&]() { p_core = p_config->config()->mutable_core(); };
 
     auto setWorkingDirectory = [&]() {
         QFileInfo db_path(p_config->dbPath());

@@ -50,12 +50,8 @@ class NodeList : public QObject {
 
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,
-              QSharedPointer<across::DBTools> db
-#ifdef __MINGW32__
-              ,QSharedPointer<QSystemTrayIcon> tray);
-#else
-              );
-#endif
+              QSharedPointer<across::DBTools> db,
+              QSharedPointer<QSystemTrayIcon> tray = nullptr);
 
     bool run();
     void setFilter(const QMap<qint64, QList<qint64>> &search_results);
@@ -129,9 +125,7 @@ class NodeList : public QObject {
     QSharedPointer<across::core::APITools> p_api;
     QSharedPointer<across::setting::ConfigTools> p_config;
     QSharedPointer<across::core::CoreTools> p_core;
-#ifdef __MINGW32__
     QSharedPointer<QSystemTrayIcon> p_tray;
-#endif
 
     QQueue<QFuture<void>> work_tasks;
 

@@ -15,13 +15,8 @@ NodeList::~NodeList() {
 }
 
 void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
-                    QSharedPointer<CoreTools> core,
-                    QSharedPointer<DBTools> db
-#ifdef __MINGW32__
-                    ,QSharedPointer<QSystemTrayIcon> tray) {
-#else
-                    ) {
-#endif
+                    QSharedPointer<CoreTools> core, QSharedPointer<DBTools> db,
+                    QSharedPointer<QSystemTrayIcon> tray) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("nodes");
     } else {
@@ -30,14 +25,12 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
     }
 
     p_db = db;
-
     p_config = config;
-
     p_core = core;
 
-#ifdef __MINGW32__
-    p_tray = tray;
-#endif
+    if (tray != nullptr) {
+        p_tray = tray;
+    }
 
     connect(p_config.get(), &ConfigTools::apiEnableChanged, this, [&]() {
         if (!p_config->apiEnable() && p_api != nullptr)
@@ -216,44 +209,23 @@ void NodeList::reloadItems() {
 }
 
 QString NodeList::generateConfig() {
-    v2ray::config::V2rayConfig config;
+    v2ray::config::V2rayConfig node_config;
 
-    auto log_object = config.mutable_log();
-    log_object->set_loglevel(p_config->logLevel().toStdString());
-
-    auto api_object = config.mutable_api();
-    api_object->set_tag("ACROSS_API");
-    api_object->add_services("LoggerService");
-    api_object->add_services("StatsService");
-
-    auto routing = config.mutable_routing();
-    auto rule = routing->add_rules();
-    rule->set_type("field");
-    rule->set_outboundtag("ACROSS_API");
-    rule->add_inboundtag("ACROSS_API_INBOUND");
-
-    auto _ = config.mutable_stats();
-
-    auto policy = config.mutable_policy();
-    auto system = policy->mutable_system();
-    system->set_statsinbounddownlink(true);
-    system->set_statsinbounduplink(true);
-    system->set_statsoutbounddownlink(true);
-    system->set_statsoutbounduplink(true);
-
-    p_config->setInboundObject(config);
+    p_config->setLogObject(node_config);
+    p_config->setAPIObject(node_config);
+    p_config->setInboundObject(node_config);
 
     QString json_str;
     if (!m_node.url.contains("://")) {
         json_str = QString::fromStdString(
-            across::SerializeTools::ConfigToJson(config, m_node.raw));
+            across::SerializeTools::ConfigToJson(node_config, m_node.raw));
     } else {
-        auto outbound = config.add_outbounds();
+        auto outbound = node_config.add_outbounds();
         auto temp_outbound =
             across::SerializeTools::JsonToOutbound(m_node.raw.toStdString());
         outbound->CopyFrom(temp_outbound);
         json_str = QString::fromStdString(
-            across::SerializeTools::ConfigToJson(config));
+            across::SerializeTools::ConfigToJson(node_config));
     }
 
 #ifdef QT_DEBUG
@@ -355,13 +327,13 @@ QString NodeList::jsonFormat(const QString &json_str) {
 
 void NodeList::copyURLToClipboard(const QString &node_name,
                                   const QString &node_url) {
-    NotifyTools::send(node_url,
-                      QString(tr("Copy [%1] URL to clipboard")).arg(node_name)
-#ifdef __MINGW32__
-                      , p_tray);
-#else
-                      );
-#endif
+    auto message = QString(tr("Copy [%1] URL to clipboard")).arg(node_name);
+
+    if (p_tray != nullptr) {
+        NotifyTools::send(node_url, message, p_tray);
+    } else {
+        NotifyTools::send(node_url, message);
+    }
 
     ClipboardTools::send(node_url);
 }
