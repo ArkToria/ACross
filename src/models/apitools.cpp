@@ -46,22 +46,33 @@ void APITools::restartMonitoring() { startMonitoring(m_tag); }
 
 std::pair<bool, std::string> APITools::isOk() const {
     auto p_stub = StatsService::NewStub(p_channel);
-    bool isOk = false;
 
-    std::string err;
     ClientContext context;
     SysStatsRequest request;
+    CompletionQueue cq;
     SysStatsResponse response;
+    Status status;
 
     // check response stats
-    if (auto stats = p_stub->GetSysStats(&context, request, &response);
-        stats.ok() && response.uptime() > 0) {
-        isOk = true;
-    } else {
-        err = std::to_string(stats.error_code()) + ": " + stats.error_message();
-    }
+    std::unique_ptr<ClientAsyncResponseReader<SysStatsResponse>> rpc(
+        p_stub->AsyncGetSysStats(&context, request, &cq));
 
-    return {isOk, err};
+    rpc->Finish(&response, &status, (void *)1);
+
+    void *got_tag;
+    bool ok = false;
+
+    GPR_ASSERT(cq.Next(&got_tag, &ok));
+    GPR_ASSERT(got_tag == (void *)1);
+    GPR_ASSERT(ok);
+
+    if (status.ok()) {
+        return {true, ""};
+    } else {
+        std::string err =
+            std::to_string(status.error_code()) + ": " + status.error_message();
+        return {false, err};
+    }
 }
 
 void APITools::handleTrafficResult(const QVariant &data) {

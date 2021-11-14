@@ -15,7 +15,9 @@
 #include "v2ray_api.grpc.pb.h"
 
 using grpc::Channel;
+using grpc::ClientAsyncResponseReader;
 using grpc::ClientContext;
+using grpc::CompletionQueue;
 using grpc::Status;
 using v2ray::core::app::stats::command::GetStatsRequest;
 using v2ray::core::app::stats::command::GetStatsResponse;
@@ -93,7 +95,7 @@ class APITools : public QObject {
     void trafficChanged(const QVariant &data);
 
   private:
-    const std::string LOCAL_HOST = "127.0.0.1";
+    const std::string LOCAL_HOST = "localhost";
 
     std::shared_ptr<Channel> p_channel;
     QThread *p_thread = nullptr;
