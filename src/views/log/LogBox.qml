@@ -40,7 +40,7 @@ ControlsBasic.ScrollView {
             selectionColor: acrossConfig.highlightColor
 
             font: fixedFont
-            wrapMode: Text.NoWrap
+            wrapMode: Text.WordWrap
             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
 
             onLineCountChanged: {
