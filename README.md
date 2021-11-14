@@ -4,9 +4,9 @@
 
 [More Screenshots...](misc/screenshots)
 
-## Dependences
+## Installation and Usage
 
-- Sync the git submodule at first creation
+Referring to [ACross Wiki](https://wiki.arktoria.org/)
 
 ### Build Status
 
