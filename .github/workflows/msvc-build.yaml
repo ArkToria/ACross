@@ -50,7 +50,7 @@ jobs:
           vcpkgDirectory: './b/vcpkg'
           vcpkgGitCommitId: 7dff5e821e4a0b7fe43e8a28c51357217bb4bef6
           runVcpkgInstall: true
-          vcpkgJsonGlob: 'vcpkg.json'
+          vcpkgJsonGlob: '**/vcpkg.json'
 
       - name: Build
         run: |
