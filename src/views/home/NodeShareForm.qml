@@ -150,14 +150,19 @@ Window {
                             font.pointSize: fontSize
                         }
 
-                        TextAreaBox {
+                        ScrollView {
                             Layout.fillWidth: true
                             Layout.columnSpan: 2
                             Layout.fillHeight: true
 
-                            wrapMode: Text.WrapAnywhere
-                            text: nodeModel.url
-                            readOnly: true
+                            TextAreaBox {
+                                width: parent.availableWidth
+                                height: parent.availableHeight
+
+                                wrapMode: Text.WrapAnywhere
+                                text: nodeModel.url
+                                readOnly: true
+                            }
                         }
 
                         RowLayout {

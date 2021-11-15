@@ -135,7 +135,7 @@ CardBox {
 
                     text: acrossConfig.extraInfo
                     color: acrossConfig.textColor
-                    wrapMode: Text.WrapAnywhere
+                    wrapMode: Text.WordWrap
                     readOnly: true
                     selectByMouse: true
                     selectedTextColor: acrossConfig.highlightTextColor

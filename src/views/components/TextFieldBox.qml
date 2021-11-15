@@ -5,6 +5,7 @@ TextField {
     implicitWidth: 128
     implicitHeight: contentHeight > 32 ? contentHeight : 32
 
+    clip: true
     color: acrossConfig.textColor
     leftPadding: acrossConfig.itemSpacing * 3
     placeholderTextColor: acrossConfig.deepTextColor
