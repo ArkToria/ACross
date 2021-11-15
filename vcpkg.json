@@ -6,7 +6,10 @@
       "name": "grpc",
       "features": [ "codegen" ]
     },
-    "curl",
+    {
+      "name": "curl",
+      "features": [ "openssl" ]
+    },
     "fmt",
     {
       "name": "spdlog",
