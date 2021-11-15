@@ -4,26 +4,21 @@ using namespace across::core;
 using namespace across::setting;
 using namespace across::utils;
 
-CoreTools::CoreTools(QObject *parent) { p_process = new QProcess(parent); }
+CoreTools::CoreTools(QObject *parent) {
+    p_process = QSharedPointer<QProcess>::create();
+    p_process->setProcessChannelMode(QProcess::MergedChannels);
 
-CoreTools::~CoreTools() {
-    this->stop();
-    if (p_process != nullptr) {
-        delete p_process;
-        p_process = nullptr;
+    if (p_logger = spdlog::get("core"); p_logger == nullptr) {
+        qCritical("Failed to start logger");
     }
 }
 
+CoreTools::~CoreTools() {
+    this->stop();
+}
+
 bool CoreTools::init(QSharedPointer<ConfigTools> config) {
-    p_logger = spdlog::get("core");
-    if (p_logger == nullptr) {
-        qCritical("Failed to start logger");
-        return false;
-    }
-
     p_config = config;
-
-    p_process->setProcessChannelMode(QProcess::MergedChannels);
 
     // lambda
     auto setCore = [&]() { p_core = p_config->config()->mutable_core(); };
@@ -45,10 +40,10 @@ bool CoreTools::init(QSharedPointer<ConfigTools> config) {
     connect(p_config.get(), &across::setting::ConfigTools::dbPathChanged, this,
             [=]() { setWorkingDirectory(); });
 
-    connect(p_process, SIGNAL(readyReadStandardOutput()), this,
+    connect(p_process.get(), SIGNAL(readyReadStandardOutput()), this,
             SLOT(onReadData()));
 
-    connect(p_process, &QProcess::stateChanged, this,
+    connect(p_process.get(), &QProcess::stateChanged, this,
             [&](QProcess::ProcessState state) {
                 if (state == QProcess::NotRunning)
                     this->setIsRunning(false);
@@ -69,22 +64,9 @@ int CoreTools::run() {
     if (m_running)
         this->stop();
 
-    if (p_process == nullptr) {
-        p_process = new QProcess();
-        p_process->setProcessChannelMode(QProcess::MergedChannels);
+    if (p_process == nullptr)
+        return -1;
 
-        connect(p_process, SIGNAL(readyReadStandardOutput()), this,
-                SLOT(onReadData()));
-
-        connect(p_process, &QProcess::stateChanged, this,
-                [&](QProcess::ProcessState state) {
-                    if (state == QProcess::NotRunning) {
-                        this->setIsRunning(false);
-                    }
-                });
-    }
-
-    p_process->setProcessEnvironment(m_env);
     p_process->start(p_core->core_path().c_str(), {},
                      QIODevice::ReadWrite | QIODevice::Text);
     p_process->write(m_config.toUtf8());
@@ -107,9 +89,9 @@ int CoreTools::stop() {
     if (p_process != nullptr &&
         p_process->state() == QProcess::ProcessState::Running) {
         p_process->kill();
-        p_process->waitForFinished();
 
-        this->setIsRunning(false);
+        if (p_process->waitForFinished())
+            this->setIsRunning(false);
 
         return p_process->exitCode();
     }

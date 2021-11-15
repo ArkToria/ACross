@@ -47,14 +47,12 @@ class CoreTools : public QObject {
 
   private:
     across::config::Core *p_core;
+    QSharedPointer<QProcess> p_process;
     QSharedPointer<across::setting::ConfigTools> p_config;
     std::shared_ptr<spdlog::logger> p_logger;
 
     QString m_config;
     bool m_running = false;
-
-    QProcess *p_process;
-    QProcessEnvironment m_env;
 };
 } // namespace core
 } // namespace across
