@@ -98,8 +98,11 @@ void GroupModel::setList(GroupList *list) {
         p_list->disconnect(this);
 
     p_list = list;
+
     connectItems();
+
     emit listChanged();
+
     endResetModel();
 }
 

@@ -4,10 +4,10 @@
 #include <QColor>
 #include <QMap>
 #include <QRegularExpression>
+#include <QSharedPointer>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 #include <QTextDocument>
-#include <QSharedPointer>
 
 #include "across.grpc.pb.h"
 

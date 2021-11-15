@@ -15,21 +15,22 @@ class SystemTray : public QObject {
     Q_OBJECT
   public:
     enum Visibility { Minimized = false, Visible = true };
+
     explicit SystemTray(QObject *parent = 0);
+    ~SystemTray();
 
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,
               QSharedPointer<across::NodeList> nodes);
 
+    void setTrayMenu();
     void loadTrayIcons(const QString &stylish = "", const QString &color = "");
     void retranslate();
 
     QString titleString();
     QString inboundString();
 
-    QSharedPointer<QSystemTrayIcon> getTrayIcon() {
-      return p_tray_icon;
-    };
+    QSharedPointer<QSystemTrayIcon> getTrayIcon() { return p_tray_icon; };
 
     Q_INVOKABLE void toggleVisibilitySetText(bool vis);
     Q_INVOKABLE static inline bool isSystemTrayAvailable() {
@@ -63,13 +64,9 @@ class SystemTray : public QObject {
     QIcon connected_icon;
     QIcon disconnected_icon;
 
-    QMenu *tray_root_menu;
-
-    QAction *tray_action_toggle_visibility;
-    QAction *tray_action_start;
-    QAction *tray_action_stop;
-    QAction *tray_action_restart;
-    QAction *tray_action_quit;
+    QSharedPointer<QMenu> tray_root_menu;
+    QSharedPointer<QAction> tray_action_toggle_visibility, tray_action_start,
+        tray_action_stop, tray_action_restart, tray_action_quit;
 };
 } // namespace across
 

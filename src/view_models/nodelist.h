@@ -18,13 +18,10 @@
 #include <QPointer>
 #include <QQuickTextDocument>
 #include <QSharedPointer>
+#include <QSystemTrayIcon>
 #include <QUrl>
 #include <QVariant>
 #include <QtConcurrent>
-
-#ifdef __MINGW32__
-#include <QSystemTrayIcon>
-#endif
 
 namespace across {
 using Json = nlohmann::json;
@@ -54,32 +51,42 @@ class NodeList : public QObject {
               QSharedPointer<QSystemTrayIcon> tray = nullptr);
 
     bool run();
+
+    QString generateConfig();
+
     void setFilter(const QMap<qint64, QList<qint64>> &search_results);
     void clearFilter();
+
     void clearItems();
     void reloadItems();
-    QString generateConfig();
+
     void appendNode(NodeInfo node);
     void updateNode(NodeInfo node);
+
     void setUploadTraffic(double newUploadTraffic);
     void setDownloadTraffic(double newDownloadTraffic);
+
     void testLatency(NodeInfo node, int index);
-    bool isRunning();
+
     void setDownloadProxy(across::network::DownloadTask &task);
 
-    Q_INVOKABLE void testLatency(int id);
+    bool isRunning();
+
+    Q_INVOKABLE void setAsDefault(int id);
     Q_INVOKABLE void setCurrentNodeByID(int id);
     Q_INVOKABLE void removeNodeByID(int id);
     Q_INVOKABLE QVariantMap getNodeInfoByIndex(int index);
+    Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
+
+    Q_INVOKABLE void testLatency(int id);
     Q_INVOKABLE QString getQRCode(int id);
     Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl &url);
-    Q_INVOKABLE void setAsDefault(int id);
-    Q_INVOKABLE void setDocument(QVariant &v);
-    Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
-    Q_INVOKABLE static QString jsonFormat(const QString &json_str);
     Q_INVOKABLE void copyURLToClipboard(const QString &node_name,
-                                               const QString &node_url);
+                                        const QString &node_url);
     Q_INVOKABLE void copyCurrentNodeURLToClipboard();
+
+    Q_INVOKABLE void setDocument(QVariant &v);
+    Q_INVOKABLE static QString jsonFormat(const QString &json_str);
 
   public:
     QList<NodeInfo> items();
@@ -131,12 +138,13 @@ class NodeList : public QObject {
 
     across::JSONHighlighter jsonHighlighter;
 
-    QMap<qint64, QList<qint64>> m_search_results;
-    int m_display_group_id = 1;
-
     NodeInfo m_node;
     QList<NodeInfo> m_nodes;
     QList<NodeInfo> m_origin_nodes;
+    qint64 m_display_group_id = 1;
+
+    QMap<qint64, QList<qint64>> m_search_results;
+
     across::core::TrafficInfo m_traffic = {0, 0};
     across::core::TrafficInfo m_traffic_last = {0, 0};
     across::core::TrafficInfo m_traffic_last_rate = {0, 0};

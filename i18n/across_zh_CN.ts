@@ -1100,8 +1100,8 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="402"/>
-        <location filename="../src/view_models/grouplist.cpp" line="421"/>
+        <location filename="../src/view_models/grouplist.cpp" line="403"/>
+        <location filename="../src/view_models/grouplist.cpp" line="423"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1125,33 +1125,28 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="83"/>
-        <location filename="../src/view_models/systemtray.cpp" line="154"/>
-        <location filename="../src/view_models/systemtray.cpp" line="173"/>
+        <location filename="../src/view_models/systemtray.cpp" line="149"/>
+        <location filename="../src/view_models/systemtray.cpp" line="169"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="84"/>
-        <location filename="../src/view_models/systemtray.cpp" line="174"/>
+        <location filename="../src/view_models/systemtray.cpp" line="170"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="85"/>
-        <location filename="../src/view_models/systemtray.cpp" line="175"/>
+        <location filename="../src/view_models/systemtray.cpp" line="171"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="86"/>
-        <location filename="../src/view_models/systemtray.cpp" line="176"/>
+        <location filename="../src/view_models/systemtray.cpp" line="172"/>
         <source>Reconnect</source>
         <translation>重连</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="87"/>
-        <location filename="../src/view_models/systemtray.cpp" line="177"/>
+        <location filename="../src/view_models/systemtray.cpp" line="173"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
@@ -1160,12 +1155,12 @@
         <translation type="vanished">入站</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="156"/>
+        <location filename="../src/view_models/systemtray.cpp" line="151"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="185"/>
+        <location filename="../src/view_models/systemtray.cpp" line="181"/>
         <source>OFF</source>
         <translation>关闭</translation>
     </message>

@@ -129,7 +129,7 @@ int TCPPing::getLatency(const QString &host_name, unsigned int port) {
     QTime time = QTime::currentTime();
     WSADATA wsa_data;
     SOCKET connect_socket = INVALID_SOCKET;
-    struct addrinfo* p_result;
+    struct addrinfo *p_result;
     struct addrinfo hints;
 
     do {
@@ -150,9 +150,10 @@ int TCPPing::getLatency(const QString &host_name, unsigned int port) {
         }
 
         // Attempt to connect to an address until one succeeds
-        for (auto p_cursor = p_result; p_cursor != nullptr; p_cursor = p_cursor->ai_next) {
-            connect_socket =
-                socket(p_cursor->ai_family, p_cursor->ai_socktype, p_cursor->ai_protocol);
+        for (auto p_cursor = p_result; p_cursor != nullptr;
+             p_cursor = p_cursor->ai_next) {
+            connect_socket = socket(p_cursor->ai_family, p_cursor->ai_socktype,
+                                    p_cursor->ai_protocol);
 
             if (connect_socket == INVALID_SOCKET) {
                 err = SOCKET_ERROR;

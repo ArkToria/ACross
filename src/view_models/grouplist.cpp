@@ -13,9 +13,10 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
                      QSharedPointer<across::NodeList> nodes,
                      QSharedPointer<across::network::CURLTools> curl
 #ifdef __MINGW32__
-                    ,QSharedPointer<QSystemTrayIcon> tray) {
+                     ,
+                     QSharedPointer<QSystemTrayIcon> tray) {
 #else
-                    ) {
+) {
 #endif
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("groups");
@@ -401,9 +402,10 @@ void GroupList::copyUrlToClipboard(int index) {
     NotifyTools::send(item.url,
                       QString(tr("Copy [%1] URL to clipboard")).arg(item.name)
 #ifdef __MINGW32__
-                      , p_tray);
+                          ,
+                      p_tray);
 #else
-                      );
+    );
 #endif
     ClipboardTools::send(item.url);
 }
@@ -420,9 +422,10 @@ void GroupList::copyNodesToClipboard(int index) {
     NotifyTools::send(nodes_url,
                       QString(tr("Copy [%1] URL to clipboard")).arg(item.name)
 #ifdef __MINGW32__
-                      , p_tray);
+                          ,
+                      p_tray);
 #else
-                      );
+    );
 #endif
     ClipboardTools::send(nodes_url);
 }

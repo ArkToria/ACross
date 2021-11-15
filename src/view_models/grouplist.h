@@ -34,9 +34,10 @@ class GroupList : public QObject {
               QSharedPointer<across::NodeList> nodes,
               QSharedPointer<across::network::CURLTools> curl
 #ifdef __MINGW32__
-              ,QSharedPointer<QSystemTrayIcon> tray);
+              ,
+              QSharedPointer<QSystemTrayIcon> tray);
 #else
-              );
+    );
 #endif
 
     bool insert(const GroupInfo &group_info, const QString &content);

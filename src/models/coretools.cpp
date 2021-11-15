@@ -13,9 +13,7 @@ CoreTools::CoreTools(QObject *parent) {
     }
 }
 
-CoreTools::~CoreTools() {
-    this->stop();
-}
+CoreTools::~CoreTools() { this->stop(); }
 
 bool CoreTools::init(QSharedPointer<ConfigTools> config) {
     p_config = config;
@@ -86,8 +84,10 @@ int CoreTools::run() {
 }
 
 int CoreTools::stop() {
-    if (p_process != nullptr &&
-        p_process->state() == QProcess::ProcessState::Running) {
+    if (p_process == nullptr)
+        return -1;
+
+    if (p_process->state() == QProcess::ProcessState::Running) {
         p_process->kill();
 
         if (p_process->waitForFinished())
@@ -96,7 +96,7 @@ int CoreTools::stop() {
         return p_process->exitCode();
     }
 
-    return -1;
+    return 0;
 }
 
 int CoreTools::restart() {

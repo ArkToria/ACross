@@ -18,8 +18,8 @@ void LogHighlighter::init() {
     HighlightingRule rule;
     // logger
     rule.pattern = QRegularExpression(R"((\[)([^\]]+)(\]))");
-    rule.formats =
-        QVector<QSharedPointer<QTextCharFormat>>{none_format, logger_format, none_format};
+    rule.formats = QVector<QSharedPointer<QTextCharFormat>>{
+        none_format, logger_format, none_format};
     highlighting_rules.append(rule);
     // date
     rule.pattern = QRegularExpression(R"((\d\d\d\d-\d\d-\d\d))");

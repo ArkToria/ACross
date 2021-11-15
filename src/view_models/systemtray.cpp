@@ -9,15 +9,17 @@ using namespace across::utils;
 
 SystemTray::SystemTray(QObject *parent) : QObject(parent) {
     p_tray_icon = QSharedPointer<QSystemTrayIcon>::create();
-    {
-        tray_root_menu = new QMenu;
-        tray_action_toggle_visibility = new QAction(tray_root_menu);
-        tray_action_start = new QAction(tray_root_menu);
-        tray_action_stop = new QAction(tray_root_menu);
-        tray_action_restart = new QAction(tray_root_menu);
-        tray_action_quit = new QAction(tray_root_menu);
-    }
+
+    tray_root_menu = QSharedPointer<QMenu>::create();
+    tray_action_toggle_visibility =
+        QSharedPointer<QAction>::create(tray_root_menu.get());
+    tray_action_start = QSharedPointer<QAction>::create(tray_root_menu.get());
+    tray_action_stop = QSharedPointer<QAction>::create(tray_root_menu.get());
+    tray_action_restart = QSharedPointer<QAction>::create(tray_root_menu.get());
+    tray_action_quit = QSharedPointer<QAction>::create(tray_root_menu.get());
 }
+
+SystemTray::~SystemTray() {}
 
 void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
                       QSharedPointer<across::core::CoreTools> core,
@@ -29,10 +31,11 @@ void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
         return;
     }
 
-    p_config = config;
     p_core = core;
     p_nodes = nodes;
+    p_config = config;
 
+    // connect config changed signals
     connect(p_config.get(), &across::setting::ConfigTools::trayColorChanged,
             this, [&]() {
                 loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
@@ -45,10 +48,6 @@ void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
 
     connect(p_config.get(), &across::setting::ConfigTools::enableTrayChanged,
             this, &SystemTray::onEnableTrayChanged);
-
-    loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
-
-    p_tray_icon->setToolTip(titleString() + inboundString());
 
     connect(
         p_config.get(), &across::setting::ConfigTools::socksEnableChanged, this,
@@ -77,54 +76,50 @@ void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
                 onTrafficChanged();
             });
 
-    onRunningChanged();
-    onEnableTrayChanged();
-    {
-        tray_action_toggle_visibility->setText(tr("Show"));
-        tray_action_start->setText(tr("Connect"));
-        tray_action_stop->setText(tr("Disconnect"));
-        tray_action_restart->setText(tr("Reconnect"));
-        tray_action_quit->setText(tr("Quit"));
-
-        tray_action_start->setEnabled(true);
-        tray_action_stop->setEnabled(false);
-        tray_action_restart->setEnabled(true);
-
-        tray_action_toggle_visibility->setIcon(
-            QIcon::fromTheme("org.arktoria.across"));
-
-        connect(tray_action_toggle_visibility, &QAction::triggered, this,
-                &SystemTray::signalShow);
-        connect(tray_action_start, &QAction::triggered, p_core.get(),
-                &CoreTools::run);
-        connect(tray_action_stop, &QAction::triggered, p_core.get(),
-                &CoreTools::stop);
-        connect(tray_action_restart, &QAction::triggered, p_core.get(),
-                &CoreTools::restart);
-        connect(tray_action_quit, &QAction::triggered, this,
-                &SystemTray::signalQuit);
-
-        tray_root_menu->addAction(tray_action_toggle_visibility);
-
-        tray_root_menu->addSeparator();
-
-        tray_root_menu->addAction(tray_action_start);
-        tray_root_menu->addAction(tray_action_stop);
-        tray_root_menu->addAction(tray_action_restart);
-
-        tray_root_menu->addSeparator();
-
-        tray_root_menu->addAction(tray_action_quit);
-
-        p_tray_icon->setContextMenu(tray_root_menu);
-    }
-
     connect(p_tray_icon.get(),
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
             SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
 
     connect(p_core.get(), &CoreTools::isRunningChanged, this,
             &SystemTray::onRunningChanged);
+
+    this->setTrayMenu();
+    this->loadTrayIcons(p_config->trayStylish(), p_config->trayColor());
+    p_tray_icon->setToolTip(titleString() + inboundString());
+
+    onRunningChanged();
+    onEnableTrayChanged();
+}
+
+void SystemTray::setTrayMenu() {
+    connect(tray_action_toggle_visibility.get(), &QAction::triggered, this,
+            &SystemTray::signalShow);
+    connect(tray_action_start.get(), &QAction::triggered, p_core.get(),
+            &CoreTools::run);
+    connect(tray_action_stop.get(), &QAction::triggered, p_core.get(),
+            &CoreTools::stop);
+    connect(tray_action_restart.get(), &QAction::triggered, p_core.get(),
+            &CoreTools::restart);
+    connect(tray_action_quit.get(), &QAction::triggered, this,
+            &SystemTray::signalQuit);
+
+    retranslate();
+
+    tray_action_start->setEnabled(true);
+    tray_action_stop->setEnabled(false);
+    tray_action_restart->setEnabled(true);
+    tray_action_toggle_visibility->setIcon(
+        QIcon::fromTheme("org.arktoria.across"));
+
+    tray_root_menu->addAction(tray_action_toggle_visibility.get());
+    tray_root_menu->addSeparator();
+    tray_root_menu->addAction(tray_action_start.get());
+    tray_root_menu->addAction(tray_action_stop.get());
+    tray_root_menu->addAction(tray_action_restart.get());
+    tray_root_menu->addSeparator();
+    tray_root_menu->addAction(tray_action_quit.get());
+
+    p_tray_icon->setContextMenu(tray_root_menu.get());
 }
 
 void SystemTray::loadTrayIcons(const QString &stylish, const QString &color) {
@@ -169,6 +164,7 @@ void SystemTray::onRunningChanged() {
     }
     tray_action_restart->setEnabled(true);
 }
+
 void SystemTray::retranslate() {
     tray_action_toggle_visibility->setText(tr("Show"));
     tray_action_start->setText(tr("Connect"));
