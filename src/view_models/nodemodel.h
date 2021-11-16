@@ -51,7 +51,7 @@ class NodeModel : public QAbstractListModel {
 
   private:
     NodeList *p_list;
-    int m_old_rows;
+    int m_old_rows=-1;
 };
 } // namespace across
 
