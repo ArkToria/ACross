@@ -19,7 +19,9 @@ SystemTray::SystemTray(QObject *parent) : QObject(parent) {
     tray_action_quit = QSharedPointer<QAction>::create(tray_root_menu.get());
 }
 
-SystemTray::~SystemTray() {}
+SystemTray::~SystemTray() {
+    p_tray_icon->hide();
+}
 
 void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
                       QSharedPointer<across::core::CoreTools> core,

@@ -2,6 +2,7 @@
 
 #ifdef _MSC_VER
 using winrt::Windows::UI::Notifications::ToastNotificationManager;
+using winrt::Windows::UI::Notifications::ToastNotification;
 using winrt::Windows::UI::Notifications::ToastTemplateType;
 #endif // _MSC_VER
 
@@ -46,6 +47,6 @@ void NotifyTools::send(const QString &msg, const QString &summary,
     doc.GetElementsByTagName(L"text").GetAt(0).AppendChild(std::move(node));
     node = doc.CreateTextNode(msg.toStdWString());
     doc.GetElementsByTagName(L"text").GetAt(1).AppendChild(std::move(node));
-    ToastNotificationManager::CreateToastNotifier(L"ACross").Show({doc});
+    ToastNotificationManager::CreateToastNotifier(L"ACross").Show(ToastNotification{doc});
 }
 #endif // _MSC_VER

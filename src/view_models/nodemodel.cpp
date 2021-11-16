@@ -6,10 +6,10 @@ NodeModel::NodeModel(QObject *parent)
     : QAbstractListModel(parent), p_list(nullptr) {}
 
 int NodeModel::rowCount(const QModelIndex &parent) const {
-    if (parent.isValid() || !p_list)
+    if (parent.isValid())
         return 0;
 
-    return p_list->items().size();
+    return m_old_rows+1;
 }
 
 QVariant NodeModel::data(const QModelIndex &index, int role) const {
@@ -99,6 +99,7 @@ void NodeModel::connectItems() {
         QModelIndex bottomRight = createIndex(index, 0);
 
         if (m_old_rows > index) {
+            //qDebug()<<index<<m_old_rows<<rowCount(QModelIndex());
             beginRemoveRows(QModelIndex(), index, m_old_rows);
             endRemoveRows();
         } else if (m_old_rows < index) {
@@ -106,6 +107,7 @@ void NodeModel::connectItems() {
             endInsertRows();
         }
 
+        m_old_rows = p_list->items().size();
         emit dataChanged(topLeft, bottomRight);
     });
 }
