@@ -324,6 +324,24 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
                 }
                 break;
             }
+
+            if (stream->network() == "quic") {
+                auto quic = stream->mutable_quicsettings();
+
+                if (root.contains("type")) {
+                    auto header = quic->mutable_header();
+                    header->set_type(root["type"]);
+                }
+
+                if (root.contains("host")) {
+                    quic->set_security(root["host"]);
+                }
+
+                if (root.contains("path")) {
+                    quic->set_key(root["path"]);
+                }
+                break;
+            }
         } while (false);
     }
 
@@ -395,6 +413,14 @@ SerializeTools::vmessBase64Encode(const URLMetaObject &meta) {
             if (stream.network() == "grpc" && stream.has_grpcsettings()) {
                 auto grpc = stream.grpcsettings();
                 root["path"] = grpc.servicename();
+                break;
+            }
+
+            if (stream.network() == "quic" && stream.has_quicsettings()) {
+                auto quic = stream.quicsettings();
+                root["type"] = quic.header().type();
+                root["host"] = quic.security();
+                root["path"] = quic.key();
                 break;
             }
         } while (false);

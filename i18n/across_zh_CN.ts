@@ -1062,46 +1062,61 @@
 <context>
     <name>VMESSSetting</name>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="96"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="137"/>
         <source>VMESS Setting</source>
         <translation>VMESS 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="120"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="161"/>
         <source>AlterID</source>
         <translation>AlterID</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="102"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="143"/>
         <source>Enable TLS</source>
         <translation>启用 TLS</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="141"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="182"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="158"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="199"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="180"/>
-        <location filename="../src/views/home/VMESSSetting.qml" line="200"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="219"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="284"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="183"/>
-        <location filename="../src/views/home/VMESSSetting.qml" line="218"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="222"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="302"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="190"/>
-        <source>serviceName</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/views/home/VMESSSetting.qml" line="227"/>
+        <source>Service Name</source>
+        <translation>服务名称</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/VMESSSetting.qml" line="236"/>
+        <source>Key</source>
+        <translation>Key</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/VMESSSetting.qml" line="248"/>
+        <source>Type</source>
+        <translation>类型</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/VMESSSetting.qml" line="266"/>
+        <source>Securty</source>
+        <translation>安全</translation>
     </message>
 </context>
 <context>
@@ -1116,7 +1131,7 @@
 <context>
     <name>across::NodeFormModel</name>
     <message>
-        <location filename="../src/view_models/nodeformmodel.cpp" line="420"/>
+        <location filename="../src/view_models/nodeformmodel.cpp" line="439"/>
         <source>custom configuration encoding to url is not supported</source>
         <translation>未支持自定义配置编码到链接格式</translation>
     </message>

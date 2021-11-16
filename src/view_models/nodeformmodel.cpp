@@ -306,6 +306,25 @@ bool NodeFormModel::setVMessOutboud(NodeInfo &node, const QVariantMap &values) {
             }
             break;
         }
+
+        if (stream->network() == "quic") {
+            auto quic = stream->mutable_quicsettings();
+
+            if (values.contains("type")) {
+                auto header = quic->mutable_header();
+                header->set_type(values.value("type").toString().toStdString());
+            }
+
+            if (values.contains("host")) {
+                quic->set_security(
+                    values.value("host").toString().toStdString());
+            }
+
+            if (values.contains("path")) {
+                quic->set_key(values.value("path").toString().toStdString());
+            }
+            break;
+        }
     } while (false);
 
     node.raw = SerializeTools::MessageToJson(*outbound).c_str();

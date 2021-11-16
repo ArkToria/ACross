@@ -70,6 +70,36 @@ Item {
                         }
                     }
                     break
+                case "grpc":
+                    if (streamSettings.hasOwnProperty("grpcSettings")) {
+                        let grpcSettings = streamSettings["grpcSettings"]
+
+                        if (grpcSettings.hasOwnProperty("serviceName")) {
+                            pathText.text = grpcSettings["serviceName"]
+                        }
+                    }
+                    break
+                case "quic":
+                    if (streamSettings.hasOwnProperty("quicSettings")) {
+                        let quicSettings = streamSettings["quicSettings"]
+
+                        if (quicSettings.hasOwnProperty("header")
+                                && quicSettings["header"].hasOwnProperty(
+                                    "type")) {
+                            typeSelect.currentIndex = typeSelect.find(
+                                        quicSettings["header"]["type"])
+                        }
+
+                        if (quicSettings.hasOwnProperty("key")) {
+                            pathText.text = quicSettings["key"]
+                        }
+
+                        if (quicSettings.hasOwnProperty("security")) {
+                            quicSecuritySelect.currentIndex = quicSecuritySelect.find(
+                                        quicSettings["security"])
+                        }
+                    }
+                    break
                 default:
                     break
                 }
@@ -80,6 +110,17 @@ Item {
                     tlsEnableSelect.checked = true
             }
         }
+    }
+
+    function hideAllTypeSetting() {
+        typeLabel.visible = false
+        typeSelect.visible = false
+        quicSecurityLabel.visible = false
+        quicSecuritySelect.visible = false
+        hostLabel.visible = false
+        hostText.visible = false
+        pathLabel.visible = false
+        pathText.visible = false
     }
 
     GridLayout {
@@ -165,15 +206,13 @@ Item {
             Layout.columnSpan: 3
 
             //            model: ["tcp", "kcp", "ws", "http", "domainsocket", "quic", "grpc"]
-            model: ["tcp", "ws", "grpc"]
+            model: ["tcp", "ws", "grpc", "quic"]
 
             onEditTextChanged: {
+                hideAllTypeSetting()
+
                 switch (editText) {
                 case "tcp":
-                    hostLabel.visible = false
-                    hostText.visible = false
-                    pathLabel.visible = false
-                    pathText.visible = false
                     break
                 case "ws":
                     hostLabel.visible = true
@@ -184,13 +223,58 @@ Item {
                     pathText.visible = true
                     break
                 case "grpc":
-                    hostLabel.visible = false
-                    hostText.visible = false
                     pathLabel.visible = true
-                    pathLabel.text = qsTr("serviceName")
+                    pathLabel.text = qsTr("Service Name")
                     pathText.visible = true
                     break
+                case "quic":
+                    typeLabel.visible = true
+                    typeSelect.visible = true
+                    quicSecurityLabel.visible = true
+                    quicSecuritySelect.visible = true
+                    pathLabel.visible = true
+                    pathLabel.text = qsTr("Key")
+                    pathText.visible = true
+                    breaksni
+                default:
+                    break
                 }
+                nodeEditFormPopWindow.configChanged()
+            }
+        }
+
+        Label {
+            id: typeLabel
+            text: qsTr("Type")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            id: typeSelect
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            model: ["none", "http", "srtp", "utp", "wechat-video", "wireguard"]
+
+            onEditTextChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
+        }
+
+        Label {
+            id: quicSecurityLabel
+            text: qsTr("Securty")
+            color: acrossConfig.textColor
+        }
+
+        DropDownBox {
+            id: quicSecuritySelect
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+
+            model: ["none", "aes-128-gcm", "chacha20-poly1305"]
+
+            onEditTextChanged: {
                 nodeEditFormPopWindow.configChanged()
             }
         }
@@ -245,7 +329,8 @@ Item {
                 "alterID": alterIDText.text,
                 "security": securitySelect.currentText,
                 "network": networkSelect.currentText,
-                "host": hostText.text,
+                "type": typeSelect.currentText,
+                "host": hostText.visible === true ? hostText.text : quicSecuritySelect.currentText,
                 "path": pathText.text
             }
         }

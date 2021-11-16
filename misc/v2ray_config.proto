@@ -460,7 +460,7 @@ message TransportObject
   KCPObject kcpSettings = 2;
   WebSocketObject wsSettings = 3;
   HTTPObject httpSettings = 4;
-  QUICObject QuicSettings = 5;
+  QUICObject quicSettings = 5;
   DomainSocketObject dsSettings = 6;
   GRPCObject grpcSettings = 7;
 }
