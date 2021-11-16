@@ -9,7 +9,7 @@ int NodeModel::rowCount(const QModelIndex &parent) const {
     if (parent.isValid())
         return 0;
 
-    return m_old_rows+1;
+    return m_old_rows + 1;
 }
 
 QVariant NodeModel::data(const QModelIndex &index, int role) const {
@@ -20,6 +20,10 @@ QVariant NodeModel::data(const QModelIndex &index, int role) const {
     }
 
     if (index.model() != this) {
+        return {};
+    }
+
+    if (index.row() > p_list->items().size()) {
         return {};
     }
 
@@ -95,11 +99,12 @@ void NodeModel::connectItems() {
 
     connect(p_list, &NodeList::postItemsReset, this, [&]() {
         int index = p_list->items().size();
+
         QModelIndex topLeft = createIndex(0, 0);
         QModelIndex bottomRight = createIndex(index, 0);
 
         if (m_old_rows > index) {
-            //qDebug()<<index<<m_old_rows<<rowCount(QModelIndex());
+            // qDebug()<<index<<m_old_rows<<rowCount(QModelIndex());
             beginRemoveRows(QModelIndex(), index, m_old_rows);
             endRemoveRows();
         } else if (m_old_rows < index) {

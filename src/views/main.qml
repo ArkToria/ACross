@@ -76,6 +76,7 @@ ApplicationWindow {
 
                 currentIndex: 0
                 orientation: Qt.Vertical
+                interactive: false
 
                 HomePage {
                     id: homePage
