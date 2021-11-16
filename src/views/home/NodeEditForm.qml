@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Basic as ControlsBasic
 import Qt5Compat.GraphicalEffects
 
 //import QtQuick.Dialogs
@@ -80,7 +81,7 @@ Window {
                 columnSpacing: acrossConfig.itemSpacing * 2
                 rowSpacing: acrossConfig.itemSpacing * 2
 
-                ScrollView {
+                ControlsBasic.ScrollView {
                     Layout.fillHeight: true
                     Layout.preferredWidth: parent.width / 2
                     Layout.rowSpan: 3

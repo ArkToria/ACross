@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Basic as ControlsBasic
 //import QtQuick.Dialogs
 import Qt.labs.platform
 
@@ -150,7 +151,7 @@ Window {
                             font.pointSize: fontSize
                         }
 
-                        ScrollView {
+                        ControlsBasic.ScrollView {
                             Layout.fillWidth: true
                             Layout.columnSpan: 2
                             Layout.fillHeight: true
