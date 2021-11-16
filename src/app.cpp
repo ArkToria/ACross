@@ -9,8 +9,8 @@ using namespace across::setting;
 Application::Application(int &argc, char **argv)
     : SingleApplication(argc, argv, true,
                         User | ExcludeAppPath | ExcludeAppVersion) {
-    // TODO: display window icon under wayland
     setWindowIcon(QIcon(":misc/design/logo.svg"));
+    setDesktopFileName("org.arktoria.across");
 
     connect(this, &SingleApplication::receivedMessage, this,
             &Application::onMessageReceived, Qt::QueuedConnection);
