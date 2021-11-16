@@ -296,21 +296,35 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
     if (root.contains("net")) {
         stream->set_network(root["net"].get<std::string>());
 
-        if (stream->network() == "ws") {
-            auto websocket = stream->mutable_wssettings();
-
-            if (root.contains("host")) {
-                auto headers = websocket->mutable_headers();
-                headers->insert({"Host", root["host"]});
+        do {
+            if (stream->network() == "tcp") {
+                // TODO: get tcpsetting
+                break;
             }
 
-            if (root.contains("path"))
-                websocket->set_path(root["path"]);
-        }
+            if (stream->network() == "ws") {
+                auto websocket = stream->mutable_wssettings();
 
-        if (stream->network() == "tcp") {
-            // TODO: get tcpsetting
-        }
+                if (root.contains("host")) {
+                    auto headers = websocket->mutable_headers();
+                    headers->insert({"Host", root["host"]});
+                }
+
+                if (root.contains("path")) {
+                    websocket->set_path(root["path"]);
+                }
+                break;
+            }
+
+            if (stream->network() == "grpc") {
+                auto grpc = stream->mutable_grpcsettings();
+
+                if (root.contains("path")) {
+                    grpc->set_servicename(root["path"]);
+                }
+                break;
+            }
+        } while (false);
     }
 
     if (root.contains("tls")) {
@@ -370,11 +384,20 @@ SerializeTools::vmessBase64Encode(const URLMetaObject &meta) {
     if (stream.IsInitialized()) {
         root["net"] = stream.network();
 
-        if (stream.network() == "ws" && stream.has_wssettings()) {
-            auto websocket = stream.wssettings();
-            root["host"] = websocket.headers().at("Host");
-            root["path"] = websocket.path();
-        }
+        do {
+            if (stream.network() == "ws" && stream.has_wssettings()) {
+                auto websocket = stream.wssettings();
+                root["host"] = websocket.headers().at("Host");
+                root["path"] = websocket.path();
+                break;
+            }
+
+            if (stream.network() == "grpc" && stream.has_grpcsettings()) {
+                auto grpc = stream.grpcsettings();
+                root["path"] = grpc.servicename();
+                break;
+            }
+        } while (false);
 
         root["tls"] = stream.security();
     }

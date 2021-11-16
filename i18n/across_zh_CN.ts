@@ -1087,14 +1087,21 @@
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="175"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="180"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="200"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="192"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="183"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="218"/>
         <source>Path</source>
         <translation>路径</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/VMESSSetting.qml" line="190"/>
+        <source>serviceName</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1109,7 +1116,7 @@
 <context>
     <name>across::NodeFormModel</name>
     <message>
-        <location filename="../src/view_models/nodeformmodel.cpp" line="405"/>
+        <location filename="../src/view_models/nodeformmodel.cpp" line="420"/>
         <source>custom configuration encoding to url is not supported</source>
         <translation>未支持自定义配置编码到链接格式</translation>
     </message>

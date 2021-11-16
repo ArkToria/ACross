@@ -280,18 +280,33 @@ bool NodeFormModel::setVMessOutboud(NodeInfo &node, const QVariantMap &values) {
         stream->set_security("none");
     }
 
-    if (stream->network() == "ws") {
-        auto websocket = stream->mutable_wssettings();
+    do {
+        if (stream->network() == "ws") {
+            auto websocket = stream->mutable_wssettings();
 
-        if (values.contains("host")) {
-            auto headers = websocket->mutable_headers();
-            headers->insert(
-                {"Host", values.value("host").toString().toStdString()});
+            if (values.contains("host")) {
+                auto headers = websocket->mutable_headers();
+                headers->insert(
+                    {"Host", values.value("host").toString().toStdString()});
+            }
+
+            if (values.contains("path")) {
+                websocket->set_path(
+                    values.value("path").toString().toStdString());
+            }
+            break;
         }
 
-        if (values.contains("path"))
-            websocket->set_path(values.value("path").toString().toStdString());
-    }
+        if (stream->network() == "grpc") {
+            auto grpc = stream->mutable_grpcsettings();
+
+            if (values.contains("path")) {
+                grpc->set_servicename(
+                    values.value("path").toString().toStdString());
+            }
+            break;
+        }
+    } while (false);
 
     node.raw = SerializeTools::MessageToJson(*outbound).c_str();
     if (node.raw.isEmpty())

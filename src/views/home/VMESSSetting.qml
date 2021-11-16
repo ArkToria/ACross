@@ -164,14 +164,39 @@ Item {
             Layout.fillWidth: true
             Layout.columnSpan: 3
 
-            model: ["tcp", "kcp", "ws", "http", "domainsocket", "quic", "grpc"]
+            //            model: ["tcp", "kcp", "ws", "http", "domainsocket", "quic", "grpc"]
+            model: ["tcp", "ws", "grpc"]
 
             onEditTextChanged: {
+                switch (editText) {
+                case "tcp":
+                    hostLabel.visible = false
+                    hostText.visible = false
+                    pathLabel.visible = false
+                    pathText.visible = false
+                    break
+                case "ws":
+                    hostLabel.visible = true
+                    hostLabel.text = qsTr("Host")
+                    hostText.visible = true
+                    pathLabel.visible = true
+                    pathLabel.text = qsTr("Path")
+                    pathText.visible = true
+                    break
+                case "grpc":
+                    hostLabel.visible = false
+                    hostText.visible = false
+                    pathLabel.visible = true
+                    pathLabel.text = qsTr("serviceName")
+                    pathText.visible = true
+                    break
+                }
                 nodeEditFormPopWindow.configChanged()
             }
         }
 
         Label {
+            id: hostLabel
             text: qsTr("Host")
             color: acrossConfig.textColor
         }
@@ -189,6 +214,7 @@ Item {
         }
 
         Label {
+            id: pathLabel
             text: qsTr("Path")
             color: acrossConfig.textColor
         }
