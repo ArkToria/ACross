@@ -271,7 +271,14 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
 
     if (root.contains("add") && root.contains("port")) {
         server->set_address(root["add"]);
-        server->set_port(std::stoul(root["port"].get<std::string>()));
+
+        if (root["port"].is_number()) {
+            server->set_port(root["port"].get<std::uint32_t>());
+        } else if (root["port"].is_string()) {
+            server->set_port(std::stoul(root["port"].get<std::string>()));
+        } else {
+            return {};
+        }
     } else {
         return {};
     }
@@ -281,10 +288,14 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
     else
         return {};
 
-    if (root.contains("aid"))
-        user->set_alterid(std::stoi(root["aid"].get<std::string>()));
-    else
-        user->set_alterid(0);
+    user->set_alterid(0);
+    if (root.contains("aid")) {
+        if (root["aid"].is_number()) {
+            user->set_alterid(root["aid"].get<int>());
+        } else if (root["aid"].is_string()) {
+            user->set_alterid(std::stoi(root["aid"].get<std::string>()));
+        }
+    }
 
     if (root.contains("net")) {
         stream->set_network(root["net"].get<std::string>());
