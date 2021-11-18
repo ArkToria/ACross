@@ -8,48 +8,53 @@ Item {
     implicitHeight: 48
     implicitWidth: 312
 
-    RowLayout {
+    Rectangle {
         anchors.fill: parent
-        anchors.margins: acrossConfig.itemSpacing
+        color: acrossConfig.backgroundColor
 
-        TextFieldBox {
-            id: searchTextField
-            Layout.fillWidth: true
-            Layout.fillHeight: true
+        RowLayout {
+            anchors.fill: parent
+            anchors.margins: acrossConfig.itemSpacing
 
-            onTextChanged: {
-                if (this.text === "") {
-                    acrossGroups.clearSearch()
-                } else {
-                    acrossGroups.search(text)
+            TextFieldBox {
+                id: searchTextField
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                onTextChanged: {
+                    if (this.text === "") {
+                        acrossGroups.clearSearch()
+                    } else {
+                        acrossGroups.search(text)
+                    }
                 }
             }
-        }
 
-        SVGBox {
-            Layout.preferredWidth: 24
+            SVGBox {
+                Layout.preferredWidth: 24
 
-            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/search.svg"
-            sourceWidth: 24
-            sourceHeight: 24
+                source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/search.svg"
+                sourceWidth: 24
+                sourceHeight: 24
 
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
 
-                onClicked: {
-                    if (searchTextField.text !== "")
-                        acrossGroups.search(searchTextField.text)
-                    else
-                        acrossGroups.clearSearch()
-                }
+                    onClicked: {
+                        if (searchTextField.text !== "")
+                            acrossGroups.search(searchTextField.text)
+                        else
+                            acrossGroups.clearSearch()
+                    }
 
-                onEntered: {
-                    cursorShape = Qt.PointingHandCursor
-                }
+                    onEntered: {
+                        cursorShape = Qt.PointingHandCursor
+                    }
 
-                onExited: {
-                    cursorShape = Qt.ArrowCursor
+                    onExited: {
+                        cursorShape = Qt.ArrowCursor
+                    }
                 }
             }
         }
