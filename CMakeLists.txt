@@ -207,9 +207,8 @@ qt_add_qml_module(across
     )
 
 qt_add_translations(across
-    RESOURCE_PREFIX "/i18n"
-    TS_FILES
-    ${CMAKE_SOURCE_DIR}/i18n/across_zh_CN.ts
+    TS_FILES ${CMAKE_SOURCE_DIR}/i18n/across_zh_CN.ts
+    RESOURCE_PREFIX "/i18n/"
     )
 
 qt_add_resources(across misc
@@ -227,7 +226,7 @@ qt_import_qml_plugins(across)
 qt_finalize_executable(across)
 
 # update translation
-add_dependencies(across across_lupdate)
+# add_dependencies(across across_lupdate)
 
 ######## UNIT_TEST ########
 
