@@ -11,6 +11,11 @@ ConfigTools::ConfigTools(QObject *parent) {
             [&]() { this->saveConfig(); });
 }
 
+ConfigTools::~ConfigTools(){
+    while (!m_tasks.isEmpty())
+        m_tasks.dequeue().cancel();
+}
+
 bool ConfigTools::init(QSharedPointer<CURLTools> curl,
                        const QString &file_path) {
     if (loadConfigPath()) {
@@ -239,24 +244,25 @@ void ConfigTools::freshColors() {
     emit iconStyleChanged();
 }
 
-bool ConfigTools::testAPI() {
-    bool result = false;
+void ConfigTools::testAPI() {
+    m_tasks.enqueue(QtConcurrent::run([this]{
+        bool result = false;
 
-    if (m_config.core().api().enable()) {
-        APITools client(m_config.core().api().port());
-        auto [stats, err] = client.isOk();
+        if (m_config.core().api().enable()) {
+            APITools client(m_config.core().api().port());
+            auto [stats, err] = client.isOk();
 
-        if (stats) {
-            m_api_result_text = "";
-        } else {
-            m_api_result_text = QString::fromStdString(err);
+            if (stats) {
+                m_api_result_text = "";
+            } else {
+                m_api_result_text = QString::fromStdString(err);
+            }
+            result = stats;
         }
-        result = stats;
-    }
-
-    emit apiResultTextChanged();
-
-    return result;
+        
+        emit apiResultTextChanged();
+        emit apiStatsChanged(result);
+    }));
 }
 
 bool ConfigTools::testAndSetAddr(const QString &addr) {

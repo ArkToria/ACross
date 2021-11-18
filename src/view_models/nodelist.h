@@ -134,7 +134,7 @@ class NodeList : public QObject {
     QSharedPointer<across::core::CoreTools> p_core;
     QSharedPointer<QSystemTrayIcon> p_tray;
 
-    QQueue<QFuture<void>> work_tasks;
+    QQueue<QFuture<void>> m_tasks;
 
     across::JSONHighlighter jsonHighlighter;
 

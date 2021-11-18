@@ -162,6 +162,8 @@ class ConfigTools : public QObject {
 
   public:
     explicit ConfigTools(QObject *parent = nullptr);
+    ~ConfigTools();
+
     bool init(QSharedPointer<across::network::CURLTools> curl,
               const QString &file_path = "");
 
@@ -178,7 +180,7 @@ class ConfigTools : public QObject {
     Q_INVOKABLE QUrl getInboundProxy();
 
     Q_INVOKABLE void freshColors();
-    Q_INVOKABLE bool testAPI();
+    Q_INVOKABLE void testAPI();
     Q_INVOKABLE bool testAndSetAddr(const QString &addr);
     Q_INVOKABLE void freshInbound();
     Q_INVOKABLE void saveConfig(QString config_path = "");
@@ -331,6 +333,7 @@ class ConfigTools : public QObject {
     void apiEnableChanged();
     void apiPortChanged();
     void apiResultTextChanged();
+    void apiStatsChanged(bool stats);
     void inboundAddressChanged();
     void socksEnableChanged();
     void socksPortChanged();
@@ -385,6 +388,7 @@ class ConfigTools : public QObject {
     void updatedChanged(const QString &version);
 
   private:
+    QQueue<QFuture<void>> m_tasks;
     const QString m_config_name = "across.json";
     QString m_config_path = "./" + m_config_name;
     QString m_api_result_text = "";

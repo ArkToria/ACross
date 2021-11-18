@@ -10,8 +10,8 @@ using namespace across::network;
 NodeList::NodeList(QObject *parent) : QObject(parent) {}
 
 NodeList::~NodeList() {
-    while (!work_tasks.isEmpty())
-        work_tasks.dequeue().waitForFinished();
+    while (!m_tasks.isEmpty())
+        m_tasks.dequeue().cancel();
 }
 
 void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
@@ -388,8 +388,8 @@ void NodeList::handleLatencyChanged(qint64 group_id, int index, NodeInfo node) {
         }
     }
 
-    while (!work_tasks.isEmpty() && work_tasks.head().isFinished())
-        work_tasks.dequeue();
+    while (!m_tasks.isEmpty() && m_tasks.head().isFinished())
+        m_tasks.dequeue();
 }
 
 void NodeList::saveQRCodeToFile(int id, const QUrl &url) {
@@ -449,7 +449,7 @@ Q_INVOKABLE void NodeList::testLatency(int id) {
 }
 
 void NodeList::testLatency(NodeInfo node, int index) {
-    work_tasks.enqueue(QtConcurrent::run([this, index, node] {
+    m_tasks.enqueue(QtConcurrent::run([this, index, node] {
         auto current_node = node;
         TCPPing ping;
         ping.setAddr(node.address);

@@ -381,7 +381,7 @@
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="207"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="211"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>

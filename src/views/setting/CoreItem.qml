@@ -201,14 +201,19 @@ Item {
                 // sync input information
                 acrossConfig.apiPort = apiPortText.text
 
-                var stats = acrossConfig.testAPI()
-
-                if (stats && acrossConfig.apiResultText === "") {
-                    testResult.text = qsTr("Success")
-                    testResult.color = acrossConfig.styleColor
-                } else {
-                    testResult.text = acrossConfig.apiResultText
-                    testResult.color = acrossConfig.warnColor
+                acrossConfig.testAPI()
+            }
+            
+            Connections {
+                target: acrossConfig
+                function onApiStatsChanged(stats){
+                    if (stats && acrossConfig.apiResultText === "") {
+                        testResult.text = qsTr("Success")
+                        testResult.color = acrossConfig.styleColor
+                    } else {
+                        testResult.text = acrossConfig.apiResultText
+                        testResult.color = acrossConfig.warnColor
+                    }
                 }
             }
         }
