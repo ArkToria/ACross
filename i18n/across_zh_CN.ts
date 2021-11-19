@@ -4,52 +4,52 @@
 <context>
     <name>About</name>
     <message>
-        <location filename="../src/views/help/About.qml" line="70"/>
+        <location filename="../src/views/help/About.qml" line="64"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="82"/>
+        <location filename="../src/views/help/About.qml" line="76"/>
         <source>Build Info</source>
         <translation>构建信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="94"/>
+        <location filename="../src/views/help/About.qml" line="88"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="106"/>
+        <location filename="../src/views/help/About.qml" line="100"/>
         <source>Source Code</source>
         <translation>源代码</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="117"/>
+        <location filename="../src/views/help/About.qml" line="111"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="128"/>
+        <location filename="../src/views/help/About.qml" line="122"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="164"/>
+        <location filename="../src/views/help/About.qml" line="158"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="171"/>
+        <location filename="../src/views/help/About.qml" line="165"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="185"/>
+        <location filename="../src/views/help/About.qml" line="179"/>
         <source>New Version: </source>
         <translation>新版本: </translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="188"/>
+        <location filename="../src/views/help/About.qml" line="182"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>
@@ -928,48 +928,48 @@
 <context>
     <name>NodeShareForm</name>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="17"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="18"/>
         <source>Share Configuration</source>
         <translation>分享配置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="43"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="35"/>
         <source>Save QRCode to local path</source>
         <translation>保存二维码到本地</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="96"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="89"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="102"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="95"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="113"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="106"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="124"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="117"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="135"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="128"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="149"/>
-        <location filename="../src/views/home/NodeShareForm.qml" line="185"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="142"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="178"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="178"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="171"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>
@@ -1062,59 +1062,69 @@
 <context>
     <name>VMESSSetting</name>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="137"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="39"/>
         <source>VMESS Setting</source>
         <translation>VMESS 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="161"/>
+        <source>Server Name</source>
+        <translation type="vanished">服务器地址</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/VMESSSetting.qml" line="82"/>
         <source>AlterID</source>
         <translation>AlterID</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="143"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="45"/>
         <source>Enable TLS</source>
         <translation>启用 TLS</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="182"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="64"/>
+        <source>SNI</source>
+        <translation>SNI</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/VMESSSetting.qml" line="74"/>
+        <source>Keep it blank to use the same address</source>
+        <translation>保持空白则使用相同地址</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/VMESSSetting.qml" line="103"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="199"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="120"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="219"/>
-        <location filename="../src/views/home/VMESSSetting.qml" line="284"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="181"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="222"/>
-        <location filename="../src/views/home/VMESSSetting.qml" line="302"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="199"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="227"/>
         <source>Service Name</source>
-        <translation>服务名称</translation>
+        <translation type="vanished">服务名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="236"/>
         <source>Key</source>
-        <translation>Key</translation>
+        <translation type="vanished">Key</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="248"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="145"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="266"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="163"/>
         <source>Securty</source>
         <translation>安全</translation>
     </message>
@@ -1131,7 +1141,7 @@
 <context>
     <name>across::NodeFormModel</name>
     <message>
-        <location filename="../src/view_models/nodeformmodel.cpp" line="439"/>
+        <location filename="../src/view_models/nodeformmodel.cpp" line="447"/>
         <source>custom configuration encoding to url is not supported</source>
         <translation>未支持自定义配置编码到链接格式</translation>
     </message>
@@ -1139,7 +1149,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="330"/>
+        <location filename="../src/view_models/nodelist.cpp" line="332"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1190,7 +1200,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/views/main.qml" line="15"/>
+        <location filename="../src/views/main.qml" line="17"/>
         <source>ACross</source>
         <translation>ACross</translation>
     </message>

@@ -6,7 +6,7 @@ function hideAllTypeSetting(components: Array<any>): void {
     }
 }
 
-function networkSelectToggle(text: string, components: any, control: any = null): void {
+function networkSelectToggle(currentIndex: number, components: any, control: any = null): void {
     if (components === null) {
         return
     }
@@ -22,10 +22,10 @@ function networkSelectToggle(text: string, components: any, control: any = null)
 
     hideAllTypeSetting([hostLabel, hostText, pathLabel, pathText, typeLabel, typeSelect, quicSecurityLabel, quicSecuritySelect])
 
-    switch (text) {
-        case "tcp":
+    switch (currentIndex) {
+        case 0: // tcp
             break
-        case "ws":
+        case 1: // ws
             hostLabel.visible = true
             hostLabel.text = "Host"
             hostText.visible = true
@@ -33,12 +33,12 @@ function networkSelectToggle(text: string, components: any, control: any = null)
             pathLabel.text = "Path"
             pathText.visible = true
             break
-        case "grpc":
+        case 2: // grpc
             pathLabel.visible = true
             pathLabel.text = "Service Name"
             pathText.visible = true
             break
-        case "quic":
+        case 3: // quic
             typeLabel.visible = true
             typeSelect.visible = true
             quicSecurityLabel.visible = true
@@ -51,7 +51,7 @@ function networkSelectToggle(text: string, components: any, control: any = null)
             break
     }
 
-    if (control != null) {
+    if (control !== null) {
         control.configChanged()
     }
 }
@@ -68,8 +68,9 @@ function visibleChangeToggle(visible: boolean, components: any, model: any = nul
     let typeSelect = components["typeSelect"]
     let quicSecuritySelect = components["quicSecuritySelect"]
     let tlsEnableSelect = components["tlsEnableSelect"]
+    let sniText = components["sniText"]
 
-    if (model !== null && model.raw != null) {
+    if (model !== null && model.raw !== null) {
         let raw = JSON.parse(model.raw)
 
         if (raw.hasOwnProperty("protocol") && raw["protocol"] !== "vmess") {
@@ -86,7 +87,7 @@ function visibleChangeToggle(visible: boolean, components: any, model: any = nul
                 vmess = raw["settings"]["vnext"]
             }
 
-            if (vmess != null && Object.keys(vmess).length > 0) {
+            if (vmess !== null && Object.keys(vmess).length > 0) {
                 let server = vmess[0]
                 if (server.hasOwnProperty("users") && Object.keys(
                     server["users"]).length > 0) {
@@ -107,7 +108,7 @@ function visibleChangeToggle(visible: boolean, components: any, model: any = nul
             return
         }
 
-        if (raw["streamSettings"] != null) {
+        if (raw["streamSettings"] !== null) {
             let streamSettings = raw["streamSettings"]
 
             if (streamSettings.hasOwnProperty("network") && networkSelect !== null) {
@@ -132,7 +133,7 @@ function visibleChangeToggle(visible: boolean, components: any, model: any = nul
                         }
                         break
                     case "grpc":
-                        if (streamSettings.hasOwnProperty("grpcSettings") && pathText != null) {
+                        if (streamSettings.hasOwnProperty("grpcSettings") && pathText !== null) {
                             let grpcSettings = streamSettings["grpcSettings"]
 
                             if (grpcSettings.hasOwnProperty("serviceName")) {
@@ -167,8 +168,15 @@ function visibleChangeToggle(visible: boolean, components: any, model: any = nul
             }
 
             if (streamSettings.hasOwnProperty("security") && tlsEnableSelect !== null) {
-                if (streamSettings["security"] === "tls")
+                if (streamSettings["security"] === "tls") {
                     tlsEnableSelect.checked = true
+                }
+            }
+
+            if (streamSettings.hasOwnProperty("tlsSettings") &&
+                streamSettings["tlsSettings"].hasOwnProperty("serverName")
+                && sniText !== null) {
+                sniText.text = streamSettings["tlsSettings"]["serverName"]
             }
         }
     }

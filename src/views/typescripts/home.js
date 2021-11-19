@@ -6,7 +6,7 @@ function hideAllTypeSetting(components) {
         }
     }
 }
-function networkSelectToggle(text, components, control = null) {
+function networkSelectToggle(currentIndex, components, control = null) {
     if (components === null) {
         return;
     }
@@ -19,10 +19,10 @@ function networkSelectToggle(text, components, control = null) {
     let quicSecurityLabel = components["quicSecurityLabel"];
     let quicSecuritySelect = components["quicSecuritySelect"];
     hideAllTypeSetting([hostLabel, hostText, pathLabel, pathText, typeLabel, typeSelect, quicSecurityLabel, quicSecuritySelect]);
-    switch (text) {
-        case "tcp":
+    switch (currentIndex) {
+        case 0: // tcp
             break;
-        case "ws":
+        case 1: // ws
             hostLabel.visible = true;
             hostLabel.text = "Host";
             hostText.visible = true;
@@ -30,12 +30,12 @@ function networkSelectToggle(text, components, control = null) {
             pathLabel.text = "Path";
             pathText.visible = true;
             break;
-        case "grpc":
+        case 2: // grpc
             pathLabel.visible = true;
             pathLabel.text = "Service Name";
             pathText.visible = true;
             break;
-        case "quic":
+        case 3: // quic
             typeLabel.visible = true;
             typeSelect.visible = true;
             quicSecurityLabel.visible = true;
@@ -47,7 +47,7 @@ function networkSelectToggle(text, components, control = null) {
         default:
             break;
     }
-    if (control != null) {
+    if (control !== null) {
         control.configChanged();
     }
 }
@@ -63,7 +63,8 @@ function visibleChangeToggle(visible, components, model = null) {
     let typeSelect = components["typeSelect"];
     let quicSecuritySelect = components["quicSecuritySelect"];
     let tlsEnableSelect = components["tlsEnableSelect"];
-    if (model !== null && model.raw != null) {
+    let sniText = components["sniText"];
+    if (model !== null && model.raw !== null) {
         let raw = JSON.parse(model.raw);
         if (raw.hasOwnProperty("protocol") && raw["protocol"] !== "vmess") {
             return;
@@ -76,7 +77,7 @@ function visibleChangeToggle(visible, components, model = null) {
             else {
                 vmess = raw["settings"]["vnext"];
             }
-            if (vmess != null && Object.keys(vmess).length > 0) {
+            if (vmess !== null && Object.keys(vmess).length > 0) {
                 let server = vmess[0];
                 if (server.hasOwnProperty("users") && Object.keys(server["users"]).length > 0) {
                     let user = server["users"][0];
@@ -92,7 +93,7 @@ function visibleChangeToggle(visible, components, model = null) {
         if (!raw.hasOwnProperty("streamSettings")) {
             return;
         }
-        if (raw["streamSettings"] != null) {
+        if (raw["streamSettings"] !== null) {
             let streamSettings = raw["streamSettings"];
             if (streamSettings.hasOwnProperty("network") && networkSelect !== null) {
                 let network = streamSettings["network"];
@@ -111,7 +112,7 @@ function visibleChangeToggle(visible, components, model = null) {
                         }
                         break;
                     case "grpc":
-                        if (streamSettings.hasOwnProperty("grpcSettings") && pathText != null) {
+                        if (streamSettings.hasOwnProperty("grpcSettings") && pathText !== null) {
                             let grpcSettings = streamSettings["grpcSettings"];
                             if (grpcSettings.hasOwnProperty("serviceName")) {
                                 pathText.text = grpcSettings["serviceName"];
@@ -138,8 +139,14 @@ function visibleChangeToggle(visible, components, model = null) {
                 }
             }
             if (streamSettings.hasOwnProperty("security") && tlsEnableSelect !== null) {
-                if (streamSettings["security"] === "tls")
+                if (streamSettings["security"] === "tls") {
                     tlsEnableSelect.checked = true;
+                }
+            }
+            if (streamSettings.hasOwnProperty("tlsSettings") &&
+                streamSettings["tlsSettings"].hasOwnProperty("serverName")
+                && sniText !== null) {
+                sniText.text = streamSettings["tlsSettings"]["serverName"];
             }
         }
     }

@@ -297,6 +297,11 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
         }
     }
 
+    user->set_security("auto");
+    if (root.contains("scy")) {
+        user->set_security(root["scy"]);
+    }
+
     if (root.contains("net")) {
         stream->set_network(root["net"].get<std::string>());
 
@@ -351,10 +356,12 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
 
     if (root.contains("tls")) {
         stream->set_security(root["tls"].get<std::string>());
-        auto tls = stream->mutable_tlssettings();
+    }
 
-        if (root.contains("sni"))
-            tls->set_servername(root["sni"].get<std::string>());
+    if (root.contains("sni")) {
+        auto serverName = root["sni"].get<std::string>();
+        auto tls = stream->mutable_tlssettings();
+        tls->set_servername(root["sni"].get<std::string>());
     }
 
     return meta;
@@ -395,8 +402,12 @@ SerializeTools::vmessBase64Encode(const URLMetaObject &meta) {
     root["add"] = server.address();
     root["port"] = server.port();
     root["id"] = user.id();
-    root["sni"] = server.address();
     root["aid"] = user.alterid();
+
+    root["sni"] = server.address();
+    if (stream.has_tlssettings()) {
+        root["sni"] = stream.tlssettings().servername();
+    }
 
     if (user.security().empty())
         root["scy"] = "auto";

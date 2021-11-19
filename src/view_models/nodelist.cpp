@@ -315,14 +315,16 @@ Q_INVOKABLE qint64 NodeList::getIndexByNode(qint64 node_id, qint64 group_id) {
 }
 
 QString NodeList::jsonFormat(const QString &json_str) {
-    auto json =
-        nlohmann::json::parse(json_str.toStdString(), nullptr, false, false);
-    if (json == nlohmann::json::value_t::null) {
+    if (json_str.isEmpty())
+        return "";
+
+    auto json = Json::parse(json_str.toStdString(), nullptr, false, false);
+    if (json == Json::value_t::null)
         return json_str;
-    }
+
     std::string &&res = json.dump(2);
-    QString result = QString::fromStdString(res);
-    return result;
+
+    return QString::fromStdString(res);
 }
 
 void NodeList::copyURLToClipboard(const QString &node_name,

@@ -20,8 +20,9 @@ Item {
                                        "hostText": hostText,
                                        "typeSelect": typeSelect,
                                        "quicSecuritySelect": quicSecuritySelect,
-                                       "tlsEnableSelect": tlsEnableSelect
-                                   })
+                                       "tlsEnableSelect": tlsEnableSelect,
+                                       "sniText": sniText
+                                   }, nodeModel)
     }
 
     GridLayout {
@@ -54,6 +55,25 @@ Item {
             id: tlsEnableSelect
 
             onCheckedChanged: {
+                nodeEditFormPopWindow.configChanged()
+            }
+        }
+
+        Label {
+            visible: tlsEnableSelect.checked
+            text: qsTr("SNI")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            id: sniText
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+            visible: tlsEnableSelect.checked
+
+            placeholderText: qsTr("Keep it blank to use the same address")
+
+            onTextChanged: {
                 nodeEditFormPopWindow.configChanged()
             }
         }
@@ -107,17 +127,17 @@ Item {
             Layout.columnSpan: 3
             model: ["tcp", "ws", "grpc", "quic"]
 
-            onEditTextChanged: HomeJS.networkSelectToggle(editText, {
-                                                              "typeLabel": typeLabel,
-                                                              "typeSelect": typeSelect,
-                                                              "quicSecurityLabel": quicSecurityLabel,
-                                                              "quicSecuritySelect": quicSecuritySelect,
-                                                              "hostLabel": hostLabel,
-                                                              "hostText": hostText,
-                                                              "pathLabel": pathLabel,
-                                                              "pathText": pathText
-                                                          },
-                                                          nodeEditFormPopWindow)
+            onCurrentIndexChanged: HomeJS.networkSelectToggle(currentIndex, {
+                                                                  "typeLabel": typeLabel,
+                                                                  "typeSelect": typeSelect,
+                                                                  "quicSecurityLabel": quicSecurityLabel,
+                                                                  "quicSecuritySelect": quicSecuritySelect,
+                                                                  "hostLabel": hostLabel,
+                                                                  "hostText": hostText,
+                                                                  "pathLabel": pathLabel,
+                                                                  "pathText": pathText
+                                                              },
+                                                              nodeEditFormPopWindow)
         }
 
         Label {
@@ -203,6 +223,7 @@ Item {
         function onAcceptAll() {
             vmessSetting = {
                 "enableTLS": tlsEnableSelect.checked,
+                "sni": sniText.text,
                 "alterID": alterIDText.text,
                 "security": securitySelect.currentText,
                 "network": networkSelect.currentText,

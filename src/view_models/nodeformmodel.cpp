@@ -276,6 +276,14 @@ bool NodeFormModel::setVMessOutboud(NodeInfo &node, const QVariantMap &values) {
 
     if (values.contains("enableTLS") && values.value("enableTLS").toBool()) {
         stream->set_security("tls");
+
+        auto tls = stream->mutable_tlssettings();
+        if (values.contains("sni") &&
+            !values.value("sni").toString().isEmpty()) {
+            tls->set_servername(values.value("sni").toString().toStdString());
+        } else {
+            tls->set_servername(server->address());
+        }
     } else {
         stream->set_security("none");
     }
