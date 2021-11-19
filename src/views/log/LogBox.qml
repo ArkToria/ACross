@@ -11,6 +11,10 @@ ControlsBasic.ScrollView {
 
     property string itemName: "app"
 
+    function clear() {
+        textEdit.clear()
+    }
+
     Flickable {
         id: flick
 

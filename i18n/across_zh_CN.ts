@@ -57,9 +57,14 @@
 <context>
     <name>AppLog</name>
     <message>
-        <location filename="../src/views/log/AppLog.qml" line="20"/>
+        <location filename="../src/views/log/AppLog.qml" line="22"/>
         <source>Application Log</source>
         <translation>应用日志</translation>
+    </message>
+    <message>
+        <location filename="../src/views/log/AppLog.qml" line="33"/>
+        <source>Clear</source>
+        <translation>清理</translation>
     </message>
 </context>
 <context>
@@ -389,9 +394,14 @@
 <context>
     <name>CoreLog</name>
     <message>
-        <location filename="../src/views/log/CoreLog.qml" line="20"/>
+        <location filename="../src/views/log/CoreLog.qml" line="22"/>
         <source>Core Log</source>
         <translation>核心日志</translation>
+    </message>
+    <message>
+        <location filename="../src/views/log/CoreLog.qml" line="33"/>
+        <source>Clear</source>
+        <translation>清理</translation>
     </message>
 </context>
 <context>
@@ -1132,8 +1142,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="403"/>
+        <location filename="../src/view_models/grouplist.cpp" line="402"/>
+        <location filename="../src/view_models/grouplist.cpp" line="406"/>
         <location filename="../src/view_models/grouplist.cpp" line="423"/>
+        <location filename="../src/view_models/grouplist.cpp" line="427"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

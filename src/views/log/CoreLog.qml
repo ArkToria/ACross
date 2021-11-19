@@ -10,11 +10,13 @@ CardBox {
 
     property int fontSize: 14
 
-    ColumnLayout {
+    GridLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 3
 
-        spacing: acrossConfig.itemSpacing * 2
+        columns: 3
+        columnSpacing: acrossConfig.itemSpacing * 2
+        rowSpacing: acrossConfig.itemSpacing * 2
 
         Label {
             text: qsTr("Core Log")
@@ -23,7 +25,23 @@ CardBox {
             color: acrossConfig.textColor
         }
 
+        Item {
+            Layout.fillWidth: true
+        }
+
+        ButtonBox {
+            text: qsTr("Clear")
+            onClicked: {
+                logBox.clear()
+            }
+        }
+
         LogBox {
+            id: logBox
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+            Layout.fillHeight: true
+
             itemName: "core"
         }
     }
