@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import ACross
+import "../typescripts/help.js" as HelpJS
 
 CardBox {
     id: aboutItem
@@ -29,19 +30,12 @@ CardBox {
 
                 sourceWidth: parent.logoBasicSize
                 sourceHeight: parent.logoBasicSize
-                source: getLogo(acrossConfig.iconStyle)
+                source: HelpJS.getLogo(acrossConfig.iconStyle)
 
                 MouseArea {
                     anchors.fill: parent
-                    onDoubleClicked: {
-                        if (!isDev) {
-                            logoImage.source = getLogo("dev")
-                        } else {
-                            logoImage.source = getLogo(acrossConfig.iconStyle)
-                        }
-
-                        aboutItem.isDev = !aboutItem.isDev
-                    }
+                    onDoubleClicked: HelpJS.getLogo(acrossConfig.iconStyle,
+                                                    aboutItem, logoImage)
                 }
             }
         }

@@ -1,7 +1,10 @@
 file(GLOB QML_FILES ${CMAKE_SOURCE_DIR}/src/views/*/*.qml)
 
+file(GLOB JS_FILES ${CMAKE_SOURCE_DIR}/src/views/*/*.js)
+
 list(APPEND QML_FILES
     ${CMAKE_SOURCE_DIR}/src/views/main.qml
+    ${JS_FILES}
     )
 
 foreach(qml ${QML_FILES})

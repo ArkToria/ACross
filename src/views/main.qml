@@ -5,6 +5,8 @@ import QtQuick.Controls
 
 import ACross
 
+import "./typescripts/main.js" as MainJS
+
 ApplicationWindow {
     id: mainWindow
     width: 960
@@ -26,31 +28,23 @@ ApplicationWindow {
         }
     }
 
-    function toggleVisibilty() {
-        if (mainWindow.visible === false) {
-            mainWindow.show()
-        } else {
-            mainWindow.hide()
-        }
-    }
-
     Connections {
         target: acrossTray
         function onSignalShow() {
-            toggleVisibilty()
+            MainJS.printHello()
+            MainJS.toggleVisibilty(mainWindow)
         }
         function onSignalQuit() {
             Qt.quit()
         }
         function onSignalIconActivated() {
-            toggleVisibilty()
+            MainJS.toggleVisibilty(mainWindow)
         }
     }
 
     DarkBackground {
         id: darkBackground
         anchors.fill: parent
-
         z: 1
     }
 

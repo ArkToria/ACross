@@ -9,18 +9,6 @@ Item {
     implicitWidth: 840
     implicitHeight: 720
 
-    function getLogo(style) {
-        if (style === "dev") {
-            return "qrc:/misc/design/lines.svg"
-        }
-
-        if (style === "light") {
-            return "qrc:/misc/design/logo_pure.svg"
-        } else {
-            return "qrc:/misc/design/logo.svg"
-        }
-    }
-
     ControlsBasic.ScrollView {
         id: scrollView
         anchors.fill: parent

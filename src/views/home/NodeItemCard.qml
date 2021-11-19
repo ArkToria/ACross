@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import ACross
+import "../typescripts/home.js" as HomeJS
 
 Item {
     id: nodeItemCard
@@ -10,39 +11,11 @@ Item {
     implicitHeight: 192
 
     property int fontSize: 12
-
-    function isCurrent() {
-        if (acrossNodes.currentGroupID === groupID
-                && acrossNodes.currentNodeID === Number(nodeID)
-                && acrossCore.isRunning) {
-            return true
-        }
-        return false
-    }
-
-    function displayProtocolText(protocol) {
-        switch (protocol) {
-        case 0:
-            return "vmess"
-        case 1:
-            return "shadowsocks"
-        case 2:
-            return "trojan"
-        case 4:
-            return "raw"
-        case 5:
-            return "scheme"
-        case 6:
-            return "unknown"
-        }
-    }
-
     property Component popMenuComponent: null
-
-    property color backgroundColor: isCurrent(
-                                        ) ? acrossConfig.highlightColor : acrossConfig.backgroundColor
-    property color textColor: isCurrent(
-                                  ) ? acrossConfig.highlightTextColor : acrossConfig.textColor
+    property bool isCurrentNode: HomeJS.isCurrentNode(acrossNodes, groupID,
+                                                      nodeID, acrossCore)
+    property color backgroundColor: isCurrentNode ? acrossConfig.highlightColor : acrossConfig.backgroundColor
+    property color textColor: isCurrentNode ? acrossConfig.highlightTextColor : acrossConfig.textColor
 
     state: "NormalState"
     states: [
@@ -102,10 +75,9 @@ Item {
                     anchors.topMargin: acrossConfig.itemSpacing
                     anchors.rightMargin: acrossConfig.itemSpacing
 
-                    source: isCurrent(
-                                ) ? "qrc:/misc/icons/" + acrossConfig.iconStyle
-                                    + (acrossConfig.iconStyle === "dark" ? "/more_vert.svg" : "/more_vert_reverse.svg") : "qrc:/misc/icons/"
-                                    + acrossConfig.iconStyle + "/more_vert.svg"
+                    source: isCurrentNode ? "qrc:/misc/icons/" + acrossConfig.iconStyle
+                                            + (acrossConfig.iconStyle === "dark" ? "/more_vert.svg" : "/more_vert_reverse.svg") : "qrc:/misc/icons/"
+                                            + acrossConfig.iconStyle + "/more_vert.svg"
                     sourceWidth: 24
                     sourceHeight: 24
                 }
@@ -123,7 +95,7 @@ Item {
                 id: protocolText
                 Layout.fillWidth: true
 
-                text: displayProtocolText(protocol)
+                text: HomeJS.displayProtocolText(protocol)
                 color: textColor
             }
 

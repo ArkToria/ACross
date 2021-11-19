@@ -3,18 +3,11 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import ACross
+import "../typescripts/help.js" as HelpJS
 
 Item {
     implicitHeight: 96
     implicitWidth: 120
-
-    function getLogo(style) {
-        if (style === "light") {
-            return "qrc:/misc/design/logo_pure.svg"
-        } else {
-            return "qrc:/misc/design/logo.svg"
-        }
-    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -24,7 +17,7 @@ Item {
 
             sourceWidth: 64
             sourceHeight: 64
-            source: getLogo(acrossConfig.iconStyle)
+            source: HelpJS.getLogo(acrossConfig.iconStyle)
         }
 
         Label {

@@ -7,6 +7,7 @@ import QtQuick.Controls.Basic as ControlsBasic
 import Qt.labs.platform
 
 import ACross
+import "../typescripts/home.js" as HomeJS
 
 Window {
     id: nodeShareFormWindow
@@ -26,15 +27,6 @@ Window {
         if (!visible) {
             nodeShareFormWindow.close()
             nodeShareFormWindow.destroy()
-        }
-    }
-
-    function getQRCode() {
-        let name = acrossNodes.getQRCode(nodeModel.nodeID)
-        if (name === "") {
-            return "qrc:/misc/icons/" + acrossConfig.iconStyle + "/repo_qr_code.svg"
-        } else {
-            return "image://acrossImageProvider/" + name
         }
     }
 
@@ -72,7 +64,8 @@ Window {
                     SVGBox {
                         anchors.centerIn: parent
 
-                        source: getQRCode()
+                        source: HomeJS.getQRCode(acrossNodes, nodeModel,
+                                                 acrossConfig)
                         sourceWidth: parent.width / 1.2
                         sourceHeight: sourceWidth
                     }

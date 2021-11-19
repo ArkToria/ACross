@@ -4,6 +4,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Basic as ControlsBasic
 
 import ACross
+import "../typescripts/home.js" as HomeJS
 
 Item {
     id: root

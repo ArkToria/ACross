@@ -3,6 +3,8 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Basic as ControlsBasic
 
+import "../typescripts/log.js" as LogJS
+
 ControlsBasic.ScrollView {
     Layout.fillWidth: true
     Layout.fillHeight: true
@@ -15,17 +17,6 @@ ControlsBasic.ScrollView {
         contentWidth: textEdit.paintedWidth
         contentHeight: textEdit.paintedHeight
         clip: true
-
-        function ensureVisible(r) {
-            if (contentX >= r.x)
-                contentX = r.x
-            else if (contentX + width <= r.x + r.width)
-                contentX = r.x + r.width - width
-            if (contentY >= r.y)
-                contentY = r.y
-            else if (contentY + height <= r.y + r.height)
-                contentY = r.y + r.height - height
-        }
 
         TextEdit {
             id: textEdit
@@ -41,16 +32,12 @@ ControlsBasic.ScrollView {
 
             font: fixedFont
             wrapMode: Text.WordWrap
-            onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
+            onCursorRectangleChanged: {
+                LogJS.ensureVisible(flick, cursorRectangle)
+            }
 
             onLineCountChanged: {
-                let maxLines = acrossConfig.logLines
-                if (maxLines <= 0) {
-
-                    // unlimit
-                } else if (lineCount >= maxLines) {
-                    clear()
-                }
+                LogJS.autoClean(textEdit, acrossConfig.logLines)
             }
 
             Component.onCompleted: {
