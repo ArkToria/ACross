@@ -29,12 +29,16 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
     p_db = db;
     p_curl = curl;
     p_nodes = nodes;
+
 #ifdef __MINGW32__
     p_tray = tray;
 #endif
 
     connect(p_nodes.get(), &NodeList::groupSizeChanged, this,
             &GroupList::handleItemsChanged);
+
+    connect(p_curl.get(), &across::network::CURLTools::downloadFinished, this,
+            &GroupList::handleDownloaded);
 
     reloadItems();
     checkAllUpdate();
@@ -83,12 +87,10 @@ void GroupList::checkUpdate(int index, bool force) {
             .name = group.name,
             .url = group.url,
             .user_agent = p_config->networkUserAgent(),
+            .is_updated = true,
         };
 
         p_nodes->setDownloadProxy(task);
-
-        connect(p_curl.get(), &across::network::CURLTools::downloadFinished,
-                this, &GroupList::handleUpdated);
 
         p_curl->download(task);
     } while (false);
@@ -307,9 +309,6 @@ void GroupList::appendItem(const QString &group_name, const QString &url,
 
     m_pre_groups.append(group_info);
 
-    connect(p_curl.get(), &across::network::CURLTools::downloadFinished, this,
-            &GroupList::handleDownloaded);
-
     p_curl->download(task);
 }
 
@@ -372,12 +371,10 @@ void GroupList::editItem(int index, const QString &group_name,
             .name = group.name,
             .url = group.url,
             .user_agent = p_config->networkUserAgent(),
+            .is_updated = true,
         };
 
         p_nodes->setDownloadProxy(task);
-
-        connect(p_curl.get(), &across::network::CURLTools::downloadFinished,
-                this, &GroupList::handleUpdated);
 
         p_curl->download(task);
     } else if (!node_items.isEmpty()) {
@@ -438,55 +435,50 @@ void GroupList::handleDownloaded(const QVariant &content) {
     if (task.content.isEmpty())
         return;
 
-    for (auto i = 0; i < m_pre_groups.size(); ++i) {
-        if (m_pre_groups.at(i).name == task.name) {
-            auto group = m_pre_groups.at(i);
+    if (task.is_updated) {
+        QList<GroupInfo> temp_groups;
+        for (auto &item : m_groups) {
+            if (item.id == task.id) {
+                auto group = item;
+                if (auto result = p_db->removeGroupFromID(group.id, true);
+                    result.type() != QSqlError::NoError)
+                    break;
+                if (!insert(group, task.content))
+                    break;
 
-            if (auto result = p_db->insert(group);
-                result.type() != QSqlError::NoError)
+                temp_groups.append(group);
                 break;
-
-            if (!insert(group, task.content))
-                break;
-
-            m_pre_groups.remove(i);
-            break;
+            }
         }
-    }
 
-    reloadItems();
-}
-
-void GroupList::handleUpdated(const QVariant &content) {
-    auto task = content.value<DownloadTask>();
-    if (task.content.isEmpty())
-        return;
-
-    QList<GroupInfo> temp_groups;
-    for (auto &item : m_groups) {
-        if (item.id == task.id) {
-            auto group = item;
-            if (auto result = p_db->removeGroupFromID(group.id, true);
-                result.type() != QSqlError::NoError)
-                break;
-            if (!insert(group, task.content))
-                break;
-
-            temp_groups.append(group);
-            break;
+        if (auto result = p_db->update(temp_groups);
+            result.type() != QSqlError::NoError) {
+            return;
+        } else {
+            p_db->updateRuntimeValue(
+                RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, 0));
         }
-    }
-
-    if (auto result = p_db->update(temp_groups);
-        result.type() != QSqlError::NoError) {
-        return;
     } else {
-        p_db->updateRuntimeValue(
-            RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, 0));
+        for (auto i = 0; i < m_pre_groups.size(); ++i) {
+            if (m_pre_groups.at(i).name == task.name) {
+                auto group = m_pre_groups.at(i);
+
+                if (auto result = p_db->insert(group);
+                    result.type() != QSqlError::NoError)
+                    break;
+
+                if (!insert(group, task.content))
+                    break;
+
+                m_pre_groups.remove(i);
+                break;
+            }
+        }
     }
 
     reloadItems();
 }
+
 
 void GroupList::handleItemsChanged(int64_t group_id, int size) {
     for (auto index = 0; index < m_groups.size(); ++index) {

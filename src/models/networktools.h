@@ -80,6 +80,7 @@ struct DownloadTask {
     QString user_agent;
     QString proxy;
     QString content;
+    bool is_updated = false;
 };
 
 class CURLTools : public QObject {
