@@ -399,14 +399,16 @@ void GroupList::setDisplayGroupID(int id) { p_nodes->setDisplayGroupID(id); }
 
 void GroupList::copyUrlToClipboard(int index) {
     auto item = m_groups.at(index);
-    NotifyTools::send(item.url,
-                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name)
+
 #ifdef __MINGW32__
-                          ,
+    NotifyTools::send(item.url,
+                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name),
                       p_tray);
 #else
-    );
+    NotifyTools::send(item.url,
+                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
 #endif
+
     ClipboardTools::send(item.url);
 }
 
@@ -419,14 +421,15 @@ void GroupList::copyNodesToClipboard(int index) {
         nodes_url.append("\n");
     }
 
-    NotifyTools::send(nodes_url,
-                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name)
 #ifdef __MINGW32__
-                          ,
+    NotifyTools::send(nodes_url,
+                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name),
                       p_tray);
 #else
-    );
+    NotifyTools::send(nodes_url,
+                      QString(tr("Copy [%1] URL to clipboard")).arg(item.name));
 #endif
+
     ClipboardTools::send(nodes_url);
 }
 

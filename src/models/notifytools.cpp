@@ -12,7 +12,6 @@ using namespace across::utils;
 void NotifyTools::send(const QString &msg, const QString &summary,
                        QSharedPointer<QSystemTrayIcon> tray) {
     DBusTools dbus_tools;
-
     dbus_tools.sendNotify(msg, summary);
 }
 #endif // Q_OS_LINUX

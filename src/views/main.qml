@@ -31,7 +31,6 @@ ApplicationWindow {
     Connections {
         target: acrossTray
         function onSignalShow() {
-            MainJS.printHello()
             MainJS.toggleVisibilty(mainWindow)
         }
         function onSignalQuit() {
