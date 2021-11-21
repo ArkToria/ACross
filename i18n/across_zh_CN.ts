@@ -734,9 +734,8 @@
         <translation>主页</translation>
     </message>
     <message>
-        <location filename="../src/views/menu/MenuModel.qml" line="10"/>
         <source>Logs</source>
-        <translation>日志</translation>
+        <translation type="vanished">日志</translation>
     </message>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="15"/>

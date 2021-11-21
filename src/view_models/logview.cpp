@@ -26,57 +26,60 @@ LogView::~LogView() {
 }
 
 void LogView::setTheme(const across::config::Theme &theme) {
-    m_theme.Clear();
-    m_theme.CopyFrom(theme);
+    //    m_theme.Clear();
+    //    m_theme.CopyFrom(theme);
 
-    m_core_highlighter.setTheme(theme);
-    m_app_highlighter.setTheme(theme);
+    //    m_core_highlighter.setTheme(theme);
+    //    m_app_highlighter.setTheme(theme);
 }
 
 void LogView::setLogItem(QQuickItem *item, const QString &name) {
-    if (item == nullptr)
-        return;
+    //    if (item == nullptr)
+    //        return;
 
-    if (auto logger = spdlog::get(name.toStdString()); logger != nullptr) {
-        const auto p_text_document =
-            qvariant_cast<QQuickTextDocument *>(item->property("textDocument"))
-                ->textDocument();
-        p_text_document->clearUndoRedoStacks();
-        p_text_document->setUndoRedoEnabled(false);
+    //    if (auto logger = spdlog::get(name.toStdString()); logger != nullptr)
+    //    {
+    //        const auto p_text_document =
+    //            qvariant_cast<QQuickTextDocument
+    //            *>(item->property("textDocument"))
+    //                ->textDocument();
+    //        p_text_document->clearUndoRedoStacks();
+    //        p_text_document->setUndoRedoEnabled(false);
 
-        spdlog::sink_ptr qt_sink =
-            std::make_shared<spdlog::sinks::qt_sink_mt>(item, "append");
+    //        spdlog::sink_ptr qt_sink =
+    //            std::make_shared<spdlog::sinks::qt_sink_mt>(item, "append");
 
-        logger->sinks().emplace_back(qt_sink);
-        logger->info("Adding qt sinks to logger: {}, Sinks size: {}",
-                     logger->name(), logger->sinks().size());
+    //        logger->sinks().emplace_back(qt_sink);
+    //        logger->info("Adding qt sinks to logger: {}, Sinks size: {}",
+    //                     logger->name(), logger->sinks().size());
 
-        if (logger->name() == "core") {
-            if (m_theme.IsInitialized()) {
-                m_core_highlighter.setTheme(m_theme);
-            }
+    //        if (logger->name() == "core") {
+    //            if (m_theme.IsInitialized()) {
+    //                m_core_highlighter.setTheme(m_theme);
+    //            }
 
-            m_core_highlighter.init();
-            m_core_highlighter.setDocument(p_text_document);
-            return;
-        } else if (logger->name() == "app") {
-            if (m_theme.IsInitialized()) {
-                m_app_highlighter.setTheme(m_theme);
-            }
+    //            m_core_highlighter.init();
+    //            m_core_highlighter.setDocument(p_text_document);
+    //            return;
+    //        } else if (logger->name() == "app") {
+    //            if (m_theme.IsInitialized()) {
+    //                m_app_highlighter.setTheme(m_theme);
+    //            }
 
-            m_app_highlighter.init();
-            m_app_highlighter.setDocument(p_text_document);
-            return;
-        }
-    }
+    //            m_app_highlighter.init();
+    //            m_app_highlighter.setDocument(p_text_document);
+    //            return;
+    //        }
+    //    }
 }
 
 void LogView::clearUndoStacks(QQuickItem *item) {
-    if (item == nullptr)
-        return;
+    //    if (item == nullptr)
+    //        return;
 
-    const auto p_text_document =
-        qvariant_cast<QQuickTextDocument *>(item->property("textDocument"))
-            ->textDocument();
-    p_text_document->clearUndoRedoStacks();
+    //    const auto p_text_document =
+    //        qvariant_cast<QQuickTextDocument
+    //        *>(item->property("textDocument"))
+    //            ->textDocument();
+    //    p_text_document->clearUndoRedoStacks();
 }

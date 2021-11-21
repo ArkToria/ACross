@@ -6,11 +6,11 @@ ListModel {
         source: "qrc:/ACross/src/views/home/HomePage.qml"
         iconSource: "/home.svg"
     }
-    ListElement {
-        name: qsTr("Logs")
-        source: "qrc:/ACross/src/views/log/LogPage.qml"
-        iconSource: "/log.svg"
-    }
+    //    ListElement {
+    //        name: qsTr("Logs")
+    //        source: "qrc:/ACross/src/views/log/LogPage.qml"
+    //        iconSource: "/log.svg"
+    //    }
     ListElement {
         name: qsTr("Setting")
         source: "qrc:/ACross/src/views/setting/SettingPage.qml"

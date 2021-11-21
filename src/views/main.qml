@@ -75,10 +75,9 @@ ApplicationWindow {
                     id: homePage
                 }
 
-                LogPage {
-                    id: logPage
-                }
-
+                //                LogPage {
+                //                    id: logPage
+                //                }
                 SettingPage {
                     id: settingPage
                 }
