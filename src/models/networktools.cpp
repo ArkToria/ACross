@@ -248,8 +248,16 @@ size_t CURLTools::dataCallback(void *contents, size_t size, size_t nmemb,
 
 QString UpdateTools::getVersion(const QString &content) {
     Json::string_t err_msg;
+    Json root;
 
-    if (auto root = Json::parse(content.toStdString())) {
+    try {
+        root = Json::parse(content.toStdString());
+    } catch(Json::exception e){
+        qDebug()<<e.what();
+        return "";
+    }
+
+    if (!root.is_null()) {
         if (auto tag = root["tag_name"]; !tag.is_null() && tag.is_string()) {
             auto result = QString::fromStdString(tag.get<std::string>());
             return result.remove("v");
