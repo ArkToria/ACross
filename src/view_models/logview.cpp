@@ -38,6 +38,12 @@ void LogView::setLogItem(QQuickItem *item, const QString &name) {
         return;
 
     if (auto logger = spdlog::get(name.toStdString()); logger != nullptr) {
+        const auto p_text_document =
+            qvariant_cast<QQuickTextDocument *>(item->property("textDocument"))
+                ->textDocument();
+        p_text_document->clearUndoRedoStacks();
+        p_text_document->setUndoRedoEnabled(false);
+
         spdlog::sink_ptr qt_sink =
             std::make_shared<spdlog::sinks::qt_sink_mt>(item, "append");
 
@@ -45,17 +51,13 @@ void LogView::setLogItem(QQuickItem *item, const QString &name) {
         logger->info("Adding qt sinks to logger: {}, Sinks size: {}",
                      logger->name(), logger->sinks().size());
 
-        const auto p_item =
-            qvariant_cast<QQuickTextDocument *>(item->property("textDocument"))
-                ->textDocument();
-
         if (logger->name() == "core") {
             if (m_theme.IsInitialized()) {
                 m_core_highlighter.setTheme(m_theme);
             }
 
             m_core_highlighter.init();
-            m_core_highlighter.setDocument(p_item);
+            m_core_highlighter.setDocument(p_text_document);
             return;
         } else if (logger->name() == "app") {
             if (m_theme.IsInitialized()) {
@@ -63,8 +65,18 @@ void LogView::setLogItem(QQuickItem *item, const QString &name) {
             }
 
             m_app_highlighter.init();
-            m_app_highlighter.setDocument(p_item);
+            m_app_highlighter.setDocument(p_text_document);
             return;
         }
     }
+}
+
+void LogView::clearUndoStacks(QQuickItem *item) {
+    if (item == nullptr)
+        return;
+
+    const auto p_text_document =
+        qvariant_cast<QQuickTextDocument *>(item->property("textDocument"))
+            ->textDocument();
+    p_text_document->clearUndoRedoStacks();
 }

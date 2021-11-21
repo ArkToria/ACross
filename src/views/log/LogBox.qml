@@ -13,6 +13,7 @@ ControlsBasic.ScrollView {
 
     function clear() {
         textEdit.clear()
+        acrossLogView.clearUndoStacks(textEdit)
     }
 
     Flickable {

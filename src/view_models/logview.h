@@ -45,6 +45,7 @@ class LogView : public QObject {
 
     Q_INVOKABLE void setLogItem(QQuickItem *item, const QString &name = "app");
 
+    Q_INVOKABLE void clearUndoStacks(QQuickItem *item);
   public slots:
     void setTheme(const across::config::Theme &theme);
 
