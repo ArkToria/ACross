@@ -252,8 +252,8 @@ QString UpdateTools::getVersion(const QString &content) {
 
     try {
         root = Json::parse(content.toStdString());
-    } catch(Json::exception e){
-        qDebug()<<e.what();
+    } catch (Json::exception e) {
+        qDebug() << e.what();
         return "";
     }
 
