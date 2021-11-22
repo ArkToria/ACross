@@ -229,8 +229,14 @@ QSqlError DBTools::createDefaultGroup() {
 QSqlError DBTools::createDefaultRouting() {
     QSqlError result;
 
-    if (const QString name("default_routing"); !isItemExists(name)) {
-        RoutingInfo routing = {.name = name};
+    if (const QString name("default_routing");
+        !isItemExists(name, "routings")) {
+        RoutingInfo routing = {
+            .name = name,
+            .domain_strategy = "AsIs",
+            .domain_matcher = "mph",
+        };
+
         result = this->insert(routing);
     }
 
@@ -527,7 +533,31 @@ QSqlError DBTools::insert(RoutingInfo &routing) {
     return result;
 }
 
-QSqlError DBTools::update(RoutingInfo &routing) {}
+QSqlError DBTools::update(RoutingInfo &routing) {
+    QSqlError result;
+    const QString update_str("UPDATE routings SET "
+                             "Name = ?, DomainStrategy = ?, DomainMatcher = ?, "
+                             "Raw = ?, ModifiedAt = ? "
+                             "WHERE ID = ?;");
+
+    routing.modified_time = QDateTime::currentDateTime();
+
+    QVariantList input_collection = {
+        routing.name,
+        routing.domain_strategy,
+        routing.domain_matcher,
+        routing.raw,
+        routing.modified_time.toSecsSinceEpoch(),
+        routing.id,
+    };
+
+    if (result = stepExec(update_str, &input_collection).first;
+        result.type() != QSqlError::NoError) {
+        p_logger->error("Failed to update routing: {}", routing.id);
+    }
+
+    return result;
+}
 
 QSqlError DBTools::removeNodeFromID(qint64 id) {
     const QString remove_str("DELETE FROM nodes WHERE ID = ?");
