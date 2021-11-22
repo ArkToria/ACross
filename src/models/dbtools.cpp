@@ -332,7 +332,7 @@ bool DBTools::isTableExists(const QString &table_name) {
 bool DBTools::isItemExists(const QString &group_name,
                            const QString &table_name) {
     QSqlQuery query(m_db);
-    auto query_str = QString("SELECT * FROM {} WHERE Name = ?").arg(table_name);
+    auto query_str = QString("SELECT * FROM %1 WHERE Name = ?").arg(table_name);
 
     if (query.prepare(query_str.toStdString().c_str())) {
         query.addBindValue(group_name);
