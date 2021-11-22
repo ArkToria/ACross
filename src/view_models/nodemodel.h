@@ -19,6 +19,8 @@ class NodeModel : public QAbstractListModel {
         NameRole,
         GroupRole,
         GroupIDRole,
+        RoutingRole,
+        RoutingIDRole,
         ProtocolTypeRole,
         AddressRole,
         PortRole,

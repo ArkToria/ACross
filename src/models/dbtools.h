@@ -32,6 +32,8 @@ struct NodeInfo {
     QString name = "";
     qint64 group_id = 0;
     QString group_name = "";
+    qint64 routing_id = 0;
+    QString routing_name;
     EntryType protocol;
     QString address = "";
     uint port = 0;
@@ -59,6 +61,16 @@ struct GroupInfo {
     int items = 0;
 
     QVariantMap toVariantMap();
+};
+
+struct RoutingInfo {
+    qint64 id = 0;
+    QString name = "";
+    QString domain_strategy = "";
+    QString domain_matcher = "";
+    QString raw = "";
+    QDateTime created_time;
+    QDateTime modified_time;
 };
 
 enum RunTimeValues : int {
@@ -91,19 +103,26 @@ class DBTools : public QObject {
     void init(const QString &db_path);
     void reload();
     bool isTableExists(const QString &table_name);
-    bool isGroupExists(const QString &group_name);
+    bool isItemExists(const QString &group_name,
+                      const QString &table_name = "groups");
 
     QSqlError createDefaultTables();
     QSqlError createDefaultValues();
     QSqlError createDefaultGroup();
+    QSqlError createDefaultRouting();
 
     QSqlError insert(NodeInfo &node);
     QSqlError insert(QList<NodeInfo> &nodes);
     QSqlError update(NodeInfo &node);
     QSqlError update(QList<NodeInfo> &nodes);
+
     QSqlError insert(GroupInfo &group);
     QSqlError update(GroupInfo &group);
     QSqlError update(QList<GroupInfo> &groups);
+
+    QSqlError insert(RoutingInfo &routing);
+    QSqlError update(RoutingInfo &routing);
+
     QSqlError removeNodeFromID(qint64 id);
     QSqlError removeGroupFromID(qint64 id, bool keep_group = false);
     QSqlError reloadAllGroupsInfo();

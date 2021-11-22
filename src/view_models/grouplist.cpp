@@ -234,6 +234,8 @@ bool GroupList::insertSIP008(const GroupInfo &group_info,
             .name = QString::fromStdString(meta.name),
             .group_id = group_info.id,
             .group_name = group_info.name,
+            .routing_id = 0,
+            .routing_name = "default_routings",
             .protocol = across::EntryType::shadowsocks,
             .address = server.address().c_str(),
             .port = server.port(),
@@ -274,6 +276,8 @@ bool GroupList::insertBase64(const GroupInfo &group_info,
         NodeInfo node = {
             .group_id = group_info.id,
             .group_name = group_info.name,
+            .routing_id = 0,
+            .routing_name = "default_routings",
         };
 
         if (!SerializeTools::decodeOutboundFromURL(node, item.toStdString()))

@@ -242,6 +242,8 @@ QString NodeList::generateConfig() {
 void NodeList::appendNode(NodeInfo node) {
     node.group_id = displayGroupID();
     node.group_name = p_db->getGroupFromID(node.group_id).value().name;
+    node.routing_id = 0;
+    node.routing_name = "default_routings";
 
     if (auto err = p_db->insert(node); err.type() != QSqlError::NoError) {
         p_logger->error("Failed to add node: {}", node.name.toStdString());

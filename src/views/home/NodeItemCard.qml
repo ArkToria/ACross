@@ -103,7 +103,7 @@ Item {
                 id: ruleText
                 Layout.fillWidth: true
 
-                text: "Bypass CN"
+                text: routing
                 color: textColor
             }
 

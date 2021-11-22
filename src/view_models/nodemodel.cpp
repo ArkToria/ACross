@@ -38,6 +38,10 @@ QVariant NodeModel::data(const QModelIndex &index, int role) const {
         return item.group_name;
     case GroupIDRole:
         return item.group_id;
+    case RoutingRole:
+        return item.routing_name;
+    case RoutingIDRole:
+        return item.routing_id;
     case ProtocolTypeRole:
         return item.protocol;
     case AddressRole:
@@ -71,6 +75,8 @@ QHash<int, QByteArray> NodeModel::roleNames() const {
         {NameRole, "name"},
         {GroupRole, "group"},
         {GroupIDRole, "groupID"},
+        {RoutingRole, "routing"},
+        {RoutingIDRole, "routingID"},
         {AddressRole, "address"},
         {PortRole, "port"},
         {PasswordRole, "password"},

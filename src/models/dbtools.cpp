@@ -70,6 +70,14 @@ void DBTools::reload() {
             break;
         }
 
+        if (result = createDefaultRouting();
+            result.type() != QSqlError::NoError) {
+            p_logger->error(
+                "Failed to insert default_routing to routings table: {}",
+                result.text().toStdString());
+            break;
+        }
+
     } while (false);
 }
 
@@ -95,6 +103,8 @@ QSqlError DBTools::createDefaultTables() {
          "Name TEXT NOT NULL,"
          "GroupID INTEGER NOT NULL,"
          "GroupName TEXT NOT NULL,"
+         "RoutingID INTEGER NOT NULL,"
+         "RoutingName TEXT NOT NULL,"
          "Protocol INTEGER NOT NULL,"
          "Address TEXT NOT NULL,"
          "Port INTEGER NOT NULL,"
@@ -105,7 +115,15 @@ QSqlError DBTools::createDefaultTables() {
          "Upload INT64,"
          "Download INT64,"
          "CreatedAt INT64 NOT NULL,"
-         "ModifiedAt INT64 NOT NULL) ;"},
+         "ModifiedAt INT64 NOT NULL);"},
+        {"CREATE TABLE IF NOT EXISTS routings("
+         "ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+         "Name TEXT NOT NULL,"
+         "DomainStrategy TEXT,"
+         "DomainMatcher TEXT,"
+         "Raw TEXT NOT NULL,"
+         "CreatedAt INT64 NOT NULL,"
+         "ModifiedAt INT64 NOT NULL);"},
         {"CREATE VIRTUAL TABLE IF NOT EXISTS search "
          "USING fts5(ID, Name, GroupID, GroupName, Address);"},
         {"CREATE TRIGGER IF NOT EXISTS search_a_i AFTER INSERT ON nodes BEGIN "
@@ -118,9 +136,7 @@ QSqlError DBTools::createDefaultTables() {
         {"CREATE TRIGGER IF NOT EXISTS search_a_u AFTER UPDATE ON nodes BEGIN "
          "UPDATE OR REPLACE search SET Name = new.Name,GroupID = "
          "new.GroupID,GroupName = new.GroupName, Address = new.Address WHERE "
-         "ID "
-         "= "
-         "old.ID; "
+         "ID = old.ID; "
          "END;"},
     };
 
@@ -202,9 +218,20 @@ DBTools::stepExec(const QString &sql_str, QVariantList *inputCollection,
 QSqlError DBTools::createDefaultGroup() {
     QSqlError result;
 
-    if (const QString name("default_group"); !isGroupExists(name)) {
+    if (const QString name("default_group"); !isItemExists(name)) {
         GroupInfo group = {.name = name};
         result = this->insert(group);
+    }
+
+    return result;
+}
+
+QSqlError DBTools::createDefaultRouting() {
+    QSqlError result;
+
+    if (const QString name("default_routing"); !isItemExists(name)) {
+        RoutingInfo routing = {.name = name};
+        result = this->insert(routing);
     }
 
     return result;
@@ -296,10 +323,12 @@ bool DBTools::isTableExists(const QString &table_name) {
     return false;
 }
 
-bool DBTools::isGroupExists(const QString &group_name) {
+bool DBTools::isItemExists(const QString &group_name,
+                           const QString &table_name) {
     QSqlQuery query(m_db);
+    auto query_str = QString("SELECT * FROM {} WHERE Name = ?").arg(table_name);
 
-    if (query.prepare("SELECT * FROM groups WHERE Name = ?")) {
+    if (query.prepare(query_str.toStdString().c_str())) {
         query.addBindValue(group_name);
 
         if (query.exec())
@@ -313,9 +342,10 @@ bool DBTools::isGroupExists(const QString &group_name) {
 QSqlError DBTools::insert(NodeInfo &node) {
     const QString insert_str(
         "INSERT INTO nodes "
-        "(Name, GroupID, GroupName, Protocol, Address, Port, "
-        "Password, Raw, URL, Latency, Upload, Download, CreatedAt, ModifiedAt) "
-        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+        "(Name, GroupID, GroupName, RoutingID, RoutingName, "
+        "Protocol, Address, Port, Password, Raw, URL, Latency, "
+        "Upload, Download, CreatedAt, ModifiedAt) "
+        "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
     if (node.created_time.isNull()) {
         node.created_time = QDateTime::currentDateTime();
@@ -329,6 +359,8 @@ QSqlError DBTools::insert(NodeInfo &node) {
         node.name,
         node.group_id,
         node.group_name,
+        node.routing_id,
+        node.routing_name,
         node.protocol,
         node.address,
         node.port,
@@ -361,7 +393,7 @@ QSqlError DBTools::update(NodeInfo &node) {
     QSqlError result;
     const QString update_str(
         "UPDATE nodes SET "
-        "Name = ?, GroupID = ?, GroupName = ?, "
+        "Name = ?, GroupID = ?, GroupName = ?, RoutingID = ?, RoutingName = ?, "
         "Protocol = ?, Address = ?, Port = ?, Password = ?, "
         "Raw = ?, URL = ?, Latency = ?, Upload = ?, "
         "Download = ?, ModifiedAt = ? "
@@ -372,6 +404,8 @@ QSqlError DBTools::update(NodeInfo &node) {
         node.name,
         node.group_id,
         node.group_name,
+        node.routing_id,
+        node.routing_name,
         node.protocol,
         node.address,
         node.port,
@@ -463,6 +497,37 @@ QSqlError DBTools::update(QList<GroupInfo> &groups) {
             break;
     return result;
 }
+
+QSqlError DBTools::insert(RoutingInfo &routing) {
+    const QString insert_str("INSERT INTO routings "
+                             "(Name, DomainStrategy, DomainMatcher, "
+                             "Raw, CreatedAt, ModifiedAt)"
+                             "VALUES(?,?,?,?,?,?)");
+
+    if (routing.created_time.isNull()) {
+        routing.created_time = QDateTime::currentDateTime();
+    }
+
+    if (routing.modified_time.isNull()) {
+        routing.modified_time = QDateTime::currentDateTime();
+    }
+
+    QVariantList input_collection = {
+        routing.name,
+        routing.domain_strategy,
+        routing.domain_matcher,
+        routing.raw,
+        routing.created_time.toSecsSinceEpoch(),
+        routing.modified_time.toSecsSinceEpoch(),
+    };
+
+    auto [result, id] = stepExec(insert_str, &input_collection);
+    routing.id = id;
+
+    return result;
+}
+
+QSqlError DBTools::update(RoutingInfo &routing) {}
 
 QSqlError DBTools::removeNodeFromID(qint64 id) {
     const QString remove_str("DELETE FROM nodes WHERE ID = ?");
@@ -569,7 +634,7 @@ QList<NodeInfo> DBTools::listAllNodesFromGroupID(qint64 group_id) {
     const QString select_str("SELECT * FROM nodes WHERE GroupID = ?");
 
     if (auto result =
-            stepExec(select_str, &input_collection, 15, &collections).first;
+            stepExec(select_str, &input_collection, 17, &collections).first;
         result.type() != QSqlError::NoError) {
 
         p_logger->error("Failed to list all nodes");
@@ -583,19 +648,21 @@ QList<NodeInfo> DBTools::listAllNodesFromGroupID(qint64 group_id) {
             .name = item.at(1).toString(),
             .group_id = item.at(2).toLongLong(),
             .group_name = item.at(3).toString(),
-            .protocol = magic_enum::enum_value<EntryType>(item.at(4).toInt()),
-            .address = item.at(5).toString(),
-            .port = item.at(6).toUInt(),
-            .password = item.at(7).toString(),
-            .raw = item.at(8).toString(),
-            .url = item.at(9).toString(),
-            .latency = item.at(10).toLongLong(),
-            .upload = item.at(11).toLongLong(),
-            .download = item.at(12).toLongLong(),
+            .routing_id = item.at(4).toLongLong(),
+            .routing_name = item.at(5).toString(),
+            .protocol = magic_enum::enum_value<EntryType>(item.at(6).toInt()),
+            .address = item.at(7).toString(),
+            .port = item.at(8).toUInt(),
+            .password = item.at(9).toString(),
+            .raw = item.at(10).toString(),
+            .url = item.at(11).toString(),
+            .latency = item.at(12).toLongLong(),
+            .upload = item.at(13).toLongLong(),
+            .download = item.at(14).toLongLong(),
             .created_time =
-                QDateTime::fromSecsSinceEpoch(item.at(13).toLongLong()),
+                QDateTime::fromSecsSinceEpoch(item.at(15).toLongLong()),
             .modified_time =
-                QDateTime::fromSecsSinceEpoch(item.at(14).toLongLong()),
+                QDateTime::fromSecsSinceEpoch(item.at(16).toLongLong()),
         };
 
         nodes.emplace_back(node);
@@ -655,6 +722,8 @@ QVariantMap NodeInfo::toVariantMap() {
         {"name", this->name},
         {"group", this->group_name},
         {"groupID", this->group_id},
+        {"routing", this->routing_name},
+        {"routingID", this->routing_id},
         {"address", this->address},
         {"port", this->port},
         {"password", this->password},

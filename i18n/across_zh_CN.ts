@@ -739,11 +739,16 @@
     </message>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="15"/>
+        <source>Routing</source>
+        <translation>路由</translation>
+    </message>
+    <message>
+        <location filename="../src/views/menu/MenuModel.qml" line="20"/>
         <source>Setting</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../src/views/menu/MenuModel.qml" line="20"/>
+        <location filename="../src/views/menu/MenuModel.qml" line="25"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
@@ -1016,6 +1021,14 @@
     </message>
 </context>
 <context>
+    <name>RoutingPage</name>
+    <message>
+        <location filename="../src/views/routing/RoutingPage.qml" line="28"/>
+        <source>Routing</source>
+        <translation>路由</translation>
+    </message>
+</context>
+<context>
     <name>ShadowsocksSetting</name>
     <message>
         <location filename="../src/views/home/ShadowsocksSetting.qml" line="50"/>
@@ -1141,10 +1154,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="402"/>
         <location filename="../src/view_models/grouplist.cpp" line="406"/>
-        <location filename="../src/view_models/grouplist.cpp" line="423"/>
+        <location filename="../src/view_models/grouplist.cpp" line="410"/>
         <location filename="../src/view_models/grouplist.cpp" line="427"/>
+        <location filename="../src/view_models/grouplist.cpp" line="431"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1160,7 +1173,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="332"/>
+        <location filename="../src/view_models/nodelist.cpp" line="334"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

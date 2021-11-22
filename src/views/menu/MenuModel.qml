@@ -12,6 +12,11 @@ ListModel {
     //        iconSource: "/log.svg"
     //    }
     ListElement {
+        name: qsTr("Routing")
+        source: "qrc:/ACross/src/views/routing/RoutingPage.qml"
+        iconSource: "/routing.svg"
+    }
+    ListElement {
         name: qsTr("Setting")
         source: "qrc:/ACross/src/views/setting/SettingPage.qml"
         iconSource: "/setting.svg"
