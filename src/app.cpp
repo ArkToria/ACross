@@ -131,16 +131,6 @@ void Application::setTranslator(const QString &lang) {
 }
 
 void Application::registerModels() {
-    qmlRegisterUncreatableType<ConfigTools>(APP_NAME, QML_MAJOR_VERSION,
-                                            QML_MINOR_VERSION, "acrossConfig",
-                                            "Built-in type");
-    qmlRegisterUncreatableType<GroupList>(APP_NAME, QML_MAJOR_VERSION,
-                                          QML_MINOR_VERSION, "acrossGroups",
-                                          "Built-in type");
-    qmlRegisterUncreatableType<NodeList>(APP_NAME, QML_MAJOR_VERSION,
-                                         QML_MINOR_VERSION, "acrossNodes",
-                                         "Built-in type");
-
     qmlRegisterType<across::GroupModel>(APP_NAME, 1, 0, "GroupModel");
     qmlRegisterType<across::NodeModel>(APP_NAME, 1, 0, "NodeModel");
     qmlRegisterType<across::NodeFormModel>(APP_NAME, 1, 0, "NodeFormModel");
