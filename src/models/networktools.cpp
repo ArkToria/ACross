@@ -278,11 +278,14 @@ int UpdateTools::compareVersion(const QString &ver_a, const QString &ver_b) {
     //   : if ver1 == ver2> 0 : if ver1>
     //   ver2
 
-    constexpr auto qstr2ver = [](const QString &qstr_ver) -> semver::version {
-        auto std_str = qstr_ver.toStdString();
+    constexpr auto qstr2ver = [](QString qstr_ver) -> semver::version {
+        auto std_str = qstr_ver.remove("v").toStdString();
         std::string_view view_str(std_str.data(), std_str.size());
 
-        return semver::version(view_str);
+        if (semver::valid(view_str))
+            return semver::version(view_str);
+
+        return semver::version();
     };
 
     if (auto v_a = qstr2ver(ver_a), v_b = qstr2ver(ver_b); v_a < v_b)
