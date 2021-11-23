@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import ACross
+
 Item {
     implicitWidth: 840
     implicitHeight: 720

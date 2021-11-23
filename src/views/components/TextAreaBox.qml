@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import ACross
+
 TextArea {
     color: acrossConfig.textColor
     placeholderTextColor: acrossConfig.deepTextColor

@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
+import ACross
+
 Slider {
     id: control
 

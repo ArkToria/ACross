@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import ACross
+
 Label {
     id: urlLabel
     property string urlText

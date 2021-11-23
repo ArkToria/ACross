@@ -3,6 +3,8 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import ACross
+
 Dialog {
     id: rootDialog
     modal: true

@@ -11,13 +11,8 @@ GroupList::GroupList(QObject *parent) {}
 void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
                      QSharedPointer<across::DBTools> db,
                      QSharedPointer<across::NodeList> nodes,
-                     QSharedPointer<across::network::CURLTools> curl
-#ifdef __MINGW32__
-                     ,
+                     QSharedPointer<across::network::CURLTools> curl,
                      QSharedPointer<QSystemTrayIcon> tray) {
-#else
-) {
-#endif
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("groups");
     } else {
@@ -30,9 +25,9 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
     p_curl = curl;
     p_nodes = nodes;
 
-#ifdef __MINGW32__
-    p_tray = tray;
-#endif
+    if (tray != nullptr) {
+        p_tray = tray;
+    }
 
     connect(p_nodes.get(), &NodeList::groupSizeChanged, this,
             &GroupList::handleItemsChanged);

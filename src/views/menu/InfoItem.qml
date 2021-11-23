@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
+import ACross
+
 Item {
     implicitHeight: coreVersionText.contentHeight + guiVersionText.contentHeight
 

@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import ACross
+
 ComboBox {
     id: comboBox
     implicitWidth: 128

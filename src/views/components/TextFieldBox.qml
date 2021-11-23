@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import ACross
+
 TextField {
     implicitWidth: 128
     implicitHeight: contentHeight > 32 ? contentHeight : 32

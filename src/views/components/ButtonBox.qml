@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import ACross
+
 Button {
     id: button
     implicitWidth: contentText.contentWidth < 72 ? 72 : contentText.contentWidth

@@ -1,9 +1,11 @@
 import QtQuick
 import QtQuick.Controls
 
+import ACross
+
 Rectangle {
     id: control
-    color: "black"
+    color: Qt.darker(acrossConfig.deepColor, 5)
     opacity: 0.7
     visible: false
 
