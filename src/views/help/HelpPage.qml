@@ -22,6 +22,7 @@ Item {
                 id: column
                 spacing: acrossConfig.itemSpacing
                 width: scrollView.availableWidth
+                height: Math.round(scrollView.availableHeight * 1.3)
 
                 About {
                     Layout.fillWidth: true
@@ -33,6 +34,7 @@ Item {
 
                 ChangeLog {
                     Layout.fillWidth: true
+                    Layout.fillHeight: true
                 }
             }
         }

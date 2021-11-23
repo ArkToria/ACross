@@ -159,6 +159,8 @@ class ConfigTools : public QObject {
     Q_PROPERTY(QString licenseURL READ licenseURL CONSTANT)
     Q_PROPERTY(QString apiURL READ apiURL CONSTANT)
     Q_PROPERTY(QString releaseURL READ releaseURL CONSTANT)
+    Q_PROPERTY(
+        QStringList versionNews READ versionNews NOTIFY versionNewsChanged)
 
   public:
     explicit ConfigTools(QObject *parent = nullptr);
@@ -185,6 +187,7 @@ class ConfigTools : public QObject {
     Q_INVOKABLE void freshInbound();
     Q_INVOKABLE void saveConfig(QString config_path = "");
     Q_INVOKABLE void checkUpdate();
+    Q_INVOKABLE void setNews();
 
     across::config::Config *config();
     across::config::Theme *currentTheme();
@@ -264,8 +267,9 @@ class ConfigTools : public QObject {
     QString sourceCodeURL();
     QString reportURL();
     QString licenseURL();
-    QString apiURL();
+    QString apiURL(uint per_page = 0);
     QString releaseURL();
+    QStringList versionNews();
 
   public slots:
     void setDataDir(const QString &dir = "");
@@ -314,7 +318,7 @@ class ConfigTools : public QObject {
     void setLogMode(QString log_mode = "");
     void setLogLines(int val);
 
-    // network setting
+    // network settingQDir data_dir(m_config.data_dir().c_str());
     void setNetworkTestMethod(const QString &val);
     void setNetworkTestURL(const QString &val);
     void setNetworkUserAgent(const QString &val);
@@ -386,10 +390,13 @@ class ConfigTools : public QObject {
 
     // help page
     void updatedChanged(const QString &version);
+    void versionNewsChanged();
 
   private:
     QQueue<QFuture<void>> m_tasks;
     const QString m_config_name = "across.json";
+    const QString m_news_file_name = "across_news.json";
+    QStringList m_version_news;
     QString m_config_path = "./" + m_config_name;
     QString m_api_result_text = "";
 

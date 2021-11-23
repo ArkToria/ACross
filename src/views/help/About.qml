@@ -172,16 +172,9 @@ CardBox {
                     Connections {
                         target: acrossConfig
 
-                        function onUpdatedChanged(version) {
+                        function onUpdatedChanged(versionInfo) {
                             newVersionText.visible = true
-
-                            if (version !== "") {
-                                newVersionText.text = qsTr(
-                                            "New Version: ") + version
-                            } else {
-                                newVersionText.text = qsTr(
-                                            "Already the latest version")
-                            }
+                            newVersionText.text = versionInfo
                         }
                     }
                 }

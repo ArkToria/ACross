@@ -258,13 +258,18 @@ QString UpdateTools::getVersion(const QString &content) {
     }
 
     if (!root.is_null()) {
-        if (auto tag = root["tag_name"]; !tag.is_null() && tag.is_string()) {
+        if (root.is_array()) {
+            root = root.at(0);
+        }
+
+        if (auto tag = root["tag_name"];
+            !tag.is_null() && tag.is_string() && !tag.empty()) {
             auto result = QString::fromStdString(tag.get<std::string>());
             return result.remove("v");
         }
     }
 
-    return QString();
+    return "";
 }
 
 int UpdateTools::compareVersion(const QString &ver_a, const QString &ver_b) {
@@ -286,4 +291,42 @@ int UpdateTools::compareVersion(const QString &ver_a, const QString &ver_b) {
         return 0;
     else
         return 1;
+}
+
+QStringList UpdateTools::getNews(const QString &content) {
+    if (content.isEmpty())
+        return {};
+
+    Json::string_t err_msg;
+    Json root;
+    QStringList news;
+
+    try {
+        root = Json::parse(content.toStdString());
+    } catch (Json::exception e) {
+        qDebug() << e.what();
+        return {e.what()};
+    }
+
+    if (!root.is_null() && !root.empty() && root.dump().size() > 0) {
+        if (root.is_array()) {
+            for (auto item : root) {
+                if (auto body = item["body"];
+                    !body.is_null() && body.is_string()) {
+                    auto split_str =
+                        QString("<h4>%1</h4><br/>")
+                            .arg(item["tag_name"].get<std::string>().c_str());
+                    QString body_str = body.get<std::string>().c_str();
+                    split_str.append(body_str.replace("\n", "<br/>"));
+
+                    news.emplace_back(split_str);
+                }
+            }
+        } else if (auto body = root["body"];
+                   !body.is_null() && body.is_string()) {
+            news.emplace_back(QString::fromStdString(body.get<std::string>()));
+        }
+    }
+
+    return news;
 }

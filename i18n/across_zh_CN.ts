@@ -44,14 +44,12 @@
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="179"/>
         <source>New Version: </source>
-        <translation>新版本: </translation>
+        <translation type="vanished">新版本: </translation>
     </message>
     <message>
-        <location filename="../src/views/help/About.qml" line="182"/>
         <source>Already the latest version</source>
-        <translation>已经是最新版本</translation>
+        <translation type="vanished">已经是最新版本</translation>
     </message>
 </context>
 <context>
@@ -1218,6 +1216,28 @@
         <location filename="../src/view_models/systemtray.cpp" line="183"/>
         <source>OFF</source>
         <translation>关闭</translation>
+    </message>
+</context>
+<context>
+    <name>across::setting::ConfigTools</name>
+    <message>
+        <location filename="../src/view_models/configtools.cpp" line="973"/>
+        <source>Failed to parse version</source>
+        <translation>无法解析版本</translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/configtools.cpp" line="976"/>
+        <source>New Version: v%1</source>
+        <translation>新版本：v%1</translation>
+    </message>
+    <message>
+        <source>New Version: %1</source>
+        <translation type="vanished">新版本：%1</translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/configtools.cpp" line="978"/>
+        <source>Already the latest version</source>
+        <translation>已经是最新版本</translation>
     </message>
 </context>
 <context>

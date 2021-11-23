@@ -111,6 +111,7 @@ class UpdateTools {
   public:
     static QString getVersion(const QString &content);
     static int compareVersion(const QString &ver_a, const QString &ver_b);
+    static QStringList getNews(const QString &content);
 };
 } // namespace network
 } // namespace across

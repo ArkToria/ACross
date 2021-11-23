@@ -5,7 +5,7 @@ import QtQuick.Controls
 import ACross
 
 CardBox {
-    implicitHeight: 260
+    implicitHeight: 300
 
     property int fontSize: 14
 
@@ -20,8 +20,17 @@ CardBox {
             color: acrossConfig.textColor
         }
 
-        Item {
+        ListView {
             Layout.fillHeight: true
+            Layout.fillWidth: true
+            clip: true
+
+            spacing: acrossConfig.itemSpacing
+            model: acrossConfig.versionNews
+            delegate: Label {
+                text: modelData
+                color: acrossConfig.textColor
+            }
         }
     }
 }

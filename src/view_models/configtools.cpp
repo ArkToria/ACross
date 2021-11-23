@@ -36,6 +36,8 @@ bool ConfigTools::init(QSharedPointer<CURLTools> curl,
 
     loadThemeConfig();
     emit configChanged();
+    setNews();
+
     return true;
 }
 
@@ -305,14 +307,30 @@ void ConfigTools::saveConfig(QString config_path) {
 
 void ConfigTools::checkUpdate() {
     if (p_curl != nullptr) {
-        DownloadTask task = {.name = "github_api.json",
-                             .url = apiURL(),
-                             .user_agent = networkUserAgent()};
+        DownloadTask task = {
+            .name = "github_api.json",
+            .url = apiURL(3),
+            .user_agent = networkUserAgent(),
+        };
 
         connect(p_curl.get(), &CURLTools::downloadFinished, this,
                 &ConfigTools::handleUpdated);
 
         p_curl->download(task);
+    }
+}
+
+void ConfigTools::setNews() {
+    auto news_path =
+        QDir(m_config.data_dir().c_str()).filePath(m_news_file_name);
+
+    if (auto news_file = QFile(news_path); news_file.exists()) {
+        if (news_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            m_version_news = UpdateTools::getNews(news_file.readAll());
+            emit versionNewsChanged();
+        }
+    } else {
+        checkUpdate();
     }
 }
 
@@ -966,20 +984,21 @@ void ConfigTools::setNetworkUserAgent(const QString &val) {
 
 void ConfigTools::handleUpdated(const QVariant &content) {
     if (auto task = content.value<DownloadTask>(); !task.content.isEmpty()) {
+        if (QDir data_dir(m_config.data_dir().c_str()); data_dir.exists()) {
+            ConfigHelper::saveToFile(task.content.toStdString(),
+                                     data_dir.filePath(m_news_file_name));
 
-#ifdef QT_DEBUG
-        QString test_content("{\"tag_name\": \"v0.1.1\"}");
-        if (auto new_ver = UpdateTools::getVersion(test_content);
-            new_ver.isEmpty()) {
-#else
+            setNews();
+        }
+
         if (auto new_ver = UpdateTools::getVersion(task.content);
             new_ver.isEmpty()) {
-#endif
-
+            emit updatedChanged(tr("Failed to parse version"));
+            return;
         } else if (UpdateTools::compareVersion(new_ver, guiVersion()) > 0)
-            emit updatedChanged(new_ver);
+            emit updatedChanged(tr("New Version: v%1").arg(new_ver));
         else {
-            emit updatedChanged("");
+            emit updatedChanged(tr("Already the latest version"));
         }
     }
 }
@@ -996,9 +1015,11 @@ QString ConfigTools::reportURL() { return getReportURL(); }
 
 QString ConfigTools::licenseURL() { return getLicenseURL(); }
 
-QString ConfigTools::apiURL() { return getAPIURL(); }
+QString ConfigTools::apiURL(uint per_page) { return getAPIURL(per_page); }
 
 QString ConfigTools::releaseURL() { return getReleaseURL(); }
+
+QStringList ConfigTools::versionNews() { return m_version_news; }
 
 void ConfigTools::mergeConfigFromJSON(const std::string &json_str) {
     auto origin_conf = SerializeTools::JsonToACrossConfig(json_str);
