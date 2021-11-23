@@ -666,12 +666,12 @@
 <context>
     <name>InfoItem</name>
     <message>
-        <location filename="../src/views/menu/InfoItem.qml" line="17"/>
+        <location filename="../src/views/menu/InfoItem.qml" line="19"/>
         <source>Core</source>
         <translation>核心</translation>
     </message>
     <message>
-        <location filename="../src/views/menu/InfoItem.qml" line="25"/>
+        <location filename="../src/views/menu/InfoItem.qml" line="27"/>
         <source>Client</source>
         <translation>客户端</translation>
     </message>
@@ -738,9 +738,8 @@
         <translation type="vanished">日志</translation>
     </message>
     <message>
-        <location filename="../src/views/menu/MenuModel.qml" line="15"/>
         <source>Routing</source>
-        <translation>路由</translation>
+        <translation type="vanished">路由</translation>
     </message>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="20"/>
@@ -1010,12 +1009,12 @@
 <context>
     <name>RemoveConfirmDialog</name>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="71"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="73"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
     <message>
-        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="82"/>
+        <location filename="../src/views/components/RemoveConfirmDialog.qml" line="84"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1154,10 +1153,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="406"/>
-        <location filename="../src/view_models/grouplist.cpp" line="410"/>
-        <location filename="../src/view_models/grouplist.cpp" line="427"/>
-        <location filename="../src/view_models/grouplist.cpp" line="431"/>
+        <location filename="../src/view_models/grouplist.cpp" line="401"/>
+        <location filename="../src/view_models/grouplist.cpp" line="405"/>
+        <location filename="../src/view_models/grouplist.cpp" line="422"/>
+        <location filename="../src/view_models/grouplist.cpp" line="426"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
