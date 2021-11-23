@@ -257,7 +257,7 @@ QString UpdateTools::getVersion(const QString &content) {
         return "";
     }
 
-    if (!root.is_null()) {
+    if (!root.is_null() && !root.empty() && root.dump().size() > 0) {
         if (root.is_array()) {
             root = root.at(0);
         }
