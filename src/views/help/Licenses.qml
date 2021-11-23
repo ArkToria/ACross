@@ -5,7 +5,7 @@ import QtQuick.Controls
 import ACross
 
 CardBox {
-    implicitHeight: 280
+    implicitHeight: 300
 
     property int fontSize: 14
 
@@ -23,12 +23,22 @@ CardBox {
         ListView {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            clip: true
 
             spacing: acrossConfig.itemSpacing
             model: LicenseListModels {}
-            delegate: Label {
-                text: key + " - " + value
-                color: acrossConfig.textColor
+            delegate: RowLayout {
+                spacing: acrossConfig.itemSpacing * 2
+
+                Label {
+                    text: model.key
+                    color: acrossConfig.textColor
+                }
+
+                URLBox {
+                    text: model.value
+                    urlText: model.url
+                }
             }
         }
     }
