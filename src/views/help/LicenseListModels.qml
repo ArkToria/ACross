@@ -48,6 +48,21 @@ ListModel {
         url: "https://github.com/nu-book/zxing-cpp/blob/master/LICENSE"
     }
     ListElement {
+        key: "Neargye/semver"
+        value: "MIT License"
+        url: "https://github.com/Neargye/semver/blob/master/LICENSE"
+    }
+    ListElement {
+        key: "Neargye/magic_enum"
+        value: "MIT License"
+        url: "https://github.com/Neargye/magic_enum/blob/master/LICENSE"
+    }
+    ListElement {
+        key: "itay-grudev/SingleApplication"
+        value: "MIT License"
+        url: "https://github.com/itay-grudev/SingleApplication/blob/master/LICENSE"
+    }
+    ListElement {
         key: "And some other open source C++ building tools"
         value: ""
         url: ""
