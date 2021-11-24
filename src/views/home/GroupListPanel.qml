@@ -95,6 +95,7 @@ Item {
                 }
 
                 if (updateToken && this.contentY === 0) {
+                    popNotify.show(qsTr("Updating..."))
                     acrossGroups.checkAllUpdate(true) // force update
                     updateToken = false
                 }

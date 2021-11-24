@@ -47,6 +47,14 @@ ApplicationWindow {
         z: 1
     }
 
+    PopNotify {
+        id: popNotify
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        anchors.margins: acrossConfig.itemSpacing * 2
+        z: 1
+    }
+
     RowLayout {
         anchors.fill: parent
         spacing: 0
