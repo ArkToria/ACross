@@ -384,7 +384,10 @@ void NodeList::setCurrentNodeByID(int id) {
 }
 
 void NodeList::handleLatencyChanged(qint64 group_id, int index, NodeInfo node) {
-    p_db->update(node);
+    auto db_future = QtConcurrent::run([&, node] {
+        auto t_node = node;
+        p_db->update(t_node);
+    });
     if (group_id == displayGroupID()) {
         if (index < m_nodes.size()) {
             m_nodes[index] = node;

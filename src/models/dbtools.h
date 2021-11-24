@@ -5,6 +5,7 @@
 
 #include <QDateTime>
 #include <QMap>
+#include <QThread>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
@@ -92,6 +93,24 @@ struct RuntimeValue {
     RuntimeValue(const QString &key, int type, const QVariant &value);
 };
 
+class DBWorker : public QObject {
+    Q_OBJECT
+  public:
+    explicit DBWorker(QObject *parent = nullptr);
+
+  public slots:
+    void directExec(const QString &sql_str, QSqlDatabase &db);
+
+    void
+    stepExec(const QString &sql_str, QVariantList *inputCollection,
+                  int outputColumns, QList<QVariantList> *outputCollections
+                  , std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db);
+
+  signals:
+    void directExecReady(QSqlError result);
+    void stepExecReady(QPair<QSqlError, qint64> result);
+};
+
 class DBTools : public QObject {
     Q_OBJECT
 
@@ -148,6 +167,11 @@ class DBTools : public QObject {
     void close();
 
   signals:
+    void startDirectExec(const QString &sql_str, QSqlDatabase &db);
+    void startStepExec(const QString &sql_str, QVariantList *inputCollection,
+                  int outputColumns, QList<QVariantList> *outputCollections
+                  , std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db);
+
     void destroy();
 
   private:
@@ -163,6 +187,12 @@ class DBTools : public QObject {
 
     QSqlDatabase m_db;
     QList<GroupInfo> m_groups;
+
+    QThread *p_db_thread = nullptr;
+
+    DBWorker *p_worker = nullptr;
+    QSqlError tmp_direct_res;
+    QPair<QSqlError, qint64> tmp_step_res;
 
     std::shared_ptr<spdlog::logger> p_logger;
     QString m_db_path = "across.db";

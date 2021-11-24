@@ -3,9 +3,87 @@
 using namespace across;
 using namespace across::utils;
 
-DBTools::DBTools(QObject *parent) {}
+DBWorker::DBWorker(QObject *parent) : QObject(parent) {}
 
-DBTools::~DBTools() { close(); }
+void DBWorker::directExec(const QString &sql_str, QSqlDatabase &db) {
+
+    QSqlQuery query(db);
+    query.exec(sql_str);
+    emit directExecReady(query.lastError());
+}
+
+void
+DBWorker::stepExec(const QString &sql_str, QVariantList *inputCollection,
+                  int outputColumns, QList<QVariantList> *outputCollections
+                  , std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db) {
+    QSqlError result;
+    QSqlQuery query(db);
+
+    do {
+        if (!query.prepare(sql_str)) {
+            p_logger->error("Failed to prepared: {}",
+                            query.lastError().text().toStdString());
+            break;
+        }
+
+        if (inputCollection != nullptr) {
+            for (auto &item : *inputCollection) {
+                query.addBindValue(item);
+
+                if (result = query.lastError();
+                    result.type() != QSqlError::NoError) {
+                    p_logger->error("Failed to bind: {}",
+                                    result.text().toStdString());
+                    break;
+                }
+            }
+        }
+
+        if (!query.exec()) {
+            if (result = query.lastError();
+                result.type() != QSqlError::NoError) {
+                p_logger->error("Failed to step: {}",
+                                result.text().toStdString());
+                break;
+            }
+        }
+
+        if (outputCollections != nullptr) {
+            while (query.next()) {
+                QVariantList temp;
+                for (auto i = 0; i < outputColumns; ++i) {
+                    temp.append(query.value(i));
+                }
+                outputCollections->append(temp);
+            }
+        }
+    } while (false);
+
+    emit stepExecReady({result, query.lastInsertId().toLongLong()});
+}
+
+DBTools::DBTools(QObject *parent) : QObject(parent) {
+    p_db_thread = new QThread(this);
+    p_worker = new DBWorker();
+    p_worker->moveToThread(p_db_thread);
+    connect(this, &DBTools::startDirectExec, p_worker, &DBWorker::directExec, Qt::ConnectionType::BlockingQueuedConnection);
+    connect(this, &DBTools::startStepExec, p_worker, &DBWorker::stepExec, Qt::ConnectionType::BlockingQueuedConnection);
+
+    connect(p_worker, &DBWorker::directExecReady, this, [&] (QSqlError result) {
+        tmp_direct_res = result;
+    });
+    connect(p_worker, &DBWorker::stepExecReady, this, [&] (QPair<QSqlError, qint64> result) {
+        tmp_step_res = result;
+    });
+    p_db_thread->start();
+}
+
+
+DBTools::~DBTools() {
+    close();
+    p_db_thread->exit();
+    p_db_thread->wait();
+}
 
 void DBTools::init(const QString &db_path) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
@@ -169,50 +247,11 @@ QSqlError DBTools::createDefaultValues() {
 QPair<QSqlError, qint64>
 DBTools::stepExec(const QString &sql_str, QVariantList *inputCollection,
                   int outputColumns, QList<QVariantList> *outputCollections) {
-    QSqlError result;
-    QSqlQuery query(m_db);
-
-    do {
-        if (!query.prepare(sql_str)) {
-            p_logger->error("Failed to prepared: {}",
-                            query.lastError().text().toStdString());
-            break;
-        }
-
-        if (inputCollection != nullptr) {
-            for (auto &item : *inputCollection) {
-                query.addBindValue(item);
-
-                if (result = query.lastError();
-                    result.type() != QSqlError::NoError) {
-                    p_logger->error("Failed to bind: {}",
-                                    result.text().toStdString());
-                    break;
-                }
-            }
-        }
-
-        if (!query.exec()) {
-            if (result = query.lastError();
-                result.type() != QSqlError::NoError) {
-                p_logger->error("Failed to step: {}",
-                                result.text().toStdString());
-                break;
-            }
-        }
-
-        if (outputCollections != nullptr) {
-            while (query.next()) {
-                QVariantList temp;
-                for (auto i = 0; i < outputColumns; ++i) {
-                    temp.append(query.value(i));
-                }
-                outputCollections->append(temp);
-            }
-        }
-    } while (false);
-
-    return {result, query.lastInsertId().toLongLong()};
+    QEventLoop loop;
+    connect(p_worker, &DBWorker::stepExecReady, &loop, &QEventLoop::quit);
+    emit startStepExec(sql_str, inputCollection, outputColumns, outputCollections, p_logger, m_db);
+    loop.exec();
+    return tmp_step_res;
 }
 
 QSqlError DBTools::createDefaultGroup() {
@@ -244,9 +283,11 @@ QSqlError DBTools::createDefaultRouting() {
 }
 
 QSqlError DBTools::directExec(const QString &sql_str) {
-    QSqlQuery query(m_db);
-    query.exec(sql_str);
-    return query.lastError();
+    QEventLoop loop;
+    connect(p_worker, &DBWorker::directExecReady, &loop, &QEventLoop::quit);
+    emit startDirectExec(sql_str, m_db);
+    loop.exec();
+    return tmp_direct_res;
 }
 
 QSqlError DBTools::createRuntimeValue(const RuntimeValue &value) {
