@@ -1231,12 +1231,28 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
+<<<<<<< HEAD
         <location filename="../src/view_models/configtools.cpp" line="1006"/>
+=======
+<<<<<<< HEAD
+        <location filename="../src/view_models/configtools.cpp" line="996"/>
+=======
+        <location filename="../src/view_models/configtools.cpp" line="1006"/>
+>>>>>>> 3715b9a (support udp setting for socks5 inbound)
+>>>>>>> f0d3075 (support udp setting for socks5 inbound)
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../src/view_models/configtools.cpp" line="1009"/>
+=======
+<<<<<<< HEAD
+        <location filename="../src/view_models/configtools.cpp" line="999"/>
+=======
+        <location filename="../src/view_models/configtools.cpp" line="1009"/>
+>>>>>>> 3715b9a (support udp setting for socks5 inbound)
+>>>>>>> f0d3075 (support udp setting for socks5 inbound)
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1245,7 +1261,15 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../src/view_models/configtools.cpp" line="1011"/>
+=======
+<<<<<<< HEAD
+        <location filename="../src/view_models/configtools.cpp" line="1001"/>
+=======
+        <location filename="../src/view_models/configtools.cpp" line="1011"/>
+>>>>>>> 3715b9a (support udp setting for socks5 inbound)
+>>>>>>> f0d3075 (support udp setting for socks5 inbound)
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>
