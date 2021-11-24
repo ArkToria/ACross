@@ -107,7 +107,11 @@ void Application::setRootContext() {
     p_db->init(p_config->dbPath());
     p_core->init(p_config);
     p_tray->init(p_config, p_core, p_nodes);
+<<<<<<< HEAD
 #if !defined(Q_CC_MINGW) && !defined(Q_OS_MACOS)
+=======
+#if !defined(Q_CC_MINW) && !defined(Q_OS_MACOS)
+>>>>>>> 7cc215f (rebase from master)
     p_nodes->init(p_config, p_core, p_db);
     p_groups->init(p_config, p_db, p_nodes, p_curl);
 #else

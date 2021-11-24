@@ -17,7 +17,11 @@ void DBWorker::directExec(const QString &sql_str, QSqlDatabase &db) {
 void DBWorker::stepExec(const QString &sql_str, QVariantList *inputCollection,
                         int outputColumns,
                         QList<QVariantList> *outputCollections,
+<<<<<<< HEAD
                         const std::shared_ptr<spdlog::logger>& p_logger,
+=======
+                        std::shared_ptr<spdlog::logger> p_logger,
+>>>>>>> 7cc215f (rebase from master)
                         QSqlDatabase &db) {
     QSqlError result;
     QSqlQuery query(db);
@@ -75,9 +79,15 @@ DBTools::DBTools(QObject *parent) : QObject(parent) {
             Qt::ConnectionType::BlockingQueuedConnection);
 
     connect(p_worker, &DBWorker::directExecReady, this,
+<<<<<<< HEAD
             [&](QSqlError result) { tmp_direct_res = std::move(result); });
     connect(p_worker, &DBWorker::stepExecReady, this,
             [&](const QPair<QSqlError, qint64>& result) { tmp_step_res = result; });
+=======
+            [&](QSqlError result) { tmp_direct_res = result; });
+    connect(p_worker, &DBWorker::stepExecReady, this,
+            [&](QPair<QSqlError, qint64> result) { tmp_step_res = result; });
+>>>>>>> 7cc215f (rebase from master)
     p_db_thread->start();
 }
 

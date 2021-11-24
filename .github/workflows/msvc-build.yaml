@@ -49,9 +49,15 @@ jobs:
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v10
         with:
+<<<<<<< HEAD
           vcpkgDirectory: "./b/vcpkg"
           vcpkgGitCommitId: 3a68454afa67bde8b6e9e741536daa95d3785966
           vcpkgJsonGlob: "vcpkg.json"
+=======
+          vcpkgDirectory: './b/vcpkg'
+          vcpkgGitCommitId: 3a68454afa67bde8b6e9e741536daa95d3785966
+          vcpkgJsonGlob: 'vcpkg.json'
+>>>>>>> 7cc215f (rebase from master)
 
       - name: Build
         run: |

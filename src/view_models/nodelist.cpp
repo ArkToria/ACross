@@ -228,7 +228,11 @@ QString NodeList::generateConfig() {
 
         outbound->CopyFrom(temp_outbound);
 
+<<<<<<< HEAD
         if (outbound->tag().empty()) {
+=======
+        if (outbound->tag() == "") {
+>>>>>>> 7cc215f (rebase from master)
             outbound->set_tag("PROXY");
         }
 

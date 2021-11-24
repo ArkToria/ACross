@@ -108,12 +108,17 @@ Item {
         }
 
         Label {
+<<<<<<< HEAD
             text: qsTr("Auto Export")
+=======
+            text: qsTr("Tray Icon")
+>>>>>>> 7cc215f (rebase from master)
             color: acrossConfig.textColor
         }
 
         Item {
             Layout.fillWidth: true
+<<<<<<< HEAD
         }
 
         SwitchBox {
@@ -154,6 +159,27 @@ Item {
                     id: enableTrayIcon
                     Layout.alignment: Qt.AlignRight
 
+=======
+            Layout.columnSpan: 2
+            Layout.preferredHeight: enableTrayIcon.height
+
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
+
+                Label {
+                    Layout.fillWidth: true
+
+                    text: acrossTray.isSystemTrayAvailable(
+                              ) ? "" : qsTr("Unavailable")
+                    color: acrossConfig.warnColor
+                }
+
+                SwitchBox {
+                    id: enableTrayIcon
+                    Layout.alignment: Qt.AlignRight
+
+>>>>>>> 7cc215f (rebase from master)
                     foregroundColor: acrossConfig.highlightTextColor
                     checked: acrossConfig.enableTray
 
