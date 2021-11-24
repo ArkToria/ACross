@@ -86,9 +86,9 @@ ApplicationWindow {
                 //                LogPage {
                 //                    id: logPage
                 //                }
-                //                RoutingPage {
-                //                    id: routingPage
-                //                }
+                RoutingPage {
+                    id: routingPage
+                }
                 SettingPage {
                     id: settingPage
                 }

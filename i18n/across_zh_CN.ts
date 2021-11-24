@@ -797,8 +797,9 @@
         <translation type="vanished">日志</translation>
     </message>
     <message>
+        <location filename="../src/views/menu/MenuModel.qml" line="15"/>
         <source>Routing</source>
-        <translation type="vanished">路由</translation>
+        <translation>路由</translation>
     </message>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="20"/>
@@ -1094,9 +1095,24 @@
 <context>
     <name>RoutingPage</name>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="28"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="30"/>
         <source>Routing</source>
         <translation>路由</translation>
+    </message>
+    <message>
+        <location filename="../src/views/routing/RoutingPage.qml" line="47"/>
+        <source>Direct</source>
+        <translation>直连</translation>
+    </message>
+    <message>
+        <location filename="../src/views/routing/RoutingPage.qml" line="77"/>
+        <source>Proxy</source>
+        <translation>代理</translation>
+    </message>
+    <message>
+        <location filename="../src/views/routing/RoutingPage.qml" line="106"/>
+        <source>Block</source>
+        <translation>黑名单</translation>
     </message>
 </context>
 <context>
