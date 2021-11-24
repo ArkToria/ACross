@@ -478,7 +478,6 @@ void GroupList::handleDownloaded(const QVariant &content) {
     reloadItems();
 }
 
-
 void GroupList::handleItemsChanged(int64_t group_id, int size) {
     for (auto index = 0; index < m_groups.size(); ++index) {
         if (auto item = m_groups.at(index); item.id == group_id) {

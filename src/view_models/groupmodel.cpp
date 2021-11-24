@@ -73,7 +73,7 @@ void GroupModel::connectItems() {
         QModelIndex bottomRight = createIndex(index, 0);
 
         if (m_old_rows > index) {
-            qInfo()<<index<<m_old_rows<<rowCount();
+            qInfo() << index << m_old_rows << rowCount();
             beginRemoveRows(QModelIndex(), index, m_old_rows);
             endRemoveRows();
         } else if (m_old_rows < index) {

@@ -11,7 +11,7 @@ ConfigTools::ConfigTools(QObject *parent) {
             [&]() { this->saveConfig(); });
 }
 
-ConfigTools::~ConfigTools(){
+ConfigTools::~ConfigTools() {
     while (!m_tasks.isEmpty())
         m_tasks.dequeue().cancel();
 }
@@ -247,7 +247,7 @@ void ConfigTools::freshColors() {
 }
 
 void ConfigTools::testAPI() {
-    m_tasks.enqueue(QtConcurrent::run([this]{
+    m_tasks.enqueue(QtConcurrent::run([this] {
         bool result = false;
 
         if (m_config.core().api().enable()) {
@@ -261,7 +261,7 @@ void ConfigTools::testAPI() {
             }
             result = stats;
         }
-        
+
         emit apiResultTextChanged();
         emit apiStatsChanged(result);
     }));

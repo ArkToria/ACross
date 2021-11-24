@@ -101,10 +101,9 @@ class DBWorker : public QObject {
   public slots:
     void directExec(const QString &sql_str, QSqlDatabase &db);
 
-    void
-    stepExec(const QString &sql_str, QVariantList *inputCollection,
-                  int outputColumns, QList<QVariantList> *outputCollections
-                  , std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db);
+    void stepExec(const QString &sql_str, QVariantList *inputCollection,
+                  int outputColumns, QList<QVariantList> *outputCollections,
+                  std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db);
 
   signals:
     void directExecReady(QSqlError result);
@@ -169,8 +168,10 @@ class DBTools : public QObject {
   signals:
     void startDirectExec(const QString &sql_str, QSqlDatabase &db);
     void startStepExec(const QString &sql_str, QVariantList *inputCollection,
-                  int outputColumns, QList<QVariantList> *outputCollections
-                  , std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db);
+                       int outputColumns,
+                       QList<QVariantList> *outputCollections,
+                       std::shared_ptr<spdlog::logger> p_logger,
+                       QSqlDatabase &db);
 
     void destroy();
 

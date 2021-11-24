@@ -12,10 +12,11 @@ void DBWorker::directExec(const QString &sql_str, QSqlDatabase &db) {
     emit directExecReady(query.lastError());
 }
 
-void
-DBWorker::stepExec(const QString &sql_str, QVariantList *inputCollection,
-                  int outputColumns, QList<QVariantList> *outputCollections
-                  , std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db) {
+void DBWorker::stepExec(const QString &sql_str, QVariantList *inputCollection,
+                        int outputColumns,
+                        QList<QVariantList> *outputCollections,
+                        std::shared_ptr<spdlog::logger> p_logger,
+                        QSqlDatabase &db) {
     QSqlError result;
     QSqlQuery query(db);
 
@@ -66,18 +67,17 @@ DBTools::DBTools(QObject *parent) : QObject(parent) {
     p_db_thread = new QThread(this);
     p_worker = new DBWorker();
     p_worker->moveToThread(p_db_thread);
-    connect(this, &DBTools::startDirectExec, p_worker, &DBWorker::directExec, Qt::ConnectionType::BlockingQueuedConnection);
-    connect(this, &DBTools::startStepExec, p_worker, &DBWorker::stepExec, Qt::ConnectionType::BlockingQueuedConnection);
+    connect(this, &DBTools::startDirectExec, p_worker, &DBWorker::directExec,
+            Qt::ConnectionType::BlockingQueuedConnection);
+    connect(this, &DBTools::startStepExec, p_worker, &DBWorker::stepExec,
+            Qt::ConnectionType::BlockingQueuedConnection);
 
-    connect(p_worker, &DBWorker::directExecReady, this, [&] (QSqlError result) {
-        tmp_direct_res = result;
-    });
-    connect(p_worker, &DBWorker::stepExecReady, this, [&] (QPair<QSqlError, qint64> result) {
-        tmp_step_res = result;
-    });
+    connect(p_worker, &DBWorker::directExecReady, this,
+            [&](QSqlError result) { tmp_direct_res = result; });
+    connect(p_worker, &DBWorker::stepExecReady, this,
+            [&](QPair<QSqlError, qint64> result) { tmp_step_res = result; });
     p_db_thread->start();
 }
-
 
 DBTools::~DBTools() {
     close();
@@ -249,7 +249,8 @@ DBTools::stepExec(const QString &sql_str, QVariantList *inputCollection,
                   int outputColumns, QList<QVariantList> *outputCollections) {
     QEventLoop loop;
     connect(p_worker, &DBWorker::stepExecReady, &loop, &QEventLoop::quit);
-    emit startStepExec(sql_str, inputCollection, outputColumns, outputCollections, p_logger, m_db);
+    emit startStepExec(sql_str, inputCollection, outputColumns,
+                       outputCollections, p_logger, m_db);
     loop.exec();
     return tmp_step_res;
 }
