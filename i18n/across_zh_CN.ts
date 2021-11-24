@@ -619,6 +619,11 @@
         <source>Confirm to remove group from database</source>
         <translation>确认从数据库中移除组</translation>
     </message>
+    <message>
+        <location filename="../src/views/home/GroupListPanel.qml" line="98"/>
+        <source>Updating...</source>
+        <translation>更新中</translation>
+    </message>
 </context>
 <context>
     <name>InboundItem</name>
@@ -1183,28 +1188,28 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="151"/>
-        <location filename="../src/view_models/systemtray.cpp" line="171"/>
+        <location filename="../src/view_models/systemtray.cpp" line="149"/>
+        <location filename="../src/view_models/systemtray.cpp" line="169"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="172"/>
+        <location filename="../src/view_models/systemtray.cpp" line="170"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="173"/>
+        <location filename="../src/view_models/systemtray.cpp" line="171"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="174"/>
+        <location filename="../src/view_models/systemtray.cpp" line="172"/>
         <source>Reconnect</source>
         <translation>重连</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="175"/>
+        <location filename="../src/view_models/systemtray.cpp" line="173"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
@@ -1213,12 +1218,12 @@
         <translation type="vanished">入站</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="153"/>
+        <location filename="../src/view_models/systemtray.cpp" line="151"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="183"/>
+        <location filename="../src/view_models/systemtray.cpp" line="181"/>
         <source>OFF</source>
         <translation>关闭</translation>
     </message>
