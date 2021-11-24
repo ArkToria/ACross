@@ -447,6 +447,8 @@ QString ConfigTools::currentThemeName() {
 
 bool ConfigTools::socksEnable() { return p_inbound->socks5().enable(); }
 
+bool ConfigTools::socksUDPEnable() { return p_inbound->socks5().udp_enable(); }
+
 QString ConfigTools::socksPort() {
     return std::to_string(p_inbound->socks5().port()).c_str();
 }
@@ -695,6 +697,14 @@ void ConfigTools::setSocksEnable(bool val) {
     p_inbound->mutable_socks5()->set_enable(val);
     emit configChanged();
     emit socksEnableChanged();
+}
+
+void ConfigTools::setSocksUDPEnable(bool val) {
+    if (val == p_inbound->socks5().udp_enable())
+        return;
+    p_inbound->mutable_socks5()->set_udp_enable(val);
+    emit configChanged();
+    emit socksUDPEnableChanged();
 }
 
 void ConfigTools::setSocksPort(const QString &portStr) {

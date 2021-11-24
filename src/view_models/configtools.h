@@ -67,6 +67,8 @@ class ConfigTools : public QObject {
                    NOTIFY socksUsernameChanged)
     Q_PROPERTY(QString socksPassword READ socksPassword WRITE setSocksPassword
                    NOTIFY socksPasswordChanged)
+    Q_PROPERTY(bool socksUDPEnable READ socksUDPEnable WRITE setSocksUDPEnable
+                   NOTIFY socksUDPEnableChanged)
     Q_PROPERTY(bool httpEnable READ httpEnable WRITE setHttpEnable NOTIFY
                    httpEnableChanged)
     Q_PROPERTY(
@@ -214,6 +216,7 @@ class ConfigTools : public QObject {
     // inbounds setting
     QString inboundAddress();
     bool socksEnable();
+    bool socksUDPEnable();
     QString socksPort();
     QString socksUsername();
     QString socksPassword();
@@ -280,6 +283,7 @@ class ConfigTools : public QObject {
     void setApiPort(QString &val);
     void setInboundAddress(const QString &val);
     void setSocksEnable(bool val);
+    void setSocksUDPEnable(bool val);
     void setSocksPort(const QString &val);
     void setSocksUsername(const QString &val);
     void setSocksPassword(const QString &val);
@@ -340,6 +344,7 @@ class ConfigTools : public QObject {
     void apiStatsChanged(bool stats);
     void inboundAddressChanged();
     void socksEnableChanged();
+    void socksUDPEnableChanged();
     void socksPortChanged();
     void socksUsernameChanged();
     void socksPasswordChanged();

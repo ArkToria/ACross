@@ -13,11 +13,11 @@ Item {
 
         columnSpacing: acrossConfig.itemSpacing * 2
         rowSpacing: acrossConfig.itemSpacing * 2
-        columns: 6
+        columns: 8
 
         Label {
             Layout.fillWidth: true
-            Layout.columnSpan: 6
+            Layout.columnSpan: 8
 
             text: qsTr("Inbound Listening")
             font.pointSize: Math.round(fontSize * 1.2)
@@ -31,7 +31,7 @@ Item {
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 5
+            Layout.columnSpan: 7
 
             placeholderText: acrossConfig.inboundAddress
             text: acrossConfig.inboundAddress
@@ -54,6 +54,7 @@ Item {
 
         Item {
             Layout.fillWidth: true
+            Layout.columnSpan: 2
         }
 
         SwitchBox {
@@ -78,6 +79,7 @@ Item {
 
         Item {
             Layout.fillWidth: true
+            Layout.columnSpan: 2
         }
 
         SwitchBox {
@@ -95,14 +97,12 @@ Item {
         }
 
         Label {
-
             text: qsTr("Port")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
 
             text: acrossConfig.socksPort
             inputMethodHints: Qt.ImhDigitsOnly
@@ -114,13 +114,30 @@ Item {
         }
 
         Label {
+            text: qsTr("UDP")
+            color: acrossConfig.textColor
+        }
+
+        SwitchBox {
+            onCheckedChanged: {
+                acrossConfig.socksUDPEnable = checked
+            }
+
+            Component.onCompleted: {
+                checked = Qt.binding(function () {
+                    return acrossConfig.socksUDPEnable
+                })
+            }
+        }
+
+        Label {
             text: qsTr("Port")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+            Layout.columnSpan: 3
 
             text: acrossConfig.httpPort
             readOnly: httpSwitch.checked ? false : true
@@ -137,7 +154,7 @@ Item {
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+            Layout.columnSpan: 3
 
             text: acrossConfig.socksUsername
             readOnly: socksSwitch.checked ? false : true
@@ -154,7 +171,7 @@ Item {
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+            Layout.columnSpan: 3
 
             text: acrossConfig.httpUsername
             readOnly: httpSwitch.checked ? false : true
@@ -171,7 +188,7 @@ Item {
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+            Layout.columnSpan: 3
 
             text: acrossConfig.socksPassword
             readOnly: socksSwitch.checked ? false : true
@@ -196,7 +213,7 @@ Item {
 
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+            Layout.columnSpan: 3
 
             text: acrossConfig.httpPassword
             readOnly: httpSwitch.checked ? false : true

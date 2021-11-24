@@ -638,25 +638,30 @@
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="74"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="75"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="99"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="117"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="100"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="134"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="134"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="117"/>
+        <source>UDP</source>
+        <translation>UDP</translation>
+    </message>
+    <message>
         <location filename="../src/views/setting/InboundItem.qml" line="151"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="168"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="168"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="193"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="185"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="210"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
@@ -1221,12 +1226,12 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="973"/>
+        <location filename="../src/view_models/configtools.cpp" line="1006"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="976"/>
+        <location filename="../src/view_models/configtools.cpp" line="1009"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1235,7 +1240,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="978"/>
+        <location filename="../src/view_models/configtools.cpp" line="1011"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>
