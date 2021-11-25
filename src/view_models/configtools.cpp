@@ -648,6 +648,7 @@ void ConfigTools::setTrayColor(const QString &val) {
     if (val == p_theme->tray().color().c_str())
         return;
     p_theme->mutable_tray()->set_color(val.toStdString());
+
     emit trayColorChanged();
 }
 
@@ -655,27 +656,34 @@ void ConfigTools::setBorderRadius(int val) {
     if (val == p_theme->border().radius())
         return;
     p_theme->mutable_border()->set_radius(val);
+
     emit borderRadiusChanged();
 }
 
 void ConfigTools::setBorderWidth(int val) {
     if (val == p_theme->border().width())
         return;
+
     p_theme->mutable_border()->set_width(val);
+
     emit borderWidthChanged();
 }
 
 void ConfigTools::setItemSpacing(int val) {
     if (val == p_theme->item().spacing())
         return;
+
     p_theme->mutable_item()->set_spacing(val);
+
     emit itemSpacingChanged();
 }
 
 void ConfigTools::setIconStyle(const QString &val) {
     if (val == p_theme->icon().style().c_str())
         return;
+
     p_theme->mutable_icon()->set_style(val.toStdString());
+
     emit iconStyleChanged();
 }
 
@@ -695,89 +703,108 @@ void ConfigTools::setSocksEnable(bool val) {
     if (val == p_inbound->socks5().enable())
         return;
     p_inbound->mutable_socks5()->set_enable(val);
-    emit configChanged();
+
     emit socksEnableChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setSocksUDPEnable(bool val) {
     if (val == p_inbound->socks5().udp_enable())
         return;
     p_inbound->mutable_socks5()->set_udp_enable(val);
-    emit configChanged();
+
     emit socksUDPEnableChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setSocksPort(const QString &portStr) {
     uint port = portStr.toUInt();
     if (port == p_inbound->socks5().port())
         return;
+
     p_inbound->mutable_socks5()->set_port(port);
-    emit configChanged();
+
     emit socksPortChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setSocksUsername(const QString &val) {
     if (val == p_inbound->socks5().auth().username().c_str())
         return;
+
     if (auto auth = p_inbound->mutable_socks5()->mutable_auth();
         val.isEmpty()) {
         auth->set_enable(false);
+        auth->set_username(val.toStdString());
     } else {
         auth->set_enable(true);
         auth->set_username(val.toStdString());
-        emit socksUsernameChanged();
     }
+
+    emit socksUsernameChanged();
     emit configChanged();
 }
 
 void ConfigTools::setSocksPassword(const QString &val) {
     if (val == p_inbound->socks5().auth().password().c_str())
         return;
+
     if (auto auth = p_inbound->mutable_socks5()->mutable_auth();
         auth->enable()) {
         auth->set_password(val.toStdString());
-        emit configChanged();
+
         emit socksPasswordChanged();
+        emit configChanged();
     }
 }
 
 void ConfigTools::setHttpEnable(bool val) {
     if (val == p_inbound->http().enable())
         return;
+
     p_inbound->mutable_http()->set_enable(val);
-    emit configChanged();
+
     emit httpEnableChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setHttpPort(QString &portStr) {
     uint port = portStr.toUInt();
+
     if (port == p_inbound->http().port())
         return;
+
     p_inbound->mutable_http()->set_port(port);
-    emit configChanged();
+
     emit httpPortChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setHttpUsername(const QString &val) {
     if (val == p_inbound->http().auth().username().c_str())
         return;
+
     if (auto auth = p_inbound->mutable_http()->mutable_auth(); val.isEmpty()) {
         auth->set_enable(false);
+        auth->set_username(val.toStdString());
     } else {
         auth->set_enable(true);
         auth->set_username(val.toStdString());
-        emit configChanged();
     }
+
     emit httpUsernameChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setHttpPassword(const QString &val) {
     if (val == p_inbound->http().auth().password().c_str())
         return;
+
     if (auto auth = p_inbound->mutable_http()->mutable_auth(); auth->enable()) {
         auth->set_password(val.toStdString());
-        emit configChanged();
+
         emit httpPasswordChanged();
+        emit configChanged();
     }
 }
 
