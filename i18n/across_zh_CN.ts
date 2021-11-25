@@ -1095,24 +1095,32 @@
 <context>
     <name>RoutingPage</name>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="30"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="31"/>
         <source>Routing</source>
         <translation>路由</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="47"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="72"/>
         <source>Direct</source>
         <translation>直连</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="77"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="79"/>
         <source>Proxy</source>
         <translation>代理</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="106"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="86"/>
         <source>Block</source>
         <translation>黑名单</translation>
+    </message>
+</context>
+<context>
+    <name>RulePanel</name>
+    <message>
+        <location filename="../src/views/routing/RulePanel.qml" line="80"/>
+        <source>Add</source>
+        <translation>添加</translation>
     </message>
 </context>
 <context>

@@ -23,103 +23,67 @@ Item {
             Layout.columnSpan: 3
             Layout.preferredHeight: 128
 
-            Label {
-                anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing * 4
-
-                text: qsTr("Routing")
-                color: acrossConfig.textColor
-                font.pointSize: Math.round(fontSize * 1.2)
-            }
-        }
-
-        CardBox {
-            Layout.fillHeight: true
-            Layout.fillWidth: true
-
             ColumnLayout {
                 anchors.fill: parent
                 anchors.margins: acrossConfig.itemSpacing * 4
 
                 Label {
-                    Layout.fillWidth: true
-
-                    text: qsTr("Direct")
-
-                    font.pointSize: fontSize
+                    text: qsTr("Routing")
                     color: acrossConfig.textColor
+                    font.pointSize: Math.round(fontSize * 1.2)
                 }
 
                 ListView {
-                    id: directRuleList
+                    id: ruleListView
                     Layout.fillWidth: true
                     Layout.fillHeight: true
 
-                    model: 10
-                    delegate: RuleItemCard {
-                        width: directRuleList.width
+                    clip: true
+                    interactive: false
+                    spacing: acrossConfig.itemSpacing * 4
+                    model: ["Default Routing", "Bypass China", "AD Block"]
+                    orientation: ListView.Horizontal
+
+                    delegate: Label {
+                        text: modelData
+                        color: acrossConfig.textColor
+                        font.pointSize: fontSize
+
+                        MouseArea {
+                            anchors.fill: parent
+
+                            onClicked: {
+                                ruleListView.currentIndex = index
+                            }
+                        }
+                    }
+
+                    highlight: Rectangle {
+                        color: acrossConfig.deepColor
                     }
                 }
             }
         }
 
-        CardBox {
-            Layout.fillHeight: true
+        RulePanel {
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing * 4
-
-                Label {
-                    Layout.fillWidth: true
-
-                    text: qsTr("Proxy")
-
-                    font.pointSize: fontSize
-                    color: acrossConfig.textColor
-                }
-
-                ListView {
-                    id: proxyRuleList
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    model: 10
-                    delegate: RuleItemCard {
-                        width: proxyRuleList.width
-                    }
-                }
-            }
+            title: qsTr("Direct")
         }
-        CardBox {
-            Layout.fillHeight: true
+
+        RulePanel {
             Layout.fillWidth: true
+            Layout.fillHeight: true
 
-            ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing * 4
+            title: qsTr("Proxy")
+        }
 
-                Label {
-                    Layout.fillWidth: true
+        RulePanel {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
 
-                    text: qsTr("Block")
-
-                    font.pointSize: fontSize
-                    color: acrossConfig.textColor
-                }
-
-                ListView {
-                    id: blockRuleList
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-
-                    model: 10
-                    delegate: RuleItemCard {
-                        width: blockRuleList.width
-                    }
-                }
-            }
+            title: qsTr("Block")
         }
     }
 }

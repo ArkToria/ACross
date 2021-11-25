@@ -71,14 +71,13 @@ CardBox {
             }
         }
 
-        //        SVGBox {
-        //            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/add.svg"
-        //            sourceHeight: 24
-        //            sourceWidth: 24
-        //        }
         TextFieldBox {
             Layout.fillWidth: true
-            Layout.columnSpan: 4
+            Layout.columnSpan: 3
+        }
+
+        ButtonBox {
+            text: qsTr("Add")
         }
     }
 }
