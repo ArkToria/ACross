@@ -10,6 +10,7 @@ import ACross
 
 Item {
     property int fontSize: 14
+    property int keyBoxWidth: 72
 
     FolderDialog {
         id: dataDirDialog
@@ -61,7 +62,7 @@ Item {
         }
 
         Label {
-            text: qsTr("Set UserAgent")
+            text: qsTr("Request Header")
             color: acrossConfig.textColor
         }
 
@@ -97,39 +98,47 @@ Item {
 
         SwitchBox {
             id: enableAutoConnect
-
             Layout.alignment: Qt.AlignRight
 
             checked: acrossConfig.enableAutoConnect
-
             onCheckedChanged: {
                 acrossConfig.enableAutoConnect = checked
             }
         }
 
         Label {
-            text: qsTr("Enable Tray Icon")
+            text: qsTr("Tray Icon")
             color: acrossConfig.textColor
         }
 
-        Label {
+        Item {
             Layout.fillWidth: true
+            Layout.columnSpan: 2
+            Layout.preferredHeight: enableTrayIcon.height
 
-            text: acrossTray.isSystemTrayAvailable(
-                      ) ? "" : qsTr("System tray is unavailable")
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
 
-            color: acrossConfig.warnColor
-        }
+                Label {
+                    Layout.fillWidth: true
 
-        SwitchBox {
-            id: enableTrayIcon
-            Layout.alignment: Qt.AlignRight
+                    text: acrossTray.isSystemTrayAvailable(
+                              ) ? "" : qsTr("Unavailable")
+                    color: acrossConfig.warnColor
+                }
 
-            foregroundColor: acrossConfig.highlightTextColor
-            checked: acrossConfig.enableTray
+                SwitchBox {
+                    id: enableTrayIcon
+                    Layout.alignment: Qt.AlignRight
 
-            onCheckedChanged: {
-                acrossConfig.enableTray = checked
+                    foregroundColor: acrossConfig.highlightTextColor
+                    checked: acrossConfig.enableTray
+
+                    onCheckedChanged: {
+                        acrossConfig.enableTray = checked
+                    }
+                }
             }
         }
 
@@ -140,17 +149,27 @@ Item {
 
         Item {
             Layout.fillWidth: true
-        }
+            Layout.columnSpan: 2
+            Layout.preferredHeight: enableTrayIcon.height
 
-        SwitchBox {
-            id: enableStartFromMinimized
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
 
-            Layout.alignment: Qt.AlignRight
+                Item {
+                    Layout.fillWidth: true
+                }
 
-            checked: acrossConfig.enableStartFromMinimized
+                SwitchBox {
+                    id: enableStartFromMinimized
+                    Layout.alignment: Qt.AlignRight
 
-            onCheckedChanged: {
-                acrossConfig.enableStartFromMinimized = checked
+                    checked: acrossConfig.enableStartFromMinimized
+
+                    onCheckedChanged: {
+                        acrossConfig.enableStartFromMinimized = checked
+                    }
+                }
             }
         }
 
@@ -159,17 +178,29 @@ Item {
             color: acrossConfig.textColor
         }
 
-        DropDownBox {
+        Item {
             Layout.fillWidth: true
             Layout.columnSpan: 2
+            Layout.preferredHeight: logOutputsText.height
 
-            model: ["current", "none", "stdout", "file", "stdout & file"]
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
 
-            displayText: acrossConfig.logMode
+                DropDownBox {
+                    id: logOutputsText
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+                    Layout.alignment: Qt.AlignRight
 
-            onEditTextChanged: {
-                if (currentText !== "current")
-                    acrossConfig.logMode = currentText
+                    model: ["current", "none", "stdout", "file", "stdout & file"]
+                    displayText: acrossConfig.logMode
+
+                    onEditTextChanged: {
+                        if (currentText !== "current")
+                            acrossConfig.logMode = currentText
+                    }
+                }
             }
         }
 
@@ -178,17 +209,28 @@ Item {
             color: acrossConfig.textColor
         }
 
-        NumBox {
+        Item {
             Layout.fillWidth: true
-            Layout.preferredWidth: 96
             Layout.columnSpan: 2
+            Layout.preferredHeight: logOutputsText.height
 
-            value: acrossConfig.logLines
-            from: 1
-            to: 100000
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
 
-            onValueChanged: {
-                acrossConfig.logLines = value
+                NumBox {
+                    Layout.fillWidth: true
+                    Layout.columnSpan: 2
+                    Layout.alignment: Qt.AlignRight
+
+                    value: acrossConfig.logLines
+                    from: 1
+                    to: 10000
+
+                    onValueChanged: {
+                        acrossConfig.logLines = value
+                    }
+                }
             }
         }
     }

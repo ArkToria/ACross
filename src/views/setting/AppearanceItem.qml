@@ -57,6 +57,7 @@ Item {
         }
 
         DropDownBox {
+            id: themeText
             Layout.fillWidth: true
             Layout.columnSpan: 2
 
@@ -148,47 +149,58 @@ Item {
             color: acrossConfig.textColor
         }
 
-        SliderBox {
-            id: backgroundOpacitySlider
-            visible: enableBannerSwitch.checked
+        Item {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
+            Layout.preferredHeight: colorPlaceHolder.height
+            Layout.columnSpan: 5
 
-            enabled: enableBannerSwitch.checked
-            value: acrossConfig.backgroundOpacity
-            from: 0.0
-            to: 1.0
-            stepSize: 0.05
-            snapMode: Slider.SnapOnRelease
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
 
-            onValueChanged: {
-                acrossConfig.backgroundOpacity = value.toFixed(2)
-            }
-        }
+                SliderBox {
+                    id: backgroundOpacitySlider
+                    visible: enableBannerSwitch.checked
+                    Layout.fillWidth: true
 
-        Label {
-            visible: enableBannerSwitch.checked
-            Layout.alignment: Qt.AlignRight
-            Layout.preferredWidth: 72
-            horizontalAlignment: TextInput.AlignHCenter
+                    enabled: enableBannerSwitch.checked
+                    value: acrossConfig.backgroundOpacity
+                    from: 0.0
+                    to: 1.0
+                    stepSize: 0.05
+                    snapMode: Slider.SnapOnRelease
 
-            text: backgroundOpacitySlider.value.toFixed(2)
-            color: acrossConfig.textColor
-        }
+                    onValueChanged: {
+                        acrossConfig.backgroundOpacity = value.toFixed(2)
+                    }
+                }
 
-        Label {
-            visible: enableBannerSwitch.checked
-            text: qsTr("Text Color")
-            color: acrossConfig.textColor
-        }
+                Label {
+                    visible: enableBannerSwitch.checked
+                    Layout.alignment: Qt.AlignRight
+                    Layout.preferredWidth: 72
+                    horizontalAlignment: TextInput.AlignHCenter
 
-        ButtonBox {
-            id: colorPlaceHolder
-            visible: enableBannerSwitch.checked
-            basicColor: acrossConfig.bannerTextColor
+                    text: backgroundOpacitySlider.value.toFixed(2)
+                    color: acrossConfig.textColor
+                }
 
-            onClicked: {
-                colorDialog.open()
+                Label {
+                    visible: enableBannerSwitch.checked
+                    text: qsTr("Text Color")
+                    color: acrossConfig.textColor
+                }
+
+                ButtonBox {
+                    id: colorPlaceHolder
+                    Layout.alignment: Qt.AlignRight
+                    visible: enableBannerSwitch.checked
+                    basicColor: acrossConfig.bannerTextColor
+
+                    onClicked: {
+                        colorDialog.open()
+                    }
+                }
             }
         }
     }

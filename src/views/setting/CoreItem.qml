@@ -8,6 +8,7 @@ import ACross
 
 Item {
     property int fontSize: 14
+    property int keyBoxWidth: 72
 
     FileDialog {
         id: coreFileDialog
@@ -38,12 +39,15 @@ Item {
 
         Label {
             Layout.columnSpan: 5
+
             text: qsTr("Core Configuration")
             font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
         }
 
         Label {
+            Layout.preferredWidth: keyBoxWidth
+
             text: qsTr("Log Level")
             color: acrossConfig.textColor
         }
@@ -62,6 +66,8 @@ Item {
         }
 
         Label {
+            Layout.preferredWidth: keyBoxWidth
+
             text: qsTr("Core path")
             color: acrossConfig.textColor
         }
@@ -83,6 +89,8 @@ Item {
         }
 
         Label {
+            Layout.preferredWidth: keyBoxWidth
+
             text: qsTr("Assets path")
             color: acrossConfig.textColor
         }
@@ -104,6 +112,8 @@ Item {
         }
 
         Label {
+            Layout.preferredWidth: keyBoxWidth
+
             text: qsTr("Core Info")
             color: acrossConfig.textColor
         }
@@ -155,6 +165,7 @@ Item {
         }
 
         Label {
+            Layout.preferredWidth: keyBoxWidth
             visible: apiSwitch.checked
 
             text: qsTr("API Port")
@@ -203,10 +214,10 @@ Item {
 
                 acrossConfig.testAPI()
             }
-            
+
             Connections {
                 target: acrossConfig
-                function onApiStatsChanged(stats){
+                function onApiStatsChanged(stats) {
                     if (stats && acrossConfig.apiResultText === "") {
                         testResult.text = qsTr("Success")
                         testResult.color = acrossConfig.styleColor

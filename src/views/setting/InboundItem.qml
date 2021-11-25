@@ -6,228 +6,288 @@ import ACross
 
 Item {
     property int fontSize: 14
+    property int keyBoxWidth: 72
 
-    GridLayout {
+    ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 4
-
-        columnSpacing: acrossConfig.itemSpacing * 2
-        rowSpacing: acrossConfig.itemSpacing * 2
-        columns: 8
+        spacing: acrossConfig.itemSpacing * 2
 
         Label {
             Layout.fillWidth: true
-            Layout.columnSpan: 8
 
             text: qsTr("Inbound Listening")
             font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
         }
 
-        Label {
-            text: qsTr("Address")
-            color: acrossConfig.textColor
-        }
-
-        TextFieldBox {
+        Item {
             Layout.fillWidth: true
-            Layout.columnSpan: 7
+            Layout.preferredHeight: addressText.height
 
-            placeholderText: acrossConfig.inboundAddress
-            text: acrossConfig.inboundAddress
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
 
-            onTextEdited: {
-                var result = acrossConfig.testAndSetAddr(text)
-                if (result) {
-                    color = acrossConfig.textColor
-                } else {
-                    color = acrossConfig.warnColor
+                Label {
+                    Layout.preferredWidth: keyBoxWidth
+                    text: qsTr("Address")
+                    color: acrossConfig.textColor
+                }
+
+                TextFieldBox {
+                    id: addressText
+                    Layout.fillWidth: true
+
+                    placeholderText: acrossConfig.inboundAddress
+                    text: acrossConfig.inboundAddress
+
+                    onTextEdited: {
+                        var result = acrossConfig.testAndSetAddr(text)
+                        if (result) {
+                            color = acrossConfig.textColor
+                        } else {
+                            color = acrossConfig.warnColor
+                        }
+                    }
                 }
             }
-        }
-
-        Label {
-            text: qsTr("SOCKS5")
-            font.pointSize: fontSize
-            color: acrossConfig.textColor
         }
 
         Item {
             Layout.fillWidth: true
-            Layout.columnSpan: 2
-        }
+            Layout.fillHeight: true
 
-        SwitchBox {
-            id: socksSwitch
+            RowLayout {
+                anchors.fill: parent
+                spacing: acrossConfig.itemSpacing * 2
 
-            onCheckedChanged: {
-                acrossConfig.socksEnable = checked
-            }
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-            Component.onCompleted: {
-                checked = Qt.binding(function () {
-                    return acrossConfig.socksEnable
-                })
-            }
-        }
+                    GridLayout {
+                        anchors.fill: parent
+                        columns: 4
+                        columnSpacing: acrossConfig.itemSpacing * 2
+                        rowSpacing: columnSpacing
 
-        Label {
-            text: qsTr("HTTP")
-            font.pointSize: fontSize
-            color: acrossConfig.textColor
-        }
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
 
-        Item {
-            Layout.fillWidth: true
-            Layout.columnSpan: 2
-        }
+                            text: qsTr("SOCKS5")
+                            font.pointSize: fontSize
+                            color: acrossConfig.textColor
+                        }
 
-        SwitchBox {
-            id: httpSwitch
+                        Item {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 2
+                        }
 
-            onCheckedChanged: {
-                acrossConfig.httpEnable = checked
-            }
+                        SwitchBox {
+                            id: socksSwitch
 
-            Component.onCompleted: {
-                checked = Qt.binding(function () {
-                    return acrossConfig.httpEnable
-                })
-            }
-        }
+                            onCheckedChanged: {
+                                acrossConfig.socksEnable = checked
+                            }
 
-        Label {
-            text: qsTr("Port")
-            color: acrossConfig.textColor
-        }
+                            Component.onCompleted: {
+                                checked = Qt.binding(function () {
+                                    return acrossConfig.socksEnable
+                                })
+                            }
+                        }
 
-        TextFieldBox {
-            Layout.fillWidth: true
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
 
-            text: acrossConfig.socksPort
-            inputMethodHints: Qt.ImhDigitsOnly
-            readOnly: socksSwitch.checked ? false : true
+                            text: qsTr("Port")
+                            color: acrossConfig.textColor
+                        }
 
-            onTextEdited: {
-                acrossConfig.socksPort = text
-            }
-        }
+                        TextFieldBox {
+                            Layout.fillWidth: true
 
-        Label {
-            text: qsTr("UDP")
-            color: acrossConfig.textColor
-        }
+                            text: acrossConfig.socksPort
+                            inputMethodHints: Qt.ImhDigitsOnly
+                            readOnly: socksSwitch.checked ? false : true
 
-        SwitchBox {
-            onCheckedChanged: {
-                acrossConfig.socksUDPEnable = checked
-            }
+                            onTextEdited: {
+                                acrossConfig.socksPort = text
+                            }
+                        }
 
-            Component.onCompleted: {
-                checked = Qt.binding(function () {
-                    return acrossConfig.socksUDPEnable
-                })
-            }
-        }
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
 
-        Label {
-            text: qsTr("Port")
-            color: acrossConfig.textColor
-        }
+                            text: qsTr("UDP")
+                            color: acrossConfig.textColor
+                        }
 
-        TextFieldBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
+                        SwitchBox {
+                            onCheckedChanged: {
+                                acrossConfig.socksUDPEnable = checked
+                            }
 
-            text: acrossConfig.httpPort
-            readOnly: httpSwitch.checked ? false : true
+                            Component.onCompleted: {
+                                checked = Qt.binding(function () {
+                                    return acrossConfig.socksUDPEnable
+                                })
+                            }
+                        }
 
-            onTextChanged: {
-                acrossConfig.httpPort = text
-            }
-        }
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
 
-        Label {
-            text: qsTr("Username")
-            color: acrossConfig.textColor
-        }
+                            text: qsTr("Username")
+                            color: acrossConfig.textColor
+                        }
 
-        TextFieldBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
+                        TextFieldBox {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 3
 
-            text: acrossConfig.socksUsername
-            readOnly: socksSwitch.checked ? false : true
+                            text: acrossConfig.socksUsername
+                            readOnly: socksSwitch.checked ? false : true
 
-            onTextChanged: {
-                acrossConfig.socksUsername = text
-            }
-        }
+                            onTextChanged: {
+                                acrossConfig.socksUsername = text
+                            }
+                        }
 
-        Label {
-            text: qsTr("Username")
-            color: acrossConfig.textColor
-        }
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
 
-        TextFieldBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
+                            text: qsTr("Password")
+                            color: acrossConfig.textColor
+                        }
 
-            text: acrossConfig.httpUsername
-            readOnly: httpSwitch.checked ? false : true
+                        TextFieldBox {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 3
 
-            onTextChanged: {
-                acrossConfig.httpUsername = text
-            }
-        }
+                            text: acrossConfig.socksPassword
+                            readOnly: socksSwitch.checked ? false : true
+                            echoMode: "Password"
+                            onFocusChanged: {
+                                if (focus) {
+                                    echoMode = "Normal"
+                                } else {
+                                    echoMode = "Password"
+                                }
+                            }
 
-        Label {
-            text: qsTr("Password")
-            color: acrossConfig.textColor
-        }
-
-        TextFieldBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
-
-            text: acrossConfig.socksPassword
-            readOnly: socksSwitch.checked ? false : true
-            echoMode: "Password"
-            onFocusChanged: {
-                if (focus) {
-                    echoMode = "Normal"
-                } else {
-                    echoMode = "Password"
+                            onTextChanged: {
+                                acrossConfig.socksPassword = text
+                            }
+                        }
+                    }
                 }
-            }
 
-            onTextChanged: {
-                acrossConfig.socksPassword = text
-            }
-        }
+                Item {
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
 
-        Label {
-            text: qsTr("Password")
-            color: acrossConfig.textColor
-        }
+                    GridLayout {
+                        anchors.fill: parent
+                        columns: 4
+                        columnSpacing: acrossConfig.itemSpacing * 2
+                        rowSpacing: columnSpacing
 
-        TextFieldBox {
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
 
-            text: acrossConfig.httpPassword
-            readOnly: httpSwitch.checked ? false : true
-            echoMode: "Password"
-            onFocusChanged: {
-                if (focus) {
-                    echoMode = "Normal"
-                } else {
-                    echoMode = "Password"
+                            text: qsTr("HTTP")
+                            font.pointSize: fontSize
+                            color: acrossConfig.textColor
+                        }
+
+                        Item {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 2
+                        }
+
+                        SwitchBox {
+                            id: httpSwitch
+
+                            onCheckedChanged: {
+                                acrossConfig.httpEnable = checked
+                            }
+
+                            Component.onCompleted: {
+                                checked = Qt.binding(function () {
+                                    return acrossConfig.httpEnable
+                                })
+                            }
+                        }
+
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
+
+                            text: qsTr("Port")
+                            color: acrossConfig.textColor
+                        }
+
+                        TextFieldBox {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 3
+
+                            text: acrossConfig.httpPort
+                            readOnly: httpSwitch.checked ? false : true
+
+                            onTextChanged: {
+                                acrossConfig.httpPort = text
+                            }
+                        }
+
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
+
+                            text: qsTr("Username")
+                            color: acrossConfig.textColor
+                        }
+
+                        TextFieldBox {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 3
+
+                            text: acrossConfig.httpUsername
+                            readOnly: httpSwitch.checked ? false : true
+
+                            onTextChanged: {
+                                acrossConfig.httpUsername = text
+                            }
+                        }
+
+                        Label {
+                            Layout.preferredWidth: keyBoxWidth
+
+                            text: qsTr("Password")
+                            color: acrossConfig.textColor
+                        }
+
+                        TextFieldBox {
+                            Layout.fillWidth: true
+                            Layout.columnSpan: 3
+
+                            text: acrossConfig.httpPassword
+                            readOnly: httpSwitch.checked ? false : true
+                            echoMode: "Password"
+                            onFocusChanged: {
+                                if (focus) {
+                                    echoMode = "Normal"
+                                } else {
+                                    echoMode = "Password"
+                                }
+                            }
+
+                            onTextChanged: {
+                                acrossConfig.httpPassword = text
+                            }
+                        }
+                    }
                 }
-            }
-
-            onTextChanged: {
-                acrossConfig.httpPassword = text
             }
         }
     }

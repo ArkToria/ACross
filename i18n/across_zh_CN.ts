@@ -78,12 +78,12 @@
         <translation>外观设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="74"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="75"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="181"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="190"/>
         <source>Text Color</source>
         <translation>文字颜色</translation>
     </message>
@@ -93,12 +93,12 @@
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="118"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="119"/>
         <source>Source File</source>
         <translation>源文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="137"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="138"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -111,7 +111,7 @@
         <translation type="vanished">启用背景图</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="94"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="95"/>
         <source>Background Image</source>
         <translation>背景图</translation>
     </message>
@@ -120,7 +120,7 @@
         <translation type="vanished">打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="147"/>
+        <location filename="../src/views/setting/AppearanceItem.qml" line="148"/>
         <source>Opacity</source>
         <translation>不透明度</translation>
     </message>
@@ -136,18 +136,16 @@
         <translation type="vanished">应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="111"/>
         <source>Enable Tray Icon</source>
-        <translation>启用托盘图标</translation>
+        <translation type="vanished">启用托盘图标</translation>
     </message>
     <message>
         <source>System tray is not available</source>
         <translation type="vanished">系统托盘不可用</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="64"/>
         <source>Set UserAgent</source>
-        <translation>设置 UserAgent</translation>
+        <translation type="vanished">设置 UserAgent</translation>
     </message>
     <message>
         <source>Theme</source>
@@ -166,56 +164,70 @@
         <translation type="vanished">设置图片</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="16"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="17"/>
         <source>Select Data Folder</source>
         <translation>选择数据文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="35"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="36"/>
         <source>Application Settings</source>
         <translation>应用设置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="41"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="42"/>
         <source>Data Directory</source>
         <translation>数据目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="57"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="58"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="77"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="65"/>
+        <source>Request Header</source>
+        <translation>请求头部</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="78"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="94"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="95"/>
         <source>Default &gt; Last Connected (Updating groups will reset the default node)</source>
         <translation>默认 &gt; 上次连接 （更新群组会重置默认节点）</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="119"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="110"/>
+        <source>Tray Icon</source>
+        <translation>托盘图标</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
+        <source>Unavailable</source>
+        <translation>不可用</translation>
+    </message>
+    <message>
         <source>System tray is unavailable</source>
-        <translation>系统托盘不可用</translation>
+        <translation type="vanished">系统托盘不可用</translation>
     </message>
     <message>
         <source>Default &gt; Last Connected. Updating groups will reset the default node)</source>
         <translation type="vanished">默认 &gt; 上次连接</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="137"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
         <source>Minimize startup</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="158"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
         <source>Log Outputs</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="208"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
@@ -248,7 +260,7 @@
         <translation type="vanished">文件夹</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="86"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
         <source>Auto Connect</source>
         <translation>自动连接</translation>
     </message>
@@ -308,83 +320,83 @@
 <context>
     <name>CoreItem</name>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="14"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="15"/>
         <source>Select V2Ray Core Path</source>
         <translation>选择 V2Ray 核心路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="24"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="25"/>
         <source>Select Assets Directory</source>
         <translation>选择 Assets 目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="41"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="43"/>
         <source>Core Configuration</source>
         <translation>核心配置</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="47"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="51"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="65"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="71"/>
         <source>Core path</source>
         <translation>核心路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="73"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="79"/>
         <source>Enter V2Ray Core Executable Path Here</source>
         <translation>在此输入 V2Ray 核心可执行文件路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="79"/>
-        <location filename="../src/views/setting/CoreItem.qml" line="100"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="85"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="108"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="86"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="94"/>
         <source>Assets path</source>
-        <translation>Assets 路径</translation>
+        <translation>资源路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="94"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="102"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
         <translation>在此输入 GeoIP 和 GeoSite 目录</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="107"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="117"/>
         <source>Core Info</source>
         <translation>核心信息</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="123"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="133"/>
         <source>Check</source>
         <translation>检查</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="131"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="141"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="160"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="171"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="181"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="192"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="197"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="208"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="211"/>
+        <location filename="../src/views/setting/CoreItem.qml" line="222"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
@@ -622,51 +634,51 @@
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="98"/>
         <source>Updating...</source>
-        <translation>更新中</translation>
+        <translation>更新中...</translation>
     </message>
 </context>
 <context>
     <name>InboundItem</name>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="22"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="19"/>
         <source>Inbound Listening</source>
         <translation>入站监听</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="28"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="34"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="50"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="78"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="75"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="201"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="100"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="134"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="105"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="228"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="117"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="124"/>
         <source>UDP</source>
         <translation>UDP</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="151"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="168"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="143"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="247"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="185"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="210"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="162"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="266"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
@@ -1231,12 +1243,12 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1006"/>
+        <location filename="../src/view_models/configtools.cpp" line="1033"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1009"/>
+        <location filename="../src/view_models/configtools.cpp" line="1036"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1245,7 +1257,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1011"/>
+        <location filename="../src/view_models/configtools.cpp" line="1038"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>
