@@ -1188,10 +1188,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="401"/>
         <location filename="../src/view_models/grouplist.cpp" line="405"/>
-        <location filename="../src/view_models/grouplist.cpp" line="422"/>
-        <location filename="../src/view_models/grouplist.cpp" line="426"/>
+        <location filename="../src/view_models/grouplist.cpp" line="410"/>
+        <location filename="../src/view_models/grouplist.cpp" line="427"/>
+        <location filename="../src/view_models/grouplist.cpp" line="431"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

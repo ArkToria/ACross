@@ -84,6 +84,7 @@ class GroupList : public QObject {
     QList<GroupInfo> m_groups;
     QList<GroupInfo> m_origin_groups;
     QList<GroupInfo> m_pre_groups;
+    QMap<int64_t, bool> m_is_updating;
 };
 } // namespace across
 

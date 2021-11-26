@@ -77,6 +77,11 @@ void GroupList::checkUpdate(int index, bool force) {
             !force)
             break;
 
+        if (m_is_updating.contains(group.id)) {
+            break;
+        }
+        m_is_updating[group.id] = true;
+
         DownloadTask task = {
             .id = group.id,
             .name = group.name,
@@ -457,6 +462,8 @@ void GroupList::handleDownloaded(const QVariant &content) {
             p_db->updateRuntimeValue(
                 RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, 0));
         }
+
+        m_is_updating.remove(task.id);
     } else {
         for (auto i = 0; i < m_pre_groups.size(); ++i) {
             if (m_pre_groups.at(i).name == task.name) {
