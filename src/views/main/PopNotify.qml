@@ -7,7 +7,7 @@ import ACross
 Item {
     id: control
     implicitWidth: 240
-    implicitHeight: 84 * 3
+    implicitHeight: popNotifyListView.count >= 3 ? 84 * 3 : 84 * popNotifyListView.count
     clip: true
     visible: false
 
