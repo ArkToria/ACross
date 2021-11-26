@@ -100,6 +100,8 @@ Menu {
         text: qsTr("Update")
         onTriggered: {
             acrossGroups.checkUpdate(index)
+            popNotify.notify(qsTr("[%1] Updating...").arg(name),
+                             qsTr("Updated: %1").arg(modifiedAt))
         }
     }
 

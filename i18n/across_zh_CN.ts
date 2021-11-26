@@ -614,7 +614,17 @@
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="107"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="103"/>
+        <source>[%1] Updating...</source>
+        <translation>[%1] 更新中...</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="104"/>
+        <source>Updated: %1</source>
+        <translation>更新于： %1</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
