@@ -95,7 +95,8 @@ Item {
                 }
 
                 if (updateToken && this.contentY === 0) {
-                    popNotify.show(qsTr("Updating..."))
+                    popNotify.notify(qsTr("Updating..."),
+                                     qsTr("The default node will be reset"))
                     acrossGroups.checkAllUpdate(true) // force update
                     updateToken = false
                 }
