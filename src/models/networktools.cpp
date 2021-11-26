@@ -317,10 +317,10 @@ QStringList UpdateTools::getNews(const QString &content) {
                 if (auto body = item["body"];
                     !body.is_null() && body.is_string()) {
                     auto split_str =
-                        QString("<h4>%1</h4><br/>")
+                        QString("**%1** \n\n")
                             .arg(item["tag_name"].get<std::string>().c_str());
                     QString body_str = body.get<std::string>().c_str();
-                    split_str.append(body_str.replace("\n", "<br/>"));
+                    split_str.append(body_str);
 
                     news.emplace_back(split_str);
                 }

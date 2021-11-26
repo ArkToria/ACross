@@ -29,7 +29,12 @@ CardBox {
             model: acrossConfig.versionNews
             delegate: Label {
                 text: modelData
+                textFormat: Text.MarkdownText
                 color: acrossConfig.textColor
+                
+                onLinkActivated : (link) => {
+                    Qt.openUrlExternally(link)
+                }
             }
         }
     }
