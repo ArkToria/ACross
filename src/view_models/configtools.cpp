@@ -752,10 +752,12 @@ void ConfigTools::setSocksPassword(const QString &val) {
     if (auto auth = p_inbound->mutable_socks5()->mutable_auth();
         auth->enable()) {
         auth->set_password(val.toStdString());
-
-        emit socksPasswordChanged();
-        emit configChanged();
+    } else {
+        auth->set_password("");
     }
+
+    emit socksPasswordChanged();
+    emit configChanged();
 }
 
 void ConfigTools::setHttpEnable(bool val) {
@@ -802,10 +804,12 @@ void ConfigTools::setHttpPassword(const QString &val) {
 
     if (auto auth = p_inbound->mutable_http()->mutable_auth(); auth->enable()) {
         auth->set_password(val.toStdString());
-
-        emit httpPasswordChanged();
-        emit configChanged();
+    } else {
+        auth->set_password("");
     }
+
+    emit httpPasswordChanged();
+    emit configChanged();
 }
 
 bool ConfigTools::isFileExist(QString file_path) {
