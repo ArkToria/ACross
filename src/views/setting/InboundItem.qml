@@ -119,8 +119,6 @@ Item {
                         }
 
                         Label {
-                            Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("UDP")
                             color: acrossConfig.textColor
                         }

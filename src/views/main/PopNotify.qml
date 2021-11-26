@@ -9,6 +9,7 @@ Item {
     implicitWidth: 240
     implicitHeight: 84 * 3
     clip: true
+    visible: false
 
     ListModel {
         id: popNotifyModel
@@ -35,9 +36,16 @@ Item {
         }
 
         move: add
+
+        onCountChanged: {
+            if (count === 0) {
+                control.visible = false
+            }
+        }
     }
 
     function notify(title = "", message = "") {
+        control.visible = true
         popNotifyModel.append({
                                   "title": title,
                                   "message": message
