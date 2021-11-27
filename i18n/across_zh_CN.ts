@@ -415,6 +415,19 @@
     </message>
 </context>
 <context>
+    <name>CurrentPanel</name>
+    <message>
+        <location filename="../src/views/home/CurrentPanel.qml" line="252"/>
+        <source>Core Error</source>
+        <translation>核心错误</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/CurrentPanel.qml" line="252"/>
+        <source>Failed to start the process</source>
+        <translation>无法启动进程</translation>
+    </message>
+</context>
+<context>
     <name>GroupControl</name>
     <message>
         <location filename="../src/views/home/GroupControl.qml" line="44"/>
@@ -670,30 +683,30 @@
         <translation>SOCKS5</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="201"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="199"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="105"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="228"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="226"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="124"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="122"/>
         <source>UDP</source>
         <translation>UDP</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="143"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="247"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="141"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="245"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="162"/>
-        <location filename="../src/views/setting/InboundItem.qml" line="266"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="160"/>
+        <location filename="../src/views/setting/InboundItem.qml" line="264"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
@@ -939,6 +952,19 @@
     <message>
         <source>Cancel</source>
         <translation type="vanished">取消</translation>
+    </message>
+</context>
+<context>
+    <name>NodeItemCard</name>
+    <message>
+        <location filename="../src/views/home/NodeItemCard.qml" line="137"/>
+        <source>Core Error</source>
+        <translation>核心错误</translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/NodeItemCard.qml" line="138"/>
+        <source>Failed to start the process</source>
+        <translation>无法启动进程</translation>
     </message>
 </context>
 <context>
@@ -1188,7 +1214,7 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="405"/>
+        <location filename="../src/view_models/grouplist.cpp" line="406"/>
         <location filename="../src/view_models/grouplist.cpp" line="410"/>
         <location filename="../src/view_models/grouplist.cpp" line="427"/>
         <location filename="../src/view_models/grouplist.cpp" line="431"/>
@@ -1258,12 +1284,12 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1033"/>
+        <location filename="../src/view_models/configtools.cpp" line="1037"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1036"/>
+        <location filename="../src/view_models/configtools.cpp" line="1040"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1272,7 +1298,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1038"/>
+        <location filename="../src/view_models/configtools.cpp" line="1042"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>
