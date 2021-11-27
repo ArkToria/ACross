@@ -317,7 +317,7 @@ QStringList UpdateTools::getNews(const QString &content) {
                 if (auto body = item["body"];
                     !body.is_null() && body.is_string()) {
                     auto split_str =
-                        QString("**%1** \n\n")
+                        QString("### %1 \n\n")
                             .arg(item["tag_name"].get<std::string>().c_str());
                     QString body_str = body.get<std::string>().c_str();
                     split_str.append(body_str);
