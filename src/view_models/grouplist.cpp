@@ -436,8 +436,10 @@ void GroupList::copyNodesToClipboard(int index) {
 
 void GroupList::handleDownloaded(const QVariant &content) {
     auto task = content.value<DownloadTask>();
-    if (task.content.isEmpty())
+    if (task.content.isEmpty()){
+        if(task.is_updated) m_is_updating.remove(task.id);
         return;
+    }
 
     if (task.is_updated) {
         QList<GroupInfo> temp_groups;
@@ -457,6 +459,7 @@ void GroupList::handleDownloaded(const QVariant &content) {
 
         if (auto result = p_db->update(temp_groups);
             result.type() != QSqlError::NoError) {
+            m_is_updating.remove(task.id);
             return;
         } else {
             p_db->updateRuntimeValue(
