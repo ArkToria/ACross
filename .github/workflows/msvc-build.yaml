@@ -48,8 +48,7 @@ jobs:
         uses: lukka/run-vcpkg@v10
         with:
           vcpkgDirectory: './b/vcpkg'
-          vcpkgGitCommitId: 7dff5e821e4a0b7fe43e8a28c51357217bb4bef6
-          runVcpkgInstall: true
+          vcpkgGitCommitId: 3a68454afa67bde8b6e9e741536daa95d3785966
           vcpkgJsonGlob: 'vcpkg.json'
 
       - name: Build
