@@ -223,7 +223,13 @@ QString NodeList::generateConfig() {
         auto outbound = node_config.add_outbounds();
         auto temp_outbound =
             across::SerializeTools::JsonToOutbound(m_node.raw.toStdString());
+
         outbound->CopyFrom(temp_outbound);
+
+        if (outbound->tag() == "") {
+            outbound->set_tag("PROXY");
+        }
+
         json_str = QString::fromStdString(
             across::SerializeTools::ConfigToJson(node_config));
     }
