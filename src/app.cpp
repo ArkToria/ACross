@@ -103,7 +103,7 @@ void Application::setRootContext() {
     p_db->init(p_config->dbPath());
     p_core->init(p_config);
     p_tray->init(p_config, p_core, p_nodes);
-#ifndef __MINGW32__ | Q_OS_MACOS
+#if !defined(Q_CC_MINW) && !defined(Q_OS_MACOS)
     p_nodes->init(p_config, p_core, p_db);
     p_groups->init(p_config, p_db, p_nodes, p_curl);
 #else
