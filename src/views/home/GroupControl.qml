@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import ACross
+import Arktoria.ACross
 
 Item {
     id: groupControlBar
@@ -63,7 +63,7 @@ Item {
                 onClicked: {
                     if (popMenuComponent == null) {
                         popMenuComponent = Qt.createComponent(
-                                    "qrc:/ACross/src/views/home/NodeEditForm.qml")
+                                    "qrc:/Arktoria/ACross/src/views/home/NodeEditForm.qml")
                     }
                     if (popMenuComponent.status === Component.Ready) {
                         popMenuComponent.createObject(appendNodeButton).show()
@@ -159,7 +159,7 @@ Item {
 
                     if (nodeShareFormComponent == null) {
                         nodeShareFormComponent = Qt.createComponent(
-                                    "qrc:/ACross/src/views/home/NodeShareForm.qml")
+                                    "qrc:/Arktoria/ACross/src/views/home/NodeShareForm.qml")
                     }
 
                     if (nodeShareFormComponent.status === Component.Ready) {

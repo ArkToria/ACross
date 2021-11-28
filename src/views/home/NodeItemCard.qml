@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import ACross
+import Arktoria.ACross
 import "../typescripts/home.js" as HomeJS
 
 Item {
@@ -144,7 +144,7 @@ Item {
             if (mouse.button === Qt.RightButton) {
                 if (popMenuComponent == null) {
                     popMenuComponent = Qt.createComponent(
-                                "qrc:/ACross/src/views/home/NodeItemPopMenu.qml")
+                                "qrc:/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml")
                 }
 
                 if (popMenuComponent.status === Component.Ready) {

@@ -29,6 +29,7 @@
 #include "view_models/systemtray.h"
 
 namespace across {
+#define ORG_NAME "Arktoria"
 #define APP_NAME "ACross"
 #define QML_MAJOR_VERSION 1
 #define QML_MINOR_VERSION 0

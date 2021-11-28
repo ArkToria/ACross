@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Basic as ControlsBasic
 
-import ACross
+import Arktoria.ACross
 import "../typescripts/log.js" as LogJS
 
 ControlsBasic.ScrollView {

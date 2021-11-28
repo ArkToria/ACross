@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Basic as ControlsBasic
 import QtQuick.Layouts
 
-import ACross
+import Arktoria.ACross
 
 Item {
     id: settingPage

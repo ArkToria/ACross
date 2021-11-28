@@ -3,7 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Basic as ControlsBasic
 
-import ACross
+import Arktoria.ACross
 import "../typescripts/home.js" as HomeJS
 
 Item {
@@ -21,7 +21,7 @@ Item {
 
         if (nodeShareFormComponent == null) {
             nodeShareFormComponent = Qt.createComponent(
-                        "qrc:/ACross/src/views/home/NodeShareForm.qml")
+                        "qrc:/Arktoria/ACross/src/views/home/NodeShareForm.qml")
         }
 
         if (nodeShareFormComponent.status === Component.Ready) {
@@ -38,7 +38,7 @@ Item {
 
         if (nodeEditFormComponent == null) {
             nodeEditFormComponent = Qt.createComponent(
-                        "qrc:/ACross/src/views/home/NodeEditForm.qml")
+                        "qrc:/Arktoria/ACross/src/views/home/NodeEditForm.qml")
         }
 
         if (nodeEditFormComponent.status === Component.Ready) {

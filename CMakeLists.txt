@@ -199,7 +199,7 @@ if(WIN32)
 endif()
 
 qt_add_qml_module(across
-    URI "ACross"
+    URI "Arktoria.ACross"
     VERSION 1.0
     RESOURCE_PREFIX "/"
     QML_FILES

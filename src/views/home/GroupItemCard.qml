@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
-import ACross
+import Arktoria.ACross
 
 Item {
     id: groupItemCard
@@ -147,7 +147,7 @@ Item {
                 if (mouse.button === Qt.RightButton) {
                     if (groupItemPopMenuComponent == null) {
                         groupItemPopMenuComponent = Qt.createComponent(
-                                    "qrc:/ACross/src/views/home/GroupItemPopMenu.qml")
+                                    "qrc:/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml")
                     }
                     if (groupItemPopMenuComponent.status === Component.Ready) {
                         groupItemPopMenuComponent.createObject(parent).popup()

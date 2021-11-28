@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
-import ACross
+import Arktoria.ACross
 import "../typescripts/home.js" as HomeJS
 
 Item {

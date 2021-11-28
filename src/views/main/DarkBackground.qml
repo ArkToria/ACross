@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import ACross
+import Arktoria.ACross
 
 Rectangle {
     id: control

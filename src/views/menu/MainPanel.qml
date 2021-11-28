@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import ACross
+import Arktoria.ACross
 
 Rectangle {
     implicitWidth: 120

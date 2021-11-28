@@ -4,7 +4,7 @@ import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Basic as ControlsBasic
 
-import ACross
+import Arktoria.ACross
 
 Popup {
     id: popWindow

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import ACross
+import Arktoria.ACross
 
 Item {
     implicitHeight: 48

@@ -4,7 +4,7 @@ import Qt.labs.platform
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import ACross
+import Arktoria.ACross
 
 Item {
     property int fontSize: 14

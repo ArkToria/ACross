@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
 
-import ACross
+import Arktoria.ACross
 
 Item {
     id: groupListPanel
@@ -25,7 +25,7 @@ Item {
         darkBackground.show()
         if (groupFormComponent == null) {
             groupFormComponent = Qt.createComponent(
-                        "qrc:/ACross/src/views/home/GroupForm.qml")
+                        "qrc:/Arktoria/ACross/src/views/home/GroupForm.qml")
         }
         if (groupFormComponent.status === Component.Ready) {
             groupFormComponent.createObject(groupListPanel).open()

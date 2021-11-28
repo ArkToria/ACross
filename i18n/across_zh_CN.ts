@@ -831,7 +831,7 @@
         <translation type="vanished">从文件导入</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="332"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="330"/>
         <source>Import v2ray config from file</source>
         <translation>从文件导入 v2ray 配置</translation>
     </message>
@@ -901,22 +901,22 @@
         <translation>协议</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="349"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="347"/>
         <source>Node Name</source>
         <translation>节点名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="364"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="362"/>
         <source>Config File</source>
         <translation>配置文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="373"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="371"/>
         <source>Enter Config Path Here</source>
         <translation>在此输入配置路径</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="381"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="379"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -925,12 +925,12 @@
         <translation type="vanished">打开文件</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="413"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="411"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeEditForm.qml" line="432"/>
+        <location filename="../src/views/home/NodeEditForm.qml" line="430"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1233,7 +1233,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="334"/>
+        <location filename="../src/view_models/nodelist.cpp" line="340"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

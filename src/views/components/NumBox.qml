@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import ACross
+import Arktoria.ACross
 
 SpinBox {
     id: spinBox

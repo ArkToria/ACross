@@ -8,7 +8,7 @@ import Qt5Compat.GraphicalEffects
 //import QtQuick.Dialogs
 import Qt.labs.platform
 
-import ACross
+import Arktoria.ACross
 
 Window {
     id: nodeEditFormPopWindow
@@ -275,15 +275,13 @@ Window {
                                 onEditTextChanged: {
                                     switch (currentIndex) {
                                     case 0:
-                                        protocolSettingsLoader.source
-                                                = "qrc:/ACross/src/views/home/VMESSSetting.qml"
+                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/VMESSSetting.qml"
                                         break
                                     case 1:
-                                        protocolSettingsLoader.source = "qrc:/ACross/src/views/home/ShadowsocksSetting.qml"
+                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/ShadowsocksSetting.qml"
                                         break
                                     case 2:
-                                        protocolSettingsLoader.source
-                                                = "qrc:/ACross/src/views/home/TrojanSetting.qml"
+                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/TrojanSetting.qml"
                                         break
                                     default:
                                         console.log("unknown protocol")

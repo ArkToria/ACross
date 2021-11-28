@@ -65,7 +65,7 @@ Application::~Application() {
 int Application::run() { return this->exec(); }
 
 void Application::setRootContext() {
-    const QUrl url(QStringLiteral("qrc:/ACross/src/views/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/Arktoria/ACross/src/views/main.qml"));
 
     QObject::connect(
         &m_engine, &QQmlApplicationEngine::objectCreated, this,
@@ -131,9 +131,14 @@ void Application::setTranslator(const QString &lang) {
 }
 
 void Application::registerModels() {
-    qmlRegisterType<across::GroupModel>(APP_NAME, 1, 0, "GroupModel");
-    qmlRegisterType<across::NodeModel>(APP_NAME, 1, 0, "NodeModel");
-    qmlRegisterType<across::NodeFormModel>(APP_NAME, 1, 0, "NodeFormModel");
+    const auto qml_model_name =
+        QString("%1.%2").arg(ORG_NAME, APP_NAME).toStdString();
+    qmlRegisterType<across::GroupModel>(qml_model_name.c_str(), 1, 0,
+                                        "GroupModel");
+    qmlRegisterType<across::NodeModel>(qml_model_name.c_str(), 1, 0,
+                                       "NodeModel");
+    qmlRegisterType<across::NodeFormModel>(qml_model_name.c_str(), 1, 0,
+                                           "NodeFormModel");
 }
 
 void Application::onMessageReceived(quint32 clientId, const QByteArray &msg) {

@@ -6,7 +6,7 @@ import QtQuick.Controls.Basic as ControlsBasic
 //import QtQuick.Dialogs
 import Qt.labs.platform
 
-import ACross
+import Arktoria.ACross
 import "../typescripts/home.js" as HomeJS
 
 Window {

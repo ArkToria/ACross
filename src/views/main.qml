@@ -3,7 +3,7 @@ import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
 
-import ACross
+import Arktoria.ACross
 
 import "./typescripts/main.js" as MainJS
 

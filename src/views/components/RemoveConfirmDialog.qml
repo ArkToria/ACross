@@ -3,7 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import ACross
+import Arktoria.ACross
 
 Dialog {
     id: rootDialog

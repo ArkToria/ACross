@@ -1,7 +1,7 @@
 import QtQuick
 import Qt5Compat.GraphicalEffects
 
-import ACross
+import Arktoria.ACross
 
 Item {
     implicitWidth: 48
