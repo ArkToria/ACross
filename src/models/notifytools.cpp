@@ -16,7 +16,7 @@ void NotifyTools::send(const QString &msg, const QString &summary,
 }
 #endif // Q_OS_LINUX
 
-#ifdef __MINGW32__
+#ifdef __MINGW32__ | Q_OS_MACOS
 void NotifyTools::send(const QString &msg, const QString &summary,
                        QSharedPointer<QSystemTrayIcon> tray) {
     if (tray.isNull())

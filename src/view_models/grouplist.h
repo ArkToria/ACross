@@ -8,7 +8,7 @@
 #include <QPointer>
 #include <QVariant>
 
-#ifdef __MINGW32__
+#ifdef __MINGW32__ | Q_OS_MACOS
 #include <QSystemTrayIcon>
 #endif
 

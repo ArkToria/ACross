@@ -401,7 +401,7 @@ void GroupList::setDisplayGroupID(int id) { p_nodes->setDisplayGroupID(id); }
 void GroupList::copyUrlToClipboard(int index) {
     auto item = m_groups.at(index);
 
-#ifdef __MINGW32__
+#ifdef __MINGW32__ | Q_OS_MACOS
     NotifyTools::send(item.url,
                       QString(tr("Copy [%1] URL to clipboard")).arg(item.name),
                       p_tray);
@@ -422,7 +422,7 @@ void GroupList::copyNodesToClipboard(int index) {
         nodes_url.append("\n");
     }
 
-#ifdef __MINGW32__
+#ifdef __MINGW32__ | Q_OS_MACOS
     NotifyTools::send(nodes_url,
                       QString(tr("Copy [%1] URL to clipboard")).arg(item.name),
                       p_tray);
