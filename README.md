@@ -29,3 +29,7 @@ $ gpg --keyserver keys.openpgp.org --recv-keys 6CA67F8C2B1977002086CA96E3CC8F9C4
 
 $ gpg --verify <across_release_package>.sig
 ```
+
+### Special Thanks
+
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." width="168">
