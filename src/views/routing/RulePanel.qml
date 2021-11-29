@@ -58,16 +58,16 @@ CardBox {
         }
 
         ListView {
-            id: directRuleList
+            id: ruleListView
             Layout.fillWidth: true
             Layout.columnSpan: 4
             Layout.fillHeight: true
             clip: true
 
-            model: ["baidu.com", "qq.com", "geosite:cn", "ext:customizedGeoSiteFile.dat:cn", "0.0.0.0/8", "10.0.0.0/8", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "ext:customizedGeoIPFile.dat:!cn", "ext-ip:customizedGeoIPFile.dat:cn", "ext-ip:customizedGeoIPFile.dat:!cn"]
+            //            model:
             delegate: RuleItemCard {
                 state: control.isEdited ? "EditState" : "NormalState"
-                width: directRuleList.width
+                width: ruleListView.width
             }
         }
 
@@ -78,6 +78,10 @@ CardBox {
 
         ButtonBox {
             text: qsTr("Add")
+
+            onClicked: {
+
+            }
         }
     }
 }

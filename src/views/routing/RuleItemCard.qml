@@ -59,6 +59,10 @@ Item {
 
             text: modelData
             color: acrossConfig.textColor
+
+            Component.onCompleted: {
+                console.log(modelData)
+            }
         }
 
         SVGBox {
@@ -73,12 +77,12 @@ Item {
     Connections {
         target: acrossConfig
 
-        function onCurrentThemeChanged() {
-            getColor(modelData)
+        function onCurrentThemeChanged() {//            getColor(modelData)
         }
     }
 
     Component.onCompleted: {
-        getColor(modelData)
+
+        //        getColor(modelData)
     }
 }

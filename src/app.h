@@ -27,6 +27,8 @@
 #include "view_models/nodeformmodel.h"
 #include "view_models/nodelist.h"
 #include "view_models/nodemodel.h"
+#include "view_models/routinglist.h"
+#include "view_models/routingmodel.h"
 #include "view_models/systemtray.h"
 
 namespace across {
@@ -72,6 +74,7 @@ class Application : public SingleApplication {
     QSharedPointer<across::network::CURLTools> p_curl;
     QSharedPointer<across::NodeList> p_nodes;
     QSharedPointer<across::GroupList> p_groups;
+    QSharedPointer<across::RoutingList> p_routings;
     QSharedPointer<across::SystemTray> p_tray;
     across::ImageProvider *p_image_provider;
 

@@ -783,6 +783,40 @@ QMap<qint64, QList<qint64>> DBTools::search(const QString &value) {
     return search_results;
 }
 
+QSqlError DBTools::reloadAllRoutingsInfo() {
+    QSqlError result;
+    RoutingInfo temp;
+    const QString select_str("SELECT * FROM routings");
+    QList<QVariantList> collections;
+
+    if (result = stepExec(select_str, nullptr, 7, &collections).first;
+        result.type() != QSqlError::NoError) {
+        p_logger->error("Failed to list all routings");
+        return result;
+    }
+
+    m_routings.clear();
+    for (auto &item : collections) {
+        RoutingInfo routing = {
+            .id = item.at(0).toLongLong(),
+            .name = item.at(1).toString(),
+            .domain_strategy = item.at(2).toString(),
+            .domain_matcher = item.at(3).toString(),
+            .raw = item.at(4).toString(),
+            .created_time =
+                QDateTime::fromSecsSinceEpoch(item.at(5).toLongLong()),
+            .modified_time =
+                QDateTime::fromSecsSinceEpoch(item.at(6).toLongLong()),
+        };
+
+        m_routings.emplace_back(routing);
+    }
+
+    return result;
+}
+
+QList<RoutingInfo> DBTools::getAllRoutingsInfo() { return m_routings; }
+
 void DBTools::close() {
     if (m_db.isOpen()) {
         m_db.close();

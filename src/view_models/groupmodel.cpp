@@ -13,6 +13,8 @@ int GroupModel::rowCount(const QModelIndex &parent) const {
 }
 
 QVariant GroupModel::data(const QModelIndex &index, int role) const {
+    const QString dateTimeFormat("mm/dd/yyyy hh:mm:ss");
+
     if (!index.isValid() || p_list == nullptr || index.row() >= rowCount())
         return {};
 
@@ -32,9 +34,9 @@ QVariant GroupModel::data(const QModelIndex &index, int role) const {
     case CycleTimeRole:
         return item.cycle_time;
     case CreatedAtRole:
-        return item.created_time.toString("MM/dd/yyyy HH:mm:ss");
+        return item.created_time.toString(dateTimeFormat);
     case ModifiedAtRole:
-        return item.modified_time.toString("MM/dd/yyyy HH:mm:ss");
+        return item.modified_time.toString(dateTimeFormat);
     case ItemsRole:
         return item.items;
     default:
@@ -71,7 +73,6 @@ void GroupModel::connectItems() {
         QModelIndex bottomRight = createIndex(index, 0);
 
         if (m_old_rows > index) {
-            qInfo() << index << m_old_rows << rowCount();
             beginRemoveRows(QModelIndex(), index, m_old_rows);
             endRemoveRows();
         } else if (m_old_rows < index) {

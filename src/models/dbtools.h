@@ -148,7 +148,6 @@ class DBTools : public QObject {
 
     QSqlError removeNodeFromID(qint64 id);
     QSqlError removeGroupFromID(qint64 id, bool keep_group = false);
-    QSqlError reloadAllGroupsInfo();
 
     QSqlError createRuntimeValue(const RuntimeValue &value);
     std::optional<RuntimeValue> readRuntimeValue(const QString &key);
@@ -163,10 +162,13 @@ class DBTools : public QObject {
     qint64 getDefaultGroupID();
     qsizetype getSizeFromGroupID(qint64 group_id);
     std::optional<GroupInfo> getGroupFromID(qint64 group_id);
+    QSqlError reloadAllGroupsInfo();
     QList<GroupInfo> getAllGroupsInfo();
     QList<NodeInfo> listAllNodesFromGroupID(qint64 group_id);
     QMap<qint64, QList<qint64>> search(const QString &value);
 
+    QSqlError reloadAllRoutingsInfo();
+    QList<RoutingInfo> getAllRoutingsInfo();
   public slots:
     void close();
 
@@ -193,6 +195,7 @@ class DBTools : public QObject {
 
     QSqlDatabase m_db;
     QList<GroupInfo> m_groups;
+    QList<RoutingInfo> m_routings;
 
     QThread *p_db_thread = nullptr;
 

@@ -18,6 +18,11 @@ Item {
         columns: 3
         columnSpacing: acrossConfig.itemSpacing
 
+        RoutingModel {
+            id: routingModel
+            list: acrossRoutings
+        }
+
         CardBox {
             Layout.fillWidth: true
             Layout.columnSpan: 3
@@ -41,11 +46,11 @@ Item {
                     clip: true
                     interactive: false
                     spacing: acrossConfig.itemSpacing * 4
-                    model: ["Default Routing", "Bypass China", "AD Block"]
+                    model: routingModel
                     orientation: ListView.Horizontal
 
                     delegate: Label {
-                        text: modelData
+                        text: name
                         color: acrossConfig.textColor
                         font.pointSize: fontSize
 
