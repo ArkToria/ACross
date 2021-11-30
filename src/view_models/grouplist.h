@@ -33,7 +33,7 @@ class GroupList : public QObject {
               QSharedPointer<across::DBTools> db,
               QSharedPointer<across::NodeList> nodes,
               QSharedPointer<across::network::CURLTools> curl,
-              QSharedPointer<QSystemTrayIcon> tray = nullptr);
+              const QSharedPointer<QSystemTrayIcon>& tray = nullptr);
 
     bool insert(const GroupInfo &group_info, const QString &content);
     bool insertSIP008(const GroupInfo &group_info, const QString &content);

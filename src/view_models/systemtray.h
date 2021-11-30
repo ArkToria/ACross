@@ -16,8 +16,8 @@ class SystemTray : public QObject {
   public:
     enum Visibility { Minimized = false, Visible = true };
 
-    explicit SystemTray(QObject *parent = 0);
-    ~SystemTray();
+    explicit SystemTray(QObject *parent = nullptr);
+    ~SystemTray() override;
 
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,

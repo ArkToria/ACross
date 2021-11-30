@@ -50,7 +50,7 @@ class GroupModel : public QAbstractListModel {
 
   private:
     GroupList *p_list;
-    int m_old_rows;
+    int m_old_rows{};
 };
 } // namespace across
 

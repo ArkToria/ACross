@@ -7,7 +7,7 @@ SerializeTools::sip008Parser(const std::string &url_str) {
     Json root;
     try {
         root = Json::parse(url_str);
-    } catch (Json::exception e) {
+    } catch (Json::exception &e) {
         qDebug() << e.what();
         return {};
     }
@@ -85,7 +85,7 @@ std::optional<QUrl> SerializeTools::sip002Encode(const URLMetaObject &meta) {
     QUrl url;
     auto outbound = &meta.outbound;
     auto setting = outbound->settings().shadowsocks();
-    auto server = setting.servers(0);
+    const auto& server = setting.servers(0);
 
     QString user_info =
         QString("%1:%2")
@@ -178,7 +178,7 @@ std::optional<QUrl> SerializeTools::trojanEncode(const URLMetaObject &meta) {
 
     auto outbound = &meta.outbound;
     auto setting = outbound->settings().trojan();
-    auto server = setting.servers(0);
+    const auto& server = setting.servers(0);
 
     url.setScheme(outbound->protocol().c_str());
     url.setHost(server.address().c_str());
@@ -187,10 +187,10 @@ std::optional<QUrl> SerializeTools::trojanEncode(const URLMetaObject &meta) {
     url.setFragment(meta.name.c_str());
 
     if (outbound->has_streamsettings()) {
-        auto stream = outbound->streamsettings();
+        const auto& stream = outbound->streamsettings();
 
         if (stream.has_tlssettings()) {
-            auto tls = stream.tlssettings();
+            const auto& tls = stream.tlssettings();
             query.addQueryItem("sni", tls.servername().c_str());
 
             if (tls.allowinsecure()) {
@@ -248,7 +248,7 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
     Json root;
     try {
         root = Json::parse(base64_str.toStdString());
-    } catch (Json::exception e) {
+    } catch (Json::exception &e) {
         qDebug() << e.what();
         return {};
     }
@@ -390,9 +390,9 @@ SerializeTools::vmessBase64Encode(const URLMetaObject &meta) {
     QUrl url;
     auto outbound = &meta.outbound;
     auto settings = outbound->settings().vmess();
-    auto server = settings.vnext(0);
-    auto user = server.users(0);
-    auto stream = outbound->streamsettings();
+    const auto& server = settings.vnext(0);
+    const auto& user = server.users(0);
+    const auto& stream = outbound->streamsettings();
 
     url.setScheme(outbound->protocol().c_str());
 
@@ -419,20 +419,20 @@ SerializeTools::vmessBase64Encode(const URLMetaObject &meta) {
 
         do {
             if (stream.network() == "ws" && stream.has_wssettings()) {
-                auto websocket = stream.wssettings();
+                const auto& websocket = stream.wssettings();
                 root["host"] = websocket.headers().at("Host");
                 root["path"] = websocket.path();
                 break;
             }
 
             if (stream.network() == "grpc" && stream.has_grpcsettings()) {
-                auto grpc = stream.grpcsettings();
+                const auto& grpc = stream.grpcsettings();
                 root["path"] = grpc.servicename();
                 break;
             }
 
             if (stream.network() == "quic" && stream.has_quicsettings()) {
-                auto quic = stream.quicsettings();
+                const auto& quic = stream.quicsettings();
                 root["type"] = quic.header().type();
                 root["host"] = quic.security();
                 root["path"] = quic.key();
@@ -480,7 +480,7 @@ bool SerializeTools::setShadowsocksOutboundFromURL(NodeInfo &node,
 
     auto outbound = meta->outbound;
     auto shadowsocks = outbound.settings().shadowsocks();
-    auto server = shadowsocks.servers(0);
+    const auto& server = shadowsocks.servers(0);
 
     node.protocol = EntryType::shadowsocks;
     node.name = meta->name.c_str();
@@ -500,8 +500,8 @@ bool SerializeTools::setVMessOutboundFromBase64(NodeInfo &node,
 
     auto outbound = meta->outbound;
     auto vmess = outbound.settings().vmess();
-    auto server = vmess.vnext(0);
-    auto user = server.users(0);
+    const auto& server = vmess.vnext(0);
+    const auto& user = server.users(0);
 
     node.protocol = EntryType::vmess;
     node.name = meta->name.c_str();
@@ -521,7 +521,7 @@ bool SerializeTools::setTrojanOutboundFromURL(NodeInfo &node,
 
     auto outbound = meta->outbound;
     auto trojan = outbound.settings().trojan();
-    auto server = trojan.servers(0);
+    const auto& server = trojan.servers(0);
 
     node.protocol = EntryType::trojan;
     node.name = meta->name.c_str();
@@ -541,7 +541,7 @@ google::protobuf::util::JsonPrintOptions SerializeTools::defaultPrintOptions() {
     options.always_print_enums_as_ints = true;
 
     return options;
-};
+}
 
 std::string
 SerializeTools::MessageToJson(const google::protobuf::Message &message) {
@@ -578,7 +578,7 @@ SerializeTools::ConfigToJson(v2ray::config::V2rayConfig &origin_config,
     Json root;
     try {
         root = Json::parse(MessageToJson(origin_config));
-    } catch (Json::exception e) {
+    } catch (Json::exception &e) {
         qDebug() << e.what();
         return "";
     }
@@ -608,7 +608,7 @@ SerializeTools::ConfigToJson(v2ray::config::V2rayConfig &origin_config,
         Json outbound;
         try {
             outbound = Json::parse(outbound_str.toStdString());
-        } catch (Json::exception e) {
+        } catch (Json::exception &e) {
             qDebug() << e.what();
             fix_format({"outbounds"});
         }

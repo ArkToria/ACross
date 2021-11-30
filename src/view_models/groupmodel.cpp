@@ -14,7 +14,7 @@ int GroupModel::rowCount(const QModelIndex &parent) const {
 
 QVariant GroupModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid() || p_list == nullptr || index.row() >= rowCount())
-        return QVariant();
+        return {};
 
     const GroupInfo item = p_list->items().at(index.row());
 
@@ -38,10 +38,8 @@ QVariant GroupModel::data(const QModelIndex &index, int role) const {
     case ItemsRole:
         return item.items;
     default:
-        return QVariant();
+        return {};
     }
-
-    return QVariant();
 }
 
 QHash<int, QByteArray> GroupModel::roleNames() const {

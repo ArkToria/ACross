@@ -2,7 +2,7 @@
 
 using namespace across::utils;
 
-QRCodeTools::QRCodeTools() {}
+QRCodeTools::QRCodeTools() = default;
 
 QImage QRCodeTools::write(const QString &text) {
     if (text.isEmpty())

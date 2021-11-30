@@ -12,7 +12,7 @@ EnvTools::EnvTools() {
 }
 
 QString EnvTools::get(const QString &key) {
-    auto sys_envs = m_process_envs.systemEnvironment();
+    auto sys_envs = m_process_envs;
 
     return getEnvs(sys_envs, key);
 }

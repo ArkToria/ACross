@@ -9,8 +9,7 @@
 #include <BitMatrix.h>
 #include <MultiFormatWriter.h>
 
-namespace across {
-namespace utils {
+namespace across::utils {
 class QRCodeTools {
   public:
     QRCodeTools();
@@ -29,7 +28,6 @@ class QRCodeTools {
 
     ZXing::BarcodeFormat m_format = ZXing::BarcodeFormat::QRCode;
 };
-} // namespace utils
 } // namespace across
 
 #endif // QRCODETOOLS_H

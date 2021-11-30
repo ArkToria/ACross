@@ -21,7 +21,7 @@ class NodeFormModel : public QObject {
     NodeList *list() const;
 
   public slots:
-    void setList(NodeList *newList);
+    void setList(across::NodeList *newList);
 
   signals:
     void listChanged();

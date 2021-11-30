@@ -16,7 +16,7 @@ QVariant NodeModel::data(const QModelIndex &index, int role) const {
     const QString dateTimeFormat("mm/dd/yyyy hh:mm:ss");
 
     if (!index.isValid() || !p_list) {
-        return QVariant();
+        return {};
     }
 
     if (index.model() != this) {
@@ -66,7 +66,7 @@ QVariant NodeModel::data(const QModelIndex &index, int role) const {
         return item.modified_time.toString(dateTimeFormat);
     }
 
-    return QVariant();
+    return {};
 }
 
 QHash<int, QByteArray> NodeModel::roleNames() const {

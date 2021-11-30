@@ -9,13 +9,12 @@
 #include "spdlog/logger.h"
 #include "spdlog/spdlog.h"
 
-namespace across {
-namespace utils {
+namespace across::utils {
 enum LoggerEnum { core, app };
 
 class LogTools : public LogView {
   public:
-    LogTools(QSharedPointer<LogView> log_view, const QString &name = "",
+    explicit LogTools(QSharedPointer<LogView> log_view, const QString &name = "",
              LoggerEnum log_enum = LoggerEnum::app);
 
     template <typename... Args>
@@ -51,6 +50,5 @@ class LogTools : public LogView {
   private:
     std::shared_ptr<spdlog::logger> p_logger;
 };
-} // namespace utils
 } // namespace across
 #endif // LOGTOOLS_H

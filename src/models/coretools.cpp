@@ -1,10 +1,12 @@
 #include "coretools.h"
 
+#include <utility>
+
 using namespace across::core;
 using namespace across::setting;
 using namespace across::utils;
 
-CoreTools::CoreTools(QObject *parent) {
+CoreTools::CoreTools(QObject *parent) : QObject(parent) {
     p_process = QSharedPointer<QProcess>::create();
     p_process->setProcessChannelMode(QProcess::MergedChannels);
 
@@ -16,7 +18,7 @@ CoreTools::CoreTools(QObject *parent) {
 CoreTools::~CoreTools() { this->stop(); }
 
 bool CoreTools::init(QSharedPointer<ConfigTools> config) {
-    p_config = config;
+    p_config = std::move(config);
 
     // lambda
     auto setCore = [&]() { p_core = p_config->config()->mutable_core(); };
@@ -109,7 +111,7 @@ int CoreTools::restart() {
     return 0;
 }
 
-bool CoreTools::isRunning() { return m_running; }
+bool CoreTools::isRunning() const { return m_running; }
 
 void CoreTools::setIsRunning(bool value) {
     if (value == m_running)
@@ -123,7 +125,7 @@ void CoreTools::onReadData() {
     QString content = QString::fromUtf8(p_process->readAllStandardOutput());
 
     // remove datetime
-    content.remove(QRegularExpression("(\\d+/?)*\\s(\\d+:?)*\\s"));
+    content.remove(QRegularExpression(R"((\d+/?)*\s(\d+:?)*\s)"));
 
     // replace warning
     if (content.contains("[Warning]")) {

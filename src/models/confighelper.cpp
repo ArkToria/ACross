@@ -1,6 +1,5 @@
 #include "confighelper.h"
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QStandardPaths>
 

@@ -55,7 +55,7 @@ class TCPPing : QObject {
   public:
     TCPPing(QObject *parent = nullptr);
 
-    TCPPing(const QString &addr, unsigned int port);
+    TCPPing(QString addr, unsigned int port);
     TCPPing(const QHostAddress &addr, unsigned int port);
 
     void setAddr(const QString &addr);

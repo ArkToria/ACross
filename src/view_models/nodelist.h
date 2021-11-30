@@ -43,12 +43,12 @@ class NodeList : public QObject {
   public:
     explicit NodeList(QObject *parent = nullptr);
 
-    ~NodeList();
+    ~NodeList() override;
 
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,
               QSharedPointer<across::DBTools> db,
-              QSharedPointer<QSystemTrayIcon> tray = nullptr);
+              const QSharedPointer<QSystemTrayIcon>& tray = nullptr);
 
     bool run();
 
@@ -66,7 +66,7 @@ class NodeList : public QObject {
     void setUploadTraffic(double newUploadTraffic);
     void setDownloadTraffic(double newDownloadTraffic);
 
-    void testLatency(NodeInfo node, int index);
+    void testLatency(const NodeInfo& node, int index);
 
     void setDownloadProxy(across::network::DownloadTask &task);
 
@@ -90,20 +90,20 @@ class NodeList : public QObject {
 
   public:
     QList<NodeInfo> items();
-    qint64 currentNodeID();
-    qint64 currentGroupID();
-    qint64 displayGroupID();
-    QString uploadTraffic();
-    QString downloadTraffic();
+    [[nodiscard]] qint64 currentNodeID() const;
+    [[nodiscard]] qint64 currentGroupID() const;
+    [[nodiscard]] qint64 displayGroupID() const;
+    [[nodiscard]] QString uploadTraffic() const;
+    [[nodiscard]] QString downloadTraffic() const;
     QVariantMap currentNodeInfo();
 
   public slots:
     void setDisplayGroupID(int group_id);
-    void handleLatencyChanged(qint64 group_id, int index, NodeInfo node);
+    void handleLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node);
 
   signals:
     void itemReset(int index);
-    void itemLatencyChanged(qint64 group_id, int index, NodeInfo node);
+    void itemLatencyChanged(qint64 group_id, int index, across::NodeInfo node);
 
     void preItemsReset();
     void postItemsReset();

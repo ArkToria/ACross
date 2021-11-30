@@ -41,7 +41,7 @@ class LogView : public QObject {
   public:
     explicit LogView(QObject *parent = nullptr);
 
-    ~LogView();
+    ~LogView() override;
 
     Q_INVOKABLE void setLogItem(QQuickItem *item, const QString &name = "app");
 

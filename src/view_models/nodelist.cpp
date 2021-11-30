@@ -1,5 +1,7 @@
 #include "nodelist.h"
 
+#include <utility>
+
 using namespace across;
 using namespace across::core;
 using namespace across::config;
@@ -16,7 +18,7 @@ NodeList::~NodeList() {
 
 void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
                     QSharedPointer<CoreTools> core, QSharedPointer<DBTools> db,
-                    QSharedPointer<QSystemTrayIcon> tray) {
+                    const QSharedPointer<QSystemTrayIcon>& tray) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("nodes");
     } else {
@@ -24,9 +26,9 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
         return;
     }
 
-    p_db = db;
-    p_config = config;
-    p_core = core;
+    p_db = std::move(db);
+    p_config = std::move(config);
+    p_core = std::move(core);
 
     if (tray != nullptr) {
         p_tray = tray;
@@ -145,7 +147,7 @@ bool NodeList::run() {
 
         if (p_core == nullptr) {
             p_logger->error("Failed to load core tools");
-        };
+        }
 
         p_core->setConfig(generateConfig());
         if (p_core->run() < 0) {
@@ -226,7 +228,7 @@ QString NodeList::generateConfig() {
 
         outbound->CopyFrom(temp_outbound);
 
-        if (outbound->tag() == "") {
+        if (outbound->tag().empty()) {
             outbound->set_tag("PROXY");
         }
 
@@ -306,11 +308,11 @@ QString NodeList::getQRCode(int node_id) {
     return "";
 }
 
-qint64 NodeList::currentNodeID() { return m_node.id; }
+qint64 NodeList::currentNodeID() const { return m_node.id; }
 
-qint64 NodeList::currentGroupID() { return m_node.group_id; }
+qint64 NodeList::currentGroupID() const { return m_node.group_id; }
 
-qint64 NodeList::displayGroupID() { return m_display_group_id; }
+qint64 NodeList::displayGroupID() const { return m_display_group_id; }
 
 Q_INVOKABLE qint64 NodeList::getIndexByNode(qint64 node_id, qint64 group_id) {
     auto nodes = p_db->listAllNodesFromGroupID(group_id);
@@ -389,7 +391,7 @@ void NodeList::setCurrentNodeByID(int id) {
     }
 }
 
-void NodeList::handleLatencyChanged(qint64 group_id, int index, NodeInfo node) {
+void NodeList::handleLatencyChanged(qint64 group_id, int index, const NodeInfo& node) {
     auto db_future = QtConcurrent::run([&, node] {
         auto t_node = node;
         p_db->update(t_node);
@@ -461,7 +463,7 @@ Q_INVOKABLE void NodeList::testLatency(int id) {
     }
 }
 
-void NodeList::testLatency(NodeInfo node, int index) {
+void NodeList::testLatency(const NodeInfo& node, int index) {
     m_tasks.enqueue(QtConcurrent::run([this, index, node] {
         auto current_node = node;
         TCPPing ping;
@@ -487,7 +489,7 @@ void NodeList::setDownloadProxy(network::DownloadTask &task) {
     }
 }
 
-QString NodeList::uploadTraffic() {
+QString NodeList::uploadTraffic() const {
     return APITools::unitConvert(m_traffic.upload);
 }
 
@@ -498,7 +500,7 @@ void NodeList::setUploadTraffic(double newUploadTraffic) {
     emit uploadTrafficChanged(APITools::unitConvert(m_traffic.upload));
 }
 
-QString NodeList::downloadTraffic() {
+QString NodeList::downloadTraffic() const {
     return APITools::unitConvert(m_traffic.download);
 }
 

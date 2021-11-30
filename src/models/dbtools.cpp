@@ -1,5 +1,7 @@
 #include "dbtools.h"
 
+#include <utility>
+
 using namespace across;
 using namespace across::utils;
 
@@ -15,7 +17,7 @@ void DBWorker::directExec(const QString &sql_str, QSqlDatabase &db) {
 void DBWorker::stepExec(const QString &sql_str, QVariantList *inputCollection,
                         int outputColumns,
                         QList<QVariantList> *outputCollections,
-                        std::shared_ptr<spdlog::logger> p_logger,
+                        const std::shared_ptr<spdlog::logger>& p_logger,
                         QSqlDatabase &db) {
     QSqlError result;
     QSqlQuery query(db);
@@ -73,9 +75,9 @@ DBTools::DBTools(QObject *parent) : QObject(parent) {
             Qt::ConnectionType::BlockingQueuedConnection);
 
     connect(p_worker, &DBWorker::directExecReady, this,
-            [&](QSqlError result) { tmp_direct_res = result; });
+            [&](QSqlError result) { tmp_direct_res = std::move(result); });
     connect(p_worker, &DBWorker::stepExecReady, this,
-            [&](QPair<QSqlError, qint64> result) { tmp_step_res = result; });
+            [&](const QPair<QSqlError, qint64>& result) { tmp_step_res = result; });
     p_db_thread->start();
 }
 
@@ -218,7 +220,7 @@ QSqlError DBTools::createDefaultTables() {
          "END;"},
     };
 
-    TransactionWrap(this);
+    TransactionWrap transactionWrap(this);
     for (auto &table : tables) {
         if (result = directExec(table); result.type() != QSqlError::NoError)
             break;
@@ -430,7 +432,7 @@ QSqlError DBTools::insert(NodeInfo &node) {
 
 QSqlError DBTools::insert(QList<NodeInfo> &nodes) {
     QSqlError result;
-    TransactionWrap(this);
+    TransactionWrap transactionWrap(this);
     for (auto &node : nodes)
         if (result = insert(node); result.type() != QSqlError::NoError)
             break;
@@ -477,7 +479,7 @@ QSqlError DBTools::update(NodeInfo &node) {
 
 QSqlError DBTools::update(QList<NodeInfo> &nodes) {
     QSqlError result;
-    TransactionWrap(this);
+    TransactionWrap transactionWrap(this);
     for (auto &node : nodes)
         if (result = update(node); result.type() != QSqlError::NoError)
             break;
@@ -539,7 +541,7 @@ QSqlError DBTools::update(GroupInfo &group) {
 
 QSqlError DBTools::update(QList<GroupInfo> &groups) {
     QSqlError result;
-    TransactionWrap(this);
+    TransactionWrap transactionWrap(this);
     for (auto &group : groups)
         if (result = update(group); result.type() != QSqlError::NoError)
             break;
@@ -778,15 +780,15 @@ void DBTools::close() {
     }
 }
 
-RuntimeValue::RuntimeValue(const QString &key, const QVariant &value)
-    : key(key), type(value.typeId()), value(value) {}
+RuntimeValue::RuntimeValue(QString key, const QVariant &value)
+    : key(std::move(key)), type(value.typeId()), value(value) {}
 
 RuntimeValue::RuntimeValue(const RunTimeValues key, const QVariant &value)
     : key(magic_enum::enum_name(key).data()), type(value.typeId()),
       value(value) {}
 
-RuntimeValue::RuntimeValue(const QString &key, int type, const QVariant &value)
-    : key(key), type(type), value(value) {}
+RuntimeValue::RuntimeValue(QString key, int type, const QVariant &value)
+    : key(std::move(key)), type(type), value(value) {}
 
 QVariantMap NodeInfo::toVariantMap() {
     return QVariantMap{

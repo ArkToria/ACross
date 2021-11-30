@@ -17,5 +17,5 @@ QImage ImageProvider::requestImage(const QString &id, QSize *size,
         return QRCodeTools().write(m_content);
     }
 
-    return QImage();
+    return {};
 }

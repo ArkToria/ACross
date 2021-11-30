@@ -20,7 +20,7 @@ namespace across {
 using Json = nlohmann::json;
 
 struct URLMetaObject {
-    std::string name = "";
+    std::string name;
     v2ray::config::OutboundObject outbound;
 };
 

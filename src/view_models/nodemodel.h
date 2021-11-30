@@ -34,19 +34,19 @@ class NodeModel : public QAbstractListModel {
         ModifiedAtRole,
     };
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    [[nodiscard]] int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
-    QVariant data(const QModelIndex &index,
+    [[nodiscard]] QVariant data(const QModelIndex &index,
                   int role = Qt::DisplayRole) const override;
 
-    virtual QHash<int, QByteArray> roleNames() const override;
+    [[nodiscard]] QHash<int, QByteArray> roleNames() const override;
 
-    NodeList *list() const;
+    [[nodiscard]] NodeList *list() const;
 
     void connectItems();
 
   public slots:
-    void setList(NodeList *list);
+    void setList(across::NodeList *list);
 
   signals:
     void listChanged();

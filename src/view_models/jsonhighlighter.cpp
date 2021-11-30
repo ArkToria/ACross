@@ -38,7 +38,7 @@ void JSONHighlighter::init() {
 }
 
 void JSONHighlighter::setTheme(config::Theme *p_theme) {
-    auto colors = p_theme->colors();
+    const auto& colors = p_theme->colors();
 
     val_format.setForeground(QColor(colors.text_color().c_str()));
     string_format.setForeground(QColor(colors.text_color().c_str()));

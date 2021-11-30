@@ -28,8 +28,7 @@
 #include <wordexp.h>
 #endif
 
-namespace across {
-namespace setting {
+namespace across::setting {
 using Json = nlohmann::json;
 
 class ConfigTools : public QObject {
@@ -166,7 +165,7 @@ class ConfigTools : public QObject {
 
   public:
     explicit ConfigTools(QObject *parent = nullptr);
-    ~ConfigTools();
+    ~ConfigTools() override;
 
     bool init(QSharedPointer<across::network::CURLTools> curl,
               const QString &file_path = "");
@@ -187,14 +186,14 @@ class ConfigTools : public QObject {
     Q_INVOKABLE void testAPI();
     Q_INVOKABLE bool testAndSetAddr(const QString &addr);
     Q_INVOKABLE void freshInbound();
-    Q_INVOKABLE void saveConfig(QString config_path = "");
+    Q_INVOKABLE void saveConfig(const QString& config_path = "");
     Q_INVOKABLE void checkUpdate();
     Q_INVOKABLE void setNews();
 
     across::config::Config *config();
     across::config::Theme *currentTheme();
 
-    static bool isFileExist(QString file_path);
+    static bool isFileExist(const QString& file_path);
 
   public:
     // database setting
@@ -204,7 +203,7 @@ class ConfigTools : public QObject {
     // core setting
     QString coreInfo();
     QString coreVersion();
-    QString guiVersion();
+    static QString guiVersion();
     QString corePath();
     QString assetsPath();
     QString logLevel();
@@ -264,14 +263,14 @@ class ConfigTools : public QObject {
     QString networkUserAgent();
 
     // help page
-    QString buildInfo();
-    QString extraInfo();
-    QString buildTime();
-    QString sourceCodeURL();
-    QString reportURL();
-    QString licenseURL();
-    QString apiURL(uint per_page = 0);
-    QString releaseURL();
+    static QString buildInfo();
+    static QString extraInfo();
+    static QString buildTime();
+    static QString sourceCodeURL();
+    static QString reportURL();
+    static QString licenseURL();
+    static QString apiURL(uint per_page = 0);
+    static QString releaseURL();
     QStringList versionNews();
 
   public slots:
@@ -407,14 +406,13 @@ class ConfigTools : public QObject {
 
     QSharedPointer<across::network::CURLTools> p_curl;
     across::config::Config m_config = ConfigHelper::defaultConfig();
-    across::config::Core *p_core;
-    across::config::Database *p_db;
-    across::config::Interface *p_interface;
-    across::config::Theme *p_theme;
-    across::config::Inbound *p_inbound;
-    across::config::Network *p_network;
+    across::config::Core *p_core{};
+    across::config::Database *p_db{};
+    across::config::Interface *p_interface{};
+    across::config::Theme *p_theme{};
+    across::config::Inbound *p_inbound{};
+    across::config::Network *p_network{};
 };
-} // namespace setting
 } // namespace across
 
 #endif // CONFIGTOOLS_H

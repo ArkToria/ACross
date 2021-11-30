@@ -79,7 +79,7 @@ void APITools::handleTrafficResult(const QVariant &data) {
     emit trafficChanged(data);
 }
 
-APIWorker::APIWorker(std::shared_ptr<grpc::Channel> channel) {
+APIWorker::APIWorker(const std::shared_ptr<grpc::Channel>& channel) {
     p_stub = StatsService::NewStub(channel);
 }
 

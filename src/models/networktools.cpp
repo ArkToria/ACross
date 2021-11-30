@@ -1,5 +1,7 @@
 #include "networktools.h"
 
+#include <utility>
+
 using namespace across::network;
 
 DNSTools::DNSTools(QObject *parent) : QObject(parent) {}
@@ -24,11 +26,11 @@ void DNSTools::query(const QString &domain, QDnsLookup::Type type,
 
 QList<QString> DNSTools::callback() {
     if (p_dns == nullptr) {
-        return QList<QString>();
+        return {};
     }
 
     if (p_dns->error() != QDnsLookup::NoError) {
-        return QList<QString>();
+        return {};
     }
 
     QList<QString> list;
@@ -69,10 +71,10 @@ QList<QString> DNSTools::callback() {
     return list;
 }
 
-TCPPing::TCPPing(QObject *parent) {}
+TCPPing::TCPPing(QObject *parent) : QObject(parent) {}
 
-TCPPing::TCPPing(const QString &addr, unsigned int port)
-    : m_addr(addr), m_port(port) {}
+TCPPing::TCPPing(QString addr, unsigned int port)
+    : m_addr(std::move(addr)), m_port(port) {}
 
 TCPPing::TCPPing(const QHostAddress &addr, unsigned int port)
     : m_addr(addr.toString()), m_port(port) {}
@@ -98,7 +100,7 @@ int TCPPing::getAvgLatency() {
         }
     }
 
-    if (sum.size() > 0) {
+    if (!sum.empty()) {
         result = std::accumulate(sum.begin(), sum.end(), 0.0) / sum.size();
     }
 
@@ -252,12 +254,12 @@ QString UpdateTools::getVersion(const QString &content) {
 
     try {
         root = Json::parse(content.toStdString());
-    } catch (Json::exception e) {
+    } catch (Json::exception &e) {
         qDebug() << e.what();
         return "";
     }
 
-    if (!root.is_null() && !root.empty() && root.dump().size() > 0) {
+    if (!root.is_null() && !root.empty() && !root.dump().empty()) {
         if (root.is_array()) {
             root = root.at(0);
         }
@@ -285,7 +287,7 @@ int UpdateTools::compareVersion(const QString &ver_a, const QString &ver_b) {
         if (semver::valid(view_str))
             return semver::version(view_str);
 
-        return semver::version();
+        return {};
     };
 
     if (auto v_a = qstr2ver(ver_a), v_b = qstr2ver(ver_b); v_a < v_b)
@@ -306,12 +308,12 @@ QStringList UpdateTools::getNews(const QString &content) {
 
     try {
         root = Json::parse(content.toStdString());
-    } catch (Json::exception e) {
+    } catch (Json::exception &e) {
         qDebug() << e.what();
         return {e.what()};
     }
 
-    if (!root.is_null() && !root.empty() && root.dump().size() > 0) {
+    if (!root.is_null() && !root.empty() && !root.dump().empty()) {
         if (root.is_array()) {
             for (auto item : root) {
                 if (auto body = item["body"];

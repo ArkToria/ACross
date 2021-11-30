@@ -1,6 +1,6 @@
 #include "systemtray.h"
 #include <QSystemTrayIcon>
-#include <cmath>
+#include <utility>
 
 using namespace across;
 using namespace across::core;
@@ -31,9 +31,9 @@ void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
         return;
     }
 
-    p_core = core;
-    p_nodes = nodes;
-    p_config = config;
+    p_core = std::move(core);
+    p_nodes = std::move(nodes);
+    p_config = std::move(config);
 
     // connect config changed signals
     connect(p_config.get(), &across::setting::ConfigTools::trayColorChanged,

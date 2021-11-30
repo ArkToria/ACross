@@ -10,9 +10,8 @@ using namespace across::utils;
 
 #ifdef Q_OS_LINUX
 void NotifyTools::send(const QString &msg, const QString &summary,
-                       QSharedPointer<QSystemTrayIcon> tray) {
-    DBusTools dbus_tools;
-    dbus_tools.sendNotify(msg, summary);
+                       const QSharedPointer<QSystemTrayIcon>& tray) {
+    across::utils::DBusTools::sendNotify(msg, summary);
 }
 #endif // Q_OS_LINUX
 

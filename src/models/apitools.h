@@ -28,8 +28,7 @@ using v2ray::core::app::stats::command::StatsService;
 using v2ray::core::app::stats::command::SysStatsRequest;
 using v2ray::core::app::stats::command::SysStatsResponse;
 
-namespace across {
-namespace core {
+namespace across::core {
 struct TrafficInfo {
     qint64 upload = 0;
     qint64 download = 0;
@@ -40,7 +39,7 @@ struct TrafficInfo {
 class APIWorker : public QObject {
     Q_OBJECT
   public:
-    APIWorker(std::shared_ptr<grpc::Channel> channel);
+    explicit APIWorker(const std::shared_ptr<grpc::Channel>& channel);
 
   public slots:
     void start(const QString &tag);
@@ -61,7 +60,7 @@ class APITools : public QObject {
   public:
     explicit APITools(uint port);
 
-    ~APITools();
+    ~APITools() override;
 
     void startMonitoring(const QString &tag);
 
@@ -69,11 +68,11 @@ class APITools : public QObject {
 
     void restartMonitoring();
 
-    std::pair<bool, std::string> isOk() const;
+    [[nodiscard]] std::pair<bool, std::string> isOk() const;
 
     static inline QString unitConvert(double bytes) {
         if (bytes == 0.0)
-            return QString("0 B");
+            return {"0 B"};
 
         const QString sizes[] = {
             "B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB",
@@ -102,7 +101,6 @@ class APITools : public QObject {
     APIWorker *p_worker = nullptr;
     QString m_tag;
 };
-} // namespace core
 } // namespace across
 
 #endif // APITOOLS_H

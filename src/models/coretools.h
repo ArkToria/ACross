@@ -14,16 +14,15 @@
 #include <QStringList>
 #include <memory>
 
-namespace across {
-namespace core {
+namespace across::core {
 class CoreTools : public QObject {
     Q_OBJECT
     Q_PROPERTY(bool isRunning READ isRunning WRITE setIsRunning NOTIFY
                    isRunningChanged)
   public:
-    CoreTools(QObject *parent = nullptr);
+    explicit CoreTools(QObject *parent = nullptr);
 
-    ~CoreTools();
+    ~CoreTools() override;
 
     bool init(QSharedPointer<across::setting::ConfigTools> config);
 
@@ -35,7 +34,7 @@ class CoreTools : public QObject {
 
     Q_INVOKABLE int restart();
 
-    bool isRunning();
+    [[nodiscard]] bool isRunning() const;
 
   public slots:
     void setIsRunning(bool value);
@@ -46,7 +45,7 @@ class CoreTools : public QObject {
     void isRunningChanged();
 
   private:
-    across::config::Core *p_core;
+    across::config::Core *p_core{};
     QSharedPointer<QProcess> p_process;
     QSharedPointer<across::setting::ConfigTools> p_config;
     std::shared_ptr<spdlog::logger> p_logger;
@@ -54,7 +53,6 @@ class CoreTools : public QObject {
     QString m_config;
     bool m_running = false;
 };
-} // namespace core
 } // namespace across
 
 #endif // CORETOOLS_H

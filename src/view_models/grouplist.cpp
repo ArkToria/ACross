@@ -1,18 +1,20 @@
 #include "grouplist.h"
 
+#include <utility>
+
 using namespace across;
 using namespace across::utils;
 using namespace across::config;
 using namespace across::setting;
 using namespace across::network;
 
-GroupList::GroupList(QObject *parent) {}
+GroupList::GroupList(QObject *parent) : QObject(parent) {}
 
 void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
                      QSharedPointer<across::DBTools> db,
                      QSharedPointer<across::NodeList> nodes,
                      QSharedPointer<across::network::CURLTools> curl,
-                     QSharedPointer<QSystemTrayIcon> tray) {
+                     const QSharedPointer<QSystemTrayIcon>& tray) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("groups");
     } else {
@@ -20,10 +22,10 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
         return;
     }
 
-    p_config = config;
-    p_db = db;
-    p_curl = curl;
-    p_nodes = nodes;
+    p_config = std::move(config);
+    p_db = std::move(db);
+    p_curl = std::move(curl);
+    p_nodes = std::move(nodes);
 
     if (tray != nullptr) {
         p_tray = tray;
@@ -225,7 +227,7 @@ bool GroupList::insertSIP008(const GroupInfo &group_info,
         auto url = SerializeTools::sip002Encode(meta).value();
         auto outbound = meta.outbound;
         auto shadowsocks = outbound.settings().shadowsocks();
-        auto server = shadowsocks.servers(0);
+        const auto& server = shadowsocks.servers(0);
 
         std::string json_str;
 

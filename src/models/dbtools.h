@@ -88,9 +88,9 @@ struct RuntimeValue {
     const int type = QMetaType::QString;
     QVariant value;
 
-    RuntimeValue(const QString &key, const QVariant &value);
-    RuntimeValue(const RunTimeValues key, const QVariant &value);
-    RuntimeValue(const QString &key, int type, const QVariant &value);
+    RuntimeValue(QString key, const QVariant &value);
+    RuntimeValue(RunTimeValues key, const QVariant &value);
+    RuntimeValue(QString key, int type, const QVariant &value);
 };
 
 class DBWorker : public QObject {
@@ -103,7 +103,7 @@ class DBWorker : public QObject {
 
     void stepExec(const QString &sql_str, QVariantList *inputCollection,
                   int outputColumns, QList<QVariantList> *outputCollections,
-                  std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db);
+                  const std::shared_ptr<spdlog::logger>& p_logger, QSqlDatabase &db);
 
   signals:
     void directExecReady(QSqlError result);
@@ -116,7 +116,7 @@ class DBTools : public QObject {
   public:
     explicit DBTools(QObject *parent = nullptr);
 
-    ~DBTools();
+    ~DBTools() override;
 
     void init(const QString &db_path);
     void reload();
@@ -201,7 +201,7 @@ class DBTools : public QObject {
 
 class TransactionWrap {
   public:
-    inline TransactionWrap(DBTools *db_tools) : p_db(db_tools) {
+    inline explicit TransactionWrap(DBTools *db_tools) : p_db(db_tools) {
         mutex.lock();
         p_db->directExec("BEGIN");
     }

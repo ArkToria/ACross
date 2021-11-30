@@ -6,8 +6,7 @@
 #include <QDBusMessage>
 #include <QDBusReply>
 
-namespace across {
-namespace utils {
+namespace across::utils {
 struct NotifyDBus {
     const QString server = "org.freedesktop.Notifications";
     const QString path = "/org/freedesktop/Notifications";
@@ -31,7 +30,6 @@ class DBusTools {
 
   private:
 };
-} // namespace utils
 } // namespace across
 
 #endif // DBUSTOOLS_H

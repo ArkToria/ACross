@@ -16,19 +16,17 @@
 #include <QSharedPointer>
 #include <QSystemTrayIcon>
 
-namespace across {
-namespace utils {
+namespace across::utils {
 class NotifyTools {
   public:
     static void send(const QString &msg, const QString &summary = "",
-                     QSharedPointer<QSystemTrayIcon> tray = nullptr);
+                     const QSharedPointer<QSystemTrayIcon>& tray = nullptr);
 
   private:
 #ifdef _MSC_VER
     inline static bool aumid_initialized{false};
 #endif
 };
-} // namespace utils
 } // namespace across
 
 #endif // NOTIFYTOOLS_H

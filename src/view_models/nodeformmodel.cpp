@@ -50,7 +50,6 @@ void NodeFormModel::accept(const QVariantMap &values) {
         p_list->updateNode(node);
     }
 
-    return;
 }
 
 QString NodeFormModel::refreshPreview(const QVariantMap &values) {
@@ -381,7 +380,7 @@ bool NodeFormModel::setRawOutbound(NodeInfo &node, const QVariantMap &values) {
 
     try {
         root = Json::parse(content.toStdString());
-    } catch (Json::exception e) {
+    } catch (Json::exception &e) {
         qDebug() << e.what();
         return false;
     }
