@@ -6,42 +6,42 @@
     <message>
         <location filename="../src/views/help/About.qml" line="64"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>版本</translation>
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="76"/>
         <source>Build Info</source>
-        <translation type="unfinished"></translation>
+        <translation>构建信息</translation>
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="88"/>
         <source>Build Time</source>
-        <translation type="unfinished"></translation>
+        <translation>构建时间</translation>
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="100"/>
         <source>Source Code</source>
-        <translation type="unfinished"></translation>
+        <translation>源代码</translation>
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="111"/>
         <source>Licenses</source>
-        <translation type="unfinished"></translation>
+        <translation>许可</translation>
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="122"/>
         <source>Extra Info</source>
-        <translation type="unfinished"></translation>
+        <translation>附加信息</translation>
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="158"/>
         <source>Report Bugs</source>
-        <translation type="unfinished"></translation>
+        <translation>报告错误</translation>
     </message>
     <message>
         <location filename="../src/views/help/About.qml" line="165"/>
         <source>Check Update</source>
-        <translation type="unfinished"></translation>
+        <translation>检测更新</translation>
     </message>
 </context>
 <context>
@@ -49,12 +49,12 @@
     <message>
         <location filename="../src/views/log/AppLog.qml" line="22"/>
         <source>Application Log</source>
-        <translation type="unfinished"></translation>
+        <translation>应用日志</translation>
     </message>
     <message>
         <location filename="../src/views/log/AppLog.qml" line="33"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>清理</translation>
     </message>
 </context>
 <context>
@@ -62,11 +62,12 @@
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="16"/>
         <source>Select Image</source>
-        <translation type="unfinished"></translation>
+        <translation>选择图片</translation>
     </message>
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="48"/>
         <source>Appearance Settings</source>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <translation>外观设置</translation>
     </message>
@@ -82,11 +83,14 @@
 =======
         <translation type="unfinished"></translation>
 >>>>>>> 7cc215f (rebase from master)
+=======
+        <translation>外观设置</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="54"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>主题</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -111,36 +115,36 @@
 =======
         <location filename="../src/views/setting/AppearanceItem.qml" line="75"/>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>语言</translation>
     </message>
     <message>
 >>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/AppearanceItem.qml" line="95"/>
         <source>Background Image</source>
-        <translation type="unfinished"></translation>
+        <translation>背景图</translation>
     </message>
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="119"/>
         <source>Source File</source>
-        <translation type="unfinished"></translation>
+        <translation>源文件</translation>
     </message>
     <message>
 <<<<<<< HEAD
 =======
         <location filename="../src/views/setting/AppearanceItem.qml" line="138"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打开</translation>
     </message>
     <message>
 >>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/AppearanceItem.qml" line="148"/>
         <source>Opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>可见度</translation>
     </message>
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="190"/>
         <source>Text Color</source>
-        <translation type="unfinished"></translation>
+        <translation>文字颜色</translation>
     </message>
 </context>
 <context>
@@ -187,36 +191,40 @@
 >>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/ApplicationItem.qml" line="17"/>
         <source>Select Data Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>选择数据文件夹</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="36"/>
         <source>Application Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>应用设置</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="42"/>
         <source>Data Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>数据文件夹</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="58"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打开</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="65"/>
         <source>Request Header</source>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <translation>请求头部</translation>
 =======
         <translation type="unfinished"></translation>
 >>>>>>> 7cc215f (rebase from master)
+=======
+        <translation>请求头部</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="78"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>接受</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -250,23 +258,27 @@
 =======
         <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
         <source>Auto Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>自动连接</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="95"/>
         <source>Default &gt; Last Connected (Updating groups will reset the default node)</source>
-        <translation type="unfinished"></translation>
+        <translation>默认 &gt; 上次连接（更新群组会重置默认连接）</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="110"/>
         <source>Tray Icon</source>
+<<<<<<< HEAD
         <translation type="unfinished"></translation>
 >>>>>>> 7cc215f (rebase from master)
+=======
+        <translation>托盘图标</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
         <source>Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation>不可用</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -364,18 +376,22 @@
 =======
         <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
         <source>Minimize startup</source>
-        <translation type="unfinished"></translation>
+        <translation>最小化启动</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
         <source>Log Outputs</source>
-        <translation type="unfinished"></translation>
+        <translation>日志输出</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="208"/>
         <source>Max Lines</source>
+<<<<<<< HEAD
         <translation type="unfinished"></translation>
 >>>>>>> 7cc215f (rebase from master)
+=======
+        <translation>最大行数</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
 </context>
 <context>
@@ -383,7 +399,7 @@
     <message>
         <location filename="../src/views/help/ChangeLog.qml" line="18"/>
         <source>Release News</source>
-        <translation type="unfinished"></translation>
+        <translation>发布新闻</translation>
     </message>
 </context>
 <context>
@@ -391,26 +407,27 @@
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="15"/>
         <source>Select V2Ray Core Path</source>
-        <translation type="unfinished"></translation>
+        <translation>选择核心路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="25"/>
         <source>Select Assets Directory</source>
-        <translation type="unfinished"></translation>
+        <translation>选择资源目录</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="43"/>
         <source>Core Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>核心配置</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="51"/>
         <source>Log Level</source>
-        <translation type="unfinished"></translation>
+        <translation>日志等级</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="71"/>
         <source>Core path</source>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <translation>核心路径</translation>
     </message>
@@ -433,63 +450,66 @@
     <message>
 =======
         <translation type="unfinished"></translation>
+=======
+        <translation>核心路径</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="79"/>
         <source>Enter V2Ray Core Executable Path Here</source>
-        <translation type="unfinished"></translation>
+        <translation>在此输入核心路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="85"/>
         <location filename="../src/views/setting/CoreItem.qml" line="108"/>
         <source>Select</source>
-        <translation type="unfinished"></translation>
+        <translation>选择</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="94"/>
         <source>Assets path</source>
-        <translation type="unfinished"></translation>
+        <translation>资源路径</translation>
     </message>
     <message>
 >>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/CoreItem.qml" line="102"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
-        <translation type="unfinished"></translation>
+        <translation>在此输入 GeoIP 和 GeoSite 所在文件夹路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="117"/>
         <source>Core Info</source>
-        <translation type="unfinished"></translation>
+        <translation>核心信息</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="133"/>
         <source>Check</source>
-        <translation type="unfinished"></translation>
+        <translation>检测</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="141"/>
         <source>Enable API</source>
-        <translation type="unfinished"></translation>
+        <translation>启用 API</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="171"/>
         <source>API Port</source>
-        <translation type="unfinished"></translation>
+        <translation>API 端口</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="192"/>
         <source>Test Result</source>
-        <translation type="unfinished"></translation>
+        <translation>测试结果</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="208"/>
         <source>Test</source>
-        <translation type="unfinished"></translation>
+        <translation>测试</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="222"/>
         <source>Success</source>
-        <translation type="unfinished"></translation>
+        <translation>成功</translation>
     </message>
 </context>
 <context>
@@ -497,12 +517,12 @@
     <message>
         <location filename="../src/views/log/CoreLog.qml" line="22"/>
         <source>Core Log</source>
-        <translation type="unfinished"></translation>
+        <translation>核心日志</translation>
     </message>
     <message>
         <location filename="../src/views/log/CoreLog.qml" line="33"/>
         <source>Clear</source>
-        <translation type="unfinished"></translation>
+        <translation>清理</translation>
     </message>
 </context>
 <context>
@@ -510,12 +530,12 @@
     <message>
         <location filename="../src/views/home/CurrentPanel.qml" line="252"/>
         <source>Core Error</source>
-        <translation type="unfinished"></translation>
+        <translation>核心错误</translation>
     </message>
     <message>
         <location filename="../src/views/home/CurrentPanel.qml" line="252"/>
         <source>Failed to start the process</source>
-        <translation type="unfinished"></translation>
+        <translation>进程启动失败</translation>
     </message>
 </context>
 <context>
@@ -536,22 +556,22 @@
     <message>
         <location filename="../src/views/home/GroupControl.qml" line="44"/>
         <source>Create</source>
-        <translation type="unfinished"></translation>
+        <translation>创建</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupControl.qml" line="93"/>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>复制</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupControl.qml" line="136"/>
         <source>QRCode</source>
-        <translation type="unfinished"></translation>
+        <translation>二维码</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupControl.qml" line="194"/>
         <source>Locate</source>
-        <translation type="unfinished"></translation>
+        <translation>定位</translation>
     </message>
 </context>
 <context>
@@ -559,62 +579,62 @@
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="18"/>
         <source>Edit Group</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑组</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="72"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="83"/>
         <source>Enter the unique group name</source>
-        <translation type="unfinished"></translation>
+        <translation>输入唯一的组名称</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="89"/>
         <source>Nodes URL</source>
-        <translation type="unfinished"></translation>
+        <translation>节点链接</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="152"/>
         <source>Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="175"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="191"/>
         <source>Cycle (days)</source>
-        <translation type="unfinished"></translation>
+        <translation>周期（天）</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="208"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="221"/>
         <source>Enter the unique subscription url</source>
-        <translation type="unfinished"></translation>
+        <translation>输入唯一的订阅连接</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="282"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>接受</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="287"/>
         <source>URL cannot be empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>链接不可为空！</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="304"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -622,57 +642,57 @@
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="18"/>
         <source>Create a new group</source>
-        <translation type="unfinished"></translation>
+        <translation>创建新组</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="52"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="62"/>
         <source>Enter the unique group name</source>
-        <translation type="unfinished"></translation>
+        <translation>输入唯一组名称</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="66"/>
         <source>Subscription</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="86"/>
         <source>From Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>从剪贴板</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="109"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="125"/>
         <source>Cycle (days)</source>
-        <translation type="unfinished"></translation>
+        <translation>周期</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="142"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="152"/>
         <source>Enter the unique subscription url</source>
-        <translation type="unfinished"></translation>
+        <translation>输入唯一订阅链接</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="172"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>接受</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="190"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -681,14 +701,14 @@
         <location filename="../src/views/home/GroupItemCard.qml" line="112"/>
         <source>%n Items</source>
         <comment>item count of group</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n 项</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupItemCard.qml" line="121"/>
         <source>Updated: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>更新于：%1</translation>
     </message>
 </context>
 <context>
@@ -696,50 +716,58 @@
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="52"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="66"/>
         <source>Copy URL</source>
-        <translation type="unfinished"></translation>
+        <translation>复制链接</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="74"/>
         <source>Copy Nodes</source>
-        <translation type="unfinished"></translation>
+        <translation>复制节点</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="82"/>
         <source>TCP Ping</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP Ping</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="100"/>
         <source>Update</source>
-        <translation type="unfinished"></translation>
+        <translation>更新</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="103"/>
         <source>[%1] Updating...</source>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <translation>[%1] 更新中...</translation>
 =======
         <translation type="unfinished"></translation>
 >>>>>>> 7cc215f (rebase from master)
+=======
+        <translation>[%1] 更新中……</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="104"/>
         <source>Updated: %1</source>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <translation>更新于： %1</translation>
 =======
         <translation type="unfinished"></translation>
 >>>>>>> 7cc215f (rebase from master)
+=======
+        <translation>更新于：%1</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>删除</translation>
     </message>
 </context>
 <context>
@@ -747,22 +775,22 @@
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="37"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>警告</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="38"/>
         <source>Confirm to remove group from database</source>
-        <translation type="unfinished"></translation>
+        <translation>确认将组从数据库中删除</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="98"/>
         <source>Updating...</source>
-        <translation type="unfinished"></translation>
+        <translation>更新中……</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="99"/>
         <source>The default node will be reset</source>
-        <translation type="unfinished"></translation>
+        <translation>默认节点将会被重置</translation>
     </message>
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="98"/>
@@ -780,17 +808,17 @@
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="19"/>
         <source>Inbound Listening</source>
-        <translation type="unfinished"></translation>
+        <translation>入站监听</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="34"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="78"/>
         <source>SOCKS5</source>
-        <translation type="unfinished"></translation>
+        <translation>SOCKS5</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -804,29 +832,29 @@
         <location filename="../src/views/setting/InboundItem.qml" line="105"/>
         <location filename="../src/views/setting/InboundItem.qml" line="226"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>端口</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="122"/>
         <source>UDP</source>
-        <translation type="unfinished"></translation>
+        <translation>UDP</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="141"/>
         <location filename="../src/views/setting/InboundItem.qml" line="245"/>
         <source>Username</source>
-        <translation type="unfinished"></translation>
+        <translation>用户名</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="160"/>
         <location filename="../src/views/setting/InboundItem.qml" line="264"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="199"/>
         <source>HTTP</source>
-        <translation type="unfinished"></translation>
+        <translation>HTTP</translation>
     </message>
 </context>
 <context>
@@ -834,12 +862,12 @@
     <message>
         <location filename="../src/views/menu/InfoItem.qml" line="19"/>
         <source>Core</source>
-        <translation type="unfinished"></translation>
+        <translation>核心</translation>
     </message>
     <message>
         <location filename="../src/views/menu/InfoItem.qml" line="27"/>
         <source>Client</source>
-        <translation type="unfinished"></translation>
+        <translation>客户端</translation>
     </message>
 </context>
 <context>
@@ -847,7 +875,7 @@
     <message>
         <location filename="../src/views/help/Licenses.qml" line="18"/>
         <source>Libraries and Licenses</source>
-        <translation type="unfinished"></translation>
+        <translation>依赖库和许可</translation>
     </message>
 </context>
 <context>
@@ -855,22 +883,22 @@
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="5"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>主页</translation>
     </message>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="15"/>
         <source>Routing</source>
-        <translation type="unfinished"></translation>
+        <translation>路由</translation>
     </message>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="20"/>
         <source>Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>设置</translation>
     </message>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="25"/>
         <source>Help</source>
-        <translation type="unfinished"></translation>
+        <translation>帮助</translation>
     </message>
 </context>
 <context>
@@ -878,6 +906,7 @@
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="19"/>
         <source>Edit Configuration</source>
+<<<<<<< HEAD
 <<<<<<< HEAD
         <translation>编辑配置</translation>
     </message>
@@ -916,79 +945,82 @@
 =======
         <translation type="unfinished"></translation>
 >>>>>>> 7cc215f (rebase from master)
+=======
+        <translation>编辑配置</translation>
+>>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="110"/>
         <source>Decode URL</source>
-        <translation type="unfinished"></translation>
+        <translation>解析链接</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="110"/>
         <source>Manual Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>手动设置</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="111"/>
         <source>Import Config</source>
-        <translation type="unfinished"></translation>
+        <translation>导入配置</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="194"/>
         <source>Outbound Config</source>
-        <translation type="unfinished"></translation>
+        <translation>出站配置</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="200"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="215"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="229"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>端口</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="249"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="264"/>
         <source>Protocol</source>
-        <translation type="unfinished"></translation>
+        <translation>协议</translation>
     </message>
     <message>
 <<<<<<< HEAD
 =======
         <location filename="../src/views/home/NodeEditForm.qml" line="330"/>
         <source>Import v2ray config from file</source>
-        <translation type="unfinished"></translation>
+        <translation>从文件导入 V2Ray 配置</translation>
     </message>
     <message>
 >>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/home/NodeEditForm.qml" line="347"/>
         <source>Node Name</source>
-        <translation type="unfinished"></translation>
+        <translation>节点名称</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="362"/>
         <source>Config File</source>
-        <translation type="unfinished"></translation>
+        <translation>配置文件</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="371"/>
         <source>Enter Config Path Here</source>
-        <translation type="unfinished"></translation>
+        <translation>在此输入配置文件路径</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="379"/>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>打开</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -1000,12 +1032,12 @@
 >>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/home/NodeEditForm.qml" line="411"/>
         <source>Accept</source>
-        <translation type="unfinished"></translation>
+        <translation>接受</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="430"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
@@ -1013,12 +1045,12 @@
     <message>
         <location filename="../src/views/home/NodeItemCard.qml" line="137"/>
         <source>Core Error</source>
-        <translation type="unfinished"></translation>
+        <translation>核心错误</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeItemCard.qml" line="138"/>
         <source>Failed to start the process</source>
-        <translation type="unfinished"></translation>
+        <translation>进程启动失败</translation>
     </message>
 </context>
 <context>
@@ -1039,27 +1071,27 @@
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="49"/>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="56"/>
         <source>Set as default</source>
-        <translation type="unfinished"></translation>
+        <translation>设置为默认</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="72"/>
         <source>Share Config</source>
-        <translation type="unfinished"></translation>
+        <translation>分享配置</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="80"/>
         <source>TCP Ping</source>
-        <translation type="unfinished"></translation>
+        <translation>TCP Ping</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="95"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation>删除</translation>
     </message>
 </context>
 <context>
@@ -1067,48 +1099,48 @@
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="18"/>
         <source>Share Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>分享配置</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="35"/>
         <source>Save QRCode to local path</source>
-        <translation type="unfinished"></translation>
+        <translation>将二维码保存到本地</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="89"/>
         <source>Node Info</source>
-        <translation type="unfinished"></translation>
+        <translation>节点信息</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="95"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>名称</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="106"/>
         <source>Address</source>
-        <translation type="unfinished"></translation>
+        <translation>地址</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="117"/>
         <source>Port</source>
-        <translation type="unfinished"></translation>
+        <translation>端口</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="128"/>
         <source>Password</source>
-        <translation type="unfinished"></translation>
+        <translation>密码</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="142"/>
         <location filename="../src/views/home/NodeShareForm.qml" line="178"/>
         <source>Copy URL</source>
-        <translation type="unfinished"></translation>
+        <translation>复制链接</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="171"/>
         <source>Save Image</source>
-        <translation type="unfinished"></translation>
+        <translation>保存图片</translation>
     </message>
 </context>
 <context>
@@ -1116,43 +1148,53 @@
     <message>
         <location filename="../src/views/components/RemoveConfirmDialog.qml" line="73"/>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>删除</translation>
     </message>
     <message>
         <location filename="../src/views/components/RemoveConfirmDialog.qml" line="84"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
 </context>
 <context>
     <name>RoutingPage</name>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="31"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="41"/>
         <source>Routing</source>
-        <translation type="unfinished"></translation>
+        <translation>路由</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="72"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="47"/>
+        <source>Transparent Proxy</source>
+        <translation>透明代理</translation>
+    </message>
+    <message>
+        <location filename="../src/views/routing/RoutingPage.qml" line="59"/>
+        <source>Environment Variables</source>
+        <translation>环境变量</translation>
+    </message>
+    <message>
+        <location filename="../src/views/routing/RoutingPage.qml" line="158"/>
         <source>Direct</source>
-        <translation type="unfinished"></translation>
+        <translation>直连</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="79"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="158"/>
         <source>Proxy</source>
-        <translation type="unfinished"></translation>
+        <translation>代理</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="86"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="159"/>
         <source>Block</source>
-        <translation type="unfinished"></translation>
+        <translation>阻止</translation>
     </message>
 </context>
 <context>
     <name>RulePanel</name>
     <message>
-        <location filename="../src/views/routing/RulePanel.qml" line="80"/>
+        <location filename="../src/views/routing/RulePanel.qml" line="85"/>
         <source>Add</source>
-        <translation type="unfinished"></translation>
+        <translation>添加</translation>
     </message>
 </context>
 <context>
@@ -1160,17 +1202,17 @@
     <message>
         <location filename="../src/views/home/ShadowsocksSetting.qml" line="50"/>
         <source>Shadowsocks Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Shadowsocks 设置</translation>
     </message>
     <message>
         <location filename="../src/views/home/ShadowsocksSetting.qml" line="56"/>
         <source>IVCheck</source>
-        <translation type="unfinished"></translation>
+        <translation>IVCheck</translation>
     </message>
     <message>
         <location filename="../src/views/home/ShadowsocksSetting.qml" line="74"/>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation>安全</translation>
     </message>
 </context>
 <context>
@@ -1178,27 +1220,27 @@
     <message>
         <location filename="../src/views/home/TrojanSetting.qml" line="70"/>
         <source>Trojan Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Trojan 设置</translation>
     </message>
     <message>
         <location filename="../src/views/home/TrojanSetting.qml" line="76"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Host</translation>
     </message>
     <message>
         <location filename="../src/views/home/TrojanSetting.qml" line="91"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>网络类型</translation>
     </message>
     <message>
         <location filename="../src/views/home/TrojanSetting.qml" line="108"/>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation>安全</translation>
     </message>
     <message>
         <location filename="../src/views/home/TrojanSetting.qml" line="125"/>
         <source>ALPN</source>
-        <translation type="unfinished"></translation>
+        <translation>ALPN</translation>
     </message>
 </context>
 <context>
@@ -1206,57 +1248,53 @@
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="39"/>
         <source>VMESS Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>VMESS 设置</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="45"/>
         <source>Enable TLS</source>
-        <translation type="unfinished"></translation>
+        <translation>启用 TLS</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="64"/>
         <source>SNI</source>
-        <translation type="unfinished"></translation>
+        <translation>SNI</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="74"/>
         <source>Keep it blank to use the same address</source>
-        <translation type="unfinished"></translation>
+        <translation>保持为空则使用相同的地址</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="82"/>
         <source>AlterID</source>
-        <translation type="unfinished"></translation>
+        <translation>AlterID</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="103"/>
+        <location filename="../src/views/home/VMESSSetting.qml" line="163"/>
         <source>Security</source>
-        <translation type="unfinished"></translation>
+        <translation>安全</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="120"/>
         <source>Network</source>
-        <translation type="unfinished"></translation>
+        <translation>网络</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="145"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/views/home/VMESSSetting.qml" line="163"/>
-        <source>Securty</source>
-        <translation type="unfinished"></translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="181"/>
         <source>Host</source>
-        <translation type="unfinished"></translation>
+        <translation>Host</translation>
     </message>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="199"/>
         <source>Path</source>
-        <translation type="unfinished"></translation>
+        <translation>路径</translation>
     </message>
 </context>
 <context>
@@ -1274,7 +1312,7 @@
         <location filename="../src/view_models/grouplist.cpp" line="431"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>Copy [%1] URL to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
 </context>
 <context>
@@ -1282,7 +1320,7 @@
     <message>
         <location filename="../../../ACross/src/view_models/nodeformmodel.cpp" line="472"/>
         <source>custom configuration encoding to url is not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>未支持自定义配置转换到链接</translation>
     </message>
 </context>
 <context>
@@ -1294,7 +1332,7 @@
         <location filename="../src/view_models/nodelist.cpp" line="340"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>Copy [%1] URL to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
 </context>
 <context>
@@ -1308,22 +1346,22 @@
         <location filename="../src/view_models/systemtray.cpp" line="169"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>Show</source>
-        <translation type="unfinished"></translation>
+        <translation>显示</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="151"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>隐藏</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="170"/>
         <source>Connect</source>
-        <translation type="unfinished"></translation>
+        <translation>连接</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="171"/>
         <source>Disconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>断开</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -1346,13 +1384,13 @@
 =======
         <location filename="../src/view_models/systemtray.cpp" line="172"/>
         <source>Reconnect</source>
-        <translation type="unfinished"></translation>
+        <translation>重连</translation>
     </message>
     <message>
         <location filename="../src/view_models/systemtray.cpp" line="173"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -1370,7 +1408,7 @@
         <location filename="../src/view_models/systemtray.cpp" line="181"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>OFF</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭</translation>
     </message>
 </context>
 <context>
@@ -1392,7 +1430,7 @@
         <location filename="../src/view_models/configtools.cpp" line="1037"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>Failed to parse version</source>
-        <translation type="unfinished"></translation>
+        <translation>解析版本号失败</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -1401,7 +1439,7 @@
         <location filename="../src/view_models/configtools.cpp" line="1040"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>New Version: v%1</source>
-        <translation type="unfinished"></translation>
+        <translation>新版本：v%1</translation>
     </message>
     <message>
 <<<<<<< HEAD
@@ -1414,7 +1452,7 @@
         <location filename="../src/view_models/configtools.cpp" line="1042"/>
 >>>>>>> 7cc215f (rebase from master)
         <source>Already the latest version</source>
-        <translation type="unfinished"></translation>
+        <translation>已经是最新版</translation>
     </message>
 </context>
 <context>
@@ -1422,7 +1460,7 @@
     <message>
         <location filename="../src/views/main.qml" line="17"/>
         <source>ACross</source>
-        <translation type="unfinished"></translation>
+        <translation>ACross</translation>
     </message>
 </context>
 </TS>

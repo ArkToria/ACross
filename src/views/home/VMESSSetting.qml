@@ -160,7 +160,7 @@ Item {
 
         Label {
             id: quicSecurityLabel
-            text: qsTr("Securty")
+            text: qsTr("Security")
             color: acrossConfig.textColor
         }
 

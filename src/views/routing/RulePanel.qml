@@ -11,6 +11,11 @@ CardBox {
 
     property string title: "Direct"
     property bool isEdited: false
+    property string raw: ""
+
+    onRawChanged: {
+        console.log(raw)
+    }
 
     GridLayout {
         anchors.fill: parent
