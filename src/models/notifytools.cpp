@@ -17,7 +17,7 @@ void NotifyTools::send(const QString &msg, const QString &summary,
 
 #if defined(Q_CC_MINGW) || defined(Q_OS_MACOS)
 void NotifyTools::send(const QString &msg, const QString &summary,
-                       QSharedPointer<QSystemTrayIcon> tray) {
+                       const QSharedPointer<QSystemTrayIcon>& tray) {
     if (tray.isNull())
         return;
     bool isVisible = tray->isVisible();
@@ -31,7 +31,7 @@ void NotifyTools::send(const QString &msg, const QString &summary,
 
 #ifdef _MSC_VER
 void NotifyTools::send(const QString &msg, const QString &summary,
-                       QSharedPointer<QSystemTrayIcon> tray) {
+                       const QSharedPointer<QSystemTrayIcon>& tray) {
     if (!aumid_initialized) {
         if (SUCCEEDED(SetCurrentProcessExplicitAppUserModelID(L"ACross"))) {
             aumid_initialized = true;
