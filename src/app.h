@@ -9,6 +9,7 @@
 #include <QStringLiteral>
 #include <QTranslator>
 #include <QUrl>
+#include <QtQuickControls2>
 
 #include "singleapplication.h"
 

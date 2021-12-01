@@ -12,6 +12,10 @@ Application::Application(int &argc, char **argv)
     setWindowIcon(QIcon(":misc/design/logo.svg"));
     setDesktopFileName("org.arktoria.across");
 
+#ifdef Q_OS_MAC
+    setStyle("Basic"); // fix styleFont not set
+#endif
+
     connect(this, &SingleApplication::receivedMessage, this,
             &Application::onMessageReceived, Qt::QueuedConnection);
 }

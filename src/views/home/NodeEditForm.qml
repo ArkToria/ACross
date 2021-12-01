@@ -19,7 +19,7 @@ Window {
     title: qsTr("Edit Configuration")
 
     flags: Qt.platform.os === "windows" ? Qt.Window : Qt.WindowStaysOnTopHint
-    modality: Qt.ApplicationModal
+    modality: Qt.platform.os === "osx" ? Qt.NonModal : Qt.ApplicationModal
 
     property var nodeModel: null
     property int fontSize: 14

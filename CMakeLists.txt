@@ -27,7 +27,7 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 
 # Qt 6.2
-find_package(Qt6 6.2 COMPONENTS Gui Core Quick Widgets DBus 
+find_package(Qt6 6.2 COMPONENTS Gui Core Quick Widgets DBus QuickControls2
     Core5Compat Sql LinguistTools Concurrent ToolsTools REQUIRED)
 
 # curl
@@ -169,6 +169,7 @@ target_link_libraries(across PRIVATE
     Qt::Core5Compat
     Qt::Sql
     Qt::Concurrent
+    Qt::QuickControls2
     CURL::libcurl
     fmt::fmt
     gRPC::grpc++
