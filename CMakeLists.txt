@@ -226,7 +226,7 @@ qt_import_qml_plugins(across)
 qt_finalize_executable(across)
 
 # update translation
-# add_dependencies(across across_lupdate)
+add_dependencies(across across_lupdate)
 
 ######## UNIT_TEST ########
 
