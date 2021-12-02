@@ -184,6 +184,7 @@ target_link_libraries(across PRIVATE
     )
 
 if(WIN32)
+    target_compile_definitions(across PUBLIC -DWIN32_LEAN_AND_MEAN)
     set_target_properties(across PROPERTIES WIN32_EXECUTABLE TRUE)
 
     if (MSVC)
