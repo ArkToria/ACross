@@ -100,6 +100,7 @@ set(PROJECT_HEADERS
     src/view_models/loghighlighter.h
     src/view_models/routingmodel.h
     src/view_models/routinglist.h
+    src/view_models/rulemodel.h
     src/models/apitools.h
     src/models/dbtools.h
     src/models/envtools.h
@@ -131,6 +132,7 @@ set(PROJECT_SOURCES
     src/view_models/loghighlighter.cpp
     src/view_models/routingmodel.cpp
     src/view_models/routinglist.cpp
+    src/view_models/rulemodel.cpp
     src/models/apitools.cpp
     src/models/dbtools.cpp
     src/models/envtools.cpp

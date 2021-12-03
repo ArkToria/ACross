@@ -22,6 +22,10 @@ Item {
             list: acrossRoutings
         }
 
+        RuleModel {
+            id: ruleModel
+        }
+
         CardBox {
             Layout.fillWidth: true
             Layout.preferredHeight: 128
@@ -71,35 +75,51 @@ Item {
 
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: 48
+            Layout.preferredHeight: 64
 
-            TabBar {
-                id: bar
+            RowLayout {
                 anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing * 2
+                anchors.margins: acrossConfig.itemSpacing
+                spacing: acrossConfig.itemSpacing * 2
 
-                Repeater {
+                ListView {
+                    id: routingListView
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+                    clip: true
+
+                    currentIndex: 0
+
                     model: routingModel
+                    orientation: ListView.Horizontal
 
-                    TabButton {
+                    delegate: CardBox {
                         id: tabButton
+                        width: routingListView.count
+                               !== 0 ? Math.max(
+                                           Math.round(
+                                               routingNameText.implicitWidth
+                                               + acrossConfig.itemSpacing * 8),
+                                           Math.round(
+                                               routingListView.width
+                                               / routingListView.count)) : routingListView.width
+                        height: routingListView.height
+                        color: routingListView.currentIndex === model.index ? acrossConfig.highlightColor : acrossConfig.backgroundColor
 
-                        contentItem: Text {
+                        Text {
+                            id: routingNameText
+                            anchors.fill: parent
+                            anchors.centerIn: parent.Center
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
 
                             text: name
-                            color: bar.currentIndex === model.index ? acrossConfig.textColor : acrossConfig.deepTextColor
+                            color: routingListView.currentIndex === model.index ? acrossConfig.highlightTextColor : acrossConfig.textColor
                             font.pointSize: fontSize
                         }
 
-                        background: Rectangle {
-                            implicitHeight: bar.availableHeight
-                            color: bar.currentIndex === model.index ? acrossConfig.backgroundColor : acrossConfig.deepColor
-                        }
-
                         MouseArea {
-                            anchors.fill: tabButton
+                            anchors.fill: parent
                             hoverEnabled: true
 
                             onEntered: {
@@ -111,27 +131,53 @@ Item {
                             }
 
                             onClicked: {
-                                bar.currentIndex = index
+                                routingListView.currentIndex = index
+                                ruleModel.raw = raw
                             }
                         }
+
+                        Component.onCompleted: {
+                            if (routingListView.currentIndex === model.index) {
+                                ruleModel.raw = raw
+                            }
+                        }
+                    }
+                }
+
+                Item {
+                    Layout.fillHeight: true
+                    Layout.preferredWidth: 48
+
+                    SVGBox {
+                        anchors.right: parent.right
+                        anchors.rightMargin: acrossConfig.itemSpacing * 6
+                        anchors.verticalCenter: parent.verticalCenter
+
+                        source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/add_circle.svg"
+                        sourceWidth: 24
+                        sourceHeight: 24
                     }
                 }
             }
         }
 
-        Item {
+        CardBox {
             Layout.fillHeight: true
             Layout.fillWidth: true
 
             ListView {
+                id: ruleListView
                 anchors.fill: parent
+                anchors.margins: acrossConfig.itemSpacing * 4
                 clip: true
 
-                model: ["0.0.0.0/8", "10.0.0.0/8", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "ext:customizedGeoIPFile.dat:!cn", "ext-ip:customizedGeoIPFile.dat:cn", "ext-ip:customizedGeoIPFile.dat:!cn"]
+                spacing: acrossConfig.itemSpacing
+                //                model: ["0.0.0.0/8", "10.0.0.0/8", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "ext:customizedGeoIPFile.dat:!cn", "ext-ip:customizedGeoIPFile.dat:cn", "ext-ip:customizedGeoIPFile.dat:!cn"]
+                model: ruleModel
 
-                delegate: CardBox {
+                delegate: Item {
                     implicitWidth: parent.width
-                    implicitHeight: Math.round(ruleText.height * 2)
+                    implicitHeight: Math.round(ruleText.height * 1.4)
 
                     RowLayout {
                         anchors.fill: parent
@@ -150,7 +196,7 @@ Item {
 
                         TextFieldBox {
                             id: ruleText
-                            text: modelData
+                            text: raw
                             Layout.fillWidth: true
                         }
 

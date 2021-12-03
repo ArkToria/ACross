@@ -29,6 +29,7 @@
 #include "view_models/nodemodel.h"
 #include "view_models/routinglist.h"
 #include "view_models/routingmodel.h"
+#include "view_models/rulemodel.h"
 #include "view_models/systemtray.h"
 
 namespace across {

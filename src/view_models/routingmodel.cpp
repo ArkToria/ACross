@@ -35,6 +35,8 @@ QVariant RoutingModel::data(const QModelIndex &index, int role) const {
         return item.created_time.toString(dateTimeFormat);
     case ModifiedAtRole:
         return item.modified_time.toString(dateTimeFormat);
+    default:
+        break;
     }
 
     return QVariant();

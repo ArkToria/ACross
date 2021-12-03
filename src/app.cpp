@@ -151,6 +151,9 @@ void Application::registerModels() {
     qmlRegisterType<across::RoutingModel>(qml_model_name.c_str(),
                                           QML_MAJOR_VERSION, QML_MINOR_VERSION,
                                           "RoutingModel");
+    qmlRegisterType<across::RuleModel>(qml_model_name.c_str(),
+                                       QML_MAJOR_VERSION, QML_MINOR_VERSION,
+                                       "RuleModel");
 }
 
 void Application::onMessageReceived(quint32 clientId, const QByteArray &msg) {
