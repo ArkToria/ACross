@@ -42,14 +42,14 @@ jobs:
           version: 6.2.1
           arch: win64_msvc2019_64
           aqtversion: ==1.2.2
-          modules: 'qt5compat qtimageformats'
+          modules: "qt5compat qtimageformats"
 
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgDirectory: './b/vcpkg'
+          vcpkgDirectory: "./b/vcpkg"
           vcpkgGitCommitId: 3a68454afa67bde8b6e9e741536daa95d3785966
-          vcpkgJsonGlob: 'vcpkg.json'
+          vcpkgJsonGlob: "vcpkg.json"
 
       - name: Build
         run: |
