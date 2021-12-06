@@ -194,17 +194,27 @@
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="95"/>
-        <source>Default &gt; Last Connected (Updating groups will reset the default node)</source>
-        <translation>默认 &gt; 上次连接 （更新群组会重置默认节点）</translation>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="105"/>
+        <source>Set as Default &gt; Last Connected</source>
+        <translation>设置为默认 &gt; 上次已链接</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="110"/>
+        <source>Default &gt; Last Connected (Updating groups will reset the default node)</source>
+        <translation type="vanished">默认 &gt; 上次连接 （更新群组会重置默认节点）</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="111"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="126"/>
+        <source>Auto Export</source>
+        <translation>自动导出</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="132"/>
         <source>Tray Icon</source>
         <translation>托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="149"/>
         <source>Unavailable</source>
         <translation>不可用</translation>
     </message>
@@ -217,17 +227,17 @@
         <translation type="vanished">默认 &gt; 上次连接</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="168"/>
         <source>Minimize startup</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="199"/>
         <source>Log Outputs</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="208"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="230"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
@@ -261,6 +271,7 @@
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="104"/>
         <source>Auto Connect</source>
         <translation>自动连接</translation>
     </message>
@@ -1233,7 +1244,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="342"/>
+        <location filename="../src/view_models/nodelist.cpp" line="344"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1284,12 +1295,12 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1039"/>
+        <location filename="../src/view_models/configtools.cpp" line="1054"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1042"/>
+        <location filename="../src/view_models/configtools.cpp" line="1057"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1298,7 +1309,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1044"/>
+        <location filename="../src/view_models/configtools.cpp" line="1059"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

@@ -70,7 +70,7 @@ bool ConfigTools::loadConfigPath(const QString &file_path) {
             break;
         }
 
-        this->m_config_path = config_dir.filePath(m_config_name);
+        this->m_config_path = config_dir.filePath(ACROSS_CONFIG);
 
         if (!isFileExist(this->m_config_path)) {
             saveConfig();
@@ -323,8 +323,7 @@ void ConfigTools::checkUpdate() {
 }
 
 void ConfigTools::setNews() {
-    auto news_path =
-        QDir(m_config.data_dir().c_str()).filePath(m_news_file_name);
+    auto news_path = QDir(m_config.data_dir().c_str()).filePath(ACROSS_NEWS);
 
     if (auto news_file = QFile(news_path); news_file.exists()) {
         if (news_file.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -923,6 +922,10 @@ bool ConfigTools::enableAutoConnect() { return p_interface->auto_connect(); }
 
 bool ConfigTools::enableAutoStart() { return p_interface->auto_start(); }
 
+bool ConfigTools::enableAutoExport() const {
+    return p_interface->auto_export();
+}
+
 void ConfigTools::setEnableBanner(bool val) {
     if (val == p_theme->banner().enable())
         return;
@@ -944,6 +947,7 @@ void ConfigTools::setEnableBanner(bool val) {
 void ConfigTools::setEnableAutoConnect(bool val) {
     if (val == p_interface->auto_connect())
         return;
+
     p_interface->set_auto_connect(val);
 
     emit configChanged();
@@ -953,10 +957,21 @@ void ConfigTools::setEnableAutoConnect(bool val) {
 void ConfigTools::setEnableAutoStart(bool val) {
     if (val == p_interface->auto_start())
         return;
+
     p_interface->set_auto_start(val);
 
     emit configChanged();
     emit enableAutoStartChanged();
+}
+
+void ConfigTools::setEnableAutoExport(bool val) {
+    if (val == p_interface->auto_export())
+        return;
+
+    p_interface->set_auto_export(val);
+
+    emit configChanged();
+    emit enableAutoExportChanged();
 }
 
 double ConfigTools::backgroundOpacity() {
@@ -1029,7 +1044,7 @@ void ConfigTools::handleUpdated(const QVariant &content) {
     if (auto task = content.value<DownloadTask>(); !task.content.isEmpty()) {
         if (QDir data_dir(m_config.data_dir().c_str()); data_dir.exists()) {
             ConfigHelper::saveToFile(task.content.toStdString(),
-                                     data_dir.filePath(m_news_file_name));
+                                     data_dir.filePath(ACROSS_NEWS));
 
             setNews();
         }

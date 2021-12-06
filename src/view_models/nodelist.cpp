@@ -236,13 +236,15 @@ QString NodeList::generateConfig() {
             across::SerializeTools::ConfigToJson(node_config));
     }
 
-#ifdef QT_DEBUG
-    QFile file("generation_test.json");
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        file.write(json_str.toUtf8());
-        file.close();
+    if (p_config->enableAutoExport()) {
+        QDir dir = p_config->dataDir();
+
+        QFile file(dir.filePath(p_config->CURRENT_CONFIG));
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            file.write(json_str.toUtf8());
+            file.close();
+        }
     }
-#endif
 
     return json_str;
 }

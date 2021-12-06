@@ -88,12 +88,8 @@ Item {
             color: acrossConfig.textColor
         }
 
-        Label {
+        Item {
             Layout.fillWidth: true
-            Layout.columnSpan: 4
-
-            text: qsTr("Default > Last Connected (Updating groups will reset the default node)")
-            color: acrossConfig.highlightColor
         }
 
         SwitchBox {
@@ -103,6 +99,32 @@ Item {
             checked: acrossConfig.enableAutoConnect
             onCheckedChanged: {
                 acrossConfig.enableAutoConnect = checked
+
+                if (checked) {
+                    popNotify.notify(qsTr("Auto Connect"),
+                                     qsTr("Set as Default > Last Connected"))
+                }
+            }
+        }
+
+        Label {
+            text: qsTr("Auto Export")
+            color: acrossConfig.textColor
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        SwitchBox {
+            checked: acrossConfig.enableAutoExport
+
+            onCheckedChanged: {
+                acrossConfig.enableAutoExport = checked
+
+                if (checked) {
+                    popNotify.notify(qsTr("Auto Export"), acrossConfig.dataDir)
+                }
             }
         }
 

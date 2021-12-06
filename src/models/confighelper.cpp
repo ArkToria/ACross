@@ -32,6 +32,7 @@ config::Config ConfigHelper::defaultConfig() {
         interface->set_language("en_US");
         interface->set_auto_connect(false);
         interface->set_auto_start(false);
+        interface->set_auto_export(true);
 
         if (auto theme = interface->mutable_theme()) {
             theme->set_theme("default-light");

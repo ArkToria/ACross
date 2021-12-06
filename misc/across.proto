@@ -36,6 +36,7 @@ message Interface
   Tray tray = 3;
   bool auto_connect = 4;
   bool auto_start = 5;
+  bool auto_export = 6;
 }
 
 message Update

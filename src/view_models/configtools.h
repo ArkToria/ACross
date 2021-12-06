@@ -134,6 +134,8 @@ class ConfigTools : public QObject {
                    setEnableAutoConnect NOTIFY enableAutoConnectChanged)
     Q_PROPERTY(bool enableAutoStart READ enableAutoStart WRITE
                    setEnableAutoStart NOTIFY enableAutoStartChanged)
+    Q_PROPERTY(bool enableAutoExport READ enableAutoExport WRITE
+                   setEnableAutoExport NOTIFY enableAutoExportChanged)
     Q_PROPERTY(QString backgroundImage READ backgroundImage WRITE
                    setBackgroundImage NOTIFY backgroundImageChanged)
     Q_PROPERTY(double backgroundOpacity READ backgroundOpacity WRITE
@@ -186,14 +188,18 @@ class ConfigTools : public QObject {
     Q_INVOKABLE void testAPI();
     Q_INVOKABLE bool testAndSetAddr(const QString &addr);
     Q_INVOKABLE void freshInbound();
-    Q_INVOKABLE void saveConfig(const QString& config_path = "");
+    Q_INVOKABLE void saveConfig(const QString &config_path = "");
     Q_INVOKABLE void checkUpdate();
     Q_INVOKABLE void setNews();
 
     across::config::Config *config();
     across::config::Theme *currentTheme();
 
-    static bool isFileExist(const QString& file_path);
+    static bool isFileExist(const QString &file_path);
+
+    const QString ACROSS_CONFIG = "across.json";
+    const QString ACROSS_NEWS = "across_news.json";
+    const QString CURRENT_CONFIG = "across_current.json";
 
   public:
     // database setting
@@ -253,6 +259,7 @@ class ConfigTools : public QObject {
     bool enableBanner();
     bool enableAutoConnect();
     bool enableAutoStart();
+    bool enableAutoExport() const;
     QString backgroundImage();
     double backgroundOpacity();
     QString logMode();
@@ -316,12 +323,13 @@ class ConfigTools : public QObject {
     void setEnableBanner(bool val);
     void setEnableAutoConnect(bool val);
     void setEnableAutoStart(bool val);
+    void setEnableAutoExport(bool val);
     void setBackgroundImage(const QString &val);
     void setBackgroundOpacity(double val);
     void setLogMode(QString log_mode = "");
     void setLogLines(int val);
 
-    // network settingQDir data_dir(m_config.data_dir().c_str());
+    // network setting
     void setNetworkTestMethod(const QString &val);
     void setNetworkTestURL(const QString &val);
     void setNetworkUserAgent(const QString &val);
@@ -378,6 +386,7 @@ class ConfigTools : public QObject {
     void enableStartFromMinimizedChanged();
     void enableAutoConnectChanged();
     void enableAutoStartChanged();
+    void enableAutoExportChanged();
     void buildInfoChanged();
     void configChanged();
     void enableBannerChanged();
@@ -398,10 +407,8 @@ class ConfigTools : public QObject {
 
   private:
     QQueue<QFuture<void>> m_tasks;
-    const QString m_config_name = "across.json";
-    const QString m_news_file_name = "across_news.json";
     QStringList m_version_news;
-    QString m_config_path = "./" + m_config_name;
+    QString m_config_path = "./" + ACROSS_CONFIG;
     QString m_api_result_text = "";
 
     QSharedPointer<across::network::CURLTools> p_curl;
@@ -413,6 +420,6 @@ class ConfigTools : public QObject {
     across::config::Inbound *p_inbound{};
     across::config::Network *p_network{};
 };
-} // namespace across
+} // namespace across::setting
 
 #endif // CONFIGTOOLS_H

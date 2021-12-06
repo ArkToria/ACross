@@ -6,11 +6,7 @@ import Arktoria.ACross
 
 CardBox {
     id: control
-    implicitWidth: Math.max(
-                       displayTitle.width,
-                       displayMessage.width) > 240 ? Math.max(
-                                                         displayTitle.width,
-                                                         displayMessage.width) : 240
+    implicitWidth: 320
     implicitHeight: 84
     clip: true
 

@@ -5,8 +5,8 @@ import QtQuick.Layouts
 import Arktoria.ACross
 
 Item {
-    id: control
-    implicitWidth: 240
+    id: popNotifyControl
+    implicitWidth: 320
     implicitHeight: popNotifyListView.count >= 3 ? 84 * 3 : 84 * popNotifyListView.count
     clip: true
     visible: false
@@ -39,13 +39,13 @@ Item {
 
         onCountChanged: {
             if (count === 0) {
-                control.visible = false
+                popNotifyControl.visible = false
             }
         }
     }
 
     function notify(title = "", message = "") {
-        control.visible = true
+        popNotifyControl.visible = true
         popNotifyModel.append({
                                   "title": title,
                                   "message": message
