@@ -25,10 +25,12 @@ Referring to [ACross Wiki](https://wiki.arktoria.org/)
 ### Verifying Signatures
 
 ```bash
-$ gpg --keyserver keys.openpgp.org --recv-keys 6CA67F8C2B1977002086CA96E3CC8F9C451BD83E
+$ gpg --keyserver keys.openpgp.org --recv-keys 9B1380D7B700BA9DFAAED4849EEEED2D1566C61B
 
 $ gpg --verify <across_release_package>.sig
 ```
+
+[GPG Key](https://keys.openpgp.org/vks/v1/by-fingerprint/9B1380D7B700BA9DFAAED4849EEEED2D1566C61B)
 
 ### Special Thanks
 
