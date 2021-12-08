@@ -270,8 +270,13 @@ bool NodeFormModel::setVMessOutboud(NodeInfo &node, const QVariantMap &values) {
         user->set_security(values.value("security").toString().toStdString());
 
     auto stream = outbound->mutable_streamsettings();
-    if (values.contains("network"))
-        stream->set_network(values.value("network").toString().toStdString());
+    if (values.contains("network")) {
+        if (values.value("network").toString() == "h2")
+            stream->set_network("http");
+        else
+            stream->set_network(
+                values.value("network").toString().toStdString());
+    }
 
     if (values.contains("enableTLS") && values.value("enableTLS").toBool()) {
         stream->set_security("tls");
@@ -288,7 +293,7 @@ bool NodeFormModel::setVMessOutboud(NodeInfo &node, const QVariantMap &values) {
     }
 
     do {
-        if (stream->network() == "h2") {
+        if (stream->network() == "http") {
             auto http2 = stream->mutable_httpsettings();
 
             if (values.contains("host")) {

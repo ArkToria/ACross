@@ -22,7 +22,7 @@ function networkSelectToggle(currentIndex, components, control = null) {
     switch (currentIndex) {
         case 0: // none
             break;
-        case 1:
+        case 1: // h2
             hostLabel.visible = true;
             hostLabel.text = "Host";
             hostText.visible = true;
@@ -105,6 +105,9 @@ function visibleChangeToggle(visible, components, model = null) {
             let streamSettings = raw["streamSettings"];
             if (streamSettings.hasOwnProperty("network") && networkSelect !== null) {
                 let network = streamSettings["network"];
+                if (network === "http") {
+                    network = "h2";
+                }
                 networkSelect.currentIndex = networkSelect.find(network);
                 switch (network) {
                     case "h2":

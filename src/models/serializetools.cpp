@@ -303,7 +303,11 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
     }
 
     if (root.contains("net")) {
-        stream->set_network(root["net"].get<std::string>());
+        if (root["net"].get<std::string>() == "h2") {
+            stream->set_network("http");
+        } else {
+            stream->set_network(root["net"].get<std::string>());
+        }
 
         do {
             if (stream->network() == "tcp") {
@@ -317,7 +321,7 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
                 break;
             }
 
-            if (stream->network() == "h2") {
+            if (stream->network() == "http") {
                 auto http2 = stream->mutable_httpsettings();
 
                 if (root.contains("host")) {
@@ -440,10 +444,13 @@ SerializeTools::vmessBase64Encode(const URLMetaObject &meta) {
         root["scy"] = user.security();
 
     if (stream.IsInitialized()) {
-        root["net"] = stream.network();
+        if (stream.network() == "h2" || stream.network() == "http")
+            root["net"] = "h2";
+        else
+            root["net"] = stream.network();
 
         do {
-            if (stream.network() == "h2" && stream.has_httpsettings()) {
+            if (stream.network() == "http" && stream.has_httpsettings()) {
                 const auto &http2 = stream.httpsettings();
                 std::string hosts;
 
