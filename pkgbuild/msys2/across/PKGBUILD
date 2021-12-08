@@ -22,7 +22,7 @@ optdepends=("v2ray: use system v2ray core."
 
 source=("${_realname}-${pkgver}.tar.gz::https://github.com/ArkToria/ACross/archive/refs/tags/v${pkgver}.tar.gz")
 
-sha512sums=("0bb3965e106bb266a02287a1810e1958d9bb7f5f3d2b87425846f59b4e55e12c")
+sha256sums=("0bb3965e106bb266a02287a1810e1958d9bb7f5f3d2b87425846f59b4e55e12c")
 
 build() {
   # Shared Build
