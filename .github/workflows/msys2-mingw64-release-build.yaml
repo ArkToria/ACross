@@ -1,12 +1,9 @@
 name: MSYS2 Package Build Test
 
 on:
-  push:
-  pull_request:
   release:
     types: [published]
-  schedule:
-    - cron: "0 0 * * 3"
+
   workflow_dispatch:
 
 jobs:
@@ -46,24 +43,24 @@ jobs:
 
       - name: "🚧 Build package"
         run: |
-          cd ./pkgbuild/msys2/across-dev-git/
+          cd ./pkgbuild/msys2/across/
           makepkg-mingw --noconfirm --noprogressbar -sCLf
 
       - name: Export Package Name
-        run: echo "across_package_name=$(ls pkgbuild/msys2/across-dev-git/ | grep pkg.tar.zst)" >> $GITHUB_ENV
+        run: echo "across_package_name=$(ls pkgbuild/msys2/across/ | grep pkg.tar.zst)" >> $GITHUB_ENV
 
       - name: "📤 Upload artifact: package"
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.across_package_name }}
-          path: ./pkgbuild/msys2/across-dev-git/*${{ matrix.env }}*.zst
+          path: ./pkgbuild/msys2/across/*${{ matrix.env }}*.zst
 
       - name: "🔍 Show package content"
         run: |
           mkdir tmp
           cd tmp
-          sha256sum ../pkgbuild/msys2/across-dev-git/*.zst
-          tar -xf ../pkgbuild/msys2/across-dev-git/*.zst
+          sha256sum ../pkgbuild/msys2/across/*.zst
+          tar -xf ../pkgbuild/msys2/across/*.zst
           tree .
           cd ../
           rmdir ./tmp --ignore-fail-on-non-empty
