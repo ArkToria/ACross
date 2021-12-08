@@ -1,4 +1,4 @@
-name: MSYS2 Package Build Test
+name: MSYS2 Package Build Release
 
 on:
   release:

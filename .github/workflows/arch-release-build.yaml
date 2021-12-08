@@ -1,4 +1,4 @@
-name: ArchLinux Package Release Build
+name: ArchLinux Package Build Release
 
 # Controls when the workflow will run
 on:
