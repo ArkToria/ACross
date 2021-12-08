@@ -10,15 +10,17 @@ mingw_arch=("mingw32" "mingw64" "ucrt64" "clang64" "clang32")
 url="https://github.com/ArkToria/ACross"
 license=("GPL3")
 depends=("${MINGW_PACKAGE_PREFIX}-qt6-base" "${MINGW_PACKAGE_PREFIX}-qt6-svg" "${MINGW_PACKAGE_PREFIX}-qt6-translations"
-    "${MINGW_PACKAGE_PREFIX}-qt6-tools" "${MINGW_PACKAGE_PREFIX}-qt6-imageformats" "${MINGW_PACKAGE_PREFIX}-qt6-5compat" 
+    "${MINGW_PACKAGE_PREFIX}-qt6-tools" "${MINGW_PACKAGE_PREFIX}-qt6-imageformats" "${MINGW_PACKAGE_PREFIX}-qt6-5compat"
     "${MINGW_PACKAGE_PREFIX}-curl" "${MINGW_PACKAGE_PREFIX}-fmt" "${MINGW_PACKAGE_PREFIX}-grpc"
     "${MINGW_PACKAGE_PREFIX}-nlohmann-json" "${MINGW_PACKAGE_PREFIX}-protobuf" "${MINGW_PACKAGE_PREFIX}-spdlog"
     "${MINGW_PACKAGE_PREFIX}-zxing-cpp"
-    )
+)
 makedepends=("git" "${MINGW_PACKAGE_PREFIX}-cmake" "${MINGW_PACKAGE_PREFIX}-clang" "${MINGW_PACKAGE_PREFIX}-ninja"
     "${MINGW_PACKAGE_PREFIX}-gcc" "${MINGW_PACKAGE_PREFIX}-gtest")
 optdepends=("v2ray: use system v2ray core."
     "noto-fonts: default display fonts")
+provides=("${MINGW_PACKAGE_PREFIX}-across")
+conflicts=("${MINGW_PACKAGE_PREFIX}-across")
 
 source=("${_realname}::git+https://github.com/ArkToria/ACross.git")
 
@@ -30,26 +32,26 @@ pkgver() {
 }
 
 build() {
-  # Shared Build
-  [[ -d "build-${MINGW_CHOST}" ]] && rm -rf "build-${MINGW_CHOST}"
+    # Shared Build
+    [[ -d "build-${MINGW_CHOST}" ]] && rm -rf "build-${MINGW_CHOST}"
 
-  mkdir -p ${srcdir}/build-${MINGW_CHOST}
-  cd ${srcdir}/build-${MINGW_CHOST}
+    mkdir -p ${srcdir}/build-${MINGW_CHOST}
+    cd ${srcdir}/build-${MINGW_CHOST}
 
-  MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
-  ${MINGW_PREFIX}/bin/cmake.exe \
-  -GNinja \
-  -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
-  -DCMAKE_BUILD_TYPE=Release \
-  -DBUILD_SHARED_LIBS=OFF \
-  -DENABLE_DEPLOYMENT=OFF \
-  "../${_realname}"
+    MSYS2_ARG_CONV_EXCL="-DCMAKE_INSTALL_PREFIX=" \
+        ${MINGW_PREFIX}/bin/cmake.exe \
+        -GNinja \
+        -DCMAKE_INSTALL_PREFIX=${MINGW_PREFIX} \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DBUILD_SHARED_LIBS=OFF \
+        -DENABLE_DEPLOYMENT=OFF \
+        "../${_realname}"
 
-  cmake --build .
+    cmake --build .
 }
 
 package() {
-  # Shared Install
-  cd "${srcdir}/build-${MINGW_CHOST}"
-  DESTDIR="${pkgdir}" cmake --install .
+    # Shared Install
+    cd "${srcdir}/build-${MINGW_CHOST}"
+    DESTDIR="${pkgdir}" cmake --install .
 }

@@ -13,6 +13,8 @@ depends=('hicolor-icon-theme' 'qt6-base' 'qt6-svg' 'qt6-quickcontrols2' 'qt6-tra
 makedepends=('git' 'cmake' 'clang' 'ninja' 'gcc' 'gtest')
 optdepends=('v2ray: use system v2ray core.'
     'noto-fonts: default display fonts')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
 
 source=('across-dev-git::git+https://github.com/ArkToria/ACross.git')
 
@@ -38,4 +40,3 @@ package() {
     cd "${srcdir}/${pkgname}"
     ninja -C "build" install
 }
-
