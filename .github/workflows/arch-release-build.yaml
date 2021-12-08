@@ -25,7 +25,7 @@ jobs:
         uses: ArkToria/arch-pkgbuild-builder@v1.22
         with:
           target: "pkgbuild"
-          pkgname: "pkgbuild/arch/across-dev-git"
+          pkgname: "pkgbuild/arch/across"
       - name: Export Package Name
         run: echo "across_package_name=$(ls pkgbuild/arch/across/ | grep pkg.tar.zst)" >> $GITHUB_ENV
       - name: Upload a Build Artifact
