@@ -125,7 +125,7 @@ Item {
             id: networkSelect
             Layout.fillWidth: true
             Layout.columnSpan: 3
-            model: ["tcp", "ws", "grpc", "quic"]
+            model: ["none", "h2", "ws", "grpc", "quic"]
 
             onCurrentIndexChanged: HomeJS.networkSelectToggle(currentIndex, {
                                                                   "typeLabel": typeLabel,

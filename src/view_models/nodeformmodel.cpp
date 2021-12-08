@@ -288,6 +288,22 @@ bool NodeFormModel::setVMessOutboud(NodeInfo &node, const QVariantMap &values) {
     }
 
     do {
+        if (stream->network() == "h2") {
+            auto http2 = stream->mutable_httpsettings();
+
+            if (values.contains("host")) {
+                for (const auto &host :
+                     values.value("host").toString().trimmed().split(",")) {
+                    http2->add_host(host.toStdString());
+                }
+            }
+
+            if (values.contains("path")) {
+                http2->set_path(values.value("path").toString().toStdString());
+            }
+            break;
+        }
+
         if (stream->network() == "ws") {
             auto websocket = stream->mutable_wssettings();
 

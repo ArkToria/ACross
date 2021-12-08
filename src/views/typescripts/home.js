@@ -20,9 +20,9 @@ function networkSelectToggle(currentIndex, components, control = null) {
     let quicSecuritySelect = components["quicSecuritySelect"];
     hideAllTypeSetting([hostLabel, hostText, pathLabel, pathText, typeLabel, typeSelect, quicSecurityLabel, quicSecuritySelect]);
     switch (currentIndex) {
-        case 0: // tcp
+        case 0: // none
             break;
-        case 1: // ws
+        case 1:
             hostLabel.visible = true;
             hostLabel.text = "Host";
             hostText.visible = true;
@@ -30,12 +30,20 @@ function networkSelectToggle(currentIndex, components, control = null) {
             pathLabel.text = "Path";
             pathText.visible = true;
             break;
-        case 2: // grpc
+        case 2: // ws
+            hostLabel.visible = true;
+            hostLabel.text = "Host";
+            hostText.visible = true;
+            pathLabel.visible = true;
+            pathLabel.text = "Path";
+            pathText.visible = true;
+            break;
+        case 3: // grpc
             pathLabel.visible = true;
             pathLabel.text = "Service Name";
             pathText.visible = true;
             break;
-        case 3: // quic
+        case 4: // quic
             typeLabel.visible = true;
             typeSelect.visible = true;
             quicSecurityLabel.visible = true;
@@ -99,6 +107,21 @@ function visibleChangeToggle(visible, components, model = null) {
                 let network = streamSettings["network"];
                 networkSelect.currentIndex = networkSelect.find(network);
                 switch (network) {
+                    case "h2":
+                        if (streamSettings.hasOwnProperty("httpSettings")) {
+                            let httpSettings = streamSettings["httpSettings"];
+                            if (httpSettings.hasOwnProperty("host") && hostText !== null) {
+                                let hosts = "";
+                                for (const host of httpSettings["host"]) {
+                                    hosts = hosts.concat(host, ",");
+                                }
+                                hostText.text = hosts.substring(0, hosts.length - 1).trim();
+                            }
+                            if (httpSettings.hasOwnProperty("path") && pathText !== null) {
+                                pathText.text = httpSettings["path"];
+                            }
+                        }
+                        break;
                     case "ws":
                         if (streamSettings.hasOwnProperty("wsSettings")) {
                             let wsSettings = streamSettings["wsSettings"];

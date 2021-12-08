@@ -307,8 +307,33 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
 
         do {
             if (stream->network() == "tcp") {
-                // TODO: get tcpsetting
+                // TODO: fake header support
+                //                auto tcp = stream->mutable_tcpsettings();
+
+                //                if (root.contains("type")) {
+                //                    auto header = tcp->mutable_header();
+                //                    header->set_type(root["type"].get<std::string>());
+                //                }
                 break;
+            }
+
+            if (stream->network() == "h2") {
+                auto http2 = stream->mutable_httpsettings();
+
+                if (root.contains("host")) {
+                    auto content =
+                        QString::fromStdString(root["host"].get<std::string>())
+                            .trimmed()
+                            .split(",");
+                    for (const auto &host : content) {
+                        if (!host.isEmpty())
+                            http2->add_host(host.trimmed().toStdString());
+                    }
+                }
+
+                if (root.contains("path")) {
+                    http2->set_path(root["path"].get<std::string>());
+                }
             }
 
             if (stream->network() == "ws") {
@@ -418,6 +443,23 @@ SerializeTools::vmessBase64Encode(const URLMetaObject &meta) {
         root["net"] = stream.network();
 
         do {
+            if (stream.network() == "h2" && stream.has_httpsettings()) {
+                const auto &http2 = stream.httpsettings();
+                std::string hosts;
+
+                for (const auto &host : stream.httpsettings().host()) {
+                    if (!host.empty()) {
+                        hosts.append(host);
+                        hosts.append(",");
+                    }
+                }
+
+                hosts = hosts.substr(0, hosts.length() - 1);
+                root["host"] = hosts;
+                root["path"] = http2.path();
+                break;
+            }
+
             if (stream.network() == "ws" && stream.has_wssettings()) {
                 const auto& websocket = stream.wssettings();
                 root["host"] = websocket.headers().at("Host");
