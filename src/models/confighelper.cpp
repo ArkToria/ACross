@@ -23,7 +23,7 @@ config::Config ConfigHelper::defaultConfig() {
 
     across::config::Config config;
     config.set_title("ACross Configuration Example");
-    config.set_config_version("0.1.0");
+    config.set_config_version("0.1.1");
     config.set_log_lines(500);
     config.set_log_mode("none");
     config.set_data_dir(data_dir.absolutePath().toStdString());

@@ -1,3 +1,4 @@
-across-dev-git
+ACross-*
 *.tar*
 *.log
+.SRCINFO

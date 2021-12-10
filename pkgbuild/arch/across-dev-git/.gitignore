@@ -1,3 +1,4 @@
 across-dev-git
 *.tar*
 *.log
+.SRCINFO

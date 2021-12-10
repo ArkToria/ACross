@@ -2,7 +2,7 @@
 _realname=across
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=0.1.0
+pkgver=0.1.1
 pkgrel=1
 pkgdesc="The next GUI client for v2ray core"
 arch=("any")
@@ -22,7 +22,7 @@ optdepends=("v2ray: use system v2ray core."
 
 source=("${_realname}-${pkgver}.tar.gz::https://github.com/ArkToria/ACross/archive/refs/tags/v${pkgver}.tar.gz")
 
-sha256sums=("0bb3965e106bb266a02287a1810e1958d9bb7f5f3d2b87425846f59b4e55e12c")
+sha256sums=("cbf4e15d3f31d6fc3bd5f3955a972038a4e7adaf80d37e474ec122781a6fdce0")
 
 build() {
   # Shared Build
