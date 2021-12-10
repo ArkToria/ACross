@@ -57,7 +57,7 @@ bool ConfigTools::loadConfigPath(const QString &file_path) {
         }
 
         if (auto env_path = EnvTools().getInfo().ACROSS_CONFIG_PATH;
-            !env_path.isEmpty() && isFileExist(env_path)) {
+            !env_path.isEmpty()) {
             this->m_config_path = env_path;
             break;
         }
@@ -71,12 +71,12 @@ bool ConfigTools::loadConfigPath(const QString &file_path) {
         }
 
         this->m_config_path = config_dir.filePath(ACROSS_CONFIG);
-
-        if (!isFileExist(this->m_config_path)) {
-            saveConfig();
-            result = false;
-        }
     } while (false);
+
+    if (!isFileExist(this->m_config_path)) {
+        saveConfig();
+        result = false;
+    }
 
     return result;
 }
