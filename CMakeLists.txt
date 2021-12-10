@@ -27,8 +27,8 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 
 # Qt 6.2
-find_package(Qt6 6.2 COMPONENTS Gui Core Quick Widgets DBus QuickControls2
-    Core5Compat Sql LinguistTools Concurrent ToolsTools REQUIRED)
+find_package(Qt6 6.2 REQUIRED COMPONENTS Gui Core Quick Widgets DBus QuickControls2
+    Core5Compat Sql LinguistTools Concurrent ToolsTools )
 
 # curl
 CPMAddPackage(

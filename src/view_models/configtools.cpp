@@ -46,7 +46,7 @@ bool ConfigTools::init(QSharedPointer<CURLTools> curl,
 bool ConfigTools::loadConfigPath(const QString &file_path) {
     bool result = true;
 
-    // Setting Path > Env Path > Current Path > Default Path
+    // Setting Path > Env Path > Default Path
     do {
         if (file_path == this->m_config_path)
             break;
