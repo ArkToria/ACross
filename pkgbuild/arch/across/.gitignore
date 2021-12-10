@@ -1,4 +1,5 @@
 ACross-*
 *.tar*
 *.log
-.SRCINFO
+src
+pkg

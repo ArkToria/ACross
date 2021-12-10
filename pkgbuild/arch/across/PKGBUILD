@@ -17,7 +17,7 @@ provides=('across')
 
 source=("across-${pkgver}.tar.gz::https://github.com/ArkToria/ACross/archive/refs/tags/v${pkgver}.tar.gz")
 
-sha256sums=('cbf4e15d3f31d6fc3bd5f3955a972038a4e7adaf80d37e474ec122781a6fdce0')
+sha256sums=('7477ab8a9551373d4f0d237856a4730c4c8854304df1f041afe1d64b0a14b924')
 
 build() {
     cd "${srcdir}/${_pkgname}-${pkgver}/"
