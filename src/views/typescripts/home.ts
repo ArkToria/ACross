@@ -249,7 +249,7 @@ function isCurrentNode(nodes: any, groupID: number, nodeID: number, core: any): 
 }
 
 function getQRCode(nodes: any, model: any, config: any): string {
-    let name = nodes.getQRCode(model.nodeID)
+    let name = nodes.getQRCode(model.nodeID, model.groupID)
     if (name === "") {
         return "qrc:/misc/icons/" + config.iconStyle + "/repo_qr_code.svg"
     } else {

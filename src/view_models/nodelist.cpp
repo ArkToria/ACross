@@ -299,8 +299,9 @@ QVariantMap NodeList::getNodeInfoByIndex(int index) {
     return node.toVariantMap();
 }
 
-QString NodeList::getQRCode(int node_id) {
-    for (auto &node : m_nodes) {
+QString NodeList::getQRCode(int node_id, int group_id) {
+    auto nodes = p_db->listAllNodesFromGroupID(group_id);
+    for (auto &node : nodes) {
         if (node.id == node_id) {
             emit updateQRCode(node.name, node.url);
             return node.name;

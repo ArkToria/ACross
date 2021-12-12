@@ -79,7 +79,7 @@ class NodeList : public QObject {
     Q_INVOKABLE qint64 getIndexByNode(qint64 node_id, qint64 group_id);
 
     Q_INVOKABLE void testLatency(int id);
-    Q_INVOKABLE QString getQRCode(int id);
+    Q_INVOKABLE QString getQRCode(int node_id, int group_id);
     Q_INVOKABLE void saveQRCodeToFile(int id, const QUrl &url);
     Q_INVOKABLE void copyURLToClipboard(const QString &node_name,
                                         const QString &node_url);

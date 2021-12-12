@@ -210,7 +210,7 @@ function isCurrentNode(nodes, groupID, nodeID, core) {
     return result;
 }
 function getQRCode(nodes, model, config) {
-    let name = nodes.getQRCode(model.nodeID);
+    let name = nodes.getQRCode(model.nodeID, model.groupID);
     if (name === "") {
         return "qrc:/misc/icons/" + config.iconStyle + "/repo_qr_code.svg";
     }
