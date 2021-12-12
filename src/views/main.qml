@@ -36,9 +36,6 @@ ApplicationWindow {
         function onSignalQuit() {
             Qt.quit()
         }
-        function onSignalIconActivated() {
-            MainJS.toggleVisibilty(mainWindow)
-        }
     }
 
     DarkBackground {

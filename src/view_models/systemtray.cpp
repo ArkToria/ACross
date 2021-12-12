@@ -79,6 +79,8 @@ void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
     connect(p_tray_icon.get(),
             SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
             SLOT(iconActivated(QSystemTrayIcon::ActivationReason)));
+    
+    connect(this, &SystemTray::signalIconActivated, this, &SystemTray::signalShow);
 
     connect(p_core.get(), &CoreTools::isRunningChanged, this,
             &SystemTray::onRunningChanged);

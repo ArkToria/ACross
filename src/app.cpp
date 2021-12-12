@@ -61,7 +61,7 @@ bool Application::initialize() {
 ACrossExitReason Application::getExitReason() { return exitReason; }
 
 Application::~Application() {
-    m_engine.removeImageProvider("acrossImageProvider");
+    p_engine->removeImageProvider("acrossImageProvider");
 
     spdlog::shutdown();
 }
@@ -70,38 +70,60 @@ int Application::run() { return this->exec(); }
 
 void Application::setRootContext() {
     const QUrl url(QStringLiteral("qrc:/Arktoria/ACross/src/views/main.qml"));
+    p_engine = QSharedPointer<QQmlEngine>::create();
+    p_component = QSharedPointer<QQmlComponent>::create(p_engine.get(),url);
 
+    connect(p_engine.get(), &QQmlEngine::quit, this, &QCoreApplication::quit);
+
+/*
     QObject::connect(
-        &m_engine, &QQmlApplicationEngine::objectCreated, this,
+        &p_engine-> &QQmlApplicationEngine::objectCreated, this,
         [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl) {
                 QCoreApplication::exit(-1);
             }
         },
         Qt::QueuedConnection);
+*/
 
-    m_engine.addImportPath(u"qrc:/"_qs);
-    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
+    p_engine->addImportPath(u"qrc:/"_qs);
+    p_engine->rootContext()->setContextProperty(QStringLiteral("acrossLogView"),
                                                &m_log);
-    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
+    p_engine->rootContext()->setContextProperty(QStringLiteral("acrossConfig"),
                                                p_config.get());
-    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossCore"),
+    p_engine->rootContext()->setContextProperty(QStringLiteral("acrossCore"),
                                                p_core.get());
-    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossNodes"),
+    p_engine->rootContext()->setContextProperty(QStringLiteral("acrossNodes"),
                                                p_nodes.get());
-    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossGroups"),
+    p_engine->rootContext()->setContextProperty(QStringLiteral("acrossGroups"),
                                                p_groups.get());
-    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
+    p_engine->rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                                p_tray.get());
-    m_engine.rootContext()->setContextProperty(
+    p_engine->rootContext()->setContextProperty(
         QStringLiteral("fixedFont"),
         QFontDatabase::systemFont(QFontDatabase::FixedFont));
-    m_engine.rootContext()->setContextProperty(
+    p_engine->rootContext()->setContextProperty(
         QStringLiteral("mainWindowVisible"),
         !p_config->enableStartFromMinimized());
-    m_engine.addImageProvider(QStringLiteral("acrossImageProvider"),
+    p_engine->addImageProvider(QStringLiteral("acrossImageProvider"),
                               p_image_provider);
-    m_engine.load(url);
+    if(!p_config->enableStartFromMinimized()){
+        p_qml_main = QSharedPointer<QObject>(p_component->create());
+    }else {
+        connect(p_tray.get(), &SystemTray::signalShow, [&]{
+            if(p_qml_main.isNull()){
+                qDebug()<<"Creating";
+                p_qml_main = QSharedPointer<QObject>(p_component->create());
+                p_engine->rootContext()->setContextProperty(
+                    QStringLiteral("mainWindowVisible"), true);
+            }
+        });
+        connect(p_tray.get(), &SystemTray::signalQuit, [&]{
+            if(p_qml_main.isNull()){
+                emit quit();
+            }
+        });
+    }
 
     p_config->setLogMode();
     p_db->init(p_config->dbPath());
@@ -130,7 +152,7 @@ void Application::setTranslator(const QString &lang) {
         }
     }
 
-    m_engine.retranslate();
+    p_engine->retranslate();
     p_tray->retranslate();
 }
 
@@ -149,6 +171,8 @@ void Application::onMessageReceived(quint32 clientId, const QByteArray &msg) {
     if (clientId == instanceId())
         return;
 
-    m_engine.rootContext()->setContextProperty(
+    if(p_qml_main.isNull())
+        p_qml_main = QSharedPointer<QObject>(p_component->create());
+    p_engine->rootContext()->setContextProperty(
         QStringLiteral("mainWindowVisible"), true);
 }

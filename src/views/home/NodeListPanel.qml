@@ -70,6 +70,7 @@ Item {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
 
         model: NodeModel {
+            id: nodeListModel
             list: acrossNodes
         }
 
@@ -93,6 +94,14 @@ Item {
         ScrollBar.vertical: ControlsBasic.ScrollBar {
             policy: ScrollBar.AsNeeded
             smooth: true
+        }
+        MouseArea {
+            hoverEnabled: true
+            anchors.fill: nodeGridView
+
+            onEntered: {
+                console.log(nodeGridView.count)
+            }
         }
     }
 }

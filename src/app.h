@@ -4,7 +4,8 @@
 #include <QApplication>
 #include <QFont>
 #include <QIcon>
-#include <QQmlApplicationEngine>
+#include <QQmlEngine>
+#include <QQmlComponent>
 #include <QQmlContext>
 #include <QStringLiteral>
 #include <QTranslator>
@@ -75,11 +76,14 @@ class Application : public SingleApplication {
     QSharedPointer<across::SystemTray> p_tray;
     across::ImageProvider *p_image_provider;
 
+    QSharedPointer<QQmlEngine> p_engine;
+    QSharedPointer<QQmlComponent> p_component;
+    QSharedPointer<QObject> p_qml_main;
+
     ACrossExitReason exitReason = EXIT_NORMAL;
 
     const QString m_app_name = APP_NAME;
     QTranslator m_translator;
-    QQmlApplicationEngine m_engine;
 };
 } // namespace across
 
