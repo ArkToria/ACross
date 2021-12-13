@@ -293,6 +293,11 @@ bool NodeFormModel::setVMessOutboud(NodeInfo &node, const QVariantMap &values) {
     }
 
     do {
+        if (stream->network() == "tcp") {
+            // TODO: TCP support
+            break;
+        }
+
         if (stream->network() == "http") {
             auto http2 = stream->mutable_httpsettings();
 

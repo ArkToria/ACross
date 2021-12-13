@@ -311,7 +311,7 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
 
         do {
             if (stream->network() == "tcp") {
-                // TODO: fake header support
+                // TODO: TCP support
                 //                auto tcp = stream->mutable_tcpsettings();
 
                 //                if (root.contains("type")) {

@@ -22,7 +22,13 @@ function networkSelectToggle(currentIndex, components, control = null) {
     switch (currentIndex) {
         case 0: // none
             break;
-        case 1: // h2
+        case 1: // tcp
+            hostLabel.visible = false;
+            hostText.visible = false;
+            pathLabel.visible = false;
+            pathText.visible = false;
+            break;
+        case 2: // h2
             hostLabel.visible = true;
             hostLabel.text = "Host";
             hostText.visible = true;
@@ -30,7 +36,7 @@ function networkSelectToggle(currentIndex, components, control = null) {
             pathLabel.text = "Path";
             pathText.visible = true;
             break;
-        case 2: // ws
+        case 3: // ws
             hostLabel.visible = true;
             hostLabel.text = "Host";
             hostText.visible = true;
@@ -38,12 +44,12 @@ function networkSelectToggle(currentIndex, components, control = null) {
             pathLabel.text = "Path";
             pathText.visible = true;
             break;
-        case 3: // grpc
+        case 4: // grpc
             pathLabel.visible = true;
             pathLabel.text = "Service Name";
             pathText.visible = true;
             break;
-        case 4: // quic
+        case 5: // quic
             typeLabel.visible = true;
             typeSelect.visible = true;
             quicSecurityLabel.visible = true;
@@ -110,6 +116,8 @@ function visibleChangeToggle(visible, components, model = null) {
                 }
                 networkSelect.currentIndex = networkSelect.find(network);
                 switch (network) {
+                    case "tcp":
+                        break;
                     case "h2":
                         if (streamSettings.hasOwnProperty("httpSettings")) {
                             let httpSettings = streamSettings["httpSettings"];
