@@ -877,6 +877,11 @@ QString ConfigTools::currentLanguage() {
 bool ConfigTools::enableTray() { return p_interface->tray().enable(); }
 
 bool ConfigTools::enableStartFromMinimized() {
+    if (p_interface->tray().start_from_minimize()) {
+        NotifyTools::send(tr("Click the application or tray icon to show"),
+                          tr("Start From Minimize"));
+    }
+
     return p_interface->tray().start_from_minimize();
 }
 

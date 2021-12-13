@@ -21,7 +21,7 @@ ApplicationWindow {
     }
 
     onClosing: {
-        if (acrossConfig.enableTray) {
+        if (acrossConfig.enableStartFromMinimized) {
             mainWindow.hide()
         } else {
             Qt.quit()

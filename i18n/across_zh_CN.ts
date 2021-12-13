@@ -1295,12 +1295,22 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1054"/>
+        <location filename="../../../ACross/src/view_models/configtools.cpp" line="881"/>
+        <source>Click the application or tray icon to show</source>
+        <translation>点击应用或托盘图标以显示</translation>
+    </message>
+    <message>
+        <location filename="../../../ACross/src/view_models/configtools.cpp" line="882"/>
+        <source>Start From Minimize</source>
+        <translation>最小化启动</translation>
+    </message>
+    <message>
+        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1059"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1057"/>
+        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1062"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1309,7 +1319,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1059"/>
+        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1064"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

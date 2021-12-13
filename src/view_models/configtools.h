@@ -5,6 +5,7 @@
 #include "../models/confighelper.h"
 #include "../models/envtools.h"
 #include "../models/networktools.h"
+#include "../models/notifytools.h"
 #include "../models/serializetools.h"
 #include "buildinfo.h"
 #include "logtools.h"
