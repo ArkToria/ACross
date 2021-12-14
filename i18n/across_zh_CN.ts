@@ -67,8 +67,6 @@
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="48"/>
         <source>Appearance Settings</source>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <translation>外观设置</translation>
     </message>
     <message>
@@ -79,13 +77,7 @@
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="190"/>
         <source>Text Color</source>
-        <translation>文字颜色</translation>
-=======
-        <translation type="unfinished"></translation>
->>>>>>> 7cc215f (rebase from master)
-=======
         <translation>外观设置</translation>
->>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="54"/>
@@ -93,7 +85,6 @@
         <translation>主题</translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../src/views/setting/AppearanceItem.qml" line="119"/>
         <source>Source File</source>
         <translation>源文件</translation>
@@ -104,91 +95,19 @@
         <translation>打开</translation>
     </message>
     <message>
-        <source>Enable Banner</source>
-        <translation type="obsolete">启用横幅</translation>
-    </message>
-    <message>
-        <source>Enable Background Image</source>
-        <translation type="vanished">启用背景图</translation>
-    </message>
-    <message>
-=======
-        <location filename="../src/views/setting/AppearanceItem.qml" line="75"/>
-        <source>Language</source>
-        <translation>语言</translation>
-    </message>
-    <message>
->>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/AppearanceItem.qml" line="95"/>
         <source>Background Image</source>
         <translation>背景图</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="119"/>
-        <source>Source File</source>
-        <translation>源文件</translation>
-    </message>
-    <message>
-<<<<<<< HEAD
-=======
-        <location filename="../src/views/setting/AppearanceItem.qml" line="138"/>
-        <source>Open</source>
-        <translation>打开</translation>
-    </message>
-    <message>
->>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/AppearanceItem.qml" line="148"/>
         <source>Opacity</source>
         <translation>可见度</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/AppearanceItem.qml" line="190"/>
-        <source>Text Color</source>
-        <translation>文字颜色</translation>
     </message>
 </context>
 <context>
     <name>ApplicationItem</name>
     <message>
-<<<<<<< HEAD
-        <source>Select Database Path</source>
-        <translation type="vanished">选择数据库路径</translation>
-    </message>
-    <message>
-        <source>Application Setting</source>
-        <translation type="vanished">应用设置</translation>
-    </message>
-    <message>
-        <source>Enable Tray Icon</source>
-        <translation type="vanished">启用托盘图标</translation>
-    </message>
-    <message>
-        <source>System tray is not available</source>
-        <translation type="vanished">系统托盘不可用</translation>
-    </message>
-    <message>
-        <source>Set UserAgent</source>
-        <translation type="vanished">设置 UserAgent</translation>
-    </message>
-    <message>
-        <source>Theme</source>
-        <translation type="vanished">主题</translation>
-    </message>
-    <message>
-        <source>Language</source>
-        <translation type="vanished">语言</translation>
-    </message>
-    <message>
-        <source>Log Level</source>
-        <translation type="vanished">日志等级</translation>
-    </message>
-    <message>
-        <source>Select Image</source>
-        <translation type="vanished">设置图片</translation>
-    </message>
-    <message>
-=======
->>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/ApplicationItem.qml" line="17"/>
         <source>Select Data Folder</source>
         <translation>选择数据文件夹</translation>
@@ -211,15 +130,7 @@
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="65"/>
         <source>Request Header</source>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <translation>请求头部</translation>
-=======
-        <translation type="unfinished"></translation>
->>>>>>> 7cc215f (rebase from master)
-=======
-        <translation>请求头部</translation>
->>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="78"/>
@@ -227,14 +138,9 @@
         <translation>接受</translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../src/views/setting/ApplicationItem.qml" line="105"/>
         <source>Set as Default &gt; Last Connected</source>
         <translation>设置为默认 &gt; 上次已链接</translation>
-    </message>
-    <message>
-        <source>Default &gt; Last Connected (Updating groups will reset the default node)</source>
-        <translation type="vanished">默认 &gt; 上次连接 （更新群组会重置默认节点）</translation>
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="111"/>
@@ -253,35 +159,12 @@
         <translation>不可用</translation>
     </message>
     <message>
-        <source>System tray is unavailable</source>
-        <translation type="vanished">系统托盘不可用</translation>
-=======
         <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="104"/>
         <source>Auto Connect</source>
         <translation>自动连接</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="95"/>
-        <source>Default &gt; Last Connected (Updating groups will reset the default node)</source>
-        <translation>默认 &gt; 上次连接（更新群组会重置默认连接）</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="110"/>
-        <source>Tray Icon</source>
-<<<<<<< HEAD
-        <translation type="unfinished"></translation>
->>>>>>> 7cc215f (rebase from master)
-=======
-        <translation>托盘图标</translation>
->>>>>>> 87a2859 (update routing page)
-    </message>
-    <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
-        <source>Unavailable</source>
-        <translation>不可用</translation>
-    </message>
-    <message>
-<<<<<<< HEAD
         <location filename="../src/views/setting/ApplicationItem.qml" line="168"/>
         <source>Minimize startup</source>
         <translation>最小化启动</translation>
@@ -295,103 +178,6 @@
         <location filename="../src/views/setting/ApplicationItem.qml" line="230"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
-    </message>
-    <message>
-        <source>Log Output</source>
-        <translation type="vanished">日志输出</translation>
-    </message>
-    <message>
-        <source>Log File</source>
-        <translation type="vanished">日志文件</translation>
-    </message>
-    <message>
-        <source>Open Folder</source>
-        <translation type="vanished">打开文件夹</translation>
-    </message>
-    <message>
-        <source>DB Path</source>
-        <translation type="vanished">数据库路径</translation>
-    </message>
-    <message>
-        <source>Enter Database Path Here</source>
-        <translation type="vanished">在此输入数据库路径</translation>
-    </message>
-    <message>
-        <source>Open File</source>
-        <translation type="vanished">打开文件</translation>
-    </message>
-    <message>
-        <source>Folder</source>
-        <translation type="vanished">文件夹</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="87"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="104"/>
-        <source>Auto Connect</source>
-        <translation>自动连接</translation>
-    </message>
-    <message>
-        <source>Default Node &gt; Last Connected. (Subscription updates will reset the default node)</source>
-        <translation type="vanished">默认节点 &gt; 上次连接（订阅更新会重置默认节点）</translation>
-    </message>
-    <message>
-        <source>Default &gt; Last Connected. (The default node will be reset after the subscription is updated)</source>
-        <translation type="vanished">默认 &gt; 上次连接（订阅更新后会重置默认节点）</translation>
-    </message>
-    <message>
-        <source>Enable Background Image</source>
-        <translation type="vanished">启用背景图</translation>
-    </message>
-    <message>
-        <source>Start From Minimized</source>
-        <translation type="vanished">最小化启动</translation>
-    </message>
-    <message>
-        <source>Image</source>
-        <translation type="obsolete">图片</translation>
-    </message>
-    <message>
-        <source>Background Image</source>
-        <translation type="vanished">背景图</translation>
-    </message>
-    <message>
-        <source>Opacity</source>
-        <translation type="vanished">不透明度</translation>
-    </message>
-    <message>
-        <source>Background Opacity</source>
-        <translation type="vanished">不透明度</translation>
-    </message>
-    <message>
-        <source>Enable Banner</source>
-        <translation type="obsolete">启用横幅</translation>
-    </message>
-    <message>
-        <source>Banner Image</source>
-        <translation type="vanished">背景图</translation>
-    </message>
-    <message>
-        <source>Banner Opacity</source>
-        <translation type="vanished">不透明度</translation>
-=======
-        <location filename="../src/views/setting/ApplicationItem.qml" line="146"/>
-        <source>Minimize startup</source>
-        <translation>最小化启动</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="177"/>
-        <source>Log Outputs</source>
-        <translation>日志输出</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="208"/>
-        <source>Max Lines</source>
-<<<<<<< HEAD
-        <translation type="unfinished"></translation>
->>>>>>> 7cc215f (rebase from master)
-=======
-        <translation>最大行数</translation>
->>>>>>> 87a2859 (update routing page)
     </message>
 </context>
 <context>
@@ -427,8 +213,6 @@
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="71"/>
         <source>Core path</source>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <translation>核心路径</translation>
     </message>
     <message>
@@ -448,30 +232,10 @@
         <translation>资源路径</translation>
     </message>
     <message>
-=======
-        <translation type="unfinished"></translation>
-=======
+        <source></source>
         <translation>核心路径</translation>
->>>>>>> 87a2859 (update routing page)
     </message>
     <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="79"/>
-        <source>Enter V2Ray Core Executable Path Here</source>
-        <translation>在此输入核心路径</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="85"/>
-        <location filename="../src/views/setting/CoreItem.qml" line="108"/>
-        <source>Select</source>
-        <translation>选择</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/CoreItem.qml" line="94"/>
-        <source>Assets path</source>
-        <translation>资源路径</translation>
-    </message>
-    <message>
->>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/CoreItem.qml" line="102"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
         <translation>在此输入 GeoIP 和 GeoSite 所在文件夹路径</translation>
@@ -536,19 +300,6 @@
         <location filename="../src/views/home/CurrentPanel.qml" line="252"/>
         <source>Failed to start the process</source>
         <translation>进程启动失败</translation>
-    </message>
-</context>
-<context>
-    <name>CurrentPanel</name>
-    <message>
-        <location filename="../src/views/home/CurrentPanel.qml" line="252"/>
-        <source>Core Error</source>
-        <translation>核心错误</translation>
-    </message>
-    <message>
-        <location filename="../src/views/home/CurrentPanel.qml" line="252"/>
-        <source>Failed to start the process</source>
-        <translation>无法启动进程</translation>
     </message>
 </context>
 <context>
@@ -741,28 +492,12 @@
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="103"/>
         <source>[%1] Updating...</source>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <translation>[%1] 更新中...</translation>
-=======
-        <translation type="unfinished"></translation>
->>>>>>> 7cc215f (rebase from master)
-=======
-        <translation>[%1] 更新中……</translation>
->>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="104"/>
         <source>Updated: %1</source>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <translation>更新于： %1</translation>
-=======
-        <translation type="unfinished"></translation>
->>>>>>> 7cc215f (rebase from master)
-=======
-        <translation>更新于：%1</translation>
->>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
@@ -792,16 +527,6 @@
         <source>The default node will be reset</source>
         <translation>默认节点将会被重置</translation>
     </message>
-    <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="98"/>
-        <source>Updating...</source>
-        <translation>更新中...</translation>
-    </message>
-    <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="99"/>
-        <source>The default node will be reset</source>
-        <translation>默认节点将会被重置</translation>
-    </message>
 </context>
 <context>
     <name>InboundItem</name>
@@ -821,14 +546,11 @@
         <translation>SOCKS5</translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../src/views/setting/InboundItem.qml" line="199"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
-=======
->>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/setting/InboundItem.qml" line="105"/>
         <location filename="../src/views/setting/InboundItem.qml" line="226"/>
         <source>Port</source>
@@ -850,11 +572,6 @@
         <location filename="../src/views/setting/InboundItem.qml" line="264"/>
         <source>Password</source>
         <translation>密码</translation>
-    </message>
-    <message>
-        <location filename="../src/views/setting/InboundItem.qml" line="199"/>
-        <source>HTTP</source>
-        <translation>HTTP</translation>
     </message>
 </context>
 <context>
@@ -906,48 +623,12 @@
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="19"/>
         <source>Edit Configuration</source>
-<<<<<<< HEAD
-<<<<<<< HEAD
         <translation>编辑配置</translation>
-    </message>
-    <message>
-        <source>Outbound</source>
-        <translation type="obsolete">出站</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="obsolete">复制</translation>
-    </message>
-    <message>
-        <source>Import From URL</source>
-        <translation type="vanished">从链接导入</translation>
-    </message>
-    <message>
-        <source>Import From File</source>
-        <translation type="vanished">从文件导入</translation>
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="330"/>
         <source>Import v2ray config from file</source>
         <translation>从文件导入 v2ray 配置</translation>
-    </message>
-    <message>
-        <source>URL</source>
-        <translation type="vanished">链接</translation>
-    </message>
-    <message>
-        <source>Manual</source>
-        <translation type="vanished">手动</translation>
-    </message>
-    <message>
-        <source>Import</source>
-        <translation type="vanished">导入</translation>
-=======
-        <translation type="unfinished"></translation>
->>>>>>> 7cc215f (rebase from master)
-=======
-        <translation>编辑配置</translation>
->>>>>>> 87a2859 (update routing page)
     </message>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="110"/>
@@ -995,14 +676,6 @@
         <translation>协议</translation>
     </message>
     <message>
-<<<<<<< HEAD
-=======
-        <location filename="../src/views/home/NodeEditForm.qml" line="330"/>
-        <source>Import v2ray config from file</source>
-        <translation>从文件导入 V2Ray 配置</translation>
-    </message>
-    <message>
->>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/home/NodeEditForm.qml" line="347"/>
         <source>Node Name</source>
         <translation>节点名称</translation>
@@ -1023,13 +696,6 @@
         <translation>打开</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <source>Open File</source>
-        <translation type="vanished">打开文件</translation>
-    </message>
-    <message>
-=======
->>>>>>> 7cc215f (rebase from master)
         <location filename="../src/views/home/NodeEditForm.qml" line="411"/>
         <source>Accept</source>
         <translation>接受</translation>
@@ -1051,19 +717,6 @@
         <location filename="../src/views/home/NodeItemCard.qml" line="138"/>
         <source>Failed to start the process</source>
         <translation>进程启动失败</translation>
-    </message>
-</context>
-<context>
-    <name>NodeItemCard</name>
-    <message>
-        <location filename="../src/views/home/NodeItemCard.qml" line="137"/>
-        <source>Core Error</source>
-        <translation>核心错误</translation>
-    </message>
-    <message>
-        <location filename="../src/views/home/NodeItemCard.qml" line="138"/>
-        <source>Failed to start the process</source>
-        <translation>无法启动进程</translation>
     </message>
 </context>
 <context>
@@ -1159,32 +812,32 @@
 <context>
     <name>RoutingPage</name>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="41"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="45"/>
         <source>Routing</source>
         <translation>路由</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="47"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="51"/>
         <source>Transparent Proxy</source>
         <translation>透明代理</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="59"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="63"/>
         <source>Environment Variables</source>
         <translation>环境变量</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="158"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="204"/>
         <source>Direct</source>
         <translation>直连</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="158"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="204"/>
         <source>Proxy</source>
         <translation>代理</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="159"/>
+        <location filename="../src/views/routing/RoutingPage.qml" line="205"/>
         <source>Block</source>
         <translation>阻止</translation>
     </message>
@@ -1300,17 +953,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-<<<<<<< HEAD
         <location filename="../../../ACross/src/view_models/grouplist.cpp" line="408"/>
         <location filename="../../../ACross/src/view_models/grouplist.cpp" line="412"/>
         <location filename="../../../ACross/src/view_models/grouplist.cpp" line="429"/>
         <location filename="../../../ACross/src/view_models/grouplist.cpp" line="433"/>
-=======
-        <location filename="../src/view_models/grouplist.cpp" line="406"/>
-        <location filename="../src/view_models/grouplist.cpp" line="410"/>
-        <location filename="../src/view_models/grouplist.cpp" line="427"/>
-        <location filename="../src/view_models/grouplist.cpp" line="431"/>
->>>>>>> 7cc215f (rebase from master)
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1326,11 +972,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-<<<<<<< HEAD
         <location filename="../../../ACross/src/view_models/nodelist.cpp" line="345"/>
-=======
-        <location filename="../src/view_models/nodelist.cpp" line="340"/>
->>>>>>> 7cc215f (rebase from master)
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1338,33 +980,17 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-<<<<<<< HEAD
         <location filename="../../../ACross/src/view_models/systemtray.cpp" line="149"/>
         <location filename="../../../ACross/src/view_models/systemtray.cpp" line="169"/>
-=======
-        <location filename="../src/view_models/systemtray.cpp" line="149"/>
-        <location filename="../src/view_models/systemtray.cpp" line="169"/>
->>>>>>> 7cc215f (rebase from master)
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="151"/>
+        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="151"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../src/view_models/systemtray.cpp" line="170"/>
-        <source>Connect</source>
-        <translation>连接</translation>
-    </message>
-    <message>
-        <location filename="../src/view_models/systemtray.cpp" line="171"/>
-        <source>Disconnect</source>
-        <translation>断开</translation>
-    </message>
-    <message>
-<<<<<<< HEAD
         <location filename="../../../ACross/src/view_models/systemtray.cpp" line="170"/>
         <source>Connect</source>
         <translation>连接</translation>
@@ -1381,32 +1007,11 @@
     </message>
     <message>
         <location filename="../../../ACross/src/view_models/systemtray.cpp" line="173"/>
-=======
-        <location filename="../src/view_models/systemtray.cpp" line="172"/>
-        <source>Reconnect</source>
-        <translation>重连</translation>
-    </message>
-    <message>
-        <location filename="../src/view_models/systemtray.cpp" line="173"/>
->>>>>>> 7cc215f (rebase from master)
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <source>Inbounds</source>
-        <translation type="vanished">入站</translation>
-    </message>
-    <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="151"/>
-        <source>Hide</source>
-        <translation>隐藏</translation>
-    </message>
-    <message>
         <location filename="../../../ACross/src/view_models/systemtray.cpp" line="181"/>
-=======
-        <location filename="../src/view_models/systemtray.cpp" line="181"/>
->>>>>>> 7cc215f (rebase from master)
         <source>OFF</source>
         <translation>关闭</translation>
     </message>
@@ -1414,7 +1019,6 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-<<<<<<< HEAD
         <location filename="../../../ACross/src/view_models/configtools.cpp" line="881"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
@@ -1426,31 +1030,16 @@
     </message>
     <message>
         <location filename="../../../ACross/src/view_models/configtools.cpp" line="1059"/>
-=======
-        <location filename="../src/view_models/configtools.cpp" line="1037"/>
->>>>>>> 7cc215f (rebase from master)
         <source>Failed to parse version</source>
         <translation>解析版本号失败</translation>
     </message>
     <message>
-<<<<<<< HEAD
         <location filename="../../../ACross/src/view_models/configtools.cpp" line="1062"/>
-=======
-        <location filename="../src/view_models/configtools.cpp" line="1040"/>
->>>>>>> 7cc215f (rebase from master)
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
     <message>
-<<<<<<< HEAD
-        <source>New Version: %1</source>
-        <translation type="vanished">新版本：%1</translation>
-    </message>
-    <message>
         <location filename="../../../ACross/src/view_models/configtools.cpp" line="1064"/>
-=======
-        <location filename="../src/view_models/configtools.cpp" line="1042"/>
->>>>>>> 7cc215f (rebase from master)
         <source>Already the latest version</source>
         <translation>已经是最新版</translation>
     </message>

@@ -104,11 +104,8 @@ class DBWorker : public QObject {
 
     void stepExec(const QString &sql_str, QVariantList *inputCollection,
                   int outputColumns, QList<QVariantList> *outputCollections,
-<<<<<<< HEAD
-                  const std::shared_ptr<spdlog::logger>& p_logger, QSqlDatabase &db);
-=======
-                  std::shared_ptr<spdlog::logger> p_logger, QSqlDatabase &db);
->>>>>>> 7cc215f (rebase from master)
+                  const std::shared_ptr<spdlog::logger> &p_logger,
+                  QSqlDatabase &db);
 
   signals:
     void directExecReady(QSqlError result);
