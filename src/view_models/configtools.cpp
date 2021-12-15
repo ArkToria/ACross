@@ -224,7 +224,16 @@ QString ConfigTools::getConfigVersion() {
 }
 
 QString ConfigTools::getLanguage() {
+    // Resolve the conflict with the same name macro "interface"
+    // (defined in "combaseapi.h", Windows only)
+#if defined Q_OS_WIN
+#pragma push_macro("interface")
+#undef interface
+#endif
     return QString::fromStdString(m_config.interface().language());
+#if defined Q_OS_WIN
+#pragma pop_macro("interface")
+#endif
 }
 
 void ConfigTools::freshColors() {
