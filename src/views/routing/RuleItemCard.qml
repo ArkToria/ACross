@@ -60,9 +60,13 @@ Item {
             text: modelData
             color: acrossConfig.textColor
 
-            Component.onCompleted: {
+            onTextChanged: {
                 console.log(modelData)
             }
+        }
+
+        DropDownBox {
+            model: ["Direct", "Proxy", "Block"]
         }
 
         SVGBox {
@@ -77,12 +81,10 @@ Item {
     Connections {
         target: acrossConfig
 
-        function onCurrentThemeChanged() {//            getColor(modelData)
-        }
+        function onCurrentThemeChanged() {}
     }
 
     Component.onCompleted: {
 
-        //        getColor(modelData)
     }
 }

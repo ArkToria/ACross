@@ -827,25 +827,22 @@
         <translation>环境变量</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="204"/>
         <source>Direct</source>
-        <translation>直连</translation>
+        <translation type="vanished">直连</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="204"/>
         <source>Proxy</source>
-        <translation>代理</translation>
+        <translation type="vanished">代理</translation>
     </message>
     <message>
-        <location filename="../src/views/routing/RoutingPage.qml" line="205"/>
         <source>Block</source>
-        <translation>阻止</translation>
+        <translation type="vanished">阻止</translation>
     </message>
 </context>
 <context>
     <name>RulePanel</name>
     <message>
-        <location filename="../src/views/routing/RulePanel.qml" line="85"/>
+        <location filename="../src/views/routing/RulePanel.qml" line="86"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
@@ -953,10 +950,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="408"/>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="412"/>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="429"/>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="433"/>
+        <location filename="../src/view_models/grouplist.cpp" line="408"/>
+        <location filename="../src/view_models/grouplist.cpp" line="412"/>
+        <location filename="../src/view_models/grouplist.cpp" line="429"/>
+        <location filename="../src/view_models/grouplist.cpp" line="433"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -964,7 +961,7 @@
 <context>
     <name>across::NodeFormModel</name>
     <message>
-        <location filename="../../../ACross/src/view_models/nodeformmodel.cpp" line="472"/>
+        <location filename="../src/view_models/nodeformmodel.cpp" line="472"/>
         <source>custom configuration encoding to url is not supported</source>
         <translation>未支持自定义配置转换到链接</translation>
     </message>
@@ -972,7 +969,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../../../ACross/src/view_models/nodelist.cpp" line="345"/>
+        <location filename="../src/view_models/nodelist.cpp" line="345"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -980,38 +977,38 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="149"/>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="169"/>
+        <location filename="../src/view_models/systemtray.cpp" line="149"/>
+        <location filename="../src/view_models/systemtray.cpp" line="169"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="151"/>
+        <location filename="../src/view_models/systemtray.cpp" line="151"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="170"/>
+        <location filename="../src/view_models/systemtray.cpp" line="170"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="171"/>
+        <location filename="../src/view_models/systemtray.cpp" line="171"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="172"/>
+        <location filename="../src/view_models/systemtray.cpp" line="172"/>
         <source>Reconnect</source>
         <translation>重连</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="173"/>
+        <location filename="../src/view_models/systemtray.cpp" line="173"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="181"/>
+        <location filename="../src/view_models/systemtray.cpp" line="181"/>
         <source>OFF</source>
         <translation>关闭</translation>
     </message>
@@ -1019,27 +1016,27 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="881"/>
+        <location filename="../src/view_models/configtools.cpp" line="881"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="882"/>
+        <location filename="../src/view_models/configtools.cpp" line="882"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1059"/>
+        <location filename="../src/view_models/configtools.cpp" line="1059"/>
         <source>Failed to parse version</source>
         <translation>解析版本号失败</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1062"/>
+        <location filename="../src/view_models/configtools.cpp" line="1062"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1064"/>
+        <location filename="../src/view_models/configtools.cpp" line="1064"/>
         <source>Already the latest version</source>
         <translation>已经是最新版</translation>
     </message>

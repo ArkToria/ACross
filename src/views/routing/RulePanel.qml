@@ -69,7 +69,8 @@ CardBox {
             Layout.fillHeight: true
             clip: true
 
-            //            model:
+            model: ["0.0.0.0/8", "10.0.0.0/8", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "ext:customizedGeoIPFile.dat:!cn", "ext-ip:customizedGeoIPFile.dat:cn", "ext-ip:customizedGeoIPFile.dat:!cn"]
+
             delegate: RuleItemCard {
                 state: control.isEdited ? "EditState" : "NormalState"
                 width: ruleListView.width

@@ -161,104 +161,10 @@ Item {
             }
         }
 
-        CardBox {
+        RulePanel {
             Layout.fillHeight: true
             Layout.fillWidth: true
-
-            ListView {
-                id: ruleListView
-                anchors.fill: parent
-                anchors.margins: acrossConfig.itemSpacing * 4
-                clip: true
-
-                spacing: acrossConfig.itemSpacing
-                //                model: ["0.0.0.0/8", "10.0.0.0/8", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "ext:customizedGeoIPFile.dat:!cn", "ext-ip:customizedGeoIPFile.dat:cn", "ext-ip:customizedGeoIPFile.dat:!cn"]
-                model: ruleModel
-
-                delegate: Item {
-                    implicitWidth: parent.width
-                    implicitHeight: Math.round(ruleText.height * 1.4)
-
-                    RowLayout {
-                        anchors.fill: parent
-                        spacing: acrossConfig.itemSpacing * 2
-
-                        Item {
-                            implicitWidth: parent.spacing
-                        }
-
-                        Rectangle {
-                            id: indicatorLight
-                            implicitWidth: 8
-                            implicitHeight: 8
-                            radius: 4
-                        }
-
-                        TextFieldBox {
-                            id: ruleText
-                            text: raw
-                            Layout.fillWidth: true
-                        }
-
-                        DropDownBox {
-                            model: [qsTr("Direct"), qsTr(
-                                    "Proxy"), qsTr("Block")]
-                        }
-
-                        Item {
-                            implicitWidth: 48
-                            Layout.fillHeight: true
-
-                            RowLayout {
-                                anchors.fill: parent
-                                spacing: acrossConfig.itemSpacing
-
-                                Item {
-                                    Layout.fillWidth: true
-                                }
-
-                                SVGBox {
-                                    Layout.alignment: Qt.AlignVCenter
-                                    source: "qrc:/misc/icons/"
-                                            + acrossConfig.iconStyle + "/remove.svg"
-                                    sourceWidth: 24
-                                    sourceHeight: 24
-                                }
-
-                                Item {
-                                    Layout.fillWidth: true
-                                }
-                            }
-                        }
-                    }
-
-                    function getColor(tag) {
-                        if (tag.includes("geo")) {
-                            indicatorLight.color = acrossConfig.highlightColor
-                            return
-                        }
-
-                        if (tag.includes("ext")) {
-                            indicatorLight.color = acrossConfig.warnColor
-                            return
-                        }
-
-                        indicatorLight.color = acrossConfig.styleColor
-                    }
-
-                    Component.onCompleted: {
-                        getColor(modelData)
-                    }
-
-                    Connections {
-                        target: acrossConfig
-
-                        function onCurrentThemeChanged() {
-                            getColor(modelData)
-                        }
-                    }
-                }
-            }
+            clip: true
         }
     }
 }
