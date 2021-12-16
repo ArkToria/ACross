@@ -4,6 +4,8 @@ import QtQuick.Controls
 import Arktoria.ACross
 
 TextArea {
+    implicitWidth: 128
+
     color: acrossConfig.textColor
     placeholderTextColor: acrossConfig.deepTextColor
     selectByMouse: true

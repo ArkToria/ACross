@@ -1049,12 +1049,12 @@
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="142"/>
-        <location filename="../src/views/home/NodeShareForm.qml" line="179"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="178"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="172"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="171"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>

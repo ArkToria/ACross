@@ -5,6 +5,7 @@ import Arktoria.ACross
 
 Label {
     id: urlLabel
+
     property string urlText
 
     text: urlText
