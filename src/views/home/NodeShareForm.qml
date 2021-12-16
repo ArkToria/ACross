@@ -150,6 +150,7 @@ Window {
                             Layout.fillHeight: true
 
                             TextAreaBox {
+                                implicitWidth: 72
                                 width: parent.availableWidth
                                 height: parent.availableHeight
 

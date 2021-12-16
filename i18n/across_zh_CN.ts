@@ -1049,12 +1049,12 @@
     </message>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="142"/>
-        <location filename="../src/views/home/NodeShareForm.qml" line="178"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="179"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeShareForm.qml" line="171"/>
+        <location filename="../src/views/home/NodeShareForm.qml" line="172"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>
@@ -1295,22 +1295,22 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="881"/>
+        <location filename="../src/view_models/configtools.cpp" line="890"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="882"/>
+        <location filename="../src/view_models/configtools.cpp" line="891"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1059"/>
+        <location filename="../src/view_models/configtools.cpp" line="1068"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1062"/>
+        <location filename="../src/view_models/configtools.cpp" line="1071"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1319,7 +1319,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1064"/>
+        <location filename="../src/view_models/configtools.cpp" line="1073"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>
