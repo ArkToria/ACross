@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import Arktoria.ACross
+import "../typescripts/home.js" as HomeJS
 
 Item {
     implicitWidth: 680
@@ -11,49 +12,12 @@ Item {
     property int fontSize: 14
 
     onVisibleChanged: {
-        if (visible) {
-            let raw = JSON.parse(nodeModel.raw)
-
-            if (raw.hasOwnProperty("protocol")
-                    && raw["protocol"] === "trojan") {
-
-            } else {
-                return
-            }
-
-            if (!raw.hasOwnProperty("streamSettings")) {
-                return
-            }
-
-            let streamSettings = raw["streamSettings"]
-
-            if (streamSettings.hasOwnProperty("network")) {
-                networkSelect.currentIndex = networkSelect.find(
-                            streamSettings["network"])
-            }
-
-            if (streamSettings.hasOwnProperty("security")) {
-                securitySelect.currentIndex = securitySelect.find(
-                            streamSettings["security"])
-            }
-
-            if (streamSettings.hasOwnProperty("tlsSettings")) {
-                if (streamSettings["tlsSettings"].hasOwnProperty(
-                            "serverName")) {
-                    serverNameText.text = streamSettings["tlsSettings"]["serverName"]
-                }
-
-                if (streamSettings["tlsSettings"].hasOwnProperty("alpn")) {
-                    let alpn = streamSettings["tlsSettings"]
-                    let alpn_size = Object.keys(alpn).length
-                    if (alpn_size > 1) {
-                        alpnSelect.currentIndex = 0
-                    } else if (alpn_size > 0) {
-                        alpnSelect.currentIndex = alpnSelect.find(alpn[0])
-                    }
-                }
-            }
-        }
+        HomeJS.trojanComponentSetting(visible, {
+                                          "securitySelect": securitySelect,
+                                          "networkSelect": networkSelect,
+                                          "alpnSelect": alpnSelect,
+                                          "serverNameText": serverNameText
+                                      }, nodeModel)
     }
 
     GridLayout {

@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 
 import Arktoria.ACross
+import "../typescripts/home.js" as HomeJS
 
 Item {
     implicitWidth: 680
@@ -11,29 +12,10 @@ Item {
     property int fontSize: 14
 
     onVisibleChanged: {
-        if (visible) {
-            let raw = JSON.parse(nodeModel.raw)
-
-            if (raw.hasOwnProperty("protocol")
-                    && raw["protocol"] === "shadowsocks") {
-
-            } else {
-                return
-            }
-
-            let server
-            if (raw["settings"].hasOwnProperty("shadowsocks")) {
-                server = raw["settings"]["shadowsocks"]["servers"][0]
-            } else {
-                server = raw["settings"]["servers"][0]
-            }
-
-            securitySelect.currentIndex = securitySelect.find(server["method"])
-
-            if (server.hasOwnProperty("ivCheck")) {
-                ivCheckSelect.checked = server["ivCheck"]
-            }
-        }
+        HomeJS.shadowsocksComponentSetting(visible, {
+                                               "securitySelect": securitySelect,
+                                               "ivCheckSelect": ivCheckSelect
+                                           }, nodeModel)
     }
 
     GridLayout {

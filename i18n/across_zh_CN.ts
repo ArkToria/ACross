@@ -1102,17 +1102,17 @@
 <context>
     <name>ShadowsocksSetting</name>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="50"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="32"/>
         <source>Shadowsocks Setting</source>
         <translation>Shadowsocks 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="74"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="56"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/ShadowsocksSetting.qml" line="56"/>
+        <location filename="../src/views/home/ShadowsocksSetting.qml" line="38"/>
         <source>IVCheck</source>
         <translation>IV 检查</translation>
     </message>
@@ -1120,27 +1120,27 @@
 <context>
     <name>TrojanSetting</name>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="70"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="34"/>
         <source>Trojan Setting</source>
         <translation>Trojan 设置</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="76"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="40"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="91"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="55"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="108"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="72"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
-        <location filename="../src/views/home/TrojanSetting.qml" line="125"/>
+        <location filename="../src/views/home/TrojanSetting.qml" line="89"/>
         <source>ALPN</source>
         <translation>ALPN</translation>
     </message>
@@ -1225,10 +1225,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="408"/>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="412"/>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="429"/>
-        <location filename="../../../ACross/src/view_models/grouplist.cpp" line="433"/>
+        <location filename="../src/view_models/grouplist.cpp" line="408"/>
+        <location filename="../src/view_models/grouplist.cpp" line="412"/>
+        <location filename="../src/view_models/grouplist.cpp" line="429"/>
+        <location filename="../src/view_models/grouplist.cpp" line="433"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1236,7 +1236,7 @@
 <context>
     <name>across::NodeFormModel</name>
     <message>
-        <location filename="../../../ACross/src/view_models/nodeformmodel.cpp" line="472"/>
+        <location filename="../src/view_models/nodeformmodel.cpp" line="472"/>
         <source>custom configuration encoding to url is not supported</source>
         <translation>未支持自定义配置编码到链接格式</translation>
     </message>
@@ -1244,7 +1244,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../../../ACross/src/view_models/nodelist.cpp" line="345"/>
+        <location filename="../src/view_models/nodelist.cpp" line="345"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1252,28 +1252,28 @@
 <context>
     <name>across::SystemTray</name>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="149"/>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="169"/>
+        <location filename="../src/view_models/systemtray.cpp" line="149"/>
+        <location filename="../src/view_models/systemtray.cpp" line="169"/>
         <source>Show</source>
         <translation>显示</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="170"/>
+        <location filename="../src/view_models/systemtray.cpp" line="170"/>
         <source>Connect</source>
         <translation>连接</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="171"/>
+        <location filename="../src/view_models/systemtray.cpp" line="171"/>
         <source>Disconnect</source>
         <translation>断开</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="172"/>
+        <location filename="../src/view_models/systemtray.cpp" line="172"/>
         <source>Reconnect</source>
         <translation>重连</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="173"/>
+        <location filename="../src/view_models/systemtray.cpp" line="173"/>
         <source>Quit</source>
         <translation>退出</translation>
     </message>
@@ -1282,12 +1282,12 @@
         <translation type="vanished">入站</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="151"/>
+        <location filename="../src/view_models/systemtray.cpp" line="151"/>
         <source>Hide</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/systemtray.cpp" line="181"/>
+        <location filename="../src/view_models/systemtray.cpp" line="181"/>
         <source>OFF</source>
         <translation>关闭</translation>
     </message>
@@ -1295,22 +1295,22 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="881"/>
+        <location filename="../src/view_models/configtools.cpp" line="881"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="882"/>
+        <location filename="../src/view_models/configtools.cpp" line="882"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1059"/>
+        <location filename="../src/view_models/configtools.cpp" line="1059"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1062"/>
+        <location filename="../src/view_models/configtools.cpp" line="1062"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1319,7 +1319,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../../../ACross/src/view_models/configtools.cpp" line="1064"/>
+        <location filename="../src/view_models/configtools.cpp" line="1064"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

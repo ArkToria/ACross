@@ -12,17 +12,17 @@ Item {
     property int fontSize: 14
 
     onVisibleChanged: {
-        HomeJS.visibleChangeToggle(visible, {
-                                       "alterIDText": alterIDText,
-                                       "securitySelect": securitySelect,
-                                       "networkSelect": networkSelect,
-                                       "pathText": pathText,
-                                       "hostText": hostText,
-                                       "typeSelect": typeSelect,
-                                       "quicSecuritySelect": quicSecuritySelect,
-                                       "tlsEnableSelect": tlsEnableSelect,
-                                       "sniText": sniText
-                                   }, nodeModel)
+        HomeJS.vmessComponentSetting(visible, {
+                                         "alterIDText": alterIDText,
+                                         "securitySelect": securitySelect,
+                                         "networkSelect": networkSelect,
+                                         "pathText": pathText,
+                                         "hostText": hostText,
+                                         "typeSelect": typeSelect,
+                                         "quicSecuritySelect": quicSecuritySelect,
+                                         "tlsEnableSelect": tlsEnableSelect,
+                                         "sniText": sniText
+                                     }, nodeModel)
     }
 
     GridLayout {
@@ -127,17 +127,17 @@ Item {
             Layout.columnSpan: 3
             model: ["none", "tcp", "h2", "ws", "grpc", "quic"]
 
-            onCurrentIndexChanged: HomeJS.networkSelectToggle(currentIndex, {
-                                                                  "typeLabel": typeLabel,
-                                                                  "typeSelect": typeSelect,
-                                                                  "quicSecurityLabel": quicSecurityLabel,
-                                                                  "quicSecuritySelect": quicSecuritySelect,
-                                                                  "hostLabel": hostLabel,
-                                                                  "hostText": hostText,
-                                                                  "pathLabel": pathLabel,
-                                                                  "pathText": pathText
-                                                              },
-                                                              nodeEditFormPopWindow)
+            onCurrentIndexChanged: HomeJS.networkSelectSetting(currentIndex, {
+                                                                   "typeLabel": typeLabel,
+                                                                   "typeSelect": typeSelect,
+                                                                   "quicSecurityLabel": quicSecurityLabel,
+                                                                   "quicSecuritySelect": quicSecuritySelect,
+                                                                   "hostLabel": hostLabel,
+                                                                   "hostText": hostText,
+                                                                   "pathLabel": pathLabel,
+                                                                   "pathText": pathText
+                                                               },
+                                                               nodeEditFormPopWindow)
         }
 
         Label {

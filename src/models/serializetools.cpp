@@ -143,6 +143,9 @@ SerializeTools::trojanDecode(const std::string &url_str) {
                     .toLower()
                     .contains("true"))
                 tls->set_allowinsecure(true);
+        } else {
+            stream->set_network("tcp");
+            stream->set_security("tls");
         }
 
         if (url_query.hasQueryItem("alpn")) {
@@ -163,6 +166,8 @@ SerializeTools::trojanDecode(const std::string &url_str) {
                     tls->add_alpn(item.toStdString());
                 }
             }
+        } else {
+            tls->add_alpn("http/1.1");
         }
     }
 

@@ -6,7 +6,7 @@ function hideAllTypeSetting(components: Array<any>): void {
     }
 }
 
-function networkSelectToggle(currentIndex: number, components: any, control: any = null): void {
+function networkSelectSetting(currentIndex: number, components: any, control: any = null): void {
     if (components === null) {
         return
     }
@@ -70,10 +70,11 @@ function networkSelectToggle(currentIndex: number, components: any, control: any
     }
 }
 
-function visibleChangeToggle(visible: boolean, components: any, model: any = null) {
+function vmessComponentSetting(visible: boolean, components: any, model: any = null) {
     if (!visible) {
         return
     }
+
     let alterIDText = components["alterIDText"]
     let securitySelect = components["securitySelect"]
     let networkSelect = components["networkSelect"]
@@ -213,6 +214,93 @@ function visibleChangeToggle(visible: boolean, components: any, model: any = nul
                 streamSettings["tlsSettings"].hasOwnProperty("serverName")
                 && sniText !== null) {
                 sniText.text = streamSettings["tlsSettings"]["serverName"]
+            }
+        }
+    }
+}
+
+function trojanComponentSetting(visible: boolean, components: any, model: any = null) {
+    if (!visible) {
+        return
+    }
+
+    let securitySelect = components["securitySelect"]
+    let networkSelect = components["networkSelect"]
+    let serverNameText = components["serverNameText"]
+    let alpnSelect = components["alpnSelect"]
+
+    if (model !== null && model.raw !== null) {
+        let raw = JSON.parse(model.raw)
+
+        if (raw.hasOwnProperty("protocol")
+            && raw["protocol"] !== "trojan") {
+            return
+        }
+
+        if (!raw.hasOwnProperty("streamSettings")) {
+            return
+        }
+
+        let streamSettings = raw["streamSettings"]
+
+        if (streamSettings.hasOwnProperty("network")) {
+            networkSelect.currentIndex = networkSelect.find(
+                streamSettings["network"])
+        }
+
+        if (streamSettings.hasOwnProperty("security")) {
+            securitySelect.currentIndex = securitySelect.find(
+                streamSettings["security"])
+        }
+
+        if (streamSettings.hasOwnProperty("tlsSettings")) {
+            if (streamSettings["tlsSettings"].hasOwnProperty(
+                "serverName")) {
+                serverNameText.text = streamSettings["tlsSettings"]["serverName"]
+            }
+
+            if (streamSettings["tlsSettings"].hasOwnProperty("alpn")) {
+                let alpn = streamSettings["tlsSettings"]["alpn"]
+                let alpn_size = Object.keys(alpn).length
+
+                if (alpn_size > 1) {
+                    alpnSelect.currentIndex = 0
+                } else if (alpn_size > 0) {
+                    alpnSelect.currentIndex = alpnSelect.find(alpn[0])
+                }
+            }
+        }
+    }
+}
+
+function shadowsocksComponentSetting(visible: boolean, components: any, model: any = null) {
+    if (!visible) {
+        return
+    }
+
+    let securitySelect = components["securitySelect"]
+    let ivCheckSelect = components["ivCheckSelect"]
+
+    if (model !== null && model.raw !== null) {
+        let raw = JSON.parse(model.raw)
+
+        if (raw.hasOwnProperty("protocol")
+            && raw["protocol"] !== "shadowsocks") {
+            return
+        }
+
+        let server = null
+        if (raw["settings"].hasOwnProperty("shadowsocks")) {
+            server = raw["settings"]["shadowsocks"]["servers"][0]
+        } else {
+            server = raw["settings"]["servers"][0]
+        }
+
+        if (server !== null) {
+            securitySelect.currentIndex = securitySelect.find(server["method"])
+
+            if (server.hasOwnProperty("ivCheck")) {
+                ivCheckSelect.checked = server["ivCheck"]
             }
         }
     }
