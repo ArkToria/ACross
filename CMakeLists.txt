@@ -138,7 +138,6 @@ set(PROJECT_SOURCES
     src/models/dbustools.cpp
     src/models/coretools.cpp
     src/models/confighelper.cpp
-    ${ACROSS_QM_FILES}
     ${GRPC_SOURCES}
     ${PROTO_SOURCES}
     )
