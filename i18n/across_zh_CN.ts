@@ -634,6 +634,7 @@
     </message>
     <message>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
         <source>[%1] TCP Pinging...</source>
         <translation type="unfinished"></translation>
@@ -648,33 +649,70 @@
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="62"/>
 >>>>>>> 4c5193b (qmlformat *.qml)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="62"/>
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
+        <source>[%1] TCP Pinging...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="86"/>
+        <source>Testing:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="106"/>
+>>>>>>> 37fb7a6 (add latency test notification)
+>>>>>>> 1484ff3 (add latency test notification)
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
 >>>>>>> 4c5193b (qmlformat *.qml)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
+>>>>>>> 37fb7a6 (add latency test notification)
+>>>>>>> 1484ff3 (add latency test notification)
         <source>[%1] Updating...</source>
         <translation>[%1] 更新中...</translation>
     </message>
     <message>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="110"/>
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
 >>>>>>> 4c5193b (qmlformat *.qml)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="110"/>
+>>>>>>> 37fb7a6 (add latency test notification)
+>>>>>>> 1484ff3 (add latency test notification)
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
     <message>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="115"/>
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="70"/>
 >>>>>>> 4c5193b (qmlformat *.qml)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="70"/>
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="115"/>
+>>>>>>> 37fb7a6 (add latency test notification)
+>>>>>>> 1484ff3 (add latency test notification)
         <source>Delete</source>
         <translation>删除</translation>
     </message>
