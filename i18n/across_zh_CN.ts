@@ -633,22 +633,32 @@
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="100"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
+        <source>[%1] TCP Pinging...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="86"/>
+        <source>Testing:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="106"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="103"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
         <source>[%1] Updating...</source>
         <translation>[%1] 更新中...</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="104"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="110"/>
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="115"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -1225,10 +1235,10 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="408"/>
-        <location filename="../src/view_models/grouplist.cpp" line="412"/>
-        <location filename="../src/view_models/grouplist.cpp" line="429"/>
-        <location filename="../src/view_models/grouplist.cpp" line="433"/>
+        <location filename="../src/view_models/grouplist.cpp" line="435"/>
+        <location filename="../src/view_models/grouplist.cpp" line="439"/>
+        <location filename="../src/view_models/grouplist.cpp" line="456"/>
+        <location filename="../src/view_models/grouplist.cpp" line="460"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

@@ -44,7 +44,8 @@ class GroupList : public QObject {
     Q_INVOKABLE void checkAllUpdate(bool force = false);
     Q_INVOKABLE void checkUpdate(int index, bool force = true);
 
-    Q_INVOKABLE void testTcpPing(int index);
+    Q_INVOKABLE int testTcpPing(int index);
+    Q_INVOKABLE int testTcpPingLeft(int index);
 
     Q_INVOKABLE int getIndexByID(int id);
     Q_INVOKABLE void search(const QString &value);
@@ -65,12 +66,15 @@ class GroupList : public QObject {
     void copyNodesToClipboard(int index);
     void handleDownloaded(const QVariant &content);
     void handleItemsChanged(int64_t group_id, int size);
+    void handleNodeLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node);
 
   signals:
     void preItemsReset();
     void postItemsReset();
 
     void itemInfoChanged(int index);
+    void nodeLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node);
+    void nodeLatencyProgressChanged(qint64 group_id, int current);
 
   private:
     QSharedPointer<across::setting::ConfigTools> p_config;
@@ -85,6 +89,8 @@ class GroupList : public QObject {
     QList<GroupInfo> m_origin_groups;
     QList<GroupInfo> m_pre_groups;
     QMap<int64_t, bool> m_is_updating;
+    QMap<int64_t, bool> m_is_tcpPinging;
+    QMap<int64_t, int> m_tcpPinging_count;
 };
 } // namespace across
 

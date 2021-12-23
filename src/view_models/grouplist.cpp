@@ -36,6 +36,8 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
 
     connect(p_curl.get(), &across::network::CURLTools::downloadFinished, this,
             &GroupList::handleDownloaded);
+    
+    connect(this, &GroupList::nodeLatencyChanged, this, &GroupList::handleNodeLatencyChanged);
 
     reloadItems();
     checkAllUpdate();
@@ -98,17 +100,42 @@ void GroupList::checkUpdate(int index, bool force) {
     } while (false);
 }
 
-Q_INVOKABLE void GroupList::testTcpPing(int index) {
+Q_INVOKABLE int GroupList::testTcpPing(int index) {
     if (index >= m_groups.size())
-        return;
+        return 1;
 
     if (auto &group = m_groups[index]; group.items != 0) {
+        if (m_is_tcpPinging.contains(group.id)) {
+            return 1;
+        }
+        m_is_tcpPinging[group.id] = true;
+
         auto nodes = p_db->listAllNodesFromGroupID(group.id);
+
+        m_tcpPinging_count[group.id] = -nodes.size();
 
         for (int i = 0; i < nodes.size(); ++i) {
             auto &node = nodes[i];
-            p_nodes->testLatency(node, i);
+            p_nodes->testLatency(node, i, [this, node, i]{
+                emit nodeLatencyChanged(node.group_id, i, node);
+            });
         }
+    }
+    return 0;
+}
+Q_INVOKABLE int GroupList::testTcpPingLeft(int index) {
+    auto &group = m_groups[index];
+    if(m_tcpPinging_count.contains(group.id)){
+        return -m_tcpPinging_count[group.id];
+    }
+    return 0;
+}
+void GroupList::handleNodeLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node) {
+    m_tcpPinging_count[group_id]++;
+    emit nodeLatencyProgressChanged(group_id, -m_tcpPinging_count[group_id]);
+    if(m_tcpPinging_count[group_id] >= 0) {
+        m_tcpPinging_count.remove(group_id);
+        m_is_tcpPinging.remove(group_id);
     }
 }
 

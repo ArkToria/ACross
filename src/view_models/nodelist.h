@@ -14,6 +14,7 @@
 #include "logtools.h"
 
 #include "magic_enum.hpp"
+#include <functional>
 #include <QObject>
 #include <QPointer>
 #include <QQuickTextDocument>
@@ -66,7 +67,7 @@ class NodeList : public QObject {
     void setUploadTraffic(double newUploadTraffic);
     void setDownloadTraffic(double newDownloadTraffic);
 
-    void testLatency(const NodeInfo& node, int index);
+    void testLatency(const NodeInfo& node, int index, std::function<void()> after = []{});
 
     void setDownloadProxy(across::network::DownloadTask &task);
 

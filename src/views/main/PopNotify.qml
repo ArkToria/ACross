@@ -26,6 +26,8 @@ Item {
         delegate: PopMessageBox {
             title: model.title
             message: model.message
+            to: model.to
+            groupID: model.groupID
         }
 
         add: Transition {
@@ -48,7 +50,20 @@ Item {
         popNotifyControl.visible = true
         popNotifyModel.append({
                                   "title": title,
-                                  "message": message
+                                  "message": message,
+                                  "groupID": -1,
+                                  "to": -1.0,
+                                  "index": -1
                               })
+    }
+    function notifyWithProgress(title = "", message = "", index, groupID, total = 0) {
+        popNotifyControl.visible = true
+        popNotifyModel.append({
+            "title": title,
+            "message": message,
+            "index": index,
+            "groupID": groupID,
+            "to": total
+        })
     }
 }

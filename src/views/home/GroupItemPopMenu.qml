@@ -81,7 +81,13 @@ Menu {
     Action {
         text: qsTr("TCP Ping")
         onTriggered: {
-            acrossGroups.testTcpPing(index)
+            if(acrossGroups.testTcpPing(index) === 0){
+                popNotify.notifyWithProgress(qsTr("[%1] TCP Pinging...").arg(name),
+                                             qsTr("Testing:"),
+                                             index,
+                                             group_id,
+                                             items)
+            }
         }
     }
 

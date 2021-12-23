@@ -13,6 +13,9 @@ CardBox {
     property int fontSize: 12
     property string title: ""
     property string message: ""
+    property int index: -1
+    property int groupID: -1
+    property real to: -1.0
     property int intervalTime: 5000
 
     ColumnLayout {
@@ -32,7 +35,7 @@ CardBox {
             id: displayMessage
             Layout.fillWidth: true
 
-            text: control.message
+            text: groupID===-1?control.message:control.message.concat(" ", progressBar.value.toString(), "/", to.toString())
             color: acrossConfig.textColor
         }
 
@@ -43,6 +46,7 @@ CardBox {
             padding: 2
 
             value: 0.0
+            to: control.to===-1.0?1:control.to
 
             background: Rectangle {
                 implicitWidth: 240
@@ -66,8 +70,16 @@ CardBox {
             NumberAnimation on value {
                 id: progressBarAnimation
                 from: 0.0
-                to: 1.0
-                duration: control.intervalTime
+                to: control.to===-1.0?1:control.to
+                duration: control.to===-1.0?control.intervalTime:0
+            }
+            Connections {
+                target: acrossGroups
+                function onNodeLatencyProgressChanged(group_id, left) {
+                    if(group_id === control.groupID) {
+                        progressBar.value=control.to-left;
+                    }
+                }
             }
         }
     }
