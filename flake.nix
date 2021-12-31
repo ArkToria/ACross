@@ -29,7 +29,7 @@
       overlay = final: prev: {
         across = final.stdenv.mkDerivation {
           name = "across";
-          src = final.lib.cleanSource ./.;
+          src = self;
           cmakeFlags = [ "-DFETCH_SINGLE_APPLICATION=OFF" ];
           nativeBuildInputs = with final; [ cmake pkg-config ];
           buildInputs = with final;[ qt6 libGL curl spdlog zxing-cpp protobuf grpc gtest c-ares libxkbcommon nlohmann_json magic_enum semver ];
@@ -178,17 +178,6 @@
           preBuild = ''
             export LD_LIBRARY_PATH="$PWD/qtbase/lib''${LD_LIBRARY_PATH:+:}$LD_LIBRARY_PATH"
           '';
-        };
-        spdlog = (prev.spdlog.overrideAttrs (attrs: {
-          version = "1.9.2";
-          src = final.fetchFromGitHub {
-            owner = "gabime";
-            repo = "spdlog";
-            rev = "v1.9.2";
-            hash = "sha256-GSUdHtvV/97RyDKy8i+ticnSlQCubGGWHg4Oo+YAr8Y=";
-          };
-        })).override {
-          fmt = final.fmt_8;
         };
         zxing-cpp = (prev.zxing-cpp.overrideAttrs (attrs: {
           version = "master";
