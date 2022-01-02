@@ -1,14 +1,10 @@
+import Arktoria.ACross
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import Arktoria.ACross
-
 CardBox {
     id: control
-    implicitWidth: 320
-    implicitHeight: 84
-    clip: true
 
     property int fontSize: 12
     property string title: ""
@@ -18,14 +14,18 @@ CardBox {
     property real to: -1.0
     property int intervalTime: 5000
 
+    implicitWidth: 320
+    implicitHeight: 84
+    clip: true
+
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 3
 
         Label {
             id: displayTitle
-            Layout.fillWidth: true
 
+            Layout.fillWidth: true
             text: control.title
             color: acrossConfig.textColor
             font.pointSize: fontSize
@@ -33,7 +33,6 @@ CardBox {
 
         Label {
             id: displayMessage
-            Layout.fillWidth: true
 
             text: groupID===-1?control.message:control.message.concat(" ", progressBar.value.toString(), "/", to.toString())
             color: acrossConfig.textColor
@@ -41,6 +40,7 @@ CardBox {
 
         ProgressBar {
             id: progressBar
+
             Layout.fillWidth: true
             Layout.preferredHeight: 4
             padding: 2
@@ -65,6 +65,7 @@ CardBox {
                     radius: 2
                     color: acrossConfig.highlightColor
                 }
+
             }
 
             NumberAnimation on value {
@@ -81,18 +82,20 @@ CardBox {
                     }
                 }
             }
+
         }
+
     }
 
     Timer {
         repeat: true
         running: true
         interval: intervalTime
-
         onTriggered: {
-            if (popNotifyModel.hasChildren()) {
-                popNotifyModel.remove(0)
-            }
+            if (popNotifyModel.hasChildren())
+                popNotifyModel.remove(0);
+
         }
     }
+
 }

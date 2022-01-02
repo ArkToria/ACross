@@ -1,16 +1,16 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
 import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     id: groupControlBar
-    implicitHeight: 36
-    implicitWidth: 648
 
     property Component popMenuComponent: null
     property Component nodeShareFormComponent: null
+
+    implicitHeight: 36
+    implicitWidth: 648
 
     RowLayout {
         anchors.leftMargin: acrossConfig.itemSpacing / 2
@@ -24,14 +24,15 @@ Item {
 
         CardBox {
             id: appendNodeButton
+
             Layout.fillHeight: true
             Layout.fillWidth: true
-
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
                 id: groupContorlCreate
+
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -44,43 +45,40 @@ Item {
                     text: qsTr("Create")
                     color: acrossConfig.textColor
                 }
+
             }
 
             MouseArea {
                 anchors.fill: parent
-
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton
-
                 onEntered: {
-                    parent.color = acrossConfig.backgroundColor
+                    parent.color = acrossConfig.backgroundColor;
                 }
-
                 onExited: {
-                    parent.color = "transparent"
+                    parent.color = "transparent";
                 }
-
                 onClicked: {
-                    if (popMenuComponent == null) {
-                        popMenuComponent = Qt.createComponent(
-                                    "qrc:/Arktoria/ACross/src/views/home/NodeEditForm.qml")
-                    }
-                    if (popMenuComponent.status === Component.Ready) {
-                        popMenuComponent.createObject(appendNodeButton).show()
-                    }
+                    if (popMenuComponent == null)
+                        popMenuComponent = Qt.createComponent("qrc:/Arktoria/ACross/src/views/home/NodeEditForm.qml");
+
+                    if (popMenuComponent.status === Component.Ready)
+                        popMenuComponent.createObject(appendNodeButton).show();
+
                 }
             }
+
         }
 
         CardBox {
             Layout.fillHeight: true
             Layout.fillWidth: true
-
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
                 id: groupContorlCopy
+
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -93,37 +91,35 @@ Item {
                     text: qsTr("Copy")
                     color: acrossConfig.textColor
                 }
+
             }
 
             MouseArea {
                 anchors.fill: parent
-
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton
-
                 onEntered: {
-                    parent.color = acrossConfig.backgroundColor
+                    parent.color = acrossConfig.backgroundColor;
                 }
-
                 onExited: {
-                    parent.color = "transparent"
+                    parent.color = "transparent";
                 }
-
                 onClicked: {
-                    acrossNodes.copyCurrentNodeURLToClipboard()
+                    acrossNodes.copyCurrentNodeURLToClipboard();
                 }
             }
+
         }
 
         CardBox {
             Layout.fillHeight: true
             Layout.fillWidth: true
-
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
                 id: groupContorlQRCode
+
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -136,52 +132,47 @@ Item {
                     text: qsTr("QRCode")
                     color: acrossConfig.textColor
                 }
+
             }
 
             MouseArea {
                 anchors.fill: parent
-
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton
-
                 onEntered: {
-                    parent.color = acrossConfig.backgroundColor
+                    parent.color = acrossConfig.backgroundColor;
                 }
-
                 onExited: {
-                    parent.color = "transparent"
+                    parent.color = "transparent";
                 }
-
                 onClicked: {
-                    let nodeModel = acrossNodes.currentNodeInfo
+                    let nodeModel = acrossNodes.currentNodeInfo;
                     if (nodeModel === null)
-                        return
+                        return ;
 
-                    if (nodeShareFormComponent == null) {
-                        nodeShareFormComponent = Qt.createComponent(
-                                    "qrc:/Arktoria/ACross/src/views/home/NodeShareForm.qml")
-                    }
+                    if (nodeShareFormComponent == null)
+                        nodeShareFormComponent = Qt.createComponent("qrc:/Arktoria/ACross/src/views/home/NodeShareForm.qml");
 
                     if (nodeShareFormComponent.status === Component.Ready) {
-                        var window = nodeShareFormComponent.createObject(
-                                    groupControlBar, {
-                                        "nodeModel": nodeModel
-                                    })
-                        window.show()
+                        var window = nodeShareFormComponent.createObject(groupControlBar, {
+                            "nodeModel": nodeModel
+                        });
+                        window.show();
                     }
                 }
             }
+
         }
 
         CardBox {
             Layout.fillHeight: true
             Layout.fillWidth: true
-
             layer.enabled: false
             color: "transparent"
 
             RowLayout {
                 id: groupContorlLocate
+
                 anchors.centerIn: parent
 
                 SVGBox {
@@ -194,26 +185,26 @@ Item {
                     text: qsTr("Locate")
                     color: acrossConfig.textColor
                 }
+
             }
 
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-
                 onEntered: {
-                    parent.color = acrossConfig.backgroundColor
+                    parent.color = acrossConfig.backgroundColor;
                 }
-
                 onExited: {
-                    parent.color = "transparent"
+                    parent.color = "transparent";
                 }
-
                 onClicked: {
-                    groupListPanel.setIndexByID(acrossNodes.currentGroupID)
-
-                    nodeListPanel.locateCurrent()
+                    groupListPanel.setIndexByID(acrossNodes.currentGroupID);
+                    nodeListPanel.locateCurrent();
                 }
             }
+
         }
+
     }
+
 }

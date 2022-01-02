@@ -1,8 +1,13 @@
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
+
+import Arktoria.ACross
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
-import Arktoria.ACross
 
 Item {
     property int fontSize: 14
@@ -15,7 +20,6 @@ Item {
 
         Label {
             Layout.fillWidth: true
-
             text: qsTr("Inbound Listening")
             font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
@@ -37,21 +41,21 @@ Item {
 
                 TextFieldBox {
                     id: addressText
-                    Layout.fillWidth: true
 
+                    Layout.fillWidth: true
                     placeholderText: acrossConfig.inboundAddress
                     text: acrossConfig.inboundAddress
-
                     onTextEdited: {
-                        var result = acrossConfig.testAndSetAddr(text)
-                        if (result) {
-                            color = acrossConfig.textColor
-                        } else {
-                            color = acrossConfig.warnColor
-                        }
+                        var result = acrossConfig.testAndSetAddr(text);
+                        if (result)
+                            color = acrossConfig.textColor;
+                        else
+                            color = acrossConfig.warnColor;
                     }
                 }
+
             }
+
         }
 
         Item {
@@ -74,7 +78,6 @@ Item {
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("SOCKS5")
                             font.pointSize: fontSize
                             color: acrossConfig.textColor
@@ -89,32 +92,28 @@ Item {
                             id: socksSwitch
 
                             onCheckedChanged: {
-                                acrossConfig.socksEnable = checked
+                                acrossConfig.socksEnable = checked;
                             }
-
                             Component.onCompleted: {
-                                checked = Qt.binding(function () {
-                                    return acrossConfig.socksEnable
-                                })
+                                checked = Qt.binding(function() {
+                                    return acrossConfig.socksEnable;
+                                });
                             }
                         }
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("Port")
                             color: acrossConfig.textColor
                         }
 
                         TextFieldBox {
                             Layout.fillWidth: true
-
                             text: acrossConfig.socksPort
                             inputMethodHints: Qt.ImhDigitsOnly
                             readOnly: socksSwitch.checked ? false : true
-
                             onTextEdited: {
-                                acrossConfig.socksPort = text
+                                acrossConfig.socksPort = text;
                             }
                         }
 
@@ -125,19 +124,17 @@ Item {
 
                         SwitchBox {
                             onCheckedChanged: {
-                                acrossConfig.socksUDPEnable = checked
+                                acrossConfig.socksUDPEnable = checked;
                             }
-
                             Component.onCompleted: {
-                                checked = Qt.binding(function () {
-                                    return acrossConfig.socksUDPEnable
-                                })
+                                checked = Qt.binding(function() {
+                                    return acrossConfig.socksUDPEnable;
+                                });
                             }
                         }
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("Username")
                             color: acrossConfig.textColor
                         }
@@ -145,18 +142,15 @@ Item {
                         TextFieldBox {
                             Layout.fillWidth: true
                             Layout.columnSpan: 3
-
                             text: acrossConfig.socksUsername
                             readOnly: socksSwitch.checked ? false : true
-
                             onTextChanged: {
-                                acrossConfig.socksUsername = text
+                                acrossConfig.socksUsername = text;
                             }
                         }
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("Password")
                             color: acrossConfig.textColor
                         }
@@ -164,23 +158,22 @@ Item {
                         TextFieldBox {
                             Layout.fillWidth: true
                             Layout.columnSpan: 3
-
                             text: acrossConfig.socksPassword
                             readOnly: socksSwitch.checked ? false : true
                             echoMode: "Password"
                             onFocusChanged: {
-                                if (focus) {
-                                    echoMode = "Normal"
-                                } else {
-                                    echoMode = "Password"
-                                }
+                                if (focus)
+                                    echoMode = "Normal";
+                                else
+                                    echoMode = "Password";
                             }
-
                             onTextChanged: {
-                                acrossConfig.socksPassword = text
+                                acrossConfig.socksPassword = text;
                             }
                         }
+
                     }
+
                 }
 
                 Item {
@@ -195,7 +188,6 @@ Item {
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("HTTP")
                             font.pointSize: fontSize
                             color: acrossConfig.textColor
@@ -210,19 +202,17 @@ Item {
                             id: httpSwitch
 
                             onCheckedChanged: {
-                                acrossConfig.httpEnable = checked
+                                acrossConfig.httpEnable = checked;
                             }
-
                             Component.onCompleted: {
-                                checked = Qt.binding(function () {
-                                    return acrossConfig.httpEnable
-                                })
+                                checked = Qt.binding(function() {
+                                    return acrossConfig.httpEnable;
+                                });
                             }
                         }
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("Port")
                             color: acrossConfig.textColor
                         }
@@ -230,18 +220,15 @@ Item {
                         TextFieldBox {
                             Layout.fillWidth: true
                             Layout.columnSpan: 3
-
                             text: acrossConfig.httpPort
                             readOnly: httpSwitch.checked ? false : true
-
                             onTextChanged: {
-                                acrossConfig.httpPort = text
+                                acrossConfig.httpPort = text;
                             }
                         }
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("Username")
                             color: acrossConfig.textColor
                         }
@@ -249,18 +236,15 @@ Item {
                         TextFieldBox {
                             Layout.fillWidth: true
                             Layout.columnSpan: 3
-
                             text: acrossConfig.httpUsername
                             readOnly: httpSwitch.checked ? false : true
-
                             onTextChanged: {
-                                acrossConfig.httpUsername = text
+                                acrossConfig.httpUsername = text;
                             }
                         }
 
                         Label {
                             Layout.preferredWidth: keyBoxWidth
-
                             text: qsTr("Password")
                             color: acrossConfig.textColor
                         }
@@ -268,32 +252,28 @@ Item {
                         TextFieldBox {
                             Layout.fillWidth: true
                             Layout.columnSpan: 3
-
                             text: acrossConfig.httpPassword
                             readOnly: httpSwitch.checked ? false : true
                             echoMode: "Password"
                             onFocusChanged: {
-                                if (focus) {
-                                    echoMode = "Normal"
-                                } else {
-                                    echoMode = "Password"
-                                }
+                                if (focus)
+                                    echoMode = "Normal";
+                                else
+                                    echoMode = "Password";
                             }
-
                             onTextChanged: {
-                                acrossConfig.httpPassword = text
+                                acrossConfig.httpPassword = text;
                             }
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
 }
-##^##*/
-

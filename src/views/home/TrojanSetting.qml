@@ -1,28 +1,25 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
-import Arktoria.ACross
 import "../typescripts/home.js" as HomeJS
+import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
-    implicitWidth: 680
-    implicitHeight: 260
-
     property int fontSize: 14
 
+    implicitWidth: 680
+    implicitHeight: 260
     onVisibleChanged: {
         HomeJS.trojanComponentSetting(visible, {
-                                          "securitySelect": securitySelect,
-                                          "networkSelect": networkSelect,
-                                          "alpnSelect": alpnSelect,
-                                          "serverNameText": serverNameText
-                                      }, nodeModel)
+            "securitySelect": securitySelect,
+            "networkSelect": networkSelect,
+            "alpnSelect": alpnSelect,
+            "serverNameText": serverNameText
+        }, nodeModel);
     }
 
     GridLayout {
         anchors.fill: parent
-
         columns: 4
         rowSpacing: acrossConfig.itemSpacing * 2
         columnSpacing: acrossConfig.itemSpacing * 2
@@ -30,7 +27,6 @@ Item {
         Label {
             Layout.fillWidth: true
             Layout.columnSpan: 4
-
             text: qsTr("Trojan Setting")
             font.pointSize: fontSize
             color: acrossConfig.textColor
@@ -43,11 +39,11 @@ Item {
 
         TextFieldBox {
             id: serverNameText
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             onTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
@@ -58,13 +54,12 @@ Item {
 
         DropDownBox {
             id: networkSelect
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             model: ["tcp"]
-
             onEditTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
@@ -75,13 +70,12 @@ Item {
 
         DropDownBox {
             id: securitySelect
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             model: ["tls", "none"]
-
             onEditTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
@@ -92,31 +86,32 @@ Item {
 
         DropDownBox {
             id: alpnSelect
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             model: ["h2+http/1.1", "h2", "http/1.1"]
-
             onEditTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
         Item {
             Layout.fillHeight: true
         }
+
     }
 
     Connections {
-        target: protocolSettingsLoader
-
         function onAcceptAll() {
             trojanSetting = {
                 "serverName": serverNameText.text,
                 "network": networkSelect.currentText,
                 "security": securitySelect.currentText,
                 "alpn": alpnSelect.currentText
-            }
+            };
         }
+
+        target: protocolSettingsLoader
     }
+
 }

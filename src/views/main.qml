@@ -1,54 +1,61 @@
-import QtQuick
-import QtQuick.Window
-import QtQuick.Layouts
-import QtQuick.Controls
-
-import Arktoria.ACross
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.66}
+}
+##^##*/
 
 import "./typescripts/main.js" as MainJS
+import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
 
 ApplicationWindow {
     id: mainWindow
+
     width: 960
     height: 720
     minimumWidth: 960
     minimumHeight: 520
     visible: mainWindowVisible
     title: qsTr("ACross")
-
     onVisibilityChanged: {
-        acrossTray.toggleVisibilitySetText(mainWindow.visible)
+        acrossTray.toggleVisibilitySetText(mainWindow.visible);
     }
-
     onClosing: {
-        if (acrossConfig.enableStartFromMinimized) {
-            mainWindow.hide()
-        } else {
-            Qt.quit()
-        }
+        if (acrossConfig.enableStartFromMinimized)
+            mainWindow.hide();
+        else
+            Qt.quit();
     }
 
     Connections {
-        target: acrossTray
         function onSignalShow() {
-            MainJS.toggleVisibilty(mainWindow)
+            MainJS.toggleVisibilty(mainWindow);
         }
+
         function onSignalQuit() {
-            Qt.quit()
+            Qt.quit();
         }
+
         function onSignalIconActivated() {
-            MainJS.toggleVisibilty(mainWindow)
+            MainJS.toggleVisibilty(mainWindow);
         }
+
+        target: acrossTray
     }
 
     DarkBackground {
         id: darkBackground
+
         anchors.fill: parent
         z: 1
     }
 
     PopNotify {
         id: popNotify
+
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: acrossConfig.itemSpacing * 2
@@ -61,6 +68,7 @@ ApplicationWindow {
 
         MainPanel {
             id: mainPanel
+
             Layout.fillHeight: true
             Layout.preferredWidth: 120
         }
@@ -68,13 +76,12 @@ ApplicationWindow {
         Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
-
             color: acrossConfig.deepColor
 
             SwipeView {
                 id: pageLoader
-                anchors.fill: parent
 
+                anchors.fill: parent
                 currentIndex: 0
                 orientation: Qt.Vertical
                 interactive: false
@@ -96,14 +103,11 @@ ApplicationWindow {
                 HelpPage {
                     id: helpPage
                 }
+
             }
+
         }
+
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.66}
 }
-##^##*/
-

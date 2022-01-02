@@ -1,8 +1,13 @@
+/*##^##
+Designer {
+    D{i:0;autoSize:true;formeditorZoom:0.75;height:480;width:640}
+}
+##^##*/
+
+import Arktoria.ACross
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
-import Arktoria.ACross
 
 Item {
     implicitWidth: 840
@@ -10,37 +15,30 @@ Item {
 
     SplitView {
         id: splitView
+
         anchors.fill: parent
-
         orientation: Qt.Horizontal
-
-        handle: Rectangle {
-            implicitWidth: acrossConfig.itemSpacing / 2
-            implicitHeight: 4
-
-            color: SplitHandle.hovered ? acrossConfig.highlightColor : acrossConfig.deepColor
-        }
 
         Rectangle {
             implicitWidth: homePage.width * 0.35
             SplitView.maximumWidth: homePage.width * 0.4
             SplitView.minimumWidth: homePage.width * 0.3
-
             color: acrossConfig.backgroundColor
             border.color: acrossConfig.deepColor
             border.width: 1
 
             GroupListPanel {
                 id: groupListPanel
+
                 anchors.fill: parent
                 anchors.margins: 1
             }
+
         }
 
         Rectangle {
             SplitView.fillHeight: true
             SplitView.fillWidth: true
-
             color: acrossConfig.deepColor
 
             ColumnLayout {
@@ -59,18 +57,22 @@ Item {
 
                 NodeListPanel {
                     id: nodeListPanel
+
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                     clip: true
                 }
+
             }
+
         }
+
+        handle: Rectangle {
+            implicitWidth: acrossConfig.itemSpacing / 2
+            implicitHeight: 4
+            color: SplitHandle.hovered ? acrossConfig.highlightColor : acrossConfig.deepColor
+        }
+
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;formeditorZoom:0.75;height:480;width:640}
 }
-##^##*/
-

@@ -1,29 +1,28 @@
+import "../typescripts/home.js" as HomeJS
+import Arktoria.ACross
+import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Qt5Compat.GraphicalEffects
-
-import Arktoria.ACross
-import "../typescripts/home.js" as HomeJS
 
 Item {
     id: currentPanel
-    implicitWidth: 648
-    implicitHeight: 230
 
     property string textColor: acrossConfig.bannerTextColor
 
-    Connections {
-        target: acrossNodes
+    implicitWidth: 648
+    implicitHeight: 230
 
+    Connections {
         function onCurrentNodeInfoChanged(nodeModel) {
-            currentNodeName.text = nodeModel["name"]
-            currentGroupText.text = nodeModel["group"]
-            currentNodeProtocol.text = HomeJS.displayProtocolText(
-                        nodeModel["protocol"])
-            currentNodeAddress.text = nodeModel["address"]
-            currentNodePort.text = nodeModel["port"]
+            currentNodeName.text = nodeModel["name"];
+            currentGroupText.text = nodeModel["group"];
+            currentNodeProtocol.text = HomeJS.displayProtocolText(nodeModel["protocol"]);
+            currentNodeAddress.text = nodeModel["address"];
+            currentNodePort.text = nodeModel["port"];
         }
+
+        target: acrossNodes
     }
 
     Item {
@@ -32,30 +31,31 @@ Item {
 
         CardBox {
             id: background
+
             anchors.fill: parent
             color: acrossConfig.bannerMaskColor
 
             Image {
                 id: backgroundImage
+
                 anchors.fill: parent
                 anchors.margins: acrossConfig.itemSpacing
-
                 visible: acrossConfig.enableBanner
-
                 source: acrossConfig.backgroundImage
                 fillMode: Image.PreserveAspectCrop
                 opacity: acrossConfig.backgroundOpacity > 0 ? acrossConfig.backgroundOpacity : 0
-
                 layer.enabled: true
+
                 layer.effect: OpacityMask {
                     maskSource: mask
                 }
+
             }
 
             Rectangle {
                 id: mask
-                anchors.fill: parent
 
+                anchors.fill: parent
                 visible: false
                 radius: parent.radius
             }
@@ -63,7 +63,6 @@ Item {
             GridLayout {
                 anchors.fill: parent
                 anchors.margins: acrossConfig.itemSpacing * 2
-
                 columnSpacing: acrossConfig.itemSpacing
                 rowSpacing: acrossConfig.itemSpacing
                 columns: 2
@@ -76,12 +75,12 @@ Item {
 
                     Label {
                         id: currentNodeName
+
                         anchors.fill: parent
                         anchors.left: parent.left
                         anchors.top: parent.top
                         anchors.leftMargin: acrossConfig.itemSpacing
                         anchors.topMargin: acrossConfig.itemSpacing
-
                         color: textColor
                         font.pointSize: 14
                         textFormat: Text.AutoText
@@ -89,6 +88,7 @@ Item {
                         elide: Text.ElideRight
                         maximumLineCount: 2
                     }
+
                 }
 
                 Item {
@@ -105,14 +105,14 @@ Item {
 
                         Label {
                             id: uploadText
+
                             text: "↑ " + acrossNodes.uploadTraffic + "/s"
                             Layout.alignment: Qt.AlignRight | Qt.AlignTop
                             color: textColor
                         }
 
                         Rectangle {
-                            implicitWidth: Math.max(uploadText.width,
-                                                    downloadText.width)
+                            implicitWidth: Math.max(uploadText.width, downloadText.width)
                             Layout.preferredHeight: 2
                             color: textColor
                             Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
@@ -120,6 +120,7 @@ Item {
 
                         Label {
                             id: downloadText
+
                             text: "↓ " + acrossNodes.downloadTraffic + "/s"
                             Layout.alignment: Qt.AlignRight | Qt.AlignBottom
                             color: textColor
@@ -128,7 +129,9 @@ Item {
                         Item {
                             Layout.fillHeight: true
                         }
+
                     }
+
                 }
 
                 Item {
@@ -149,6 +152,7 @@ Item {
 
                         Label {
                             id: currentGroupText
+
                             color: textColor
                             font.pointSize: 12
                         }
@@ -161,6 +165,7 @@ Item {
 
                         Label {
                             id: currentNodeProtocol
+
                             color: textColor
                             font.pointSize: 12
                         }
@@ -173,6 +178,7 @@ Item {
 
                         Label {
                             id: currentNodeAddress
+
                             color: textColor
                             font.pointSize: 12
                             textFormat: Text.AutoText
@@ -189,10 +195,13 @@ Item {
 
                         Label {
                             id: currentNodePort
+
                             color: textColor
                             font.pointSize: 12
                         }
+
                     }
+
                 }
 
                 Item {
@@ -201,6 +210,9 @@ Item {
 
                     CardBox {
                         id: stopButton
+
+                        property color basicColor: acrossCore.isRunning ? acrossConfig.warnColor : acrossConfig.styleColor
+
                         anchors.right: parent.right
                         anchors.bottom: parent.bottom
                         anchors.rightMargin: acrossConfig.itemSpacing
@@ -208,56 +220,53 @@ Item {
                         implicitWidth: 64 + 2 * acrossConfig.itemSpacing
                         implicitHeight: width
                         z: 1
-
                         radius: Math.round(width / 2)
-
-                        property color basicColor: acrossCore.isRunning ? acrossConfig.warnColor : acrossConfig.styleColor
                         color: basicColor
 
                         SVGBox {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
-                            source: "qrc:/misc/icons/" + acrossConfig.iconStyle
-                                    + (acrossCore.isRunning ? "/stop.svg" : "/play.svg")
+                            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + (acrossCore.isRunning ? "/stop.svg" : "/play.svg")
                             sourceWidth: 48 + 2 * acrossConfig.itemSpacing
                             sourceHeight: sourceWidth
                         }
 
                         MouseArea {
                             id: mouseArea
+
                             anchors.fill: parent
                             hoverEnabled: true
-
                             onEntered: {
-                                cursorShape = Qt.PointingHandCursor
-                                stopButton.color = Qt.binding(function () {
-                                    return Qt.lighter(stopButton.basicColor,
-                                                      1.1)
-                                })
+                                cursorShape = Qt.PointingHandCursor;
+                                stopButton.color = Qt.binding(function() {
+                                    return Qt.lighter(stopButton.basicColor, 1.1);
+                                });
                             }
-
                             onExited: {
-                                cursorShape = Qt.ArrowCursor
-                                stopButton.color = Qt.binding(function () {
-                                    return stopButton.basicColor
-                                })
+                                cursorShape = Qt.ArrowCursor;
+                                stopButton.color = Qt.binding(function() {
+                                    return stopButton.basicColor;
+                                });
                             }
-
                             onClicked: {
                                 if (acrossCore.isRunning) {
-                                    acrossCore.stop()
+                                    acrossCore.stop();
                                 } else {
-                                    if (acrossCore.run() < 0) {
-                                        popNotify.notify(
-                                                    qsTr("Core Error"), qsTr(
-                                                        "Failed to start the process"))
-                                    }
+                                    if (acrossCore.run() < 0)
+                                        popNotify.notify(qsTr("Core Error"), qsTr("Failed to start the process"));
+
                                 }
                             }
                         }
+
                     }
+
                 }
+
             }
+
         }
+
     }
+
 }

@@ -1,13 +1,12 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
 import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 CardBox {
-    implicitHeight: 300
-
     property int fontSize: 14
+
+    implicitHeight: 300
 
     ColumnLayout {
         anchors.fill: parent
@@ -24,9 +23,11 @@ CardBox {
             Layout.fillHeight: true
             Layout.fillWidth: true
             clip: true
-
             spacing: acrossConfig.itemSpacing
-            model: LicenseListModels {}
+
+            model: LicenseListModels {
+            }
+
             delegate: RowLayout {
                 spacing: acrossConfig.itemSpacing * 2
 
@@ -39,7 +40,11 @@ CardBox {
                     text: model.value
                     urlText: model.url
                 }
+
             }
+
         }
+
     }
+
 }

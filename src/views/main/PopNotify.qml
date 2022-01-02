@@ -1,11 +1,11 @@
+import Arktoria.ACross
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import Arktoria.ACross
-
 Item {
     id: popNotifyControl
+
     implicitWidth: 320
     implicitHeight: popNotifyListView.count >= 3 ? 84 * 3 : 84 * popNotifyListView.count
     clip: true
@@ -17,11 +17,16 @@ Item {
 
     ListView {
         id: popNotifyListView
+
         anchors.fill: parent
-
         verticalLayoutDirection: ListView.BottomToTop
-
         model: popNotifyModel
+        move: add
+        onCountChanged: {
+            if (count === 0)
+                popNotifyControl.visible = false;
+
+        }
 
         delegate: PopMessageBox {
             title: model.title
@@ -35,15 +40,9 @@ Item {
                 properties: "x,y"
                 easing.type: Easing.OutBack
             }
+
         }
 
-        move: add
-
-        onCountChanged: {
-            if (count === 0) {
-                popNotifyControl.visible = false
-            }
-        }
     }
 
     function notify(title = "", message = "") {

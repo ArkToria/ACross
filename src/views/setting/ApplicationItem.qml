@@ -1,12 +1,15 @@
-import QtQuick
-
-//import QtQuick.Dialogs
-import Qt.labs.platform
-
-import QtQuick.Layouts
-import QtQuick.Controls
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
 
 import Arktoria.ACross
+//import QtQuick.Dialogs
+import Qt.labs.platform
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     property int fontSize: 14
@@ -14,17 +17,16 @@ Item {
 
     FolderDialog {
         id: dataDirDialog
-        title: qsTr("Select Data Folder")
 
+        title: qsTr("Select Data Folder")
         onAccepted: {
-            acrossConfig.dataDir = currentFolder
+            acrossConfig.dataDir = currentFolder;
         }
     }
 
     GridLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 4
-
         columns: 6
         rowSpacing: acrossConfig.itemSpacing * 2
         columnSpacing: acrossConfig.itemSpacing * 2
@@ -32,7 +34,6 @@ Item {
         Label {
             Layout.fillWidth: true
             Layout.columnSpan: 6
-
             text: qsTr("Application Settings")
             font.pointSize: Math.round(fontSize * 1.2)
             color: acrossConfig.textColor
@@ -46,7 +47,6 @@ Item {
         TextFieldBox {
             Layout.fillWidth: true
             Layout.columnSpan: 4
-
             selectByMouse: true
             readOnly: true
             placeholderText: acrossConfig.dataDir
@@ -54,10 +54,9 @@ Item {
 
         ButtonBox {
             Layout.alignment: Qt.AlignRight
-
             text: qsTr("Open")
             onClicked: {
-                dataDirDialog.open()
+                dataDirDialog.open();
             }
         }
 
@@ -68,18 +67,17 @@ Item {
 
         TextFieldBox {
             id: userAgentText
+
             Layout.fillWidth: true
             Layout.columnSpan: 4
-
             placeholderText: acrossConfig.networkUserAgent
         }
 
         ButtonBox {
             text: qsTr("Accept")
             Layout.alignment: Qt.AlignRight
-
             onClicked: {
-                acrossConfig.networkUserAgent = userAgentText.text
+                acrossConfig.networkUserAgent = userAgentText.text;
             }
         }
 
@@ -94,16 +92,14 @@ Item {
 
         SwitchBox {
             id: enableAutoConnect
-            Layout.alignment: Qt.AlignRight
 
+            Layout.alignment: Qt.AlignRight
             checked: acrossConfig.enableAutoConnect
             onCheckedChanged: {
-                acrossConfig.enableAutoConnect = checked
+                acrossConfig.enableAutoConnect = checked;
+                if (checked)
+                    popNotify.notify(qsTr("Auto Connect"), qsTr("Set as Default > Last Connected"));
 
-                if (checked) {
-                    popNotify.notify(qsTr("Auto Connect"),
-                                     qsTr("Set as Default > Last Connected"))
-                }
             }
         }
 
@@ -118,13 +114,11 @@ Item {
 
         SwitchBox {
             checked: acrossConfig.enableAutoExport
-
             onCheckedChanged: {
-                acrossConfig.enableAutoExport = checked
+                acrossConfig.enableAutoExport = checked;
+                if (checked)
+                    popNotify.notify(qsTr("Auto Export"), acrossConfig.dataDir);
 
-                if (checked) {
-                    popNotify.notify(qsTr("Auto Export"), acrossConfig.dataDir)
-                }
             }
         }
 
@@ -144,24 +138,23 @@ Item {
 
                 Label {
                     Layout.fillWidth: true
-
-                    text: acrossTray.isSystemTrayAvailable(
-                              ) ? "" : qsTr("Unavailable")
+                    text: acrossTray.isSystemTrayAvailable() ? "" : qsTr("Unavailable")
                     color: acrossConfig.warnColor
                 }
 
                 SwitchBox {
                     id: enableTrayIcon
-                    Layout.alignment: Qt.AlignRight
 
+                    Layout.alignment: Qt.AlignRight
                     foregroundColor: acrossConfig.highlightTextColor
                     checked: acrossConfig.enableTray
-
                     onCheckedChanged: {
-                        acrossConfig.enableTray = checked
+                        acrossConfig.enableTray = checked;
                     }
                 }
+
             }
+
         }
 
         Label {
@@ -184,15 +177,16 @@ Item {
 
                 SwitchBox {
                     id: enableStartFromMinimized
+
                     Layout.alignment: Qt.AlignRight
-
                     checked: acrossConfig.enableStartFromMinimized
-
                     onCheckedChanged: {
-                        acrossConfig.enableStartFromMinimized = checked
+                        acrossConfig.enableStartFromMinimized = checked;
                     }
                 }
+
             }
+
         }
 
         Label {
@@ -211,19 +205,21 @@ Item {
 
                 DropDownBox {
                     id: logOutputsText
+
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
                     Layout.alignment: Qt.AlignRight
-
                     model: ["current", "none", "stdout", "file", "stdout & file"]
                     displayText: acrossConfig.logMode
-
                     onEditTextChanged: {
                         if (currentText !== "current")
-                            acrossConfig.logMode = currentText
+                            acrossConfig.logMode = currentText;
+
                     }
                 }
+
             }
+
         }
 
         Label {
@@ -244,23 +240,18 @@ Item {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
                     Layout.alignment: Qt.AlignRight
-
                     value: acrossConfig.logLines
                     from: 1
                     to: 10000
-
                     onValueChanged: {
-                        acrossConfig.logLines = value
+                        acrossConfig.logLines = value;
                     }
                 }
+
             }
+
         }
+
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
 }
-##^##*/
-

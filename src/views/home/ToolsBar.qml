@@ -1,8 +1,7 @@
+import Arktoria.ACross
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
-import Arktoria.ACross
 
 Item {
     implicitHeight: 48
@@ -18,21 +17,19 @@ Item {
 
             TextFieldBox {
                 id: searchTextField
+
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-
                 onTextChanged: {
-                    if (this.text === "") {
-                        acrossGroups.clearSearch()
-                    } else {
-                        acrossGroups.search(text)
-                    }
+                    if (this.text === "")
+                        acrossGroups.clearSearch();
+                    else
+                        acrossGroups.search(text);
                 }
             }
 
             SVGBox {
                 Layout.preferredWidth: 24
-
                 source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/search.svg"
                 sourceWidth: 24
                 sourceHeight: 24
@@ -40,23 +37,24 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-
                     onClicked: {
                         if (searchTextField.text !== "")
-                            acrossGroups.search(searchTextField.text)
+                            acrossGroups.search(searchTextField.text);
                         else
-                            acrossGroups.clearSearch()
+                            acrossGroups.clearSearch();
                     }
-
                     onEntered: {
-                        cursorShape = Qt.PointingHandCursor
+                        cursorShape = Qt.PointingHandCursor;
                     }
-
                     onExited: {
-                        cursorShape = Qt.ArrowCursor
+                        cursorShape = Qt.ArrowCursor;
                     }
                 }
+
             }
+
         }
+
     }
+
 }

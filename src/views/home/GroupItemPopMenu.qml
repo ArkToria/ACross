@@ -1,51 +1,17 @@
+import Arktoria.ACross
+import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
-
-import Arktoria.ACross
 
 Menu {
     id: groupItemPopMenu
-    topPadding: acrossConfig.borderRadius * 2
-    bottomPadding: acrossConfig.borderRadius * 2
 
     property real menuWidth: 168
 
+    topPadding: acrossConfig.borderRadius * 2
+    bottomPadding: acrossConfig.borderRadius * 2
     onClosed: {
-        groupItemPopMenu.destroy()
-    }
-
-    background: CardBox {
-        id: popMenuBackground
-
-        implicitWidth: menuWidth
-
-        color: acrossConfig.backgroundColor
-        radius: acrossConfig.borderRadius
-        borderWidth: 1
-        borderColor: acrossConfig.deepColor
-    }
-
-    delegate: MenuItem {
-        id: menuItem
-
-        visible: enabled
-        height: visible ? implicitHeight : 0
-
-        contentItem: Text {
-            padding: Math.round(acrossConfig.itemSpacing / 2)
-
-            text: menuItem.text
-            color: menuItem.highlighted ? acrossConfig.highlightTextColor : acrossConfig.textColor
-        }
-
-        background: Rectangle {
-            anchors.centerIn: parent
-            width: menuItem.width - acrossConfig.itemSpacing * 2
-            height: menuItem.height
-
-            color: menuItem.highlighted ? acrossConfig.highlightColor : "transparent"
-        }
+        groupItemPopMenu.destroy();
     }
 
     Action {
@@ -120,5 +86,36 @@ Menu {
             removeConfirmDialog.index = index
             removeConfirmDialog.open()
         }
+    }
+
+    background: CardBox {
+        id: popMenuBackground
+
+        implicitWidth: menuWidth
+        color: acrossConfig.backgroundColor
+        radius: acrossConfig.borderRadius
+        borderWidth: 1
+        borderColor: acrossConfig.deepColor
+    }
+
+    delegate: MenuItem {
+        id: menuItem
+
+        visible: enabled
+        height: visible ? implicitHeight : 0
+
+        contentItem: Text {
+            padding: Math.round(acrossConfig.itemSpacing / 2)
+            text: menuItem.text
+            color: menuItem.highlighted ? acrossConfig.highlightTextColor : acrossConfig.textColor
+        }
+
+        background: Rectangle {
+            anchors.centerIn: parent
+            width: menuItem.width - acrossConfig.itemSpacing * 2
+            height: menuItem.height
+            color: menuItem.highlighted ? acrossConfig.highlightColor : "transparent"
+        }
+
     }
 }

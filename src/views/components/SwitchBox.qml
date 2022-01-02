@@ -1,15 +1,15 @@
+import Arktoria.ACross
+import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
-
-import Arktoria.ACross
 
 Switch {
     id: control
-    implicitWidth: 72
-    implicitHeight: 26
 
     property string foregroundColor: acrossConfig.highlightTextColor
+
+    implicitWidth: 72
+    implicitHeight: 26
 
     indicator: Rectangle {
         anchors.fill: parent
@@ -20,13 +20,14 @@ Switch {
 
         Rectangle {
             id: handleBackground
+
             x: control.checked ? parent.width - width : 0
             width: parent.height
             height: parent.height
             radius: parent.height / 2
             color: foregroundColor
-
             layer.enabled: true
+
             layer.effect: DropShadow {
                 horizontalOffset: 2
                 verticalOffset: 2
@@ -35,6 +36,9 @@ Switch {
                 color: acrossConfig.shadowColor
                 source: handleBackground
             }
+
         }
+
     }
+
 }

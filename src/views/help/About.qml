@@ -1,17 +1,17 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
-import Arktoria.ACross
 import "../typescripts/help.js" as HelpJS
+import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 CardBox {
     id: aboutItem
-    implicitWidth: 680
-    implicitHeight: 320
 
     property int fontSize: 14
     property bool isDev: false
+
+    implicitWidth: 680
+    implicitHeight: 320
 
     RowLayout {
         anchors.fill: parent
@@ -26,18 +26,19 @@ CardBox {
 
             SVGBox {
                 id: logoImage
-                anchors.centerIn: parent
 
+                anchors.centerIn: parent
                 sourceWidth: parent.logoBasicSize
                 sourceHeight: parent.logoBasicSize
                 source: HelpJS.getLogo(acrossConfig.iconStyle)
 
                 MouseArea {
                     anchors.fill: parent
-                    onDoubleClicked: HelpJS.getLogo(acrossConfig.iconStyle,
-                                                    aboutItem, logoImage)
+                    onDoubleClicked: HelpJS.getLogo(acrossConfig.iconStyle, aboutItem, logoImage)
                 }
+
             }
+
         }
 
         Item {
@@ -46,7 +47,6 @@ CardBox {
 
             GridLayout {
                 anchors.fill: parent
-
                 columns: 2
                 rowSpacing: acrossConfig.itemSpacing * 2
                 columnSpacing: acrossConfig.itemSpacing * 2
@@ -54,7 +54,6 @@ CardBox {
                 Label {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
-
                     text: "ACross"
                     font.pointSize: Math.round(fontSize * 1.2)
                     color: acrossConfig.textColor
@@ -67,7 +66,6 @@ CardBox {
 
                 Label {
                     Layout.fillWidth: true
-
                     text: acrossConfig.guiVersion
                     color: acrossConfig.highlightColor
                 }
@@ -79,7 +77,6 @@ CardBox {
 
                 Label {
                     Layout.fillWidth: true
-
                     text: acrossConfig.buildInfo
                     color: acrossConfig.textColor
                 }
@@ -91,7 +88,6 @@ CardBox {
 
                 Label {
                     Layout.fillWidth: true
-
                     text: acrossConfig.buildTime
                     color: acrossConfig.textColor
                 }
@@ -103,7 +99,6 @@ CardBox {
 
                 URLBox {
                     Layout.fillWidth: true
-
                     urlText: acrossConfig.sourceCodeURL
                 }
 
@@ -114,7 +109,6 @@ CardBox {
 
                 URLBox {
                     Layout.fillWidth: true
-
                     urlText: acrossConfig.licenseURL
                 }
 
@@ -126,7 +120,6 @@ CardBox {
                 TextAreaBox {
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-
                     text: acrossConfig.extraInfo
                     color: acrossConfig.textColor
                     wrapMode: Text.WordWrap
@@ -139,7 +132,6 @@ CardBox {
                 RowLayout {
                     Layout.fillWidth: true
                     Layout.columnSpan: 2
-
                     spacing: acrossConfig.itemSpacing * 2
 
                     Item {
@@ -148,8 +140,8 @@ CardBox {
 
                     URLBox {
                         id: newVersionText
-                        visible: false
 
+                        visible: false
                         urlText: acrossConfig.releaseURL
                         color: acrossConfig.styleColor
                     }
@@ -163,22 +155,26 @@ CardBox {
 
                     ButtonBox {
                         text: qsTr("Check Update")
-
                         onClicked: {
-                            acrossConfig.checkUpdate()
+                            acrossConfig.checkUpdate();
                         }
                     }
 
                     Connections {
-                        target: acrossConfig
-
                         function onUpdatedChanged(versionInfo) {
-                            newVersionText.visible = true
-                            newVersionText.text = versionInfo
+                            newVersionText.visible = true;
+                            newVersionText.text = versionInfo;
                         }
+
+                        target: acrossConfig
                     }
+
                 }
+
             }
+
         }
+
     }
+
 }
