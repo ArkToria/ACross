@@ -149,6 +149,8 @@ Item {
     MaterialControls.ToolButton {
         id: menuButton
 
+        MaterialControls.Material.theme: acrossConfig.iconStyle === "dark" ? MaterialControls.Material.Dark : MaterialControls.Material.Light
+
         anchors.top: background.top
         anchors.right: background.right
         anchors.topMargin: acrossConfig.itemSpacing*3
@@ -159,7 +161,6 @@ Item {
                                 + acrossConfig.iconStyle + "/more_vert.svg"
         icon.width: 24
         icon.height: 24
-        icon.color: acrossConfig.textColor
 
         onClicked: {
             openPopMenu()
