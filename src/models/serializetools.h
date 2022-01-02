@@ -57,12 +57,12 @@ class SerializeTools {
     // Outbound Convert
     static google::protobuf::util::JsonPrintOptions defaultPrintOptions();
     static std::string MessageToJson(const google::protobuf::Message &message);
-    static v2ray::config::V2rayConfig JsonToConfig(const std::string &json_str);
+    static v2ray::config::V2RayConfig JsonToConfig(const std::string &json_str);
     static across::config::Config
     JsonToACrossConfig(const std::string &json_str);
     static v2ray::config::OutboundObject
     JsonToOutbound(const std::string &json_str);
-    static std::string ConfigToJson(v2ray::config::V2rayConfig &origin_config,
+    static std::string ConfigToJson(v2ray::config::V2RayConfig &origin_config,
                                     const QString &outbounds_str = "");
 };
 } // namespace across

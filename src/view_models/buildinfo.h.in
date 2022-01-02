@@ -8,18 +8,23 @@
 #include <QSysInfo>
 
 namespace across {
-inline static const QString getVersion() {
+inline static const QString GUI_VERSION() {
     QString version("@GUI_VERSION@");
 
     return version;
 }
 
-inline static const QString getBuildInfo() {
+inline static const QString BUILD_INFO() {
     QString buildInfo("@BUILD_INFO@");
     return buildInfo;
 }
 
-inline static const QString getExtraInfo() {
+inline static const QString BUILD_TIME() {
+    QDateTime time = QDateTime::currentDateTimeUtc();
+    return time.toString();
+}
+
+inline static const QString EXTRA_INFO() {
     QSysInfo sys_info;
     QScreen *screen = QGuiApplication::screens().at(0);
 
@@ -34,24 +39,19 @@ inline static const QString getExtraInfo() {
     return info;
 }
 
-inline static const QString getBuildTime() {
-    QDateTime time = QDateTime::currentDateTimeUtc();
-    return time.toString();
-}
-
-inline static const QString getSourceCodeURL() {
+inline static const QString SOURCE_CODE_URL() {
     return QString("https://github.com/ArkToria/ACross");
 }
 
-inline static const QString getReportURL() {
+inline static const QString ISSUES_URL() {
     return QString("https://github.com/ArkToria/ACross/issues");
 }
 
-inline static const QString getLicenseURL() {
+inline static const QString LICENSE_URL() {
     return QString("https://www.gnu.org/licenses/gpl-3.0.html");
 }
 
-inline static const QString getAPIURL(uint per_page = 0) {
+inline static const QString API_URL(uint per_page = 0) {
     if (per_page == 0) {
         return QString(
             "https://api.github.com/repos/ArkToria/ACross/releases/latest");
@@ -62,11 +62,11 @@ inline static const QString getAPIURL(uint per_page = 0) {
     }
 }
 
-inline static const QString getReleaseURL() {
+inline static const QString RELEASE_URL() {
     return QString("https://github.com/ArkToria/ACross/releases");
 }
 
-inline static const QStringList getFonts() {
+inline static const QStringList FONT_LIST() {
     QString fonts_fallback("@FONTS_FALLBACK@");
     const QStringList default_fonts = {
         "Noto Sans",     "Segoe UI Variable", "Segoe UI",
@@ -89,6 +89,15 @@ inline static const QStringList getFonts() {
     } while (false);
 
     return default_fonts;
+}
+
+inline static const QString DATE_TIME_FORMAT() {
+    QString format_string("@DATE_TIME_FORMAT@");
+
+    if (format_string.isEmpty())
+        format_string = QString("MM/dd/yyyy hh:mm:ss");
+
+    return format_string;
 }
 } // namespace across
 

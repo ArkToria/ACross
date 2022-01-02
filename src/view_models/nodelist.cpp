@@ -127,6 +127,7 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
         emit currentGroupIDChanged();
         emit currentNodeIDChanged();
         emit currentNodeInfoChanged(m_node.toVariantMap());
+        emit currentNodeChanged(m_node);
     }
 
     reloadItems();
@@ -211,7 +212,7 @@ void NodeList::reloadItems() {
 }
 
 QString NodeList::generateConfig() {
-    v2ray::config::V2rayConfig node_config;
+    v2ray::config::V2RayConfig node_config;
 
     p_config->setLogObject(node_config);
     p_config->setAPIObject(node_config);
@@ -383,6 +384,7 @@ void NodeList::setCurrentNodeByID(int id) {
             emit currentGroupIDChanged();
             emit currentNodeIDChanged();
             emit currentNodeInfoChanged(m_node.toVariantMap());
+            emit currentNodeChanged(m_node);
 
             if (!run()) {
                 p_logger->error("Failed to start current node: {} {}", node.id,

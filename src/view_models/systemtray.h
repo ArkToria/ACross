@@ -1,14 +1,18 @@
 #ifndef SYSTEMTRAY_H
 #define SYSTEMTRAY_H
+
 #include "../models/coretools.h"
-#include "../view_models/configtools.h"
-#include "../view_models/logtools.h"
-#include "../view_models/nodelist.h"
+#include "../models/dbtools.h"
+#include "buildinfo.h"
+#include "configtools.h"
+#include "logtools.h"
+#include "nodelist.h"
 
 #include <QAction>
 #include <QMenu>
 #include <QObject>
 #include <QSystemTrayIcon>
+#include <utility>
 
 namespace across {
 class SystemTray : public QObject {
@@ -60,6 +64,7 @@ class SystemTray : public QObject {
 
     QString upload_traffic = "";
     QString download_traffic = "";
+    NodeInfo m_current_node_info;
 
     QIcon connected_icon;
     QIcon disconnected_icon;

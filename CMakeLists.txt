@@ -63,7 +63,6 @@ CPMAddPackage(
     OPTIONS "BUILD_EXAMPLES OFF" "BUILD_BLACKBOX_TESTS OFF"
     )
 
-
 # JSON
 CPMAddPackage(
     NAME nlohmann_json
@@ -204,7 +203,7 @@ qt_add_qml_module(across
     VERSION 1.0
     RESOURCE_PREFIX "/"
     QML_FILES
-    ${QML_FILES}
+        ${QML_FILES}
     )
 
 qt_add_translations(across
@@ -217,7 +216,6 @@ qt_add_resources(across misc
     BASE "${CMAKE_CURRENT_LIST_DIR}/misc"
     FILES
     ${ICON_FILES}
-    ${CMAKE_SOURCE_DIR}/misc/across_example.json
     ${CMAKE_SOURCE_DIR}/misc/across.proto
     ${CMAKE_SOURCE_DIR}/misc/v2ray_config.proto
     )

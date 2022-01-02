@@ -1,7 +1,9 @@
 #ifndef GROUPINFOMODEL_H
 #define GROUPINFOMODEL_H
 
+#include "buildinfo.h"
 #include "grouplist.h"
+
 #include <QAbstractListModel>
 #include <QDateTime>
 

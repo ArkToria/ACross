@@ -605,9 +605,9 @@ SerializeTools::MessageToJson(const google::protobuf::Message &message) {
     return json_str;
 }
 
-v2ray::config::V2rayConfig
+v2ray::config::V2RayConfig
 SerializeTools::JsonToConfig(const std::string &json_str) {
-    v2ray::config::V2rayConfig config;
+    v2ray::config::V2RayConfig config;
     google::protobuf::util::JsonStringToMessage(json_str, &config);
     return config;
 }
@@ -627,7 +627,7 @@ SerializeTools::JsonToOutbound(const std::string &json_str) {
 }
 
 std::string
-SerializeTools::ConfigToJson(v2ray::config::V2rayConfig &origin_config,
+SerializeTools::ConfigToJson(v2ray::config::V2RayConfig &origin_config,
                              const QString &outbound_str) {
     Json root;
     try {

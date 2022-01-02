@@ -1,6 +1,4 @@
 #include "systemtray.h"
-#include <QSystemTrayIcon>
-#include <utility>
 
 using namespace across;
 using namespace across::core;
@@ -73,6 +71,12 @@ void SystemTray::init(QSharedPointer<across::setting::ConfigTools> config,
     connect(p_nodes.get(), &across::NodeList::downloadTrafficChanged, this,
             [this](const QString &download_traffic) {
                 this->download_traffic = download_traffic;
+                onTrafficChanged();
+            });
+
+    connect(p_nodes.get(), &across::NodeList::currentNodeChanged, this,
+            [this](const NodeInfo &node_info) {
+                this->m_current_node_info = node_info;
                 onTrafficChanged();
             });
 
@@ -174,7 +178,10 @@ void SystemTray::retranslate() {
 }
 
 QString SystemTray::titleString() {
-    return QString("ACross %1\n").arg(p_config->guiVersion());
+    return QString("ACross %1 | V2Ray Core %2\n")
+        .arg(GUI_VERSION(), p_config->coreVersion().isEmpty()
+                                ? "Unknown"
+                                : p_config->coreVersion());
 }
 
 QString SystemTray::inboundString() {
@@ -188,9 +195,12 @@ QString SystemTray::inboundString() {
         http_port = p_config->httpPort();
     }
 
-    return QString("socks5: %1 | "
-                   "http: %2\n")
-        .arg(socks5_port, http_port);
+    return QString("Connected: %1\n"
+                   "socks5: %2 | "
+                   "http: %3\n")
+        .arg(m_current_node_info.name.isEmpty() ? "No Connection"
+                                                : m_current_node_info.name,
+             socks5_port, http_port);
 }
 
 void SystemTray::onEnableTrayChanged() {
