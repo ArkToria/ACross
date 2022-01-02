@@ -177,9 +177,9 @@ class ConfigTools : public QObject {
     bool loadConfigPath(const QString &file_path = "");
     void mergeConfigFromJSON(const std::string &json_str);
 
-    void setAPIObject(v2ray::config::V2rayConfig &config);
-    void setLogObject(v2ray::config::V2rayConfig &config);
-    void setInboundObject(v2ray::config::V2rayConfig &config);
+    void setAPIObject(v2ray::config::V2RayConfig &config);
+    void setLogObject(v2ray::config::V2RayConfig &config);
+    void setInboundObject(v2ray::config::V2RayConfig &config);
 
     Q_INVOKABLE QString getConfigVersion();
     Q_INVOKABLE QString getLanguage();
@@ -279,6 +279,7 @@ class ConfigTools : public QObject {
     static QString licenseURL();
     static QString apiURL(uint per_page = 0);
     static QString releaseURL();
+    static QString DateTimeFormat();
     QStringList versionNews();
 
   public slots:

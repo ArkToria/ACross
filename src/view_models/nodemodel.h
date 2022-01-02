@@ -1,6 +1,7 @@
 #ifndef NODEMODEL_H
 #define NODEMODEL_H
 
+#include "buildinfo.h"
 #include "nodelist.h"
 
 #include "magic_enum.hpp"

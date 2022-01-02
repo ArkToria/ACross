@@ -1,11 +1,11 @@
 #ifndef NODEFORMMODEL_H
 #define NODEFORMMODEL_H
 
-#include <QObject>
-
 #include "../models/dbtools.h"
 #include "../models/serializetools.h"
 #include "nodelist.h"
+
+#include <QObject>
 
 namespace across {
 class NodeFormModel : public QObject {
@@ -27,7 +27,7 @@ class NodeFormModel : public QObject {
     void listChanged();
 
   private:
-    v2ray::config::V2rayConfig m_config;
+    v2ray::config::V2RayConfig m_config;
     NodeList *p_list;
 
     bool manualSetting(NodeInfo &node, const QVariantMap &values);

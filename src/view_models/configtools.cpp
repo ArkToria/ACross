@@ -104,7 +104,7 @@ void ConfigTools::loadThemeConfig() {
 
 Config *ConfigTools::config() { return &m_config; }
 
-void ConfigTools::setInboundObject(v2ray::config::V2rayConfig &config) {
+void ConfigTools::setInboundObject(v2ray::config::V2RayConfig &config) {
     if (auto http_setting = p_inbound->http(); http_setting.enable()) {
         auto inbound = config.add_inbounds();
         inbound->set_listen(http_setting.listen());
@@ -147,7 +147,7 @@ void ConfigTools::setInboundObject(v2ray::config::V2rayConfig &config) {
     }
 }
 
-void ConfigTools::setAPIObject(v2ray::config::V2rayConfig &config) {
+void ConfigTools::setAPIObject(v2ray::config::V2RayConfig &config) {
     if (auto api = p_core->api(); api.enable()) {
         // listening port on dokodemo_door
         {
@@ -195,7 +195,7 @@ void ConfigTools::setAPIObject(v2ray::config::V2rayConfig &config) {
     }
 }
 
-void ConfigTools::setLogObject(v2ray::config::V2rayConfig &config) {
+void ConfigTools::setLogObject(v2ray::config::V2RayConfig &config) {
     auto log_object = config.mutable_log();
     log_object->set_loglevel(p_core->log_level());
 }
@@ -828,7 +828,7 @@ bool ConfigTools::isFileExist(const QString& file_path) {
 
 QString ConfigTools::dataDir() { return m_config.data_dir().c_str(); }
 
-QString ConfigTools::guiVersion() { return getVersion(); }
+QString ConfigTools::guiVersion() { return GUI_VERSION(); }
 
 QString ConfigTools::coreInfo() {
     QProcess core_process;
@@ -1075,21 +1075,23 @@ void ConfigTools::handleUpdated(const QVariant &content) {
     }
 }
 
-QString ConfigTools::buildInfo() { return getBuildInfo(); }
+QString ConfigTools::buildInfo() { return BUILD_INFO(); }
 
-QString ConfigTools::extraInfo() { return getExtraInfo(); }
+QString ConfigTools::extraInfo() { return EXTRA_INFO(); }
 
-QString ConfigTools::buildTime() { return getBuildTime(); }
+QString ConfigTools::buildTime() { return BUILD_TIME(); }
 
-QString ConfigTools::sourceCodeURL() { return getSourceCodeURL(); }
+QString ConfigTools::sourceCodeURL() { return SOURCE_CODE_URL(); }
 
-QString ConfigTools::reportURL() { return getReportURL(); }
+QString ConfigTools::reportURL() { return ISSUES_URL(); }
 
-QString ConfigTools::licenseURL() { return getLicenseURL(); }
+QString ConfigTools::licenseURL() { return LICENSE_URL(); }
 
-QString ConfigTools::apiURL(uint per_page) { return getAPIURL(per_page); }
+QString ConfigTools::apiURL(uint per_page) { return API_URL(per_page); }
 
-QString ConfigTools::releaseURL() { return getReleaseURL(); }
+QString ConfigTools::releaseURL() { return RELEASE_URL(); }
+
+QString ConfigTools::DateTimeFormat() { return DATE_TIME_FORMAT(); }
 
 QStringList ConfigTools::versionNews() { return m_version_news; }
 

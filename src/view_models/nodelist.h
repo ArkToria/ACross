@@ -125,6 +125,7 @@ class NodeList : public QObject {
     void uploadTrafficChanged(const QString &uploadTraffic);
     void downloadTrafficChanged(const QString &downloadTraffic);
     void currentNodeInfoChanged(const QVariantMap &nodeModel);
+    void currentNodeChanged(const NodeInfo &nodeInfo);
 
   private:
     std::shared_ptr<spdlog::logger> p_logger;

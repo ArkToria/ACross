@@ -475,7 +475,7 @@ message BrowserForwarderObject {}
 
 message ObservatoryObject {}
 
-message V2rayConfig
+message V2RayConfig
 {
   LogObject log = 1;
   APIObject api = 2;

@@ -32,9 +32,9 @@ QVariant GroupModel::data(const QModelIndex &index, int role) const {
     case CycleTimeRole:
         return item.cycle_time;
     case CreatedAtRole:
-        return item.created_time.toString("MM/dd/yyyy HH:mm:ss");
+        return item.created_time.toString(DATE_TIME_FORMAT());
     case ModifiedAtRole:
-        return item.modified_time.toString("MM/dd/yyyy HH:mm:ss");
+        return item.modified_time.toString(DATE_TIME_FORMAT());
     case ItemsRole:
         return item.items;
     default:

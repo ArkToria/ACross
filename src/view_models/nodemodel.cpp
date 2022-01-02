@@ -13,8 +13,6 @@ int NodeModel::rowCount(const QModelIndex &parent) const {
 }
 
 QVariant NodeModel::data(const QModelIndex &index, int role) const {
-    const QString dateTimeFormat("mm/dd/yyyy hh:mm:ss");
-
     if (!index.isValid() || !p_list) {
         return {};
     }
@@ -61,9 +59,9 @@ QVariant NodeModel::data(const QModelIndex &index, int role) const {
     case DownloadRole:
         return item.download;
     case CreatedAtRole:
-        return item.created_time.toString(dateTimeFormat);
+        return item.created_time.toString(DATE_TIME_FORMAT());
     case ModifiedAtRole:
-        return item.modified_time.toString(dateTimeFormat);
+        return item.modified_time.toString(DATE_TIME_FORMAT());
     }
 
     return {};
@@ -110,7 +108,6 @@ void NodeModel::connectItems() {
         QModelIndex bottomRight = createIndex(index, 0);
 
         if (m_old_rows > index) {
-            // qDebug()<<index<<m_old_rows<<rowCount(QModelIndex());
             beginRemoveRows(QModelIndex(), index, m_old_rows);
             endRemoveRows();
         } else if (m_old_rows < index) {
