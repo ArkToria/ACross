@@ -1,8 +1,7 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
 import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     implicitHeight: coreVersionText.contentHeight + guiVersionText.contentHeight
@@ -13,19 +12,22 @@ Item {
 
         Label {
             id: coreVersionText
+
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
-
             text: qsTr("Core") + " " + acrossConfig.coreVersion
             color: acrossConfig.textColor
         }
 
         Label {
             id: guiVersionText
+
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
             text: qsTr("Client") + " " + acrossConfig.guiVersion
             color: acrossConfig.textColor
         }
+
     }
+
 }

@@ -1,8 +1,7 @@
+import Arktoria.ACross
+import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
-
-import Arktoria.ACross
 
 Slider {
     id: control
@@ -25,6 +24,7 @@ Slider {
             color: acrossConfig.highlightColor
             radius: 4
         }
+
     }
 
     handle: Rectangle {
@@ -33,11 +33,9 @@ Slider {
         width: 26
         height: width
         radius: width / 2
-        color: control.pressed ? Qt.lighter(
-                                     acrossConfig.highlightTextColor,
-                                     0.9) : acrossConfig.highlightTextColor
-
+        color: control.pressed ? Qt.lighter(acrossConfig.highlightTextColor, 0.9) : acrossConfig.highlightTextColor
         layer.enabled: true
+
         layer.effect: DropShadow {
             horizontalOffset: 0
             verticalOffset: 0
@@ -46,5 +44,7 @@ Slider {
             color: acrossConfig.shadowColor
             source: handle
         }
+
     }
+
 }

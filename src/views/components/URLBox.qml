@@ -1,7 +1,6 @@
+import Arktoria.ACross
 import QtQuick
 import QtQuick.Controls
-
-import Arktoria.ACross
 
 Label {
     id: urlLabel
@@ -16,15 +15,13 @@ Label {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-
         onEntered: {
-            parent.color = acrossConfig.deepTextColor
+            parent.color = acrossConfig.deepTextColor;
         }
-
         onExited: {
-            parent.color = acrossConfig.highlightColor
+            parent.color = acrossConfig.highlightColor;
         }
-
         onClicked: Qt.openUrlExternally(urlText)
     }
+
 }

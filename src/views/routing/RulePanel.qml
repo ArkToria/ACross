@@ -1,16 +1,16 @@
+import ACross
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import ACross
-
 CardBox {
     id: control
-    implicitWidth: 240
-    implicitHeight: 720
 
     property string title: "Direct"
     property bool isEdited: false
+
+    implicitWidth: 240
+    implicitHeight: 720
 
     GridLayout {
         anchors.fill: parent
@@ -48,27 +48,31 @@ CardBox {
 
                     MouseArea {
                         anchors.fill: parent
-
                         onClicked: {
-                            control.isEdited = !control.isEdited
+                            control.isEdited = !control.isEdited;
                         }
                     }
+
                 }
+
             }
+
         }
 
         ListView {
             id: directRuleList
+
             Layout.fillWidth: true
             Layout.columnSpan: 4
             Layout.fillHeight: true
             clip: true
-
             model: ["baidu.com", "qq.com", "geosite:cn", "ext:customizedGeoSiteFile.dat:cn", "0.0.0.0/8", "10.0.0.0/8", "fc00::/7", "fe80::/10", "geoip:cn", "geoip:!cn", "ext:customizedGeoIPFile.dat:cn", "ext:customizedGeoIPFile.dat:!cn", "ext-ip:customizedGeoIPFile.dat:cn", "ext-ip:customizedGeoIPFile.dat:!cn"]
+
             delegate: RuleItemCard {
                 state: control.isEdited ? "EditState" : "NormalState"
                 width: directRuleList.width
             }
+
         }
 
         //        SVGBox {
@@ -80,5 +84,7 @@ CardBox {
             Layout.fillWidth: true
             Layout.columnSpan: 4
         }
+
     }
+
 }

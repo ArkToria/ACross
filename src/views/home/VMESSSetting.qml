@@ -1,33 +1,30 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
-import Arktoria.ACross
 import "../typescripts/home.js" as HomeJS
+import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
-    implicitWidth: 680
-    implicitHeight: 300
-
     property int fontSize: 14
 
+    implicitWidth: 680
+    implicitHeight: 300
     onVisibleChanged: {
         HomeJS.vmessComponentSetting(visible, {
-                                         "alterIDText": alterIDText,
-                                         "securitySelect": securitySelect,
-                                         "networkSelect": networkSelect,
-                                         "pathText": pathText,
-                                         "hostText": hostText,
-                                         "typeSelect": typeSelect,
-                                         "quicSecuritySelect": quicSecuritySelect,
-                                         "tlsEnableSelect": tlsEnableSelect,
-                                         "sniText": sniText
-                                     }, nodeModel)
+            "alterIDText": alterIDText,
+            "securitySelect": securitySelect,
+            "networkSelect": networkSelect,
+            "pathText": pathText,
+            "hostText": hostText,
+            "typeSelect": typeSelect,
+            "quicSecuritySelect": quicSecuritySelect,
+            "tlsEnableSelect": tlsEnableSelect,
+            "sniText": sniText
+        }, nodeModel);
     }
 
     GridLayout {
         anchors.fill: parent
-
         columns: 4
         rowSpacing: acrossConfig.itemSpacing * 2
         columnSpacing: acrossConfig.itemSpacing * 2
@@ -35,7 +32,6 @@ Item {
         Label {
             Layout.fillWidth: true
             Layout.columnSpan: 4
-
             text: qsTr("VMESS Setting")
             font.pointSize: fontSize
             color: acrossConfig.textColor
@@ -55,7 +51,7 @@ Item {
             id: tlsEnableSelect
 
             onCheckedChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
@@ -67,14 +63,13 @@ Item {
 
         TextFieldBox {
             id: sniText
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
             visible: tlsEnableSelect.checked
-
             placeholderText: qsTr("Keep it blank to use the same address")
-
             onTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
@@ -85,18 +80,19 @@ Item {
 
         TextFieldBox {
             id: alterIDText
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             placeholderText: "[0-65535] 0: auto enable VMessAEAD"
+            onTextChanged: {
+                nodeEditFormPopWindow.configChanged();
+            }
+
             validator: IntValidator {
                 bottom: 0
                 top: 65535
             }
 
-            onTextChanged: {
-                nodeEditFormPopWindow.configChanged()
-            }
         }
 
         Label {
@@ -106,13 +102,12 @@ Item {
 
         DropDownBox {
             id: securitySelect
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             model: ["auto", "aes-128-gcm", "chacha20-poly1305", "none", "zero"]
-
             onEditTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
@@ -123,103 +118,101 @@ Item {
 
         DropDownBox {
             id: networkSelect
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
             model: ["none", "tcp", "h2", "ws", "grpc", "quic"]
-
             onCurrentIndexChanged: HomeJS.networkSelectSetting(currentIndex, {
-                                                                   "typeLabel": typeLabel,
-                                                                   "typeSelect": typeSelect,
-                                                                   "quicSecurityLabel": quicSecurityLabel,
-                                                                   "quicSecuritySelect": quicSecuritySelect,
-                                                                   "hostLabel": hostLabel,
-                                                                   "hostText": hostText,
-                                                                   "pathLabel": pathLabel,
-                                                                   "pathText": pathText
-                                                               },
-                                                               nodeEditFormPopWindow)
+                "typeLabel": typeLabel,
+                "typeSelect": typeSelect,
+                "quicSecurityLabel": quicSecurityLabel,
+                "quicSecuritySelect": quicSecuritySelect,
+                "hostLabel": hostLabel,
+                "hostText": hostText,
+                "pathLabel": pathLabel,
+                "pathText": pathText
+            }, nodeEditFormPopWindow)
         }
 
         Label {
             id: typeLabel
+
             text: qsTr("Type")
             color: acrossConfig.textColor
         }
 
         DropDownBox {
             id: typeSelect
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             model: ["none", "http", "srtp", "utp", "wechat-video", "wireguard"]
-
             onEditTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
         Label {
             id: quicSecurityLabel
+
             text: qsTr("Securty")
             color: acrossConfig.textColor
         }
 
         DropDownBox {
             id: quicSecuritySelect
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             model: ["none", "aes-128-gcm", "chacha20-poly1305"]
-
             onEditTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
         Label {
             id: hostLabel
+
             text: qsTr("Host")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             id: hostText
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             color: acrossConfig.textColor
-
             onTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
         Label {
             id: pathLabel
+
             text: qsTr("Path")
             color: acrossConfig.textColor
         }
 
         TextFieldBox {
             id: pathText
+
             Layout.fillWidth: true
             Layout.columnSpan: 3
-
             color: acrossConfig.textColor
-
             onTextChanged: {
-                nodeEditFormPopWindow.configChanged()
+                nodeEditFormPopWindow.configChanged();
             }
         }
 
         Item {
             Layout.fillHeight: true
         }
+
     }
 
     Connections {
-        target: protocolSettingsLoader
-
         function onAcceptAll() {
             vmessSetting = {
                 "enableTLS": tlsEnableSelect.checked,
@@ -230,7 +223,10 @@ Item {
                 "type": typeSelect.currentText,
                 "host": hostText.visible === true ? hostText.text : quicSecuritySelect.currentText,
                 "path": pathText.text
-            }
+            };
         }
+
+        target: protocolSettingsLoader
     }
+
 }

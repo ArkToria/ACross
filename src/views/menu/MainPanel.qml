@@ -1,23 +1,27 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.9}
+}
+##^##*/
 
 import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Rectangle {
     implicitWidth: 120
     implicitHeight: 720
-
     color: acrossConfig.backgroundColor
 
     Connections {
-        target: pageLoader
-
         function onCurrentIndexChanged() {
-            if (menuListView.currentIndex !== pageLoader.currentIndex) {
-                menuListView.currentIndex = pageLoader.currentIndex
-            }
+            if (menuListView.currentIndex !== pageLoader.currentIndex)
+                menuListView.currentIndex = pageLoader.currentIndex;
+
         }
+
+        target: pageLoader
     }
 
     ColumnLayout {
@@ -31,29 +35,30 @@ Rectangle {
 
         ListView {
             id: menuListView
+
             Layout.fillWidth: true
             Layout.fillHeight: true
             clip: true
             interactive: false
-
-            model: MenuModel {}
-
-            delegate: MenuItemCard {}
-
             // disable highlight animation
             highlightMoveDuration: 0
+            onHeightChanged: {
+                if (menuListView.height <= mainWindow.minimumHeight)
+                    interactive = true;
+                else
+                    interactive = false;
+            }
+
+            model: MenuModel {
+            }
+
+            delegate: MenuItemCard {
+            }
 
             highlight: Rectangle {
                 color: acrossConfig.deepColor
             }
 
-            onHeightChanged: {
-                if (menuListView.height <= mainWindow.minimumHeight) {
-                    interactive = true
-                } else {
-                    interactive = false
-                }
-            }
         }
 
         InfoItem {
@@ -62,12 +67,7 @@ Rectangle {
             Layout.alignment: Qt.AlignHCenter | Qt.AlignBottom
             Layout.bottomMargin: acrossConfig.itemSpacing * 4
         }
+
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.9}
 }
-##^##*/
-

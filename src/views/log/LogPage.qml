@@ -1,8 +1,7 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
 import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
     implicitWidth: 840
@@ -11,7 +10,6 @@ Item {
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing
-
         clip: true
         spacing: acrossConfig.itemSpacing
 
@@ -24,5 +22,7 @@ Item {
             Layout.fillWidth: true
             Layout.fillHeight: true
         }
+
     }
+
 }

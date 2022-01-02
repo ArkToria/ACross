@@ -1,66 +1,61 @@
-import QtQuick
-import QtQuick.Window
-import QtQuick.Layouts
-import QtQuick.Controls
-import QtQuick.Controls.Basic as ControlsBasic
-import Qt5Compat.GraphicalEffects
-
+import Arktoria.ACross
 //import QtQuick.Dialogs
 import Qt.labs.platform
-
-import Arktoria.ACross
+import Qt5Compat.GraphicalEffects
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Basic as ControlsBasic
+import QtQuick.Layouts
+import QtQuick.Window
 
 Window {
     id: nodeEditFormPopWindow
+
+    property var nodeModel: null
+    property int fontSize: 14
+
+    signal configChanged()
+
     width: 960
     height: 680
     minimumWidth: 680
     minimumHeight: 420
     title: qsTr("Edit Configuration")
-
     flags: Qt.platform.os === "windows" ? Qt.Window : Qt.WindowStaysOnTopHint
     modality: Qt.platform.os === "osx" ? Qt.NonModal : Qt.ApplicationModal
-
-    property var nodeModel: null
-    property int fontSize: 14
-    signal configChanged
-
     onVisibilityChanged: {
         if (visible) {
             if (nodeModel !== null) {
-                jsonPreview.text = acrossNodes.jsonFormat(nodeModel.raw)
-                urlTextField.text = nodeModel.url
-                manualNameText.text = nodeModel.name
-                manualAddressText.text = nodeModel.address
-                manualPortText.text = nodeModel.port
-                manualPasswordText.text = nodeModel.password
-                manualProtocolType.currentIndex = nodeModel.protocol
-                importConfigName.text = nodeModel.name
+                jsonPreview.text = acrossNodes.jsonFormat(nodeModel.raw);
+                urlTextField.text = nodeModel.url;
+                manualNameText.text = nodeModel.name;
+                manualAddressText.text = nodeModel.address;
+                manualPortText.text = nodeModel.port;
+                manualPasswordText.text = nodeModel.password;
+                manualProtocolType.currentIndex = nodeModel.protocol;
+                importConfigName.text = nodeModel.name;
             }
         } else {
-            nodeEditFormPopWindow.close()
-            nodeEditFormPopWindow.destroy()
+            nodeEditFormPopWindow.close();
+            nodeEditFormPopWindow.destroy();
         }
     }
-
     onConfigChanged: {
         let variantMap = {
             "type": bar.currentIndex,
             "url": urlSetting.accept(),
             "manual": manualSetting.accept(),
             "config": importConfigSetting.accept()
-        }
+        };
+        if (nodeModel !== null)
+            variantMap["nodeID"] = nodeModel.nodeID;
 
-        if (nodeModel !== null) {
-            variantMap["nodeID"] = nodeModel.nodeID
-        }
-
-        jsonPreview.text = acrossNodes.jsonFormat(nodeFormModel.refreshPreview(
-                                                      variantMap))
+        jsonPreview.text = acrossNodes.jsonFormat(nodeFormModel.refreshPreview(variantMap));
     }
 
     NodeFormModel {
         id: nodeFormModel
+
         list: acrossNodes
     }
 
@@ -75,7 +70,6 @@ Window {
             GridLayout {
                 anchors.fill: parent
                 anchors.margins: acrossConfig.itemSpacing * 4
-
                 columns: 2
                 rows: 3
                 columnSpacing: acrossConfig.itemSpacing * 2
@@ -88,30 +82,44 @@ Window {
 
                     TextAreaBox {
                         id: jsonPreview
+
                         width: parent.availableWidth
                         height: parent.availableHeight
-
                         selectByMouse: true
                         readOnly: true
                         font: fixedFont
-
                         Component.onCompleted: {
-                            acrossNodes.setDocument(jsonPreview.textDocument)
+                            acrossNodes.setDocument(jsonPreview.textDocument);
                         }
                     }
+
                 }
 
                 TabBar {
                     id: bar
+
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop
 
                     Repeater {
-                        model: [qsTr("Decode URL"), qsTr(
-                                "Manual Setting"), qsTr("Import Config")]
+                        model: [qsTr("Decode URL"), qsTr("Manual Setting"), qsTr("Import Config")]
 
                         TabButton {
                             id: tabButton
+
+                            MouseArea {
+                                anchors.fill: tabButton
+                                hoverEnabled: true
+                                onEntered: {
+                                    cursorShape = Qt.PointingHandCursor;
+                                }
+                                onExited: {
+                                    cursorShape = Qt.ArrowCursor;
+                                }
+                                onClicked: {
+                                    bar.currentIndex = index;
+                                }
+                            }
 
                             contentItem: Text {
                                 text: modelData
@@ -124,73 +132,73 @@ Window {
                                 color: bar.currentIndex === model.index ? acrossConfig.backgroundColor : acrossConfig.deepColor
                             }
 
-                            MouseArea {
-                                anchors.fill: tabButton
-                                hoverEnabled: true
-
-                                onEntered: {
-                                    cursorShape = Qt.PointingHandCursor
-                                }
-
-                                onExited: {
-                                    cursorShape = Qt.ArrowCursor
-                                }
-
-                                onClicked: {
-                                    bar.currentIndex = index
-                                }
-                            }
                         }
+
                     }
+
                 }
 
                 StackLayout {
                     Layout.fillWidth: true
                     Layout.alignment: Qt.AlignTop
-
                     currentIndex: bar.currentIndex
 
                     Item {
                         id: urlSetting
+
+                        function accept() {
+                            return urlTextField.text;
+                        }
+
                         ColumnLayout {
                             anchors.fill: parent
                             spacing: acrossConfig.itemSpacing * 2
 
                             TextAreaBox {
                                 id: urlTextField
+
                                 Layout.fillWidth: true
                                 wrapMode: Text.WrapAnywhere
                                 placeholderText: "support url scheme: ss:// vmess:// trojan://"
-
                                 onTextChanged: {
-                                    configChanged()
+                                    configChanged();
                                 }
                             }
 
                             Item {
                                 Layout.fillHeight: true
                             }
+
                         }
 
-                        function accept() {
-                            return urlTextField.text
-                        }
                     }
 
                     Item {
                         id: manualSetting
 
+                        function accept() {
+                            protocolSettingsLoader.acceptAll();
+                            return {
+                                "name": manualNameText.text,
+                                "address": manualAddressText.text,
+                                "port": manualPortText.text,
+                                "password": manualPasswordText.text,
+                                "protocol": manualProtocolType.currentIndex,
+                                "vmess": protocolSettingsLoader.vmessSetting,
+                                "shadowsocks": protocolSettingsLoader.shadowsocksSetting,
+                                "trojan": protocolSettingsLoader.trojanSetting
+                            };
+                        }
+
                         GridLayout {
                             anchors.fill: parent
                             columns: 4
-
                             rowSpacing: acrossConfig.itemSpacing * 2
                             columnSpacing: acrossConfig.itemSpacing * 2
 
                             Label {
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 4
-
                                 text: qsTr("Outbound Config")
                                 color: acrossConfig.textColor
                                 font.pointSize: fontSize
@@ -203,11 +211,11 @@ Window {
 
                             TextFieldBox {
                                 id: manualNameText
+
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
-
                                 onTextChanged: {
-                                    configChanged()
+                                    configChanged();
                                 }
                             }
 
@@ -218,10 +226,10 @@ Window {
 
                             TextFieldBox {
                                 id: manualAddressText
-                                Layout.fillWidth: true
 
+                                Layout.fillWidth: true
                                 onTextChanged: {
-                                    configChanged()
+                                    configChanged();
                                 }
                             }
 
@@ -232,17 +240,18 @@ Window {
 
                             TextFieldBox {
                                 id: manualPortText
-                                Layout.minimumWidth: 72
 
+                                Layout.minimumWidth: 72
                                 placeholderText: "443"
+                                onTextChanged: {
+                                    configChanged();
+                                }
+
                                 validator: IntValidator {
                                     bottom: 0
                                     top: 65535
                                 }
 
-                                onTextChanged: {
-                                    configChanged()
-                                }
                             }
 
                             Label {
@@ -252,11 +261,11 @@ Window {
 
                             TextFieldBox {
                                 id: manualPasswordText
+
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
-
                                 onTextChanged: {
-                                    configChanged()
+                                    configChanged();
                                 }
                             }
 
@@ -267,73 +276,68 @@ Window {
 
                             DropDownBox {
                                 id: manualProtocolType
+
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
-
                                 model: ["vmess", "shadowsocks", "trojan"]
-
                                 onEditTextChanged: {
                                     switch (currentIndex) {
                                     case 0:
-                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/VMESSSetting.qml"
-                                        break
+                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/VMESSSetting.qml";
+                                        break;
                                     case 1:
-                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/ShadowsocksSetting.qml"
-                                        break
+                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/ShadowsocksSetting.qml";
+                                        break;
                                     case 2:
-                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/TrojanSetting.qml"
-                                        break
+                                        protocolSettingsLoader.source = "qrc:/Arktoria/ACross/src/views/home/TrojanSetting.qml";
+                                        break;
                                     default:
-                                        console.log("unknown protocol")
-
-                                        configChanged()
+                                        console.log("unknown protocol");
+                                        configChanged();
                                     }
                                 }
                             }
 
                             Loader {
                                 id: protocolSettingsLoader
-                                Layout.fillWidth: true
-                                Layout.columnSpan: 4
 
-                                signal acceptAll
                                 property var vmessSetting: null
                                 property var shadowsocksSetting: null
                                 property var trojanSetting: null
+
+                                signal acceptAll()
+
+                                Layout.fillWidth: true
+                                Layout.columnSpan: 4
                             }
 
                             Item {
                                 Layout.fillHeight: true
                             }
+
                         }
 
-                        function accept() {
-                            protocolSettingsLoader.acceptAll()
-
-                            return {
-                                "name": manualNameText.text,
-                                "address": manualAddressText.text,
-                                "port": manualPortText.text,
-                                "password": manualPasswordText.text,
-                                "protocol": manualProtocolType.currentIndex,
-                                "vmess": protocolSettingsLoader.vmessSetting,
-                                "shadowsocks": protocolSettingsLoader.shadowsocksSetting,
-                                "trojan": protocolSettingsLoader.trojanSetting
-                            }
-                        }
                     }
 
                     Item {
                         id: importConfigSetting
+
+                        function accept() {
+                            return {
+                                "name": importConfigName.text,
+                                "filePath": importConfigPath.text
+                            };
+                        }
+
                         FileDialog {
                             id: importConfigDialog
+
                             title: qsTr("Import v2ray config from file")
                             fileMode: FileDialog.OpenFile
-
                             nameFilters: ["v2ray config (*.json)", "All files (*)"]
                             onAccepted: {
-                                importConfigPath.text = file
-                                configChanged()
+                                importConfigPath.text = file;
+                                configChanged();
                             }
                         }
 
@@ -350,11 +354,11 @@ Window {
 
                             TextFieldBox {
                                 id: importConfigName
+
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 3
-
                                 onTextChanged: {
-                                    configChanged()
+                                    configChanged();
                                 }
                             }
 
@@ -365,35 +369,30 @@ Window {
 
                             TextFieldBox {
                                 id: importConfigPath
+
                                 Layout.fillWidth: true
                                 Layout.columnSpan: 2
-
                                 placeholderText: qsTr("Enter Config Path Here")
-
                                 onTextChanged: {
-                                    configChanged()
+                                    configChanged();
                                 }
                             }
 
                             ButtonBox {
                                 text: qsTr("Open")
                                 onClicked: {
-                                    importConfigDialog.open()
+                                    importConfigDialog.open();
                                 }
                             }
 
                             Item {
                                 Layout.fillHeight: true
                             }
+
                         }
 
-                        function accept() {
-                            return {
-                                "name": importConfigName.text,
-                                "filePath": importConfigPath.text
-                            }
-                        }
                     }
+
                 }
 
                 RowLayout {
@@ -415,14 +414,12 @@ Window {
                                 "url": urlSetting.accept(),
                                 "manual": manualSetting.accept(),
                                 "config": importConfigSetting.accept()
-                            }
+                            };
+                            if (nodeModel !== null)
+                                variantMap["nodeID"] = nodeModel.nodeID;
 
-                            if (nodeModel !== null) {
-                                variantMap["nodeID"] = nodeModel.nodeID
-                            }
-
-                            nodeFormModel.accept(variantMap)
-                            nodeEditFormPopWindow.close()
+                            nodeFormModel.accept(variantMap);
+                            nodeEditFormPopWindow.close();
                         }
                     }
 
@@ -430,13 +427,17 @@ Window {
                         text: qsTr("Cancel")
                         basicColor: acrossConfig.warnColor
                         basicState: "WarnState"
-
                         onClicked: {
-                            nodeEditFormPopWindow.close()
+                            nodeEditFormPopWindow.close();
                         }
                     }
+
                 }
+
             }
+
         }
+
     }
+
 }

@@ -1,19 +1,17 @@
-import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
-
 import Arktoria.ACross
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 Item {
+    property int fontSize: 14
+
     implicitWidth: 840
     implicitHeight: 720
-
-    property int fontSize: 14
 
     ColumnLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing
-
         clip: true
         spacing: acrossConfig.itemSpacing
 
@@ -24,12 +22,13 @@ Item {
             Label {
                 anchors.fill: parent
                 anchors.margins: acrossConfig.itemSpacing * 4
-
                 text: qsTr("Routing")
-
                 font.pointSize: Math.round(fontSize * 1.2)
                 color: acrossConfig.textColor
             }
+
         }
+
     }
+
 }

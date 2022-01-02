@@ -7,6 +7,7 @@ ListModel {
         iconSource: "/home.svg"
     }
     //    ListElement {
+
     //        name: qsTr("Logs")
     //        source: "qrc:/Arktoria/ACross/src/views/log/LogPage.qml"
     //        iconSource: "/log.svg"
@@ -21,9 +22,11 @@ ListModel {
         source: "qrc:/Arktoria/ACross/src/views/setting/SettingPage.qml"
         iconSource: "/setting.svg"
     }
+
     ListElement {
         name: qsTr("Help")
         source: "qrc:/Arktoria/ACross/src/views/help/HelpPage.qml"
         iconSource: "/help.svg"
     }
+
 }

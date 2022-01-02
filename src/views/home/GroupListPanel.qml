@@ -1,39 +1,45 @@
+/*##^##
+Designer {
+    D{i:0;formeditorZoom:0.66}
+}
+##^##*/
+
+import Arktoria.ACross
+import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Qt5Compat.GraphicalEffects
-
-import Arktoria.ACross
 
 Item {
     id: groupListPanel
-    implicitWidth: 312
-    implicitHeight: 720
 
     property Component groupFormComponent: null
 
     function setIndexByID(group_id) {
-        let index = acrossGroups.getIndexByID(group_id)
+        let index = acrossGroups.getIndexByID(group_id);
         if (index === -1)
-            return
+            return ;
 
-        listScrollView.currentIndex = index
-        acrossGroups.setDisplayGroupID(group_id)
+        listScrollView.currentIndex = index;
+        acrossGroups.setDisplayGroupID(group_id);
     }
 
     function openGroupForm() {
-        darkBackground.show()
-        if (groupFormComponent == null) {
-            groupFormComponent = Qt.createComponent(
-                        "qrc:/Arktoria/ACross/src/views/home/GroupForm.qml")
-        }
-        if (groupFormComponent.status === Component.Ready) {
-            groupFormComponent.createObject(groupListPanel).open()
-        }
+        darkBackground.show();
+        if (groupFormComponent == null)
+            groupFormComponent = Qt.createComponent("qrc:/Arktoria/ACross/src/views/home/GroupForm.qml");
+
+        if (groupFormComponent.status === Component.Ready)
+            groupFormComponent.createObject(groupListPanel).open();
+
     }
+
+    implicitWidth: 312
+    implicitHeight: 720
 
     RemoveConfirmDialog {
         id: removeConfirmDialog
+
         headerText: qsTr("Warning")
         contentText: qsTr("Confirm to remove group from database")
     }
@@ -44,7 +50,6 @@ Item {
 
     ColumnLayout {
         anchors.fill: parent
-
         spacing: 0
 
         ToolsBar {
@@ -55,8 +60,8 @@ Item {
 
         SVGBox {
             id: updateIcon
-            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
 
+            Layout.alignment: Qt.AlignHCenter | Qt.AlignTop
             visible: false
             source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/update.svg"
             sourceWidth: 24
@@ -65,20 +70,35 @@ Item {
 
         ListView {
             id: listScrollView
-            Layout.fillWidth: true
-            Layout.fillHeight: true
 
             property bool updateToken: false
 
+            Layout.fillWidth: true
+            Layout.fillHeight: true
             highlightMoveDuration: 0
+            onContentYChanged: {
+                if (-contentY > updateIcon.sourceHeight * 2) {
+                    updateIcon.visible = true;
+                    updateToken = true;
+                } else {
+                    updateIcon.visible = false;
+                }
+                if (updateToken && this.contentY === 0) {
+                    popNotify.notify(qsTr("Updating..."), qsTr("The default node will be reset"));
+                    acrossGroups.checkAllUpdate(true); // force update
+                    updateToken = false;
+                }
+            }
 
             model: GroupModel {
                 id: groupModel
+
                 list: acrossGroups
             }
 
             delegate: GroupItemCard {
                 id: groupItemCard
+
                 implicitWidth: listScrollView.width
             }
 
@@ -86,35 +106,32 @@ Item {
                 color: acrossConfig.highlightColor
             }
 
-            onContentYChanged: {
-                if (-contentY > updateIcon.sourceHeight * 2) {
-                    updateIcon.visible = true
-                    updateToken = true
-                } else {
-                    updateIcon.visible = false
-                }
-
-                if (updateToken && this.contentY === 0) {
-                    popNotify.notify(qsTr("Updating..."),
-                                     qsTr("The default node will be reset"))
-                    acrossGroups.checkAllUpdate(true) // force update
-                    updateToken = false
-                }
-            }
         }
+
     }
 
     ButtonBox {
         id: panelMenuBackground
+
         x: parent.width - 72
         y: parent.height - 72
         implicitWidth: 56
         implicitHeight: 56
         z: 1
-
         basicColor: acrossConfig.styleColor
         backgroundRadius: width / 2
         layer.enabled: true
+        onClicked: {
+            openGroupForm();
+        }
+
+        SVGBox {
+            anchors.centerIn: parent
+            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/add.svg"
+            sourceWidth: 36
+            sourceHeight: sourceWidth
+        }
+
         layer.effect: DropShadow {
             horizontalOffset: 2
             verticalOffset: 2
@@ -123,23 +140,6 @@ Item {
             color: acrossConfig.shadowColor
         }
 
-        SVGBox {
-            anchors.centerIn: parent
-
-            source: "qrc:/misc/icons/" + acrossConfig.iconStyle + "/add.svg"
-            sourceWidth: 36
-            sourceHeight: sourceWidth
-        }
-
-        onClicked: {
-            openGroupForm()
-        }
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;formeditorZoom:0.66}
 }
-##^##*/
-
