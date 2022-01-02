@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.Controls.Material as MaterialControls
 
 import Arktoria.ACross
 import "../typescripts/home.js" as HomeJS
@@ -16,6 +17,17 @@ Item {
                                                       nodeID, acrossCore)
     property color backgroundColor: isCurrentNode ? acrossConfig.highlightColor : acrossConfig.backgroundColor
     property color textColor: isCurrentNode ? acrossConfig.highlightTextColor : acrossConfig.textColor
+    
+    function openPopMenu() {
+        if (popMenuComponent == null) {
+            popMenuComponent = Qt.createComponent(
+                        "qrc:/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml")
+        }
+
+        if (popMenuComponent.status === Component.Ready) {
+            popMenuComponent.createObject(nodeItemCard).popup()
+        }
+    }
 
     state: "NormalState"
     states: [
@@ -68,19 +80,6 @@ Item {
 
                 color: "transparent"
                 Layout.alignment: Qt.AlignRight | Qt.AlignTop
-
-                SVGBox {
-                    anchors.top: parent.top
-                    anchors.right: parent.right
-                    anchors.topMargin: acrossConfig.itemSpacing
-                    anchors.rightMargin: acrossConfig.itemSpacing
-
-                    source: isCurrentNode ? "qrc:/misc/icons/" + acrossConfig.iconStyle
-                                            + (acrossConfig.iconStyle === "dark" ? "/more_vert.svg" : "/more_vert_reverse.svg") : "qrc:/misc/icons/"
-                                            + acrossConfig.iconStyle + "/more_vert.svg"
-                    sourceWidth: 24
-                    sourceHeight: 24
-                }
             }
 
             Label {
@@ -142,15 +141,28 @@ Item {
 
         onClicked: function (mouse) {
             if (mouse.button === Qt.RightButton) {
-                if (popMenuComponent == null) {
-                    popMenuComponent = Qt.createComponent(
-                                "qrc:/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml")
-                }
-
-                if (popMenuComponent.status === Component.Ready) {
-                    popMenuComponent.createObject(nodeItemCard).popup()
-                }
+                openPopMenu();
             }
+        }
+    }
+
+    MaterialControls.ToolButton {
+        id: menuButton
+
+        anchors.top: background.top
+        anchors.right: background.right
+        anchors.topMargin: acrossConfig.itemSpacing*3
+        anchors.rightMargin: acrossConfig.itemSpacing*3
+
+        icon.source: isCurrentNode ? "qrc:/misc/icons/" + acrossConfig.iconStyle
+                                + (acrossConfig.iconStyle === "dark" ? "/more_vert.svg" : "/more_vert_reverse.svg") : "qrc:/misc/icons/"
+                                + acrossConfig.iconStyle + "/more_vert.svg"
+        icon.width: 24
+        icon.height: 24
+        icon.color: acrossConfig.textColor
+
+        onClicked: {
+            openPopMenu()
         }
     }
 }
