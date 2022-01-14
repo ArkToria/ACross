@@ -994,12 +994,12 @@
 <context>
     <name>NodeItemCard</name>
     <message>
-        <location filename="../src/views/home/NodeItemCard.qml" line="135"/>
+        <location filename="../src/views/home/NodeItemCard.qml" line="139"/>
         <source>Core Error</source>
         <translation>核心错误</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemCard.qml" line="135"/>
+        <location filename="../src/views/home/NodeItemCard.qml" line="139"/>
         <source>Failed to start the process</source>
         <translation>无法启动进程</translation>
     </message>
