@@ -614,7 +614,7 @@
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="30"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="32"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
@@ -623,18 +623,19 @@
         <translation type="vanished">ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="37"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="40"/>
         <source>Copy Nodes</source>
         <translation>复制节点</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="44"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="48"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
         <source>[%1] TCP Pinging...</source>
         <translation type="unfinished"></translation>
@@ -653,24 +654,32 @@
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="62"/>
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="85"/>
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="51"/>
+>>>>>>> ae07e8a (rebase from master#2)
         <source>[%1] TCP Pinging...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="86"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="52"/>
         <source>Testing:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="106"/>
 >>>>>>> 37fb7a6 (add latency test notification)
 >>>>>>> 1484ff3 (add latency test notification)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="72"/>
+>>>>>>> ae07e8a (rebase from master#2)
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
@@ -681,12 +690,16 @@
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="109"/>
 >>>>>>> 37fb7a6 (add latency test notification)
 >>>>>>> 1484ff3 (add latency test notification)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="75"/>
+>>>>>>> ae07e8a (rebase from master#2)
         <source>[%1] Updating...</source>
         <translation>[%1] 更新中...</translation>
     </message>
     <message>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="110"/>
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
@@ -697,12 +710,16 @@
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="110"/>
 >>>>>>> 37fb7a6 (add latency test notification)
 >>>>>>> 1484ff3 (add latency test notification)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="76"/>
+>>>>>>> ae07e8a (rebase from master#2)
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
     <message>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="115"/>
 =======
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="70"/>
@@ -713,6 +730,9 @@
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="115"/>
 >>>>>>> 37fb7a6 (add latency test notification)
 >>>>>>> 1484ff3 (add latency test notification)
+=======
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="81"/>
+>>>>>>> ae07e8a (rebase from master#2)
         <source>Delete</source>
         <translation>删除</translation>
     </message>

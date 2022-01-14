@@ -118,4 +118,8 @@ Menu {
         }
 
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> ae07e8a (rebase from master#2)
