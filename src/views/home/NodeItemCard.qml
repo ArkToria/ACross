@@ -14,12 +14,16 @@ Item {
     property color backgroundColor: isCurrentNode ? acrossConfig.highlightColor : acrossConfig.backgroundColor
     property color textColor: isCurrentNode ? acrossConfig.highlightTextColor : acrossConfig.textColor
 
-    function openPopMenu() {
+    function openPopMenu(item = null) {
         if (popMenuComponent == null)
             popMenuComponent = Qt.createComponent("qrc:/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml");
 
         if (popMenuComponent.status === Component.Ready)
-            popMenuComponent.createObject(nodeItemCard).popup();
+            if(item == null)
+                popMenuComponent.createObject(nodeItemCard).popup();
+            else
+                popMenuComponent.createObject(nodeItemCard).popup(item.x + item.width/2, item.y + item.height/2);
+
 
     }
 
@@ -155,7 +159,7 @@ Item {
         icon.width: 24
         icon.height: 24
         onClicked: {
-            openPopMenu();
+            openPopMenu(menuButton);
         }
     }
 
