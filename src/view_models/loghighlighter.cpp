@@ -84,7 +84,7 @@ void LogHighlighter::init() {
 }
 
 void LogHighlighter::setTheme(const config::Theme &theme) {
-    const auto& colors = theme.colors();
+    const auto &colors = theme.colors();
 
     info_format->setForeground(QColor(colors.style_color().c_str()));
     warning_format->setForeground(QColor(colors.warn_color().c_str()));

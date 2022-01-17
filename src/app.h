@@ -22,6 +22,7 @@
 #include "view_models/configtools.h"
 #include "view_models/grouplist.h"
 #include "view_models/groupmodel.h"
+#include "view_models/notificationmodel.h"
 #include "view_models/imageprovider.h"
 #include "view_models/logview.h"
 #include "view_models/nodeformmodel.h"
@@ -73,6 +74,7 @@ class Application : public SingleApplication {
     QSharedPointer<across::NodeList> p_nodes;
     QSharedPointer<across::GroupList> p_groups;
     QSharedPointer<across::SystemTray> p_tray;
+    QSharedPointer<across::NotificationModel> p_notifications;
     across::ImageProvider *p_image_provider;
 
     ACrossExitReason exitReason = EXIT_NORMAL;

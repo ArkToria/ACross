@@ -47,13 +47,15 @@ Menu {
     Action {
         text: qsTr("TCP Ping")
         onTriggered: {
+            /*
             if(acrossGroups.testTcpPing(index) === 0){
-                popNotify.notifyWithProgress(qsTr("[%1] TCP Pinging...").arg(name),
+                popNotify.notify(qsTr("[%1] TCP Pinging...").arg(name),
                                              qsTr("Testing:"),
                                              index,
-                                             group_id,
                                              items)
             }
+            */
+           acrossGroups.testTcpPing(index);
         }
     }
 
@@ -73,7 +75,11 @@ Menu {
         onTriggered: {
             acrossGroups.checkUpdate(index)
             popNotify.notify(qsTr("[%1] Updating...").arg(name),
-                             qsTr("Updated: %1").arg(modifiedAt))
+                             qsTr("Updated: %1").arg(modifiedAt),
+                             0.0,
+                             1.0,
+                             0.0,
+                             2000)
         }
     }
 
@@ -118,8 +124,4 @@ Menu {
         }
 
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> ae07e8a (rebase from master#2)

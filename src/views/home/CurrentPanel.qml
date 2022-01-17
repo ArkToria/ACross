@@ -253,7 +253,7 @@ Item {
                                     acrossCore.stop();
                                 } else {
                                     if (acrossCore.run() < 0)
-                                        popNotify.notify(qsTr("Core Error"), qsTr("Failed to start the process"));
+                                        popNotify.notify(qsTr("Core Error"), qsTr("Failed to start the process"), 0.0, 1.0, 0.0, 2000);
 
                                 }
                             }

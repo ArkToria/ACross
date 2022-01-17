@@ -21,6 +21,7 @@
 #include "configtools.h"
 #include "logtools.h"
 #include "nodelist.h"
+#include "notificationmodel.h"
 
 namespace across {
 
@@ -33,7 +34,8 @@ class GroupList : public QObject {
               QSharedPointer<across::DBTools> db,
               QSharedPointer<across::NodeList> nodes,
               QSharedPointer<across::network::CURLTools> curl,
-              const QSharedPointer<QSystemTrayIcon>& tray = nullptr);
+              QSharedPointer<across::NotificationModel> notifications,
+              const QSharedPointer<QSystemTrayIcon> &tray = nullptr);
 
     bool insert(const GroupInfo &group_info, const QString &content);
     bool insertSIP008(const GroupInfo &group_info, const QString &content);
@@ -66,21 +68,23 @@ class GroupList : public QObject {
     void copyNodesToClipboard(int index);
     void handleDownloaded(const QVariant &content);
     void handleItemsChanged(int64_t group_id, int size);
-    void handleNodeLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node);
+    void handleNodeLatencyChanged(qint64 group_id, int index,
+                                  const across::NodeInfo &node);
 
   signals:
     void preItemsReset();
     void postItemsReset();
 
     void itemInfoChanged(int index);
-    void nodeLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node);
-    void nodeLatencyProgressChanged(qint64 group_id, int current);
+    void nodeLatencyChanged(qint64 group_id, int index,
+                            const across::NodeInfo &node);
 
   private:
     QSharedPointer<across::setting::ConfigTools> p_config;
     QSharedPointer<across::DBTools> p_db;
     QSharedPointer<across::NodeList> p_nodes;
     QSharedPointer<across::network::CURLTools> p_curl;
+    QSharedPointer<across::NotificationModel> p_notifications;
     QSharedPointer<QSystemTrayIcon> p_tray;
 
     std::shared_ptr<spdlog::logger> p_logger;
@@ -91,6 +95,8 @@ class GroupList : public QObject {
     QMap<int64_t, bool> m_is_updating;
     QMap<int64_t, bool> m_is_tcpPinging;
     QMap<int64_t, int> m_tcpPinging_count;
+    QMap<int64_t, int> m_group_size;
+    QMap<int64_t, Notification *> m_tcpPinging_notifications;
 };
 } // namespace across
 

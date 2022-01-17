@@ -92,6 +92,7 @@ set(PROJECT_HEADERS
     src/view_models/nodelist.h
     src/view_models/nodemodel.h
     src/view_models/nodeformmodel.h
+    src/view_models/notificationmodel.h
     src/view_models/buildinfo.h.in
     src/view_models/systemtray.h
     src/view_models/imageprovider.h
@@ -122,6 +123,7 @@ set(PROJECT_SOURCES
     src/view_models/nodelist.cpp
     src/view_models/nodemodel.cpp
     src/view_models/nodeformmodel.cpp
+    src/view_models/notificationmodel.cpp
     src/view_models/systemtray.cpp
     src/view_models/imageprovider.cpp
     src/view_models/jsonhighlighter.cpp

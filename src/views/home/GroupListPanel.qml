@@ -84,7 +84,7 @@ Item {
                     updateIcon.visible = false;
                 }
                 if (updateToken && this.contentY === 0) {
-                    popNotify.notify(qsTr("Updating..."), qsTr("The default node will be reset"));
+                    popNotify.notify(qsTr("Updating..."), qsTr("The default node will be reset"), 0.0, 1.0, 0.0, 2000);
                     acrossGroups.checkAllUpdate(true); // force update
                     updateToken = false;
                 }

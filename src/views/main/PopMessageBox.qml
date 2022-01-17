@@ -7,12 +7,11 @@ CardBox {
     id: control
 
     property int fontSize: 12
-    property string title: ""
-    property string message: ""
-    property int index: -1
-    property int groupID: -1
-    property real to: -1.0
-    property int intervalTime: 5000
+    property alias title: displayTitle.text
+    property alias message: displayMessage.text
+    property alias from: progressBar.from
+    property alias to: progressBar.to
+    property alias value: progressBar.value
 
     implicitWidth: 320
     implicitHeight: 84
@@ -26,7 +25,6 @@ CardBox {
             id: displayTitle
 
             Layout.fillWidth: true
-            text: control.title
             color: acrossConfig.textColor
             font.pointSize: fontSize
         }
@@ -34,7 +32,6 @@ CardBox {
         Label {
             id: displayMessage
 
-            text: groupID===-1?control.message:control.message.concat(" ", progressBar.value.toString(), "/", to.toString())
             color: acrossConfig.textColor
         }
 
@@ -44,9 +41,6 @@ CardBox {
             Layout.fillWidth: true
             Layout.preferredHeight: 4
             padding: 2
-
-            value: 0.0
-            to: control.to===-1.0?1:control.to
 
             background: Rectangle {
                 implicitWidth: 240
@@ -68,34 +62,8 @@ CardBox {
 
             }
 
-            NumberAnimation on value {
-                id: progressBarAnimation
-                from: 0.0
-                to: control.to===-1.0?1:control.to
-                duration: control.to===-1.0?control.intervalTime:0
-            }
-            Connections {
-                target: acrossGroups
-                function onNodeLatencyProgressChanged(group_id, left) {
-                    if(group_id === control.groupID) {
-                        progressBar.value=control.to-left;
-                    }
-                }
-            }
-
         }
 
-    }
-
-    Timer {
-        repeat: true
-        running: true
-        interval: intervalTime
-        onTriggered: {
-            if (popNotifyModel.hasChildren())
-                popNotifyModel.remove(0);
-
-        }
     }
 
 }

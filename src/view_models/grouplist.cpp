@@ -14,7 +14,8 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
                      QSharedPointer<across::DBTools> db,
                      QSharedPointer<across::NodeList> nodes,
                      QSharedPointer<across::network::CURLTools> curl,
-                     const QSharedPointer<QSystemTrayIcon>& tray) {
+                     QSharedPointer<across::NotificationModel> notifications,
+                     const QSharedPointer<QSystemTrayIcon> &tray ) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("groups");
     } else {
@@ -26,6 +27,7 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
     p_db = std::move(db);
     p_curl = std::move(curl);
     p_nodes = std::move(nodes);
+    p_notifications = std::move(notifications);
 
     if (tray != nullptr) {
         p_tray = tray;
@@ -36,8 +38,9 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
 
     connect(p_curl.get(), &across::network::CURLTools::downloadFinished, this,
             &GroupList::handleDownloaded);
-    
-    connect(this, &GroupList::nodeLatencyChanged, this, &GroupList::handleNodeLatencyChanged);
+
+    connect(this, &GroupList::nodeLatencyChanged, this,
+            &GroupList::handleNodeLatencyChanged);
 
     reloadItems();
     checkAllUpdate();
@@ -112,11 +115,19 @@ Q_INVOKABLE int GroupList::testTcpPing(int index) {
 
         auto nodes = p_db->listAllNodesFromGroupID(group.id);
 
-        m_tcpPinging_count[group.id] = -nodes.size();
+        m_tcpPinging_count[group.id] = 0;
+        m_group_size[group.id] = nodes.size();
+        m_tcpPinging_notifications[group.id] = p_notifications->append(
+            tr("[%1] TCP Pinging...").arg(group.name),
+            tr("Testing: %1/%2").arg("0").arg(QString::number(m_group_size[group.id])),
+            0.0,
+            m_group_size[group.id],
+            0.0
+        );
 
         for (int i = 0; i < nodes.size(); ++i) {
             auto &node = nodes[i];
-            p_nodes->testLatency(node, i, [this, node, i]{
+            p_nodes->testLatency(node, i, [this, node, i] {
                 emit nodeLatencyChanged(node.group_id, i, node);
             });
         }
@@ -125,16 +136,22 @@ Q_INVOKABLE int GroupList::testTcpPing(int index) {
 }
 Q_INVOKABLE int GroupList::testTcpPingLeft(int index) {
     auto &group = m_groups[index];
-    if(m_tcpPinging_count.contains(group.id)){
+    if (m_tcpPinging_count.contains(group.id)) {
         return -m_tcpPinging_count[group.id];
     }
     return 0;
 }
-void GroupList::handleNodeLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node) {
+void GroupList::handleNodeLatencyChanged(qint64 group_id, int index,
+                                         const across::NodeInfo &node) {
     m_tcpPinging_count[group_id]++;
-    emit nodeLatencyProgressChanged(group_id, -m_tcpPinging_count[group_id]);
-    if(m_tcpPinging_count[group_id] >= 0) {
+    m_tcpPinging_notifications[group_id]->setMessage(tr("Testing: %1/%2")
+                                                    .arg(QString::number(m_tcpPinging_count[group_id]))
+                                                    .arg(QString::number(m_group_size[group_id])));
+    m_tcpPinging_notifications[group_id]->setValue(m_tcpPinging_count[group_id]);
+    if (m_tcpPinging_count[group_id] >= m_group_size[group_id]) {
+        p_notifications->remove(m_tcpPinging_notifications[group_id]->getIndex());
         m_tcpPinging_count.remove(group_id);
+        m_tcpPinging_notifications.remove(group_id);
         m_is_tcpPinging.remove(group_id);
     }
 }
@@ -254,7 +271,7 @@ bool GroupList::insertSIP008(const GroupInfo &group_info,
         auto url = SerializeTools::sip002Encode(meta).value();
         auto outbound = meta.outbound;
         auto shadowsocks = outbound.settings().shadowsocks();
-        const auto& server = shadowsocks.servers(0);
+        const auto &server = shadowsocks.servers(0);
 
         std::string json_str;
 
@@ -465,8 +482,9 @@ void GroupList::copyNodesToClipboard(int index) {
 
 void GroupList::handleDownloaded(const QVariant &content) {
     auto task = content.value<DownloadTask>();
-    if (task.content.isEmpty()){
-        if(task.is_updated) m_is_updating.remove(task.id);
+    if (task.content.isEmpty()) {
+        if (task.is_updated)
+            m_is_updating.remove(task.id);
         return;
     }
 
