@@ -39,6 +39,7 @@ bool Application::initialize() {
     p_nodes = QSharedPointer<NodeList>::create();
     p_groups = QSharedPointer<GroupList>::create();
     p_tray = QSharedPointer<SystemTray>::create();
+    p_notifications = QSharedPointer<NotificationModel>::create();
     p_image_provider = new ImageProvider; // free by qml engine
     p_config->init(p_curl);
 
@@ -93,6 +94,8 @@ void Application::setRootContext() {
                                                p_groups.get());
     m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                                p_tray.get());
+    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossNotifications"),
+                                               p_notifications.get());
     m_engine.rootContext()->setContextProperty(
         QStringLiteral("fixedFont"),
         QFontDatabase::systemFont(QFontDatabase::FixedFont));
@@ -109,10 +112,10 @@ void Application::setRootContext() {
     p_tray->init(p_config, p_core, p_nodes);
 #if !defined(Q_CC_MINGW) && !defined(Q_OS_MACOS)
     p_nodes->init(p_config, p_core, p_db);
-    p_groups->init(p_config, p_db, p_nodes, p_curl);
+    p_groups->init(p_config, p_db, p_nodes, p_curl, p_notifications);
 #else
     p_nodes->init(p_config, p_core, p_db, p_tray->getTrayIcon());
-    p_groups->init(p_config, p_db, p_nodes, p_curl, p_tray->getTrayIcon());
+    p_groups->init(p_config, p_db, p_nodes, p_curl, p_notifications, p_tray->getTrayIcon());
 #endif
 }
 
@@ -143,6 +146,8 @@ void Application::registerModels() {
                                        "NodeModel");
     qmlRegisterType<across::NodeFormModel>(qml_model_name.c_str(), 1, 0,
                                            "NodeFormModel");
+    qmlRegisterType<across::Notification>(qml_model_name.c_str(), 1, 0,
+                                           "Notification");
 }
 
 void Application::onMessageReceived(quint32 clientId, const QByteArray &msg) {

@@ -22,6 +22,7 @@
 #include <QUrl>
 #include <QVariant>
 #include <QtConcurrent>
+#include <functional>
 
 namespace across {
 using Json = nlohmann::json;
@@ -48,7 +49,7 @@ class NodeList : public QObject {
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,
               QSharedPointer<across::DBTools> db,
-              const QSharedPointer<QSystemTrayIcon>& tray = nullptr);
+              const QSharedPointer<QSystemTrayIcon> &tray = nullptr);
 
     bool run();
 
@@ -66,7 +67,8 @@ class NodeList : public QObject {
     void setUploadTraffic(double newUploadTraffic);
     void setDownloadTraffic(double newDownloadTraffic);
 
-    void testLatency(const NodeInfo& node, int index);
+    void testLatency(
+        const NodeInfo &node, int index, std::function<void()> after = [] {});
 
     void setDownloadProxy(across::network::DownloadTask &task);
 
@@ -99,7 +101,8 @@ class NodeList : public QObject {
 
   public slots:
     void setDisplayGroupID(int group_id);
-    void handleLatencyChanged(qint64 group_id, int index, const across::NodeInfo& node);
+    void handleLatencyChanged(qint64 group_id, int index,
+                              const across::NodeInfo &node);
 
   signals:
     void itemReset(int index);

@@ -98,7 +98,7 @@ Item {
             onCheckedChanged: {
                 acrossConfig.enableAutoConnect = checked;
                 if (checked)
-                    popNotify.notify(qsTr("Auto Connect"), qsTr("Set as Default > Last Connected"));
+                    popNotify.notify(qsTr("Auto Connect"), qsTr("Set as Default > Last Connected"), 0.0, 1.0, 0.0, 2000);
 
             }
         }
@@ -117,7 +117,7 @@ Item {
             onCheckedChanged: {
                 acrossConfig.enableAutoExport = checked;
                 if (checked)
-                    popNotify.notify(qsTr("Auto Export"), acrossConfig.dataDir);
+                    popNotify.notify(qsTr("Auto Export"), acrossConfig.dataDir, 0.0, 1.0, 0.0, 2000);
 
             }
         }

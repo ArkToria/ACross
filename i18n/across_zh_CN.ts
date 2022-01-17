@@ -614,7 +614,7 @@
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="30"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="32"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
@@ -623,32 +623,32 @@
         <translation type="vanished">ICMP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="37"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="40"/>
         <source>Copy Nodes</source>
         <translation>复制节点</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="44"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="48"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="62"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="74"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="77"/>
         <source>[%1] Updating...</source>
         <translation>[%1] 更新中...</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="65"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="78"/>
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="70"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="87"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -1225,10 +1225,21 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="408"/>
-        <location filename="../src/view_models/grouplist.cpp" line="412"/>
-        <location filename="../src/view_models/grouplist.cpp" line="429"/>
-        <location filename="../src/view_models/grouplist.cpp" line="433"/>
+        <location filename="../src/view_models/grouplist.cpp" line="121"/>
+        <source>[%1] TCP Pinging...</source>
+        <translation>[%1] TCP Pinging...</translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/grouplist.cpp" line="122"/>
+        <location filename="../src/view_models/grouplist.cpp" line="147"/>
+        <source>Testing: %1/%2</source>
+        <translation>測試中：%1/%2</translation>
+    </message>
+    <message>
+        <location filename="../src/view_models/grouplist.cpp" line="452"/>
+        <location filename="../src/view_models/grouplist.cpp" line="456"/>
+        <location filename="../src/view_models/grouplist.cpp" line="473"/>
+        <location filename="../src/view_models/grouplist.cpp" line="477"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1236,7 +1247,7 @@
 <context>
     <name>across::NodeFormModel</name>
     <message>
-        <location filename="../src/view_models/nodeformmodel.cpp" line="472"/>
+        <location filename="../src/view_models/nodeformmodel.cpp" line="471"/>
         <source>custom configuration encoding to url is not supported</source>
         <translation>未支持自定义配置编码到链接格式</translation>
     </message>
@@ -1295,22 +1306,22 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="890"/>
+        <location filename="../src/view_models/configtools.cpp" line="892"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="891"/>
+        <location filename="../src/view_models/configtools.cpp" line="893"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1068"/>
+        <location filename="../src/view_models/configtools.cpp" line="1070"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1071"/>
+        <location filename="../src/view_models/configtools.cpp" line="1073"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1319,7 +1330,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1073"/>
+        <location filename="../src/view_models/configtools.cpp" line="1075"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

@@ -117,7 +117,8 @@ void ConfigTools::setInboundObject(v2ray::config::V2RayConfig &config) {
         http->set_timeout(http_setting.timeout());
         http->set_userlevel(http_setting.user_level());
 
-        if (const auto& auth_setting = http_setting.auth(); auth_setting.enable()) {
+        if (const auto &auth_setting = http_setting.auth();
+            auth_setting.enable()) {
             auto auth = http->add_accounts();
             auth->set_user(auth_setting.username());
             auth->set_pass(auth_setting.password());
@@ -134,7 +135,8 @@ void ConfigTools::setInboundObject(v2ray::config::V2RayConfig &config) {
         auto socks = inbound->mutable_settings()->mutable_socks();
         socks->set_userlevel(socks5_setting.user_level());
 
-        if (const auto& auth_setting = socks5_setting.auth(); auth_setting.enable()) {
+        if (const auto &auth_setting = socks5_setting.auth();
+            auth_setting.enable()) {
             auto auth = socks->add_accounts();
             auth->set_user(auth_setting.username());
             auth->set_pass(auth_setting.password());
@@ -306,7 +308,7 @@ void ConfigTools::freshInbound() {
     emit httpPasswordChanged();
 }
 
-void ConfigTools::saveConfig(const QString& config_path) {
+void ConfigTools::saveConfig(const QString &config_path) {
     auto json_str = SerializeTools::MessageToJson(m_config);
 
     if (!config_path.isEmpty()) {
@@ -822,7 +824,7 @@ void ConfigTools::setHttpPassword(const QString &val) {
     emit configChanged();
 }
 
-bool ConfigTools::isFileExist(const QString& file_path) {
+bool ConfigTools::isFileExist(const QString &file_path) {
     return QFile(file_path).exists();
 }
 

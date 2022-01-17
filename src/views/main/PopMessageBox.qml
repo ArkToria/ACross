@@ -7,9 +7,11 @@ CardBox {
     id: control
 
     property int fontSize: 12
-    property string title: ""
-    property string message: ""
-    property int intervalTime: 5000
+    property alias title: displayTitle.text
+    property alias message: displayMessage.text
+    property alias from: progressBar.from
+    property alias to: progressBar.to
+    property alias value: progressBar.value
 
     implicitWidth: 320
     implicitHeight: 84
@@ -23,7 +25,6 @@ CardBox {
             id: displayTitle
 
             Layout.fillWidth: true
-            text: control.title
             color: acrossConfig.textColor
             font.pointSize: fontSize
         }
@@ -31,8 +32,6 @@ CardBox {
         Label {
             id: displayMessage
 
-            Layout.fillWidth: true
-            text: control.message
             color: acrossConfig.textColor
         }
 
@@ -42,7 +41,6 @@ CardBox {
             Layout.fillWidth: true
             Layout.preferredHeight: 4
             padding: 2
-            value: 0
 
             background: Rectangle {
                 implicitWidth: 240
@@ -64,27 +62,8 @@ CardBox {
 
             }
 
-            NumberAnimation on value {
-                id: progressBarAnimation
-
-                from: 0
-                to: 1
-                duration: control.intervalTime
-            }
-
         }
 
-    }
-
-    Timer {
-        repeat: true
-        running: true
-        interval: intervalTime
-        onTriggered: {
-            if (popNotifyModel.hasChildren())
-                popNotifyModel.remove(0);
-
-        }
     }
 
 }

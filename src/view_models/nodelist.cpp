@@ -18,7 +18,7 @@ NodeList::~NodeList() {
 
 void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
                     QSharedPointer<CoreTools> core, QSharedPointer<DBTools> db,
-                    const QSharedPointer<QSystemTrayIcon>& tray) {
+                    const QSharedPointer<QSystemTrayIcon> &tray) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("nodes");
     } else {
@@ -396,7 +396,8 @@ void NodeList::setCurrentNodeByID(int id) {
     }
 }
 
-void NodeList::handleLatencyChanged(qint64 group_id, int index, const NodeInfo& node) {
+void NodeList::handleLatencyChanged(qint64 group_id, int index,
+                                    const NodeInfo &node) {
     auto db_future = QtConcurrent::run([&, node] {
         auto t_node = node;
         p_db->update(t_node);
@@ -468,15 +469,19 @@ Q_INVOKABLE void NodeList::testLatency(int id) {
     }
 }
 
-void NodeList::testLatency(const NodeInfo& node, int index) {
-    m_tasks.enqueue(QtConcurrent::run([this, index, node] {
-        auto current_node = node;
-        TCPPing ping;
-        ping.setAddr(node.address);
-        ping.setPort(node.port);
-        current_node.latency = ping.getAvgLatency();
-        emit itemLatencyChanged(node.group_id, index, current_node);
-    }));
+void NodeList::testLatency(const NodeInfo &node, int index,
+                           std::function<void()> after) {
+    m_tasks.enqueue(
+        QtConcurrent::run([this, index, node, after{std::move(after)}] {
+            auto current_node = node;
+            TCPPing ping;
+            ping.setAddr(node.address);
+            ping.setPort(node.port);
+            current_node.latency = ping.getAvgLatency();
+
+            after();
+            emit itemLatencyChanged(node.group_id, index, current_node);
+        }));
 }
 
 bool NodeList::isRunning() {

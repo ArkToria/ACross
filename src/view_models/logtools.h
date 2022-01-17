@@ -14,8 +14,9 @@ enum LoggerEnum { core, app };
 
 class LogTools : public LogView {
   public:
-    explicit LogTools(QSharedPointer<LogView> log_view, const QString &name = "",
-             LoggerEnum log_enum = LoggerEnum::app);
+    explicit LogTools(QSharedPointer<LogView> log_view,
+                      const QString &name = "",
+                      LoggerEnum log_enum = LoggerEnum::app);
 
     template <typename... Args>
     inline void trace(fmt::format_string<Args...> fmt, Args &&...args) {
@@ -50,5 +51,5 @@ class LogTools : public LogView {
   private:
     std::shared_ptr<spdlog::logger> p_logger;
 };
-} // namespace across
+} // namespace across::utils
 #endif // LOGTOOLS_H

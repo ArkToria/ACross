@@ -49,7 +49,6 @@ void NodeFormModel::accept(const QVariantMap &values) {
     } else {
         p_list->updateNode(node);
     }
-
 }
 
 QString NodeFormModel::refreshPreview(const QVariantMap &values) {

@@ -17,33 +17,45 @@ Menu {
     Action {
         text: qsTr("Edit")
         onTriggered: {
-            darkBackground.show();
-            var groupInfo = acrossGroups.getGroupInfo(index);
-            groupEditForm.groupInfo = groupInfo;
-            groupEditForm.index = index;
-            groupEditForm.open();
+            darkBackground.show()
+            var groupInfo = acrossGroups.getGroupInfo(index)
+
+            groupEditForm.groupInfo = groupInfo
+            groupEditForm.index = index
+            groupEditForm.open()
         }
     }
 
     Action {
         enabled: isSubscription
+
         text: qsTr("Copy URL")
+
         onTriggered: {
-            acrossGroups.copyUrlToClipboard(index);
+            acrossGroups.copyUrlToClipboard(index)
         }
     }
 
     Action {
         text: qsTr("Copy Nodes")
+
         onTriggered: {
-            acrossGroups.copyNodesToClipboard(index);
+            acrossGroups.copyNodesToClipboard(index)
         }
     }
 
     Action {
         text: qsTr("TCP Ping")
         onTriggered: {
-            acrossGroups.testTcpPing(index);
+            /*
+            if(acrossGroups.testTcpPing(index) === 0){
+                popNotify.notify(qsTr("[%1] TCP Pinging...").arg(name),
+                                             qsTr("Testing:"),
+                                             index,
+                                             items)
+            }
+            */
+           acrossGroups.testTcpPing(index);
         }
     }
 
@@ -54,25 +66,31 @@ Menu {
             height: 1
             color: acrossConfig.deepColor
         }
-
     }
 
     Action {
         enabled: isSubscription
+
         text: qsTr("Update")
         onTriggered: {
-            acrossGroups.checkUpdate(index);
-            popNotify.notify(qsTr("[%1] Updating...").arg(name), qsTr("Updated: %1").arg(modifiedAt));
+            acrossGroups.checkUpdate(index)
+            popNotify.notify(qsTr("[%1] Updating...").arg(name),
+                             qsTr("Updated: %1").arg(modifiedAt),
+                             0.0,
+                             1.0,
+                             0.0,
+                             2000)
         }
     }
 
     Action {
         text: qsTr("Delete")
         enabled: 0 === model.index ? false : true
+
         onTriggered: {
-            darkBackground.show();
-            removeConfirmDialog.index = index;
-            removeConfirmDialog.open();
+            darkBackground.show()
+            removeConfirmDialog.index = index
+            removeConfirmDialog.open()
         }
     }
 
@@ -106,5 +124,4 @@ Menu {
         }
 
     }
-
 }
