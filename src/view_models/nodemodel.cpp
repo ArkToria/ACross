@@ -21,7 +21,7 @@ QVariant NodeModel::data(const QModelIndex &index, int role) const {
         return {};
     }
 
-    if (index.row() > p_list->items().size()) {
+    if (index.row() >= p_list->items().size()) {
         return {};
     }
 
