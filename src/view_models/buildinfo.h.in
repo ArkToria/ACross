@@ -8,30 +8,23 @@
 #include <QSysInfo>
 
 namespace across {
-inline static const QString GUI_VERSION() {
-    QString version("@GUI_VERSION@");
+inline const QString GUI_VERSION() { return QStringLiteral("@GUI_VERSION@"); }
 
-    return version;
+inline const QString BUILD_INFO() { return QStringLiteral("@BUILD_INFO@"); }
+
+inline const QString BUILD_TIME() {
+    return QDateTime::currentDateTimeUtc().toString();
 }
 
-inline static const QString BUILD_INFO() {
-    QString buildInfo("@BUILD_INFO@");
-    return buildInfo;
-}
-
-inline static const QString BUILD_TIME() {
-    QDateTime time = QDateTime::currentDateTimeUtc();
-    return time.toString();
-}
-
-inline static const QString EXTRA_INFO() {
-    QSysInfo sys_info;
+inline const QString EXTRA_INFO() {
     QScreen *screen = QGuiApplication::screens().at(0);
 
     QString info =
-        QString("OS: %1 | Kernel: %2 | Platform: %3 | Screen: %4x%5 | DPI: %6")
-            .arg(sys_info.productType(), sys_info.kernelVersion(),
-                 QGuiApplication::platformName())
+        QStringLiteral(
+            "OS: %1 | Kernel: %2 | Platform: %3 | Screen: %4x%5 | DPI: %6")
+            .arg(QSysInfo::productType())
+            .arg(QSysInfo::kernelVersion())
+            .arg(QGuiApplication::platformName())
             .arg(screen->size().rwidth())
             .arg(screen->size().rheight())
             .arg(screen->logicalDotsPerInch());
@@ -39,40 +32,40 @@ inline static const QString EXTRA_INFO() {
     return info;
 }
 
-inline static const QString SOURCE_CODE_URL() {
-    return QString("https://github.com/ArkToria/ACross");
+inline const QString SOURCE_CODE_URL() {
+    return QStringLiteral("https://github.com/ArkToria/ACross");
 }
 
-inline static const QString ISSUES_URL() {
-    return QString("https://github.com/ArkToria/ACross/issues");
+inline const QString ISSUES_URL() {
+    return QStringLiteral("https://github.com/ArkToria/ACross/issues");
 }
 
-inline static const QString LICENSE_URL() {
-    return QString("https://www.gnu.org/licenses/gpl-3.0.html");
+inline const QString LICENSE_URL() {
+    return QStringLiteral("https://www.gnu.org/licenses/gpl-3.0.html");
 }
 
-inline static const QString API_URL(uint per_page = 0) {
+inline const QString API_URL(uint per_page = 0) {
     if (per_page == 0) {
-        return QString(
+        return QStringLiteral(
             "https://api.github.com/repos/ArkToria/ACross/releases/latest");
     } else {
-        return QString("https://api.github.com/repos/ArkToria/ACross/"
-                       "releases?per_page=%1")
+        return QStringLiteral("https://api.github.com/repos/ArkToria/ACross/"
+                              "releases?per_page=%1")
             .arg(per_page);
     }
 }
 
-inline static const QString RELEASE_URL() {
-    return QString("https://github.com/ArkToria/ACross/releases");
+inline const QString RELEASE_URL() {
+    return QStringLiteral("https://github.com/ArkToria/ACross/releases");
 }
 
-inline static const QStringList FONT_LIST() {
-    QString fonts_fallback("@FONTS_FALLBACK@");
-    const QStringList default_fonts = {
+inline const QStringList FONT_LIST() {
+    const static QStringList default_fonts = {
         "Noto Sans",     "Segoe UI Variable", "Segoe UI",
         "Noto Sans CJK", "PingFang SC",       "Microsoft YaHei UI",
     };
 
+    auto fonts_fallback = QStringLiteral("@FONTS_FALLBACK@");
     do {
         if (fonts_fallback.isEmpty())
             break;
@@ -91,8 +84,8 @@ inline static const QStringList FONT_LIST() {
     return default_fonts;
 }
 
-inline static const QString DATE_TIME_FORMAT() {
-    QString format_string("@DATE_TIME_FORMAT@");
+inline const QString DATE_TIME_FORMAT() {
+    auto format_string = QStringLiteral("@DATE_TIME_FORMAT@");
 
     if (format_string.isEmpty())
         format_string = QString("MM/dd/yyyy hh:mm:ss");
