@@ -22,7 +22,7 @@
           pkgs = import nixpkgs { inherit system; overlays = [ self.overlay ]; };
         in
         rec {
-          packages = { inherit (pkgs) across qt6; };
+          packages = { inherit (pkgs) across; };
           checks = packages;
         }
       ) // {
