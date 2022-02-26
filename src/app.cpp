@@ -5,6 +5,7 @@ using namespace across::core;
 using namespace across::utils;
 using namespace across::network;
 using namespace across::setting;
+using namespace across::acolorsapi;
 
 Application::Application(int &argc, char **argv)
     : SingleApplication(argc, argv, true,
@@ -33,14 +34,16 @@ bool Application::initialize() {
     connect(p_config.get(), &ConfigTools::currentThemeChanged, &m_log,
             &LogView::setTheme);
 
-    p_db = QSharedPointer<DBTools>::create();
-    p_core = QSharedPointer<CoreTools>::create();
+    // p_db = QSharedPointer<DBTools>::create();
+    p_acolors = QSharedPointer<AColoRSAPITools>::create(19198);
+    p_core = QSharedPointer<CoreTools>::create(p_acolors);
     p_curl = QSharedPointer<CURLTools>::create();
     p_nodes = QSharedPointer<NodeList>::create();
     p_groups = QSharedPointer<GroupList>::create();
     p_tray = QSharedPointer<SystemTray>::create();
     p_notifications = QSharedPointer<NotificationModel>::create();
     p_image_provider = new ImageProvider; // free by qml engine
+
     p_config->init(p_curl);
 
     registerModels();
@@ -94,8 +97,8 @@ void Application::setRootContext() {
                                                p_groups.get());
     m_engine.rootContext()->setContextProperty(QStringLiteral("acrossTray"),
                                                p_tray.get());
-    m_engine.rootContext()->setContextProperty(QStringLiteral("acrossNotifications"),
-                                               p_notifications.get());
+    m_engine.rootContext()->setContextProperty(
+        QStringLiteral("acrossNotifications"), p_notifications.get());
     m_engine.rootContext()->setContextProperty(
         QStringLiteral("fixedFont"),
         QFontDatabase::systemFont(QFontDatabase::FixedFont));
@@ -106,16 +109,18 @@ void Application::setRootContext() {
                               p_image_provider);
     m_engine.load(url);
 
+    p_acolors->notifications().start();
     p_config->setLogMode();
-    p_db->init(p_config->dbPath());
+    // p_db->init(p_config->dbPath());
     p_core->init(p_config);
     p_tray->init(p_config, p_core, p_nodes);
 #if !defined(Q_CC_MINGW) && !defined(Q_OS_MACOS)
-    p_nodes->init(p_config, p_core, p_db);
-    p_groups->init(p_config, p_db, p_nodes, p_curl, p_notifications);
+    p_nodes->init(p_config, p_core, p_acolors);
+    p_groups->init(p_config, p_acolors, p_nodes, p_curl, p_notifications);
 #else
-    p_nodes->init(p_config, p_core, p_db, p_tray->getTrayIcon());
-    p_groups->init(p_config, p_db, p_nodes, p_curl, p_notifications, p_tray->getTrayIcon());
+    p_nodes->init(p_config, p_core, p_acolors, p_tray->getTrayIcon());
+    p_groups->init(p_config, p_acolors, p_nodes, p_curl, p_notifications,
+                   p_tray->getTrayIcon());
 #endif
 }
 
@@ -147,7 +152,7 @@ void Application::registerModels() {
     qmlRegisterType<across::NodeFormModel>(qml_model_name.c_str(), 1, 0,
                                            "NodeFormModel");
     qmlRegisterType<across::Notification>(qml_model_name.c_str(), 1, 0,
-                                           "Notification");
+                                          "Notification");
 }
 
 void Application::onMessageReceived(quint32 clientId, const QByteArray &msg) {

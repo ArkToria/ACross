@@ -10,12 +10,13 @@ using namespace across::network;
 
 GroupList::GroupList(QObject *parent) : QObject(parent) {}
 
-void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
-                     QSharedPointer<across::DBTools> db,
-                     QSharedPointer<across::NodeList> nodes,
-                     QSharedPointer<across::network::CURLTools> curl,
-                     QSharedPointer<across::NotificationModel> notifications,
-                     const QSharedPointer<QSystemTrayIcon> &tray ) {
+void GroupList::init(
+    QSharedPointer<across::setting::ConfigTools> config,
+    QSharedPointer<across::acolorsapi::AColoRSAPITools> acolors,
+    QSharedPointer<across::NodeList> nodes,
+    QSharedPointer<across::network::CURLTools> curl,
+    QSharedPointer<across::NotificationModel> notifications,
+    const QSharedPointer<QSystemTrayIcon> &tray) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("groups");
     } else {
@@ -24,7 +25,7 @@ void GroupList::init(QSharedPointer<across::setting::ConfigTools> config,
     }
 
     p_config = std::move(config);
-    p_db = std::move(db);
+    p_acolors = std::move(acolors);
     p_curl = std::move(curl);
     p_nodes = std::move(nodes);
     p_notifications = std::move(notifications);
@@ -113,17 +114,24 @@ Q_INVOKABLE int GroupList::testTcpPing(int index) {
         }
         m_is_tcpPinging[group.id] = true;
 
-        auto nodes = p_db->listAllNodesFromGroupID(group.id);
+        auto list_all_nodes =
+            p_acolors->profile().listAllNodes(int32_t(group.id));
+        if (!list_all_nodes.second.ok()) {
+            qDebug() << "testTcpPing Error:"
+                     << list_all_nodes.second.error_message().c_str();
+            return 1;
+        }
+
+        auto &nodes = list_all_nodes.first;
 
         m_tcpPinging_count[group.id] = 0;
         m_group_size[group.id] = nodes.size();
         m_tcpPinging_notifications[group.id] = p_notifications->append(
             tr("[%1] TCP Pinging...").arg(group.name),
-            tr("Testing: %1/%2").arg("0").arg(QString::number(m_group_size[group.id])),
-            0.0,
-            m_group_size[group.id],
-            0.0
-        );
+            tr("Testing: %1/%2")
+                .arg("0")
+                .arg(QString::number(m_group_size[group.id])),
+            0.0, m_group_size[group.id], 0.0);
 
         for (int i = 0; i < nodes.size(); ++i) {
             auto &node = nodes[i];
@@ -144,12 +152,15 @@ Q_INVOKABLE int GroupList::testTcpPingLeft(int index) {
 void GroupList::handleNodeLatencyChanged(qint64 group_id, int index,
                                          const across::NodeInfo &node) {
     m_tcpPinging_count[group_id]++;
-    m_tcpPinging_notifications[group_id]->setMessage(tr("Testing: %1/%2")
-                                                    .arg(QString::number(m_tcpPinging_count[group_id]))
-                                                    .arg(QString::number(m_group_size[group_id])));
-    m_tcpPinging_notifications[group_id]->setValue(m_tcpPinging_count[group_id]);
+    m_tcpPinging_notifications[group_id]->setMessage(
+        tr("Testing: %1/%2")
+            .arg(QString::number(m_tcpPinging_count[group_id]))
+            .arg(QString::number(m_group_size[group_id])));
+    m_tcpPinging_notifications[group_id]->setValue(
+        m_tcpPinging_count[group_id]);
     if (m_tcpPinging_count[group_id] >= m_group_size[group_id]) {
-        p_notifications->remove(m_tcpPinging_notifications[group_id]->getIndex());
+        p_notifications->remove(
+            m_tcpPinging_notifications[group_id]->getIndex());
         m_tcpPinging_count.remove(group_id);
         m_tcpPinging_notifications.remove(group_id);
         m_is_tcpPinging.remove(group_id);
@@ -166,48 +177,6 @@ Q_INVOKABLE int GroupList::getIndexByID(int id) {
     return -1;
 }
 
-void GroupList::search(const QString &value) {
-    QList<GroupInfo> temp_groups;
-    auto iter = m_origin_groups.begin();
-    auto results = p_db->search(value);
-
-    if (results.isEmpty()) {
-        emit preItemsReset();
-        m_groups.clear();
-        emit postItemsReset();
-        p_nodes->clearItems();
-        return;
-    }
-
-    for (auto &result : results.toStdMap()) {
-        for (; iter != m_origin_groups.end(); ++iter) {
-            if (iter->id == result.first) {
-                auto group = *iter;
-                group.items = result.second.size();
-                temp_groups.append(group);
-                ++iter;
-                break;
-            }
-        }
-    }
-
-    emit preItemsReset();
-    m_groups = temp_groups;
-    emit postItemsReset();
-
-    p_nodes->setFilter(results);
-    p_nodes->reloadItems();
-    setDisplayGroupID(results.firstKey());
-}
-
-void GroupList::clearSearch() {
-    emit preItemsReset();
-    m_groups = m_origin_groups;
-    emit postItemsReset();
-
-    p_nodes->clearFilter();
-}
-
 QVariantMap GroupList::getGroupInfo(int index) {
     QVariantMap info;
     QString nodes_url;
@@ -222,7 +191,13 @@ QVariantMap GroupList::getGroupInfo(int index) {
         info.insert("url", group.url);
         info.insert("cycleTime", group.cycle_time);
 
-        for (auto &node : p_db->listAllNodesFromGroupID(group.id)) {
+        auto list_all_nodes =
+            p_acolors->profile().listAllNodes(int32_t(group.id));
+        if (!list_all_nodes.second.ok()) {
+            qDebug() << "getGroupInfo Error:"
+                     << list_all_nodes.second.error_message().c_str();
+        }
+        for (auto &node : list_all_nodes.first) {
             nodes_url.append(node.url);
             nodes_url.append("\n");
         }
@@ -235,13 +210,13 @@ QVariantMap GroupList::getGroupInfo(int index) {
 
 void GroupList::reloadItems(bool reopen_db) {
     if (reopen_db) {
-        p_db->reload();
+        // p_db->reload();
     }
 
-    if (auto result = p_db->reloadAllGroupsInfo();
-        result.type() == QSqlError::NoError) {
+    auto list_all_groups = p_acolors->profile().listAllGroups();
+    if (list_all_groups.second.ok()) {
         emit preItemsReset();
-        m_groups = p_db->getAllGroupsInfo();
+        m_groups = list_all_groups.first;
         emit postItemsReset();
 
         if (m_groups.isEmpty()) {
@@ -250,6 +225,9 @@ void GroupList::reloadItems(bool reopen_db) {
         } else {
             m_origin_groups = m_groups;
         }
+    } else {
+        qDebug() << "reloadItems Error:"
+                 << list_all_groups.second.error_message().c_str();
     }
 
     p_nodes->reloadItems();
@@ -257,7 +235,7 @@ void GroupList::reloadItems(bool reopen_db) {
 
 bool GroupList::insertSIP008(const GroupInfo &group_info,
                              const QString &content) {
-    if (p_db == nullptr)
+    if (p_acolors == nullptr)
         return false;
 
     auto meta_objects = SerializeTools::sip008Parser(content.toStdString());
@@ -294,7 +272,9 @@ bool GroupList::insertSIP008(const GroupInfo &group_info,
         nodes.append(node);
     }
 
-    if (auto err = p_db->insert(nodes); err.type() != QSqlError::NoError) {
+    if (auto status =
+            p_acolors->profile().appendNodes(int32_t(group_info.id), nodes);
+        !status.ok()) {
         return false;
     }
 
@@ -304,7 +284,7 @@ bool GroupList::insertSIP008(const GroupInfo &group_info,
 
 bool GroupList::insertBase64(const GroupInfo &group_info,
                              const QString &content) {
-    if (p_db == nullptr)
+    if (p_acolors == nullptr)
         return false;
 
     QString temp_data;
@@ -332,8 +312,11 @@ bool GroupList::insertBase64(const GroupInfo &group_info,
             nodes.append(node);
     }
 
-    if (auto result = p_db->insert(nodes); result.type() != QSqlError::NoError)
+    if (auto status =
+            p_acolors->profile().appendNodes(int32_t(group_info.id), nodes);
+        !status.ok()) {
         return false;
+    }
 
     reloadItems();
     return true;
@@ -370,8 +353,8 @@ void GroupList::appendItem(const QString &group_name,
         .type = base64,
     };
 
-    if (auto result = p_db->insert(group_info);
-        result.type() != QSqlError::NoError) {
+    if (auto result = p_acolors->profile().appendGroup(group_info);
+        !result.ok()) {
         return;
     }
 
@@ -406,10 +389,10 @@ void GroupList::editItem(int index, const QString &group_name,
 
     m_groups[index] = group;
 
-    if (auto result = p_db->update(group);
-        result.type() == QSqlError::NoError) {
-        if (auto result = p_db->removeGroupFromID(group.id, true);
-            result.type() != QSqlError::NoError)
+    if (auto result = p_acolors->profile().setGroupById(group.id, group);
+        result.ok()) {
+        if (auto result = p_acolors->profile().emptyGroupById(group.id);
+            !result.ok())
             return;
     } else {
         return;
@@ -436,7 +419,7 @@ void GroupList::removeItem(int index) {
     if (m_groups.size() > index) {
         emit preItemsReset();
         setDisplayGroupID(m_groups.at(index - 1).id);
-        p_db->removeGroupFromID(m_groups.at(index).id);
+        p_acolors->profile().removeGroupById(m_groups.at(index).id);
         m_groups.removeAt(index);
         emit postItemsReset();
     }
@@ -463,7 +446,7 @@ void GroupList::copyNodesToClipboard(int index) {
     auto item = m_groups.at(index);
 
     QString nodes_url;
-    for (auto &node : p_db->listAllNodesFromGroupID(item.id)) {
+    for (auto &node : p_acolors->profile().listAllNodes(item.id).first) {
         nodes_url.append(node.url);
         nodes_url.append("\n");
     }
@@ -493,8 +476,8 @@ void GroupList::handleDownloaded(const QVariant &content) {
         for (auto &item : m_groups) {
             if (item.id == task.id) {
                 auto group = item;
-                if (auto result = p_db->removeGroupFromID(group.id, true);
-                    result.type() != QSqlError::NoError)
+                if (auto result = p_acolors->profile().emptyGroupById(group.id);
+                    !result.ok())
                     break;
                 if (!insert(group, task.content))
                     break;
@@ -504,13 +487,12 @@ void GroupList::handleDownloaded(const QVariant &content) {
             }
         }
 
-        if (auto result = p_db->update(temp_groups);
-            result.type() != QSqlError::NoError) {
+        if (auto result = p_acolors->profile().setGroups(temp_groups);
+            !result.ok()) {
             m_is_updating.remove(task.id);
             return;
         } else {
-            p_db->updateRuntimeValue(
-                RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, 0));
+            p_acolors->core().setDefaultConfigByNodeId(0);
         }
 
         m_is_updating.remove(task.id);
@@ -519,8 +501,8 @@ void GroupList::handleDownloaded(const QVariant &content) {
             if (m_pre_groups.at(i).name == task.name) {
                 auto group = m_pre_groups.at(i);
 
-                if (auto result = p_db->insert(group);
-                    result.type() != QSqlError::NoError)
+                if (auto result = p_acolors->profile().appendGroup(group);
+                    !result.ok())
                     break;
 
                 if (!insert(group, task.content))

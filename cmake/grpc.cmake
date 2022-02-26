@@ -14,6 +14,7 @@ find_program(PROTOBUF_PROTOC_EXECUTABLE protoc)
 list(APPEND PROTO_NAME_LISTS
     "v2ray_api"
     "v2ray_config"
+    "acolors"
     "across"
     )
 

@@ -1,6 +1,7 @@
 #ifndef NODELIST_H
 #define NODELIST_H
 
+#include "../models/acolorstools.h"
 #include "../models/apitools.h"
 #include "../models/clipboardtools.h"
 #include "../models/coretools.h"
@@ -48,7 +49,7 @@ class NodeList : public QObject {
 
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,
-              QSharedPointer<across::DBTools> db,
+              QSharedPointer<across::acolorsapi::AColoRSAPITools> acolors,
               const QSharedPointer<QSystemTrayIcon> &tray = nullptr);
 
     bool run();
@@ -132,7 +133,7 @@ class NodeList : public QObject {
 
   private:
     std::shared_ptr<spdlog::logger> p_logger;
-    QSharedPointer<DBTools> p_db;
+    QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors;
     QSharedPointer<across::core::APITools> p_api;
     QSharedPointer<across::setting::ConfigTools> p_config;
     QSharedPointer<across::core::CoreTools> p_core;

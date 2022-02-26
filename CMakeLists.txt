@@ -98,6 +98,7 @@ set(PROJECT_HEADERS
     src/view_models/imageprovider.h
     src/view_models/jsonhighlighter.h
     src/view_models/loghighlighter.h
+    src/models/acolorstools.h
     src/models/apitools.h
     src/models/dbtools.h
     src/models/envtools.h
@@ -128,6 +129,7 @@ set(PROJECT_SOURCES
     src/view_models/imageprovider.cpp
     src/view_models/jsonhighlighter.cpp
     src/view_models/loghighlighter.cpp
+    src/models/acolorstools.cpp
     src/models/apitools.cpp
     src/models/dbtools.cpp
     src/models/envtools.cpp
@@ -220,6 +222,7 @@ qt_add_resources(across misc
     ${ICON_FILES}
     ${CMAKE_SOURCE_DIR}/misc/across.proto
     ${CMAKE_SOURCE_DIR}/misc/v2ray_config.proto
+    ${CMAKE_SOURCE_DIR}/misc/acolors.proto
     )
 
 qt_import_qml_plugins(across)

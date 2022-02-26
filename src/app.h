@@ -22,12 +22,12 @@
 #include "view_models/configtools.h"
 #include "view_models/grouplist.h"
 #include "view_models/groupmodel.h"
-#include "view_models/notificationmodel.h"
 #include "view_models/imageprovider.h"
 #include "view_models/logview.h"
 #include "view_models/nodeformmodel.h"
 #include "view_models/nodelist.h"
 #include "view_models/nodemodel.h"
+#include "view_models/notificationmodel.h"
 #include "view_models/systemtray.h"
 
 namespace across {
@@ -68,7 +68,7 @@ class Application : public SingleApplication {
   private:
     LogView m_log;
     QSharedPointer<across::setting::ConfigTools> p_config;
-    QSharedPointer<across::DBTools> p_db;
+    QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors;
     QSharedPointer<across::core::CoreTools> p_core;
     QSharedPointer<across::network::CURLTools> p_curl;
     QSharedPointer<across::NodeList> p_nodes;

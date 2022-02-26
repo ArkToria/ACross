@@ -4,6 +4,8 @@
 #include "../view_models/configtools.h"
 #include "../view_models/logtools.h"
 
+#include "acolorstools.h"
+
 #include <QByteArray>
 #include <QObject>
 #include <QProcess>
@@ -20,13 +22,15 @@ class CoreTools : public QObject {
     Q_PROPERTY(bool isRunning READ isRunning WRITE setIsRunning NOTIFY
                    isRunningChanged)
   public:
-    explicit CoreTools(QObject *parent = nullptr);
+    explicit CoreTools(
+        const QSharedPointer<across::acolorsapi::AColoRSAPITools> &acolors,
+        QObject *parent = nullptr);
 
     ~CoreTools() override;
 
     bool init(QSharedPointer<across::setting::ConfigTools> config);
 
-    void setConfig(const QString &stdin_str);
+    void setConfigByNodeID(int32_t node_id);
 
     Q_INVOKABLE int run();
 
@@ -39,20 +43,20 @@ class CoreTools : public QObject {
   public slots:
     void setIsRunning(bool value);
 
-    void onReadData();
+    // void onReadData();
 
   signals:
     void isRunningChanged();
 
   private:
     across::config::Core *p_core{};
-    QSharedPointer<QProcess> p_process;
+    QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors;
     QSharedPointer<across::setting::ConfigTools> p_config;
     std::shared_ptr<spdlog::logger> p_logger;
 
     QString m_config;
     bool m_running = false;
 };
-} // namespace across
+} // namespace across::core
 
 #endif // CORETOOLS_H

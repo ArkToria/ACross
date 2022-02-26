@@ -12,8 +12,8 @@
 #include <QSystemTrayIcon>
 #endif
 
+#include "../models/acolorstools.h"
 #include "../models/clipboardtools.h"
-#include "../models/dbtools.h"
 #include "../models/networktools.h"
 #include "../models/notifytools.h"
 #include "../models/serializetools.h"
@@ -31,7 +31,7 @@ class GroupList : public QObject {
     explicit GroupList(QObject *parent = nullptr);
 
     void init(QSharedPointer<across::setting::ConfigTools> config,
-              QSharedPointer<across::DBTools> db,
+              QSharedPointer<across::acolorsapi::AColoRSAPITools> acolors,
               QSharedPointer<across::NodeList> nodes,
               QSharedPointer<across::network::CURLTools> curl,
               QSharedPointer<across::NotificationModel> notifications,
@@ -50,8 +50,8 @@ class GroupList : public QObject {
     Q_INVOKABLE int testTcpPingLeft(int index);
 
     Q_INVOKABLE int getIndexByID(int id);
-    Q_INVOKABLE void search(const QString &value);
-    Q_INVOKABLE void clearSearch();
+    //Q_INVOKABLE void search(const QString &value);
+    //Q_INVOKABLE void clearSearch();
     Q_INVOKABLE QVariantMap getGroupInfo(int index);
 
   public slots:
@@ -81,7 +81,7 @@ class GroupList : public QObject {
 
   private:
     QSharedPointer<across::setting::ConfigTools> p_config;
-    QSharedPointer<across::DBTools> p_db;
+    QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors;
     QSharedPointer<across::NodeList> p_nodes;
     QSharedPointer<across::network::CURLTools> p_curl;
     QSharedPointer<across::NotificationModel> p_notifications;

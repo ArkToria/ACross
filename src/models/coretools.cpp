@@ -6,33 +6,35 @@ using namespace across::core;
 using namespace across::setting;
 using namespace across::utils;
 
-CoreTools::CoreTools(QObject *parent) : QObject(parent) {
-    p_process = QSharedPointer<QProcess>::create();
-    p_process->setProcessChannelMode(QProcess::MergedChannels);
+CoreTools::CoreTools(
+    const QSharedPointer<across::acolorsapi::AColoRSAPITools> &acolors,
+    QObject *parent)
+    : QObject(parent) {
+    this->p_acolors = acolors;
 
     if (p_logger = spdlog::get("core"); p_logger == nullptr) {
         qCritical("Failed to start logger");
     }
 }
 
-CoreTools::~CoreTools() { this->stop(); }
+CoreTools::~CoreTools() {}
 
 bool CoreTools::init(QSharedPointer<ConfigTools> config) {
     p_config = std::move(config);
 
-    // lambda
-    auto setCore = [&]() { p_core = p_config->config()->mutable_core(); };
+    this->setIsRunning(p_acolors->core().isRunning().first);
+    /*
+        // lambda
+        auto setCore = [&]() { p_core = p_config->config()->mutable_core(); };
 
-    auto setWorkingDirectory = [&]() {
-        QFileInfo db_path(p_config->dbPath());
-        QString config_dir = db_path.dir().absolutePath();
+        auto setWorkingDirectory = [&]() {
+            QFileInfo db_path(p_config->dbPath());
+            QString config_dir = db_path.dir().absolutePath();
+        };
 
-        p_process->setWorkingDirectory(config_dir);
-    };
+        setCore();
 
-    setCore();
-
-    setWorkingDirectory();
+        setWorkingDirectory();
 
     connect(p_config.get(), &across::setting::ConfigTools::coreInfoChanged,
             this, [=]() { setCore(); });
@@ -48,54 +50,63 @@ bool CoreTools::init(QSharedPointer<ConfigTools> config) {
                 if (state == QProcess::NotRunning)
                     this->setIsRunning(false);
             });
+    */
+    connect(&p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::updateCoreStatus, this,
+            [&]() { this->setIsRunning(p_acolors->core().isRunning().first); });
 
     return true;
 }
 
+/*
 void CoreTools::setConfig(const QString &stdin_str) {
     if (!stdin_str.isEmpty() && m_config != stdin_str)
         m_config = stdin_str;
 }
+*/
+void CoreTools::setConfigByNodeID(int32_t node_id) {
+    this->p_acolors->core().setConfigByNodeId(node_id);
+}
 
 int CoreTools::run() {
+    /*
     if (m_config.isEmpty())
         return -1;
+        */
 
     if (m_running)
         this->stop();
 
-    if (p_process == nullptr)
-        return -1;
+    /*
+        p_process->start(p_core->core_path().c_str(), {"--config=stdin:"},
+                         QIODevice::ReadWrite | QIODevice::Text);
+        p_process->write(m_config.toUtf8());
+        p_process->waitForBytesWritten();
+        p_process->closeWriteChannel();
+        p_process->waitForStarted();
 
-    p_process->start(p_core->core_path().c_str(), {"--config=stdin:"},
-                     QIODevice::ReadWrite | QIODevice::Text);
-    p_process->write(m_config.toUtf8());
-    p_process->waitForBytesWritten();
-    p_process->closeWriteChannel();
-    p_process->waitForStarted();
+    */
+    auto status = this->p_acolors->core().run();
 
-    auto exit_code = p_process->exitCode();
-    if (exit_code != 0 || p_process->state() == QProcess::NotRunning) {
-        p_logger->error("Failed to start v2ray process");
-    } else {
+    if (status.ok()) {
         p_logger->info("Core is running...");
         this->setIsRunning(true);
+    } else {
+        p_logger->error("Failed to start v2ray process: {}",
+                        status.error_message());
     }
 
-    return exit_code;
+    return -status.error_code();
 }
 
 int CoreTools::stop() {
-    if (p_process == nullptr)
+    if (p_acolors == nullptr)
         return -1;
 
-    if (p_process->state() == QProcess::ProcessState::Running) {
-        p_process->kill();
+    if (p_acolors->core().isRunning().first) {
+        auto status = p_acolors->core().stop();
 
-        if (p_process->waitForFinished())
-            this->setIsRunning(false);
-
-        return p_process->exitCode();
+        return status.error_code();
     }
 
     return 0;
@@ -121,6 +132,7 @@ void CoreTools::setIsRunning(bool value) {
     emit isRunningChanged();
 }
 
+/*
 void CoreTools::onReadData() {
     QString content = QString::fromUtf8(p_process->readAllStandardOutput());
 
@@ -135,3 +147,5 @@ void CoreTools::onReadData() {
 
     p_logger->info("{}", content.toStdString());
 }
+
+*/
