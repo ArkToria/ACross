@@ -50,8 +50,8 @@ class GroupList : public QObject {
     Q_INVOKABLE int testTcpPingLeft(int index);
 
     Q_INVOKABLE int getIndexByID(int id);
-    //Q_INVOKABLE void search(const QString &value);
-    //Q_INVOKABLE void clearSearch();
+    // Q_INVOKABLE void search(const QString &value);
+    // Q_INVOKABLE void clearSearch();
     Q_INVOKABLE QVariantMap getGroupInfo(int index);
 
   public slots:
@@ -67,6 +67,7 @@ class GroupList : public QObject {
     void copyUrlToClipboard(int index);
     void copyNodesToClipboard(int index);
     void handleDownloaded(const QVariant &content);
+    void handleUpdatedGroup(const int32_t group_id);
     void handleItemsChanged(int64_t group_id, int size);
     void handleNodeLatencyChanged(qint64 group_id, int index,
                                   const across::NodeInfo &node);

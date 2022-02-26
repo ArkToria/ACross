@@ -40,6 +40,10 @@ void GroupList::init(
     connect(p_curl.get(), &across::network::CURLTools::downloadFinished, this,
             &GroupList::handleDownloaded);
 
+    connect(&p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::updateGroup, this,
+            &GroupList::handleUpdatedGroup);
+
     connect(this, &GroupList::nodeLatencyChanged, this,
             &GroupList::handleNodeLatencyChanged);
 
@@ -90,6 +94,9 @@ void GroupList::checkUpdate(int index, bool force) {
         }
         m_is_updating[group.id] = true;
 
+        p_acolors->profile().updateGroupById(group.id);
+
+        /*
         DownloadTask task = {
             .id = group.id,
             .name = group.name,
@@ -101,6 +108,7 @@ void GroupList::checkUpdate(int index, bool force) {
         p_nodes->setDownloadProxy(task);
 
         p_curl->download(task);
+        */
     } while (false);
 }
 
@@ -399,6 +407,11 @@ void GroupList::editItem(int index, const QString &group_name,
     }
 
     if (is_url_changed) {
+        m_is_updating[group.id] = true;
+
+        p_acolors->profile().updateGroupById(group.id);
+
+        /*
         DownloadTask task = {
             .id = group.id,
             .name = group.name,
@@ -410,6 +423,7 @@ void GroupList::editItem(int index, const QString &group_name,
         p_nodes->setDownloadProxy(task);
 
         p_curl->download(task);
+        */
     } else if (!node_items.isEmpty()) {
         this->insertBase64(group, node_items);
     }
@@ -513,6 +527,11 @@ void GroupList::handleDownloaded(const QVariant &content) {
             }
         }
     }
+
+    reloadItems();
+}
+void GroupList::handleUpdatedGroup(const int32_t group_id) {
+    m_is_updating.remove(group_id);
 
     reloadItems();
 }

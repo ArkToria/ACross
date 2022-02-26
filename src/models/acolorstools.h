@@ -51,6 +51,7 @@ class AColoRSNotifications : public QObject {
     void appendNode(int32_t group_id);
     void updateGroup(int32_t group_id);
     void runtimeValueChanged(std::string key);
+    void emptyGroup(int32_t group_id);
 
   private:
     bool is_running = false;

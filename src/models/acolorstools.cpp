@@ -81,6 +81,11 @@ void AColoRSNotifications::start() {
                          << QString::fromStdString(key);
                 emit this->runtimeValueChanged(std::move(key));
             } break;
+            case AColorSignal::SignalCase::kEmptyGroup: {
+                auto group_id = reply.empty_group().group_id();
+                qDebug() << "Received: EmptyGroup:" << group_id;
+                emit this->emptyGroup(group_id);
+            } break;
             default:
                 qDebug() << "Not Implemented";
                 break;
