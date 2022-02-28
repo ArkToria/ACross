@@ -93,7 +93,7 @@ class GroupList : public QObject {
     QList<GroupInfo> m_groups;
     QList<GroupInfo> m_origin_groups;
     QList<GroupInfo> m_pre_groups;
-    QMap<int64_t, bool> m_is_updating;
+    // QMap<int64_t, bool> m_is_updating;
     QMap<int64_t, bool> m_is_tcpPinging;
     QMap<int64_t, int> m_tcpPinging_count;
     QMap<int64_t, int> m_group_size;

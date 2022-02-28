@@ -35,7 +35,7 @@ bool Application::initialize() {
             &LogView::setTheme);
 
     // p_db = QSharedPointer<DBTools>::create();
-    p_acolors = QSharedPointer<AColoRSAPITools>::create(19198);
+    p_acolors = QSharedPointer<AColoRSAPITools>::create("127.0.0.1:19198");
     p_core = QSharedPointer<CoreTools>::create(p_acolors);
     p_curl = QSharedPointer<CURLTools>::create();
     p_nodes = QSharedPointer<NodeList>::create();

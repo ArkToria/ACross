@@ -37,6 +37,8 @@ class AColoRSNotifications : public QObject {
 
     void stop();
 
+    void setChannel(const std::shared_ptr<Channel> &channel);
+
   signals:
     void empty();
     void appendGroup();
@@ -52,6 +54,9 @@ class AColoRSNotifications : public QObject {
     void updateGroup(int32_t group_id);
     void runtimeValueChanged(std::string key);
     void emptyGroup(int32_t group_id);
+
+    void channelChanged();
+    void stateChanged(bool is_connected);
 
   private:
     bool is_running = false;
@@ -83,7 +88,7 @@ class AColoRSProfile : public QObject {
     Status appendNode(int32_t group_id, const NodeInfo &data);
     Status appendNodes(int32_t group_id, const QList<NodeInfo> &data);
     Status appendNodeByUrl(int32_t group_id, std::string url);
-    Status updateGroupById(int32_t group_id);
+    Status updateGroupById(int32_t group_id, bool use_proxy);
     Status emptyGroupById(int32_t group_id);
 
     GroupInfo groupFrom(const acolors::GroupData &data);
@@ -92,6 +97,11 @@ class AColoRSProfile : public QObject {
     static QList<NodeInfo> nodeListFrom(const acolors::NodeList &node_list);
     acolors::GroupData groupTo(const GroupInfo &data);
     static acolors::NodeData nodeTo(const NodeInfo &data);
+
+    void setChannel(const std::shared_ptr<Channel> &channel);
+
+  signals:
+    void channelChanged();
 
   private:
     std::shared_ptr<Channel> p_channel;
@@ -113,6 +123,11 @@ class AColoRSCore : public QObject {
     Status setCoreByTag(std::string tag);
     Status setDefaultConfigByNodeId(int32_t node_id);
 
+    void setChannel(const std::shared_ptr<Channel> &channel);
+
+  signals:
+    void channelChanged();
+
   private:
     std::shared_ptr<Channel> p_channel;
     std::shared_ptr<AColoRSProfile> p_profile;
@@ -127,6 +142,11 @@ class AColoRSConfig : public QObject {
     Status setInbounds(const acolors::Inbounds &inbounds);
     pair<acolors::Inbounds, Status> getInbounds();
 
+    void setChannel(const std::shared_ptr<Channel> &channel);
+
+  signals:
+    void channelChanged();
+
   private:
     std::shared_ptr<Channel> p_channel;
     std::unique_ptr<acolors::ConfigManager::Stub> p_stub;
@@ -134,7 +154,7 @@ class AColoRSConfig : public QObject {
 class AColoRSAPITools : public QObject {
     Q_OBJECT
   public:
-    explicit AColoRSAPITools(uint port);
+    explicit AColoRSAPITools(const std::string &target);
 
     ~AColoRSAPITools() override;
 
@@ -148,6 +168,11 @@ class AColoRSAPITools : public QObject {
         return *this->p_config;
     };
     [[nodiscard]] inline AColoRSCore &core() const { return *this->p_core; };
+
+    void set_target(const std::string target);
+
+  signals:
+    void targetChanged(const std::string &target);
 
   private:
     const std::string LOCAL_HOST = "localhost";

@@ -11,8 +11,13 @@ AColoRSNotifications::AColoRSNotifications(
 AColoRSNotifications::~AColoRSNotifications() { this->stop(); }
 
 void AColoRSNotifications::start() {
+    if (this->is_running)
+        return;
     this->context = std::make_unique<ClientContext>();
     this->is_running = true;
+
+    emit this->stateChanged(this->is_running);
+
     this->future = QtConcurrent::run([&] {
         GetNotificationsRequest request;
         std::unique_ptr<grpc::ClientReader<AColorSignal>> reader(
@@ -91,6 +96,9 @@ void AColoRSNotifications::start() {
                 break;
             }
         }
+        qDebug() << "Notification disconnected";
+        this->is_running = false;
+        emit this->stateChanged(this->is_running);
     });
 }
 
@@ -98,7 +106,21 @@ void AColoRSNotifications::stop() {
     if (this->is_running)
         this->context->TryCancel();
     this->future.waitForFinished();
-    this->is_running = false;
+}
+
+void AColoRSNotifications::setChannel(const std::shared_ptr<Channel> &channel) {
+    bool flag = false;
+    if (this->is_running) {
+        this->stop();
+        flag = true;
+    }
+    this->p_channel = channel;
+    this->p_stub = Notifications::NewStub(p_channel);
+
+    if (flag) {
+        this->start();
+    }
+    emit channelChanged();
 }
 
 AColoRSProfile::AColoRSProfile(const std::shared_ptr<Channel> &channel) {
@@ -248,10 +270,11 @@ Status AColoRSProfile::appendNodeByUrl(int32_t group_id, std::string url) {
     return this->p_stub->AppendNodeByUrl(&context, request, &reply);
 }
 
-Status AColoRSProfile::updateGroupById(int32_t group_id) {
+Status AColoRSProfile::updateGroupById(int32_t group_id, bool use_proxy) {
     ClientContext context;
     UpdateGroupByIDRequest request;
     request.set_group_id(group_id);
+    request.set_use_proxy(use_proxy);
     UpdateGroupByIDReply reply;
     return this->p_stub->UpdateGroupByID(&context, request, &reply);
 }
@@ -478,6 +501,12 @@ acolors::NodeData AColoRSProfile::nodeTo(const NodeInfo &data) {
     return result;
 }
 
+void AColoRSProfile::setChannel(const std::shared_ptr<Channel> &channel) {
+    this->p_channel = channel;
+    this->p_stub = ProfileManager::NewStub(p_channel);
+    emit channelChanged();
+}
+
 Status AColoRSCore::setCoreByTag(std::string tag) {
     ClientContext context;
     SetCoreByTagRequest request;
@@ -492,6 +521,12 @@ Status AColoRSCore::setDefaultConfigByNodeId(int32_t node_id) {
     request.set_node_id(node_id);
     SetDefaultConfigByNodeIDReply reply;
     return this->p_stub->SetDefaultConfigByNodeID(&context, request, &reply);
+}
+
+void AColoRSCore::setChannel(const std::shared_ptr<Channel> &channel) {
+    this->p_channel = channel;
+    this->p_stub = CoreManager::NewStub(p_channel);
+    emit channelChanged();
 }
 
 AColoRSConfig::AColoRSConfig(const std::shared_ptr<Channel> &channel) {
@@ -515,10 +550,16 @@ pair<Inbounds, Status> AColoRSConfig::getInbounds() {
     return std::make_pair(reply, status);
 }
 
-AColoRSAPITools::AColoRSAPITools(uint port) {
-    const auto target = LOCAL_HOST + ":" + std::to_string(port);
+void AColoRSConfig::setChannel(const std::shared_ptr<Channel> &channel) {
+    this->p_channel = channel;
+    this->p_stub = ConfigManager::NewStub(p_channel);
+    emit channelChanged();
+}
+
+AColoRSAPITools::AColoRSAPITools(const std::string &target) {
     qDebug() << "Creating Channel:" << QString::fromStdString(target);
-    p_channel = grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
+    this->p_channel =
+        grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
 
     this->p_notifications = std::make_unique<AColoRSNotifications>(p_channel);
     this->p_profile = std::make_shared<AColoRSProfile>(p_channel);
@@ -526,3 +567,15 @@ AColoRSAPITools::AColoRSAPITools(uint port) {
     this->p_core = std::make_unique<AColoRSCore>(p_channel, p_profile);
 }
 AColoRSAPITools::~AColoRSAPITools() {}
+
+void AColoRSAPITools::set_target(const std::string target) {
+    this->p_channel =
+        grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
+
+    this->p_notifications->setChannel(this->p_channel);
+    this->p_profile->setChannel(this->p_channel);
+    this->p_config->setChannel(this->p_channel);
+    this->p_core->setChannel(this->p_channel);
+
+    emit targetChanged(target);
+}

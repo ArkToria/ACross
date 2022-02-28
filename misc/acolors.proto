@@ -79,10 +79,10 @@ message SetNodeByUrlReply {}
 message RemoveGroupByIDReply {}
 message RemoveNodeByIDReply {}
 message AppendGroupReply {}
-message UpdateGroupByIDReply {}
 message AppendNodeReply {}
 message AppendNodeByUrlReply {}
 
+message UpdateGroupByIDReply {}
 message CountNodesRequest { int32 group_id = 1; }
 
 message ListAllNodesRequest { int32 group_id = 1; }
@@ -105,7 +105,10 @@ message RemoveGroupByIDRequest { int32 group_id = 1; }
 message RemoveNodeByIDRequest { int32 node_id = 1; }
 message AppendGroupRequest { GroupData data = 1; }
 
-message UpdateGroupByIDRequest { int32 group_id = 1; }
+message UpdateGroupByIDRequest {
+  int32 group_id = 1;
+  bool use_proxy = 2;
+}
 message EmptyGroupByIDRequest { int32 group_id = 1; }
 message EmptyGroupByIDReply {}
 
@@ -225,10 +228,12 @@ service CoreManager {
   rpc SetConfigByNodeID(SetConfigByNodeIDRequest)
       returns (SetConfigByNodeIDReply);
   rpc SetCoreByTag(SetCoreByTagRequest) returns (SetCoreByTagReply);
+  rpc GetCoreTag(GetCoreTagRequest) returns (GetCoreTagReply);
   rpc SetDefaultConfigByNodeID(SetDefaultConfigByNodeIDRequest)
       returns (SetDefaultConfigByNodeIDReply);
 }
 
+message GetCoreTagRequest {}
 message GetCurrentNodeRequest {}
 message RunRequest {}
 message RunReply {}
@@ -243,4 +248,5 @@ message SetConfigByNodeIDReply {}
 message SetDefaultConfigByNodeIDRequest { int32 node_id = 1; }
 message SetDefaultConfigByNodeIDReply {}
 message SetCoreByTagRequest { string tag = 1; }
+message GetCoreTagReply { string tag = 1; }
 message SetCoreByTagReply {}

@@ -89,12 +89,14 @@ void GroupList::checkUpdate(int index, bool force) {
             !force)
             break;
 
+        /*
         if (m_is_updating.contains(group.id)) {
             break;
         }
         m_is_updating[group.id] = true;
+        */
 
-        p_acolors->profile().updateGroupById(group.id);
+        p_acolors->profile().updateGroupById(group.id, p_nodes->isRunning());
 
         /*
         DownloadTask task = {
@@ -407,9 +409,9 @@ void GroupList::editItem(int index, const QString &group_name,
     }
 
     if (is_url_changed) {
-        m_is_updating[group.id] = true;
+        // m_is_updating[group.id] = true;
 
-        p_acolors->profile().updateGroupById(group.id);
+        p_acolors->profile().updateGroupById(group.id, p_nodes->isRunning());
 
         /*
         DownloadTask task = {
@@ -481,8 +483,8 @@ void GroupList::handleDownloaded(const QVariant &content) {
     auto task = content.value<DownloadTask>();
     if (task.content.isEmpty()) {
         if (task.is_updated)
-            m_is_updating.remove(task.id);
-        return;
+            // m_is_updating.remove(task.id);
+            return;
     }
 
     if (task.is_updated) {
@@ -503,13 +505,13 @@ void GroupList::handleDownloaded(const QVariant &content) {
 
         if (auto result = p_acolors->profile().setGroups(temp_groups);
             !result.ok()) {
-            m_is_updating.remove(task.id);
+            // m_is_updating.remove(task.id);
             return;
         } else {
             p_acolors->core().setDefaultConfigByNodeId(0);
         }
 
-        m_is_updating.remove(task.id);
+        // m_is_updating.remove(task.id);
     } else {
         for (auto i = 0; i < m_pre_groups.size(); ++i) {
             if (m_pre_groups.at(i).name == task.name) {
@@ -531,7 +533,7 @@ void GroupList::handleDownloaded(const QVariant &content) {
     reloadItems();
 }
 void GroupList::handleUpdatedGroup(const int32_t group_id) {
-    m_is_updating.remove(group_id);
+    // m_is_updating.remove(group_id);
 
     reloadItems();
 }
