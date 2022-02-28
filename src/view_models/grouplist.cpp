@@ -89,28 +89,8 @@ void GroupList::checkUpdate(int index, bool force) {
             !force)
             break;
 
-        /*
-        if (m_is_updating.contains(group.id)) {
-            break;
-        }
-        m_is_updating[group.id] = true;
-        */
-
         p_acolors->profile().updateGroupById(group.id, p_nodes->isRunning());
 
-        /*
-        DownloadTask task = {
-            .id = group.id,
-            .name = group.name,
-            .url = group.url,
-            .user_agent = p_config->networkUserAgent(),
-            .is_updated = true,
-        };
-
-        p_nodes->setDownloadProxy(task);
-
-        p_curl->download(task);
-        */
     } while (false);
 }
 
@@ -409,23 +389,9 @@ void GroupList::editItem(int index, const QString &group_name,
     }
 
     if (is_url_changed) {
-        // m_is_updating[group.id] = true;
 
         p_acolors->profile().updateGroupById(group.id, p_nodes->isRunning());
 
-        /*
-        DownloadTask task = {
-            .id = group.id,
-            .name = group.name,
-            .url = group.url,
-            .user_agent = p_config->networkUserAgent(),
-            .is_updated = true,
-        };
-
-        p_nodes->setDownloadProxy(task);
-
-        p_curl->download(task);
-        */
     } else if (!node_items.isEmpty()) {
         this->insertBase64(group, node_items);
     }

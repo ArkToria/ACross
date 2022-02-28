@@ -37,12 +37,6 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
 
     if (pair_result.second.ok()) {
         m_node = pair_result.first;
-        /*
-        emit currentGroupIDChanged();
-        emit currentNodeIDChanged();
-        emit currentNodeInfoChanged(m_node.toVariantMap());
-        emit currentNodeChanged(m_node);
-        */
     }
 
     if (tray != nullptr) {
@@ -407,32 +401,6 @@ void NodeList::setCurrentNodeByID(int id) {
             p_logger->error("Failed to start current node: ID{} ", id);
         }
     }
-
-    /*
-    TODO: Set CurrentNode By ID
-    for (auto &node : m_nodes) {
-        if (id == node.id) {
-            m_node = node;
-
-            p_db->updateRuntimeValue(
-                RuntimeValue(RunTimeValues::CURRENT_NODE_ID, node.id));
-            p_db->updateRuntimeValue(
-                RuntimeValue(RunTimeValues::CURRENT_GROUP_ID, node.group_id));
-
-            emit currentGroupIDChanged();
-            emit currentNodeIDChanged();
-            emit currentNodeInfoChanged(m_node.toVariantMap());
-            emit currentNodeChanged(m_node);
-
-            if (!run()) {
-                p_logger->error("Failed to start current node: {} {}", node.id,
-                                node.name.toStdString());
-            }
-
-            break;
-        }
-    }
-    */
 }
 
 void NodeList::handleLatencyChanged(qint64 group_id, int index,
@@ -481,12 +449,7 @@ void NodeList::saveQRCodeToFile(int id, const QUrl &url) {
 }
 
 void NodeList::setAsDefault(int id) {
-    /*
-    TODO: Set As Default
-    p_db->updateRuntimeValue(RuntimeValue(RunTimeValues::DEFAULT_NODE_ID, id));
-    p_db->updateRuntimeValue(
-        RuntimeValue(RunTimeValues::DEFAULT_GROUP_ID, displayGroupID()));
-        */
+    this->p_acolors->core().setDefaultConfigByNodeId(id);
 }
 
 void NodeList::setDocument(QVariant &v) {

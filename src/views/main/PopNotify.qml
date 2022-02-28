@@ -71,25 +71,5 @@ Item {
         }
 
         return notification;
-/*
-        // Debug
-        var noti1 = acrossNotifications.append(title,message,0.0,1.0,0.0);
-
-        function Timer() {
-            return Qt.createQmlObject("import QtQuick; Timer {}", popNotifyControl);
-        }
-
-        var timer = new Timer();
-        timer.interval = 3000;
-        timer.repeat = false;
-        noti1.title = noti1.id
-        timer.triggered.connect(function () {
-            console.log("remove",noti1.id);
-            noti1.value = 1.0
-            noti1.title = "Done"
-            acrossNotifications.remove(noti1.id)
-        })
-        timer.start();
-        */
     }
 }
