@@ -135,9 +135,6 @@ Item {
         onDoubleClicked: function(mouse) {
             if (mouse.button === Qt.LeftButton) {
                 acrossNodes.setCurrentNodeByID(nodeID);
-                if (!acrossCore.isRunning)
-                    popNotify.notify(qsTr("Core Error"), qsTr("Failed to start the process"), 0.0, 1.0, 0.0, 2000);
-
             }
         }
         onClicked: function(mouse) {

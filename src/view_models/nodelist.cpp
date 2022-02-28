@@ -19,6 +19,7 @@ NodeList::~NodeList() {
 void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
                     QSharedPointer<CoreTools> core,
                     QSharedPointer<across::acolorsapi::AColoRSAPITools> acolors,
+                    QSharedPointer<across::NotificationModel> notifications,
                     const QSharedPointer<QSystemTrayIcon> &tray) {
     if (auto app_logger = spdlog::get("app"); app_logger != nullptr) {
         p_logger = app_logger->clone("nodes");
@@ -27,6 +28,7 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
         return;
     }
 
+    p_notifications = std::move(notifications);
     p_acolors = std::move(acolors);
     p_config = std::move(config);
     p_core = std::move(core);

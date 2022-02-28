@@ -14,11 +14,16 @@ Notification::Notification(int index, QObject *parent) : QObject(parent) {
     connect(this, &Notification::valueChanged,
             &Notification::propertiesChanged);
     connect(this, &Notification::pinChanged, &Notification::propertiesChanged);
-    connect(this, &Notification::indexChanged, &Notification::propertiesChanged);
+    connect(this, &Notification::indexChanged,
+            &Notification::propertiesChanged);
 }
 
 NotificationModel::NotificationModel(QObject *parent)
     : QAbstractListModel(parent) {}
+
+void NotificationModel::init(QObject *popNotify) {
+    this->p_popNotify = popNotify;
+}
 
 QVariant NotificationModel::headerData(int section, Qt::Orientation orientation,
                                        int role) const {
@@ -96,7 +101,7 @@ NotificationModel::append(const QString &title, const QString &message = "",
 
     auto rcnt = rowCount();
     beginInsertRows(QModelIndex(), rcnt, rcnt);
-    connect(noti, &Notification::propertiesChanged, this, [this,noti]() {
+    connect(noti, &Notification::propertiesChanged, this, [this, noti]() {
         QModelIndex topLeft = createIndex(noti->getIndex(), 0);
         QModelIndex bottomRight = createIndex(noti->getIndex(), 0);
         emit NotificationModel::dataChanged(topLeft, bottomRight);
@@ -104,6 +109,22 @@ NotificationModel::append(const QString &title, const QString &message = "",
     notifications.emplace_back(noti);
     endInsertRows();
     return noti;
+}
+
+across::Notification *NotificationModel::notify(const QString &title,
+                                                const QString &message,
+                                                double from, double to,
+                                                double value, int duration) {
+    if (p_popNotify) {
+        QVariant result;
+        qDebug() << QMetaObject::invokeMethod(
+            p_popNotify, "notify", Q_RETURN_ARG(QVariant, result),
+            Q_ARG(QVariant, title), Q_ARG(QVariant, message),
+            Q_ARG(QVariant, from), Q_ARG(QVariant, to), Q_ARG(QVariant, value),
+            Q_ARG(QVariant, duration));
+        return qvariant_cast<across::Notification *>(result);
+    }
+    return nullptr;
 }
 
 void NotificationModel::remove(const int index) {
@@ -117,8 +138,8 @@ void NotificationModel::remove(const int index) {
     QModelIndex bottomRight = createIndex(rcnt, 0);
     emit NotificationModel::dataChanged(topLeft, bottomRight);
     Notification *noti = notifications[index];
-    for(int i=index+1;i<notifications.size();i++){
-      notifications[i]->setIndex(notifications[i]->getIndex()-1);
+    for (int i = index + 1; i < notifications.size(); i++) {
+        notifications[i]->setIndex(notifications[i]->getIndex() - 1);
     }
     notifications.remove(index);
     noti->deleteLater();

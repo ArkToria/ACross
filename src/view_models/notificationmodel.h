@@ -44,7 +44,7 @@ class Notification : public QObject {
     bool getPin() const { return pin; }
     void setPin(const bool pin) { this->pin = pin; }
     int getIndex() const { return index; }
-    void setIndex(int index) { this->index = index;}
+    void setIndex(int index) { this->index = index; }
 
   signals:
     void titleChanged();
@@ -78,6 +78,8 @@ class NotificationModel : public QAbstractListModel {
   public:
     explicit NotificationModel(QObject *parent = nullptr);
 
+    void init(QObject *popNotify);
+
     enum NotificationRoles {
         NotificationIndexRole = Qt::UserRole,
         TitleRole,
@@ -107,10 +109,16 @@ class NotificationModel : public QAbstractListModel {
                                              const QString &message, qreal from,
                                              qreal to, qreal value);
 
+    across::Notification *notify(const QString &title, const QString &message,
+                                 double from, double to, double value,
+                                 int duration = -1);
+
     Q_INVOKABLE void remove(const int id);
 
   private:
     QVector<Notification *> notifications;
+
+    QObject *p_popNotify = nullptr;
 };
 
 } // namespace across

@@ -14,7 +14,7 @@ CardBox {
     property alias value: progressBar.value
 
     implicitWidth: 320
-    implicitHeight: 84
+    implicitHeight: 100
     clip: true
 
     ColumnLayout {
@@ -32,6 +32,8 @@ CardBox {
         Label {
             id: displayMessage
 
+            Layout.fillWidth: true
+            wrapMode: Text.WordWrap
             color: acrossConfig.textColor
         }
 

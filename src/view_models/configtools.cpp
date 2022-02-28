@@ -18,8 +18,10 @@ ConfigTools::~ConfigTools() {
         m_tasks.dequeue().cancel();
 }
 
-bool ConfigTools::init(QSharedPointer<CURLTools> curl,
-                       const QString &file_path) {
+bool ConfigTools::init(
+    QSharedPointer<CURLTools> curl,
+    const QSharedPointer<across::acolorsapi::AColoRSAPITools> &acolors,
+    const QString &file_path) {
     if (loadConfigPath()) {
         if (auto json_str = ConfigHelper::readFromFile(m_config_path);
             !json_str.empty()) {
@@ -30,6 +32,7 @@ bool ConfigTools::init(QSharedPointer<CURLTools> curl,
     }
 
     p_curl = std::move(curl);
+    p_acolors = acolors;
     p_core = m_config.mutable_core();
     p_db = m_config.mutable_database();
     p_interface = m_config.mutable_interface();
@@ -39,6 +42,13 @@ bool ConfigTools::init(QSharedPointer<CURLTools> curl,
     loadThemeConfig();
     emit configChanged();
     setNews();
+
+    connect(&p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::coreChanged, this,
+            &ConfigTools::coreNameChanged);
+    connect(&p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::coreChanged, this,
+            &ConfigTools::coreVersionChanged);
 
     return true;
 }
@@ -495,7 +505,7 @@ void ConfigTools::setCorePath(const QUrl &val) {
         p_core->set_core_path(path.toStdString());
         emit configChanged();
         emit corePathChanged();
-        emit coreInfoChanged();
+        emit coreNameChanged();
         emit coreVersionChanged();
     }
 }
@@ -832,31 +842,14 @@ QString ConfigTools::dataDir() { return m_config.data_dir().c_str(); }
 
 QString ConfigTools::guiVersion() { return GUI_VERSION(); }
 
-QString ConfigTools::coreInfo() {
-    QProcess core_process;
-    if (p_core->core_path().empty())
-        return "";
-
-    core_process.start(p_core->core_path().c_str(), {"-version"});
-    core_process.waitForFinished();
-
-    if (core_process.exitStatus() == QProcess::NormalExit)
-        if (auto raw_info = core_process.readAllStandardOutput();
-            !raw_info.isEmpty())
-            return raw_info;
-
-    return "";
+QString ConfigTools::coreName() {
+    auto coreInfo = this->p_acolors->core().getCoreInfo();
+    return coreInfo.second.ok() ? coreInfo.first.name : "None";
 }
 
 QString ConfigTools::coreVersion() {
-    if (auto info = coreInfo(); info.isEmpty())
-        return "";
-    else if (auto version =
-                 info.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts)
-                     .at(1);
-             !version.isEmpty())
-        return version;
-    return "";
+    auto coreInfo = this->p_acolors->core().getCoreInfo();
+    return coreInfo.second.ok() ? coreInfo.first.version : "";
 }
 
 QString ConfigTools::corePath() { return p_core->core_path().c_str(); }

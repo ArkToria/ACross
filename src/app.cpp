@@ -44,7 +44,7 @@ bool Application::initialize() {
     p_notifications = QSharedPointer<NotificationModel>::create();
     p_image_provider = new ImageProvider; // free by qml engine
 
-    p_config->init(p_curl);
+    p_config->init(p_curl, p_acolors);
 
     registerModels();
     setRootContext();
@@ -109,16 +109,26 @@ void Application::setRootContext() {
                               p_image_provider);
     m_engine.load(url);
 
+    QObject *popNotify = nullptr;
+    for (auto object : m_engine.rootObjects()) {
+        if (object->objectName() == "mainWindow") {
+            popNotify = object->findChild<QObject *>("popNotify");
+            break;
+        }
+    }
+
+    p_notifications->init(popNotify);
     p_acolors->notifications().start();
     p_config->setLogMode();
     // p_db->init(p_config->dbPath());
-    p_core->init(p_config);
+    p_core->init(p_config, p_notifications);
     p_tray->init(p_config, p_core, p_nodes);
 #if !defined(Q_CC_MINGW) && !defined(Q_OS_MACOS)
-    p_nodes->init(p_config, p_core, p_acolors);
+    p_nodes->init(p_config, p_core, p_acolors, p_notifications);
     p_groups->init(p_config, p_acolors, p_nodes, p_curl, p_notifications);
 #else
-    p_nodes->init(p_config, p_core, p_acolors, p_tray->getTrayIcon());
+    p_nodes->init(p_config, p_core, p_acolors, p_notifications,
+                  p_tray->getTrayIcon());
     p_groups->init(p_config, p_acolors, p_nodes, p_curl, p_notifications,
                    p_tray->getTrayIcon());
 #endif

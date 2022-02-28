@@ -3,6 +3,7 @@
 
 #include "../view_models/configtools.h"
 #include "../view_models/logtools.h"
+#include "../view_models/notificationmodel.h"
 
 #include "acolorstools.h"
 
@@ -28,7 +29,8 @@ class CoreTools : public QObject {
 
     ~CoreTools() override;
 
-    bool init(QSharedPointer<across::setting::ConfigTools> config);
+    bool init(QSharedPointer<across::setting::ConfigTools> config,
+              QSharedPointer<across::NotificationModel> notifications);
 
     void setConfigByNodeID(int32_t node_id);
 
@@ -50,6 +52,7 @@ class CoreTools : public QObject {
 
   private:
     across::config::Core *p_core{};
+    QSharedPointer<across::NotificationModel> p_notifications;
     QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors;
     QSharedPointer<across::setting::ConfigTools> p_config;
     std::shared_ptr<spdlog::logger> p_logger;

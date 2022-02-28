@@ -1,6 +1,7 @@
 #ifndef CONFIGTOOLS_H
 #define CONFIGTOOLS_H
 
+#include "../models/acolorstools.h"
 #include "../models/apitools.h"
 #include "../models/confighelper.h"
 #include "../models/envtools.h"
@@ -40,7 +41,7 @@ class ConfigTools : public QObject {
     Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathChanged)
 
     // core setting
-    Q_PROPERTY(QString coreInfo READ coreInfo NOTIFY coreInfoChanged)
+    Q_PROPERTY(QString coreName READ coreName NOTIFY coreNameChanged)
     Q_PROPERTY(QString coreVersion READ coreVersion NOTIFY coreVersionChanged)
     Q_PROPERTY(QString guiVersion READ guiVersion CONSTANT)
     Q_PROPERTY(
@@ -170,8 +171,10 @@ class ConfigTools : public QObject {
     explicit ConfigTools(QObject *parent = nullptr);
     ~ConfigTools() override;
 
-    bool init(QSharedPointer<across::network::CURLTools> curl,
-              const QString &file_path = "");
+    bool
+    init(QSharedPointer<across::network::CURLTools> curl,
+         const QSharedPointer<across::acolorsapi::AColoRSAPITools> &acolors,
+         const QString &file_path = "");
 
     void loadThemeConfig();
     bool loadConfigPath(const QString &file_path = "");
@@ -208,7 +211,7 @@ class ConfigTools : public QObject {
     QString dbPath();
 
     // core setting
-    QString coreInfo();
+    QString coreName();
     QString coreVersion();
     static QString guiVersion();
     QString corePath();
@@ -342,7 +345,7 @@ class ConfigTools : public QObject {
   signals:
     void dataDirChanged();
     void dbPathChanged();
-    void coreInfoChanged();
+    void coreNameChanged();
     void coreVersionChanged();
     void corePathChanged();
     void assetsPathChanged();
@@ -412,6 +415,8 @@ class ConfigTools : public QObject {
     QStringList m_version_news;
     QString m_config_path = "./" + ACROSS_CONFIG;
     QString m_api_result_text = "";
+
+    QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors;
 
     QSharedPointer<across::network::CURLTools> p_curl;
     across::config::Config m_config = ConfigHelper::defaultConfig();

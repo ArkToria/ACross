@@ -13,6 +13,7 @@
 #include "configtools.h"
 #include "jsonhighlighter.h"
 #include "logtools.h"
+#include "notificationmodel.h"
 
 #include "magic_enum.hpp"
 #include <QObject>
@@ -50,6 +51,7 @@ class NodeList : public QObject {
     void init(QSharedPointer<across::setting::ConfigTools> config,
               QSharedPointer<across::core::CoreTools> core,
               QSharedPointer<across::acolorsapi::AColoRSAPITools> acolors,
+              QSharedPointer<across::NotificationModel> notifications,
               const QSharedPointer<QSystemTrayIcon> &tray = nullptr);
 
     bool run();
@@ -137,6 +139,7 @@ class NodeList : public QObject {
     QSharedPointer<across::core::APITools> p_api;
     QSharedPointer<across::setting::ConfigTools> p_config;
     QSharedPointer<across::core::CoreTools> p_core;
+    QSharedPointer<across::NotificationModel> p_notifications;
     QSharedPointer<QSystemTrayIcon> p_tray;
 
     QQueue<QFuture<void>> m_tasks;

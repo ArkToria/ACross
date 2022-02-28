@@ -428,14 +428,12 @@
 <context>
     <name>CurrentPanel</name>
     <message>
-        <location filename="../src/views/home/CurrentPanel.qml" line="256"/>
         <source>Core Error</source>
-        <translation>核心错误</translation>
+        <translation type="vanished">核心错误</translation>
     </message>
     <message>
-        <location filename="../src/views/home/CurrentPanel.qml" line="256"/>
         <source>Failed to start the process</source>
-        <translation>无法启动进程</translation>
+        <translation type="vanished">无法启动进程</translation>
     </message>
 </context>
 <context>
@@ -725,9 +723,8 @@
 <context>
     <name>InfoItem</name>
     <message>
-        <location filename="../src/views/menu/InfoItem.qml" line="18"/>
         <source>Core</source>
-        <translation>核心</translation>
+        <translation type="vanished">核心</translation>
     </message>
     <message>
         <location filename="../src/views/menu/InfoItem.qml" line="27"/>
@@ -968,14 +965,12 @@
 <context>
     <name>NodeItemCard</name>
     <message>
-        <location filename="../src/views/home/NodeItemCard.qml" line="139"/>
         <source>Core Error</source>
-        <translation>核心错误</translation>
+        <translation type="vanished">核心错误</translation>
     </message>
     <message>
-        <location filename="../src/views/home/NodeItemCard.qml" line="139"/>
         <source>Failed to start the process</source>
-        <translation>无法启动进程</translation>
+        <translation type="vanished">无法启动进程</translation>
     </message>
 </context>
 <context>
@@ -1255,7 +1250,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="366"/>
+        <location filename="../src/view_models/nodelist.cpp" line="368"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1304,24 +1299,37 @@
     </message>
 </context>
 <context>
+    <name>across::core::CoreTools</name>
+    <message>
+        <location filename="../src/models/coretools.cpp" line="98"/>
+        <source>Core Error</source>
+        <translation type="unfinished">核心错误</translation>
+    </message>
+    <message>
+        <location filename="../src/models/coretools.cpp" line="99"/>
+        <source>Failed to start the process: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="892"/>
+        <location filename="../src/view_models/configtools.cpp" line="885"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="893"/>
+        <location filename="../src/view_models/configtools.cpp" line="886"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1070"/>
+        <location filename="../src/view_models/configtools.cpp" line="1063"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1073"/>
+        <location filename="../src/view_models/configtools.cpp" line="1066"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1330,7 +1338,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1075"/>
+        <location filename="../src/view_models/configtools.cpp" line="1068"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>
@@ -1338,7 +1346,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/views/main.qml" line="22"/>
+        <location filename="../src/views/main.qml" line="23"/>
         <source>ACross</source>
         <translation>ACross</translation>
     </message>

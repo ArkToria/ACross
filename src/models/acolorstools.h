@@ -123,6 +123,12 @@ class AColoRSCore : public QObject {
     Status setCoreByTag(std::string tag);
     Status setDefaultConfigByNodeId(int32_t node_id);
 
+    struct CoreInfo {
+        QString name;
+        QString version;
+    };
+    pair<CoreInfo, Status> getCoreInfo();
+
     void setChannel(const std::shared_ptr<Channel> &channel);
 
   signals:

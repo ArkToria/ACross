@@ -19,8 +19,10 @@ CoreTools::CoreTools(
 
 CoreTools::~CoreTools() {}
 
-bool CoreTools::init(QSharedPointer<ConfigTools> config) {
+bool CoreTools::init(QSharedPointer<ConfigTools> config,
+                     QSharedPointer<across::NotificationModel> notifications) {
     p_config = std::move(config);
+    p_notifications = std::move(notifications);
 
     this->setIsRunning(p_acolors->core().isRunning().first);
     /*
@@ -92,6 +94,11 @@ int CoreTools::run() {
         p_logger->info("Core is running...");
         this->setIsRunning(true);
     } else {
+        p_notifications->notify(
+            tr("Core Error"),
+            tr("Failed to start the process: %1")
+                .arg(QString::fromStdString(status.error_message())),
+            0.0, 1.0, 0.0, 2000);
         p_logger->error("Failed to start v2ray process: {}",
                         status.error_message());
     }

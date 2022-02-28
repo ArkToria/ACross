@@ -523,6 +523,18 @@ Status AColoRSCore::setDefaultConfigByNodeId(int32_t node_id) {
     return this->p_stub->SetDefaultConfigByNodeID(&context, request, &reply);
 }
 
+pair<AColoRSCore::CoreInfo, Status> AColoRSCore::getCoreInfo() {
+    ClientContext context;
+    GetCoreInfoRequest request;
+    GetCoreInfoReply reply;
+    auto status = this->p_stub->GetCoreInfo(&context, request, &reply);
+    auto coreInfo = AColoRSCore::CoreInfo{
+        name : QString::fromStdString(reply.name()),
+        version : QString::fromStdString(reply.version())
+    };
+    return std::make_pair(coreInfo, status);
+}
+
 void AColoRSCore::setChannel(const std::shared_ptr<Channel> &channel) {
     this->p_channel = channel;
     this->p_stub = CoreManager::NewStub(p_channel);

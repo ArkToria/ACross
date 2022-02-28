@@ -13,6 +13,7 @@ import QtQuick.Window
 
 ApplicationWindow {
     id: mainWindow
+    objectName: "mainWindow"
 
     width: 960
     height: 720
@@ -55,6 +56,7 @@ ApplicationWindow {
 
     PopNotify {
         id: popNotify
+        objectName: "popNotify"
 
         anchors.right: parent.right
         anchors.bottom: parent.bottom

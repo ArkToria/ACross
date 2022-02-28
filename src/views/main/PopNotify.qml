@@ -7,7 +7,7 @@ Item {
     id: popNotifyControl
 
     implicitWidth: 320
-    implicitHeight: popNotifyListView.count >= 3 ? 84 * 3 : 84 * popNotifyListView.count
+    implicitHeight: popNotifyListView.count >= 3 ? 100 * 3 : 100 * popNotifyListView.count
     clip: true
     visible: false
 

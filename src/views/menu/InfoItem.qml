@@ -15,7 +15,7 @@ Item {
 
             Layout.fillWidth: true
             horizontalAlignment: Qt.AlignHCenter
-            text: qsTr("Core") + " " + acrossConfig.coreVersion
+            text: acrossConfig.coreName + "\n" + acrossConfig.coreVersion
             color: acrossConfig.textColor
         }
 
