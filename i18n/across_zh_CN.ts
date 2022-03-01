@@ -727,7 +727,7 @@
         <translation type="vanished">核心</translation>
     </message>
     <message>
-        <location filename="../src/views/menu/InfoItem.qml" line="27"/>
+        <location filename="../src/views/menu/InfoItem.qml" line="43"/>
         <source>Client</source>
         <translation>客户端</translation>
     </message>
@@ -1220,21 +1220,21 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="140"/>
+        <location filename="../src/view_models/grouplist.cpp" line="124"/>
         <source>[%1] TCP Pinging...</source>
         <translation>[%1] TCP Pinging...</translation>
     </message>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="141"/>
-        <location filename="../src/view_models/grouplist.cpp" line="166"/>
+        <location filename="../src/view_models/grouplist.cpp" line="125"/>
+        <location filename="../src/view_models/grouplist.cpp" line="150"/>
         <source>Testing: %1/%2</source>
         <translation>測試中：%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="451"/>
-        <location filename="../src/view_models/grouplist.cpp" line="455"/>
-        <location filename="../src/view_models/grouplist.cpp" line="472"/>
-        <location filename="../src/view_models/grouplist.cpp" line="476"/>
+        <location filename="../src/view_models/grouplist.cpp" line="418"/>
+        <location filename="../src/view_models/grouplist.cpp" line="422"/>
+        <location filename="../src/view_models/grouplist.cpp" line="439"/>
+        <location filename="../src/view_models/grouplist.cpp" line="443"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1250,7 +1250,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="368"/>
+        <location filename="../src/view_models/nodelist.cpp" line="366"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1301,35 +1301,35 @@
 <context>
     <name>across::core::CoreTools</name>
     <message>
-        <location filename="../src/models/coretools.cpp" line="98"/>
+        <location filename="../src/models/coretools.cpp" line="58"/>
         <source>Core Error</source>
-        <translation type="unfinished">核心错误</translation>
+        <translation>核心错误</translation>
     </message>
     <message>
-        <location filename="../src/models/coretools.cpp" line="99"/>
+        <location filename="../src/models/coretools.cpp" line="59"/>
         <source>Failed to start the process: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法启动进程 %1</translation>
     </message>
 </context>
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="885"/>
+        <location filename="../src/view_models/configtools.cpp" line="891"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="886"/>
+        <location filename="../src/view_models/configtools.cpp" line="892"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1063"/>
+        <location filename="../src/view_models/configtools.cpp" line="1069"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1066"/>
+        <location filename="../src/view_models/configtools.cpp" line="1072"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1338,7 +1338,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1068"/>
+        <location filename="../src/view_models/configtools.cpp" line="1074"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

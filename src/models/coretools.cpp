@@ -24,17 +24,23 @@ bool CoreTools::init(QSharedPointer<ConfigTools> config,
     p_config = std::move(config);
     p_notifications = std::move(notifications);
 
-    this->setIsRunning(p_acolors->core().isRunning().first);
+    this->setIsRunning(p_acolors->core()->isRunning().first);
 
-    connect(&p_acolors->notifications(),
-            &acolorsapi::AColoRSNotifications::updateCoreStatus, this,
-            [&]() { this->setIsRunning(p_acolors->core().isRunning().first); });
+    connect(p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::updateCoreStatus, this, [&]() {
+                this->setIsRunning(p_acolors->core()->isRunning().first);
+            });
+
+    connect(p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::stateChanged, this, [&]() {
+                this->setIsRunning(p_acolors->core()->isRunning().first);
+            });
 
     return true;
 }
 
 void CoreTools::setConfigByNodeID(int32_t node_id) {
-    this->p_acolors->core().setConfigByNodeId(node_id);
+    this->p_acolors->core()->setConfigByNodeId(node_id);
 }
 
 int CoreTools::run() {
@@ -42,7 +48,7 @@ int CoreTools::run() {
     if (m_running)
         this->stop();
 
-    auto status = this->p_acolors->core().run();
+    auto status = this->p_acolors->core()->run();
 
     if (status.ok()) {
         p_logger->info("Core is running...");
@@ -64,8 +70,8 @@ int CoreTools::stop() {
     if (p_acolors == nullptr)
         return -1;
 
-    if (p_acolors->core().isRunning().first) {
-        auto status = p_acolors->core().stop();
+    if (p_acolors->core()->isRunning().first) {
+        auto status = p_acolors->core()->stop();
 
         return status.error_code();
     }

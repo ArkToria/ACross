@@ -62,7 +62,6 @@ class NodeList : public QObject {
     void clearFilter();
 
     void clearItems();
-    void reloadItems();
 
     void appendNode(NodeInfo node);
     void updateNode(NodeInfo node);
@@ -94,6 +93,8 @@ class NodeList : public QObject {
     Q_INVOKABLE static QString jsonFormat(const QString &json_str);
 
   public:
+    void reloadItems();
+
     QList<NodeInfo> items();
     [[nodiscard]] qint64 currentNodeID() const;
     [[nodiscard]] qint64 currentGroupID() const;

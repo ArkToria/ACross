@@ -11,14 +11,12 @@ AColoRSNotifications::AColoRSNotifications(
 AColoRSNotifications::~AColoRSNotifications() { this->stop(); }
 
 void AColoRSNotifications::start() {
-    if (this->is_running)
+    if (this->state)
         return;
     this->context = std::make_unique<ClientContext>();
-    this->is_running = true;
-
-    emit this->stateChanged(this->is_running);
 
     this->future = QtConcurrent::run([&] {
+        this->setState(true);
         GetNotificationsRequest request;
         std::unique_ptr<grpc::ClientReader<AColorSignal>> reader(
             p_stub->GetNotifications(this->context.get(), request));
@@ -96,21 +94,26 @@ void AColoRSNotifications::start() {
                 break;
             }
         }
-        qDebug() << "Notification disconnected";
-        this->is_running = false;
-        emit this->stateChanged(this->is_running);
+        this->setState(false);
     });
 }
+void AColoRSNotifications::setState(bool state) {
+    if (this->state == state)
+        return;
+    this->state = state;
+    emit this->stateChanged();
+}
+bool AColoRSNotifications::getState() { return this->state; }
 
 void AColoRSNotifications::stop() {
-    if (this->is_running)
+    if (this->state)
         this->context->TryCancel();
     this->future.waitForFinished();
 }
 
 void AColoRSNotifications::setChannel(const std::shared_ptr<Channel> &channel) {
     bool flag = false;
-    if (this->is_running) {
+    if (this->state) {
         this->stop();
         flag = true;
     }

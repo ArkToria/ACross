@@ -33,7 +33,7 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
     p_config = std::move(config);
     p_core = std::move(core);
 
-    auto pair_result = p_acolors->core().currentNode();
+    auto pair_result = p_acolors->core()->currentNode();
 
     if (pair_result.second.ok()) {
         m_node = pair_result.first;
@@ -42,6 +42,10 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
     if (tray != nullptr) {
         p_tray = tray;
     }
+
+    connect(p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::stateChanged, this,
+            &NodeList::reloadItems);
 
     connect(p_config.get(), &ConfigTools::apiEnableChanged, this, [&]() {
         if (!p_config->apiEnable() && p_api != nullptr)
@@ -201,7 +205,7 @@ QList<NodeInfo> NodeList::items() { return m_nodes; }
 
 void NodeList::reloadItems() {
     emit preItemsReset();
-    m_nodes = p_acolors->profile().listAllNodes(displayGroupID()).first;
+    m_nodes = p_acolors->profile()->listAllNodes(displayGroupID()).first;
     m_origin_nodes = m_nodes;
 
     if (!m_search_results.isEmpty() &&
@@ -266,11 +270,11 @@ QString NodeList::generateConfig() {
 void NodeList::appendNode(NodeInfo node) {
     node.group_id = displayGroupID();
     node.group_name =
-        p_acolors->profile().getGroupById(node.group_id).first.name;
+        p_acolors->profile()->getGroupById(node.group_id).first.name;
     node.routing_id = 0;
     node.routing_name = "default_routings";
 
-    if (auto status = p_acolors->profile().appendNode(node.group_id, node);
+    if (auto status = p_acolors->profile()->appendNode(node.group_id, node);
         !status.ok()) {
         p_logger->error("Failed to add node: {}", node.name.toStdString());
     } else {
@@ -282,7 +286,7 @@ void NodeList::appendNode(NodeInfo node) {
 void NodeList::updateNode(NodeInfo node) {
     node.modified_time = QDateTime::currentDateTime();
 
-    if (auto status = p_acolors->profile().setNodeById(node.id, node);
+    if (auto status = p_acolors->profile()->setNodeById(node.id, node);
         !status.ok()) {
         p_logger->error("Failed to update node info: {}",
                         node.name.toStdString());
@@ -295,7 +299,7 @@ void NodeList::removeNodeByID(int id) {
     for (const auto &node : m_nodes) {
         if (id == node.id) {
             auto group_id = node.group_id;
-            if (auto result = p_acolors->profile().removeNodeById(id);
+            if (auto result = p_acolors->profile()->removeNodeById(id);
                 !result.ok()) {
                 p_logger->error("Failed to remove node: {}", id);
             } else {
@@ -317,7 +321,7 @@ QVariantMap NodeList::getNodeInfoByIndex(int index) {
 }
 
 QString NodeList::getQRCode(int node_id, int group_id) {
-    auto nodes = p_acolors->profile().listAllNodes(group_id).first;
+    auto nodes = p_acolors->profile()->listAllNodes(group_id).first;
     for (auto &node : nodes) {
         if (node.id == node_id) {
             emit updateQRCode(node.name, node.url);
@@ -335,7 +339,7 @@ qint64 NodeList::currentGroupID() const { return m_node.group_id; }
 qint64 NodeList::displayGroupID() const { return m_display_group_id; }
 
 Q_INVOKABLE qint64 NodeList::getIndexByNode(qint64 node_id, qint64 group_id) {
-    auto nodes = p_acolors->profile().listAllNodes(group_id).first;
+    auto nodes = p_acolors->profile()->listAllNodes(group_id).first;
     for (qint64 index = 0; index < nodes.size(); index++) {
         if (node_id == nodes.at(index).id) {
             return index;
@@ -388,8 +392,8 @@ void NodeList::setDisplayGroupID(int group_id) {
 }
 
 void NodeList::setCurrentNodeByID(int id) {
-    p_acolors->core().setConfigByNodeId(id);
-    auto pair_result = p_acolors->core().currentNode();
+    p_acolors->core()->setConfigByNodeId(id);
+    auto pair_result = p_acolors->core()->currentNode();
 
     if (pair_result.second.ok()) {
         m_node = pair_result.first;
@@ -407,7 +411,7 @@ void NodeList::handleLatencyChanged(qint64 group_id, int index,
                                     const NodeInfo &node) {
     auto db_future = QtConcurrent::run([&, node] {
         auto t_node = node;
-        p_acolors->profile().setNodeById(t_node.id, t_node);
+        p_acolors->profile()->setNodeById(t_node.id, t_node);
     });
     if (group_id == displayGroupID()) {
         if (index < m_nodes.size()) {
@@ -449,7 +453,7 @@ void NodeList::saveQRCodeToFile(int id, const QUrl &url) {
 }
 
 void NodeList::setAsDefault(int id) {
-    this->p_acolors->core().setDefaultConfigByNodeId(id);
+    this->p_acolors->core()->setDefaultConfigByNodeId(id);
 }
 
 void NodeList::setDocument(QVariant &v) {

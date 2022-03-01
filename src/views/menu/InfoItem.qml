@@ -4,11 +4,27 @@ import QtQuick.Controls
 import QtQuick.Layouts
 
 Item {
-    implicitHeight: coreVersionText.contentHeight + guiVersionText.contentHeight
+    implicitHeight: apiStateText.contentHeight + coreVersionText.contentHeight + guiVersionText.contentHeight
 
     ColumnLayout {
         anchors.fill: parent
         anchors.centerIn: parent
+
+        Label {
+            id: apiStateText
+
+            Layout.fillWidth: true
+            horizontalAlignment: Qt.AlignHCenter
+            text: "AColoRS"
+            color: acolorsNotifications.isRunning?acrossConfig.textColor:acrossConfig.warnColor;
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton
+                onClicked: acolorsNotifications.start();
+                hoverEnabled: true
+                cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
+            }
+        }
 
         Label {
             id: coreVersionText

@@ -55,7 +55,7 @@ class GroupList : public QObject {
     Q_INVOKABLE QVariantMap getGroupInfo(int index);
 
   public slots:
-    void reloadItems(bool reopen_db = false);
+    void reloadItems();
     void appendItem(const QString &group_name, const QString &url, int type,
                     int cycle_time);
     void appendItem(const QString &group_name, const QString &node_items);

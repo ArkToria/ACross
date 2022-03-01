@@ -40,9 +40,13 @@ void GroupList::init(
     connect(p_curl.get(), &across::network::CURLTools::downloadFinished, this,
             &GroupList::handleDownloaded);
 
-    connect(&p_acolors->notifications(),
+    connect(p_acolors->notifications(),
             &acolorsapi::AColoRSNotifications::updateGroup, this,
             &GroupList::handleUpdatedGroup);
+
+    connect(p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::stateChanged, this,
+            &GroupList::reloadItems);
 
     connect(this, &GroupList::nodeLatencyChanged, this,
             &GroupList::handleNodeLatencyChanged);
@@ -89,7 +93,7 @@ void GroupList::checkUpdate(int index, bool force) {
             !force)
             break;
 
-        p_acolors->profile().updateGroupById(group.id, p_nodes->isRunning());
+        p_acolors->profile()->updateGroupById(group.id, p_nodes->isRunning());
 
     } while (false);
 }
@@ -105,7 +109,7 @@ Q_INVOKABLE int GroupList::testTcpPing(int index) {
         m_is_tcpPinging[group.id] = true;
 
         auto list_all_nodes =
-            p_acolors->profile().listAllNodes(int32_t(group.id));
+            p_acolors->profile()->listAllNodes(int32_t(group.id));
         if (!list_all_nodes.second.ok()) {
             qDebug() << "testTcpPing Error:"
                      << list_all_nodes.second.error_message().c_str();
@@ -182,7 +186,7 @@ QVariantMap GroupList::getGroupInfo(int index) {
         info.insert("cycleTime", group.cycle_time);
 
         auto list_all_nodes =
-            p_acolors->profile().listAllNodes(int32_t(group.id));
+            p_acolors->profile()->listAllNodes(int32_t(group.id));
         if (!list_all_nodes.second.ok()) {
             qDebug() << "getGroupInfo Error:"
                      << list_all_nodes.second.error_message().c_str();
@@ -198,12 +202,9 @@ QVariantMap GroupList::getGroupInfo(int index) {
     return info;
 }
 
-void GroupList::reloadItems(bool reopen_db) {
-    if (reopen_db) {
-        // p_db->reload();
-    }
+void GroupList::reloadItems() {
 
-    auto list_all_groups = p_acolors->profile().listAllGroups();
+    auto list_all_groups = p_acolors->profile()->listAllGroups();
     if (list_all_groups.second.ok()) {
         emit preItemsReset();
         m_groups = list_all_groups.first;
@@ -263,7 +264,7 @@ bool GroupList::insertSIP008(const GroupInfo &group_info,
     }
 
     if (auto status =
-            p_acolors->profile().appendNodes(int32_t(group_info.id), nodes);
+            p_acolors->profile()->appendNodes(int32_t(group_info.id), nodes);
         !status.ok()) {
         return false;
     }
@@ -303,7 +304,7 @@ bool GroupList::insertBase64(const GroupInfo &group_info,
     }
 
     if (auto status =
-            p_acolors->profile().appendNodes(int32_t(group_info.id), nodes);
+            p_acolors->profile()->appendNodes(int32_t(group_info.id), nodes);
         !status.ok()) {
         return false;
     }
@@ -343,7 +344,7 @@ void GroupList::appendItem(const QString &group_name,
         .type = base64,
     };
 
-    if (auto result = p_acolors->profile().appendGroup(group_info);
+    if (auto result = p_acolors->profile()->appendGroup(group_info);
         !result.ok()) {
         return;
     }
@@ -379,9 +380,9 @@ void GroupList::editItem(int index, const QString &group_name,
 
     m_groups[index] = group;
 
-    if (auto result = p_acolors->profile().setGroupById(group.id, group);
+    if (auto result = p_acolors->profile()->setGroupById(group.id, group);
         result.ok()) {
-        if (auto result = p_acolors->profile().emptyGroupById(group.id);
+        if (auto result = p_acolors->profile()->emptyGroupById(group.id);
             !result.ok())
             return;
     } else {
@@ -390,7 +391,7 @@ void GroupList::editItem(int index, const QString &group_name,
 
     if (is_url_changed) {
 
-        p_acolors->profile().updateGroupById(group.id, p_nodes->isRunning());
+        p_acolors->profile()->updateGroupById(group.id, p_nodes->isRunning());
 
     } else if (!node_items.isEmpty()) {
         this->insertBase64(group, node_items);
@@ -401,7 +402,7 @@ void GroupList::removeItem(int index) {
     if (m_groups.size() > index) {
         emit preItemsReset();
         setDisplayGroupID(m_groups.at(index - 1).id);
-        p_acolors->profile().removeGroupById(m_groups.at(index).id);
+        p_acolors->profile()->removeGroupById(m_groups.at(index).id);
         m_groups.removeAt(index);
         emit postItemsReset();
     }
@@ -428,7 +429,7 @@ void GroupList::copyNodesToClipboard(int index) {
     auto item = m_groups.at(index);
 
     QString nodes_url;
-    for (auto &node : p_acolors->profile().listAllNodes(item.id).first) {
+    for (auto &node : p_acolors->profile()->listAllNodes(item.id).first) {
         nodes_url.append(node.url);
         nodes_url.append("\n");
     }
@@ -458,7 +459,8 @@ void GroupList::handleDownloaded(const QVariant &content) {
         for (auto &item : m_groups) {
             if (item.id == task.id) {
                 auto group = item;
-                if (auto result = p_acolors->profile().emptyGroupById(group.id);
+                if (auto result =
+                        p_acolors->profile()->emptyGroupById(group.id);
                     !result.ok())
                     break;
                 if (!insert(group, task.content))
@@ -469,12 +471,12 @@ void GroupList::handleDownloaded(const QVariant &content) {
             }
         }
 
-        if (auto result = p_acolors->profile().setGroups(temp_groups);
+        if (auto result = p_acolors->profile()->setGroups(temp_groups);
             !result.ok()) {
             // m_is_updating.remove(task.id);
             return;
         } else {
-            p_acolors->core().setDefaultConfigByNodeId(0);
+            p_acolors->core()->setDefaultConfigByNodeId(0);
         }
 
         // m_is_updating.remove(task.id);
@@ -483,7 +485,7 @@ void GroupList::handleDownloaded(const QVariant &content) {
             if (m_pre_groups.at(i).name == task.name) {
                 auto group = m_pre_groups.at(i);
 
-                if (auto result = p_acolors->profile().appendGroup(group);
+                if (auto result = p_acolors->profile()->appendGroup(group);
                     !result.ok())
                     break;
 

@@ -28,16 +28,19 @@ namespace across::acolorsapi {
 
 class AColoRSNotifications : public QObject {
     Q_OBJECT
+    Q_PROPERTY(bool isRunning READ getState NOTIFY stateChanged)
   public:
     explicit AColoRSNotifications(const std::shared_ptr<Channel> &channel);
 
     ~AColoRSNotifications() override;
 
-    void start();
+    Q_INVOKABLE void start();
 
-    void stop();
+    Q_INVOKABLE void stop();
 
     void setChannel(const std::shared_ptr<Channel> &channel);
+
+    bool getState();
 
   signals:
     void empty();
@@ -56,10 +59,13 @@ class AColoRSNotifications : public QObject {
     void emptyGroup(int32_t group_id);
 
     void channelChanged();
-    void stateChanged(bool is_connected);
+    void stateChanged();
 
   private:
-    bool is_running = false;
+    void setState(bool state);
+
+  private:
+    bool state = false;
     std::shared_ptr<Channel> p_channel;
     std::unique_ptr<acolors::Notifications::Stub> p_stub;
     std::unique_ptr<ClientContext> context;
@@ -159,26 +165,31 @@ class AColoRSConfig : public QObject {
 };
 class AColoRSAPITools : public QObject {
     Q_OBJECT
+    Q_PROPERTY(AColoRSNotifications notifications READ notifications NOTIFY
+                   notificationsChanged)
   public:
     explicit AColoRSAPITools(const std::string &target);
 
     ~AColoRSAPITools() override;
 
-    [[nodiscard]] inline AColoRSNotifications &notifications() const {
-        return *this->p_notifications;
+    [[nodiscard]] inline AColoRSNotifications *notifications() const {
+        return this->p_notifications.get();
     };
-    [[nodiscard]] inline AColoRSProfile &profile() const {
-        return *this->p_profile;
+    [[nodiscard]] inline AColoRSProfile *profile() const {
+        return this->p_profile.get();
     };
-    [[nodiscard]] inline AColoRSConfig &config() const {
-        return *this->p_config;
+    [[nodiscard]] inline AColoRSConfig *config() const {
+        return this->p_config.get();
     };
-    [[nodiscard]] inline AColoRSCore &core() const { return *this->p_core; };
+    [[nodiscard]] inline AColoRSCore *core() const {
+        return this->p_core.get();
+    };
 
     void set_target(const std::string target);
 
   signals:
     void targetChanged(const std::string &target);
+    void notificationsChanged();
 
   private:
     const std::string LOCAL_HOST = "localhost";

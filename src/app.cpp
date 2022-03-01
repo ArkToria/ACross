@@ -100,6 +100,8 @@ void Application::setRootContext() {
     m_engine.rootContext()->setContextProperty(
         QStringLiteral("acrossNotifications"), p_notifications.get());
     m_engine.rootContext()->setContextProperty(
+        QStringLiteral("acolorsNotifications"), p_acolors->notifications());
+    m_engine.rootContext()->setContextProperty(
         QStringLiteral("fixedFont"),
         QFontDatabase::systemFont(QFontDatabase::FixedFont));
     m_engine.rootContext()->setContextProperty(
@@ -118,7 +120,7 @@ void Application::setRootContext() {
     }
 
     p_notifications->init(popNotify);
-    p_acolors->notifications().start();
+    p_acolors->notifications()->start();
     p_config->setLogMode();
     // p_db->init(p_config->dbPath());
     p_core->init(p_config, p_notifications);

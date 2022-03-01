@@ -43,11 +43,17 @@ bool ConfigTools::init(
     emit configChanged();
     setNews();
 
-    connect(&p_acolors->notifications(),
+    connect(p_acolors->notifications(),
             &acolorsapi::AColoRSNotifications::coreChanged, this,
             &ConfigTools::coreNameChanged);
-    connect(&p_acolors->notifications(),
+    connect(p_acolors->notifications(),
             &acolorsapi::AColoRSNotifications::coreChanged, this,
+            &ConfigTools::coreVersionChanged);
+    connect(p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::stateChanged, this,
+            &ConfigTools::coreNameChanged);
+    connect(p_acolors->notifications(),
+            &acolorsapi::AColoRSNotifications::stateChanged, this,
             &ConfigTools::coreVersionChanged);
 
     return true;
@@ -843,12 +849,12 @@ QString ConfigTools::dataDir() { return m_config.data_dir().c_str(); }
 QString ConfigTools::guiVersion() { return GUI_VERSION(); }
 
 QString ConfigTools::coreName() {
-    auto coreInfo = this->p_acolors->core().getCoreInfo();
+    auto coreInfo = this->p_acolors->core()->getCoreInfo();
     return coreInfo.second.ok() ? coreInfo.first.name : "None";
 }
 
 QString ConfigTools::coreVersion() {
-    auto coreInfo = this->p_acolors->core().getCoreInfo();
+    auto coreInfo = this->p_acolors->core()->getCoreInfo();
     return coreInfo.second.ok() ? coreInfo.first.version : "";
 }
 
