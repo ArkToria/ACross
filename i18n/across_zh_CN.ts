@@ -1250,7 +1250,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="366"/>
+        <location filename="../src/view_models/nodelist.cpp" line="368"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

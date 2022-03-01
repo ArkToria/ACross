@@ -344,6 +344,9 @@ across::NodeInfo AColoRSProfile::nodeFrom(const acolors::NodeData &data) {
     case acolors::EntryType::UNKNOWN:
         result.protocol = across::EntryType::unknown;
         break;
+    case acolors::EntryType::NAIVEPROXY:
+        result.protocol = across::EntryType::naiveproxy;
+        break;
 
     default:
         break;
@@ -486,6 +489,9 @@ acolors::NodeData AColoRSProfile::nodeTo(const NodeInfo &data) {
         break;
     case across::EntryType::unknown:
         result.set_protocol(acolors::EntryType::UNKNOWN);
+        break;
+    case across::EntryType::naiveproxy:
+        result.set_protocol(acolors::EntryType::NAIVEPROXY);
         break;
 
     default:

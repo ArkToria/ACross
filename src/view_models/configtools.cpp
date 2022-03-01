@@ -855,7 +855,7 @@ QString ConfigTools::coreName() {
 
 QString ConfigTools::coreVersion() {
     auto coreInfo = this->p_acolors->core()->getCoreInfo();
-    return coreInfo.second.ok() ? coreInfo.first.version : "";
+    return coreInfo.second.ok() ? coreInfo.first.version : "0.0";
 }
 
 QString ConfigTools::corePath() { return p_core->core_path().c_str(); }

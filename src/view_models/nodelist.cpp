@@ -152,10 +152,12 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
 bool NodeList::run() {
     bool res = false;
     do {
+        /*
         if (m_node.raw.isEmpty()) {
             p_logger->error("Failed to load current node");
             break;
         }
+        */
 
         if (p_config == nullptr) {
             p_logger->error("Failed to load config");

@@ -266,6 +266,7 @@ function displayProtocolText(protocol) {
         case 5:
             return "scheme";
         case 6:
+            return "naiveproxy"
         default:
             return "unknown";
     }

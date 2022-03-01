@@ -142,6 +142,7 @@ enum EntryType {
   RAW = 3;
   SCHEME = 4;
   UNKNOWN = 5;
+  NAIVEPROXY = 6;
 }
 
 message NodeData {

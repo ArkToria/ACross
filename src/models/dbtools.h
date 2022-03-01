@@ -27,6 +27,7 @@ enum EntryType : int {
     raw,
     scheme,
     unknown,
+    naiveproxy,
 };
 
 struct NodeInfo {
@@ -93,6 +94,6 @@ struct RuntimeValue {
     RuntimeValue(RunTimeValues key, const QVariant &value);
     RuntimeValue(QString key, int type, const QVariant &value);
 };
-}
+} // namespace across
 
 #endif // DBTOOLS_H

@@ -319,6 +319,7 @@ function displayProtocolText(protocol: number): string {
         case 5:
             return "scheme"
         case 6:
+            return "naiveproxy"
         default:
             return "unknown"
     }
