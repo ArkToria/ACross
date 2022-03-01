@@ -538,8 +538,8 @@ pair<AColoRSCore::CoreInfo, Status> AColoRSCore::getCoreInfo() {
     GetCoreInfoReply reply;
     auto status = this->p_stub->GetCoreInfo(&context, request, &reply);
     auto coreInfo = AColoRSCore::CoreInfo{
-        name : QString::fromStdString(reply.name()),
-        version : QString::fromStdString(reply.version())
+        .name = QString::fromStdString(reply.name()),
+        .version = QString::fromStdString(reply.version())
     };
     return std::make_pair(coreInfo, status);
 }
