@@ -7,6 +7,9 @@ import QtQuick.Layouts
 
 Item {
     id: nodeItemCard
+    property Item dragParent: null
+
+    property int visualIndex: 0
 
     property int fontSize: 12
     property Component popMenuComponent: null
@@ -27,10 +30,31 @@ Item {
 
     }
 
+    anchors {
+        horizontalCenter: dragHandler.active ? undefined : parent.horizontalCenter
+        verticalCenter: dragHandler.active ? undefined : parent.verticalCenter
+    }
+
     implicitWidth: 240
     implicitHeight: 192
+
+    DragHandler {
+        id: dragHandler
+    }
+
+    Drag.active: dragHandler.active
+    Drag.source: nodeItemCard
+    Drag.hotSpot.x: parent.width/2
+    Drag.hotSpot.y: parent.height/2
     state: "NormalState"
     states: [
+        State {
+            when: dragHandler.active
+            ParentChange {
+                target: nodeItemCard
+                parent: nodeItemCard.dragParent
+            }
+        },
         State {
             name: "NormalState"
 
@@ -119,7 +143,6 @@ Item {
             }
 
         }
-
     }
 
     MouseArea {
@@ -159,5 +182,4 @@ Item {
             openPopMenu(menuButton);
         }
     }
-
 }

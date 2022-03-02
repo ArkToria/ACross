@@ -69,14 +69,37 @@ Item {
         highlightFollowsCurrentItem: true
         focus: true
 
-        model: NodeModel {
-            list: acrossNodes
+        displaced: Transition {
+            NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad }
         }
 
-        delegate: NodeItemCard {
-            clip: true
-            implicitWidth: nodeGridView.cellWidth - acrossConfig.itemSpacing
-            implicitHeight: nodeGridView.cellHeight - acrossConfig.itemSpacing
+        model: DelegateModel {
+            id: visualModel
+            model: NodeModel {
+                list: acrossNodes
+            }
+
+            delegate: DropArea {
+                id: delegateRoot
+
+                implicitWidth: nodeGridView.cellWidth - acrossConfig.itemSpacing
+                implicitHeight: nodeGridView.cellHeight - acrossConfig.itemSpacing
+
+                onEntered: function(drag) {
+                    visualModel.items.move((drag.source as NodeItemCard).visualIndex, itemCard.visualIndex)
+                }
+
+                property int visualIndex: DelegateModel.itemsIndex
+
+                NodeItemCard {
+                    id: itemCard
+                    clip: true
+                    implicitWidth: nodeGridView.cellWidth - acrossConfig.itemSpacing
+                    implicitHeight: nodeGridView.cellHeight - acrossConfig.itemSpacing
+                    visualIndex: delegateRoot.visualIndex
+                    dragParent: nodeGridView
+                }
+            } 
         }
 
         highlight: CardBox {
