@@ -6,6 +6,10 @@ option java_outer_classname = "AColoRSProto";
 
 package acolors;
 
+service Manager { rpc Shutdown(ShutdownRequest) returns (ShutdownReply); }
+message ShutdownRequest {}
+message ShutdownReply {}
+
 service Notifications {
   rpc GetNotifications(GetNotificationsRequest) returns (stream AColorSignal);
 }
@@ -25,6 +29,7 @@ message AColorSignal {
   message UpdateGroup { int32 group_id = 1; }
   message RuntimeValueChanged { string key = 1; }
   message EmptyGroup { int32 group_id = 1; }
+  message Shutdown {}
   oneof signal {
     Empty empty = 1;
     AppendGroup append_group = 2;
@@ -40,6 +45,7 @@ message AColorSignal {
     CoreChanged core_changed = 12;
     RuntimeValueChanged runtime_value_changed = 13;
     EmptyGroup empty_group = 14;
+    Shutdown shutdown = 15;
   }
 }
 

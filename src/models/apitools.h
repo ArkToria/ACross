@@ -39,7 +39,7 @@ struct TrafficInfo {
 class APIWorker : public QObject {
     Q_OBJECT
   public:
-    explicit APIWorker(const std::shared_ptr<grpc::Channel>& channel);
+    explicit APIWorker(const std::shared_ptr<grpc::Channel> &channel);
 
   public slots:
     void start(const QString &tag);
@@ -90,6 +90,7 @@ class APITools : public QObject {
 
   signals:
     void operate(const QString &tag);
+    void stop();
 
     void trafficChanged(const QVariant &data);
 
@@ -101,6 +102,6 @@ class APITools : public QObject {
     APIWorker *p_worker = nullptr;
     QString m_tag;
 };
-} // namespace across
+} // namespace across::core
 
 #endif // APITOOLS_H

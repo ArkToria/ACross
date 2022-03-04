@@ -15,6 +15,7 @@ APITools::APITools(uint port) {
 
     // control signals
     connect(this, &APITools::operate, p_worker, &APIWorker::start);
+    connect(this, &APITools::stop, p_worker, &APIWorker::stop);
     connect(p_worker, &APIWorker::trafficChanged, this,
             &APITools::handleTrafficResult);
 }
@@ -40,7 +41,7 @@ void APITools::startMonitoring(const QString &tag) {
     emit operate(m_tag);
 }
 
-void APITools::stopMonitoring() { p_worker->stop(); }
+void APITools::stopMonitoring() { emit stop(); }
 
 void APITools::restartMonitoring() { startMonitoring(m_tag); }
 
@@ -79,7 +80,7 @@ void APITools::handleTrafficResult(const QVariant &data) {
     emit trafficChanged(data);
 }
 
-APIWorker::APIWorker(const std::shared_ptr<grpc::Channel>& channel) {
+APIWorker::APIWorker(const std::shared_ptr<grpc::Channel> &channel) {
     p_stub = StatsService::NewStub(channel);
 }
 

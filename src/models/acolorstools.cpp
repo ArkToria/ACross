@@ -21,6 +21,7 @@ void AColoRSNotifications::start() {
         std::unique_ptr<grpc::ClientReader<AColorSignal>> reader(
             p_stub->GetNotifications(this->context.get(), request));
         AColorSignal reply;
+        bool shutdown = false;
         while (reader->Read(&reply)) {
             auto signal_case = reply.signal_case();
             switch (signal_case) {
@@ -89,10 +90,17 @@ void AColoRSNotifications::start() {
                 qDebug() << "Received: EmptyGroup:" << group_id;
                 emit this->emptyGroup(group_id);
             } break;
+            case AColorSignal::SignalCase::kShutdown: {
+                shutdown = true;
+                qDebug() << "Received: Shutdown:";
+                emit this->shutdown();
+            } break;
             default:
                 qDebug() << "Not Implemented";
                 break;
             }
+            if (shutdown)
+                break;
         }
         this->setState(false);
     });
@@ -539,8 +547,7 @@ pair<AColoRSCore::CoreInfo, Status> AColoRSCore::getCoreInfo() {
     auto status = this->p_stub->GetCoreInfo(&context, request, &reply);
     auto coreInfo = AColoRSCore::CoreInfo{
         .name = QString::fromStdString(reply.name()),
-        .version = QString::fromStdString(reply.version())
-    };
+        .version = QString::fromStdString(reply.version())};
     return std::make_pair(coreInfo, status);
 }
 
@@ -578,25 +585,57 @@ void AColoRSConfig::setChannel(const std::shared_ptr<Channel> &channel) {
 }
 
 AColoRSAPITools::AColoRSAPITools(const std::string &target) {
+    this->target = target;
     qDebug() << "Creating Channel:" << QString::fromStdString(target);
     this->p_channel =
-        grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
+        grpc::CreateChannel(this->target, grpc::InsecureChannelCredentials());
 
+    this->p_stub = Manager::NewStub(p_channel);
     this->p_notifications = std::make_unique<AColoRSNotifications>(p_channel);
     this->p_profile = std::make_shared<AColoRSProfile>(p_channel);
     this->p_config = std::make_unique<AColoRSConfig>(p_channel);
     this->p_core = std::make_unique<AColoRSCore>(p_channel, p_profile);
+
+    this->p_notifications->start();
+
+    connect(p_notifications.get(), &AColoRSNotifications::stateChanged, this,
+            &AColoRSAPITools::updateConnected);
 }
 AColoRSAPITools::~AColoRSAPITools() {}
 
-void AColoRSAPITools::set_target(const std::string target) {
-    this->p_channel =
-        grpc::CreateChannel(target, grpc::InsecureChannelCredentials());
+void AColoRSAPITools::updateConnected() {
+    auto connected = this->p_notifications->getState();
+    if (connected == this->connected)
+        return;
+    this->connected = connected;
+    emit connectedChanged();
+}
 
+void AColoRSAPITools::setTarget(const std::string target) {
+    this->target = target;
+    reconnect();
+    emit targetChanged(target);
+}
+
+Status AColoRSAPITools::shutdown() {
+    ClientContext context;
+    ShutdownRequest request;
+    ShutdownReply reply;
+    auto result = this->p_stub->Shutdown(&context, request, &reply);
+
+    return result;
+}
+
+void AColoRSAPITools::reconnect() {
+    this->p_notifications->stop();
+    this->p_channel =
+        grpc::CreateChannel(this->target, grpc::InsecureChannelCredentials());
+
+    this->p_stub = Manager::NewStub(p_channel);
     this->p_notifications->setChannel(this->p_channel);
     this->p_profile->setChannel(this->p_channel);
     this->p_config->setChannel(this->p_channel);
     this->p_core->setChannel(this->p_channel);
 
-    emit targetChanged(target);
+    this->p_notifications->start();
 }

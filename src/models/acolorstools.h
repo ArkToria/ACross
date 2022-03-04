@@ -57,6 +57,7 @@ class AColoRSNotifications : public QObject {
     void updateGroup(int32_t group_id);
     void runtimeValueChanged(std::string key);
     void emptyGroup(int32_t group_id);
+    void shutdown();
 
     void channelChanged();
     void stateChanged();
@@ -185,16 +186,28 @@ class AColoRSAPITools : public QObject {
         return this->p_core.get();
     };
 
-    void set_target(const std::string target);
+    bool isConnected() const { return this->connected; };
+
+    void setTarget(const std::string target);
+
+    Status shutdown();
+
+    Q_INVOKABLE void reconnect();
 
   signals:
     void targetChanged(const std::string &target);
     void notificationsChanged();
+    void connectedChanged();
+
+  private slots:
+    void updateConnected();
 
   private:
-    const std::string LOCAL_HOST = "localhost";
+    std::string target;
+    bool connected = false;
 
     std::shared_ptr<Channel> p_channel;
+    std::unique_ptr<acolors::Manager::Stub> p_stub;
     std::unique_ptr<AColoRSNotifications> p_notifications;
     std::shared_ptr<AColoRSProfile> p_profile;
     std::unique_ptr<AColoRSConfig> p_config;

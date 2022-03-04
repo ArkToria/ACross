@@ -72,6 +72,8 @@ int CoreTools::stop() {
 
     if (p_acolors->core()->isRunning().first) {
         auto status = p_acolors->core()->stop();
+        if (status.ok())
+            this->setIsRunning(false);
 
         return status.error_code();
     }
