@@ -1,9 +1,11 @@
 #ifndef APITOOLS_H
 #define APITOOLS_H
 
+#include <QEventLoop>
 #include <QObject>
 #include <QString>
 #include <QThread>
+#include <QTimer>
 #include <QVariant>
 
 #include <atomic>

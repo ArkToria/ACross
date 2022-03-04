@@ -122,8 +122,13 @@ void APIWorker::start(const QString &tag) {
 
         if (traffic_info.upload < 0 || traffic_info.download < 0)
             break;
-        else
-            QThread::msleep(1000); // once per second
+        else {
+            QTimer timer;
+            QEventLoop loop;
+            connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+            timer.start(1000);
+            loop.exec();
+        }
     }
 }
 
