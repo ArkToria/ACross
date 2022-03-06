@@ -65,6 +65,9 @@ bool Application::initialize() {
                 this->p_acolors->shutdown();
                 Application::check_and_reconnect();
             });
+    connect(p_acolors->notifications(),
+            &across::acolorsapi::AColoRSNotifications::shutdown, this,
+            [&] { this->exit(0); });
 
     return true;
 }
