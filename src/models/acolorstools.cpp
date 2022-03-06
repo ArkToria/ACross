@@ -617,6 +617,24 @@ void AColoRSAPITools::setTarget(const std::string target) {
     emit targetChanged(target);
 }
 
+bool AColoRSAPITools::startProcess(const QString program, uint32_t port,
+                                   const QString configPath,
+                                   const QString dbPath) {
+    QStringList arguments;
+    arguments.append(QString("serve"));
+    arguments.append(QString("--port"));
+    arguments.append(QVariant(port).toString());
+    arguments.append(QString("--config"));
+    arguments.append(configPath);
+    arguments.append(QString("--dbpath"));
+    arguments.append(dbPath);
+    QProcess process;
+    process.setProgram(program);
+    process.setArguments(arguments);
+    auto result = process.startDetached(&this->process_pid);
+    return result;
+}
+
 Status AColoRSAPITools::shutdown() {
     ClientContext context;
     ShutdownRequest request;

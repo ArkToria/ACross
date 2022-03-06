@@ -2,6 +2,79 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN">
 <context>
+    <name>AColoRSItem</name>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="21"/>
+        <source>Select AColoRS Core Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="31"/>
+        <source>Select Config Directory</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="46"/>
+        <source>AColoRS Configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="53"/>
+        <source>Core path</source>
+        <translation type="unfinished">核心路径</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="60"/>
+        <source>Enter AColoRS Core Executable Path Here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="65"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="85"/>
+        <source>Select</source>
+        <translation type="unfinished">选择</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="73"/>
+        <source>Config path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="80"/>
+        <source>Enter Config Directory Here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Core Info</source>
+        <translation type="obsolete">核心信息</translation>
+    </message>
+    <message>
+        <source>Check</source>
+        <translation type="obsolete">检查</translation>
+    </message>
+    <message>
+        <source>Enable API</source>
+        <translation type="obsolete">启用 API</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="94"/>
+        <source>API Port</source>
+        <translation type="unfinished">API 端口</translation>
+    </message>
+    <message>
+        <source>Test Result</source>
+        <translation type="obsolete">测试结果</translation>
+    </message>
+    <message>
+        <source>Test</source>
+        <translation type="obsolete">测试</translation>
+    </message>
+    <message>
+        <source>Success</source>
+        <translation type="obsolete">成功</translation>
+    </message>
+</context>
+<context>
     <name>About</name>
     <message>
         <location filename="../src/views/help/About.qml" line="63"/>
@@ -1314,22 +1387,22 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="891"/>
+        <location filename="../src/view_models/configtools.cpp" line="940"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="892"/>
+        <location filename="../src/view_models/configtools.cpp" line="941"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1069"/>
+        <location filename="../src/view_models/configtools.cpp" line="1118"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1072"/>
+        <location filename="../src/view_models/configtools.cpp" line="1121"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1338,7 +1411,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1074"/>
+        <location filename="../src/view_models/configtools.cpp" line="1123"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

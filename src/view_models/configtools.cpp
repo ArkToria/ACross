@@ -32,7 +32,8 @@ bool ConfigTools::init(
     }
 
     p_curl = std::move(curl);
-    p_acolors = acolors;
+    p_acolors_api = acolors;
+    p_acolors = m_config.mutable_acolors();
     p_core = m_config.mutable_core();
     p_db = m_config.mutable_database();
     p_interface = m_config.mutable_interface();
@@ -43,16 +44,16 @@ bool ConfigTools::init(
     emit configChanged();
     setNews();
 
-    connect(p_acolors->notifications(),
+    connect(p_acolors_api->notifications(),
             &acolorsapi::AColoRSNotifications::coreChanged, this,
             &ConfigTools::coreNameChanged);
-    connect(p_acolors->notifications(),
+    connect(p_acolors_api->notifications(),
             &acolorsapi::AColoRSNotifications::coreChanged, this,
             &ConfigTools::coreVersionChanged);
-    connect(p_acolors->notifications(),
+    connect(p_acolors_api->notifications(),
             &acolorsapi::AColoRSNotifications::stateChanged, this,
             &ConfigTools::coreNameChanged);
-    connect(p_acolors->notifications(),
+    connect(p_acolors_api->notifications(),
             &acolorsapi::AColoRSNotifications::stateChanged, this,
             &ConfigTools::coreVersionChanged);
 
@@ -515,7 +516,46 @@ void ConfigTools::setCorePath(const QUrl &val) {
         emit coreVersionChanged();
     }
 }
-
+void ConfigTools::setAcolorsPath(const QUrl &val) {
+    QString path = val.toLocalFile();
+    if (path == p_acolors->core_path().c_str())
+        return;
+    if (isFileExist(path)) {
+        p_acolors->set_core_path(path.toStdString());
+        emit configChanged();
+        emit acolorsPathChanged();
+    }
+}
+void ConfigTools::setAcolorsConfigPath(const QUrl &val) {
+    QString path = val.toLocalFile();
+    if (path == p_acolors->config_path().c_str())
+        return;
+    if (isFileExist(path)) {
+        p_acolors->set_config_path(path.toStdString());
+        emit configChanged();
+        emit acolorsConfigPathChanged();
+    }
+}
+void ConfigTools::setAcolorsDbPath(const QUrl &val) {
+    QString path = val.toLocalFile();
+    if (path == p_acolors->config_path().c_str())
+        return;
+    if (isFileExist(path)) {
+        p_acolors->set_config_path(path.toStdString());
+        emit configChanged();
+        emit acolorsDbPathChanged();
+    }
+}
+void ConfigTools::setAcolorsAPIPort(const QString &portStr) {
+    uint port = portStr.toUInt();
+    if (port == p_acolors->port() || portStr.isEmpty())
+        return;
+    if (port >= 0 && port <= 65535) {
+        p_acolors->set_port(port);
+        emit configChanged();
+        emit acolorsAPIPortChanged();
+    }
+}
 void ConfigTools::setAssetsPath(const QUrl &val) {
     QString path = val.toLocalFile();
     if (path == p_core->assets_path().c_str() || path.isEmpty())
@@ -848,13 +888,22 @@ QString ConfigTools::dataDir() { return m_config.data_dir().c_str(); }
 
 QString ConfigTools::guiVersion() { return GUI_VERSION(); }
 
+QString ConfigTools::acolorsPath() { return p_acolors->core_path().c_str(); }
+QString ConfigTools::acolorsConfigPath() {
+    return p_acolors->config_path().c_str();
+}
+QString ConfigTools::acolorsDbPath() { return p_acolors->db_path().c_str(); }
+QString ConfigTools::acolorsAPIPort() {
+    return std::to_string(p_acolors->port()).c_str();
+}
+
 QString ConfigTools::coreName() {
-    auto coreInfo = this->p_acolors->core()->getCoreInfo();
+    auto coreInfo = this->p_acolors_api->core()->getCoreInfo();
     return coreInfo.second.ok() ? coreInfo.first.name : "None";
 }
 
 QString ConfigTools::coreVersion() {
-    auto coreInfo = this->p_acolors->core()->getCoreInfo();
+    auto coreInfo = this->p_acolors_api->core()->getCoreInfo();
     return coreInfo.second.ok() ? coreInfo.first.version : "0.0";
 }
 

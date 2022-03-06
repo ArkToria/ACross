@@ -26,6 +26,18 @@ Item {
                 spacing: acrossConfig.itemSpacing
 
                 CardBox {
+                    id: acolorsItemCard
+
+                    Layout.fillWidth: true
+                    implicitHeight: 200
+
+                    AColoRSItem {
+                        anchors.fill: parent
+                    }
+
+                }
+
+                CardBox {
                     id: coreItemCard
 
                     Layout.fillWidth: true

@@ -1,171 +1,169 @@
 syntax = "proto3";
 package across.config;
 
-message Config
-{
-  string title = 1;
-  string config_version = 2;
-  string data_dir = 3;
-  Interface interface = 4;
-  Update update = 5;
-  Database database = 6;
-  Core core = 7;
-  Inbound inbound = 8;
-  Network network = 9;
-  repeated Theme themes = 10;
-  string log_mode = 11;
-  int32 log_lines = 12;
+message Config {
+    string title = 1;
+    string config_version = 2;
+    string data_dir = 3;
+    Interface interface = 4;
+    Update update = 5;
+    Database database = 6;
+    Core core = 7;
+    Inbound inbound = 8;
+    Network network = 9;
+    repeated Theme themes = 10;
+    string log_mode = 11;
+    int32 log_lines = 12;
+    AColoRS acolors = 13;
 }
 
-message Interface
-{
-  message Theme
-  {
-    string theme = 1;
-    string include_dir = 2;
-  }
+message Interface {
+    message Theme {
+        string theme = 1;
+        string include_dir = 2;
+    }
 
-  message Tray
-  {
-    bool enable = 1;
-    bool start_from_minimize = 2;
-  }
+    message Tray {
+        bool enable = 1;
+        bool start_from_minimize = 2;
+    }
 
-  string language = 1;
-  Theme theme = 2;
-  Tray tray = 3;
-  bool auto_connect = 4;
-  bool auto_start = 5;
-  bool auto_export = 6;
+    string language = 1;
+    Theme theme = 2;
+    Tray tray = 3;
+    bool auto_connect = 4;
+    bool auto_start = 5;
+    bool auto_export = 6;
 }
 
-message Update
-{
-  bool auto_update = 1;
-  bool check_update = 2;
-  string update_channel = 3;
-  bool update_from_proxy = 4;
+message Update {
+    bool auto_update = 1;
+    bool check_update = 2;
+    string update_channel = 3;
+    bool update_from_proxy = 4;
 }
 
-message Database
-{
-  message Auth
-  {
-    bool enable = 1;
-    string username = 2;
-    string password = 3;
-    string address = 4;
+message Database {
+    message Auth {
+        bool enable = 1;
+        string username = 2;
+        string password = 3;
+        string address = 4;
+        uint32 port = 5;
+    }
+
+    string db_path = 1;
+    string db_backend = 2;
+    Auth auth = 3;
+}
+
+message AColoRS {
+    message Config {
+        message Core {
+            string tag = 1;
+            string name = 2;
+            string path = 3;
+        }
+        Inbound inbounds = 1;
+        repeated Core cores = 2;
+    }
+    Config config = 1;
+    string core_path = 2;
+    string config_path = 3;
+    string db_path = 4;
     uint32 port = 5;
-  }
-
-  string db_path = 1;
-  string db_backend = 2;
-  Auth auth = 3;
 }
 
-message Core
-{
-  message API
-  {
-    bool enable = 1;
-    uint32 port = 2;
-    string listen = 3;
-  }
+message Core {
+    message API {
+        bool enable = 1;
+        uint32 port = 2;
+        string listen = 3;
+    }
 
-  string core_path = 1;
-  string assets_path = 2;
-  string log_level = 3;
-  API api = 4;
+    string core_path = 1;
+    string assets_path = 2;
+    string log_level = 3;
+    API api = 4;
+}
+message Inbound {
+    message Auth {
+        bool enable = 1;
+        string username = 2;
+        string password = 3;
+    }
+
+    message SOCKS5 {
+        bool enable = 1;
+        string listen = 2;
+        uint32 port = 3;
+        bool udp_enable = 4;
+        string udp_ip = 5;
+        int32 user_level = 6;
+        Auth auth = 7;
+    }
+
+    message HTTP {
+        bool enable = 1;
+        string listen = 2;
+        uint32 port = 3;
+        bool allow_transparent = 4;
+        int64 timeout = 5;
+        int32 user_level = 6;
+        Auth auth = 7;
+    }
+
+    SOCKS5 socks5 = 1;
+    HTTP http = 2;
 }
 
-message Inbound
-{
-  message Auth
-  {
-    bool enable = 1;
-    string username = 2;
-    string password = 3;
-  }
-
-  message SOCKS5
-  {
-    bool enable = 1;
-    string listen = 2;
-    uint32 port = 3;
-    bool udp_enable = 4;
-    string udp_ip = 5;
-    int32 user_level = 6;
-    Auth auth = 7;
-  }
-
-  message HTTP
-  {
-    bool enable = 1;
-    string listen = 2;
-    uint32 port = 3;
-    bool allow_transparent = 4;
-    int64 timeout = 5;
-    int32 user_level = 6;
-    Auth auth = 7;
-  }
-
-  SOCKS5 socks5 = 1;
-  HTTP http = 2;
+message Network {
+    string test_method = 1;
+    string test_url = 2;
+    string user_agent = 3;
 }
 
-message Network
-{
-  string test_method = 1;
-  string test_url = 2;
-  string user_agent = 3;
-}
+message Theme {
+    message Tray {
+        string stylish = 1;
+        string color = 2;
+    }
 
-message Theme
-{
-  message Tray
-  {
-    string stylish = 1;
-    string color = 2;
-  }
+    message Banner {
+        bool enable = 1;
+        string background_image = 2;
+        double background_opacity = 3;
+    }
 
-  message Banner
-  {
-    bool enable = 1;
-    string background_image = 2;
-    double background_opacity = 3;
-  }
+    message Colors {
+        string text_color = 1;
+        string background_color = 2;
+        string highlight_color = 3;
+        string highlight_text_color = 4;
+        string warn_color = 5;
+        string warn_text_color = 6;
+        string shadow_color = 7;
+        string border_color = 8;
+        string deep_color = 9;
+        string deep_text_color = 10;
+        string style_color = 11;
+        string style_text_color = 12;
+        string banner_text_color = 13;
+    }
 
-  message Colors
-  {
-    string text_color = 1;
-    string background_color = 2;
-    string highlight_color = 3;
-    string highlight_text_color = 4;
-    string warn_color = 5;
-    string warn_text_color = 6;
-    string shadow_color = 7;
-    string border_color = 8;
-    string deep_color = 9;
-    string deep_text_color = 10;
-    string style_color = 11;
-    string style_text_color = 12;
-    string banner_text_color = 13;
-  }
+    message Border {
+        int32 radius = 1;
+        int32 width = 2;
+    }
 
-  message Border
-  {
-    int32 radius = 1;
-    int32 width = 2;
-  }
+    message Item { int32 spacing = 1; }
+    message Icon { string style = 1; }
 
-  message Item { int32 spacing = 1; }
-  message Icon { string style = 1; }
-
-  string name = 1;
-  Tray tray = 2;
-  Banner banner = 3;
-  Colors colors = 4;
-  Border border = 5;
-  Item item = 6;
-  Icon icon = 7;
+    string name = 1;
+    Tray tray = 2;
+    Banner banner = 3;
+    Colors colors = 4;
+    Border border = 5;
+    Item item = 6;
+    Icon icon = 7;
 }

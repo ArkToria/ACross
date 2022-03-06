@@ -2,6 +2,7 @@
 #define APPLICATION_H
 
 #include <QApplication>
+#include <QEventLoop>
 #include <QFont>
 #include <QIcon>
 #include <QQmlApplicationEngine>
@@ -60,10 +61,13 @@ class Application : public SingleApplication {
 
     void registerModels();
 
+    void wait(int msec);
+
     static void removeImageProvider(ImageProvider *img_provider);
 
   private slots:
     void onMessageReceived(quint32 clientId, const QByteArray &msg);
+    void check_and_reconnect();
 
   private:
     LogView m_log;

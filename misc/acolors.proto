@@ -11,70 +11,73 @@ message ShutdownRequest {}
 message ShutdownReply {}
 
 service Notifications {
-  rpc GetNotifications(GetNotificationsRequest) returns (stream AColorSignal);
+    rpc GetNotifications(GetNotificationsRequest) returns (stream AColorSignal);
 }
 
 message AColorSignal {
-  message Empty {}
-  message AppendGroup {}
-  message UpdateCoreStatus {}
-  message UpdateInbounds {}
-  message CoreConfigChanged {}
-  message CoreChanged {}
-  message RemoveGroupByID { int32 group_id = 1; }
-  message RemoveNodeByID { int32 node_id = 1; }
-  message SetGroupByID { int32 group_id = 1; }
-  message SetNodeByID { int32 node_id = 1; }
-  message AppendNode { int32 group_id = 1; }
-  message UpdateGroup { int32 group_id = 1; }
-  message RuntimeValueChanged { string key = 1; }
-  message EmptyGroup { int32 group_id = 1; }
-  message Shutdown {}
-  oneof signal {
-    Empty empty = 1;
-    AppendGroup append_group = 2;
-    UpdateCoreStatus update_core_status = 3;
-    UpdateInbounds update_inbounds = 4;
-    CoreConfigChanged core_config_changed = 5;
-    RemoveGroupByID remove_group_by_id = 6;
-    RemoveNodeByID remove_node_by_id = 7;
-    SetGroupByID set_group_by_id = 8;
-    SetNodeByID set_node_by_id = 9;
-    AppendNode append_node = 10;
-    UpdateGroup update_group = 11;
-    CoreChanged core_changed = 12;
-    RuntimeValueChanged runtime_value_changed = 13;
-    EmptyGroup empty_group = 14;
-    Shutdown shutdown = 15;
-  }
+    message Empty {}
+    message AppendGroup {}
+    message UpdateCoreStatus {}
+    message UpdateInbounds {}
+    message CoreConfigChanged {}
+    message CoreChanged {}
+    message RemoveGroupByID { int32 group_id = 1; }
+    message RemoveNodeByID { int32 node_id = 1; }
+    message SetGroupByID { int32 group_id = 1; }
+    message SetNodeByID { int32 node_id = 1; }
+    message AppendNode { int32 group_id = 1; }
+    message UpdateGroup { int32 group_id = 1; }
+    message RuntimeValueChanged { string key = 1; }
+    message EmptyGroup { int32 group_id = 1; }
+    message Shutdown {}
+    oneof signal {
+        Empty empty = 1;
+        AppendGroup append_group = 2;
+        UpdateCoreStatus update_core_status = 3;
+        UpdateInbounds update_inbounds = 4;
+        CoreConfigChanged core_config_changed = 5;
+        RemoveGroupByID remove_group_by_id = 6;
+        RemoveNodeByID remove_node_by_id = 7;
+        SetGroupByID set_group_by_id = 8;
+        SetNodeByID set_node_by_id = 9;
+        AppendNode append_node = 10;
+        UpdateGroup update_group = 11;
+        CoreChanged core_changed = 12;
+        RuntimeValueChanged runtime_value_changed = 13;
+        EmptyGroup empty_group = 14;
+        Shutdown shutdown = 15;
+    }
 }
 
 message GetNotificationsRequest {}
 
 service ProfileManager {
-  rpc CountGroups(CountGroupsRequest) returns (CountGroupsReply) {}
-  rpc ListAllGroups(ListAllGroupsRequest) returns (GroupList) {}
+    rpc CountGroups(CountGroupsRequest) returns (CountGroupsReply) {}
+    rpc ListAllGroups(ListAllGroupsRequest) returns (GroupList) {}
 
-  rpc CountNodes(CountNodesRequest) returns (CountNodesReply) {}
-  rpc ListAllNodes(ListAllNodesRequest) returns (NodeList) {}
+    rpc CountNodes(CountNodesRequest) returns (CountNodesReply) {}
+    rpc ListAllNodes(ListAllNodesRequest) returns (NodeList) {}
 
-  rpc GetGroupByID(GetGroupByIDRequest) returns (GroupData) {}
-  rpc GetNodeByID(GetNodeByIDRequest) returns (NodeData) {}
+    rpc GetGroupByID(GetGroupByIDRequest) returns (GroupData) {}
+    rpc GetNodeByID(GetNodeByIDRequest) returns (NodeData) {}
 
-  rpc SetGroupByID(SetGroupByIDRequest) returns (SetGroupByIDReply) {}
-  rpc SetNodeByID(SetNodeByIDRequest) returns (SetNodeByIDReply) {}
-  rpc SetNodeByUrl(SetNodeByUrlRequest) returns (SetNodeByUrlReply) {}
+    rpc SetGroupByID(SetGroupByIDRequest) returns (SetGroupByIDReply) {}
+    rpc SetNodeByID(SetNodeByIDRequest) returns (SetNodeByIDReply) {}
+    rpc SetNodeByUrl(SetNodeByUrlRequest) returns (SetNodeByUrlReply) {}
 
-  rpc RemoveGroupByID(RemoveGroupByIDRequest) returns (RemoveGroupByIDReply) {}
-  rpc RemoveNodeByID(RemoveNodeByIDRequest) returns (RemoveNodeByIDReply) {}
+    rpc RemoveGroupByID(RemoveGroupByIDRequest) returns (RemoveGroupByIDReply) {
+    }
+    rpc RemoveNodeByID(RemoveNodeByIDRequest) returns (RemoveNodeByIDReply) {}
 
-  rpc AppendGroup(AppendGroupRequest) returns (AppendGroupReply) {}
-  rpc AppendNode(AppendNodeRequest) returns (AppendNodeReply) {}
-  rpc AppendNodeByUrl(AppendNodeByUrlRequest) returns (AppendNodeByUrlReply) {}
+    rpc AppendGroup(AppendGroupRequest) returns (AppendGroupReply) {}
+    rpc AppendNode(AppendNodeRequest) returns (AppendNodeReply) {}
+    rpc AppendNodeByUrl(AppendNodeByUrlRequest) returns (AppendNodeByUrlReply) {
+    }
 
-  rpc UpdateGroupByID(UpdateGroupByIDRequest) returns (UpdateGroupByIDReply) {}
+    rpc UpdateGroupByID(UpdateGroupByIDRequest) returns (UpdateGroupByIDReply) {
+    }
 
-  rpc EmptyGroupByID(EmptyGroupByIDRequest) returns (EmptyGroupByIDReply);
+    rpc EmptyGroupByID(EmptyGroupByIDRequest) returns (EmptyGroupByIDReply);
 }
 
 message CountGroupsRequest {}
@@ -96,36 +99,36 @@ message ListAllNodesRequest { int32 group_id = 1; }
 message GetGroupByIDRequest { int32 group_id = 1; }
 message GetNodeByIDRequest { int32 node_id = 1; }
 message SetGroupByIDRequest {
-  int32 group_id = 1;
-  GroupData data = 2;
+    int32 group_id = 1;
+    GroupData data = 2;
 }
 message SetNodeByIDRequest {
-  int32 node_id = 1;
-  NodeData data = 2;
+    int32 node_id = 1;
+    NodeData data = 2;
 }
 message SetNodeByUrlRequest {
-  int32 node_id = 1;
-  string url = 2;
+    int32 node_id = 1;
+    string url = 2;
 }
 message RemoveGroupByIDRequest { int32 group_id = 1; }
 message RemoveNodeByIDRequest { int32 node_id = 1; }
 message AppendGroupRequest { GroupData data = 1; }
 
 message UpdateGroupByIDRequest {
-  int32 group_id = 1;
-  bool use_proxy = 2;
+    int32 group_id = 1;
+    bool use_proxy = 2;
 }
 message EmptyGroupByIDRequest { int32 group_id = 1; }
 message EmptyGroupByIDReply {}
 
 message AppendNodeRequest {
-  int32 group_id = 1;
-  NodeData data = 2;
+    int32 group_id = 1;
+    NodeData data = 2;
 }
 
 message AppendNodeByUrlRequest {
-  int32 group_id = 1;
-  string url = 2;
+    int32 group_id = 1;
+    string url = 2;
 }
 
 message CountNodesReply { uint64 count = 1; }
@@ -133,112 +136,112 @@ message CountNodesReply { uint64 count = 1; }
 message CountGroupsReply { uint64 count = 1; }
 
 message GroupList {
-  uint64 length = 1;
-  repeated GroupData entries = 2;
+    uint64 length = 1;
+    repeated GroupData entries = 2;
 }
 message NodeList {
-  uint64 length = 1;
-  repeated NodeData entries = 2;
+    uint64 length = 1;
+    repeated NodeData entries = 2;
 }
 
 enum EntryType {
-  VMESS = 0;
-  SHADOWSOCKS = 1;
-  TROJAN = 2;
-  RAW = 3;
-  SCHEME = 4;
-  UNKNOWN = 5;
-  NAIVEPROXY = 6;
+    VMESS = 0;
+    SHADOWSOCKS = 1;
+    TROJAN = 2;
+    RAW = 3;
+    SCHEME = 4;
+    UNKNOWN = 5;
+    NAIVEPROXY = 6;
 }
 
 message NodeData {
-  int32 id = 1;
-  string name = 2;
-  int32 group_id = 3;
-  string group_name = 4;
-  int32 routing_id = 5;
-  string routing_name = 6;
-  EntryType protocol = 7;
-  string address = 8;
-  int32 port = 9;
-  string password = 10;
-  string raw = 11;
-  string url = 12;
-  int32 latency = 13;
-  int64 upload = 14;
-  int64 download = 15;
-  int64 create_at = 16;
-  int64 modified_at = 17;
+    int32 id = 1;
+    string name = 2;
+    int32 group_id = 3;
+    string group_name = 4;
+    int32 routing_id = 5;
+    string routing_name = 6;
+    EntryType protocol = 7;
+    string address = 8;
+    int32 port = 9;
+    string password = 10;
+    string raw = 11;
+    string url = 12;
+    int32 latency = 13;
+    int64 upload = 14;
+    int64 download = 15;
+    int64 create_at = 16;
+    int64 modified_at = 17;
 }
 
 enum SubscriptionType {
-  BASE64 = 0;
-  SIP008 = 1;
-  JSONRAW = 2;
+    BASE64 = 0;
+    SIP008 = 1;
+    JSONRAW = 2;
 }
 message GroupData {
-  int32 id = 1;
-  string name = 2;
-  bool is_subscription = 3;
-  SubscriptionType group_type = 4;
-  string url = 5;
-  int32 cycle_time = 6;
-  int64 create_at = 7;
-  int64 modified_at = 8;
+    int32 id = 1;
+    string name = 2;
+    bool is_subscription = 3;
+    SubscriptionType group_type = 4;
+    string url = 5;
+    int32 cycle_time = 6;
+    int64 create_at = 7;
+    int64 modified_at = 8;
 }
 
 service ConfigManager {
-  rpc SetInbounds(Inbounds) returns (SetInboundsReply) {}
-  rpc GetInbounds(GetInboundsRequest) returns (Inbounds) {}
+    rpc SetInbounds(Inbounds) returns (SetInboundsReply) {}
+    rpc GetInbounds(GetInboundsRequest) returns (Inbounds) {}
 }
 
 message SetInboundsReply {}
 message GetInboundsRequest {}
 
 message Inbounds {
-  message Auth {
-    bool enable = 1;
-    string username = 2;
-    string password = 3;
-  }
+    message Auth {
+        bool enable = 1;
+        string username = 2;
+        string password = 3;
+    }
 
-  message SOCKS5 {
-    bool enable = 1;
-    string listen = 2;
-    uint32 port = 3;
-    bool udp_enable = 4;
-    string udp_ip = 5;
-    int32 user_level = 6;
-    Auth auth = 7;
-  }
+    message SOCKS5 {
+        bool enable = 1;
+        string listen = 2;
+        uint32 port = 3;
+        bool udp_enable = 4;
+        string udp_ip = 5;
+        int32 user_level = 6;
+        Auth auth = 7;
+    }
 
-  message HTTP {
-    bool enable = 1;
-    string listen = 2;
-    uint32 port = 3;
-    bool allow_transparent = 4;
-    int64 timeout = 5;
-    int32 user_level = 6;
-    Auth auth = 7;
-  }
+    message HTTP {
+        bool enable = 1;
+        string listen = 2;
+        uint32 port = 3;
+        bool allow_transparent = 4;
+        int64 timeout = 5;
+        int32 user_level = 6;
+        Auth auth = 7;
+    }
 
-  SOCKS5 socks5 = 1;
-  HTTP http = 2;
+    SOCKS5 socks5 = 1;
+    HTTP http = 2;
 }
 
 service CoreManager {
-  rpc Run(RunRequest) returns (RunReply);
-  rpc Stop(StopRequest) returns (StopReply);
-  rpc Restart(RestartRequest) returns (RestartReply);
-  rpc GetIsRunning(GetIsRunningRequest) returns (GetIsRunningReply);
-  rpc GetCurrentNode(GetCurrentNodeRequest) returns (NodeData);
-  rpc SetConfigByNodeID(SetConfigByNodeIDRequest)
-      returns (SetConfigByNodeIDReply);
-  rpc SetCoreByTag(SetCoreByTagRequest) returns (SetCoreByTagReply);
-  rpc GetCoreTag(GetCoreTagRequest) returns (GetCoreTagReply);
-  rpc GetCoreInfo(GetCoreInfoRequest) returns (GetCoreInfoReply);
-  rpc SetDefaultConfigByNodeID(SetDefaultConfigByNodeIDRequest)
-      returns (SetDefaultConfigByNodeIDReply);
+    rpc Run(RunRequest) returns (RunReply);
+    rpc Stop(StopRequest) returns (StopReply);
+    rpc Restart(RestartRequest) returns (RestartReply);
+    rpc GetIsRunning(GetIsRunningRequest) returns (GetIsRunningReply);
+    rpc GetCurrentNode(GetCurrentNodeRequest) returns (NodeData);
+    rpc SetConfigByNodeID(SetConfigByNodeIDRequest)
+        returns (SetConfigByNodeIDReply);
+    rpc SetCoreByTag(SetCoreByTagRequest) returns (SetCoreByTagReply);
+    rpc GetCoreTag(GetCoreTagRequest) returns (GetCoreTagReply);
+    rpc GetCoreInfo(GetCoreInfoRequest) returns (GetCoreInfoReply);
+    rpc SetDefaultConfigByNodeID(SetDefaultConfigByNodeIDRequest)
+        returns (SetDefaultConfigByNodeIDReply);
 }
 
 message GetCoreInfoRequest {}
@@ -260,6 +263,6 @@ message SetCoreByTagRequest { string tag = 1; }
 message GetCoreTagReply { string tag = 1; }
 message SetCoreByTagReply {}
 message GetCoreInfoReply {
-  string name = 1;
-  string version = 2;
+    string name = 1;
+    string version = 2;
 }

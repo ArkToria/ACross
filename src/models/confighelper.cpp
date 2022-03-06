@@ -67,6 +67,21 @@ config::Config ConfigHelper::defaultConfig() {
         }
     }
 
+    if (auto acolors = config.mutable_acolors()) {
+#if !defined Q_OS_WIN
+        acolors->set_core_path("/usr/bin/acolors");
+        acolors->set_config_path("~/.config/acolors/acolors.json");
+        acolors->set_db_path("~/.config/acolors/acolors.db");
+#else
+        QDir working_dir(QacolorsApplication::applicationDirPath());
+        auto acolors_dir = working_dir.filePath("acolors").toStdString();
+        acolors->set_core_path(acolors_dir);
+        acolors->set_config_path(acolors_dir);
+#endif
+
+        acolors->set_port(19198);
+    }
+
     if (auto core = config.mutable_core()) {
 #if !defined Q_OS_WIN
         core->set_core_path("/usr/bin/v2ray");

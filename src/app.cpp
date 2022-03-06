@@ -59,7 +59,33 @@ bool Application::initialize() {
     connect(p_nodes.get(), &across::NodeList::updateQRCode, p_image_provider,
             &across::ImageProvider::setContent);
 
+    check_and_reconnect();
+    connect(p_config.get(), &across::setting::ConfigTools::acolorsPathChanged,
+            this, [&] {
+                this->p_acolors->shutdown();
+                Application::check_and_reconnect();
+            });
+
     return true;
+}
+
+void Application::wait(int msec) {
+    QTimer timer;
+    QEventLoop loop;
+    connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
+    timer.start(msec);
+    loop.exec();
+}
+
+void Application::check_and_reconnect() {
+    wait(200);
+    if (this->p_acolors->isConnected())
+        return;
+    this->p_acolors->startProcess(
+        p_config->acolorsPath(), p_config->acolorsAPIPort().toInt(),
+        p_config->acolorsConfigPath(), p_config->acolorsDbPath());
+    wait(200);
+    this->p_acolors->reconnect();
 }
 
 ACrossExitReason Application::getExitReason() { return exitReason; }

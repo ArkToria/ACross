@@ -2,6 +2,7 @@
 #define ACOLORSAPITOOLS_H
 
 #include <QObject>
+#include <QProcess>
 #include <QString>
 #include <QThread>
 #include <QVariant>
@@ -188,6 +189,9 @@ class AColoRSAPITools : public QObject {
 
     bool isConnected() const { return this->connected; };
 
+    bool startProcess(const QString program, uint32_t port,
+                      const QString configPath, const QString dbPath);
+
     void setTarget(const std::string target);
 
     Status shutdown();
@@ -203,6 +207,7 @@ class AColoRSAPITools : public QObject {
     void updateConnected();
 
   private:
+    qint64 process_pid = -1;
     std::string target;
     bool connected = false;
 

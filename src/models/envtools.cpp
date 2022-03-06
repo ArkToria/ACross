@@ -4,6 +4,7 @@ using namespace across;
 
 EnvTools::EnvTools() {
     m_info = {
+        .ACOLORS_PATH = get("ACOLORS_PATH"),
         .ACROSS_CONFIG_PATH = get("ACROSS_CONFIG_PATH"),
         .ACROSS_DATA_DIR = get("ACROSS_DATA_DIR"),
         .V2RAY_CORE_PATH = get("V2RAY_CORE_PATH"),

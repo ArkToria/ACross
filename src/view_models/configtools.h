@@ -40,6 +40,16 @@ class ConfigTools : public QObject {
         QString dataDir READ dataDir WRITE setDataDir NOTIFY dataDirChanged)
     Q_PROPERTY(QString dbPath READ dbPath NOTIFY dbPathChanged)
 
+    // acolors settings
+    Q_PROPERTY(QString acolorsPath READ acolorsPath WRITE setAcolorsPath NOTIFY
+                   acolorsPathChanged)
+    Q_PROPERTY(QString acolorsConfigPath READ acolorsConfigPath WRITE
+                   setAcolorsConfigPath NOTIFY acolorsConfigPathChanged)
+    Q_PROPERTY(QString acolorsDbPath READ acolorsDbPath WRITE setAcolorsDbPath
+                   NOTIFY acolorsDbPathChanged)
+    Q_PROPERTY(QString acolorsAPIPort READ acolorsAPIPort WRITE
+                   setAcolorsAPIPort NOTIFY acolorsAPIPortChanged)
+
     // core setting
     Q_PROPERTY(QString coreName READ coreName NOTIFY coreNameChanged)
     Q_PROPERTY(QString coreVersion READ coreVersion NOTIFY coreVersionChanged)
@@ -210,6 +220,12 @@ class ConfigTools : public QObject {
     QString dataDir();
     QString dbPath();
 
+    // acolors setting
+    QString acolorsPath();
+    QString acolorsConfigPath();
+    QString acolorsDbPath();
+    QString acolorsAPIPort();
+
     // core setting
     QString coreName();
     QString coreVersion();
@@ -287,6 +303,10 @@ class ConfigTools : public QObject {
 
   public slots:
     void setDataDir(const QString &dir = "");
+    void setAcolorsPath(const QUrl &val);
+    void setAcolorsConfigPath(const QUrl &val);
+    void setAcolorsDbPath(const QUrl &val);
+    void setAcolorsAPIPort(const QString &val);
     void setCorePath(const QUrl &val);
     void setAssetsPath(const QUrl &val);
     void setLogLevel(const QString &val);
@@ -345,6 +365,10 @@ class ConfigTools : public QObject {
   signals:
     void dataDirChanged();
     void dbPathChanged();
+    void acolorsPathChanged();
+    void acolorsConfigPathChanged();
+    void acolorsDbPathChanged();
+    void acolorsAPIPortChanged();
     void coreNameChanged();
     void coreVersionChanged();
     void corePathChanged();
@@ -416,10 +440,11 @@ class ConfigTools : public QObject {
     QString m_config_path = "./" + ACROSS_CONFIG;
     QString m_api_result_text = "";
 
-    QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors;
+    QSharedPointer<across::acolorsapi::AColoRSAPITools> p_acolors_api;
 
     QSharedPointer<across::network::CURLTools> p_curl;
     across::config::Config m_config = ConfigHelper::defaultConfig();
+    across::config::AColoRS *p_acolors{};
     across::config::Core *p_core{};
     across::config::Database *p_db{};
     across::config::Interface *p_interface{};

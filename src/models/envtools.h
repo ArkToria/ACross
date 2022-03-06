@@ -6,6 +6,7 @@
 
 namespace across {
 struct SystemEnvs {
+    QString ACOLORS_PATH;
     QString ACROSS_CONFIG_PATH;
     QString ACROSS_DATA_DIR;
     QString V2RAY_CORE_PATH;
