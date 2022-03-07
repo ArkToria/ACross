@@ -34,6 +34,15 @@ Item {
         }
     }
 
+    FolderDialog {
+        id: databaseFileDialog
+
+        title: qsTr("Select Database Directory")
+        onAccepted: {
+            acrossConfig.acolorsDbPath = currentFolder;
+        }
+    }
+
     GridLayout {
         anchors.fill: parent
         anchors.margins: acrossConfig.itemSpacing * 4
@@ -85,6 +94,26 @@ Item {
             text: qsTr("Select")
             onClicked: {
                 configFileDialog.open();
+            }
+        }
+
+        Label {
+            Layout.preferredWidth: keyBoxWidth
+            text: qsTr("Database path")
+            color: acrossConfig.textColor
+        }
+
+        TextFieldBox {
+            Layout.fillWidth: true
+            Layout.columnSpan: 3
+            placeholderText: acrossConfig.acolorsDbPath === "" ? qsTr("Enter Database Directory Here") : acrossConfig.acolorsDbPath
+        }
+
+        ButtonBox {
+            Layout.alignment: Qt.AlignRight
+            text: qsTr("Select")
+            onClicked: {
+                databaseFileDialog.open();
             }
         }
 

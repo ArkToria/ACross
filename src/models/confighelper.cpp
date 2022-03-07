@@ -73,10 +73,14 @@ config::Config ConfigHelper::defaultConfig() {
         acolors->set_config_path("~/.config/acolors/acolors.json");
         acolors->set_db_path("~/.config/acolors/acolors.db");
 #else
-        QDir working_dir(QacolorsApplication::applicationDirPath());
+        QDir working_dir(QCoreApplication::applicationDirPath());
         auto acolors_dir = working_dir.filePath("acolors").toStdString();
         acolors->set_core_path(acolors_dir);
-        acolors->set_config_path(acolors_dir);
+        auto acolors_config_dir = working_dir.filePath("acolorsConfig");
+        acolors->set_config_path(
+            (acolors_config_dir + "/acolors.json").toStdString());
+        acolors->set_db_path(
+            (acolors_config_dir + "/acolors.db").toStdString());
 #endif
 
         acolors->set_port(19198);

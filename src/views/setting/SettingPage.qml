@@ -29,7 +29,7 @@ Item {
                     id: acolorsItemCard
 
                     Layout.fillWidth: true
-                    implicitHeight: 200
+                    implicitHeight: 240
 
                     AColoRSItem {
                         anchors.fill: parent
