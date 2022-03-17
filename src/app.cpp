@@ -108,7 +108,7 @@ void Application::checkAndReconnect() {
         p_config->acolorsPath(), p_config->acolorsAPIPort().toInt(),
         p_config->corePath(), p_config->acolorsConfigPath(),
         p_config->acolorsDbPath());
-    wait(500);
+    wait(200);
     this->p_acolors->reconnect();
 }
 

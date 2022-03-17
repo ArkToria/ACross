@@ -276,7 +276,8 @@ void NodeList::appendNode(NodeInfo node) {
     node.routing_id = 0;
     node.routing_name = "default_routings";
 
-    if (auto status = p_acolors->profile()->appendNode(node.group_id, node);
+    if (auto status =
+            p_acolors->profile()->appendNode(node.group_id, node).second;
         !status.ok()) {
         p_logger->error("Failed to add node: {}", node.name.toStdString());
     } else {

@@ -45,19 +45,19 @@ class AColoRSNotifications : public QObject {
 
   signals:
     void empty();
-    void appendGroup();
+    void appendGroup(int64_t group_id);
     void updateCoreStatus();
     void updateInbounds();
     void coreConfigChanged();
     void coreChanged();
-    void removeGroupByID(int32_t group_id);
-    void removeNodeByID(int32_t node_id);
-    void setGroupByID(int32_t group_id);
-    void setNodeByID(int32_t node_id);
-    void appendNode(int32_t group_id);
-    void updateGroup(int32_t group_id);
+    void removeGroupByID(int64_t group_id);
+    void removeNodeByID(int64_t node_id);
+    void setGroupByID(int64_t group_id);
+    void setNodeByID(int64_t node_id);
+    void appendNode(int64_t group_id, int64_t node_id);
+    void updateGroup(int64_t group_id);
     void runtimeValueChanged(std::string key);
-    void emptyGroup(int32_t group_id);
+    void emptyGroup(int64_t group_id);
     void shutdown();
 
     void channelChanged();
@@ -92,10 +92,10 @@ class AColoRSProfile : public QObject {
     Status setNodeByUrl(int32_t node_id, std::string url);
     Status removeGroupById(int32_t group_id);
     Status removeNodeById(int32_t node_id);
-    Status appendGroup(const GroupInfo &data);
-    Status appendNode(int32_t group_id, const NodeInfo &data);
+    pair<int64_t, Status> appendGroup(const GroupInfo &data);
+    pair<int64_t, Status> appendNode(int32_t group_id, const NodeInfo &data);
     Status appendNodes(int32_t group_id, const QList<NodeInfo> &data);
-    Status appendNodeByUrl(int32_t group_id, std::string url);
+    pair<int64_t, Status> appendNodeByUrl(int32_t group_id, std::string url);
     Status updateGroupById(int32_t group_id, bool use_proxy);
     Status emptyGroupById(int32_t group_id);
 

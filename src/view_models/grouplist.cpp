@@ -315,14 +315,6 @@ bool GroupList::insertBase64(const GroupInfo &group_info,
 
 void GroupList::appendItem(const QString &group_name, const QString &url,
                            int type, int cycle_time) {
-    DownloadTask task = {
-        .name = group_name,
-        .url = url,
-        .user_agent = p_config->networkUserAgent(),
-    };
-
-    p_nodes->setDownloadProxy(task);
-
     GroupInfo group_info = {
         .name = group_name,
         .is_subscription = true,
@@ -331,9 +323,14 @@ void GroupList::appendItem(const QString &group_name, const QString &url,
         .cycle_time = cycle_time,
     };
 
-    m_pre_groups.append(group_info);
+    auto reply = p_acolors->profile()->appendGroup(group_info);
+    if (auto result = reply.second; !result.ok()) {
+        return;
+    }
 
-    p_curl->download(task);
+    qDebug() << reply.first;
+
+    p_acolors->profile()->updateGroupById(reply.first, p_nodes->isRunning());
 }
 
 void GroupList::appendItem(const QString &group_name,
@@ -344,7 +341,7 @@ void GroupList::appendItem(const QString &group_name,
         .type = base64,
     };
 
-    if (auto result = p_acolors->profile()->appendGroup(group_info);
+    if (auto result = p_acolors->profile()->appendGroup(group_info).second;
         !result.ok()) {
         return;
     }
@@ -485,7 +482,8 @@ void GroupList::handleDownloaded(const QVariant &content) {
             if (m_pre_groups.at(i).name == task.name) {
                 auto group = m_pre_groups.at(i);
 
-                if (auto result = p_acolors->profile()->appendGroup(group);
+                if (auto result =
+                        p_acolors->profile()->appendGroup(group).second;
                     !result.ok())
                     break;
 

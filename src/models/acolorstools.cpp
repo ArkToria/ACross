@@ -29,10 +29,11 @@ void AColoRSNotifications::start() {
                 qDebug() << "Received: Empty:";
                 emit this->empty();
                 break;
-            case AColorSignal::SignalCase::kAppendGroup:
+            case AColorSignal::SignalCase::kAppendGroup: {
+                auto group_id = reply.append_group().group_id();
                 qDebug() << "Received: AppendGroup:";
-                emit this->appendGroup();
-                break;
+                emit this->appendGroup(group_id);
+            } break;
             case AColorSignal::SignalCase::kUpdateCoreStatus:
                 qDebug() << "Received: UpdateCoreStatus:";
                 emit this->updateCoreStatus();
@@ -71,8 +72,9 @@ void AColoRSNotifications::start() {
             } break;
             case AColorSignal::SignalCase::kAppendNode: {
                 auto group_id = reply.append_node().group_id();
+                auto node_id = reply.append_node().node_id();
                 qDebug() << "Received: AppendNode:" << group_id;
-                emit this->appendNode(group_id);
+                emit this->appendNode(group_id, node_id);
             } break;
             case AColorSignal::SignalCase::kUpdateGroup: {
                 auto group_id = reply.update_group().group_id();
@@ -247,38 +249,43 @@ Status AColoRSProfile::removeNodeById(int32_t node_id) {
     return this->p_stub->RemoveNodeByID(&context, request, &reply);
 }
 
-Status AColoRSProfile::appendGroup(const GroupInfo &data) {
+pair<int64_t, Status> AColoRSProfile::appendGroup(const GroupInfo &data) {
     ClientContext context;
     AppendGroupRequest request;
     *request.mutable_data() = groupTo(data);
     AppendGroupReply reply;
-    return this->p_stub->AppendGroup(&context, request, &reply);
+    auto status = this->p_stub->AppendGroup(&context, request, &reply);
+    return std::make_pair(reply.group_id(), status);
 }
-Status AColoRSProfile::appendNode(int32_t group_id, const NodeInfo &data) {
+pair<int64_t, Status> AColoRSProfile::appendNode(int32_t group_id,
+                                                 const NodeInfo &data) {
     ClientContext context;
     AppendNodeRequest request;
     request.set_group_id(group_id);
     *request.mutable_data() = nodeTo(data);
     AppendNodeReply reply;
-    return this->p_stub->AppendNode(&context, request, &reply);
+    auto status = this->p_stub->AppendNode(&context, request, &reply);
+    return std::make_pair(reply.node_id(), status);
 }
 Status AColoRSProfile::appendNodes(int32_t group_id,
                                    const QList<NodeInfo> &data) {
     for (const auto &node_info : data) {
-        auto status = this->appendNode(group_id, node_info);
+        auto status = this->appendNode(group_id, node_info).second;
         if (!status.ok())
             return status;
     }
     return Status::OK;
 }
 
-Status AColoRSProfile::appendNodeByUrl(int32_t group_id, std::string url) {
+pair<int64_t, Status> AColoRSProfile::appendNodeByUrl(int32_t group_id,
+                                                      std::string url) {
     ClientContext context;
     AppendNodeByUrlRequest request;
     request.set_group_id(group_id);
     *request.mutable_url() = url;
     AppendNodeByUrlReply reply;
-    return this->p_stub->AppendNodeByUrl(&context, request, &reply);
+    auto status = this->p_stub->AppendNodeByUrl(&context, request, &reply);
+    return std::make_pair(reply.node_id(), status);
 }
 
 Status AColoRSProfile::updateGroupById(int32_t group_id, bool use_proxy) {

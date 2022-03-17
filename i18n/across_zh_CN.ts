@@ -10,13 +10,13 @@
     </message>
     <message>
         <location filename="../src/views/setting/AColoRSItem.qml" line="33"/>
-        <source>Select Config Directory</source>
+        <source>Select Config Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/views/setting/AColoRSItem.qml" line="43"/>
-        <source>Select Database Directory</source>
-        <translation type="unfinished"></translation>
+        <source>Select Database Path</source>
+        <translation type="unfinished">选择数据库路径</translation>
     </message>
     <message>
         <location filename="../src/views/setting/AColoRSItem.qml" line="59"/>
@@ -1372,10 +1372,10 @@
         <translation>測試中：%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="418"/>
-        <location filename="../src/view_models/grouplist.cpp" line="422"/>
-        <location filename="../src/view_models/grouplist.cpp" line="439"/>
-        <location filename="../src/view_models/grouplist.cpp" line="443"/>
+        <location filename="../src/view_models/grouplist.cpp" line="415"/>
+        <location filename="../src/view_models/grouplist.cpp" line="419"/>
+        <location filename="../src/view_models/grouplist.cpp" line="436"/>
+        <location filename="../src/view_models/grouplist.cpp" line="440"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1391,7 +1391,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="368"/>
+        <location filename="../src/view_models/nodelist.cpp" line="369"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
