@@ -541,7 +541,7 @@ void ConfigTools::setAcolorsDbPath(const QUrl &val) {
     if (path == p_acolors->config_path().c_str())
         return;
     if (isFileExist(path)) {
-        p_acolors->set_config_path(path.toStdString());
+        p_acolors->set_db_path(path.toStdString());
         emit configChanged();
         emit acolorsDbPathChanged();
     }

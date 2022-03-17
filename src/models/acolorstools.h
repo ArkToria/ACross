@@ -190,7 +190,8 @@ class AColoRSAPITools : public QObject {
     bool isConnected() const { return this->connected; };
 
     bool startProcess(const QString program, uint32_t port,
-                      const QString configPath, const QString dbPath);
+                      const QString corePath, const QString configPath,
+                      const QString dbPath);
 
     void setTarget(const std::string target);
 

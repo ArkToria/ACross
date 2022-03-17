@@ -4,60 +4,66 @@
 <context>
     <name>AColoRSItem</name>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="21"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="23"/>
         <source>Select AColoRS Core Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="31"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="33"/>
         <source>Select Config Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="40"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="43"/>
         <source>Select Database Directory</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="55"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="59"/>
         <source>AColoRS Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="62"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="66"/>
         <source>Core path</source>
         <translation type="unfinished">核心路径</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="69"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="73"/>
         <source>Enter AColoRS Core Executable Path Here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="74"/>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="94"/>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="114"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="78"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="98"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="118"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="157"/>
         <source>Select</source>
         <translation type="unfinished">选择</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="82"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="86"/>
         <source>Config path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="89"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="93"/>
         <source>Enter Config Directory Here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="102"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="106"/>
         <source>Database path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="109"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="113"/>
         <source>Enter Database Directory Here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="150"/>
+        <source>Core Path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -73,7 +79,7 @@
         <translation type="obsolete">启用 API</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/AColoRSItem.qml" line="123"/>
+        <location filename="../src/views/setting/AColoRSItem.qml" line="127"/>
         <source>API Port</source>
         <translation type="unfinished">API 端口</translation>
     </message>
@@ -502,6 +508,17 @@
     </message>
 </context>
 <context>
+    <name>CoreList</name>
+    <message>
+        <source>IVCheck</source>
+        <translation type="obsolete">IV 检查</translation>
+    </message>
+    <message>
+        <source>Security</source>
+        <translation type="obsolete">加密</translation>
+    </message>
+</context>
+<context>
     <name>CoreLog</name>
     <message>
         <location filename="../src/views/log/CoreLog.qml" line="20"/>
@@ -512,6 +529,41 @@
         <location filename="../src/views/log/CoreLog.qml" line="30"/>
         <source>Clear</source>
         <translation>清理</translation>
+    </message>
+</context>
+<context>
+    <name>CorePathForm</name>
+    <message>
+        <source>Edit Configuration</source>
+        <translation type="obsolete">编辑配置</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/CorePathForm.qml" line="18"/>
+        <source>Edit Core Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/CorePathForm.qml" line="42"/>
+        <source>Core List</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/CorePathForm.qml" line="111"/>
+        <source>Accept</source>
+        <translation type="unfinished">接受</translation>
+    </message>
+    <message>
+        <location filename="../src/views/setting/CorePathForm.qml" line="117"/>
+        <source>Cancel</source>
+        <translation type="unfinished">取消</translation>
+    </message>
+    <message>
+        <source>IVCheck</source>
+        <translation type="obsolete">IV 检查</translation>
+    </message>
+    <message>
+        <source>Security</source>
+        <translation type="obsolete">加密</translation>
     </message>
 </context>
 <context>

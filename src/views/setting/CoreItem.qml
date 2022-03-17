@@ -124,7 +124,7 @@ Item {
             Layout.alignment: Qt.AlignRight
             text: qsTr("Check")
             onClicked: {
-                core_info.text = acrossConfig.coreInfo;
+                core_info.text = acrossConfig.coreName + acrossConfig.coreVersion;
             }
         }
 

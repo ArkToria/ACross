@@ -618,6 +618,7 @@ void AColoRSAPITools::setTarget(const std::string target) {
 }
 
 bool AColoRSAPITools::startProcess(const QString program, uint32_t port,
+                                   const QString corePath,
                                    const QString configPath,
                                    const QString dbPath) {
     QStringList arguments;
@@ -628,6 +629,8 @@ bool AColoRSAPITools::startProcess(const QString program, uint32_t port,
     arguments.append(configPath);
     arguments.append(QString("--dbpath"));
     arguments.append(dbPath);
+    arguments.append(QString("--corepath"));
+    arguments.append(corePath);
     QProcess process;
     process.setProgram(program);
     process.setArguments(arguments);

@@ -59,17 +59,38 @@ bool Application::initialize() {
     connect(p_nodes.get(), &across::NodeList::updateQRCode, p_image_provider,
             &across::ImageProvider::setContent);
 
-    check_and_reconnect();
+    connect(p_config.get(), &across::setting::ConfigTools::corePathChanged,
+            this, &Application::restartAColoRS);
     connect(p_config.get(), &across::setting::ConfigTools::acolorsPathChanged,
-            this, [&] {
-                this->p_acolors->shutdown();
-                Application::check_and_reconnect();
-            });
+            this, &Application::restartAColoRS);
+    connect(p_config.get(),
+            &across::setting::ConfigTools::acolorsConfigPathChanged, this,
+            &Application::restartAColoRS);
+    connect(p_config.get(), &across::setting::ConfigTools::acolorsDbPathChanged,
+            this, &Application::restartAColoRS);
     connect(p_acolors->notifications(),
             &across::acolorsapi::AColoRSNotifications::shutdown, this,
-            [&] { this->exit(0); });
+            &Application::handleShutdown);
+
+    wait(200);
+    checkAndReconnect();
 
     return true;
+}
+
+void Application::restartAColoRS() {
+    this->acolors_restarting = true;
+    this->p_acolors->shutdown();
+    wait(200);
+    Application::checkAndReconnect();
+}
+
+void Application::handleShutdown() {
+    if (this->acolors_restarting) {
+        this->acolors_restarting = false;
+        return;
+    }
+    this->exit(0);
 }
 
 void Application::wait(int msec) {
@@ -80,14 +101,14 @@ void Application::wait(int msec) {
     loop.exec();
 }
 
-void Application::check_and_reconnect() {
-    wait(200);
+void Application::checkAndReconnect() {
     if (this->p_acolors->isConnected())
         return;
     this->p_acolors->startProcess(
         p_config->acolorsPath(), p_config->acolorsAPIPort().toInt(),
-        p_config->acolorsConfigPath(), p_config->acolorsDbPath());
-    wait(200);
+        p_config->corePath(), p_config->acolorsConfigPath(),
+        p_config->acolorsDbPath());
+    wait(500);
     this->p_acolors->reconnect();
 }
 

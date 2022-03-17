@@ -15,6 +15,8 @@ Item {
     property int fontSize: 14
     property int keyBoxWidth: 72
 
+    property Component corePathWindowComponent: null
+
     FileDialog {
         id: acolorsFileDialog
 
@@ -25,21 +27,23 @@ Item {
         }
     }
 
-    FolderDialog {
+    FileDialog {
         id: configFileDialog
 
-        title: qsTr("Select Config Directory")
+        title: qsTr("Select Config Path")
+        nameFilters: ["Select AColoRS config (*.json)", "All files (*)"]
         onAccepted: {
-            acrossConfig.acolorsConfigPath = currentFolder;
+            acrossConfig.acolorsConfigPath = currentFile;
         }
     }
 
-    FolderDialog {
+    FileDialog {
         id: databaseFileDialog
 
-        title: qsTr("Select Database Directory")
+        title: qsTr("Select Database Path")
+        nameFilters: ["Select AColoRS database (*.db)", "All files (*)"]
         onAccepted: {
-            acrossConfig.acolorsDbPath = currentFolder;
+            acrossConfig.acolorsDbPath = currentFile;
         }
     }
 
@@ -124,21 +128,39 @@ Item {
             color: acrossConfig.textColor
         }
 
-        Item {
-            Layout.fillWidth: true
-            Layout.columnSpan: 3
-        }
-
         TextFieldBox {
             id: apiPortText
 
             Layout.preferredWidth: keyBoxWidth
-            Layout.columnSpan: 1
             //Layout.preferredWidth: 72
             placeholderText: acrossConfig.acolorsAPIPort
             inputMethodHints: Qt.ImhDigitsOnly
             onTextEdited: {
                 acrossConfig.acolorsAPIPort = text;
+            }
+        }
+        
+        Item {
+            Layout.fillWidth: true
+            Layout.columnSpan: 1
+        }
+
+        Label {
+            Layout.preferredWidth: keyBoxWidth
+            text: qsTr("Core Path")
+            color: acrossConfig.textColor
+        }
+
+        ButtonBox {
+            id: corePathButton
+            Layout.alignment: Qt.AlignRight
+            text: qsTr("Select")
+            onClicked: {
+                if (corePathWindowComponent == null)
+                        corePathWindowComponent = Qt.createComponent("qrc:/Arktoria/ACross/src/views/setting/CorePathForm.qml");
+
+                    if (corePathWindowComponent.status === Component.Ready)
+                        corePathWindowComponent.createObject(corePathButton).show();
             }
         }
 

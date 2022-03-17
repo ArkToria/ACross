@@ -67,7 +67,9 @@ class Application : public SingleApplication {
 
   private slots:
     void onMessageReceived(quint32 clientId, const QByteArray &msg);
-    void check_and_reconnect();
+    void checkAndReconnect();
+    void restartAColoRS();
+    void handleShutdown();
 
   private:
     LogView m_log;
@@ -82,6 +84,8 @@ class Application : public SingleApplication {
     across::ImageProvider *p_image_provider;
 
     ACrossExitReason exitReason = EXIT_NORMAL;
+
+    bool acolors_restarting = false;
 
     const QString m_app_name = APP_NAME;
     QTranslator m_translator;
