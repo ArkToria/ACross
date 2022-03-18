@@ -540,22 +540,22 @@
     <message>
         <location filename="../src/views/setting/CorePathForm.qml" line="18"/>
         <source>Edit Core Path</source>
-        <translation type="unfinished"></translation>
+        <translation>修改核心路徑</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CorePathForm.qml" line="42"/>
         <source>Core List</source>
-        <translation type="unfinished"></translation>
+        <translation>核心列表</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CorePathForm.qml" line="111"/>
         <source>Accept</source>
-        <translation type="unfinished">接受</translation>
+        <translation>接受</translation>
     </message>
     <message>
         <location filename="../src/views/setting/CorePathForm.qml" line="117"/>
         <source>Cancel</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <source>IVCheck</source>
@@ -1455,22 +1455,22 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="940"/>
+        <location filename="../src/view_models/configtools.cpp" line="966"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="941"/>
+        <location filename="../src/view_models/configtools.cpp" line="967"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1118"/>
+        <location filename="../src/view_models/configtools.cpp" line="1144"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1121"/>
+        <location filename="../src/view_models/configtools.cpp" line="1147"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1479,7 +1479,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1123"/>
+        <location filename="../src/view_models/configtools.cpp" line="1149"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

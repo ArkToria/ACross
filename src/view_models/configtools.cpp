@@ -38,7 +38,7 @@ bool ConfigTools::init(
     p_db = m_config.mutable_database();
     p_interface = m_config.mutable_interface();
     p_network = m_config.mutable_network();
-    p_inbound = m_config.mutable_inbound();
+    m_inbounds = p_acolors_api->config()->getInbounds().first;
 
     loadThemeConfig();
     emit configChanged();
@@ -51,11 +51,18 @@ bool ConfigTools::init(
             &acolorsapi::AColoRSNotifications::coreChanged, this,
             &ConfigTools::coreVersionChanged);
     connect(p_acolors_api->notifications(),
+            &acolorsapi::AColoRSNotifications::updateInbounds, this,
+            &ConfigTools::resetInbounds);
+
+    connect(p_acolors_api->notifications(),
             &acolorsapi::AColoRSNotifications::stateChanged, this,
             &ConfigTools::coreNameChanged);
     connect(p_acolors_api->notifications(),
             &acolorsapi::AColoRSNotifications::stateChanged, this,
             &ConfigTools::coreVersionChanged);
+    connect(p_acolors_api->notifications(),
+            &acolorsapi::AColoRSNotifications::stateChanged, this,
+            &ConfigTools::resetInbounds);
 
     return true;
 }
@@ -122,7 +129,7 @@ void ConfigTools::loadThemeConfig() {
 Config *ConfigTools::config() { return &m_config; }
 
 void ConfigTools::setInboundObject(v2ray::config::V2RayConfig &config) {
-    if (auto http_setting = p_inbound->http(); http_setting.enable()) {
+    if (auto http_setting = m_inbounds.http(); http_setting.enable()) {
         auto inbound = config.add_inbounds();
         inbound->set_listen(http_setting.listen());
         inbound->set_port(http_setting.port());
@@ -142,7 +149,7 @@ void ConfigTools::setInboundObject(v2ray::config::V2RayConfig &config) {
         }
     }
 
-    if (auto socks5_setting = p_inbound->socks5(); socks5_setting.enable()) {
+    if (auto socks5_setting = m_inbounds.socks5(); socks5_setting.enable()) {
         auto inbound = config.add_inbounds();
         inbound->set_listen(socks5_setting.listen());
         inbound->set_port(socks5_setting.port());
@@ -164,6 +171,7 @@ void ConfigTools::setInboundObject(v2ray::config::V2RayConfig &config) {
             socks->set_ip(socks5_setting.udp_ip());
         }
     }
+    p_acolors_api->config()->setInbounds(m_inbounds);
 }
 
 void ConfigTools::setAPIObject(v2ray::config::V2RayConfig &config) {
@@ -222,13 +230,13 @@ void ConfigTools::setLogObject(v2ray::config::V2RayConfig &config) {
 QUrl ConfigTools::getInboundProxy() {
     QUrl proxy;
 
-    if (p_inbound->has_http() && p_inbound->http().enable()) {
-        auto http = p_inbound->http();
+    if (m_inbounds.has_http() && m_inbounds.http().enable()) {
+        auto http = m_inbounds.http();
         proxy.setScheme("http");
         proxy.setHost(http.listen().c_str());
         proxy.setPort(http.port());
-    } else if (p_inbound->has_socks5() && p_inbound->socks5().enable()) {
-        auto socks5 = p_inbound->socks5();
+    } else if (m_inbounds.has_socks5() && m_inbounds.socks5().enable()) {
+        auto socks5 = m_inbounds.socks5();
 
         proxy.setScheme("socks5");
         proxy.setHost(socks5.listen().c_str());
@@ -315,8 +323,10 @@ bool ConfigTools::testAndSetAddr(const QString &addr) {
 }
 
 void ConfigTools::freshInbound() {
+    emit inboundAddressChanged();
     emit socksEnableChanged();
     emit socksPortChanged();
+    emit socksUDPEnableChanged();
     emit socksUsernameChanged();
     emit socksPasswordChanged();
     emit httpEnableChanged();
@@ -474,34 +484,34 @@ QString ConfigTools::currentThemeName() {
     return p_interface->theme().theme().c_str();
 }
 
-bool ConfigTools::socksEnable() { return p_inbound->socks5().enable(); }
+bool ConfigTools::socksEnable() { return m_inbounds.socks5().enable(); }
 
-bool ConfigTools::socksUDPEnable() { return p_inbound->socks5().udp_enable(); }
+bool ConfigTools::socksUDPEnable() { return m_inbounds.socks5().udp_enable(); }
 
 QString ConfigTools::socksPort() {
-    return std::to_string(p_inbound->socks5().port()).c_str();
+    return std::to_string(m_inbounds.socks5().port()).c_str();
 }
 
 QString ConfigTools::socksUsername() {
-    return p_inbound->socks5().auth().username().c_str();
+    return m_inbounds.socks5().auth().username().c_str();
 }
 
 QString ConfigTools::socksPassword() {
-    return p_inbound->socks5().auth().password().c_str();
+    return m_inbounds.socks5().auth().password().c_str();
 }
 
-bool ConfigTools::httpEnable() { return p_inbound->http().enable(); }
+bool ConfigTools::httpEnable() { return m_inbounds.http().enable(); }
 
 QString ConfigTools::httpPort() {
-    return std::to_string(p_inbound->http().port()).c_str();
+    return std::to_string(m_inbounds.http().port()).c_str();
 }
 
 QString ConfigTools::httpUsername() {
-    return p_inbound->http().auth().username().c_str();
+    return m_inbounds.http().auth().username().c_str();
 }
 
 QString ConfigTools::httpPassword() {
-    return p_inbound->http().auth().password().c_str();
+    return m_inbounds.http().auth().password().c_str();
 }
 
 void ConfigTools::setCorePath(const QUrl &val) {
@@ -602,11 +612,21 @@ void ConfigTools::setApiPort(QString &portStr) {
     }
 }
 
+void ConfigTools::resetInbounds() {
+    if (auto inbounds = p_acolors_api->config()->getInbounds();
+        inbounds.second.ok()) {
+        m_inbounds = inbounds.first;
+        freshInbound();
+        emit configChanged();
+    }
+}
+
 void ConfigTools::setInboundAddress(const QString &addr) {
-    if (addr.isEmpty() || addr == p_inbound->socks5().listen().c_str())
+    if (addr.isEmpty() || addr == m_inbounds.socks5().listen().c_str())
         return;
-    p_inbound->mutable_socks5()->set_listen(addr.toStdString());
-    p_inbound->mutable_http()->set_listen(addr.toStdString());
+    m_inbounds.mutable_socks5()->set_listen(addr.toStdString());
+    m_inbounds.mutable_http()->set_listen(addr.toStdString());
+    p_acolors_api->config()->setInbounds(m_inbounds);
     emit configChanged();
     emit inboundAddressChanged();
 }
@@ -768,18 +788,20 @@ void ConfigTools::setCurrentTheme(const QString &val) {
 }
 
 void ConfigTools::setSocksEnable(bool val) {
-    if (val == p_inbound->socks5().enable())
+    if (val == m_inbounds.socks5().enable())
         return;
-    p_inbound->mutable_socks5()->set_enable(val);
+    m_inbounds.mutable_socks5()->set_enable(val);
+    p_acolors_api->config()->setInbounds(m_inbounds);
 
     emit socksEnableChanged();
     emit configChanged();
 }
 
 void ConfigTools::setSocksUDPEnable(bool val) {
-    if (val == p_inbound->socks5().udp_enable())
+    if (val == m_inbounds.socks5().udp_enable())
         return;
-    p_inbound->mutable_socks5()->set_udp_enable(val);
+    m_inbounds.mutable_socks5()->set_udp_enable(val);
+    p_acolors_api->config()->setInbounds(m_inbounds);
 
     emit socksUDPEnableChanged();
     emit configChanged();
@@ -787,20 +809,20 @@ void ConfigTools::setSocksUDPEnable(bool val) {
 
 void ConfigTools::setSocksPort(const QString &portStr) {
     uint port = portStr.toUInt();
-    if (port == p_inbound->socks5().port())
+    if (port == m_inbounds.socks5().port())
         return;
 
-    p_inbound->mutable_socks5()->set_port(port);
+    m_inbounds.mutable_socks5()->set_port(port);
 
     emit socksPortChanged();
     emit configChanged();
 }
 
 void ConfigTools::setSocksUsername(const QString &val) {
-    if (val == p_inbound->socks5().auth().username().c_str())
+    if (val == m_inbounds.socks5().auth().username().c_str())
         return;
 
-    if (auto auth = p_inbound->mutable_socks5()->mutable_auth();
+    if (auto auth = m_inbounds.mutable_socks5()->mutable_auth();
         val.isEmpty()) {
         auth->set_enable(false);
         auth->set_username(val.toStdString());
@@ -814,10 +836,10 @@ void ConfigTools::setSocksUsername(const QString &val) {
 }
 
 void ConfigTools::setSocksPassword(const QString &val) {
-    if (val == p_inbound->socks5().auth().password().c_str())
+    if (val == m_inbounds.socks5().auth().password().c_str())
         return;
 
-    if (auto auth = p_inbound->mutable_socks5()->mutable_auth();
+    if (auto auth = m_inbounds.mutable_socks5()->mutable_auth();
         auth->enable()) {
         auth->set_password(val.toStdString());
     } else {
@@ -829,10 +851,11 @@ void ConfigTools::setSocksPassword(const QString &val) {
 }
 
 void ConfigTools::setHttpEnable(bool val) {
-    if (val == p_inbound->http().enable())
+    if (val == m_inbounds.http().enable())
         return;
 
-    p_inbound->mutable_http()->set_enable(val);
+    m_inbounds.mutable_http()->set_enable(val);
+    p_acolors_api->config()->setInbounds(m_inbounds);
 
     emit httpEnableChanged();
     emit configChanged();
@@ -841,20 +864,21 @@ void ConfigTools::setHttpEnable(bool val) {
 void ConfigTools::setHttpPort(QString &portStr) {
     uint port = portStr.toUInt();
 
-    if (port == p_inbound->http().port())
+    if (port == m_inbounds.http().port())
         return;
 
-    p_inbound->mutable_http()->set_port(port);
+    m_inbounds.mutable_http()->set_port(port);
+    p_acolors_api->config()->setInbounds(m_inbounds);
 
     emit httpPortChanged();
     emit configChanged();
 }
 
 void ConfigTools::setHttpUsername(const QString &val) {
-    if (val == p_inbound->http().auth().username().c_str())
+    if (val == m_inbounds.http().auth().username().c_str())
         return;
 
-    if (auto auth = p_inbound->mutable_http()->mutable_auth(); val.isEmpty()) {
+    if (auto auth = m_inbounds.mutable_http()->mutable_auth(); val.isEmpty()) {
         auth->set_enable(false);
         auth->set_username(val.toStdString());
     } else {
@@ -862,20 +886,22 @@ void ConfigTools::setHttpUsername(const QString &val) {
         auth->set_username(val.toStdString());
     }
 
+    p_acolors_api->config()->setInbounds(m_inbounds);
     emit httpUsernameChanged();
     emit configChanged();
 }
 
 void ConfigTools::setHttpPassword(const QString &val) {
-    if (val == p_inbound->http().auth().password().c_str())
+    if (val == m_inbounds.http().auth().password().c_str())
         return;
 
-    if (auto auth = p_inbound->mutable_http()->mutable_auth(); auth->enable()) {
+    if (auto auth = m_inbounds.mutable_http()->mutable_auth(); auth->enable()) {
         auth->set_password(val.toStdString());
     } else {
         auth->set_password("");
     }
 
+    p_acolors_api->config()->setInbounds(m_inbounds);
     emit httpPasswordChanged();
     emit configChanged();
 }
@@ -926,7 +952,7 @@ QString ConfigTools::apiPort() {
 QString ConfigTools::apiResultText() { return m_api_result_text; }
 
 QString ConfigTools::inboundAddress() {
-    return p_inbound->socks5().listen().c_str();
+    return m_inbounds.socks5().listen().c_str();
 }
 
 QString ConfigTools::currentLanguage() {

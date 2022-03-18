@@ -312,6 +312,7 @@ class ConfigTools : public QObject {
     void setLogLevel(const QString &val);
     void setApiEnable(bool val);
     void setApiPort(QString &val);
+    void resetInbounds();
     void setInboundAddress(const QString &val);
     void setSocksEnable(bool val);
     void setSocksUDPEnable(bool val);
@@ -444,12 +445,12 @@ class ConfigTools : public QObject {
 
     QSharedPointer<across::network::CURLTools> p_curl;
     across::config::Config m_config = ConfigHelper::defaultConfig();
+    acolors::Inbounds m_inbounds;
     across::config::AColoRS *p_acolors{};
     across::config::Core *p_core{};
     across::config::Database *p_db{};
     across::config::Interface *p_interface{};
     across::config::Theme *p_theme{};
-    across::config::Inbound *p_inbound{};
     across::config::Network *p_network{};
 };
 } // namespace across::setting
