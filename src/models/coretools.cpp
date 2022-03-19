@@ -52,7 +52,6 @@ int CoreTools::run() {
 
     if (status.ok()) {
         p_logger->info("Core is running...");
-        this->setIsRunning(true);
     } else {
         p_notifications->notify(
             tr("Core Error"),
@@ -72,9 +71,6 @@ int CoreTools::stop() {
 
     if (p_acolors->core()->isRunning().first) {
         auto status = p_acolors->core()->stop();
-        if (status.ok())
-            this->setIsRunning(false);
-
         return status.error_code();
     }
 

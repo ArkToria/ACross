@@ -1442,12 +1442,12 @@
 <context>
     <name>across::core::CoreTools</name>
     <message>
-        <location filename="../src/models/coretools.cpp" line="58"/>
+        <location filename="../src/models/coretools.cpp" line="57"/>
         <source>Core Error</source>
         <translation>核心错误</translation>
     </message>
     <message>
-        <location filename="../src/models/coretools.cpp" line="59"/>
+        <location filename="../src/models/coretools.cpp" line="58"/>
         <source>Failed to start the process: %1</source>
         <translation>无法启动进程 %1</translation>
     </message>
