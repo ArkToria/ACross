@@ -813,6 +813,7 @@ void ConfigTools::setSocksPort(const QString &portStr) {
         return;
 
     m_inbounds.mutable_socks5()->set_port(port);
+    p_acolors_api->config()->setInbounds(m_inbounds);
 
     emit socksPortChanged();
     emit configChanged();
@@ -830,6 +831,7 @@ void ConfigTools::setSocksUsername(const QString &val) {
         auth->set_enable(true);
         auth->set_username(val.toStdString());
     }
+    p_acolors_api->config()->setInbounds(m_inbounds);
 
     emit socksUsernameChanged();
     emit configChanged();
@@ -845,6 +847,7 @@ void ConfigTools::setSocksPassword(const QString &val) {
     } else {
         auth->set_password("");
     }
+    p_acolors_api->config()->setInbounds(m_inbounds);
 
     emit socksPasswordChanged();
     emit configChanged();
