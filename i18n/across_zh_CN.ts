@@ -805,12 +805,12 @@
         <translation>确认从数据库中移除组</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="87"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="89"/>
         <source>Updating...</source>
         <translation>更新中...</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupListPanel.qml" line="87"/>
+        <location filename="../src/views/home/GroupListPanel.qml" line="89"/>
         <source>The default node will be reset</source>
         <translation>默认节点将会被重置</translation>
     </message>
@@ -1391,7 +1391,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="326"/>
+        <location filename="../src/view_models/nodelist.cpp" line="327"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
