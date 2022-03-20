@@ -111,33 +111,9 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
     }
 
     if (p_config->enableAutoConnect()) {
-        NodeInfo node;
-
-        /*
-        TODO: Auto Connect
-        if (auto id = p_db->getCurrentNodeID(); id) {
-            auto nodes =
-                p_db->listAllNodesFromGroupID(p_db->getCurrentGroupID());
-            for (auto &nodeItem : nodes) {
-                if (id == nodeItem.id) {
-                    node = nodeItem;
-                }
-            }
-        }
-        if (auto id = p_db->getDefaultNodeID(); id) {
-            auto nodes =
-                p_db->listAllNodesFromGroupID(p_db->getDefaultGroupID());
-            for (auto &nodeItem : nodes) {
-                if (id == nodeItem.id) {
-                    node = nodeItem;
-                }
-            }
-        }
-        */
-        m_node = node;
         if (!run()) {
-            p_logger->error("Failed to start current node: {} {}", node.id,
-                            node.name.toStdString());
+            p_logger->error("Failed to start current node: {} {}", m_node.id,
+                            m_node.name.toStdString());
         }
 
         emit currentGroupIDChanged();
@@ -152,13 +128,6 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
 bool NodeList::run() {
     bool res = false;
     do {
-        /*
-        if (m_node.raw.isEmpty()) {
-            p_logger->error("Failed to load current node");
-            break;
-        }
-        */
-
         if (p_config == nullptr) {
             p_logger->error("Failed to load config");
             break;
@@ -168,7 +137,6 @@ bool NodeList::run() {
             p_logger->error("Failed to load core tools");
         }
 
-        // p_core->setConfig(generateConfig());
         p_core->setConfigByNodeID(m_node.id);
         if (p_core->run() < 0) {
             p_logger->error("Failed to start core process");

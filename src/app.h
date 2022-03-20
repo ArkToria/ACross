@@ -10,6 +10,7 @@
 #include <QStringLiteral>
 #include <QTranslator>
 #include <QUrl>
+#include <QtConcurrent>
 #include <QtQuickControls2>
 
 #include "singleapplication.h"
@@ -67,9 +68,11 @@ class Application : public SingleApplication {
 
   private slots:
     void onMessageReceived(quint32 clientId, const QByteArray &msg);
-    void checkAndReconnect();
     void restartAColoRS();
     void handleShutdown();
+
+  private:
+    QFuture<void> checkAndReconnect();
 
   private:
     LogView m_log;
@@ -84,6 +87,8 @@ class Application : public SingleApplication {
     across::ImageProvider *p_image_provider;
 
     ACrossExitReason exitReason = EXIT_NORMAL;
+
+    QFuture<void> reconnect;
 
     bool acolors_restarting = false;
 

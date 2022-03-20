@@ -72,8 +72,7 @@ bool Application::initialize() {
             &across::acolorsapi::AColoRSNotifications::shutdown, this,
             &Application::handleShutdown);
 
-    wait(200);
-    checkAndReconnect();
+    this->reconnect = checkAndReconnect();
 
     return true;
 }
@@ -81,8 +80,9 @@ bool Application::initialize() {
 void Application::restartAColoRS() {
     this->acolors_restarting = true;
     this->p_acolors->shutdown();
-    wait(200);
-    Application::checkAndReconnect();
+    if (this->reconnect.isFinished()) {
+        this->reconnect = Application::checkAndReconnect();
+    };
 }
 
 void Application::handleShutdown() {
@@ -101,15 +101,22 @@ void Application::wait(int msec) {
     loop.exec();
 }
 
-void Application::checkAndReconnect() {
-    if (this->p_acolors->isConnected())
-        return;
-    this->p_acolors->startProcess(
-        p_config->acolorsPath(), p_config->acolorsAPIPort().toInt(),
-        p_config->corePath(), p_config->acolorsConfigPath(),
-        p_config->acolorsDbPath());
-    wait(200);
-    this->p_acolors->reconnect();
+QFuture<void> Application::checkAndReconnect() {
+    return QtConcurrent::run([&] {
+        wait(200);
+        if (this->p_acolors->isConnected())
+            return;
+        this->p_acolors->startProcess(
+            p_config->acolorsPath(), p_config->acolorsAPIPort().toInt(),
+            p_config->corePath(), p_config->acolorsConfigPath(),
+            p_config->acolorsDbPath());
+        for (int i = 0; i < 10; i++) {
+            wait(200);
+            if (this->p_acolors->isConnected())
+                return;
+            this->p_acolors->reconnect();
+        }
+    });
 }
 
 ACrossExitReason Application::getExitReason() { return exitReason; }
