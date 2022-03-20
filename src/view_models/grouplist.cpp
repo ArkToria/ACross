@@ -93,7 +93,10 @@ void GroupList::checkUpdate(int index, bool force) {
             !force)
             break;
 
-        p_acolors->profile()->updateGroupById(group.id, p_nodes->isRunning());
+        auto status = p_acolors->profile()->updateGroupById(
+            group.id, p_nodes->isRunning());
+        if (status.ok())
+            p_acolors->profile()->setGroupById(group.id, group);
 
     } while (false);
 }
@@ -331,6 +334,7 @@ void GroupList::appendItem(const QString &group_name, const QString &url,
     qDebug() << reply.first;
 
     p_acolors->profile()->updateGroupById(reply.first, p_nodes->isRunning());
+    reloadItems();
 }
 
 void GroupList::appendItem(const QString &group_name,
@@ -349,6 +353,7 @@ void GroupList::appendItem(const QString &group_name,
     if (!insert(group_info, node_items)) {
         p_logger->error("Failed to parse url");
     }
+    reloadItems();
 }
 
 void GroupList::editItem(int index, const QString &group_name,
@@ -388,7 +393,7 @@ void GroupList::editItem(int index, const QString &group_name,
 
     if (is_url_changed) {
 
-        p_acolors->profile()->updateGroupById(group.id, p_nodes->isRunning());
+        checkUpdate(index);
 
     } else if (!node_items.isEmpty()) {
         this->insertBase64(group, node_items);

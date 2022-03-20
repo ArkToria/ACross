@@ -1361,21 +1361,21 @@
 <context>
     <name>across::GroupList</name>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="124"/>
+        <location filename="../src/view_models/grouplist.cpp" line="127"/>
         <source>[%1] TCP Pinging...</source>
         <translation>[%1] TCP Pinging...</translation>
     </message>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="125"/>
-        <location filename="../src/view_models/grouplist.cpp" line="150"/>
+        <location filename="../src/view_models/grouplist.cpp" line="128"/>
+        <location filename="../src/view_models/grouplist.cpp" line="153"/>
         <source>Testing: %1/%2</source>
         <translation>測試中：%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="416"/>
-        <location filename="../src/view_models/grouplist.cpp" line="420"/>
-        <location filename="../src/view_models/grouplist.cpp" line="437"/>
-        <location filename="../src/view_models/grouplist.cpp" line="441"/>
+        <location filename="../src/view_models/grouplist.cpp" line="421"/>
+        <location filename="../src/view_models/grouplist.cpp" line="425"/>
+        <location filename="../src/view_models/grouplist.cpp" line="442"/>
+        <location filename="../src/view_models/grouplist.cpp" line="446"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>
@@ -1391,7 +1391,7 @@
 <context>
     <name>across::NodeList</name>
     <message>
-        <location filename="../src/view_models/nodelist.cpp" line="325"/>
+        <location filename="../src/view_models/nodelist.cpp" line="326"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

@@ -37,6 +37,7 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
 
     if (pair_result.second.ok()) {
         m_node = pair_result.first;
+        emit currentNodeInfoChanged(m_node.toVariantMap());
     }
 
     if (tray != nullptr) {
