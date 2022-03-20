@@ -1455,22 +1455,22 @@
 <context>
     <name>across::setting::ConfigTools</name>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="966"/>
+        <location filename="../src/view_models/configtools.cpp" line="969"/>
         <source>Click the application or tray icon to show</source>
         <translation>点击应用或托盘图标以显示</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="967"/>
+        <location filename="../src/view_models/configtools.cpp" line="970"/>
         <source>Start From Minimize</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1144"/>
+        <location filename="../src/view_models/configtools.cpp" line="1147"/>
         <source>Failed to parse version</source>
         <translation>无法解析版本</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1147"/>
+        <location filename="../src/view_models/configtools.cpp" line="1150"/>
         <source>New Version: v%1</source>
         <translation>新版本：v%1</translation>
     </message>
@@ -1479,7 +1479,7 @@
         <translation type="vanished">新版本：%1</translation>
     </message>
     <message>
-        <location filename="../src/view_models/configtools.cpp" line="1149"/>
+        <location filename="../src/view_models/configtools.cpp" line="1152"/>
         <source>Already the latest version</source>
         <translation>已经是最新版本</translation>
     </message>

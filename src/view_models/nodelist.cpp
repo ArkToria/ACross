@@ -439,17 +439,16 @@ Q_INVOKABLE void NodeList::testLatency(int id) {
 
 void NodeList::testLatency(const NodeInfo &node, int index,
                            std::function<void()> after) {
-    m_tasks.enqueue(
-        QtConcurrent::run([this, index, node, after{std::move(after)}] {
-            auto current_node = node;
-            TCPPing ping;
-            ping.setAddr(node.address);
-            ping.setPort(node.port);
-            current_node.latency = ping.getAvgLatency();
+    m_tasks.enqueue(QtConcurrent::run([this, index, node,
+                                       after{std::move(after)}] {
+        auto current_node = node;
+        auto latency = p_acolors->tools()->tcping(
+            QString("%1:%2").arg(node.address).arg(node.port).toStdString());
+        current_node.latency = latency.second.ok() ? latency.first : -1;
 
-            after();
-            emit itemLatencyChanged(node.group_id, index, current_node);
-        }));
+        after();
+        emit itemLatencyChanged(node.group_id, index, current_node);
+    }));
 }
 
 bool NodeList::isRunning() {

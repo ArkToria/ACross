@@ -538,6 +538,19 @@ Status AColoRSCore::setCoreByTag(std::string tag) {
     SetCoreByTagReply reply;
     return this->p_stub->SetCoreByTag(&context, request, &reply);
 }
+pair<QList<QString>, Status> AColoRSCore::listAllTags() {
+    ClientContext context;
+    ListAllTagsRequest request;
+    ListAllTagsReply reply;
+    QList<QString> tags;
+    auto status = this->p_stub->ListAllTags(&context, request, &reply);
+
+    for (const auto &tag : reply.tags()) {
+        tags.push_back(QString::fromStdString(tag));
+    }
+    auto result = std::make_pair(tags, status);
+    return result;
+}
 
 Status AColoRSCore::setDefaultConfigByNodeId(int32_t node_id) {
     ClientContext context;
@@ -590,6 +603,25 @@ void AColoRSConfig::setChannel(const std::shared_ptr<Channel> &channel) {
     this->p_stub = ConfigManager::NewStub(p_channel);
     emit channelChanged();
 }
+AColoRSTools::AColoRSTools(const std::shared_ptr<Channel> &channel) {
+    this->p_channel = channel;
+    this->p_stub = Tools::NewStub(p_channel);
+}
+
+AColoRSTools::~AColoRSTools() {}
+void AColoRSTools::setChannel(const std::shared_ptr<Channel> &channel) {
+    this->p_channel = channel;
+    this->p_stub = Tools::NewStub(p_channel);
+    emit channelChanged();
+}
+pair<int32_t, Status> AColoRSTools::tcping(const std::string &target) {
+    ClientContext context;
+    TcpingRequest request;
+    *request.mutable_target() = target;
+    TcpingReply reply;
+    auto status = this->p_stub->Tcping(&context, request, &reply);
+    return std::make_pair(reply.duration().nanos() / 1000000, status);
+}
 
 AColoRSAPITools::AColoRSAPITools(const std::string &target) {
     this->target = target;
@@ -602,6 +634,7 @@ AColoRSAPITools::AColoRSAPITools(const std::string &target) {
     this->p_profile = std::make_shared<AColoRSProfile>(p_channel);
     this->p_config = std::make_unique<AColoRSConfig>(p_channel);
     this->p_core = std::make_unique<AColoRSCore>(p_channel, p_profile);
+    this->p_tools = std::make_unique<AColoRSTools>(p_channel);
 
     this->p_notifications->start();
 
@@ -664,6 +697,7 @@ void AColoRSAPITools::reconnect() {
     this->p_profile->setChannel(this->p_channel);
     this->p_config->setChannel(this->p_channel);
     this->p_core->setChannel(this->p_channel);
+    this->p_tools->setChannel(this->p_channel);
 
     this->p_notifications->start();
 }

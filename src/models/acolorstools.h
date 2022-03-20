@@ -129,6 +129,7 @@ class AColoRSCore : public QObject {
     pair<NodeInfo, Status> currentNode();
     Status setConfigByNodeId(int32_t node_id);
     Status setCoreByTag(std::string tag);
+    pair<QList<QString>, Status> listAllTags();
     Status setDefaultConfigByNodeId(int32_t node_id);
 
     struct CoreInfo {
@@ -165,6 +166,24 @@ class AColoRSConfig : public QObject {
     std::shared_ptr<Channel> p_channel;
     std::unique_ptr<acolors::ConfigManager::Stub> p_stub;
 };
+class AColoRSTools : public QObject {
+    Q_OBJECT
+  public:
+    explicit AColoRSTools(const std::shared_ptr<Channel> &channel);
+    ~AColoRSTools() override;
+
+    Status setDefaultConfigByNodeId(int32_t node_id);
+
+    void setChannel(const std::shared_ptr<Channel> &channel);
+    pair<int32_t, Status> tcping(const std::string &target);
+
+  signals:
+    void channelChanged();
+
+  private:
+    std::shared_ptr<Channel> p_channel;
+    std::unique_ptr<acolors::Tools::Stub> p_stub;
+};
 class AColoRSAPITools : public QObject {
     Q_OBJECT
     Q_PROPERTY(AColoRSNotifications notifications READ notifications NOTIFY
@@ -185,6 +204,9 @@ class AColoRSAPITools : public QObject {
     };
     [[nodiscard]] inline AColoRSCore *core() const {
         return this->p_core.get();
+    };
+    [[nodiscard]] inline AColoRSTools *tools() const {
+        return this->p_tools.get();
     };
 
     bool isConnected() const { return this->connected; };
@@ -218,6 +240,7 @@ class AColoRSAPITools : public QObject {
     std::shared_ptr<AColoRSProfile> p_profile;
     std::unique_ptr<AColoRSConfig> p_config;
     std::unique_ptr<AColoRSCore> p_core;
+    std::unique_ptr<AColoRSTools> p_tools;
 };
 } // namespace across::acolorsapi
 

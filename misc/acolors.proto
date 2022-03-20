@@ -4,6 +4,8 @@ option java_multiple_files = true;
 option java_package = "org.arktoria.acolors";
 option java_outer_classname = "AColoRSProto";
 
+import "google/protobuf/duration.proto";
+
 package acolors;
 
 service Manager { rpc Shutdown(ShutdownRequest) returns (ShutdownReply); }
@@ -240,12 +242,14 @@ service CoreManager {
   rpc SetCoreByTag(SetCoreByTagRequest) returns (SetCoreByTagReply);
   rpc GetCoreTag(GetCoreTagRequest) returns (GetCoreTagReply);
   rpc GetCoreInfo(GetCoreInfoRequest) returns (GetCoreInfoReply);
+  rpc ListAllTags(ListAllTagsRequest) returns (ListAllTagsReply);
   rpc SetDefaultConfigByNodeID(SetDefaultConfigByNodeIDRequest)
       returns (SetDefaultConfigByNodeIDReply);
 }
 
 message GetCoreInfoRequest {}
 message GetCoreTagRequest {}
+message ListAllTagsRequest {}
 message GetCurrentNodeRequest {}
 message RunRequest {}
 message RunReply {}
@@ -266,3 +270,10 @@ message GetCoreInfoReply {
   string name = 1;
   string version = 2;
 }
+message ListAllTagsReply { repeated string tags = 1; }
+
+service Tools {
+  rpc Tcping(TcpingRequest) returns (TcpingReply) {}
+}
+message TcpingRequest { string target = 1; }
+message TcpingReply { google.protobuf.Duration duration = 1; }
