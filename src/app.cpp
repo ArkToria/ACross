@@ -113,8 +113,13 @@ QFuture<void> Application::checkAndReconnect() {
         for (int i = 0; i < 10; i++) {
             wait(200);
             if (this->p_acolors->isConnected())
-                return;
+                break;
             this->p_acolors->reconnect();
+        }
+        if (this->p_config->enableAutoConnect()) {
+            auto status = this->p_acolors->core()->run();
+            if (!status.ok())
+                qDebug() << status.error_message().c_str();
         }
     });
 }

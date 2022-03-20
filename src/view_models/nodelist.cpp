@@ -110,18 +110,6 @@ void NodeList::init(QSharedPointer<across::setting::ConfigTools> config,
                 });
     }
 
-    if (p_config->enableAutoConnect()) {
-        if (!run()) {
-            p_logger->error("Failed to start current node: {} {}", m_node.id,
-                            m_node.name.toStdString());
-        }
-
-        emit currentGroupIDChanged();
-        emit currentNodeIDChanged();
-        emit currentNodeInfoChanged(m_node.toVariantMap());
-        emit currentNodeChanged(m_node);
-    }
-
     reloadItems();
 }
 
