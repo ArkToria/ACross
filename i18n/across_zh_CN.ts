@@ -617,47 +617,47 @@
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="80"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="79"/>
         <source>Enter the unique group name</source>
         <translation>输入唯一的组名称</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="86"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="85"/>
         <source>Nodes URL</source>
         <translation>节点链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="147"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="146"/>
         <source>Subscription</source>
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="170"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="168"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="185"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="183"/>
         <source>Cycle (days)</source>
         <translation>更新周期（天）</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="201"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="199"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="214"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="212"/>
         <source>Enter the unique subscription url</source>
         <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="273"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="271"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="276"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="274"/>
         <source>URL cannot be empty!</source>
         <translation>链接不能为空！</translation>
     </message>
@@ -666,7 +666,7 @@
         <translation type="vanished">链接不能为空</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupEditForm.qml" line="286"/>
+        <location filename="../src/views/home/GroupEditForm.qml" line="284"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -772,22 +772,22 @@
         <translation>TCP Ping</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="74"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="66"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="77"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="69"/>
         <source>[%1] Updating...</source>
         <translation>[%1] 更新中...</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="78"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="70"/>
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
     <message>
-        <location filename="../src/views/home/GroupItemPopMenu.qml" line="87"/>
+        <location filename="../src/views/home/GroupItemPopMenu.qml" line="79"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -1372,10 +1372,10 @@
         <translation>測試中：%1/%2</translation>
     </message>
     <message>
-        <location filename="../src/view_models/grouplist.cpp" line="415"/>
-        <location filename="../src/view_models/grouplist.cpp" line="419"/>
-        <location filename="../src/view_models/grouplist.cpp" line="436"/>
-        <location filename="../src/view_models/grouplist.cpp" line="440"/>
+        <location filename="../src/view_models/grouplist.cpp" line="416"/>
+        <location filename="../src/view_models/grouplist.cpp" line="420"/>
+        <location filename="../src/view_models/grouplist.cpp" line="437"/>
+        <location filename="../src/view_models/grouplist.cpp" line="441"/>
         <source>Copy [%1] URL to clipboard</source>
         <translation>复制 [%1] 链接到剪贴板</translation>
     </message>

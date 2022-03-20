@@ -47,20 +47,12 @@ Menu {
     Action {
         text: qsTr("TCP Ping")
         onTriggered: {
-            /*
-            if(acrossGroups.testTcpPing(index) === 0){
-                popNotify.notify(qsTr("[%1] TCP Pinging...").arg(name),
-                                             qsTr("Testing:"),
-                                             index,
-                                             items)
-            }
-            */
            acrossGroups.testTcpPing(index);
         }
     }
 
     MenuSeparator {
-        visible: 0 === model.index ? false : true
+        // visible: 0 === model.index ? false : true
 
         background: Rectangle {
             height: 1
@@ -85,7 +77,7 @@ Menu {
 
     Action {
         text: qsTr("Delete")
-        enabled: 0 === model.index ? false : true
+        // enabled: 0 === model.index ? false : true
 
         onTriggered: {
             darkBackground.show()

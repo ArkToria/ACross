@@ -398,7 +398,8 @@ void GroupList::editItem(int index, const QString &group_name,
 void GroupList::removeItem(int index) {
     if (m_groups.size() > index) {
         emit preItemsReset();
-        setDisplayGroupID(m_groups.at(index - 1).id);
+        setDisplayGroupID(index ? m_groups.at(index - 1).id
+                                : m_groups.last().id);
         p_acolors->profile()->removeGroupById(m_groups.at(index).id);
         m_groups.removeAt(index);
         emit postItemsReset();

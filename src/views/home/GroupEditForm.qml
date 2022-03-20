@@ -76,7 +76,6 @@ Popup {
 
                 Layout.columnSpan: 3
                 Layout.fillWidth: true
-                readOnly: index === 0
                 placeholderText: qsTr("Enter the unique group name")
             }
 
@@ -154,7 +153,6 @@ Popup {
 
                 Layout.alignment: Qt.AlignRight
                 checked: isSubscriotion
-                checkable: index !== 0
                 onCheckedChanged: {
                     if (checked) {
                         pasteItemText.readOnly = true;
