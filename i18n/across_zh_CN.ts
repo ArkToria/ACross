@@ -289,7 +289,7 @@
         <translation>接受</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="101"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="102"/>
         <source>Set as Default &gt; Last Connected</source>
         <translation>设置为默认 &gt; 上次已链接</translation>
     </message>
@@ -299,17 +299,17 @@
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="107"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="120"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="121"/>
         <source>Auto Export</source>
         <translation>自动导出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="126"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="127"/>
         <source>Tray Icon</source>
         <translation>托盘图标</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="141"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="142"/>
         <source>Unavailable</source>
         <translation>不可用</translation>
     </message>
@@ -322,17 +322,17 @@
         <translation type="vanished">默认 &gt; 上次连接</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="161"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="162"/>
         <source>Minimize startup</source>
         <translation>最小化启动</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="193"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="194"/>
         <source>Log Outputs</source>
         <translation>日志输出</translation>
     </message>
     <message>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="226"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="227"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
@@ -366,7 +366,7 @@
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="85"/>
-        <location filename="../src/views/setting/ApplicationItem.qml" line="101"/>
+        <location filename="../src/views/setting/ApplicationItem.qml" line="102"/>
         <source>Auto Connect</source>
         <translation>自动连接</translation>
     </message>

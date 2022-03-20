@@ -96,10 +96,10 @@ Item {
             Layout.alignment: Qt.AlignRight
             checked: acrossConfig.enableAutoConnect
             onCheckedChanged: {
+                let flag = checked && acrossConfig.enableAutoConnect != checked
                 acrossConfig.enableAutoConnect = checked;
-                if (checked)
+                if (flag)
                     popNotify.notify(qsTr("Auto Connect"), qsTr("Set as Default > Last Connected"), 0.0, 1.0, 0.0, 2000);
-
             }
         }
 
@@ -115,8 +115,9 @@ Item {
         SwitchBox {
             checked: acrossConfig.enableAutoExport
             onCheckedChanged: {
+                let flag = checked && acrossConfig.enableAutoExport != checked 
                 acrossConfig.enableAutoExport = checked;
-                if (checked)
+                if (flag)
                     popNotify.notify(qsTr("Auto Export"), acrossConfig.dataDir, 0.0, 1.0, 0.0, 2000);
 
             }
