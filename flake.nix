@@ -12,7 +12,7 @@
       url = "github:itay-grudev/SingleApplication/0d7b2630bda26f7dd4752c90faa9719455cab433";
       flake = false;
     };
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=pull/141883/head";
+    nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
@@ -27,13 +27,13 @@
         }
       ) // {
       overlay = final: prev: {
-        across = final.qt6.mkDerivation {
+        across = final.stdenv.mkDerivation {
           name = "across";
           src = self;
-          inherit (final.qt6.qtbase) qtDocPrefix qtQmlPrefix qtPluginPrefix;
           cmakeFlags = [ "-DFETCH_SINGLE_APPLICATION=OFF" ];
           nativeBuildInputs = with final; [
             cmake
+            ninja
             pkg-config
             qt6.wrapQtAppsHook
           ];
@@ -48,19 +48,14 @@
             nlohmann_json
             magic_enum
             semver
-            qt6.qtwayland
+            qt6.qtbase
             qt6.qt5compat
-            qt6.qttools
             qt6.qttranslations
             qt6.qtsvg
           ];
           postPatch = ''
             rm -fr 3rdpart/*
             ln -s ${inputs.single_application} 3rdpart/SingleApplication
-          '';
-          dontWrapQtApps = true;
-          preFixup = with final.qt6;''
-            wrapQtApp "$out/bin/across" --prefix QML2_IMPORT_PATH : "${qtdeclarative}/qml:${qt5compat}/qml:${qtimageformats}/qml"
           '';
         };
         magic_enum = final.stdenv.mkDerivation {
