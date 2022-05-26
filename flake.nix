@@ -1,7 +1,7 @@
 {
   inputs = {
     magic_enum = {
-      url = "github:Neargye/magic_enum/38f86e4d093cfc9034a140d37de2168e3951bef3";
+      url = "github:Neargye/magic_enum/c7a0c83ed44ec793285ebab58a86b232d10b5082";
       flake = false;
     };
     semver = {
@@ -12,7 +12,7 @@
       url = "github:itay-grudev/SingleApplication/0d7b2630bda26f7dd4752c90faa9719455cab433";
       flake = false;
     };
-    nixpkgs.url = "github:NixOS/nixpkgs?ref=pull/141883/head";
+    nixpkgs.url = "github:NixOS/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
   };
   outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
@@ -27,13 +27,16 @@
         }
       ) // {
       overlay = final: prev: {
-        across = final.qt6.mkDerivation {
+        across = final.stdenv.mkDerivation {
           name = "across";
           src = self;
-          inherit (final.qt6.qtbase) qtDocPrefix qtQmlPrefix qtPluginPrefix;
-          cmakeFlags = [ "-DFETCH_SINGLE_APPLICATION=OFF" ];
+          cmakeFlags = [
+            "-DFETCH_SINGLE_APPLICATION=OFF"
+            "-DUSE_CORE_V5=ON"
+          ];
           nativeBuildInputs = with final; [
             cmake
+            ninja
             pkg-config
             qt6.wrapQtAppsHook
           ];
@@ -48,19 +51,18 @@
             nlohmann_json
             magic_enum
             semver
-            qt6.qtwayland
-            qt6.qt5compat
+            qt6.qtbase
             qt6.qttools
+            qt6.qtwayland
+            qt6.qtdeclarative
+            qt6.qt5compat
             qt6.qttranslations
             qt6.qtsvg
+            qt6.qtimageformats
           ];
           postPatch = ''
             rm -fr 3rdpart/*
             ln -s ${inputs.single_application} 3rdpart/SingleApplication
-          '';
-          dontWrapQtApps = true;
-          preFixup = with final.qt6;''
-            wrapQtApp "$out/bin/across" --prefix QML2_IMPORT_PATH : "${qtdeclarative}/qml:${qt5compat}/qml:${qtimageformats}/qml"
           '';
         };
         magic_enum = final.stdenv.mkDerivation {
