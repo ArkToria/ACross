@@ -49,7 +49,7 @@ jobs:
       - name: run-vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgDirectory: "./b/vcpkg"
+          vcpkgDirectory: "C:/more-disk-space/vcpkg"
           vcpkgGitCommitId: 881c1b04a40f258b23880f9ef3ba89b6ed5c8ecf
           vcpkgJsonGlob: "vcpkg.json"
 
