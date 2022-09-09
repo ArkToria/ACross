@@ -1,7 +1,7 @@
 # Maintainer: DuckSoft <realducksoft@gmail.com>
 pkgname=across-dev-git
 _pkgname=across
-pkgver=0.1.3.r727.5c732a5
+pkgver=0.1.3.r731.72fb7d0
 pkgrel=1
 pkgdesc="The next GUI client for v2ray core (Development Branch)"
 arch=('x86_64')
@@ -32,7 +32,7 @@ build() {
     cmake .. \
         -DCMAKE_INSTALL_PREFIX=${pkgdir}/usr \
         -DCMAKE_BUILD_TYPE=Release \
-        -DUSE_CORE_V5 \
+        -DUSE_CORE_V5=ON \
         -GNinja
     ninja
 }
