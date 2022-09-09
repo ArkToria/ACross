@@ -11,6 +11,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 ######### PRE_BUILD #########
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/buildinfo.cmake")
+
+set(USE_CORE_V5 OFF)
+
+if(USE_CORE_V5)
+    add_definitions(-DCORE_V5)
+endif()
 #############################
 
 project(across VERSION ${GUI_VERSION} LANGUAGES CXX)

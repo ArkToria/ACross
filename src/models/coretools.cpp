@@ -67,7 +67,13 @@ int CoreTools::run() {
     if (p_process == nullptr)
         return -1;
 
-    p_process->start(p_core->core_path().c_str(), {"--config=stdin:"},
+#ifdef CORE_V5
+    const auto options = QStringList {"run"};
+#else
+    const auto options = QStringList {"--config:stdin:"};
+#endif
+
+    p_process->start(p_core->core_path().c_str(), options,
                      QIODevice::ReadWrite | QIODevice::Text);
     p_process->write(m_config.toUtf8());
     p_process->waitForBytesWritten();

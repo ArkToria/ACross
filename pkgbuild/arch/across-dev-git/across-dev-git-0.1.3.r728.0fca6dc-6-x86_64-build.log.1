@@ -1,0 +1,47 @@
+-- The CXX compiler identification is GNU 12.1.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/lib/ccache/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ZLIB: /usr/lib/libz.so (found version "1.2.12") 
+-- Found Protobuf: /usr/lib/libprotobuf.so (found version "3.21.2") 
+-- Found OpenSSL: /usr/lib/libcrypto.so (found version "1.1.1q")  
+-- Found c-ares: /usr/lib64/cmake/c-ares/c-ares-config.cmake (found version "1.18.1") 
+-- Found Threads: TRUE  
+-- Found PkgConfig: /usr/bin/pkg-config (found version "1.8.0") 
+-- Found RE2 via pkg-config.
+-- CPM: using local package gRPC@1.30.2
+-- CPM: adding package semver@0.3.0 (v0.3.0)
+[1/9] Creating directories for 'semver-populate'
+[1/9] Performing download step (git clone) for 'semver-populate'
+Cloning into 'semver-src'...
+fatal: unable to access 'https://github.com/Neargye/semver.git/': Proxy CONNECT aborted
+Cloning into 'semver-src'...
+fatal: unable to access 'https://github.com/Neargye/semver.git/': Proxy CONNECT aborted
+Cloning into 'semver-src'...
+fatal: unable to access 'https://github.com/Neargye/semver.git/': Proxy CONNECT aborted
+-- Had to git clone more than once: 3 times.
+CMake Error at semver-subbuild/semver-populate-prefix/tmp/semver-populate-gitclone.cmake:39 (message):
+  Failed to clone repository: 'https://github.com/Neargye/semver.git'
+
+
+FAILED: semver-populate-prefix/src/semver-populate-stamp/semver-populate-download /tmp/makepkg/across-dev-git/src/across-dev-git/3rdpart/semver-subbuild/semver-populate-prefix/src/semver-populate-stamp/semver-populate-download 
+cd /tmp/makepkg/across-dev-git/src/across-dev-git/3rdpart && /usr/bin/cmake -P /tmp/makepkg/across-dev-git/src/across-dev-git/3rdpart/semver-subbuild/semver-populate-prefix/tmp/semver-populate-gitclone.cmake && /usr/bin/cmake -E touch /tmp/makepkg/across-dev-git/src/across-dev-git/3rdpart/semver-subbuild/semver-populate-prefix/src/semver-populate-stamp/semver-populate-download
+ninja: build stopped: subcommand failed.
+
+CMake Error at /usr/share/cmake/Modules/FetchContent.cmake:1088 (message):
+  Build step for semver failed: 1
+Call Stack (most recent call first):
+  /usr/share/cmake/Modules/FetchContent.cmake:1217:EVAL:2 (__FetchContent_directPopulate)
+  /usr/share/cmake/Modules/FetchContent.cmake:1217 (cmake_language)
+  cmake/CPM.cmake:850 (FetchContent_Populate)
+  cmake/CPM.cmake:670 (cpm_fetch_package)
+  cmake/Semver.cmake:4 (CPMAddPackage)
+  CMakeLists.txt:24 (include)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/tmp/makepkg/across-dev-git/src/across-dev-git/build/CMakeFiles/CMakeOutput.log".
+[1m[31m==> ERROR:(B[m[1m A failure occurred in build().(B[m
+[1m    Aborting...(B[m
