@@ -10,7 +10,7 @@ mingw_arch=("mingw32" "mingw64" "ucrt64" "clang64" "clang32")
 url="https://github.com/ArkToria/ACross"
 license=("GPL3")
 depends=("${MINGW_PACKAGE_PREFIX}-qt6-base" "${MINGW_PACKAGE_PREFIX}-qt6-svg" "${MINGW_PACKAGE_PREFIX}-qt6-translations"
-    "${MINGW_PACKAGE_PREFIX}-qt6-tools" "${MINGW_PACKAGE_PREFIX}-qt6-imageformats" "${MINGW_PACKAGE_PREFIX}-qt6-5compat"
+    "${MINGW_PACKAGE_PREFIX}-qt6-tools" "${MINGW_PACKAGE_PREFIX}-qt6-imageformats" "${MINGW_PACKAGE_PREFIX}-qt6-5compat" "${MINGW_PACKAGE_PREFIX}-qt6-declarative"
     "${MINGW_PACKAGE_PREFIX}-curl" "${MINGW_PACKAGE_PREFIX}-fmt" "${MINGW_PACKAGE_PREFIX}-grpc"
     "${MINGW_PACKAGE_PREFIX}-nlohmann-json" "${MINGW_PACKAGE_PREFIX}-protobuf" "${MINGW_PACKAGE_PREFIX}-spdlog"
     "${MINGW_PACKAGE_PREFIX}-zxing-cpp"
@@ -45,6 +45,7 @@ build() {
         -DCMAKE_BUILD_TYPE=Release \
         -DBUILD_SHARED_LIBS=OFF \
         -DENABLE_DEPLOYMENT=OFF \
+        -DUSE_CORE_V5=ON \
         "../${_realname}"
 
     cmake --build .
