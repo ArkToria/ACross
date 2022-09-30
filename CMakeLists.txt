@@ -210,7 +210,6 @@ qt_add_qml_module(across
     URI "Arktoria.ACross"
     VERSION 1.0
     RESOURCE_PREFIX "/"
-    NO_IMPORT_SCAN
     QML_FILES
         ${QML_FILES}
     )
