@@ -1,4 +1,5 @@
 #include "loghighlighter.h"
+#include <utility>
 
 namespace across {
 LogHighlighter::LogHighlighter(QTextDocument *parent)
@@ -100,7 +101,7 @@ void LogHighlighter::setTheme(const config::Theme &theme) {
 }
 
 void LogHighlighter::highlightBlock(const QString &text) {
-    for (const HighlightingRule &rule : qAsConst(highlighting_rules)) {
+    for (const HighlightingRule &rule : std::as_const(highlighting_rules)) {
         QRegularExpressionMatchIterator matchIterator =
             rule.pattern.globalMatch(text);
 

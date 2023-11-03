@@ -1,4 +1,5 @@
 #include "jsonhighlighter.h"
+#include <utility>
 
 namespace across {
 JSONHighlighter::JSONHighlighter(QTextDocument *parent)
@@ -50,7 +51,7 @@ void JSONHighlighter::setTheme(config::Theme *p_theme) {
 }
 
 void JSONHighlighter::highlightBlock(const QString &text) {
-    for (const HighlightingRule &rule : qAsConst(highlighting_rules)) {
+    for (const HighlightingRule &rule : std::as_const(highlighting_rules)) {
         QRegularExpressionMatchIterator matchIterator =
             rule.pattern.globalMatch(text);
 

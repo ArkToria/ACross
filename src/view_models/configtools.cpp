@@ -415,7 +415,7 @@ QString ConfigTools::bannerTextColor() {
 }
 
 QString ConfigTools::bannerMaskColor() {
-    if (QColor::isValidColor(p_theme->colors().banner_text_color().c_str()) &&
+    if (QColor::isValidColorName(p_theme->colors().banner_text_color().c_str()) &&
         p_theme->banner().enable() &&
         !p_theme->banner().background_image().empty()) {
         if (QColor text_color(p_theme->colors().banner_text_color().c_str());

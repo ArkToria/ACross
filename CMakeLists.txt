@@ -47,7 +47,7 @@ CPMAddPackage(
 CPMAddPackage(
     NAME fmt
     GITHUB_REPOSITORY "fmtlib/fmt"
-    VERSION 9.1.0
+    VERSION 10.1.0
     )
 
 # spdlog
