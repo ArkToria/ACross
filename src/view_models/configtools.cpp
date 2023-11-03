@@ -837,7 +837,13 @@ QString ConfigTools::coreInfo() {
     if (p_core->core_path().empty())
         return "";
 
-    core_process.start(p_core->core_path().c_str(), {"-version"});
+#ifdef CORE_V5
+    const auto version_cmd = "version";
+#else
+     const auto version_cmd = "-version";
+#endif
+
+    core_process.start(p_core->core_path().c_str(), {version_cmd});
     core_process.waitForFinished();
 
     if (core_process.exitStatus() == QProcess::NormalExit)

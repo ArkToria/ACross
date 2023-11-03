@@ -1,5 +1,6 @@
 #include "coretools.h"
 
+#include <algorithm>
 #include <utility>
 
 using namespace across::core;

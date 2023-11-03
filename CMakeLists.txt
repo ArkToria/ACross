@@ -33,28 +33,28 @@ include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SingleApplication.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/qrc.cmake")
 
 # Qt 6.3
-find_package(Qt6 6.3 REQUIRED COMPONENTS Gui Core Quick Widgets DBus QuickControls2
+find_package(Qt6 6.6 REQUIRED COMPONENTS Gui Core Quick Widgets DBus QuickControls2
     Core5Compat Sql LinguistTools Concurrent ToolsTools )
 
 # curl
 CPMAddPackage(
     NAME CURL
     GITHUB_REPOSITORY "curl/curl"
-    VERSION 7.74.0
+    VERSION 8.4.0
     )
 
 # fmt
 CPMAddPackage(
     NAME fmt
     GITHUB_REPOSITORY "fmtlib/fmt"
-    VERSION 7.1.3
+    VERSION 9.1.0
     )
 
 # spdlog
 CPMAddPackage(
     NAME spdlog
     GITHUB_REPOSITORY "gabime/spdlog"
-    VERSION 1.9.2
+    VERSION 1.12.0
     OPTIONS "SPDLOG_BUILD_BENCH OFF" "SPDLOG_FMT_EXTERNAL ON" "SPDLOG_BUILD_SHARED ON" "SPDLOG_BUILD_TESTS OFF"
     )
 
@@ -65,7 +65,7 @@ install(CODE [[set(CMAKE_INSTALL_LOCAL_ONLY ON)]])
 CPMAddPackage(
     NAME ZXing
     GITHUB_REPOSITORY "nu-book/zxing-cpp"
-    VERSION 1.2.0
+    VERSION 2.1.0
     OPTIONS "BUILD_EXAMPLES OFF" "BUILD_BLACKBOX_TESTS OFF"
     )
 
@@ -73,7 +73,7 @@ CPMAddPackage(
 CPMAddPackage(
     NAME nlohmann_json
     GITHUB_REPOSITORY "nlohmann/json"
-    VERSION 3.9.1
+    VERSION 3.11.2
     OPTIONS "JSON_BuildTests OFF"
     )
 
