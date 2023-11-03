@@ -117,3 +117,6 @@ CMakeSettings.json
 # NodeJs
 /node_modules
 *.log
+
+# clangd
+.cache
