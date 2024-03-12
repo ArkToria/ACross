@@ -1,7 +1,7 @@
 pkgbase = across-dev-git
 	pkgdesc = The next GUI client for v2ray core (Development Branch)
 	pkgver = 0.1.1.r693.c0d88ea
-	pkgrel = 1
+	pkgrel = 2
 	url = https://github.com/ArkToria/ACross
 	arch = x86_64
 	license = GPL3
@@ -19,6 +19,7 @@ pkgbase = across-dev-git
 	depends = qt6-tools
 	depends = qt6-imageformats
 	depends = qt6-5compat
+	depends = qt6-shadertools
 	depends = curl
 	depends = fmt
 	depends = grpc
