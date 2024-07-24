@@ -334,7 +334,7 @@ SerializeTools::vmessBase64Decode(const std::string &url_str) {
                         QString::fromStdString(root["host"].get<std::string>())
                             .trimmed()
                             .split(",");
-                    for (const auto &host : content) {
+                    for (const auto &host : std::as_const(content)) {
                         if (!host.isEmpty())
                             http2->add_host(host.trimmed().toStdString());
                     }
@@ -590,39 +590,46 @@ bool SerializeTools::setTrojanOutboundFromURL(NodeInfo &node,
 google::protobuf::util::JsonPrintOptions SerializeTools::defaultPrintOptions() {
     google::protobuf::util::JsonPrintOptions options;
     options.add_whitespace = true;
-    options.always_print_primitive_fields = false;
     options.preserve_proto_field_names = true;
     options.always_print_enums_as_ints = true;
+    options.always_print_fields_with_no_presence = true;
 
     return options;
 }
 
 std::string
 SerializeTools::MessageToJson(const google::protobuf::Message &message) {
+
     std::string json_str;
-    google::protobuf::util::MessageToJsonString(message, &json_str,
+
+    auto status = google::protobuf::util::MessageToJsonString(message, &json_str,
                                                 defaultPrintOptions());
+
+    if(status.ok()){
+        json_str = "{}";
+    }
+
     return json_str;
 }
 
 v2ray::config::V2RayConfig
 SerializeTools::JsonToConfig(const std::string &json_str) {
     v2ray::config::V2RayConfig config;
-    google::protobuf::util::JsonStringToMessage(json_str, &config);
+    auto status = google::protobuf::util::JsonStringToMessage(json_str, &config);
     return config;
 }
 
 across::config::Config
 SerializeTools::JsonToACrossConfig(const std::string &json_str) {
     across::config::Config config;
-    google::protobuf::util::JsonStringToMessage(json_str, &config);
+    auto status = google::protobuf::util::JsonStringToMessage(json_str, &config);
     return config;
 }
 
 v2ray::config::OutboundObject
 SerializeTools::JsonToOutbound(const std::string &json_str) {
     v2ray::config::OutboundObject outbound;
-    google::protobuf::util::JsonStringToMessage(json_str, &outbound);
+    auto status = google::protobuf::util::JsonStringToMessage(json_str, &outbound);
     return outbound;
 }
 

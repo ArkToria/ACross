@@ -40,6 +40,8 @@ class SerializeTools {
     static std::optional<QUrl> trojanEncode(const URLMetaObject &outbound);
 
     // VMESS
+    static void extracted(::v2ray::config::TransportObject_HTTPObject *&http2,
+                          QStringList &content);
     static std::optional<URLMetaObject>
     vmessBase64Decode(const std::string &url_str);
     static std::optional<QUrl> vmessBase64Encode(const URLMetaObject &meta);

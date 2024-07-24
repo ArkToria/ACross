@@ -1,7 +1,7 @@
 CPMAddPackage(
     NAME gRPC
     GITHUB_REPOSITORY grpc/grpc
-    VERSION 1.30.2
+    VERSION 1.65.1
     )
 
 # Find Protobuf

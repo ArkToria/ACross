@@ -5,7 +5,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ##############################
 
@@ -22,6 +22,7 @@ endif()
 project(across VERSION ${GUI_VERSION} LANGUAGES CXX)
 
 ######## FIND DEPENDENCES ########
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/get_cpm.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM.cmake")
 set(FETCHCONTENT_BASE_DIR "${CMAKE_SOURCE_DIR}/3rdpart")
 set(CPM_USE_LOCAL_PACKAGES ON)
@@ -40,21 +41,21 @@ find_package(Qt6 6.6 REQUIRED COMPONENTS Gui Core Quick Widgets DBus QuickContro
 CPMAddPackage(
     NAME CURL
     GITHUB_REPOSITORY "curl/curl"
-    VERSION 8.4.0
+    VERSION 8.8.0
     )
 
 # fmt
 CPMAddPackage(
     NAME fmt
     GITHUB_REPOSITORY "fmtlib/fmt"
-    VERSION 10.1.0
+    VERSION 10.2.0
     )
 
 # spdlog
 CPMAddPackage(
     NAME spdlog
     GITHUB_REPOSITORY "gabime/spdlog"
-    VERSION 1.12.0
+    VERSION 1.14.1
     OPTIONS "SPDLOG_BUILD_BENCH OFF" "SPDLOG_FMT_EXTERNAL ON" "SPDLOG_BUILD_SHARED ON" "SPDLOG_BUILD_TESTS OFF"
     )
 
@@ -65,7 +66,7 @@ install(CODE [[set(CMAKE_INSTALL_LOCAL_ONLY ON)]])
 CPMAddPackage(
     NAME ZXing
     GITHUB_REPOSITORY "nu-book/zxing-cpp"
-    VERSION 2.1.0
+    VERSION 2.2.1
     OPTIONS "BUILD_EXAMPLES OFF" "BUILD_BLACKBOX_TESTS OFF"
     )
 
@@ -286,9 +287,9 @@ else()
 endif()
 
 ######## DEBUG ALL VARIABLES ########
-#get_cmake_property(_variableNames VARIABLES)
-#list (SORT _variableNames)
-#foreach (_variableName ${_variableNames})
-#    message(STATUS "${_variableName}=${${_variableName}}")
-#endforeach()
+get_cmake_property(_variableNames VARIABLES)
+list (SORT _variableNames)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 #################################

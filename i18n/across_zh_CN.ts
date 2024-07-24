@@ -5,49 +5,49 @@
     <name>About</name>
     <message>
         <location filename="../src/views/help/About.qml" line="+63"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+63"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+11"/>
         <source>Build Info</source>
         <translation>构建信息</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+11"/>
         <source>Build Time</source>
         <translation>构建时间</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+11"/>
         <source>Source Code</source>
         <translation>源代码</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+10"/>
         <source>Licenses</source>
         <translation>许可</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+10"/>
         <source>Extra Info</source>
         <translation>附加信息</translation>
     </message>
     <message>
         <location line="+34"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+34"/>
         <source>Report Bugs</source>
         <translation>报告问题</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/About.qml" line="+7"/>
         <source>Check Update</source>
         <translation>检查更新</translation>
     </message>
@@ -64,13 +64,13 @@
     <name>AppLog</name>
     <message>
         <location filename="../src/views/log/AppLog.qml" line="+20"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/log/AppLog.qml" line="+20"/>
         <source>Application Log</source>
         <translation>应用日志</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/log/AppLog.qml" line="+10"/>
         <source>Clear</source>
         <translation>清理</translation>
     </message>
@@ -79,43 +79,43 @@
     <name>AppearanceItem</name>
     <message>
         <location filename="../src/views/setting/AppearanceItem.qml" line="+14"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="+14"/>
         <source>Select Image</source>
         <translation>选择图片</translation>
     </message>
     <message>
         <location line="+28"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="+28"/>
         <source>Appearance Settings</source>
         <translation>外观设置</translation>
     </message>
     <message>
         <location line="+26"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="+26"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
         <location line="+102"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="+102"/>
         <source>Text Color</source>
         <translation>文字颜色</translation>
     </message>
     <message>
         <location line="-122"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="-122"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
         <location line="+58"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="+58"/>
         <source>Source File</source>
         <translation>源文件</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="+16"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -129,7 +129,7 @@
     </message>
     <message>
         <location line="-37"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="-37"/>
         <source>Background Image</source>
         <translation>背景图</translation>
     </message>
@@ -139,7 +139,7 @@
     </message>
     <message>
         <location line="+45"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/AppearanceItem.qml" line="+45"/>
         <source>Opacity</source>
         <translation>不透明度</translation>
     </message>
@@ -184,43 +184,43 @@
     </message>
     <message>
         <location filename="../src/views/setting/ApplicationItem.qml" line="+21"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+21"/>
         <source>Select Data Folder</source>
         <translation>选择数据文件夹</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+16"/>
         <source>Application Settings</source>
         <translation>应用设置</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+6"/>
         <source>Data Directory</source>
         <translation>数据目录</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+14"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+7"/>
         <source>Request Header</source>
         <translation>请求头部</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+13"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
         <location line="+24"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+24"/>
         <source>Set as Default &gt; Last Connected</source>
         <translation>设置为默认 &gt; 上次已链接</translation>
     </message>
@@ -231,19 +231,20 @@
     <message>
         <location line="+6"/>
         <location line="+13"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+6"/>
+        <location line="+13"/>
         <source>Auto Export</source>
         <translation>自动导出</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+6"/>
         <source>Tray Icon</source>
         <translation>托盘图标</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+15"/>
         <source>Unavailable</source>
         <translation>不可用</translation>
     </message>
@@ -257,19 +258,19 @@
     </message>
     <message>
         <location line="+20"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+20"/>
         <source>Minimize startup</source>
         <translation>最小化启动</translation>
     </message>
     <message>
         <location line="+32"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+32"/>
         <source>Log Outputs</source>
         <translation>日志输出</translation>
     </message>
     <message>
         <location line="+33"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="+33"/>
         <source>Max Lines</source>
         <translation>最大行数</translation>
     </message>
@@ -304,7 +305,8 @@
     <message>
         <location line="-141"/>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/ApplicationItem.qml" line="-141"/>
+        <location line="+16"/>
         <source>Auto Connect</source>
         <translation>自动连接</translation>
     </message>
@@ -357,7 +359,7 @@
     <name>ChangeLog</name>
     <message>
         <location filename="../src/views/help/ChangeLog.qml" line="+17"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/ChangeLog.qml" line="+17"/>
         <source>Release News</source>
         <translation>发布新闻</translation>
     </message>
@@ -366,98 +368,99 @@
     <name>CoreItem</name>
     <message>
         <location filename="../src/views/setting/CoreItem.qml" line="+21"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+21"/>
         <source>Select V2Ray Core Path</source>
         <translation>选择 V2Ray 核心路径</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+10"/>
         <source>Select Assets Directory</source>
         <translation>选择 Assets 目录</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+15"/>
         <source>Core Configuration</source>
         <translation>核心配置</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+7"/>
         <source>Log Level</source>
         <translation>日志等级</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+16"/>
         <source>Core path</source>
         <translation>核心路径</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+7"/>
         <source>Enter V2Ray Core Executable Path Here</source>
         <translation>在此输入 V2Ray 核心可执行文件路径</translation>
     </message>
     <message>
         <location line="+5"/>
         <location line="+20"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+5"/>
+        <location line="+20"/>
         <source>Select</source>
         <translation>选择</translation>
     </message>
     <message>
         <location line="-12"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="-12"/>
         <source>Assets path</source>
         <translation>资源路径</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+7"/>
         <source>Enter GeoIP and GeoSite Directory Here</source>
         <translation>在此输入 GeoIP 和 GeoSite 目录</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+13"/>
         <source>Core Info</source>
         <translation>核心信息</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+16"/>
         <source>Check</source>
         <translation>检查</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+7"/>
         <source>Enable API</source>
         <translation>启用 API</translation>
     </message>
     <message>
         <location line="+27"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+27"/>
         <source>API Port</source>
         <translation>API 端口</translation>
     </message>
     <message>
         <location line="+19"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+19"/>
         <source>Test Result</source>
         <translation>测试结果</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+15"/>
         <source>Test</source>
         <translation>测试</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/CoreItem.qml" line="+11"/>
         <source>Success</source>
         <translation>成功</translation>
     </message>
@@ -466,13 +469,13 @@
     <name>CoreLog</name>
     <message>
         <location filename="../src/views/log/CoreLog.qml" line="+20"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/log/CoreLog.qml" line="+20"/>
         <source>Core Log</source>
         <translation>核心日志</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/log/CoreLog.qml" line="+10"/>
         <source>Clear</source>
         <translation>清理</translation>
     </message>
@@ -481,13 +484,13 @@
     <name>CurrentPanel</name>
     <message>
         <location filename="../src/views/home/CurrentPanel.qml" line="+256"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/CurrentPanel.qml" line="+256"/>
         <source>Core Error</source>
         <translation>核心错误</translation>
     </message>
     <message>
         <location line="+0"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/CurrentPanel.qml" line="+0"/>
         <source>Failed to start the process</source>
         <translation>无法启动进程</translation>
     </message>
@@ -496,19 +499,19 @@
     <name>GroupControl</name>
     <message>
         <location filename="../src/views/home/GroupControl.qml" line="+45"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupControl.qml" line="+45"/>
         <source>Create</source>
         <translation>创建</translation>
     </message>
     <message>
         <location line="+46"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupControl.qml" line="+46"/>
         <source>Copy</source>
         <translation>复制</translation>
     </message>
     <message>
         <location line="+41"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupControl.qml" line="+41"/>
         <source>QRCode</source>
         <translation>二维码</translation>
     </message>
@@ -518,7 +521,7 @@
     </message>
     <message>
         <location line="+53"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupControl.qml" line="+53"/>
         <source>Locate</source>
         <translation>定位</translation>
     </message>
@@ -527,67 +530,67 @@
     <name>GroupEditForm</name>
     <message>
         <location filename="../src/views/home/GroupEditForm.qml" line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+11"/>
         <source>Edit Group</source>
         <translation>编辑组</translation>
     </message>
     <message>
         <location line="+58"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+58"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+11"/>
         <source>Enter the unique group name</source>
         <translation>输入唯一的组名称</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+6"/>
         <source>Nodes URL</source>
         <translation>节点链接</translation>
     </message>
     <message>
         <location line="+61"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+61"/>
         <source>Subscription</source>
         <translation>订阅</translation>
     </message>
     <message>
         <location line="+23"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+23"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+15"/>
         <source>Cycle (days)</source>
         <translation>更新周期（天）</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+16"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+13"/>
         <source>Enter the unique subscription url</source>
         <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
         <location line="+59"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+59"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+3"/>
         <source>URL cannot be empty!</source>
         <translation>链接不能为空！</translation>
     </message>
@@ -597,7 +600,7 @@
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupEditForm.qml" line="+10"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -606,67 +609,67 @@
     <name>GroupForm</name>
     <message>
         <location filename="../src/views/home/GroupForm.qml" line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+11"/>
         <source>Create a new group</source>
         <translation>创建新组</translation>
     </message>
     <message>
         <location line="+39"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+39"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+10"/>
         <source>Enter the unique group name</source>
         <translation>输入唯一的组名称</translation>
     </message>
     <message>
         <location line="+4"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+4"/>
         <source>Subscription</source>
         <translation>订阅</translation>
     </message>
     <message>
         <location line="+20"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+20"/>
         <source>From Paste</source>
         <translation>从剪贴板粘贴</translation>
     </message>
     <message>
         <location line="+23"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+23"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+15"/>
         <source>Cycle (days)</source>
         <translation>更新周期（天）</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+16"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+10"/>
         <source>Enter the unique subscription url</source>
         <translation>输入唯一的订阅链接</translation>
     </message>
     <message>
         <location line="+19"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+19"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
         <location line="+11"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupForm.qml" line="+11"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -675,7 +678,7 @@
     <name>GroupItemCard</name>
     <message numerus="yes">
         <location filename="../src/views/home/GroupItemCard.qml" line="+124"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemCard.qml" line="+124"/>
         <source>%n Items</source>
         <comment>item count of group</comment>
         <translation>
@@ -684,13 +687,13 @@
     </message>
     <message>
         <location line="+9"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemCard.qml" line="+9"/>
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
     <message numerus="yes">
         <source>%n Items</source>
-        <translation type="unfinished">
+        <translation type="obsolete">
             <numerusform>%n 项</numerusform>
         </translation>
     </message>
@@ -699,13 +702,13 @@
     <name>GroupItemPopMenu</name>
     <message>
         <location filename="../src/views/home/GroupItemPopMenu.qml" line="+18"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+18"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+14"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
@@ -715,37 +718,37 @@
     </message>
     <message>
         <location line="+8"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+8"/>
         <source>Copy Nodes</source>
         <translation>复制节点</translation>
     </message>
     <message>
         <location line="+8"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+8"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
         <location line="+26"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+26"/>
         <source>Update</source>
         <translation>更新</translation>
     </message>
     <message>
         <location line="+3"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+3"/>
         <source>[%1] Updating...</source>
         <translation>[%1] 更新中...</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+1"/>
         <source>Updated: %1</source>
         <translation>更新于： %1</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupItemPopMenu.qml" line="+9"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -754,25 +757,25 @@
     <name>GroupListPanel</name>
     <message>
         <location filename="../src/views/home/GroupListPanel.qml" line="+43"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupListPanel.qml" line="+43"/>
         <source>Warning</source>
         <translation>警告</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupListPanel.qml" line="+1"/>
         <source>Confirm to remove group from database</source>
         <translation>确认从数据库中移除组</translation>
     </message>
     <message>
         <location line="+43"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupListPanel.qml" line="+43"/>
         <source>Updating...</source>
         <translation>更新中...</translation>
     </message>
     <message>
         <location line="+0"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/GroupListPanel.qml" line="+0"/>
         <source>The default node will be reset</source>
         <translation>默认节点将会被重置</translation>
     </message>
@@ -781,52 +784,55 @@
     <name>InboundItem</name>
     <message>
         <location filename="../src/views/setting/InboundItem.qml" line="+23"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="+23"/>
         <source>Inbound Listening</source>
         <translation>入站监听</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="+15"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
         <location line="+43"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="+43"/>
         <source>SOCKS5</source>
         <translation>SOCKS5</translation>
     </message>
     <message>
         <location line="+110"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="+110"/>
         <source>HTTP</source>
         <translation>HTTP</translation>
     </message>
     <message>
         <location line="-85"/>
         <location line="+110"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="-85"/>
+        <location line="+110"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
         <location line="-95"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="-95"/>
         <source>UDP</source>
         <translation>UDP</translation>
     </message>
     <message>
         <location line="+17"/>
         <location line="+94"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="+17"/>
+        <location line="+94"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
         <location line="-78"/>
         <location line="+94"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/setting/InboundItem.qml" line="-78"/>
+        <location line="+94"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
@@ -835,13 +841,13 @@
     <name>InfoItem</name>
     <message>
         <location filename="../src/views/menu/InfoItem.qml" line="+18"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/menu/InfoItem.qml" line="+18"/>
         <source>Core</source>
         <translation>核心</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/menu/InfoItem.qml" line="+9"/>
         <source>Client</source>
         <translation>客户端</translation>
     </message>
@@ -850,7 +856,7 @@
     <name>Licenses</name>
     <message>
         <location filename="../src/views/help/Licenses.qml" line="+17"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/help/Licenses.qml" line="+17"/>
         <source>Libraries and Licenses</source>
         <translation>依赖和许可</translation>
     </message>
@@ -901,7 +907,7 @@
     <name>MenuModel</name>
     <message>
         <location filename="../src/views/menu/MenuModel.qml" line="+5"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/menu/MenuModel.qml" line="+5"/>
         <source>Home</source>
         <translation>主页</translation>
     </message>
@@ -915,13 +921,13 @@
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/menu/MenuModel.qml" line="+16"/>
         <source>Setting</source>
         <translation>设置</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/menu/MenuModel.qml" line="+6"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
@@ -937,7 +943,7 @@
     <name>NodeEditForm</name>
     <message>
         <location filename="../src/views/home/NodeEditForm.qml" line="+23"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+23"/>
         <source>Edit Configuration</source>
         <translation>编辑配置</translation>
     </message>
@@ -959,7 +965,7 @@
     </message>
     <message>
         <location line="+312"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+312"/>
         <source>Import v2ray config from file</source>
         <translation>从文件导入 v2ray 配置</translation>
     </message>
@@ -977,7 +983,7 @@
     </message>
     <message>
         <location line="-230"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="-230"/>
         <source>Decode URL</source>
         <translation>解析链接</translation>
     </message>
@@ -991,73 +997,73 @@
     </message>
     <message>
         <location line="+0"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+0"/>
         <source>Manual Setting</source>
         <translation>手动设置</translation>
     </message>
     <message>
         <location line="+0"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+0"/>
         <source>Import Config</source>
         <translation>导入配置</translation>
     </message>
     <message>
         <location line="+97"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+97"/>
         <source>Outbound Config</source>
         <translation>出站配置</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+6"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+15"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
         <location line="+14"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+14"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
         <location line="+21"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+21"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+15"/>
         <source>Protocol</source>
         <translation>协议</translation>
     </message>
     <message>
         <location line="+78"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+78"/>
         <source>Node Name</source>
         <translation>节点名称</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+15"/>
         <source>Config File</source>
         <translation>配置文件</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+9"/>
         <source>Enter Config Path Here</source>
         <translation>在此输入配置路径</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+7"/>
         <source>Open</source>
         <translation>打开</translation>
     </message>
@@ -1067,13 +1073,13 @@
     </message>
     <message>
         <location line="+28"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+28"/>
         <source>Accept</source>
         <translation>接受</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeEditForm.qml" line="+17"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1101,13 +1107,13 @@
     <name>NodeItemCard</name>
     <message>
         <location filename="../src/views/home/NodeItemCard.qml" line="+139"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeItemCard.qml" line="+139"/>
         <source>Core Error</source>
         <translation>核心错误</translation>
     </message>
     <message>
         <location line="+0"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeItemCard.qml" line="+0"/>
         <source>Failed to start the process</source>
         <translation>无法启动进程</translation>
     </message>
@@ -1116,19 +1122,19 @@
     <name>NodeItemPopMenu</name>
     <message>
         <location filename="../src/views/home/NodeItemPopMenu.qml" line="+19"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml" line="+19"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml" line="+7"/>
         <source>Set as default</source>
         <translation>设置为默认</translation>
     </message>
     <message>
         <location line="+18"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml" line="+18"/>
         <source>Share Config</source>
         <translation>分享配置</translation>
     </message>
@@ -1138,13 +1144,13 @@
     </message>
     <message>
         <location line="+7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml" line="+7"/>
         <source>TCP Ping</source>
         <translation>TCP Ping</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeItemPopMenu.qml" line="+16"/>
         <source>Delete</source>
         <translation>删除</translation>
     </message>
@@ -1153,56 +1159,57 @@
     <name>NodeShareForm</name>
     <message>
         <location filename="../src/views/home/NodeShareForm.qml" line="+21"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+21"/>
         <source>Share Configuration</source>
         <translation>分享配置</translation>
     </message>
     <message>
         <location line="+13"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+13"/>
         <source>Save QRCode to local path</source>
         <translation>保存二维码到本地</translation>
     </message>
     <message>
         <location line="+49"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+49"/>
         <source>Node Info</source>
         <translation>节点信息</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+6"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+10"/>
         <source>Address</source>
         <translation>地址</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+10"/>
         <source>Port</source>
         <translation>端口</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+10"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
         <location line="+12"/>
         <location line="+36"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="+12"/>
+        <location line="+36"/>
         <source>Copy URL</source>
         <translation>复制链接</translation>
     </message>
     <message>
         <location line="-7"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/NodeShareForm.qml" line="-7"/>
         <source>Save Image</source>
         <translation>保存图片</translation>
     </message>
@@ -1230,13 +1237,13 @@
     <name>RemoveConfirmDialog</name>
     <message>
         <location filename="../src/views/components/RemoveConfirmDialog.qml" line="+73"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/components/RemoveConfirmDialog.qml" line="+73"/>
         <source>Remove</source>
         <translation>删除</translation>
     </message>
     <message>
         <location line="+9"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/components/RemoveConfirmDialog.qml" line="+9"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -1245,7 +1252,7 @@
     <name>RoutingPage</name>
     <message>
         <location filename="../src/views/routing/RoutingPage.qml" line="+25"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/routing/RoutingPage.qml" line="+25"/>
         <source>Routing</source>
         <translation>路由</translation>
     </message>
@@ -1254,19 +1261,19 @@
     <name>ShadowsocksSetting</name>
     <message>
         <location filename="../src/views/home/ShadowsocksSetting.qml" line="+28"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/ShadowsocksSetting.qml" line="+28"/>
         <source>Shadowsocks Setting</source>
         <translation>Shadowsocks 设置</translation>
     </message>
     <message>
         <location line="+24"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/ShadowsocksSetting.qml" line="+24"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
         <location line="-18"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/ShadowsocksSetting.qml" line="-18"/>
         <source>IVCheck</source>
         <translation>IV 检查</translation>
     </message>
@@ -1275,31 +1282,31 @@
     <name>TrojanSetting</name>
     <message>
         <location filename="../src/views/home/TrojanSetting.qml" line="+30"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/TrojanSetting.qml" line="+30"/>
         <source>Trojan Setting</source>
         <translation>Trojan 设置</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/TrojanSetting.qml" line="+6"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
         <location line="+15"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/TrojanSetting.qml" line="+15"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/TrojanSetting.qml" line="+16"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/TrojanSetting.qml" line="+16"/>
         <source>ALPN</source>
         <translation>ALPN</translation>
     </message>
@@ -1315,7 +1322,7 @@
     <name>VMESSSetting</name>
     <message>
         <location filename="../src/views/home/VMESSSetting.qml" line="+35"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+35"/>
         <source>VMESS Setting</source>
         <translation>VMESS 设置</translation>
     </message>
@@ -1325,49 +1332,49 @@
     </message>
     <message>
         <location line="+42"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+42"/>
         <source>AlterID</source>
         <translation>AlterID</translation>
     </message>
     <message>
         <location line="-36"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="-36"/>
         <source>Enable TLS</source>
         <translation>启用 TLS</translation>
     </message>
     <message>
         <location line="+19"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+19"/>
         <source>SNI</source>
         <translation>SNI</translation>
     </message>
     <message>
         <location line="+10"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+10"/>
         <source>Keep it blank to use the same address</source>
         <translation>保持空白则使用相同地址</translation>
     </message>
     <message>
         <location line="+29"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+29"/>
         <source>Security</source>
         <translation>加密</translation>
     </message>
     <message>
         <location line="+16"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+16"/>
         <source>Network</source>
         <translation>网络</translation>
     </message>
     <message>
         <location line="+61"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+61"/>
         <source>Host</source>
         <translation>主机</translation>
     </message>
     <message>
         <location line="+18"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+18"/>
         <source>Path</source>
         <translation>路径</translation>
     </message>
@@ -1381,13 +1388,13 @@
     </message>
     <message>
         <location line="-54"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="-54"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
         <location line="+18"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/home/VMESSSetting.qml" line="+18"/>
         <source>Securty</source>
         <translation>安全</translation>
     </message>
@@ -1509,7 +1516,7 @@
     <name>main</name>
     <message>
         <location filename="../src/views/main.qml" line="+22"/>
-        <location/>
+        <location filename="../build/release/Arktoria/ACross/src/views/main.qml" line="+22"/>
         <source>ACross</source>
         <translation>ACross</translation>
     </message>
